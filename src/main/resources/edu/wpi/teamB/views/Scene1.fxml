@@ -6,7 +6,7 @@
 <?import javafx.scene.text.Font?>
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
   prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal"
-  xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.burgundyBasilisks.views.Scene1">
+  xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamB.views.Scene1">
   <children>
     <Label layoutX="142.0" layoutY="141.0" text="Scene 1">
       <font>

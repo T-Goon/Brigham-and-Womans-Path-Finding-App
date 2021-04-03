@@ -1,4 +1,4 @@
-package edu.wpi.burgundyBasilisks;
+package edu.wpi.teamB;
 
 import static org.testfx.api.FxAssert.verifyThat;
 

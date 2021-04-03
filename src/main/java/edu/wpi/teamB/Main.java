@@ -1,4 +1,4 @@
-package edu.wpi.burgundyBasilisks;
+package edu.wpi.teamB;
 
 public class Main {
 

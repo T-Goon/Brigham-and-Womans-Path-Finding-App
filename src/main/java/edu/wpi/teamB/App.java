@@ -1,4 +1,4 @@
-package edu.wpi.burgundyBasilisks;
+package edu.wpi.teamB;
 
 import java.io.IOException;
 import javafx.application.Application;
