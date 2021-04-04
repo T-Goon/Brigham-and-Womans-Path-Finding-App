@@ -19,8 +19,10 @@ public class App extends Application {
   @Override
   public void start(Stage primaryStage) {
     App.primaryStage = primaryStage;
+
+    // Open first view
     try {
-      Parent root = FXMLLoader.load(getClass().getResource("views/Scene1.fxml"));
+      Parent root = FXMLLoader.load(getClass().getResource("views/SR_menu.fxml"));
       Scene scene = new Scene(root);
       primaryStage.setScene(scene);
       primaryStage.show();
