@@ -12,6 +12,7 @@ import javafx.scene.control.TextField;
 import java.io.IOException;
 
 public class MedDeliveryForm {
+
     @FXML
     private Button cancelBtn;
 
@@ -33,6 +34,7 @@ public class MedDeliveryForm {
     @FXML
     private TextArea reason;
 
+    @FXML
     public void handleButtonAction(ActionEvent e) {
         Button bnt = (Button) e.getSource();
 

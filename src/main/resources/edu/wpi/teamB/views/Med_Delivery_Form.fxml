@@ -36,9 +36,9 @@
                         <Insets bottom="10.0" />
                      </padding>
                      <children>
-                        <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 30;" text="Medicine Delivery Request Form" textAlignment="RIGHT" wrappingWidth="294.0918607711792" HBox.hgrow="ALWAYS">
+                        <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Medicine Delivery Request Form" textAlignment="RIGHT" wrappingWidth="294.0918607711792" HBox.hgrow="ALWAYS">
                            <font>
-                              <Font name="MS Reference Sans Serif" size="12.0" />
+                              <Font name="MS Reference Sans Serif" size="30.0" />
                            </font>
                            <HBox.margin>
                               <Insets right="10.0" top="15.0" />
@@ -60,24 +60,37 @@
                         <Insets top="10.0" />
                      </VBox.margin>
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Name:" />
-                        <TextField id="patientName" style="-fx-background-color: #E5E5E5;" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Name:">
+                           <font>
+                              <Font name="MS Reference Sans Serif" size="14.0" />
+                           </font>
+                        </Text>
+                        <TextField id="patName" style="-fx-background-color: #E5E5E5;" />
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Room Number:">
                            <VBox.margin>
                               <Insets top="10.0" />
                            </VBox.margin>
+                           <font>
+                              <Font name="MS Reference Sans Serif" size="14.0" />
+                           </font>
                         </Text>
                         <TextField id="rmNum" style="-fx-background-color: #E5E5E5;" />
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Medicine Name:">
                            <VBox.margin>
                               <Insets top="10.0" />
                            </VBox.margin>
+                           <font>
+                              <Font name="MS Reference Sans Serif" size="14.0" />
+                           </font>
                         </Text>
                         <TextField id="medName" style="-fx-background-color: #E5E5E5;" />
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Reason for Request:">
                            <VBox.margin>
                               <Insets top="10.0" />
                            </VBox.margin>
+                           <font>
+                              <Font name="MS Reference Sans Serif" size="14.0" />
+                           </font>
                         </Text>
                         <TextArea id="reason" prefHeight="48.0" prefWidth="505.0" style="-fx-background-color: #E5E5E5;">
                            <VBox.margin>
