@@ -88,7 +88,7 @@
                            <children>
                               <HBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
                                  <children>
-                                    <Button fx:id="cancelBtn" mnemonicParsing="false" onAction="#handleButtonAction" style="-fx-background-color: #0067b1;" text="Cancel" textFill="WHITE">
+                                    <Button id="cancelBtn" fx:id="cancelBtn" mnemonicParsing="false" onAction="#handleButtonAction" style="-fx-background-color: #0067b1;" text="Cancel" textFill="WHITE">
                                        <font>
                                           <Font name="MS Reference Sans Serif" size="14.0" />
                                        </font>
@@ -100,7 +100,7 @@
                               </HBox>
                               <HBox alignment="CENTER" HBox.hgrow="ALWAYS">
                                  <children>
-                                    <Button fx:id="subButton" mnemonicParsing="false" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39;" text="Submit">
+                                    <Button id="submitBtn" fx:id="subButton" mnemonicParsing="false" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39;" text="Submit">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
@@ -112,7 +112,7 @@
                               </HBox>
                               <HBox alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS">
                                  <children>
-                                    <Button fx:id="helpButton" mnemonicParsing="false" onAction="#handleButtonAction" style="-fx-border-radius: 50%;" text="?">
+                                    <Button id="helpBtn" fx:id="helpButton" mnemonicParsing="false" onAction="#handleButtonAction" style="-fx-border-radius: 50%;" text="?">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
