@@ -24,7 +24,12 @@
                   <Image url="@../images/hospital_logo.png" />
                </image>
             </ImageView>
-            <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Security Request Form" textAlignment="RIGHT" wrappingWidth="300.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+            <Button mnemonicParsing="false" style="-fx-background-color: CE2029;" text="Emergency" textFill="WHITE" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+               <font>
+                  <Font name="MS Reference Sans Serif" size="18.0" />
+               </font>
+            </Button>
+            <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Security Request Form" textAlignment="RIGHT" wrappingWidth="300.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="50.0">
                <font>
                   <Font name="MS Reference Sans Serif" size="30.0" />
                </font>
