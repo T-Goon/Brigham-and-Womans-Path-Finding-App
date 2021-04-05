@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
@@ -8,8 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamB.views.InternalDeliveryReqController">
    <children>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
          <children>
@@ -21,22 +21,25 @@
          </children>
       </HBox>
       <Label text="Patient Name" />
-      <TextField />
+      <TextField fx:id="NAME" />
       <Label text="Patient Room Number">
          <font>
             <Font name="SansSerif Regular" size="12.0" />
          </font>
       </Label>
-      <TextField />
+      <TextField fx:id="ROOMNUM" />
       <Label text="Transportation Type" />
-      <TextField />
+      <TextField fx:id="TRTYPE" />
       <Label text="Reason for Request" />
-      <TextArea prefHeight="200.0" prefWidth="200.0" />
+      <TextArea fx:id="REASON" prefHeight="200.0" prefWidth="200.0" />
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
          <children>
-            <Button mnemonicParsing="false" text="Cancel" />
-            <Button contentDisplay="CENTER" mnemonicParsing="false" text="Submit" />
-            <Button alignment="BOTTOM_RIGHT" contentDisplay="CENTER" mnemonicParsing="false" text="?" />
+            <Button fx:id="CancelB" mnemonicParsing="false" text="Cancel" />
+            <Button fx:id="SubmitB" contentDisplay="CENTER" mnemonicParsing="false" text="Submit">
+               <HBox.margin>
+                  <Insets left="150.0" right="150.0" />
+               </HBox.margin></Button>
+            <Button fx:id="HelpB" alignment="BOTTOM_RIGHT" contentDisplay="CENTER" mnemonicParsing="false" text="?" />
          </children>
       </HBox>
    </children>
