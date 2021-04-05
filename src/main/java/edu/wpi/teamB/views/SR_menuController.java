@@ -21,7 +21,7 @@ public class SR_menuController {
         if(bnt.getId().equals("blankFormBtn")){
             // Open blank service request form
             try {
-                Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/blankForm.fxml"));
+                Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/InternalDeliveryReq.fxml"));
                 App.getPrimaryStage().getScene().setRoot(root);
             } catch (IOException ex) {
                 ex.printStackTrace();
