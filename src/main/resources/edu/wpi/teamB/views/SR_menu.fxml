@@ -36,12 +36,12 @@
          <font>
             <Font size="14.0" />
          </font></JFXButton>
-      <JFXButton fx:id="blankFormBtn" alignment="CENTER" contentDisplay="CENTER" minHeight="20.0" minWidth="100.0" mnemonicParsing="false" onAction="#handleButtonAction" text="Medicine Delivery">
+      <JFXButton fx:id="btnMedicine" onAction="#handleButtonAction" text="Medicine Delivery">
          <font>
             <Font size="14.0" />
          </font>
       </JFXButton>
-      <JFXButton fx:id="SSFormBtn" mnemonicParsing="false" onAction="#handleButtonAction" text="Security Services">
+      <JFXButton fx:id="btnSecurity" onAction="#handleButtonAction" text="Security Services">
          <font>
             <Font size="14.0" />
          </font>

@@ -12,10 +12,10 @@ import java.io.IOException;
 
 public class SR_menuController {
     @FXML
-    private JFXButton blankFormBtn;
+    private JFXButton btnMedicine;
 
     @FXML
-    private JFXButton SSFormBtn;
+    private JFXButton btnSecurity;
 
     @FXML
     private JFXButton btnSanitation;
@@ -26,7 +26,7 @@ public class SR_menuController {
         Button btn = (Button) e.getSource();
 
         switch (btn.getId()) {
-            case "blankFormBtn":
+            case "btnMedicine":
                 try {
                     Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/Med_Delivery_Form.fxml"));
                     App.getPrimaryStage().getScene().setRoot(root);
@@ -35,7 +35,7 @@ public class SR_menuController {
                     ex.printStackTrace();
                     break;
                 }
-            case "SSFormBtn":
+            case "btnSecurity":
                 // Open security service request form
                 try {
                     Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/securityRequestForm.fxml"));
