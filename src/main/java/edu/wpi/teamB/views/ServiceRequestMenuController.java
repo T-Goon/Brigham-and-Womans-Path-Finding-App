@@ -20,6 +20,8 @@ public class ServiceRequestMenuController {
     private JFXButton intTranspBtn;
     @FXML
     private JFXButton btnSanitation;
+    @FXML
+    private JFXButton btnReligious;
 
     @FXML
     private void handleButtonAction(ActionEvent e) {
@@ -64,7 +66,15 @@ public class ServiceRequestMenuController {
                     ex.printStackTrace();
                     break;
                 }
-
+            case "btnReligious":
+                try {
+                    Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/religiousRequestForm.fxml"));
+                    App.getPrimaryStage().getScene().setRoot(root);
+                    break;
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                    break;
+                }
         }
     }
 }
