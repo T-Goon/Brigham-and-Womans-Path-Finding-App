@@ -29,7 +29,7 @@
                   <Font name="MS Reference Sans Serif" size="18.0" />
                </font>
             </JFXButton>
-            <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Security Services" textAlignment="RIGHT" wrappingWidth="300.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="50.0">
+            <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Security Services Request Form" textAlignment="RIGHT" wrappingWidth="300.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="50.0">
                <font>
                   <Font name="MS Reference Sans Serif" size="30.0" />
                </font>
@@ -42,7 +42,7 @@
                <children>
                   <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefHeight="300.0" prefWidth="800.0" style="-fx-background-color: #f1f1f1;" VBox.vgrow="ALWAYS">
                      <children>
-                        <Text fill="#0067b1" strokeType="OUTSIDE" strokeWidth="0.0" text="Request Form">
+                        <Text fill="#0067b1" strokeType="OUTSIDE" strokeWidth="0.0" text="Security Services Request">
                            <font>
                               <Font size="24.0" />
                            </font>
