@@ -34,14 +34,13 @@ public class InternalDeliveryReqController {
         if(bnt.getId().equals("CancelB")){
             // Ends request and returns to splash page without submitting
             try {
-                Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/SR_menu.fxml"));
+                Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/blankForm.fxml"));
                 App.getPrimaryStage().getScene().setRoot(root);
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
         }
-        /*
-        if(bnt.getId().equals("SubmitB")){
+        else if(bnt.getId().equals("SubmitB")){
             // Ends request and returns to splash page while also submitting a request
             //Maybe read the text here and then send it to the system
             try {
@@ -52,7 +51,7 @@ public class InternalDeliveryReqController {
                 ex.printStackTrace();
             }
         }
-        if(bnt.getId().equals("HelpB")){
+        else if(bnt.getId().equals("HelpB")){
             // Opens the help screen
             try {
                 //Replace this path with the path for the help screen
@@ -62,8 +61,6 @@ public class InternalDeliveryReqController {
                 ex.printStackTrace();
             }
         }
-
-         */
     }
 
 }

@@ -28,7 +28,8 @@ public class SR_menuController {
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
-        }else if(bnt.getId().equals("intTranspBtn")){
+        }
+        else if(bnt.getId().equals("intTranspBtn")) {
             // Open transport request
             try {
                 Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/InternalDeliveryReq.fxml"));
@@ -36,6 +37,6 @@ public class SR_menuController {
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
-
+        }
     }
 }
