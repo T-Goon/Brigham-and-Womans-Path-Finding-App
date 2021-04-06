@@ -29,38 +29,28 @@ public class InternalDeliveryReqController {
     private TextArea REASON;
 
     @FXML
-    private void handleButtonAction(ActionEvent e){
+    public void handleButtonAction(ActionEvent e) {
         Button bnt = (Button)e.getSource();
-        if(bnt.getId().equals("CancelB")){
-            // Ends request and returns to splash page without submitting
-            try {
-                Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/blankForm.fxml"));
-                App.getPrimaryStage().getScene().setRoot(root);
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-        }
-        else if(bnt.getId().equals("SubmitB")){
-            // Ends request and returns to splash page while also submitting a request
-            //Maybe read the text here and then send it to the system
+
+        if (bnt.getId().equals("CancelB")) {
+            // Go back to the service request menu
             try {
                 Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/SR_menu.fxml"));
                 App.getPrimaryStage().getScene().setRoot(root);
-                //Add method to send request into system
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
         }
-        else if(bnt.getId().equals("HelpB")){
-            // Opens the help screen
-            try {
-                //Replace this path with the path for the help screen
-                Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/SR_menu.fxml"));
-                App.getPrimaryStage().getScene().setRoot(root);
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
+
+        if (bnt.getId().equals("SubmitB")) {
+            //Show the confirmation page
         }
+
+        if (bnt.getId().equals("HelpB")) {
+            //Show the help page
+        }
+
     }
+
 
 }
