@@ -29,7 +29,7 @@ public class ServiceRequestMenuController {
         switch (btn.getId()) {
             case "btnMedicine":
                 try {
-                    Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/medDeliveryForm.fxml"));
+                    Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/medDeliveryRequestForm.fxml"));
                     App.getPrimaryStage().getScene().setRoot(root);
                     break;
                 } catch (IOException ex) {

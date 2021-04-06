@@ -30,7 +30,7 @@ public class InternalTransportationRequestController {
 
     @FXML
     public void handleButtonAction(ActionEvent e) {
-        Button bnt = (Button)e.getSource();
+        Button bnt = (Button) e.getSource();
 
         if (bnt.getId().equals("btnCancel")) {
             // Go back to the service request menu

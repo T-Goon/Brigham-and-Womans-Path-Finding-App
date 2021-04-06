@@ -9,7 +9,7 @@ import javafx.scene.control.Button;
 
 import java.io.IOException;
 
-public class SecurityRequestController {
+public class SecurityRequestFormController {
 
     @FXML
     private Button backBtn;
