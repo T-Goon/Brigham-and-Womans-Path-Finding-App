@@ -14,7 +14,7 @@ import java.io.IOException;
 public class InternalDeliveryReqController {
 
     @FXML
-    private Button CancelB;
+    private Button btnCancel;
     @FXML
     private Button SubmitB;
     @FXML
@@ -32,7 +32,7 @@ public class InternalDeliveryReqController {
     public void handleButtonAction(ActionEvent e) {
         Button bnt = (Button)e.getSource();
 
-        if (bnt.getId().equals("CancelB")) {
+        if (bnt.getId().equals("btnCancel")) {
             // Go back to the service request menu
             try {
                 Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/SR_menu.fxml"));
