@@ -67,7 +67,7 @@
       </ScrollPane>
       <HBox alignment="CENTER" prefHeight="70.0" prefWidth="600.0">
          <children>
-            <Button fx:id="CancelB" mnemonicParsing="false" text="Cancel" />
+            <Button fx:id="CancelB" mnemonicParsing="false" onAction="#handleButtonAction" text="Cancel" />
             <Button fx:id="SubmitB" contentDisplay="CENTER" mnemonicParsing="false" text="Submit">
                <HBox.margin>
                   <Insets left="150.0" right="150.0" />
