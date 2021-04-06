@@ -26,10 +26,10 @@
                      <children>
                         <ImageView fitHeight="167.0" fitWidth="318.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../bwh-logo.png" />
+                              <Image url="@../images/hospital_logo.png" />
                            </image>
                            <HBox.margin>
-                              <Insets top="20.0" />
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </HBox.margin>
                         </ImageView>
                      </children>
