@@ -47,17 +47,17 @@ public class ServiceRequestMenuController {
                     break;
                 }
             case "btnSanitation":
-                try{
+                try {
                     Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/sanitationRequestForm.fxml"));
                     App.getPrimaryStage().getScene().setRoot(root);
                     break;
-                } catch(IOException ex){
+                } catch (IOException ex) {
                     ex.printStackTrace();
                     break;
                 }
             case "intTranspBtn":
                 try {
-                    Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/intDelReq.fxml"));
+                    Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/internalTransportationRequestForm.fxml"));
                     App.getPrimaryStage().getScene().setRoot(root);
                 } catch (IOException ex) {
                     ex.printStackTrace();

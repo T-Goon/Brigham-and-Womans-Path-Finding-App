@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+
 public class App extends Application {
 
   private static Stage primaryStage;
@@ -20,27 +21,26 @@ public class App extends Application {
   public void start(Stage primaryStage) {
     App.primaryStage = primaryStage;
 
-    // Open first view
-    try {
-      Parent root = FXMLLoader.load(getClass().getResource("views/serviceRequestMenu.fxml"));
-      Scene scene = new Scene(root);
-      primaryStage.setScene(scene);
-      primaryStage.show();
-//      primaryStage.setMaximized(true);
-    } catch (IOException e) {
-      e.printStackTrace();
-      Platform.exit();
+        // Open first view
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("views/serviceRequestMenu.fxml"));
+            Scene scene = new Scene(root);
+            primaryStage.setScene(scene);
+            primaryStage.show();
+//            primaryStage.setMaximized(true);
+        } catch (IOException e) {
+            e.printStackTrace();
+            Platform.exit();
+        }
     }
-  }
 
   public static Stage getPrimaryStage(){
     return primaryStage;
   }
 
-  public static void setPrimaryStage(Stage primaryStage) {
-    primaryStage = primaryStage;
-  }
-
+    public static void setPrimaryStage(Stage newPrimaryStage) {
+        primaryStage = newPrimaryStage;
+    }
 
   @Override
   public void stop() {

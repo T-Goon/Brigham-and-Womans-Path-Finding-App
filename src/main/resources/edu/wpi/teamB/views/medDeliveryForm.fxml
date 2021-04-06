@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXScrollPane?>
+<?import com.jfoenix.controls.JFXTextArea?>
+<?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -13,9 +13,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #012d5a;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamB.views.MedDeliveryFormController">
+<AnchorPane style="-fx-background-color: #012d5a;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamB.views.MedDeliveryFormController">
    <children>
-      <VBox prefWidth="658.0" style="-fx-background-color: #012d5a;" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox prefWidth="658.0" style="-fx-background-color: #012d5a;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <HBox prefHeight="111.0" prefWidth="626.0" style="-fx-background-color: #f1f1f1;">
                <children>
@@ -39,17 +39,17 @@
                         <Insets bottom="10.0" />
                      </padding>
                      <children>
-                        <VBox alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS">
+                        <VBox alignment="TOP_RIGHT" HBox.hgrow="ALWAYS">
                            <children>
-                              <Button mnemonicParsing="false" style="-fx-background-color: #CE2029;" text="EMERGENCY" textFill="WHITE">
+                              <JFXButton id="emergencyBtn" buttonType="RAISED" style="-fx-background-color: #CE2029; -fx-background-radius: 7;" text="EMERGENCY" textFill="WHITE">
                                  <font>
                                     <Font name="MS Reference Sans Serif" size="16.0" />
                                  </font>
                                  <VBox.margin>
-                                    <Insets bottom="10.0" right="10.0" />
+                                    <Insets bottom="10.0" right="10.0" top="10.0" />
                                  </VBox.margin>
-                              </Button>
-                              <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Medicine Delivery Request Form" textAlignment="RIGHT" wrappingWidth="294.0918607711792">
+                              </JFXButton>
+                              <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Medicine Delivery Request Form" textAlignment="RIGHT" wrappingWidth="510.0918607711792">
                                  <font>
                                     <Font name="MS Reference Sans Serif" size="30.0" />
                                  </font>
@@ -65,9 +65,12 @@
                      </children>
                   </HBox>
                </children>
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin>
             </HBox>
-            <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" maxHeight="1.7976931348623157E308" style="-fx-background-color: #f1f1f1;" VBox.vgrow="ALWAYS">
-               <content>
+            <JFXScrollPane style="-fx-background-color: #f1f1f1;">
+               <children>
                   <VBox alignment="TOP_CENTER" style="-fx-background-color: #f1f1f1;">
                      <children>
                         <Text fill="#0067b1" strokeType="OUTSIDE" strokeWidth="0.0" text="Medicine Delivery Service Request">
@@ -85,7 +88,7 @@
                                     <Font name="MS Reference Sans Serif" size="14.0" />
                                  </font>
                               </Text>
-                              <TextField id="patName" style="-fx-background-color: #E5E5E5;" VBox.vgrow="ALWAYS" />
+                              <JFXTextField style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f1f1f1" />
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Room Number:">
                                  <VBox.margin>
                                     <Insets top="10.0" />
@@ -94,7 +97,7 @@
                                     <Font name="MS Reference Sans Serif" size="14.0" />
                                  </font>
                               </Text>
-                              <TextField id="rmNum" style="-fx-background-color: #E5E5E5;" VBox.vgrow="ALWAYS" />
+                              <JFXTextField style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f1f1f1" />
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Medicine Name:">
                                  <VBox.margin>
                                     <Insets top="10.0" />
@@ -103,7 +106,7 @@
                                     <Font name="MS Reference Sans Serif" size="14.0" />
                                  </font>
                               </Text>
-                              <TextField id="medName" style="-fx-background-color: #E5E5E5;" VBox.vgrow="ALWAYS" />
+                              <JFXTextField style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f1f1f1" />
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Reason for Request:">
                                  <VBox.margin>
                                     <Insets top="10.0" />
@@ -112,20 +115,20 @@
                                     <Font name="MS Reference Sans Serif" size="14.0" />
                                  </font>
                               </Text>
-                              <TextArea id="reason" prefHeight="48.0" prefWidth="505.0" style="-fx-background-color: #E5E5E5;" VBox.vgrow="ALWAYS">
+                              <JFXTextArea style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f1f1f1">
                                  <VBox.margin>
-                                    <Insets bottom="15.0" />
+                                    <Insets bottom="10.0" />
                                  </VBox.margin>
-                              </TextArea>
+                              </JFXTextArea>
                               <HBox>
                                  <children>
                                     <HBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
                                        <children>
-                                          <Button id="cancelBtn" fx:id="cancelBtn" mnemonicParsing="false" onAction="#handleButtonAction" style="-fx-background-color: #0067b1;" text="Cancel" textFill="WHITE">
+                                          <JFXButton id="cancelBtn" onAction="#handleButtonAction" buttonType="RAISED" style="-fx-background-radius: 7; -fx-background-color: #0067B1;" text="Cancel" textFill="WHITE">
                                              <font>
                                                 <Font name="MS Reference Sans Serif" size="14.0" />
                                              </font>
-                                          </Button>
+                                          </JFXButton>
                                        </children>
                                        <padding>
                                           <Insets right="10.0" />
@@ -133,11 +136,11 @@
                                     </HBox>
                                     <HBox alignment="CENTER" HBox.hgrow="ALWAYS">
                                        <children>
-                                          <Button id="submitBtn" fx:id="subButton" mnemonicParsing="false" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39;" text="Submit">
+                                          <JFXButton id="submitBtn" buttonType="RAISED" style="-fx-background-radius: 10; -fx-background-color: F6BD39;" text="Submit">
                                              <font>
-                                                <Font size="18.0" />
+                                                <Font name="MS Reference Sans Serif" size="20.0" />
                                              </font>
-                                          </Button>
+                                          </JFXButton>
                                        </children>
                                        <padding>
                                           <Insets right="10.0" />
@@ -145,11 +148,11 @@
                                     </HBox>
                                     <HBox alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS">
                                        <children>
-                                          <Button id="helpBtn" fx:id="helpButton" mnemonicParsing="false" onAction="#handleButtonAction" style="-fx-border-radius: 50%;" text="?">
+                                          <JFXButton id="helpBtn" buttonType="RAISED" style="-fx-background-color: #9A9999; -fx-background-radius: 50%;" text="?" textFill="WHITE">
                                              <font>
-                                                <Font size="14.0" />
+                                                <Font name="MS Reference Sans Serif" size="18.0" />
                                              </font>
-                                          </Button>
+                                          </JFXButton>
                                        </children>
                                     </HBox>
                                  </children>
@@ -164,11 +167,11 @@
                         <Insets />
                      </opaqueInsets>
                   </VBox>
-               </content>
+               </children>
                <VBox.margin>
-                  <Insets left="50.0" right="50.0" top="10.0" />
+                  <Insets left="50.0" right="50.0" />
                </VBox.margin>
-            </ScrollPane>
+            </JFXScrollPane>
          </children>
       </VBox>
    </children>

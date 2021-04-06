@@ -1,5 +1,8 @@
 package edu.wpi.teamB.views;
 
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXTextArea;
+import com.jfoenix.controls.JFXTextField;
 import edu.wpi.teamB.App;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,25 +17,28 @@ import java.io.IOException;
 public class MedDeliveryFormController {
 
     @FXML
-    private Button cancelBtn;
+    private JFXButton cancelBtn;
 
     @FXML
-    private Button submitBtn;
+    private JFXButton emergencyBtn;
 
     @FXML
-    private Button helpBtn;
+    private JFXButton submitBtn;
 
     @FXML
-    private TextField patName;
+    private JFXButton helpBtn;
 
     @FXML
-    private TextField rmNum;
+    private JFXTextField patName;
 
     @FXML
-    private TextField medName;
+    private JFXTextField rmNum;
 
     @FXML
-    private TextArea reason;
+    private JFXTextField medName;
+
+    @FXML
+    private JFXTextArea reason;
 
     @FXML
     public void handleButtonAction(ActionEvent e) {
@@ -53,6 +59,10 @@ public class MedDeliveryFormController {
         }
 
         if (bnt.getId().equals("helpBtn")) {
+            //Show the help page
+        }
+
+        if (bnt.getId().equals("emergencyBtn")) {
             //Show the help page
         }
 

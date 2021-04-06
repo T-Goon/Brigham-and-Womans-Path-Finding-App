@@ -9,16 +9,16 @@ import javafx.scene.control.Button;
 
 import java.io.IOException;
 
-public class SecurityRequestController{
+public class SecurityRequestController {
 
     @FXML
     private Button backBtn;
 
     @FXML
     void handleBackButton(ActionEvent e) throws IOException {
-        Button btn = (Button)e.getSource();
+        Button btn = (Button) e.getSource();
 
-        if(btn.getId().equals("backBtn")){
+        if (btn.getId().equals("backBtn")) {
             Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/serviceRequestMenu.fxml"));
             App.getPrimaryStage().getScene().setRoot(root);
         }

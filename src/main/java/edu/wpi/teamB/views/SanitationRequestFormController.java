@@ -40,13 +40,13 @@ public class SanitationRequestFormController implements Initializable {
     public void handleButtonAction(ActionEvent actionEvent) {
         JFXButton btn = (JFXButton) actionEvent.getSource();
 
-        switch(btn.getId()){
+        switch (btn.getId()) {
             case "btnCancel":
-                try{
+                try {
                     Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/serviceRequestMenu.fxml"));
                     App.getPrimaryStage().getScene().setRoot(root);
                     break;
-                }catch (IOException ex){
+                } catch (IOException ex) {
                     ex.printStackTrace();
                     break;
                 }

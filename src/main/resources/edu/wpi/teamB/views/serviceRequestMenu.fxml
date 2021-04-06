@@ -31,7 +31,7 @@
             <Font size="14.0" />
          </font>
       </JFXButton>
-      <JFXButton fx:id="intTranspBtn" onAction="#handleButtonAction" text="Internal Transport">
+      <JFXButton fx:id="intTranspBtn" onAction="#handleButtonAction" text="Internal Transportion">
          <font>
             <Font size="14.0" />
          </font>
