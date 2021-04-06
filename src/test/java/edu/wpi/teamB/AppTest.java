@@ -46,7 +46,7 @@ public class AppTest extends FxRobot {
   public void testSecurityRequestForm(){
     verifyThat("Service Request Menu", Node::isVisible);
     clickOn("Security Services");
-    verifyThat("Security Request Form", Node::isVisible);
+    verifyThat("Security Services Request Form", Node::isVisible);
     clickOn("Cancel");
     verifyThat("Service Request Menu", Node::isVisible);
   }

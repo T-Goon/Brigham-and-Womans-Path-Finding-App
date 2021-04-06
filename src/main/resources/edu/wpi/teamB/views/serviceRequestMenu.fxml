@@ -31,5 +31,10 @@
             <Font size="14.0" />
          </font>
       </JFXButton>
+      <JFXButton fx:id="intTranspBtn" onAction="#handleButtonAction" text="Internal Transport">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </JFXButton>
    </children>
 </VBox>
