@@ -2,6 +2,7 @@ package edu.wpi.teamB;
 
 import static org.testfx.api.FxAssert.verifyThat;
 
+import javafx.geometry.VerticalDirection;
 import javafx.scene.Node;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -10,6 +11,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit5.ApplicationExtension;
+import org.testfx.robot.ScrollRobot;
+import org.testfx.robot.impl.BaseRobotImpl;
+import org.testfx.robot.impl.MouseRobotImpl;
+import org.testfx.robot.impl.ScrollRobotImpl;
 
 /**
  * This is an integration test for the entire application. Rather than running a single scene
@@ -36,4 +41,15 @@ public class AppTest extends FxRobot {
     clickOn("Back");
     verifyThat("Service Request Menu", Node::isVisible);
   }
+
+  @Test
+  public void testSecurityRequestForm(){
+    verifyThat("Service Request Menu", Node::isVisible);
+    clickOn("Security Services");
+    verifyThat("Security Request Form", Node::isVisible);
+    scroll(50, VerticalDirection.DOWN);
+    clickOn("Cancel");
+    verifyThat("Service Request Menu", Node::isVisible);
+  }
+
 }
