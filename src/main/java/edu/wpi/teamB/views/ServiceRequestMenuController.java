@@ -10,7 +10,7 @@ import javafx.scene.control.Button;
 
 import java.io.IOException;
 
-public class SR_menuController {
+public class ServiceRequestMenuController {
     @FXML
     private JFXButton btnMedicine;
 
@@ -28,7 +28,7 @@ public class SR_menuController {
         switch (btn.getId()) {
             case "btnMedicine":
                 try {
-                    Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/Med_Delivery_Form.fxml"));
+                    Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/medDeliveryForm.fxml"));
                     App.getPrimaryStage().getScene().setRoot(root);
                     break;
                 } catch (IOException ex) {
@@ -46,11 +46,11 @@ public class SR_menuController {
                     break;
                 }
             case "btnSanitation":
-                try{
+                try {
                     Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/sanitationRequestForm.fxml"));
                     App.getPrimaryStage().getScene().setRoot(root);
                     break;
-                } catch(IOException ex){
+                } catch (IOException ex) {
                     ex.printStackTrace();
                     break;
                 }
