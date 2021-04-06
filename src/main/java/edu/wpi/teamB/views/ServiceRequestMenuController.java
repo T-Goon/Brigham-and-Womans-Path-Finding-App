@@ -59,6 +59,7 @@ public class ServiceRequestMenuController {
                 try {
                     Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/internalTransportationRequestForm.fxml"));
                     App.getPrimaryStage().getScene().setRoot(root);
+                    break;
                 } catch (IOException ex) {
                     ex.printStackTrace();
                     break;
