@@ -123,7 +123,7 @@
                               <Font size="14.0" />
                            </font>
                         </Text>
-                        <HBox alignment="CENTER" fillHeight="false" spacing="75.0" HBox.hgrow="ALWAYS">
+                        <HBox alignment="BASELINE_LEFT" fillHeight="false" spacing="50.0" HBox.hgrow="ALWAYS">
                            <children>
                               <JFXCheckBox text="Safety Hazard" />
                               <JFXCheckBox text="Biological Substance" />
