@@ -41,7 +41,7 @@
                             <children>
                                 <VBox alignment="TOP_RIGHT" HBox.hgrow="ALWAYS">
                                     <children>
-                              <JFXButton id="emergencyBtn" buttonType="RAISED" style="-fx-background-color: #CE2029; -fx-background-radius: 7;" text="EMERGENCY" textFill="WHITE">
+                              <JFXButton fx:id="emergencyBtn" buttonType="RAISED" onAction="#handleButtonAction" style="-fx-background-color: #CE2029; -fx-background-radius: 7;" text="EMERGENCY" textFill="WHITE">
                                  <font>
                                     <Font name="MS Reference Sans Serif" size="16.0" />
                                  </font>
@@ -88,7 +88,7 @@
                                                 <Font name="MS Reference Sans Serif" size="14.0" />
                                             </font>
                                         </Text>
-                              <JFXTextField style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f1f1f1" />
+                              <JFXTextField fx:id="patName" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f1f1f1" />
                                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Room Number:">
                                             <VBox.margin>
                                                 <Insets top="10.0" />
@@ -97,7 +97,7 @@
                                                 <Font name="MS Reference Sans Serif" size="14.0" />
                                             </font>
                                         </Text>
-                              <JFXTextField style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f1f1f1" />
+                              <JFXTextField fx:id="rmNum" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f1f1f1" />
                                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Medicine Name:">
                                             <VBox.margin>
                                                 <Insets top="10.0" />
@@ -106,7 +106,7 @@
                                                 <Font name="MS Reference Sans Serif" size="14.0" />
                                             </font>
                                         </Text>
-                              <JFXTextField style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f1f1f1" />
+                              <JFXTextField fx:id="medName" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f1f1f1" />
                                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Reason for Request:">
                                             <VBox.margin>
                                                 <Insets top="10.0" />
@@ -115,7 +115,7 @@
                                                 <Font name="MS Reference Sans Serif" size="14.0" />
                                             </font>
                                         </Text>
-                              <JFXTextArea style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f1f1f1">
+                              <JFXTextArea fx:id="reason" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f1f1f1">
                                  <VBox.margin>
                                     <Insets bottom="10.0" />
                                  </VBox.margin>
@@ -124,7 +124,7 @@
                                             <children>
                                                 <HBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
                                                     <children>
-                                          <JFXButton id="cancelBtn" buttonType="RAISED" style="-fx-background-radius: 7; -fx-background-color: #0067B1;" text="Cancel" textFill="WHITE">
+                                          <JFXButton id="cancelBtn" fx:id="cancelBtn" buttonType="RAISED" onAction="#handleButtonAction" style="-fx-background-radius: 7; -fx-background-color: #0067B1;" text="Cancel" textFill="WHITE">
                                              <font>
                                                 <Font name="MS Reference Sans Serif" size="14.0" />
                                              </font>
@@ -136,7 +136,7 @@
                                                 </HBox>
                                                 <HBox alignment="CENTER" HBox.hgrow="ALWAYS">
                                                     <children>
-                                          <JFXButton id="submitBtn" buttonType="RAISED" style="-fx-background-radius: 10; -fx-background-color: F6BD39;" text="Submit">
+                                          <JFXButton id="submitBtn" fx:id="submitBtn" buttonType="RAISED" onAction="#handleButtonAction" style="-fx-background-radius: 10; -fx-background-color: F6BD39;" text="Submit">
                                              <font>
                                                 <Font name="MS Reference Sans Serif" size="20.0" />
                                              </font>
@@ -148,7 +148,7 @@
                                                 </HBox>
                                                 <HBox alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS">
                                                     <children>
-                                          <JFXButton id="helpBtn" buttonType="RAISED" style="-fx-background-color: #9A9999; -fx-background-radius: 50%;" text="?" textFill="WHITE">
+                                          <JFXButton id="helpBtn" fx:id="helpBtn" buttonType="RAISED" onAction="#handleButtonAction" style="-fx-background-color: #9A9999; -fx-background-radius: 50%;" text="?" textFill="WHITE">
                                              <font>
                                                 <Font name="MS Reference Sans Serif" size="18.0" />
                                              </font>
