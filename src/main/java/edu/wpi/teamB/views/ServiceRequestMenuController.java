@@ -11,60 +11,47 @@ import javafx.scene.control.Button;
 import java.io.IOException;
 
 public class ServiceRequestMenuController {
+
     @FXML
     private JFXButton btnMedicine;
 
     @FXML
-    private JFXButton btnSecurity;
-    @FXML
-    private JFXButton intTranspBtn;
-    @FXML
     private JFXButton btnSanitation;
+
+    @FXML
+    private JFXButton btnIntTransp;
+
+    @FXML
+    private JFXButton btnSecurity;
 
     @FXML
     private void handleButtonAction(ActionEvent e) {
 
         Button btn = (Button) e.getSource();
 
+        String path = "/edu/wpi/teamB/views/";
         switch (btn.getId()) {
             case "btnMedicine":
-                try {
-                    Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/medDeliveryRequestForm.fxml"));
-                    App.getPrimaryStage().getScene().setRoot(root);
-                    break;
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                    break;
-                }
-            case "btnSecurity":
-                // Open security service request form
-                try {
-                    Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/securityRequestForm.fxml"));
-                    App.getPrimaryStage().getScene().setRoot(root);
-                    break;
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                    break;
-                }
+                path = path + "medDeliveryRequestForm.fxml";
+                break;
             case "btnSanitation":
-                try {
-                    Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/sanitationRequestForm.fxml"));
-                    App.getPrimaryStage().getScene().setRoot(root);
-                    break;
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                    break;
-                }
-            case "intTranspBtn":
-                try {
-                    Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/internalTransportationRequestForm.fxml"));
-                    App.getPrimaryStage().getScene().setRoot(root);
-                    break;
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                    break;
-                }
+                path = path + "sanitationRequestForm.fxml";
+                break;
+            case "btnIntTransp":
+                path = path + "internalTransportationRequestForm.fxml";
+                break;
+            case "btnSecurity":
+                path = path + "securityRequestForm.fxml";
+                break;
+            default:
+                throw new IllegalStateException("WHAT BUTTON IS THIS AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
+        }
 
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource(path));
+            App.getPrimaryStage().getScene().setRoot(root);
+        } catch (IOException ex) {
+            ex.printStackTrace();
         }
     }
 }
