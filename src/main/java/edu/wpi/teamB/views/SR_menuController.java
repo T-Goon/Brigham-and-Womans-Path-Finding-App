@@ -1,5 +1,6 @@
 package edu.wpi.teamB.views;
 
+import com.jfoenix.controls.JFXButton;
 import edu.wpi.teamB.App;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -11,32 +12,50 @@ import java.io.IOException;
 
 public class SR_menuController {
     @FXML
-    private Button blankFormBtn;
-    @FXML
-    private Button SSFormBtn;
+    private JFXButton blankFormBtn;
 
     @FXML
-    private void handleButtonAction(ActionEvent e){
+    private JFXButton SSFormBtn;
 
-        Button bnt = (Button)e.getSource();
+    @FXML
+    private JFXButton btnSanitation;
 
-        if(bnt.getId().equals("blankFormBtn")){
-            // Open blank service request form
-            try {
-                Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/Med_Delivery_Form.fxml"));
-                App.getPrimaryStage().getScene().setRoot(root);
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-        } else if(bnt.getId().equals("SSFormBtn")){
-            // Open security service request form
-            try {
-                Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/securityRequestForm.fxml"));
-                App.getPrimaryStage().getScene().setRoot(root);
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
+    @FXML
+    private void handleButtonAction(ActionEvent e) {
+
+        Button btn = (Button) e.getSource();
+
+        switch (btn.getId()) {
+            case "blankFormBtn":
+                try {
+                    Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/Med_Delivery_Form.fxml"));
+                    App.getPrimaryStage().getScene().setRoot(root);
+                    break;
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                    break;
+                }
+            case "SSFormBtn":
+                // Open security service request form
+                try {
+                    Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/securityRequestForm.fxml"));
+                    App.getPrimaryStage().getScene().setRoot(root);
+                    break;
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                    break;
+                }
+            case "btnSanitation":
+                try{
+                    Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/sanitationRequestForm.fxml"));
+                    App.getPrimaryStage().getScene().setRoot(root);
+                    break;
+                } catch(IOException ex){
+                    ex.printStackTrace();
+                    break;
+                }
+
+
         }
-
     }
 }
