@@ -62,5 +62,9 @@ public class MedDeliveryForm {
             //Show the help page
         }
 
+        if (bnt.getId().equals("emergencyBtn")) {
+            //Show the help page
+        }
+
     }
 }
