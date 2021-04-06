@@ -12,6 +12,8 @@ import java.io.IOException;
 public class SR_menuController {
     @FXML
     private Button blankFormBtn;
+    @FXML
+    private Button intTranspBtn;
 
     @FXML
     private void handleButtonAction(ActionEvent e){
@@ -21,12 +23,19 @@ public class SR_menuController {
         if(bnt.getId().equals("blankFormBtn")){
             // Open blank service request form
             try {
+                Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/blankForm.fxml"));
+                App.getPrimaryStage().getScene().setRoot(root);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }else if(bnt.getId().equals("intTranspBtn")){
+            // Open transport request
+            try {
                 Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/InternalDeliveryReq.fxml"));
                 App.getPrimaryStage().getScene().setRoot(root);
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
-        }
 
     }
 }

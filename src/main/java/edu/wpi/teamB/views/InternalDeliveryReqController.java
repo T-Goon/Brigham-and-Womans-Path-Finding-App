@@ -40,6 +40,7 @@ public class InternalDeliveryReqController {
                 ex.printStackTrace();
             }
         }
+        /*
         if(bnt.getId().equals("SubmitB")){
             // Ends request and returns to splash page while also submitting a request
             //Maybe read the text here and then send it to the system
@@ -61,6 +62,8 @@ public class InternalDeliveryReqController {
                 ex.printStackTrace();
             }
         }
+
+         */
     }
 
 }
