@@ -22,11 +22,11 @@ public class App extends Application {
 
     // Open first view
     try {
-      Parent root = FXMLLoader.load(getClass().getResource("views/SR_menu.fxml"));
+      Parent root = FXMLLoader.load(getClass().getResource("views/serviceRequestMenu.fxml"));
       Scene scene = new Scene(root);
       primaryStage.setScene(scene);
       primaryStage.show();
-      primaryStage.setMaximized(true);
+//      primaryStage.setMaximized(true);
     } catch (IOException e) {
       e.printStackTrace();
       Platform.exit();

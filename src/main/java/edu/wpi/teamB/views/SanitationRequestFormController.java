@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class SanitationRequestForm implements Initializable {
+public class SanitationRequestFormController implements Initializable {
 
     @FXML
     private JFXButton btnCancel;
@@ -43,7 +43,7 @@ public class SanitationRequestForm implements Initializable {
         switch(btn.getId()){
             case "btnCancel":
                 try{
-                    Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/SR_menu.fxml"));
+                    Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/serviceRequestMenu.fxml"));
                     App.getPrimaryStage().getScene().setRoot(root);
                     break;
                 }catch (IOException ex){

@@ -35,7 +35,7 @@ public class InternalDeliveryReqController {
         if (bnt.getId().equals("btnCancel")) {
             // Go back to the service request menu
             try {
-                Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/SR_menu.fxml"));
+                Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/serviceRequestMenu.fxml"));
                 App.getPrimaryStage().getScene().setRoot(root);
             } catch (IOException ex) {
                 ex.printStackTrace();

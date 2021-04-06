@@ -11,7 +11,7 @@ import javafx.scene.control.TextField;
 
 import java.io.IOException;
 
-public class MedDeliveryForm {
+public class MedDeliveryFormController {
 
     @FXML
     private Button cancelBtn;
@@ -41,7 +41,7 @@ public class MedDeliveryForm {
         if (bnt.getId().equals("cancelBtn")) {
             // Go back to the service request menu
             try {
-                Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/SR_menu.fxml"));
+                Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/serviceRequestMenu.fxml"));
                 App.getPrimaryStage().getScene().setRoot(root);
             } catch (IOException ex) {
                 ex.printStackTrace();

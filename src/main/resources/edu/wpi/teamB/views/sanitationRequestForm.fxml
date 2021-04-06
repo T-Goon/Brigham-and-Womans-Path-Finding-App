@@ -14,178 +14,166 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0"
-            prefWidth="900.0" style="-fx-background-color: #012d5a;" xmlns="http://javafx.com/javafx/15.0.1"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamB.views.SanitationRequestForm">
-    <children>
-        <VBox alignment="TOP_CENTER" layoutX="220.0" layoutY="27.0" prefHeight="200.0" prefWidth="100.0"
-              AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
-              AnchorPane.topAnchor="0.0">
-            <children>
-                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #FFFFFF;">
-                    <children>
-                        <ImageView fitHeight="114.0" fitWidth="314.0" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@../images/hospital_logo.png"/>
-                            </image>
-                            <HBox.margin>
-                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
-                            </HBox.margin>
-                        </ImageView>
-                        <VBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308"
-                              maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="100.0"
-                              HBox.hgrow="ALWAYS">
-                            <children>
-                                <JFXButton style="-fx-background-color: #CE2029;" text="EMERGENCY" textFill="WHITE">
-                                    <font>
-                                        <Font name="MS Reference Sans Serif" size="16.0"/>
-                                    </font>
-                                    <VBox.margin>
-                                        <Insets bottom="5.0" left="10.0" right="10.0" top="5.0"/>
-                                    </VBox.margin>
-                                </JFXButton>
-                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Sanitation Services Request Form">
-                                    <font>
-                                        <Font size="30.0"/>
-                                    </font>
-                                    <VBox.margin>
-                                        <Insets bottom="5.0" left="10.0" right="10.0" top="5.0"/>
-                                    </VBox.margin>
-                                </Text>
-                            </children>
-                        </VBox>
-                    </children>
-                </HBox>
-                <VBox alignment="TOP_CENTER" spacing="15.0" style="-fx-background-color: #FFFFFF;" VBox.vgrow="NEVER">
-                    <VBox.margin>
-                        <Insets bottom="10.0" left="50.0" right="50.0" top="10.0"/>
-                    </VBox.margin>
-                    <children>
-                        <Text fill="#0067b1" strokeType="OUTSIDE" strokeWidth="0.0"
-                              text="Sanitation Services Request Form">
-                            <font>
-                                <Font name="MS Reference Sans Serif" size="24.0"/>
-                            </font>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #012d5a;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamB.views.SanitationRequestFormController">
+   <children>
+      <VBox alignment="TOP_CENTER" layoutX="220.0" layoutY="27.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #FFFFFF;">
+               <children>
+                  <ImageView fitHeight="114.0" fitWidth="314.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/hospital_logo.png" />
+                     </image>
+                     <HBox.margin>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </HBox.margin>
+                  </ImageView>
+                  <VBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <JFXButton style="-fx-background-color: #CE2029;" text="EMERGENCY" textFill="WHITE">
+                           <font>
+                              <Font name="MS Reference Sans Serif" size="16.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
+                           </VBox.margin>
+                        </JFXButton>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Sanitation Services Request Form">
+                           <font>
+                              <Font size="30.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
+                           </VBox.margin>
                         </Text>
-                        <VBox>
-                            <children>
-                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Location">
-                                    <font>
-                                        <Font size="14.0"/>
-                                    </font>
-                                </Text>
-                                <JFXTextField/>
-                            </children>
-                            <padding>
-                                <Insets left="10.0" right="10.0"/>
-                            </padding>
-                        </VBox>
-                        <VBox>
-                            <children>
-                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Type of Service">
-                                    <font>
-                                        <Font size="14.0"/>
-                                    </font>
-                                </Text>
-                                <JFXComboBox fx:id="comboTypeService" prefHeight="25.0" prefWidth="9999.0"
-                                             promptText="Choose one" VBox.vgrow="ALWAYS"/>
-                            </children>
-                            <padding>
-                                <Insets left="10.0" right="10.0"/>
-                            </padding>
-                        </VBox>
-                        <VBox>
-                            <children>
-                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Size of Service">
-                                    <font>
-                                        <Font size="14.0"/>
-                                    </font>
-                                </Text>
-                                <JFXComboBox fx:id="comboSizeService" prefHeight="25.0" prefWidth="9999.0"
-                                             promptText="Choose one"/>
-                            </children>
-                            <padding>
-                                <Insets left="10.0" right="10.0"/>
-                            </padding>
-                        </VBox>
-                        <VBox maxHeight="1.7976931348623157E308" prefWidth="673.0">
-                            <children>
-                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Description of Situation">
-                                    <font>
-                                        <Font size="14.0"/>
-                                    </font>
-                                </Text>
-                                <JFXTextArea maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
-                                             prefWidth="653.0" VBox.vgrow="NEVER">
-                                    <font>
-                                        <Font name="MS Reference Sans Serif" size="14.0"/>
-                                    </font>
-                                </JFXTextArea>
-                            </children>
-                            <padding>
-                                <Insets left="10.0" right="10.0"/>
-                            </padding>
-                        </VBox>
-                        <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="50.0">
-                            <children>
-                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Special Flags" HBox.hgrow="ALWAYS">
-                                    <font>
-                                        <Font size="14.0"/>
-                                    </font>
-                                </Text>
-                                <HBox alignment="BASELINE_LEFT" fillHeight="false" spacing="50.0" HBox.hgrow="ALWAYS">
-                                    <children>
-                                        <JFXCheckBox text="Safety Hazard"/>
-                                        <JFXCheckBox text="Biological Substance"/>
-                                        <JFXCheckBox text="Room Occupied"/>
-                                    </children>
-                                </HBox>
-                            </children>
-                            <VBox.margin>
-                                <Insets left="10.0" right="10.0"/>
-                            </VBox.margin>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <VBox alignment="TOP_CENTER" spacing="15.0" style="-fx-background-color: #FFFFFF;" VBox.vgrow="NEVER">
+               <VBox.margin>
+                  <Insets bottom="10.0" left="50.0" right="50.0" top="10.0" />
+               </VBox.margin>
+               <children>
+                  <Text fill="#0067b1" strokeType="OUTSIDE" strokeWidth="0.0" text="Sanitation Services Request Form">
+                     <font>
+                        <Font name="MS Reference Sans Serif" size="24.0" />
+                     </font>
+                  </Text>
+                  <VBox>
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Location">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Text>
+                        <JFXTextField />
+                     </children>
+                     <padding>
+                        <Insets left="10.0" right="10.0" />
+                     </padding>
+                  </VBox>
+                  <VBox>
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Type of Service">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Text>
+                        <JFXComboBox fx:id="comboTypeService" prefHeight="25.0" prefWidth="9999.0" promptText="Choose one" VBox.vgrow="ALWAYS" />
+                     </children>
+                     <padding>
+                        <Insets left="10.0" right="10.0" />
+                     </padding>
+                  </VBox>
+                  <VBox>
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Size of Service">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Text>
+                        <JFXComboBox fx:id="comboSizeService" prefHeight="25.0" prefWidth="9999.0" promptText="Choose one" />
+                     </children>
+                     <padding>
+                        <Insets left="10.0" right="10.0" />
+                     </padding>
+                  </VBox>
+                  <VBox maxHeight="1.7976931348623157E308" prefWidth="673.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Description of Situation">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Text>
+                        <JFXTextArea maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="653.0" VBox.vgrow="NEVER">
+                           <font>
+                              <Font name="MS Reference Sans Serif" size="14.0" />
+                           </font>
+                        </JFXTextArea>
+                     </children>
+                     <padding>
+                        <Insets left="10.0" right="10.0" />
+                     </padding>
+                  </VBox>
+                  <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="50.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Special Flags" HBox.hgrow="ALWAYS">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Text>
+                        <HBox alignment="CENTER" fillHeight="false" spacing="75.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <JFXCheckBox text="Safety Hazard" />
+                              <JFXCheckBox text="Biological Substance" />
+                              <JFXCheckBox text="Room Occupied" />
+                           </children>
                         </HBox>
-                        <HBox alignment="CENTER_LEFT" prefWidth="200.0">
-                            <children>
-                                <HBox alignment="CENTER_LEFT" fillHeight="false" HBox.hgrow="ALWAYS">
-                                    <children>
-                                        <JFXButton fx:id="btnCancel" cancelButton="true" onAction="#handleButtonAction"
-                                                   style="-fx-background-color: #0067b1;" text="Cancel"
-                                                   textFill="WHITE">
-                                            <font>
-                                                <Font name="MS Reference Sans Serif" size="14.0"/>
-                                            </font>
-                                        </JFXButton>
-                                    </children>
-                                </HBox>
-                                <HBox alignment="CENTER_RIGHT" fillHeight="false" spacing="10.0" HBox.hgrow="ALWAYS">
-                                    <children>
-                                        <JFXButton style="-fx-background-color: #F6BD39;" text="Help">
-                                            <font>
-                                                <Font name="MS Reference Sans Serif" size="14.0"/>
-                                            </font>
-                                            <HBox.margin>
-                                                <Insets/>
-                                            </HBox.margin>
-                                        </JFXButton>
-                                        <JFXButton style="-fx-background-color: #F6BD39;" text="Submit">
-                                            <font>
-                                                <Font name="MS Reference Sans Serif" size="14.0"/>
-                                            </font>
-                                        </JFXButton>
-                                    </children>
-                                </HBox>
-                            </children>
-                            <padding>
-                                <Insets left="10.0" right="10.0"/>
-                            </padding>
-                            <VBox.margin>
-                                <Insets bottom="10.0"/>
-                            </VBox.margin>
+                     </children>
+                     <VBox.margin>
+                        <Insets left="10.0" right="10.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" prefWidth="200.0">
+                     <children>
+                        <HBox alignment="CENTER_LEFT" fillHeight="false" HBox.hgrow="ALWAYS">
+                           <children>
+                              <JFXButton fx:id="btnCancel" cancelButton="true" onAction="#handleButtonAction" style="-fx-background-color: #0067b1;" text="Cancel" textFill="WHITE">
+                                 <font>
+                                    <Font name="MS Reference Sans Serif" size="14.0" />
+                                 </font>
+                              </JFXButton>
+                           </children>
                         </HBox>
-                    </children>
-                </VBox>
-            </children>
-        </VBox>
-    </children>
+                        <HBox alignment="CENTER_RIGHT" fillHeight="false" spacing="10.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <JFXButton style="-fx-background-color: #F6BD39;" text="Help">
+                                 <font>
+                                    <Font name="MS Reference Sans Serif" size="14.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                              </JFXButton>
+                              <JFXButton style="-fx-background-color: #F6BD39;" text="Submit">
+                                 <font>
+                                    <Font name="MS Reference Sans Serif" size="14.0" />
+                                 </font>
+                              </JFXButton>
+                           </children>
+                        </HBox>
+                     </children>
+                     <padding>
+                        <Insets left="10.0" right="10.0" />
+                     </padding>
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+      </VBox>
+   </children>
 </AnchorPane>
