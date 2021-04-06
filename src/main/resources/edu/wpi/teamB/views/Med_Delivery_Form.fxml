@@ -13,9 +13,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane style="-fx-background-color: #012d5a;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamB.views.MedDeliveryForm">
+<AnchorPane prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #012d5a;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamB.views.MedDeliveryForm">
    <children>
-      <VBox prefWidth="658.0" style="-fx-background-color: #012d5a;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox prefWidth="658.0" style="-fx-background-color: #012d5a;" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <HBox prefHeight="111.0" prefWidth="626.0" style="-fx-background-color: #f1f1f1;">
                <children>
@@ -66,7 +66,7 @@
                   </HBox>
                </children>
             </HBox>
-            <ScrollPane fitToWidth="true" hbarPolicy="NEVER" prefHeight="300.0" prefWidth="200.0" style="-fx-background-color: #f1f1f1;" VBox.vgrow="ALWAYS">
+            <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" maxHeight="1.7976931348623157E308" style="-fx-background-color: #f1f1f1;" VBox.vgrow="ALWAYS">
                <content>
                   <VBox alignment="TOP_CENTER" style="-fx-background-color: #f1f1f1;">
                      <children>
