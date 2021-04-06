@@ -27,7 +27,7 @@
             </ImageView>
             <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
                <children>
-                  <Button mnemonicParsing="false" text="Emergency" textFill="WHITE">
+                  <Button mnemonicParsing="false" onAction="#handleButtonAction" text="Emergency" textFill="WHITE">
                      <font>
                         <Font name="SansSerif Regular" size="12.0" />
                      </font>
@@ -68,11 +68,11 @@
       <HBox alignment="CENTER" prefHeight="70.0" prefWidth="600.0">
          <children>
             <Button fx:id="CancelB" mnemonicParsing="false" onAction="#handleButtonAction" text="Cancel" />
-            <Button fx:id="SubmitB" contentDisplay="CENTER" mnemonicParsing="false" text="Submit">
+            <Button fx:id="SubmitB" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleButtonAction" text="Submit">
                <HBox.margin>
                   <Insets left="150.0" right="150.0" />
                </HBox.margin></Button>
-            <Button fx:id="HelpB" alignment="BOTTOM_RIGHT" contentDisplay="CENTER" mnemonicParsing="false" text="?" />
+            <Button fx:id="HelpB" alignment="BOTTOM_RIGHT" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleButtonAction" text="?" />
          </children>
       </HBox>
    </children>
