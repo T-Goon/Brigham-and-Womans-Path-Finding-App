@@ -1,7 +1,6 @@
 package edu.wpi.teamB;
 
 import java.io.IOException;
-
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -11,16 +10,16 @@ import javafx.stage.Stage;
 
 public class App extends Application {
 
-    private static Stage primaryStage;
+  private static Stage primaryStage;
 
-    @Override
-    public void init() {
-        System.out.println("Starting Up");
-    }
+  @Override
+  public void init() {
+    System.out.println("Starting Up");
+  }
 
-    @Override
-    public void start(Stage primaryStage) {
-        App.primaryStage = primaryStage;
+  @Override
+  public void start(Stage primaryStage) {
+    App.primaryStage = primaryStage;
 
         // Open first view
         try {
@@ -35,16 +34,16 @@ public class App extends Application {
         }
     }
 
-    public static Stage getPrimaryStage() {
-        return primaryStage;
-    }
+  public static Stage getPrimaryStage(){
+    return primaryStage;
+  }
 
     public static void setPrimaryStage(Stage newPrimaryStage) {
         primaryStage = newPrimaryStage;
     }
 
-    @Override
-    public void stop() {
-        System.out.println("Shutting Down");
-    }
+  @Override
+  public void stop() {
+    System.out.println("Shutting Down");
+  }
 }

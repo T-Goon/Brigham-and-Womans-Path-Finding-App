@@ -16,7 +16,8 @@ public class ServiceRequestMenuController {
 
     @FXML
     private JFXButton btnSecurity;
-
+    @FXML
+    private JFXButton intTranspBtn;
     @FXML
     private JFXButton btnSanitation;
 
@@ -54,7 +55,14 @@ public class ServiceRequestMenuController {
                     ex.printStackTrace();
                     break;
                 }
-
+            case "intTranspBtn":
+                try {
+                    Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/internalTransportationRequestForm.fxml"));
+                    App.getPrimaryStage().getScene().setRoot(root);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                    break;
+                }
 
         }
     }
