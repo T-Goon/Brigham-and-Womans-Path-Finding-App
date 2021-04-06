@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -34,66 +35,114 @@
          <children>
             <HBox alignment="CENTER" HBox.hgrow="ALWAYS">
                <children>
-                  <JFXButton fx:id="intTranspBtn" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="70.0" minWidth="70.0" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39;" text="Internal Transportion">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                     <graphic>
-                        <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../images/wheelChairIcon.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </JFXButton>
+                  <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <JFXButton fx:id="btnSanitation" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="70.0" minWidth="70.0" onAction="#handleButtonAction" ripplerFill="WHITE" style="-fx-background-color: #F6BD39;" text="Sanitation Services">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                           <graphic>
+                              <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/sanitationIcon.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           </JFXButton>
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Sanitation">
+                           <font>
+                              <Font name="MS Reference Sans Serif" size="18.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin>
+                        </Text>
+                     </children>
+                  </VBox>
                </children>
             </HBox>
             <HBox alignment="CENTER" HBox.hgrow="ALWAYS">
                <children>
-                  <JFXButton fx:id="btnSanitation" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="70.0" minWidth="70.0" onAction="#handleButtonAction" ripplerFill="WHITE" style="-fx-background-color: #F6BD39;" text="Sanitation Services">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                     <graphic>
-                        <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../images/sanitationIcon.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                     </JFXButton>
+                  <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <JFXButton fx:id="intTranspBtn" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="70.0" minWidth="70.0" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39;" text="Internal Transportion">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                           <graphic>
+                              <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/wheelChairIcon.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </JFXButton>
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Internal Patient Transport">
+                           <font>
+                              <Font name="MS Reference Sans Serif" size="18.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin>
+                        </Text>
+                     </children>
+                  </VBox>
                </children>
             </HBox>
             <HBox alignment="CENTER" HBox.hgrow="ALWAYS">
                <children>
-                  <JFXButton fx:id="btnMedicine" contentDisplay="GRAPHIC_ONLY" minHeight="70.0" minWidth="70.0" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39;" text="Medicine Delivery">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                     <graphic>
-                        <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../images/medsIcon.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </JFXButton>
+                  <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <JFXButton fx:id="btnMedicine" contentDisplay="GRAPHIC_ONLY" minHeight="70.0" minWidth="70.0" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39;" text="Medicine Delivery">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                           <graphic>
+                              <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/medsIcon.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </JFXButton>
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Medicine Delivery">
+                           <font>
+                              <Font name="MS Reference Sans Serif" size="18.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin>
+                        </Text>
+                     </children>
+                  </VBox>
                </children>
             </HBox>
             <HBox alignment="CENTER" HBox.hgrow="ALWAYS">
                <children>
-                  <JFXButton fx:id="btnSecurity" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="70.0" minWidth="70.0" nodeOrientation="LEFT_TO_RIGHT" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39;" text="Security Services">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                     <graphic>
-                        <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../images/securityIcon.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </JFXButton>
+                  <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <JFXButton fx:id="btnSecurity" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="70.0" minWidth="70.0" nodeOrientation="LEFT_TO_RIGHT" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39;" text="Security Services">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                           <graphic>
+                              <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/securityIcon.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </JFXButton>
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Security">
+                           <font>
+                              <Font name="MS Reference Sans Serif" size="18.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin>
+                        </Text>
+                     </children>
+                  </VBox>
                </children>
             </HBox>
          </children>
