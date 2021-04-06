@@ -6,7 +6,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" spacing="20.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamB.views.SR_menuController">
    <children>
       <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefHeight="56.0" prefWidth="600.0" style="-fx-background-color: #34d5eb; -fx-border-color: black; -fx-border-width: 3px; -fx-border-radius: 10px; -fx-background-radius: 10px;">
@@ -19,6 +18,11 @@
          </children>
       </HBox>
       <Button fx:id="blankFormBtn" alignment="CENTER" contentDisplay="CENTER" minHeight="20.0" minWidth="100.0" mnemonicParsing="false" onAction="#handleButtonAction" text="Blank Form">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Button>
+      <Button fx:id="SSFormBtn" mnemonicParsing="false" onAction="#handleButtonAction" text="Security Services">
          <font>
             <Font size="14.0" />
          </font>

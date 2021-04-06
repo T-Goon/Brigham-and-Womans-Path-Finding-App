@@ -12,6 +12,8 @@ import java.io.IOException;
 public class SR_menuController {
     @FXML
     private Button blankFormBtn;
+    @FXML
+    private Button SSFormBtn;
 
     @FXML
     private void handleButtonAction(ActionEvent e){
@@ -22,6 +24,14 @@ public class SR_menuController {
             // Open blank service request form
             try {
                 Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/Med_Delivery_Form.fxml"));
+                App.getPrimaryStage().getScene().setRoot(root);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        } else if(bnt.getId().equals("SSFormBtn")){
+            // Open security service request form
+            try {
+                Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/securityRequestForm.fxml"));
                 App.getPrimaryStage().getScene().setRoot(root);
             } catch (IOException ex) {
                 ex.printStackTrace();
