@@ -146,7 +146,7 @@
             </VBox>
             <VBox alignment="TOP_CENTER" prefWidth="0.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <children>
-                  <JFXButton fx:id="btnIntTransp" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="70.0" minWidth="70.0" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39;" text="Internal Transportion">
+                  <JFXButton fx:id="btnIntTransp" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="70.0" minWidth="70.0" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39;" text="Internal Transportation">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -170,7 +170,7 @@
             </VBox>
             <VBox alignment="TOP_CENTER" prefWidth="0.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
                <children>
-                  <JFXButton fx:id="btnExtTransp" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="70.0" minWidth="70.0" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39;" text="Internal Transportion">
+                  <JFXButton fx:id="btnExtTransp" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="70.0" minWidth="70.0" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39;" text="External Patient Transport">
                      <font>
                         <Font size="14.0" />
                      </font>
