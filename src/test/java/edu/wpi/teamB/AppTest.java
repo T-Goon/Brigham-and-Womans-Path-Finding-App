@@ -44,11 +44,11 @@ public class AppTest extends FxRobot {
 
   @Test
   public void testSecurityRequestForm(){
-    verifyThat("Service Request Menu", Node::isVisible);
+    verifyThat("Service Request Directory", Node::isVisible);
     clickOn("Security Services");
     verifyThat("Security Services Request Form", Node::isVisible);
     clickOn("Cancel");
-    verifyThat("Service Request Menu", Node::isVisible);
+    verifyThat("Service Request Directory", Node::isVisible);
   }
 
 }
