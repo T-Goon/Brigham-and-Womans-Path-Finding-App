@@ -11,50 +11,46 @@ import javafx.scene.control.TextField;
 
 import java.io.IOException;
 
-public class MedDeliveryForm {
+public class InternalTransportationRequestController {
 
     @FXML
-    private Button cancelBtn;
-
+    private Button btnCancel;
     @FXML
-    private Button submitBtn;
-
+    private Button SubmitB;
     @FXML
-    private Button helpBtn;
-
+    private Button HelpB;
     @FXML
-    private TextField patName;
-
+    private TextField NAME;
     @FXML
-    private TextField rmNum;
-
+    private TextField ROOMNUM;
     @FXML
-    private TextField medName;
-
+    private TextField TRTYPE;
     @FXML
-    private TextArea reason;
+    private TextArea REASON;
 
     @FXML
     public void handleButtonAction(ActionEvent e) {
         Button bnt = (Button) e.getSource();
 
-        if (bnt.getId().equals("cancelBtn")) {
+        if (bnt.getId().equals("btnCancel")) {
             // Go back to the service request menu
             try {
-                Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/SR_menu.fxml"));
+                Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/serviceRequestMenu.fxml"));
                 App.getPrimaryStage().getScene().setRoot(root);
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
         }
 
-        if (bnt.getId().equals("submitBtn")) {
+        if (bnt.getId().equals("SubmitB")) {
             //Show the confirmation page
         }
 
-        if (bnt.getId().equals("helpBtn")) {
+        if (bnt.getId().equals("HelpB")) {
             //Show the help page
         }
 
     }
+
+
 }
