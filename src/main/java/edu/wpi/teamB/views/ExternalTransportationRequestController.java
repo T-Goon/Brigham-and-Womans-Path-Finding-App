@@ -1,9 +1,6 @@
 package edu.wpi.teamB.views;
 
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXCheckBox;
-import com.jfoenix.controls.JFXTextArea;
-import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.*;
 import edu.wpi.teamB.App;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -29,7 +26,7 @@ public class ExternalTransportationRequestController {
     @FXML
     private JFXTextField ROOMNUM;
     @FXML
-    private JFXTextField TRTYPE;
+    private JFXComboBox TRTYPE;
     @FXML
     private JFXTextArea DESCRIPTION;
     @FXML

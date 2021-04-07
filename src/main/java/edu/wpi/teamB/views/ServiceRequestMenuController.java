@@ -22,6 +22,9 @@ public class ServiceRequestMenuController {
     private JFXButton btnIntTransp;
 
     @FXML
+    private JFXButton btnExtTransp;
+
+    @FXML
     private JFXButton btnSecurity;
 
     @FXML
