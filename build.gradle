@@ -56,10 +56,13 @@ test {
 // with the Main method you want run!
 jar {
     manifest {
-        attributes 'Main-Class': 'edu.wpi.teamB.Main'
+        attributes 'Main-Class': mainClassName
+    }
+
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
     }
 }
-
 
 
 

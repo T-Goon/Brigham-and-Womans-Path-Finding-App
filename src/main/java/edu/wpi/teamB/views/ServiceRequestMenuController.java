@@ -62,7 +62,7 @@ public class ServiceRequestMenuController {
                 path = path + "floralDeliveryRequestForm.fxml";
                 break;
             case "btnExtTransp":
-                path = path + "ExternalTransportationRequestForm.fxml";
+                path = path + "externalTransportationRequestForm.fxml";
                 break;
             case "btnReligiousRequest":
                 path = path + "religiousRequestForm.fxml";
