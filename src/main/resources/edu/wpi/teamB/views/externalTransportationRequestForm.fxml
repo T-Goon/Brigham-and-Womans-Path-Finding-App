@@ -155,7 +155,7 @@
                                     <Font size="14.0" />
                                  </font>
                               </Text>
-                              <JFXTextArea fx:id="ALLERGIES" promptText="List Allerrgies" />
+                              <JFXTextArea fx:id="ALLERGIES" promptText="List Allergies" />
                            </children>
                            <padding>
                               <Insets left="10.0" right="10.0" />
