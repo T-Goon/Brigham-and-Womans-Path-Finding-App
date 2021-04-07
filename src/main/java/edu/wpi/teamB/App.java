@@ -28,8 +28,7 @@ public class App extends Application {
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);
             primaryStage.show();
-            primaryStage.setMaximized(true);
-            primaryStage.setResizable(false);
+            primaryStage.setFullScreen(true);
         } catch (IOException e) {
             e.printStackTrace();
             Platform.exit();
