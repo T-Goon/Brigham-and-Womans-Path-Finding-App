@@ -18,7 +18,7 @@
          <children>
             <ImageView fitHeight="115.0" fitWidth="315.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
                <image>
-                  <Image url="@../images/hospital_logo.png" />
+                  <Image url="@../images/hospitalLogo.png" />
                </image>
             </ImageView>
             <JFXButton buttonType="RAISED" layoutX="776.0" layoutY="15.0" style="-fx-background-color: #CE2029;" text="Emergency" textFill="WHITE" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
@@ -201,7 +201,7 @@
                      <graphic>
                         <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../images/wheelChairIcon.png" />
+                              <Image url="@../images/religiousIcon.png" />
                            </image>
                         </ImageView>
                      </graphic>
