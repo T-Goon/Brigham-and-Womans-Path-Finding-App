@@ -8,13 +8,13 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.*;
 import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit5.ApplicationExtension;
-import org.testfx.robot.ScrollRobot;
-import org.testfx.robot.impl.BaseRobotImpl;
-import org.testfx.robot.impl.MouseRobotImpl;
-import org.testfx.robot.impl.ScrollRobotImpl;
+
+import java.util.stream.Stream;
 
 /**
  * This is an integration test for the entire application. Rather than running a single scene
@@ -42,13 +42,28 @@ public class AppTest extends FxRobot {
 //    verifyThat("Service Request Menu", Node::isVisible);
   }
 
-  @Test
-  public void testSecurityRequestForm(){
+
+  @ParameterizedTest
+  @MethodSource("textProvider")
+  void testBackButtons(String button, String title)
+  {
     verifyThat("Service Request Directory", Node::isVisible);
-    clickOn("Security Services");
-    verifyThat("Security Services Request Form", Node::isVisible);
+    clickOn(button);
+    verifyThat(title, Node::isVisible);
     clickOn("Cancel");
     verifyThat("Service Request Directory", Node::isVisible);
   }
 
+  private static Stream<Arguments> textProvider()
+  {
+    return Stream.of(
+            Arguments.of("Security Services", "Security Services Request Form"),
+            Arguments.of("Sanitation Services", "Sanitation Services Request Form"),
+            Arguments.of("Floral Delivery", "Floral Delivery Request Form"),
+            Arguments.of("Medicine Delivery", "Medicine Delivery Request Form"),
+            Arguments.of("Internal Transportation", "Internal Transportation Request Form"),
+            Arguments.of("External Patient Transport", "External Transportation Request Form"),
+            Arguments.of("Religious Service", "Religious Request Form")
+    );
+  }
 }
