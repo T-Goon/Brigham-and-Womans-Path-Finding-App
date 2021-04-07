@@ -1,32 +1,46 @@
 package edu.wpi.teamB.views;
 
+import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.teamB.App;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+import javafx.fxml.Initializable;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class InternalTransportationRequestController {
+
+public class InternalTransportationRequestController implements Initializable {
 
     @FXML
     private Button btnCancel;
     @FXML
-    private Button SubmitB;
+    private Button btnSubmit;
     @FXML
-    private Button HelpB;
+    private Button btnHelp;
     @FXML
     private TextField NAME;
     @FXML
     private TextField ROOMNUM;
     @FXML
-    private TextField TRTYPE;
+    private JFXComboBox<Label> comboTransportType = new JFXComboBox<>();
     @FXML
     private TextArea REASON;
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        comboTransportType.getItems().add(new Label("Wheelchair"));
+        comboTransportType.getItems().add(new Label("Stretcher"));
+        comboTransportType.getItems().add(new Label("Gurney"));
+    }
 
     @FXML
     public void handleButtonAction(ActionEvent e) {
