@@ -22,6 +22,9 @@ public class ServiceRequestMenuController {
     private JFXButton btnIntTransp;
 
     @FXML
+    private JFXButton btnExtTransp;
+
+    @FXML
     private JFXButton btnSecurity;
 
     @FXML
@@ -51,6 +54,9 @@ public class ServiceRequestMenuController {
                 break;
             case "btnFloralDelivery":
                 path = path + "floralDeliveryRequestForm.fxml";
+                break;
+            case "btnExtTransp":
+                path = path + "ExternalTransportationRequestForm.fxml";
                 break;
             case "btnReligiousRequest":
                 path = path + "religiousRequestForm.fxml";
