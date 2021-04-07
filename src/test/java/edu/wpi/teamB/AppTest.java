@@ -45,7 +45,7 @@ public class AppTest extends FxRobot {
 
   @ParameterizedTest
   @MethodSource("textProvider")
-  void recognizeSingleToken(String button, String title)
+  void testBackButtons(String button, String title)
   {
     verifyThat("Service Request Directory", Node::isVisible);
     clickOn(button);
