@@ -25,6 +25,9 @@ public class ServiceRequestMenuController {
     private JFXButton btnSecurity;
 
     @FXML
+    private JFXButton btnFloralDelivery;
+
+    @FXML
     private void handleButtonAction(ActionEvent e) {
 
         Button btn = (Button) e.getSource();
@@ -42,6 +45,9 @@ public class ServiceRequestMenuController {
                 break;
             case "btnSecurity":
                 path = path + "securityRequestForm.fxml";
+                break;
+            case "btnFloralDelivery":
+                path = path + "floralDeliveryRequestForm.fxml";
                 break;
             default:
                 throw new IllegalStateException("WHAT BUTTON IS THIS AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
