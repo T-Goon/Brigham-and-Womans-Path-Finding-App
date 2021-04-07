@@ -30,7 +30,7 @@
                     </ImageView>
                     <VBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
                         <children>
-                            <JFXButton style="-fx-background-color: #CE2029;" text="EMERGENCY" textFill="WHITE">
+                            <JFXButton buttonType="RAISED" style="-fx-background-color: #CE2029;" text="EMERGENCY" textFill="WHITE">
                                 <font>
                                     <Font name="MS Reference Sans Serif" size="16.0" />
                                 </font>
@@ -138,7 +138,7 @@
                         <children>
                             <HBox alignment="CENTER_LEFT" fillHeight="false" HBox.hgrow="ALWAYS">
                                 <children>
-                                    <JFXButton fx:id="btnCancel" cancelButton="true" onAction="#handleButtonAction" style="-fx-background-color: #0067b1;" text="Cancel" textFill="WHITE">
+                                    <JFXButton fx:id="btnCancel" buttonType="RAISED" cancelButton="true" onAction="#handleButtonAction" style="-fx-background-color: #0067b1;" text="Cancel" textFill="WHITE">
                                         <font>
                                             <Font name="MS Reference Sans Serif" size="14.0" />
                                         </font>
@@ -147,7 +147,7 @@
                             </HBox>
                             <HBox alignment="CENTER_RIGHT" fillHeight="false" spacing="10.0" HBox.hgrow="ALWAYS">
                                 <children>
-                                    <JFXButton style="-fx-background-color: #F6BD39;" text="Help">
+                                    <JFXButton buttonType="RAISED" style="-fx-background-color: #F6BD39;" text="Help">
                                         <font>
                                             <Font name="MS Reference Sans Serif" size="14.0" />
                                         </font>
@@ -155,7 +155,7 @@
                                             <Insets />
                                         </HBox.margin>
                                     </JFXButton>
-                                    <JFXButton style="-fx-background-color: #F6BD39;" text="Submit">
+                                    <JFXButton buttonType="RAISED" style="-fx-background-color: #F6BD39;" text="Submit">
                                         <font>
                                             <Font name="MS Reference Sans Serif" size="14.0" />
                                         </font>

@@ -28,7 +28,7 @@
                   </ImageView>
                   <VBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
                      <children>
-                        <JFXButton fx:id="btnEmergency" onAction="#handleButtonAction" style="-fx-background-color: #CE2029;" text="EMERGENCY" textFill="WHITE">
+                        <JFXButton fx:id="btnEmergency" buttonType="RAISED" onAction="#handleButtonAction" style="-fx-background-color: #CE2029;" text="EMERGENCY" textFill="WHITE">
                            <VBox.margin>
                               <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
                            </VBox.margin>
@@ -68,7 +68,7 @@
                               <Font size="14.0" />
                            </font>
                         </Text>
-                        <JFXTextField />
+                        <JFXTextField style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" />
                      </children>
                      <VBox.margin>
                         <Insets />
@@ -87,7 +87,7 @@
                               <Font size="14.0" />
                            </font>
                         </Text>
-                        <JFXTextField />
+                        <JFXTextField style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" />
                      </children>
                      <padding>
                         <Insets left="10.0" right="10.0" />
@@ -100,7 +100,7 @@
                               <Font size="14.0" />
                            </font>
                         </Text>
-                        <JFXTextArea maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="653.0" VBox.vgrow="NEVER">
+                        <JFXTextArea maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="653.0" style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" VBox.vgrow="NEVER">
                            <font>
                               <Font size="14.0" />
                            </font></JFXTextArea>
@@ -113,7 +113,7 @@
                      <children>
                         <HBox alignment="CENTER_LEFT" fillHeight="false" HBox.hgrow="ALWAYS">
                            <children>
-                              <JFXButton fx:id="btnCancel" onAction="#handleButtonAction" style="-fx-background-color: #0067B1;" text="Cancel" textFill="WHITE">
+                              <JFXButton fx:id="btnCancel" buttonType="RAISED" onAction="#handleButtonAction" style="-fx-background-color: #0067B1;" text="Cancel" textFill="WHITE">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
@@ -122,12 +122,12 @@
                         </HBox>
                         <HBox alignment="CENTER_RIGHT" fillHeight="false" spacing="10.0" HBox.hgrow="ALWAYS">
                            <children>
-                              <JFXButton fx:id="btnHelp" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39;" text="Help">
+                              <JFXButton fx:id="btnHelp" buttonType="RAISED" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39;" text="Help">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
                               </JFXButton>
-                              <JFXButton fx:id="btnSubmit" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39;" text="Submit">
+                              <JFXButton fx:id="btnSubmit" buttonType="RAISED" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39;" text="Submit">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
