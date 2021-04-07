@@ -177,7 +177,7 @@
                   </VBox>
                   <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0">
                      <children>
-                        <JFXButton fx:id="btnReligiousRequest" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="70.0" minWidth="70.0" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39;" text="Internal Transportion">
+                        <JFXButton fx:id="btnReligiousRequest" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="70.0" minWidth="70.0" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39;" text="Religious Service">
                            <font>
                               <Font size="14.0" />
                            </font>
@@ -189,7 +189,7 @@
                               </ImageView>
                            </graphic>
                         </JFXButton>
-                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Religion">
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Religious Service">
                            <font>
                               <Font name="MS Reference Sans Serif" size="18.0" />
                            </font>
