@@ -36,5 +36,10 @@
             <Font size="14.0" />
          </font>
       </JFXButton>
+      <JFXButton fx:id="btnFloralDelivery" onAction="#handleButtonAction" text="Floral Delivery">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </JFXButton>
    </children>
 </VBox>
