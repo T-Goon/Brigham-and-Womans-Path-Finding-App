@@ -2,7 +2,6 @@ package edu.wpi.teamB;
 
 import static org.testfx.api.FxAssert.verifyThat;
 
-import javafx.geometry.VerticalDirection;
 import javafx.scene.Node;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -63,7 +62,8 @@ public class AppTest extends FxRobot {
             Arguments.of("Security Services", "Security Services Request Form"),
             Arguments.of("Internal Transportation", "Internal Transportation Request Form"),
             Arguments.of("External Patient Transport", "External Transportation Request Form"),
-            Arguments.of("Religious Service", "Religious Request Form")
+            Arguments.of("Religious Service", "Religious Request Form"),
+            Arguments.of("Food Delivery", "Food Delivery Request Form")
     );
   }
 }
