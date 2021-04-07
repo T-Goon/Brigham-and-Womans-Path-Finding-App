@@ -57,10 +57,10 @@ public class AppTest extends FxRobot {
   private static Stream<Arguments> textProvider()
   {
     return Stream.of(
-            Arguments.of("Security Services", "Security Services Request Form"),
             Arguments.of("Sanitation Services", "Sanitation Services Request Form"),
             Arguments.of("Floral Delivery", "Floral Delivery Request Form"),
             Arguments.of("Medicine Delivery", "Medicine Delivery Request Form"),
+            Arguments.of("Security Services", "Security Services Request Form"),
             Arguments.of("Internal Transportation", "Internal Transportation Request Form"),
             Arguments.of("External Patient Transport", "External Transportation Request Form"),
             Arguments.of("Religious Service", "Religious Request Form")
