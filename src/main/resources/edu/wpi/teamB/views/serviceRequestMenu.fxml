@@ -19,7 +19,7 @@
                   <Image url="@../images/hospital_logo.png" />
                </image>
             </ImageView>
-            <JFXButton layoutX="776.0" layoutY="15.0" style="-fx-background-color: #CE2029;" text="Emergency" textFill="WHITE" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+            <JFXButton buttonType="RAISED" layoutX="776.0" layoutY="15.0" style="-fx-background-color: #CE2029;" text="Emergency" textFill="WHITE" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
                <font>
                   <Font name="MS Reference Sans Serif" size="18.0" />
                </font>
@@ -77,7 +77,7 @@
                               </ImageView>
                            </graphic>
                         </JFXButton>
-                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Internal Patient Transport">
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Internal Patient Transportion">
                            <font>
                               <Font name="MS Reference Sans Serif" size="18.0" />
                            </font>
