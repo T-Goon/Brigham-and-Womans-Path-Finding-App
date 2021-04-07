@@ -61,23 +61,23 @@
                   </VBox>
                </children>
             </HBox>
-            <HBox alignment="CENTER" HBox.hgrow="ALWAYS">
+            <HBox alignment="TOP_CENTER" HBox.hgrow="ALWAYS">
                <children>
                   <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0">
                      <children>
-                        <JFXButton fx:id="btnIntTransp" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="70.0" minWidth="70.0" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39;" text="Internal Transportion">
+                        <JFXButton fx:id="btnFloralDelivery" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="70.0" minWidth="70.0" nodeOrientation="LEFT_TO_RIGHT" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39;" text="Security Services">
                            <font>
                               <Font size="14.0" />
                            </font>
                            <graphic>
                               <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../images/wheelChairIcon.png" />
+                                    <Image url="@../images/FlowerIcon.png" />
                                  </image>
                               </ImageView>
                            </graphic>
                         </JFXButton>
-                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Internal Patient Transportion">
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Floral Delivery">
                            <font>
                               <Font name="MS Reference Sans Serif" size="18.0" />
                            </font>
@@ -134,6 +134,38 @@
                            </graphic>
                         </JFXButton>
                         <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Security">
+                           <font>
+                              <Font name="MS Reference Sans Serif" size="18.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin>
+                        </Text>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+         </children>
+      </HBox>
+      <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <HBox alignment="CENTER" HBox.hgrow="ALWAYS">
+               <children>
+                  <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <JFXButton fx:id="btnIntTransp" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="70.0" minWidth="70.0" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39;" text="Internal Transportion">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                           <graphic>
+                              <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/wheelChairIcon.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </JFXButton>
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Internal Patient Transportion">
                            <font>
                               <Font name="MS Reference Sans Serif" size="18.0" />
                            </font>
