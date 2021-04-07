@@ -34,6 +34,9 @@ public class ServiceRequestMenuController {
     private JFXButton btnReligiousRequest;
 
     @FXML
+    private JFXButton btnLaundryRequest;
+
+    @FXML
     private JFXButton btnFoodDelivery;
 
     @FXML
@@ -66,6 +69,9 @@ public class ServiceRequestMenuController {
                 break;
             case "btnFoodDelivery":
                 path = path + "foodDeliveryRequestForm.fxml";
+                break;
+            case "btnLaundryRequest":
+                path = path + "laundryRequestForm.fxml";
                 break;
             default:
                 throw new IllegalStateException("WHAT BUTTON IS THIS AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
