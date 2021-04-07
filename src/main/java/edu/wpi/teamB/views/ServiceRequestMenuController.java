@@ -37,6 +37,9 @@ public class ServiceRequestMenuController {
     private JFXButton btnLaundryRequest;
 
     @FXML
+    private JFXButton btnFoodDelivery;
+
+    @FXML
     private void handleButtonAction(ActionEvent e) {
 
         Button btn = (Button) e.getSource();
@@ -63,6 +66,9 @@ public class ServiceRequestMenuController {
                 break;
             case "btnReligiousRequest":
                 path = path + "religiousRequestForm.fxml";
+                break;
+            case "btnFoodDelivery":
+                path = path + "foodDeliveryRequestForm.fxml";
                 break;
             case "btnLaundryRequest":
                 path = path + "laundryRequestForm.fxml";
