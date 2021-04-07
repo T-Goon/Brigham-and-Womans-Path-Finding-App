@@ -74,7 +74,7 @@
             </VBox>
             <VBox alignment="TOP_CENTER" prefWidth="0.0" GridPane.columnIndex="1">
                <children>
-                  <JFXButton fx:id="btnFloralDelivery" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="70.0" minWidth="70.0" nodeOrientation="LEFT_TO_RIGHT" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39;" text="Security Services">
+                  <JFXButton fx:id="btnFloralDelivery" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="70.0" minWidth="70.0" nodeOrientation="LEFT_TO_RIGHT" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39;" text="Floral Delivery">
                      <font>
                         <Font size="14.0" />
                      </font>

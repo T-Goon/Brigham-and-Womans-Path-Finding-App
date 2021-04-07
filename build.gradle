@@ -28,6 +28,7 @@ repositories {
 //This is where you declare your dependencies and their version.s
 //You will almost DEFINITELY add more here
 dependencies {
+
     implementation(
             'com.jfoenix:jfoenix:8.0.10',
 
