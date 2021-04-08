@@ -13,7 +13,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #012d5a;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu/wpi/teamB/views/CovidSurveyController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #012d5a;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamB.views.CovidSurveyController">
    <children>
       <AnchorPane prefHeight="110.0" prefWidth="200.0" style="-fx-background-color: white;">
          <children>
@@ -36,10 +36,13 @@
          <children>
             <VBox alignment="CENTER" style="-fx-background-color: white;">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="COVID-19 Symptom Survey" textAlignment="CENTER" VBox.vgrow="NEVER">
+                  <Text fill="#0067b1" strokeType="OUTSIDE" strokeWidth="0.0" text="COVID-19 Symptom Survey" textAlignment="CENTER" VBox.vgrow="NEVER">
                      <VBox.margin>
                         <Insets />
                      </VBox.margin>
+                     <font>
+                        <Font name="MS Reference Sans Serif" size="30.0" />
+                     </font>
                   </Text>
                   <VBox prefHeight="200.0" prefWidth="100.0">
                      <children>
@@ -75,8 +78,8 @@
                         </Text>
                         <VBox>
                            <children>
-                              <JFXRadioButton text="Yes" />
-                              <JFXRadioButton text="No" />
+                              <JFXRadioButton fx:id="ccYesBtn" onAction="#ccQuestion" text="Yes" />
+                              <JFXRadioButton fx:id="ccNoBtn" onAction="#ccQuestion" text="No" />
                            </children>
                            <padding>
                               <Insets left="20.0" />
@@ -96,12 +99,15 @@
                         </Text>
                         <VBox>
                            <children>
-                              <JFXRadioButton text="Yes" />
-                              <JFXRadioButton text="No" />
+                              <JFXRadioButton fx:id="testYesBtn" onAction="#testQuestion" text="Yes" />
+                              <JFXRadioButton fx:id="testNoBtn" onAction="#testQuestion" text="No" />
                            </children>
                            <padding>
                               <Insets left="20.0" />
                            </padding>
+                           <VBox.margin>
+                              <Insets bottom="-10.0" />
+                           </VBox.margin>
                         </VBox>
                      </children>
                      <VBox.margin>
@@ -113,7 +119,7 @@
                   </VBox>
                   <HBox alignment="BASELINE_RIGHT">
                      <children>
-                        <JFXButton fx:id="submitBtn" style="-fx-background-color: f6bd39;" text="Submit">
+                        <JFXButton fx:id="submitBtn" minHeight="40.0" minWidth="100.0" style="-fx-background-color: f6bd39;" text="Submit">
                            <HBox.margin>
                               <Insets right="300.0" />
                            </HBox.margin>
