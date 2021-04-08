@@ -11,7 +11,7 @@ import javafx.scene.control.TextField;
 
 import java.io.IOException;
 
-public class InternalTransportationRequestController {
+public class InternalTransportationRequestFormController {
 
     @FXML
     private Button btnCancel;

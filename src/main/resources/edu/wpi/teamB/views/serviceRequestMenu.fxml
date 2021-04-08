@@ -4,180 +4,280 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
 <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" spacing="20.0" style="-fx-background-color: #012d5a;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamB.views.ServiceRequestMenuController">
    <children>
-      <AnchorPane prefHeight="110.0" prefWidth="200.0" style="-fx-background-color: white;">
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #FFFFFF;">
          <children>
-            <ImageView fitHeight="115.0" fitWidth="315.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
+            <ImageView fitHeight="114.0" fitWidth="314.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../images/hospital_logo.png" />
+                  <Image url="@../images/hospitalLogo.png" />
                </image>
+               <HBox.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </HBox.margin>
             </ImageView>
-            <JFXButton buttonType="RAISED" layoutX="776.0" layoutY="15.0" style="-fx-background-color: #CE2029;" text="Emergency" textFill="WHITE" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
-               <font>
-                  <Font name="MS Reference Sans Serif" size="18.0" />
-               </font>
-            </JFXButton>
-            <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Service Request Directory" textAlignment="RIGHT" wrappingWidth="300.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="50.0">
-               <font>
-                  <Font name="MS Reference Sans Serif" size="30.0" />
-               </font>
-            </Text>
-         </children>
-      </AnchorPane>
-      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-         <children>
-            <HBox alignment="CENTER" HBox.hgrow="ALWAYS">
+            <VBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
                <children>
-                  <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0">
-                     <children>
-                        <JFXButton fx:id="btnSanitation" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="70.0" minWidth="70.0" onAction="#handleButtonAction" ripplerFill="WHITE" style="-fx-background-color: #F6BD39;" text="Sanitation Services">
-                           <font>
-                              <Font size="14.0" />
-                           </font>
-                           <graphic>
-                              <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../images/sanitationIcon.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                           </JFXButton>
-                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Sanitation">
-                           <font>
-                              <Font name="MS Reference Sans Serif" size="18.0" />
-                           </font>
-                           <VBox.margin>
-                              <Insets top="10.0" />
-                           </VBox.margin>
-                        </Text>
-                     </children>
-                  </VBox>
+                  <JFXButton buttonType="RAISED" style="-fx-background-color: #CE2029;" text="EMERGENCY" textFill="WHITE">
+                     <font>
+                        <Font name="MS Reference Sans Serif" size="16.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
+                     </VBox.margin>
+                  </JFXButton>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Service Request Directory">
+                     <font>
+                        <Font size="30.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
+                     </VBox.margin>
+                  </Text>
                </children>
-            </HBox>
-            <HBox alignment="TOP_CENTER" HBox.hgrow="ALWAYS">
-               <children>
-                  <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0">
-                     <children>
-                        <JFXButton fx:id="btnFloralDelivery" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="70.0" minWidth="70.0" nodeOrientation="LEFT_TO_RIGHT" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39;" text="Security Services">
-                           <font>
-                              <Font size="14.0" />
-                           </font>
-                           <graphic>
-                              <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../images/FlowerIcon.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                        </JFXButton>
-                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Floral Delivery">
-                           <font>
-                              <Font name="MS Reference Sans Serif" size="18.0" />
-                           </font>
-                           <VBox.margin>
-                              <Insets top="10.0" />
-                           </VBox.margin>
-                        </Text>
-                     </children>
-                  </VBox>
-               </children>
-            </HBox>
-            <HBox alignment="CENTER" HBox.hgrow="ALWAYS">
-               <children>
-                  <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0">
-                     <children>
-                        <JFXButton fx:id="btnMedicine" contentDisplay="GRAPHIC_ONLY" minHeight="70.0" minWidth="70.0" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39;" text="Medicine Delivery">
-                           <font>
-                              <Font size="14.0" />
-                           </font>
-                           <graphic>
-                              <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../images/medsIcon.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                        </JFXButton>
-                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Medicine Delivery">
-                           <font>
-                              <Font name="MS Reference Sans Serif" size="18.0" />
-                           </font>
-                           <VBox.margin>
-                              <Insets top="10.0" />
-                           </VBox.margin>
-                        </Text>
-                     </children>
-                  </VBox>
-               </children>
-            </HBox>
-            <HBox alignment="CENTER" HBox.hgrow="ALWAYS">
-               <children>
-                  <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0">
-                     <children>
-                        <JFXButton fx:id="btnSecurity" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="70.0" minWidth="70.0" nodeOrientation="LEFT_TO_RIGHT" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39;" text="Security Services">
-                           <font>
-                              <Font size="14.0" />
-                           </font>
-                           <graphic>
-                              <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../images/securityIcon.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                        </JFXButton>
-                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Security">
-                           <font>
-                              <Font name="MS Reference Sans Serif" size="18.0" />
-                           </font>
-                           <VBox.margin>
-                              <Insets top="10.0" />
-                           </VBox.margin>
-                        </Text>
-                     </children>
-                  </VBox>
-               </children>
-            </HBox>
+            </VBox>
          </children>
       </HBox>
-      <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0">
+      <GridPane>
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
          <children>
-            <HBox alignment="CENTER" HBox.hgrow="ALWAYS">
+            <VBox alignment="TOP_CENTER" prefWidth="0.0">
                <children>
-                  <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0">
-                     <children>
-                        <JFXButton fx:id="btnIntTransp" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="70.0" minWidth="70.0" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39;" text="Internal Transportion">
-                           <font>
-                              <Font size="14.0" />
-                           </font>
-                           <graphic>
-                              <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../images/wheelChairIcon.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                        </JFXButton>
-                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Internal Patient Transportion">
-                           <font>
-                              <Font name="MS Reference Sans Serif" size="18.0" />
-                           </font>
-                           <VBox.margin>
-                              <Insets top="10.0" />
-                           </VBox.margin>
-                        </Text>
-                     </children>
-                  </VBox>
+                  <JFXButton fx:id="btnSanitation" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="70.0" minWidth="70.0" onAction="#handleButtonAction" ripplerFill="WHITE" style="-fx-background-color: #F6BD39;" text="Sanitation Services">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <graphic>
+                        <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/sanitationIcon.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     </JFXButton>
+                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Sanitation">
+                     <font>
+                        <Font name="MS Reference Sans Serif" size="18.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </Text>
                </children>
-            </HBox>
+            </VBox>
+            <VBox alignment="TOP_CENTER" prefWidth="0.0" GridPane.columnIndex="1">
+               <children>
+                  <JFXButton fx:id="btnFloralDelivery" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="70.0" minWidth="70.0" nodeOrientation="LEFT_TO_RIGHT" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39;" text="Floral Delivery">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <graphic>
+                        <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/flowerIcon.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </JFXButton>
+                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Floral Delivery">
+                     <font>
+                        <Font name="MS Reference Sans Serif" size="18.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </Text>
+               </children>
+            </VBox>
+            <VBox alignment="TOP_CENTER" prefWidth="0.0" GridPane.columnIndex="2">
+               <children>
+                  <JFXButton fx:id="btnMedicine" contentDisplay="GRAPHIC_ONLY" minHeight="70.0" minWidth="70.0" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39;" text="Medicine Delivery">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <graphic>
+                        <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/medsIcon.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </JFXButton>
+                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Medicine Delivery">
+                     <font>
+                        <Font name="MS Reference Sans Serif" size="18.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </Text>
+               </children>
+            </VBox>
+            <VBox alignment="TOP_CENTER" prefWidth="0.0" GridPane.rowIndex="2">
+               <children>
+                  <JFXButton fx:id="btnSecurity" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="70.0" minWidth="70.0" nodeOrientation="LEFT_TO_RIGHT" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39;" text="Security Services">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <graphic>
+                        <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/securityIcon.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </JFXButton>
+                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Security">
+                     <font>
+                        <Font name="MS Reference Sans Serif" size="18.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </Text>
+               </children>
+            </VBox>
+            <VBox alignment="TOP_CENTER" prefWidth="0.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+               <children>
+                  <JFXButton fx:id="btnIntTransp" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="70.0" minWidth="70.0" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39;" text="Internal Transportation">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <graphic>
+                        <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/wheelChairIcon.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </JFXButton>
+                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Internal Patient Transport">
+                     <font>
+                        <Font name="MS Reference Sans Serif" size="18.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </Text>
+               </children>
+            </VBox>
+            <VBox alignment="TOP_CENTER" prefWidth="0.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
+               <children>
+                  <JFXButton fx:id="btnExtTransp" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="70.0" minWidth="70.0" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39;" text="External Patient Transport">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <graphic>
+                        <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/ambulance.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </JFXButton>
+                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="External Patient Transport">
+                     <font>
+                        <Font name="MS Reference Sans Serif" size="18.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </Text>
+               </children>
+            </VBox>
+            <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="4">
+               <children>
+                  <JFXButton fx:id="btnReligiousRequest" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="70.0" minWidth="70.0" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39;" text="Religious Service">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <graphic>
+                        <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/religiousIcon.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </JFXButton>
+                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Religious Service">
+                     <font>
+                        <Font name="MS Reference Sans Serif" size="18.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </Text>
+               </children>
+            </VBox>
+            <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+               <children>
+                  <JFXButton fx:id="btnFoodDelivery" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="70.0" minWidth="70.0" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39;" text="Food Delivery">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <graphic>
+                        <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/forkIcon.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </JFXButton>
+                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Food Delivery">
+                     <font>
+                        <Font name="MS Reference Sans Serif" size="18.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </Text>
+               </children>
+            </VBox>
+            <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="4">
+               <children>
+                  <JFXButton fx:id="btnLaundryRequest" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="70.0" minWidth="70.0" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39;" text="Laundry">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <graphic>
+                        <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/laundryIcon.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </JFXButton>
+                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Laundry">
+                     <font>
+                        <Font name="MS Reference Sans Serif" size="18.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </Text>
+               </children>
+            </VBox>
          </children>
-      </HBox>
+      </GridPane>
    </children>
 </VBox>

@@ -22,10 +22,22 @@ public class ServiceRequestMenuController {
     private JFXButton btnIntTransp;
 
     @FXML
+    private JFXButton btnExtTransp;
+
+    @FXML
     private JFXButton btnSecurity;
 
     @FXML
     private JFXButton btnFloralDelivery;
+
+    @FXML
+    private JFXButton btnReligiousRequest;
+
+    @FXML
+    private JFXButton btnLaundryRequest;
+
+    @FXML
+    private JFXButton btnFoodDelivery;
 
     @FXML
     private void handleButtonAction(ActionEvent e) {
@@ -48,6 +60,18 @@ public class ServiceRequestMenuController {
                 break;
             case "btnFloralDelivery":
                 path = path + "floralDeliveryRequestForm.fxml";
+                break;
+            case "btnExtTransp":
+                path = path + "externalTransportationRequestForm.fxml";
+                break;
+            case "btnReligiousRequest":
+                path = path + "religiousRequestForm.fxml";
+                break;
+            case "btnFoodDelivery":
+                path = path + "foodDeliveryRequestForm.fxml";
+                break;
+            case "btnLaundryRequest":
+                path = path + "laundryRequestForm.fxml";
                 break;
             default:
                 throw new IllegalStateException("WHAT BUTTON IS THIS AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
