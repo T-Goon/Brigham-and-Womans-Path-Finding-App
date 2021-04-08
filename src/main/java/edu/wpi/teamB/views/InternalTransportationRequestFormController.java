@@ -18,7 +18,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 
-public class InternalTransportationRequestController implements Initializable {
+public class InternalTransportationRequestFormController implements Initializable {
 
     @FXML
     private Button btnCancel;
@@ -27,13 +27,8 @@ public class InternalTransportationRequestController implements Initializable {
     @FXML
     private Button btnHelp;
     @FXML
-    private TextField NAME;
-    @FXML
-    private TextField ROOMNUM;
-    @FXML
     private JFXComboBox<Label> comboTransportType = new JFXComboBox<>();
-    @FXML
-    private TextArea REASON;
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
