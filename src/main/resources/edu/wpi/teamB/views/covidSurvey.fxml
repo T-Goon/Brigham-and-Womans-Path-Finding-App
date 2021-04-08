@@ -19,7 +19,7 @@
          <children>
             <ImageView fitHeight="115.0" fitWidth="315.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
                <image>
-                  <Image url="@../images/hospital_logo.png" />
+                  <Image url="@../images/hospitalLogo.png" />
                </image>
             </ImageView>
             <Text fill="#012d5a" layoutX="661.0" layoutY="68.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Covid-19 Symptom Survey " textAlignment="RIGHT" wrappingWidth="275.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.0">
