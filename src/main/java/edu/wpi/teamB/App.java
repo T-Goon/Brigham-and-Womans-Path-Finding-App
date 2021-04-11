@@ -7,6 +7,9 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCombination;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
 public class App extends Application {
@@ -24,10 +27,23 @@ public class App extends Application {
 
         // Open first view
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("views/serviceRequestMenu.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("views/menus/patientDirectoryMenu.fxml"));
+
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);
             primaryStage.show();
+
+
+            //Press F11 to escape fullscreen. Allows users to use the ESC key to go back to the previous scene
+            primaryStage.setFullScreenExitKeyCombination(new KeyCombination() {
+                @Override
+                public boolean match(KeyEvent event) {
+                    return event.getCode().equals(KeyCode.F11);
+
+                }
+            });
+
+
             primaryStage.setFullScreen(true);
         } catch (IOException e) {
             e.printStackTrace();
@@ -37,10 +53,6 @@ public class App extends Application {
 
     public static Stage getPrimaryStage() {
         return primaryStage;
-    }
-
-    public static void setPrimaryStage(Stage newPrimaryStage) {
-        primaryStage = newPrimaryStage;
     }
 
     @Override

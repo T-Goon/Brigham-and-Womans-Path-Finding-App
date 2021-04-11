@@ -1,0 +1,33 @@
+nodeID,xcoord,ycoord,floor,building,nodeType,longName,shortName
+bPARK00101,179,1895,1,Parking,PARK,Left Parking Lot Spot 1,LLot1
+bPARK00201,225,1899,1,Parking,PARK,Left Parking Lot Spot 2,LLot2
+bPARK00301,358,1896,1,Parking,PARK,Left Parking Lot Spot 3,LLot3
+bPARK00401,441,1894,1,Parking,PARK,Left Parking Lot Spot 4,LLot4
+bPARK00501,664,1896,1,Parking,PARK,Left Parking Lot Spot 5,LLot5
+bPARK00601,56,2078,1,Parking,PARK,Left Parking Lot Spot 6,LLot6
+bPARK00701,144,2076,1,Parking,PARK,Left Parking Lot Spot 7,LLot7
+bPARK00801,516,2082,1,Parking,PARK,Left Parking Lot Spot 8,LLot8
+bPARK00901,613,2079,1,Parking,PARK,Left Parking Lot Spot 9,LLot9
+bPARK01001,681,2076,1,Parking,PARK,Left Parking Lot Spot 10,LLot10
+bWALK00101,568,1894,1,Parking,WALK,Left Parking Lot Walkway,Llot Walk
+bWALK00201,564,1611,1,Parking,WALK,Francis Street Left Walkway,FrancisWalk
+bWALK00301,1874,1611,1,Parking,WALK,Francis Street Vining Street Intersection,FrancisViningInt
+bWALK00401,1940,1450,1,Parking,WALK,75 Francis Driveway,FrancisDrive
+bEXIT00101,1749,1389,1,Parking,EXIT,75 Francis Lobby Entrance,FrancisLobbyEnt
+bEXIT00201,2061,1390,1,Parking,EXIT,Emergency Entrance,EmergencyEnt
+bWALK00501,1872,1965,1,Parking,WALK,Vining Street Walkway,ViningWalk
+bPARK01101,1960,1924,1,Parking,PARK,Right Parking Lot Spot 1,RLot1
+bPARK01201,2077,1931,1,Parking,PARK,Right Parking Lot Spot 2,RLot2
+bPARK01301,2196,1936,1,Parking,PARK,Right Parking Lot Spot 3,RLot3
+bPARK01401,2313,1933,1,Parking,PARK,Right Parking Lot Spot 4,RLot4
+bPARK01501,2430,1934,1,Parking,PARK,Right Parking Lot Spot 5,RLot5
+bPARK01601,2638,1967,1,Parking,PARK,Right Parking Lot Spot 6,RLot6
+bPARK01701,2757,1958,1,Parking,PARK,Right Parking Lot Spot 7,RLot7
+bPARK01801,2872,1956,1,Parking,PARK,Right Parking Lot Spot 8,RLot8
+bPARK01901,1952,2030,1,Parking,PARK,Right Parking Lot Spot 9,RLot9
+bPARK02001,2077,2031,1,Parking,PARK,Right Parking Lot Spot 10,RLot10
+bPARK02101,2222,2020,1,Parking,PARK,Right Parking Lot Spot 11,RLot11
+bPARK02201,2319,2017,1,Parking,PARK,Right Parking Lot Spot 12,RLot12
+bPARK02301,2471,2016,1,Parking,PARK,Right Parking Lot Spot 13,RLot13
+bPARK02401,2592,2027,1,Parking,PARK,Right Parking Lot Spot 14,RLot14
+bPARK02501,2730,2030,1,Parking,PARK,Right Parking Lot Spot 15,RLot15

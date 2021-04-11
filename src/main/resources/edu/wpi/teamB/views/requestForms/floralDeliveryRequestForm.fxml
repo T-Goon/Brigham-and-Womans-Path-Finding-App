@@ -16,13 +16,13 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox style="-fx-background-color: #012d5a;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamB.views.FloralDeliveryRequestFormController">
+<VBox style="-fx-background-color: #012d5a;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamB.views.requestForms.FloralDeliveryRequestFormController">
    <children>
           <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #FFFFFF;">
               <children>
                   <ImageView fitHeight="114.0" fitWidth="314.0" pickOnBounds="true" preserveRatio="true">
                       <image>
-                          <Image url="@../images/hospitalLogo.png" />
+                          <Image url="@../../images/general/hospitalLogo.png" />
                       </image>
                       <HBox.margin>
                           <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -103,7 +103,7 @@
                                                   </Text>
                                           <JFXDatePicker fx:id="deliveryDate" defaultColor="#012d5a" style="-fx-background-radius: 7; -fx-background-color: e5e5e5;">
                                              <stylesheets>
-                                                <URL value="@../css/floralDelivery.css" />
+                                                <URL value="@../../css/floralDelivery.css" />
                                              </stylesheets></JFXDatePicker>
                                               </children>
                                               <padding>
@@ -117,7 +117,7 @@
                                                 <Font size="14.0" />
                                              </font>
                                           </Text>
-                                          <JFXTimePicker fx:id="startTime" defaultColor="#012d5a" style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" stylesheets="@../css/floralDelivery.css" />
+                                          <JFXTimePicker fx:id="startTime" defaultColor="#012d5a" style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" stylesheets="@../../css/floralDelivery.css" />
                                        </children>
                                        <padding>
                                           <Insets left="10.0" right="10.0" />
@@ -130,7 +130,7 @@
                                                 <Font size="14.0" />
                                              </font>
                                           </Text>
-                                          <JFXTimePicker fx:id="endTime" defaultColor="#012d5a" style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" stylesheets="@../css/floralDelivery.css" />
+                                          <JFXTimePicker fx:id="endTime" defaultColor="#012d5a" style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" stylesheets="@../../css/floralDelivery.css" />
                                        </children>
                                        <padding>
                                           <Insets left="10.0" right="10.0" />
