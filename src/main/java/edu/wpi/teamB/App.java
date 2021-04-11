@@ -37,7 +37,8 @@ public class App extends Application {
             primaryStage.setFullScreenExitKeyCombination(new KeyCombination() {
                 @Override
                 public boolean match(KeyEvent event) {
-                    return event.getCode() == KeyCode.F11;
+                    return event.getCode().equals(KeyCode.F11);
+
                 }
             });
 
