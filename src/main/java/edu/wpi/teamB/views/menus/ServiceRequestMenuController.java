@@ -46,7 +46,7 @@ public class ServiceRequestMenuController {
     private JFXButton btnFoodDelivery;
 
     @FXML
-    private JFXButton backBtn;
+    private JFXButton btnBack;
 
     @FXML
     private void handleButtonAction(ActionEvent e) {
@@ -85,7 +85,7 @@ public class ServiceRequestMenuController {
             case "btnLaundryRequest":
                 path = viewsPath + "laundryRequestForm.fxml";
                 break;
-            case "backBtn":
+            case "btnBack":
                 path = menusPath + "patientDirectoryMenu.fxml";
                 break;
             default:

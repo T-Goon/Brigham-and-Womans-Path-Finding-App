@@ -3,25 +3,11 @@ package edu.wpi.teamB.views.secondaryForms;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXRadioButton;
 import edu.wpi.teamB.App;
-import edu.wpi.teamB.util.SceneSwitcher;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.application.Application;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.HPos;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 import javafx.fxml.Initializable;
 
 import java.io.IOException;
@@ -36,16 +22,16 @@ public class CovidSurveyController implements Initializable {
     private JFXButton btnBack;
 
     @FXML
-    private JFXRadioButton ccYesBtn;
+    private JFXRadioButton btnCCYes;
 
     @FXML
-    private JFXRadioButton ccNoBtn;
+    private JFXRadioButton btnCCNo;
 
     @FXML
-    private JFXRadioButton testYesBtn;
+    private JFXRadioButton btnTestYes;
 
     @FXML
-    private JFXRadioButton testNoBtn;
+    private JFXRadioButton btnTestNo;
 
     @FXML
     private ToggleGroup ccGroup;
@@ -55,10 +41,10 @@ public class CovidSurveyController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        ccYesBtn.setToggleGroup(ccGroup);
-        ccNoBtn.setToggleGroup(ccGroup);
-        testYesBtn.setToggleGroup(testGroup);
-        testNoBtn.setToggleGroup(testGroup);
+        btnCCYes.setToggleGroup(ccGroup);
+        btnCCNo.setToggleGroup(ccGroup);
+        btnTestYes.setToggleGroup(testGroup);
+        btnTestNo.setToggleGroup(testGroup);
 
     }
 
@@ -72,6 +58,16 @@ public class CovidSurveyController implements Initializable {
                 App.getPrimaryStage().getScene().setRoot(root);
             } catch (IOException ex) {
                 ex.printStackTrace();
+            }
+        }
+
+        if (btn.getId().equals("btnSubmit")) {
+            try {
+                Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/requestForms/formSubmitted.fxml"));
+                App.getPrimaryStage().getScene().setRoot(root);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+
             }
         }
     }

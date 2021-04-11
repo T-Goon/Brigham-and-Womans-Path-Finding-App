@@ -132,7 +132,7 @@
                               <Insets left="20.0" />
                            </padding>
                            <children>
-                              <JFXRadioButton fx:id="ccYesBtn" text="Yes">
+                              <JFXRadioButton fx:id="btnCCYes" text="Yes">
                                  <toggleGroup>
                                     <ToggleGroup fx:id="ccGroup" />
                                  </toggleGroup>
@@ -140,7 +140,7 @@
                                     <Insets />
                                  </VBox.margin>
                               </JFXRadioButton>
-                              <JFXRadioButton fx:id="ccNoBtn" text="No" toggleGroup="$ccGroup">
+                              <JFXRadioButton fx:id="btnCCNo" text="No" toggleGroup="$ccGroup">
                                  <VBox.margin>
                                     <Insets />
                                  </VBox.margin>
@@ -167,7 +167,7 @@
                               <Insets bottom="-10.0" />
                            </VBox.margin>
                            <children>
-                              <JFXRadioButton fx:id="testYesBtn" text="Yes">
+                              <JFXRadioButton fx:id="btnTestYes" text="Yes">
                                  <toggleGroup>
                                     <ToggleGroup fx:id="testGroup" />
                                  </toggleGroup>
@@ -175,7 +175,7 @@
                                     <Insets />
                                  </VBox.margin>
                               </JFXRadioButton>
-                              <JFXRadioButton fx:id="testNoBtn" text="No" toggleGroup="$testGroup">
+                              <JFXRadioButton fx:id="btnTestNo" text="No" toggleGroup="$testGroup">
                                  <VBox.margin>
                                     <Insets />
                                  </VBox.margin>
@@ -194,7 +194,7 @@
                      <children>
                         <HBox alignment="TOP_CENTER" HBox.hgrow="ALWAYS">
                            <children>
-                              <HBox alignment="BOTTOM_LEFT" HBox.hgrow="ALWAYS">
+                              <HBox alignment="BOTTOM_LEFT" prefHeight="77.0" prefWidth="0.0" HBox.hgrow="ALWAYS">
                                  <children>
                                     <JFXButton fx:id="btnBack" alignment="CENTER" buttonType="RAISED" cancelButton="true" contentDisplay="CENTER" onAction="#handleButtonAction" style="-fx-background-color: #0067B1; -fx-background-radius: 50%;" text="←" textAlignment="CENTER" textFill="WHITE">
                                        <font>
@@ -203,22 +203,23 @@
                                     </JFXButton>
                                  </children>
                                  <padding>
-                                    <Insets left="20.0" top="20.0" />
+                                    <Insets left="20.0" top="10.0" />
                                  </padding>
                               </HBox>
                            </children></HBox>
-                        <HBox alignment="CENTER" HBox.hgrow="ALWAYS">
+                        <HBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
                            <children>
-                              <JFXButton fx:id="btnSubmit" onAction="#handleButtonAction" style="-fx-background-color: f6bd39;" text="Submit">
-                                 <HBox.margin>
-                                    <Insets />
-                                 </HBox.margin>
+                              <JFXButton fx:id="btnSubmit" buttonType="RAISED" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39; -fx-background-radius: 7;" text="Submit">
+                                 <font>
+                                    <Font name="MS Reference Sans Serif" size="20.0" />
+                                 </font>
                               </JFXButton>
                            </children>
                            <HBox.margin>
                               <Insets left="60.0" />
                            </HBox.margin>
                         </HBox>
+                        <HBox prefWidth="200.0" />
                      </children>
                      <VBox.margin>
                         <Insets />

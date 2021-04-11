@@ -51,7 +51,7 @@ public class InternalTransportationRequestFormController implements Initializabl
             }
         }
 
-        if (bnt.getId().equals("SubmitB")) {
+        if (bnt.getId().equals("btnSubmit")) {
             try {
                 Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/requestForms/formSubmitted.fxml"));
                 App.getPrimaryStage().getScene().setRoot(root);
@@ -61,7 +61,7 @@ public class InternalTransportationRequestFormController implements Initializabl
                 }
         }
 
-        if (bnt.getId().equals("HelpB")) {
+        if (bnt.getId().equals("btnHelp")) {
             //Show the help page
         }
 

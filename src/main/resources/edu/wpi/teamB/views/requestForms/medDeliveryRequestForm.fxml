@@ -98,7 +98,7 @@
                      <children>
                         <HBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
                            <children>
-                              <JFXButton id="cancelBtn" fx:id="cancelBtn" buttonType="RAISED" cancelButton="true" onAction="#handleButtonAction" style="-fx-background-radius: 7; -fx-background-color: #0067B1;" text="Cancel" textFill="WHITE">
+                              <JFXButton id="btnCancel" fx:id="btnCancel" buttonType="RAISED" cancelButton="true" onAction="#handleButtonAction" style="-fx-background-radius: 7; -fx-background-color: #0067B1;" text="Cancel" textFill="WHITE">
                                  <font>
                                     <Font name="MS Reference Sans Serif" size="14.0" />
                                  </font>
@@ -110,7 +110,7 @@
                         </HBox>
                         <HBox alignment="CENTER" HBox.hgrow="ALWAYS">
                            <children>
-                              <JFXButton id="submitBtn" fx:id="submitBtn" buttonType="RAISED" onAction="#handleButtonAction" style="-fx-background-radius: 10; -fx-background-color: F6BD39;" text="Submit">
+                              <JFXButton id="btnSubmit" fx:id="btnSubmit" buttonType="RAISED" onAction="#handleButtonAction" style="-fx-background-radius: 10; -fx-background-color: F6BD39;" text="Submit">
                                  <font>
                                     <Font name="MS Reference Sans Serif" size="20.0" />
                                  </font>
@@ -122,7 +122,7 @@
                         </HBox>
                         <HBox alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS">
                            <children>
-                              <JFXButton id="helpBtn" fx:id="helpBtn" buttonType="RAISED" onAction="#handleButtonAction" style="-fx-background-color: #9A9999; -fx-background-radius: 50%;" text="?" textFill="WHITE">
+                              <JFXButton id="btnHelp" fx:id="btnHelp" buttonType="RAISED" onAction="#handleButtonAction" style="-fx-background-color: #9A9999; -fx-background-radius: 50%;" text="?" textFill="WHITE">
                                  <font>
                                     <Font name="MS Reference Sans Serif" size="18.0" />
                                  </font>
