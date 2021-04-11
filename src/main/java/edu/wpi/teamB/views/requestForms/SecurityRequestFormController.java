@@ -6,7 +6,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
 
 import java.io.IOException;
 
@@ -28,7 +27,7 @@ public class SecurityRequestFormController {
         }
 
         if (btn.getId().equals("SubmitB")) {
-                Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/formSubmitted.fxml"));
+                Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/requestForms/formSubmitted.fxml"));
                 App.getPrimaryStage().getScene().setRoot(root);
             }
         }

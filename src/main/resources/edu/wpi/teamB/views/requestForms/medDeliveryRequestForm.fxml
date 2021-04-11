@@ -113,7 +113,7 @@
                               </HBox>
                               <HBox alignment="CENTER" HBox.hgrow="ALWAYS">
                                  <children>
-                                    <JFXButton id="submitBtn" buttonType="RAISED" style="-fx-background-radius: 10; -fx-background-color: F6BD39;" text="Submit">
+                                    <JFXButton id="submitBtn" fx:id="submitBtn" buttonType="RAISED" onAction="#handleButtonAction" style="-fx-background-radius: 10; -fx-background-color: F6BD39;" text="Submit">
                                        <font>
                                           <Font name="MS Reference Sans Serif" size="20.0" />
                                        </font>

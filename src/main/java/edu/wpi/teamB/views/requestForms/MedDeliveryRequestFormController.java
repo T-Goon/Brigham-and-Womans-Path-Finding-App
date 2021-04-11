@@ -1,4 +1,4 @@
-package edu.wpi.teamB.views;
+package edu.wpi.teamB.views.requestForms;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextArea;
@@ -54,7 +54,7 @@ public class MedDeliveryRequestFormController {
 
         if (bnt.getId().equals("submitBtn")) {
             try {
-                Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/formSubmitted.fxml"));
+                Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/requestForms/formSubmitted.fxml"));
                 App.getPrimaryStage().getScene().setRoot(root);
             } catch (IOException ex) {
                 ex.printStackTrace();
