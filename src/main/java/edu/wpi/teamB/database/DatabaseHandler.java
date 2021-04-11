@@ -12,14 +12,22 @@ public class DatabaseHandler {
     private Connection databaseConnection;
 
     // Singleton
-    private static final DatabaseHandler handler = new DatabaseHandler();
+    private static DatabaseHandler handler;
 
     private DatabaseHandler() {
     }
 
+    /**
+     *
+     * @param dbURL the path to the database (should default to "main.db"
+     * @return the database handler
+     */
     public static DatabaseHandler getDatabaseHandler(String dbURL) {
-        handler.databaseURL = URL_BASE + dbURL;
-        handler.databaseConnection = handler.getConnection();
+        if (handler == null) {
+            handler = new DatabaseHandler();
+            handler.databaseURL = URL_BASE + dbURL;
+            handler.databaseConnection = handler.getConnection();
+        } else if (!dbURL.equals(handler.databaseURL)) throw new IllegalArgumentException("Trying to change where the database handler points!");
         return handler;
     }
 
