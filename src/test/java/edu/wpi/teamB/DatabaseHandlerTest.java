@@ -108,21 +108,21 @@ public class DatabaseHandlerTest {
         nodes.add(targetNode9);
         Edge targetEdge = new Edge("bPARK01201_bWALK00501", "bPARK01201", "bWALK00501");
         edges.add(targetEdge);
-        String query2 = "SELECT * FROM Edges";
+
         try {
             db.fillDatabase(edges, nodes);
             List<Node> outnodes = db.getNodeInformation();
             assert(outnodes.containsAll(nodes));
             List<Edge> outedges = db.getEdgeInformation();
             assertEquals(outedges.get(0), targetEdge);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
     }
 
     @Test
-    public void testUpdateNodeCoordinates() throws SQLException {
+    public void testUpdateNode() throws SQLException {
         List<Node> actual = new ArrayList<>();
         List<Edge> edges = new ArrayList<>();
         Node target = new Node("testNode",
@@ -139,36 +139,38 @@ public class DatabaseHandlerTest {
         String nodeID = target.getNodeID();
         int xcoord = 1;
         int ycoord = 2;
-        db.updateNodeCoordinates(nodeID, xcoord, ycoord);
-
-        String query = "SELECT xcoord FROM Nodes WHERE nodeID = '" + nodeID + "'";
-        System.out.println(query);
+        int floor = 3;
+        String building = "Parking";
+        String nodeType = "PARK";
+        String longName = "Left Parking Lot Spot 10";
+        String shortName = "LLot10";
+        db.updateNode(nodeID, xcoord, ycoord, floor, building, nodeType, longName, shortName);
 
         List<Node> nodes = db.getNodeInformation();
         assertEquals(1, nodes.get(0).getXCoord());
         assertEquals(2, nodes.get(0).getYCoord());
+        assertEquals(3, nodes.get(0).getFloor());
+        assertEquals("Parking", nodes.get(0).getBuilding());
+        assertEquals("PARK", nodes.get(0).getNodeType());
+        assertEquals("Left Parking Lot Spot 10", nodes.get(0).getLongName());
+        assertEquals("LLot10", nodes.get(0).getShortName());
     }
 
     @Test
-    public void testUpdateNodeLocationLongName() throws SQLException {
-        List<Node> actual = new ArrayList<>();
-        List<Edge> edges = new ArrayList<>();
-        Node target = new Node("testNode",
-                0,
-                -992,
-                1,
-                "test_building",
-                "NODETYPE",
-                "Name With Many Spaces",
-                "N W M S");
+    public void testUpdateEdge() throws SQLException {
+        List<Node> nodes = new ArrayList<>();
+        List<Edge> actual = new ArrayList<>();
+        Edge target = new Edge("bPARK01201_bWALK00501", "test_start", "test_end");
         actual.add(target);
-        db.fillDatabase(edges, actual);
+        db.fillDatabase(actual, nodes);
 
-        String nodeID = target.getNodeID();
-        String longName = "test";
-        db.updateNodeLocationLongName(nodeID, longName);
+        String edgeID = target.getEdgeID();
+        String startNode = "bPARK01201";
+        String endNode = "bWALK00501";
+        db.updateEdge(edgeID, startNode, endNode);
 
-        List<Node> outnodes = db.getNodeInformation();
-        assertEquals("test", db.getNodeInformation().get(0).getLongName());
+        List<Edge> edges = db.getEdgeInformation();
+        assertEquals("bPARK01201", edges.get(0).getStartNodeName());
+        assertEquals("bWALK00501", edges.get(0).getEndNodeName());
     }
 }

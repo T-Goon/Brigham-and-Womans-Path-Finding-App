@@ -178,7 +178,7 @@ public class DatabaseHandler {
         String query = "UPDATE Edges SET startNode = '" + startNode + "', endNode = '" + endNode + "' WHERE edgeID = '" + edgeID + "'";
 
         try {
-            // If no rows are updated, then the node ID is not in the table
+            // If no rows are updated, then the edge ID is not in the table
             if (statement.executeUpdate(query) == 0)
                 System.err.println("Edge ID does not exist in the table!");
         } catch (SQLException e) {
