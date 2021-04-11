@@ -19,7 +19,7 @@
          <children>
             <ImageView fitHeight="114.0" fitWidth="314.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../images/hospitalLogo.png" />
+                  <Image url="@../../images/general/hospitalLogo.png" />
                </image>
                <HBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -63,12 +63,12 @@
                   </Text>
                </children>
             </HBox>
-            <JFXTextField promptText="Location" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f1f1f1">
+            <JFXTextField promptText="Location" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f0f0f000">
                <VBox.margin>
                   <Insets top="10.0" />
                </VBox.margin>
             </JFXTextField>
-            <JFXComboBox maxWidth="1.7976931348623157E308" promptText="Type" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f1f1f1">
+            <JFXComboBox maxWidth="1.7976931348623157E308" promptText="Type" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f0f0f000">
                <VBox.margin>
                   <Insets bottom="10.0" top="10.0" />
                </VBox.margin>
@@ -80,7 +80,7 @@
                         <Font size="14.0" />
                      </font>
                   </Text>
-                  <JFXTextArea style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f1f1f1" />
+                  <JFXTextArea style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f0f0f000" />
                </children>
             </VBox>
             <HBox prefWidth="200.0">
@@ -95,17 +95,17 @@
                   </Label>
                </children>
             </HBox>
-            <JFXTextField style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f1f1f1">
+            <JFXTextField style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f0f0f000">
                <VBox.margin>
                   <Insets bottom="3.0" />
                </VBox.margin>
             </JFXTextField>
-            <JFXTextField style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f1f1f1">
+            <JFXTextField style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f0f0f000">
                <VBox.margin>
                   <Insets bottom="3.0" />
                </VBox.margin>
             </JFXTextField>
-            <JFXTextField style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f1f1f1" />
+            <JFXTextField style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f0f0f000" />
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
                   <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">

@@ -19,7 +19,7 @@
                <children>
                   <ImageView fitHeight="114.0" fitWidth="314.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../images/hospitalLogo.png" />
+                        <Image url="@../../images/general/hospitalLogo.png" />
                      </image>
                      <HBox.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -55,7 +55,7 @@
                            <graphic>
                               <ImageView fitHeight="200.0" fitWidth="161.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../../images/checkbutton.png" />
+                                    <Image url="@../../images/menus/checkButton.png" />
                                  </image>
                                  <viewport>
                                     <Rectangle2D />
@@ -74,7 +74,7 @@
                            <graphic>
                               <ImageView fitHeight="180.0" fitWidth="161.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../../images/directionsbutton.png" />
+                                    <Image url="@../../images/menus/directionsButton.png" />
                                  </image>
                               </ImageView>
                            </graphic>
@@ -90,7 +90,7 @@
                            <graphic>
                               <ImageView fitHeight="180.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../../images/servicerequestsbutton.png" />
+                                    <Image url="@../../images/menus/serviceRequestsButton.png" />
                                  </image>
                               </ImageView>
                            </graphic>

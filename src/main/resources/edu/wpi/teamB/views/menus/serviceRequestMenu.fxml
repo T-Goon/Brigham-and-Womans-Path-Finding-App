@@ -18,7 +18,7 @@
          <children>
             <ImageView fitHeight="114.0" fitWidth="314.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../images/hospitalLogo.png" />
+                  <Image url="@../../images/general/hospitalLogo.png" />
                </image>
                <HBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -70,7 +70,7 @@
                      <graphic>
                         <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../images/sanitationIcon.png" />
+                              <Image url="@../../images/requestForms/sanitationIcon.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -94,7 +94,7 @@
                      <graphic>
                         <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../images/flowerIcon.png" />
+                              <Image url="@../../images/requestForms/flowerIcon.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -118,7 +118,7 @@
                      <graphic>
                         <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../images/medsIcon.png" />
+                              <Image url="@../../images/requestForms/medsIcon.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -142,7 +142,7 @@
                      <graphic>
                         <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../images/securityIcon.png" />
+                              <Image url="@../../images/requestForms/securityIcon.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -166,7 +166,7 @@
                      <graphic>
                         <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../images/wheelChairIcon.png" />
+                              <Image url="@../../images/requestForms/wheelChairIcon.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -190,7 +190,7 @@
                      <graphic>
                         <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../images/ambulance.png" />
+                              <Image url="@../../images/requestForms/ambulance.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -214,7 +214,7 @@
                      <graphic>
                         <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../images/religiousIcon.png" />
+                              <Image url="@../../images/requestForms/religiousIcon.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -238,7 +238,7 @@
                      <graphic>
                         <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../images/forkIcon.png" />
+                              <Image url="@../../images/requestForms/forkIcon.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -262,7 +262,7 @@
                      <graphic>
                         <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../images/laundryIcon.png" />
+                              <Image url="@../../images/requestForms/laundryIcon.png" />
                            </image>
                         </ImageView>
                      </graphic>
