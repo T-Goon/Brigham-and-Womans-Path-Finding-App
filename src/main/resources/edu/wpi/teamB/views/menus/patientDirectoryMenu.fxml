@@ -2,7 +2,6 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import javafx.geometry.Insets?>
-<?import javafx.geometry.Rectangle2D?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -51,15 +50,12 @@
                <children>
                   <VBox prefHeight="200.0" prefWidth="100.0">
                      <children>
-                        <JFXButton fx:id="covidBtn" onAction="#handleButtonAction">
+                        <JFXButton fx:id="covidBtn" buttonType="RAISED" onAction="#handleButtonAction" textOverrun="CLIP">
                            <graphic>
-                              <ImageView fitHeight="200.0" fitWidth="161.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../../images/menus/checkButton.png" />
                                  </image>
-                                 <viewport>
-                                    <Rectangle2D />
-                                 </viewport>
                               </ImageView>
                            </graphic>
                         </JFXButton>
@@ -70,9 +66,9 @@
                   </VBox>
                   <VBox prefHeight="200.0" prefWidth="100.0">
                      <children>
-                        <JFXButton fx:id="directionsBtn" onAction="#handleButtonAction">
+                        <JFXButton fx:id="directionsBtn" buttonType="RAISED" onAction="#handleButtonAction" textOverrun="CLIP">
                            <graphic>
-                              <ImageView fitHeight="180.0" fitWidth="161.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../../images/menus/directionsButton.png" />
                                  </image>
@@ -86,9 +82,9 @@
                   </VBox>
                   <VBox prefHeight="200.0" prefWidth="100.0">
                      <children>
-                        <JFXButton fx:id="serviceBtn" onAction="#handleButtonAction">
+                        <JFXButton fx:id="serviceBtn" buttonType="RAISED" onAction="#handleButtonAction" textOverrun="CLIP">
                            <graphic>
-                              <ImageView fitHeight="180.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../../images/menus/serviceRequestsButton.png" />
                                  </image>
