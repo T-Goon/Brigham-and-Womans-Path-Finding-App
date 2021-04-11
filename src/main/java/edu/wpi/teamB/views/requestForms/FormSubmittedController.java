@@ -22,7 +22,7 @@ public class FormSubmittedController {
 
         if (bnt.getId().equals("btnReturn")) {
             try {
-                Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/menus/serviceRequestMenu.fxml"));
+                Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/menus/patientDirectoryMenu.fxml"));
                 App.getPrimaryStage().getScene().setRoot(root);
             } catch (IOException ex) {
                 ex.printStackTrace();
