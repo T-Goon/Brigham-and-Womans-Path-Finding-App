@@ -1,14 +1,18 @@
-package edu.wpi.teamB.views;
+package edu.wpi.teamB.views.secondaryForms;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXRadioButton;
+import edu.wpi.teamB.App;
+import edu.wpi.teamB.util.SceneSwitcher;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -26,10 +30,10 @@ import java.util.ResourceBundle;
 
 public class CovidSurveyController implements Initializable {
     @FXML
-    private JFXButton submitBtn;
+    private JFXButton btnSubmit;
 
     @FXML
-    private JFXButton backBtn;
+    private JFXButton btnBack;
 
     @FXML
     private JFXRadioButton ccYesBtn;
@@ -53,20 +57,23 @@ public class CovidSurveyController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         ccYesBtn.setToggleGroup(ccGroup);
         ccNoBtn.setToggleGroup(ccGroup);
-        testNoBtn.setToggleGroup(testGroup);
         testYesBtn.setToggleGroup(testGroup);
-    }
+        testNoBtn.setToggleGroup(testGroup);
 
-    @FXML
-    public void ccQuestion() {
-    }
-
-    @FXML
-    public void testQuestion() {
     }
 
     @FXML
     void handleButtonAction(ActionEvent e) throws IOException {
+        JFXButton btn = (JFXButton) e.getSource();
+
+        if (btn.getId().equals("btnBack")) {
+            try {
+                Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/menus/patientDirectoryMenu.fxml"));
+                App.getPrimaryStage().getScene().setRoot(root);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
     }
 
 
