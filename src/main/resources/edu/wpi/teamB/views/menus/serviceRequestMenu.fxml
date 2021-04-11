@@ -269,7 +269,7 @@
       </FlowPane>
       <HBox alignment="BOTTOM_LEFT" VBox.vgrow="ALWAYS">
          <children>
-            <JFXButton fx:id="backBtn" alignment="CENTER" cancelButton="true" contentDisplay="CENTER" onAction="#handleButtonAction" style="-fx-background-color: #0067B1; -fx-background-radius: 50%;" text="←" textAlignment="CENTER" textFill="WHITE">
+            <JFXButton fx:id="backBtn" alignment="CENTER" buttonType="RAISED" cancelButton="true" contentDisplay="CENTER" onAction="#handleButtonAction" style="-fx-background-color: #0067B1; -fx-background-radius: 50%;" text="←" textAlignment="CENTER" textFill="WHITE">
                <font>
                   <Font size="27.0" />
                </font>

@@ -52,7 +52,7 @@
             <Insets bottom="10.0" left="50.0" right="50.0" top="10.0" />
          </VBox.margin>
          <children>
-            <VBox alignment="CENTER" style="-fx-background-color: white;">
+            <VBox alignment="CENTER" spacing="10.0" style="-fx-background-color: white;">
                <children>
                   <Text fill="#0067b1" strokeType="OUTSIDE" strokeWidth="0.0" text="COVID-19 Symptom Survey" textAlignment="CENTER" VBox.vgrow="NEVER">
                      <VBox.margin>
@@ -62,9 +62,12 @@
                         <Font name="MS Reference Sans Serif" size="30.0" />
                      </font>
                   </Text>
-                  <VBox prefHeight="200.0" prefWidth="100.0">
+                  <VBox prefHeight="200.0" prefWidth="100.0" spacing="3.0">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Are you experiencing any of the following symptoms? Please check all that apply " />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Are you experiencing any of the following symptoms? Please check all that apply:">
+                           <font>
+                              <Font name="MS Reference Sans Serif" size="15.0" />
+                           </font></Text>
                         <VBox spacing="5.0">
                            <children>
                               <JFXCheckBox checkedColor="#f6bd39" text="Fever">
@@ -117,14 +120,14 @@
                         <Insets left="15.0" />
                      </VBox.margin>
                   </VBox>
-                  <VBox>
+                  <VBox spacing="5.0">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Have you been in close contact with someone diagnosed with COVID-19 in the last 14 days?">
                            <font>
                               <Font name="MS Reference Sans Serif" size="15.0" />
                            </font>
                         </Text>
-                        <VBox spacing="5.0">
+                        <VBox spacing="10.0">
                            <padding>
                               <Insets left="20.0" />
                            </padding>
@@ -134,12 +137,12 @@
                                     <ToggleGroup fx:id="ccGroup" />
                                  </toggleGroup>
                                  <VBox.margin>
-                                    <Insets top="3.0" />
+                                    <Insets />
                                  </VBox.margin>
                               </JFXRadioButton>
                               <JFXRadioButton fx:id="ccNoBtn" text="No" toggleGroup="$ccGroup">
                                  <VBox.margin>
-                                    <Insets top="3.0" />
+                                    <Insets />
                                  </VBox.margin>
                               </JFXRadioButton>
                            </children>
@@ -149,14 +152,14 @@
                         <Insets left="15.0" />
                      </VBox.margin>
                   </VBox>
-                  <VBox>
+                  <VBox spacing="5.0">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Have you revieved a positive COVID test within the last 14 days?">
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Have you received a positive COVID test within the last 14 days?">
                            <font>
                               <Font name="MS Reference Sans Serif" size="15.0" />
                            </font>
                         </Text>
-                        <VBox spacing="5.0">
+                        <VBox spacing="10.0">
                            <padding>
                               <Insets left="20.0" />
                            </padding>
@@ -169,12 +172,12 @@
                                     <ToggleGroup fx:id="testGroup" />
                                  </toggleGroup>
                                  <VBox.margin>
-                                    <Insets top="3.0" />
+                                    <Insets />
                                  </VBox.margin>
                               </JFXRadioButton>
                               <JFXRadioButton fx:id="testNoBtn" text="No" toggleGroup="$testGroup">
                                  <VBox.margin>
-                                    <Insets top="3.0" />
+                                    <Insets />
                                  </VBox.margin>
                               </JFXRadioButton>
                            </children>
@@ -189,7 +192,21 @@
                   </VBox>
                   <HBox alignment="CENTER">
                      <children>
-                        <HBox alignment="TOP_CENTER" HBox.hgrow="ALWAYS" />
+                        <HBox alignment="TOP_CENTER" HBox.hgrow="ALWAYS">
+                           <children>
+                              <HBox alignment="BOTTOM_LEFT" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <JFXButton fx:id="btnBack" alignment="CENTER" buttonType="RAISED" cancelButton="true" contentDisplay="CENTER" onAction="#handleButtonAction" style="-fx-background-color: #0067B1; -fx-background-radius: 50%;" text="←" textAlignment="CENTER" textFill="WHITE">
+                                       <font>
+                                          <Font size="27.0" />
+                                       </font>
+                                    </JFXButton>
+                                 </children>
+                                 <padding>
+                                    <Insets left="20.0" top="20.0" />
+                                 </padding>
+                              </HBox>
+                           </children></HBox>
                         <HBox alignment="CENTER" HBox.hgrow="ALWAYS">
                            <children>
                               <JFXButton fx:id="btnSubmit" onAction="#handleButtonAction" style="-fx-background-color: f6bd39;" text="Submit">
@@ -201,15 +218,6 @@
                            <HBox.margin>
                               <Insets left="60.0" />
                            </HBox.margin>
-                        </HBox>
-                        <HBox alignment="BOTTOM_RIGHT" HBox.hgrow="ALWAYS">
-                           <children>
-                              <JFXButton fx:id="btnBack" onAction="#handleButtonAction" style="-fx-background-color: #0067B1;" text="&lt; Back" textFill="WHITE">
-                                 <HBox.margin>
-                                    <Insets />
-                                 </HBox.margin>
-                              </JFXButton>
-                           </children>
                         </HBox>
                      </children>
                      <VBox.margin>
