@@ -15,7 +15,7 @@ public class Graph {
     return adjNodes;
   }
 
-
+  //testing
   public static List<Node> findAdjNodes(String ID) {
     List<Node> adjNodeList = new ArrayList<>();
     List<Edge> edgeInfo = Read.parseCSVEdges();
@@ -48,6 +48,7 @@ public class Graph {
    * @param end   the ending NodeID
    * @return a stack of the path of nodeIDs from start to end
    */
+
   public static Stack<String> dfs(String start, String end) {
     List<String> visited = new ArrayList<>();
     return dfsHelper(start, end, visited);
@@ -93,14 +94,15 @@ public class Graph {
     return stack;
   }
 
-  private static double dist(Node start, Node end) {
-    double dist = Math.sqrt(Math.pow((start.getXCoord() - end.getXCoord()), 2) + Math.pow((start.getYCoord() + start.getYCoord()), 2));
-    return dist;
+  //test dist
+  public static double dist(Node start, Node end) {
+    double dist = Math.pow((start.getXCoord() - end.getXCoord()), 2) + Math.pow((start.getYCoord() + end.getYCoord()), 2);
+    return Math.sqrt(dist);
   }
 
 
   //putting values in hashmap
-  private static HashMap<String, Node> populateHashmap(Collection<Node> nodes) {
+  public static HashMap<String, Node> populateHashmap(Collection<Node> nodes) {
     HashMap<String, Node> spInfo = new HashMap<>();
 
     for (Node node : nodes) {
@@ -126,9 +128,13 @@ public class Graph {
     return result;
   }
 
-  private static HashMap<String, Node> AStrHashTable(Node start, Node end) {
+  private static HashMap<String, Node> AStrHashTable(Node startStr, Node endStr) {
     HashMap<String, List<Node>> adjMat = initHashMap();
     HashMap<String, Node> nodes = Read.parseCSVNodes();
+
+    Node start = nodes.get(startStr);
+    Node end = nodes.get(endStr);
+
     HashMap<String, Node> shortPathInfo = populateHashmap(nodes.values());
     List<Node> adjList;
     List<Node> close = new ArrayList<>();
@@ -193,7 +199,6 @@ public class Graph {
     for(String stack: path){
       String add = path.pop();
       fPath.add(add);
-
     }
     return fPath;
   }
