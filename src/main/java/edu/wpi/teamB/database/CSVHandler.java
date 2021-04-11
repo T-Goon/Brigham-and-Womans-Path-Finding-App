@@ -102,7 +102,7 @@ public class CSVHandler {
 
         // Write to the file
         try {
-            FileOutputStream out = new FileOutputStream(path.toAbsolutePath() + "MapBNodes.csv");
+            FileOutputStream out = new FileOutputStream(path.toAbsolutePath() + "/MapBNodes.csv");
             out.write(sb.toString().getBytes(StandardCharsets.UTF_8));
             out.close();
         } catch (IOException e) {
@@ -130,7 +130,7 @@ public class CSVHandler {
 
         // Write to the file
         try {
-            FileOutputStream out = new FileOutputStream(path.toAbsolutePath() + "MapBEdges.csv");
+            FileOutputStream out = new FileOutputStream(path.toAbsolutePath() + "/MapBEdges.csv");
             out.write(sb.toString().getBytes(StandardCharsets.UTF_8));
             out.close();
         } catch (IOException e) {
