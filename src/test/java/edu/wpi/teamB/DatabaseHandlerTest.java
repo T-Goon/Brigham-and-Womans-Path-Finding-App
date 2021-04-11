@@ -144,7 +144,7 @@ public class DatabaseHandlerTest {
         String nodeType = "PARK";
         String longName = "Left Parking Lot Spot 10";
         String shortName = "LLot10";
-        db.updateNode(nodeID, xcoord, ycoord, floor, building, nodeType, longName, shortName);
+        db.updateNode(new Node(nodeID, xcoord, ycoord, floor, building, nodeType, longName, shortName));
 
         List<Node> nodes = db.getNodeInformation();
         assertEquals(1, nodes.get(0).getXCoord());
@@ -167,7 +167,7 @@ public class DatabaseHandlerTest {
         String edgeID = target.getEdgeID();
         String startNode = "bPARK01201";
         String endNode = "bWALK00501";
-        db.updateEdge(edgeID, startNode, endNode);
+        db.updateEdge(new Edge(edgeID, startNode, endNode));
 
         List<Edge> edges = db.getEdgeInformation();
         assertEquals("bPARK01201", edges.get(0).getStartNodeName());

@@ -2,6 +2,7 @@ package edu.wpi.teamB;
 
 import java.io.IOException;
 
+import edu.wpi.teamB.database.DatabaseHandler;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -15,10 +16,12 @@ import javafx.stage.Stage;
 public class App extends Application {
 
     private static Stage primaryStage;
+    private DatabaseHandler db;
 
     @Override
     public void init() {
         System.out.println("Starting Up");
+        db = DatabaseHandler.getDatabaseHandler("main.db");
     }
 
     @Override
@@ -57,6 +60,7 @@ public class App extends Application {
 
     @Override
     public void stop() {
+        DatabaseHandler.getDatabaseHandler("main.db").shutdown();
         System.out.println("Shutting Down");
     }
 }

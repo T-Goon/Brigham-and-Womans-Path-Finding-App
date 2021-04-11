@@ -18,7 +18,6 @@ public class DatabaseHandler {
     }
 
     /**
-     *
      * @param dbURL the path to the database (should default to "main.db"
      * @return the database handler
      */
@@ -27,7 +26,8 @@ public class DatabaseHandler {
             handler = new DatabaseHandler();
             handler.databaseURL = URL_BASE + dbURL;
             handler.databaseConnection = handler.getConnection();
-        } else if (!dbURL.equals(handler.databaseURL)) throw new IllegalArgumentException("Trying to change where the database handler points!");
+        } else if (!(URL_BASE + dbURL).equals(handler.databaseURL))
+            throw new IllegalArgumentException("Trying to change where the database handler points!");
         return handler;
     }
 
@@ -161,18 +161,17 @@ public class DatabaseHandler {
     /**
      * Updates the node with the specified ID.
      */
-    public void updateNode(String nodeID, int xcoord, int ycoord, int floor, String building, String nodeType, String longName, String shortName) {
-
+    public void updateNode(Node node) {
         Statement statement = this.getStatement();
 
-        String query = "UPDATE Nodes SET xcoord = " + xcoord
-                + ", ycoord = " + ycoord
-                + ", floor = " + floor
-                + ", building = '" + building
-                + "', nodeType = '" + nodeType
-                + "', longName = '" + longName
-                + "', shortName = '" + shortName
-                + "' WHERE nodeID = '" + nodeID + "'";
+        String query = "UPDATE Nodes SET xcoord = " + node.getXCoord()
+                + ", ycoord = " + node.getYCoord()
+                + ", floor = " + node.getFloor()
+                + ", building = '" + node.getBuilding()
+                + "', nodeType = '" + node.getNodeType()
+                + "', longName = '" + node.getLongName()
+                + "', shortName = '" + node.getShortName()
+                + "' WHERE nodeID = '" + node.getNodeID() + "'";
 
         try {
             // If no rows are updated, then the node ID is not in the table
@@ -186,11 +185,9 @@ public class DatabaseHandler {
     /**
      * Updates the edge with the specified ID.
      */
-    public void updateEdge(String edgeID, String startNode, String endNode) {
-
+    public void updateEdge(Edge edge) {
         Statement statement = this.getStatement();
-
-        String query = "UPDATE Edges SET startNode = '" + startNode + "', endNode = '" + endNode + "' WHERE edgeID = '" + edgeID + "'";
+        String query = "UPDATE Edges SET startNode = '" + edge.getStartNodeName() + "', endNode = '" + edge.getEndNodeName() + "' WHERE edgeID = '" + edge.getEdgeID() + "'";
 
         try {
             // If no rows are updated, then the edge ID is not in the table
