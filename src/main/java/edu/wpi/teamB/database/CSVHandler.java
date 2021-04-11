@@ -85,9 +85,15 @@ public class CSVHandler {
      * and saves it to a directory specified by the user
      *
      * @param path directory where to save nodes csv
+     * @param testing whether it's being tested or not
+     * @return the string representation of the csv file
      */
-    public static void saveCSVNodes(Path path) throws SQLException {
-        List<Node> nodes = DatabaseHandler.getDatabaseHandler("main.db").getNodeInformation();
+    public static String saveCSVNodes(Path path, boolean testing) throws SQLException {
+        // Check if testing or running the application
+        String dbName = "main.db";
+        if (testing) dbName = "test.db";
+
+        List<Node> nodes = DatabaseHandler.getDatabaseHandler(dbName).getNodeInformation();
 
         // make string representation of csv file
         StringBuilder sb = new StringBuilder();
@@ -111,6 +117,8 @@ public class CSVHandler {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        return sb.toString();
     }
 
     /**
@@ -118,9 +126,15 @@ public class CSVHandler {
      * and saves it to a directory specified by the user
      *
      * @param path directory where to save edges csv
+     * @param testing whether it's being tested or not
+     * @return the string representation of the csv file
      */
-    public static void saveCSVEdges(Path path) throws SQLException {
-        List<Edge> edges = DatabaseHandler.getDatabaseHandler("main.db").getEdgeInformation();
+    public static String saveCSVEdges(Path path, boolean testing) throws SQLException {
+        // Check if testing or running the application
+        String dbName = "main.db";
+        if (testing) dbName = "test.db";
+
+        List<Edge> edges = DatabaseHandler.getDatabaseHandler(dbName).getEdgeInformation();
 
         // make string representation of csv file
         StringBuilder sb = new StringBuilder();
@@ -139,5 +153,7 @@ public class CSVHandler {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        return sb.toString();
     }
 }
