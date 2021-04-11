@@ -1,12 +1,18 @@
-package edu.wpi.teamB.views;
+package edu.wpi.teamB.views.menus;
 
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.teamB.App;
+import edu.wpi.teamB.util.SceneSwitcher;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.layout.Pane;
+import javafx.scene.transform.Scale;
 
 import java.io.IOException;
 
@@ -40,48 +46,56 @@ public class ServiceRequestMenuController {
     private JFXButton btnFoodDelivery;
 
     @FXML
+    private JFXButton backBtn;
+
+    @FXML
     private void handleButtonAction(ActionEvent e) {
 
         Button btn = (Button) e.getSource();
 
-        String path = "/edu/wpi/teamB/views/";
+        String viewsPath = "/edu/wpi/teamB/views/requestForms/";
+        String menusPath = "/edu/wpi/teamB/views/menus/";
+
+        String path;
         switch (btn.getId()) {
             case "btnMedicine":
-                path = path + "medDeliveryRequestForm.fxml";
+                path = viewsPath + "medDeliveryRequestForm.fxml";
                 break;
             case "btnSanitation":
-                path = path + "sanitationRequestForm.fxml";
+                path = viewsPath + "sanitationRequestForm.fxml";
                 break;
             case "btnIntTransp":
-                path = path + "internalTransportationRequestForm.fxml";
+                path = viewsPath + "internalTransportationRequestForm.fxml";
                 break;
             case "btnSecurity":
-                path = path + "securityRequestForm.fxml";
+                path = viewsPath + "securityRequestForm.fxml";
                 break;
             case "btnFloralDelivery":
-                path = path + "floralDeliveryRequestForm.fxml";
+                path = viewsPath + "floralDeliveryRequestForm.fxml";
                 break;
             case "btnExtTransp":
-                path = path + "externalTransportationRequestForm.fxml";
+                path = viewsPath + "externalTransportationRequestForm.fxml";
                 break;
             case "btnReligiousRequest":
-                path = path + "religiousRequestForm.fxml";
+                path = viewsPath + "religiousRequestForm.fxml";
                 break;
             case "btnFoodDelivery":
-                path = path + "foodDeliveryRequestForm.fxml";
+                path = viewsPath + "foodDeliveryRequestForm.fxml";
                 break;
             case "btnLaundryRequest":
-                path = path + "laundryRequestForm.fxml";
+                path = viewsPath + "laundryRequestForm.fxml";
+                break;
+            case "backBtn":
+                path = menusPath + "patientDirectoryMenu.fxml";
                 break;
             default:
                 throw new IllegalStateException("WHAT BUTTON IS THIS AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
         }
 
         try {
-            Parent root = FXMLLoader.load(getClass().getResource(path));
-            App.getPrimaryStage().getScene().setRoot(root);
-        } catch (IOException ex) {
-            ex.printStackTrace();
+            SceneSwitcher.switchScene(getClass(), path);
+        } catch (IOException err) {
+            err.printStackTrace();
         }
     }
 }

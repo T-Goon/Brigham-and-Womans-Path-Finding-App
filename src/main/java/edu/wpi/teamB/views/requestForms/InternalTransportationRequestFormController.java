@@ -1,4 +1,4 @@
-package edu.wpi.teamB.views;
+package edu.wpi.teamB.views.requestForms;
 
 import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.teamB.App;
@@ -44,7 +44,7 @@ public class InternalTransportationRequestFormController implements Initializabl
         if (bnt.getId().equals("btnCancel")) {
             // Go back to the service request menu
             try {
-                Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/serviceRequestMenu.fxml"));
+                Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/menus/serviceRequestMenu.fxml"));
                 App.getPrimaryStage().getScene().setRoot(root);
             } catch (IOException ex) {
                 ex.printStackTrace();

@@ -1,4 +1,4 @@
-package edu.wpi.teamB.views;
+package edu.wpi.teamB.views.requestForms;
 
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.teamB.App;
@@ -9,7 +9,7 @@ import javafx.scene.Parent;
 
 import java.io.IOException;
 
-public class ReligiousRequestFormController {
+public class FoodDeliveryRequestFormController {
 
     @FXML
     private JFXButton btnCancel;
@@ -30,7 +30,7 @@ public class ReligiousRequestFormController {
         switch(btn.getId()) {
             case "btnCancel":
                 try {
-                    Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/serviceRequestMenu.fxml"));
+                    Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/menus/serviceRequestMenu.fxml"));
                     App.getPrimaryStage().getScene().setRoot(root);
                     break;
                 } catch (IOException ex) {
