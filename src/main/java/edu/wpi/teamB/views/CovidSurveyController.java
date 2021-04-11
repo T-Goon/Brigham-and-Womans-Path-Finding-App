@@ -19,25 +19,33 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.fxml.Initializable;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class CovidSurveyController implements Initializable{
+public class CovidSurveyController implements Initializable {
     @FXML
     private JFXButton submitBtn;
+
     @FXML
     private JFXButton backBtn;
+
     @FXML
     private JFXRadioButton ccYesBtn;
+
     @FXML
     private JFXRadioButton ccNoBtn;
+
     @FXML
     private JFXRadioButton testYesBtn;
+
     @FXML
     private JFXRadioButton testNoBtn;
+
     @FXML
     private ToggleGroup ccGroup;
+
     @FXML
     private ToggleGroup testGroup;
 
@@ -49,8 +57,17 @@ public class CovidSurveyController implements Initializable{
         testYesBtn.setToggleGroup(testGroup);
     }
 
-        @FXML
-    void handleButtonAction(ActionEvent e) throws IOException {}
+    @FXML
+    public void ccQuestion() {
+    }
+
+    @FXML
+    public void testQuestion() {
+    }
+
+    @FXML
+    void handleButtonAction(ActionEvent e) throws IOException {
+    }
 
 
 }
