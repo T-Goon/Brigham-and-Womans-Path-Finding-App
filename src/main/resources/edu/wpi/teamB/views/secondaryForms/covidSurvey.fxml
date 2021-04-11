@@ -68,48 +68,78 @@
                            <font>
                               <Font name="MS Reference Sans Serif" size="15.0" />
                            </font></Text>
-                        <VBox spacing="5.0">
+                        <VBox spacing="5.0" stylesheets="@../../css/covidSurvey.css">
                            <children>
                               <JFXCheckBox checkedColor="#f6bd39" text="Fever">
                                  <VBox.margin>
-                                    <Insets top="3.0" />
-                                 </VBox.margin></JFXCheckBox>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </VBox.margin>
+                                 <font>
+                                    <Font name="MS Reference Sans Serif" size="14.0" />
+                                 </font></JFXCheckBox>
                               <JFXCheckBox checkedColor="#f6bd39" text="Chills">
                                  <VBox.margin>
-                                    <Insets top="3.0" />
-                                 </VBox.margin></JFXCheckBox>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </VBox.margin>
+                                 <font>
+                                    <Font name="MS Reference Sans Serif" size="14.0" />
+                                 </font></JFXCheckBox>
                               <JFXCheckBox checkedColor="#f6bd39" text="Cough">
                                  <VBox.margin>
-                                    <Insets top="3.0" />
-                                 </VBox.margin></JFXCheckBox>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </VBox.margin>
+                                 <font>
+                                    <Font name="MS Reference Sans Serif" size="14.0" />
+                                 </font></JFXCheckBox>
                               <JFXCheckBox checkedColor="#f6bd39" text="Shortness of Breath">
                                  <VBox.margin>
-                                    <Insets top="3.0" />
-                                 </VBox.margin></JFXCheckBox>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </VBox.margin>
+                                 <font>
+                                    <Font name="MS Reference Sans Serif" size="14.0" />
+                                 </font></JFXCheckBox>
                               <JFXCheckBox checkedColor="#f6bd39" text="Sore Throat">
                                  <VBox.margin>
-                                    <Insets top="3.0" />
-                                 </VBox.margin></JFXCheckBox>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </VBox.margin>
+                                 <font>
+                                    <Font name="MS Reference Sans Serif" size="14.0" />
+                                 </font></JFXCheckBox>
                               <JFXCheckBox checkedColor="#f6bd39" text="Headache">
                                  <VBox.margin>
-                                    <Insets top="3.0" />
-                                 </VBox.margin></JFXCheckBox>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </VBox.margin>
+                                 <font>
+                                    <Font name="MS Reference Sans Serif" size="14.0" />
+                                 </font></JFXCheckBox>
                               <JFXCheckBox checkedColor="#f6bd39" text="Muscle/Body Ache">
                                  <VBox.margin>
-                                    <Insets top="3.0" />
-                                 </VBox.margin></JFXCheckBox>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </VBox.margin>
+                                 <font>
+                                    <Font name="MS Reference Sans Serif" size="14.0" />
+                                 </font></JFXCheckBox>
                               <JFXCheckBox checkedColor="#f6bd39" text="Runny Nose/ Congestion">
                                  <VBox.margin>
-                                    <Insets top="3.0" />
-                                 </VBox.margin></JFXCheckBox>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </VBox.margin>
+                                 <font>
+                                    <Font name="MS Reference Sans Serif" size="14.0" />
+                                 </font></JFXCheckBox>
                               <JFXCheckBox checkedColor="#f6bd39" text="Loss of Taste/ Smell">
                                  <VBox.margin>
-                                    <Insets top="3.0" />
-                                 </VBox.margin></JFXCheckBox>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </VBox.margin>
+                                 <font>
+                                    <Font name="MS Reference Sans Serif" size="14.0" />
+                                 </font></JFXCheckBox>
                               <JFXCheckBox checkedColor="#f6bd39" text="Nausea/Vomiting">
                                  <VBox.margin>
-                                    <Insets top="3.0" />
-                                 </VBox.margin></JFXCheckBox>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </VBox.margin>
+                                 <font>
+                                    <Font name="MS Reference Sans Serif" size="14.0" />
+                                 </font></JFXCheckBox>
                            </children>
                            <VBox.margin>
                               <Insets left="20.0" />
@@ -127,7 +157,7 @@
                               <Font name="MS Reference Sans Serif" size="15.0" />
                            </font>
                         </Text>
-                        <VBox spacing="10.0">
+                        <VBox spacing="10.0" stylesheets="@../../css/covidSurvey.css">
                            <padding>
                               <Insets left="20.0" />
                            </padding>
@@ -137,13 +167,19 @@
                                     <ToggleGroup fx:id="ccGroup" />
                                  </toggleGroup>
                                  <VBox.margin>
-                                    <Insets />
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                  </VBox.margin>
+                                 <font>
+                                    <Font name="MS Reference Sans Serif" size="14.0" />
+                                 </font>
                               </JFXRadioButton>
                               <JFXRadioButton fx:id="btnCCNo" text="No" toggleGroup="$ccGroup">
                                  <VBox.margin>
-                                    <Insets />
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                  </VBox.margin>
+                                 <font>
+                                    <Font name="MS Reference Sans Serif" size="14.0" />
+                                 </font>
                               </JFXRadioButton>
                            </children>
                         </VBox>
@@ -172,13 +208,19 @@
                                     <ToggleGroup fx:id="testGroup" />
                                  </toggleGroup>
                                  <VBox.margin>
-                                    <Insets />
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </VBox.margin>
+                                 <font>
+                                    <Font name="MS Reference Sans Serif" size="14.0" />
+                                 </font>
                               </JFXRadioButton>
                               <JFXRadioButton fx:id="btnTestNo" text="No" toggleGroup="$testGroup">
                                  <VBox.margin>
-                                    <Insets />
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </VBox.margin>
+                                 <font>
+                                    <Font name="MS Reference Sans Serif" size="14.0" />
+                                 </font>
                               </JFXRadioButton>
                            </children>
                         </VBox>
