@@ -18,9 +18,9 @@ public class FormSubmittedController {
     @FXML
     private void handleButtonAction(ActionEvent e) {
 
-        Button btn = (Button) e.getSource();
+        JFXButton bnt = (JFXButton) e.getSource();
 
-        if (btn == btnReturn) {
+        if (bnt.getId().equals("btnReturn")) {
             try {
                 Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/serviceRequestMenu.fxml"));
                 App.getPrimaryStage().getScene().setRoot(root);

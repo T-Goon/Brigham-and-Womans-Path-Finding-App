@@ -34,12 +34,25 @@ public class FloralDeliveryRequestFormController {
     private JFXButton btnCancel;
 
     @FXML
+    private JFXButton SubmitB;
+
+
+    @FXML
     void handleButtonAction(ActionEvent e) throws IOException {
         Button btn = (Button) e.getSource();
 
         if (btn.getId().equals("btnCancel")) {
             Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/serviceRequestMenu.fxml"));
             App.getPrimaryStage().getScene().setRoot(root);
+        }
+
+        if (btn.getId().equals("SubmitB")) {
+            try {
+                Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/formSubmitted.fxml"));
+                App.getPrimaryStage().getScene().setRoot(root);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         }
     }
 }

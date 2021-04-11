@@ -51,6 +51,15 @@ public class ExternalTransportationRequestFormController {
             }
         }
 
+        if (bnt.getId().equals("SubmitB")) {
+            try {
+                Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/formSubmitted.fxml"));
+                App.getPrimaryStage().getScene().setRoot(root);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+
     }
 
 

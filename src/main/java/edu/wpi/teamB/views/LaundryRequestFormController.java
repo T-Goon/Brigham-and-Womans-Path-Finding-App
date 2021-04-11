@@ -19,6 +19,9 @@ public class LaundryRequestFormController implements Initializable {
     private JFXButton btnCancel;
 
     @FXML
+    private JFXButton SubmitB;
+
+    @FXML
     private JFXComboBox<Label> comboTypeService = new JFXComboBox<>();
 
     @FXML
@@ -42,6 +45,15 @@ public class LaundryRequestFormController implements Initializable {
             case "btnCancel":
                 try {
                     Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/serviceRequestMenu.fxml"));
+                    App.getPrimaryStage().getScene().setRoot(root);
+                    break;
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                    break;
+                }
+            case "SubmitB":
+                try {
+                    Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/formSubmitted.fxml"));
                     App.getPrimaryStage().getScene().setRoot(root);
                     break;
                 } catch (IOException ex) {

@@ -41,8 +41,14 @@ public class ReligiousRequestFormController {
                 // handle help button
                 break;
             case "btnSubmit":
-                // handle submit button
-                break;
+                try {
+                    Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/formSubmitted.fxml"));
+                    App.getPrimaryStage().getScene().setRoot(root);
+                    break;
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                    break;
+                }
             case "btnEmergency":
                 // handle emergency button
                 break;
