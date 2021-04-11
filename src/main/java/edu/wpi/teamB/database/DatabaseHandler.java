@@ -6,14 +6,21 @@ import java.util.List;
 
 public class DatabaseHandler {
 
-    private static final String URLBASE = "jdbc:sqlite:src/main/resources/edu/wpi/teamB/database/";
-    private final String databaseURL;
+    private static final String URL_BASE = "jdbc:sqlite:src/main/resources/edu/wpi/teamB/database/";
 
+    private String databaseURL;
     private Connection databaseConnection;
 
-    public DatabaseHandler(String dbURL) {
-        this.databaseURL = URLBASE + dbURL;
-        this.databaseConnection = this.getConnection();
+    // Singleton
+    private static final DatabaseHandler handler = new DatabaseHandler();
+
+    private DatabaseHandler() {
+    }
+
+    public static DatabaseHandler getDatabaseHandler(String dbURL) {
+        handler.databaseURL = URL_BASE + dbURL;
+        handler.databaseConnection = handler.getConnection();
+        return handler;
     }
 
     public Connection getConnection() {
@@ -103,7 +110,7 @@ public class DatabaseHandler {
 
         Statement statement = this.getStatement();
 
-        String query = "SELECT nodeID, xcoord, ycoord, floor, building, nodeType, longName, shortName FROM Nodes";
+        String query = "SELECT * FROM Nodes";
         ResultSet rs = statement.executeQuery(query);
         LinkedList<Node> nodes = new LinkedList<Node>();
         while (rs.next()) {
