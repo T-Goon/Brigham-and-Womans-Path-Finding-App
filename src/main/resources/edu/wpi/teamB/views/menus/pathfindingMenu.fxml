@@ -2,10 +2,33 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
 <VBox prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamB.views.menus.PathfindingMenuController">
    <children>
+      <ScrollPane hbarPolicy="NEVER" pannable="true" prefHeight="800.0" vbarPolicy="NEVER">
+         <content>
+            <VBox>
+               <children>
+                  <ImageView fx:id="map" fitHeight="2000.0" fitWidth="2000.0" onZoom="#zoom" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../images/maps/01_thefirstfloor-Edited.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </VBox>
+         </content>
+      </ScrollPane>
+      <HBox prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <JFXButton fx:id="zoomInBtn" onAction="#handleButtonAction" text="Zoom In" />
+            <JFXButton fx:id="zoomOutBtn" onAction="#handleButtonAction" text="Zoom Out" />
+         </children>
+      </HBox>
       <JFXComboBox fx:id="startLocComboBox" promptText="Start Location" />
       <JFXComboBox fx:id="endLocComboBox" promptText="End Location" />
       <JFXButton fx:id="findPathBtn" text="Find Path" />
