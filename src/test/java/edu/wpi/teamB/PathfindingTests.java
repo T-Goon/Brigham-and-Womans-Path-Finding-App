@@ -2,7 +2,7 @@ package edu.wpi.teamB;
 
 import edu.wpi.teamB.pathfinding.Graph;
 import edu.wpi.teamB.pathfinding.Node;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
