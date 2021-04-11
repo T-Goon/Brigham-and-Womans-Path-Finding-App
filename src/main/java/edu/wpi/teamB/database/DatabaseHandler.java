@@ -120,7 +120,7 @@ public class DatabaseHandler {
 
         String query = "SELECT * FROM Nodes";
         ResultSet rs = statement.executeQuery(query);
-        LinkedList<Node> nodes = new LinkedList<Node>();
+        LinkedList<Node> nodes = new LinkedList<>();
         while (rs.next()) {
             Node outNode = new Node(
                     rs.getString("NodeID").trim(),
@@ -145,7 +145,7 @@ public class DatabaseHandler {
 
         String query = "SELECT edgeID, startNode, endNode FROM Edges";
         ResultSet rs = statement.executeQuery(query);
-        LinkedList<Edge> edges = new LinkedList<Edge>();
+        LinkedList<Edge> edges = new LinkedList<>();
         while (rs.next()) {
             Edge outEdge = new Edge(
                     rs.getString("edgeID").trim(),
