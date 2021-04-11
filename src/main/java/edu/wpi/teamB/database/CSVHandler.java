@@ -79,7 +79,7 @@ public class CSVHandler {
 
     /**
      * Saves the database information for nodes into a csv file
-     * and saves it to a location specified by the user
+     * and saves it to a directory specified by the user
      *
      * @param path directory where to save nodes csv
      */
@@ -111,10 +111,10 @@ public class CSVHandler {
     }
 
     /**
-     * Saves the database information for nodes into a csv file
-     * and saves it to a location specified by the user
+     * Saves the database information for edges into a csv file
+     * and saves it to a directory specified by the user
      *
-     * @param path path where to save edges csv
+     * @param path directory where to save edges csv
      */
     public static void saveCSVEdges(Path path) throws SQLException {
         List<Edge> edges = DatabaseHandler.getDatabaseHandler("main.db").getEdgeInformation();
