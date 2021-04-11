@@ -46,11 +46,26 @@ public class AppTest extends FxRobot {
   @MethodSource("textProvider")
   void testBackButtons(String button, String title)
   {
+    clickOn("Service Requests");
     verifyThat("Service Request Directory", Node::isVisible);
     clickOn(button);
     verifyThat(title, Node::isVisible);
     clickOn("Cancel");
     verifyThat("Service Request Directory", Node::isVisible);
+    clickOn("#backBtn");
+  }
+
+  @ParameterizedTest
+  @MethodSource("textProvider")
+  void testSubmitForms(String button, String title){
+    clickOn("Service Requests");
+    verifyThat("Service Request Directory", Node::isVisible);
+    clickOn(button);
+    verifyThat(title, Node::isVisible);
+    clickOn("Submit");
+    verifyThat("Form Successfully Submitted!", Node::isVisible);
+    clickOn("Return to Main Screen");
+    verifyThat("Service Requests", Node::isVisible);
   }
 
   private static Stream<Arguments> textProvider()
