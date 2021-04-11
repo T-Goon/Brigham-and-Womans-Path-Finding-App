@@ -63,7 +63,7 @@ public class CovidSurveyController implements Initializable {
     }
 
     @FXML
-    void handleButtonAction(ActionEvent e) throws IOException {
+    void handleButtonAction(ActionEvent e) {
         JFXButton btn = (JFXButton) e.getSource();
 
         if (btn.getId().equals("btnBack")) {
@@ -75,6 +75,4 @@ public class CovidSurveyController implements Initializable {
             }
         }
     }
-
-
 }

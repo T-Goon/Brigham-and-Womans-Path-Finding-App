@@ -13,7 +13,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #012d5a;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamB.views.secondaryForms.CovidSurveyController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" style="-fx-background-color: #012d5a;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamB.views.secondaryForms.CovidSurveyController">
    <children>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #FFFFFF;">
          <children>
@@ -65,7 +65,7 @@
                   <VBox prefHeight="200.0" prefWidth="100.0">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Are you experiencing any of the following symptoms? Please check all that apply " />
-                        <VBox>
+                        <VBox spacing="5.0">
                            <children>
                               <JFXCheckBox checkedColor="#f6bd39" text="Fever">
                                  <VBox.margin>
@@ -124,12 +124,12 @@
                               <Font name="MS Reference Sans Serif" size="15.0" />
                            </font>
                         </Text>
-                        <VBox>
+                        <VBox spacing="5.0">
                            <padding>
                               <Insets left="20.0" />
                            </padding>
                            <children>
-                              <JFXRadioButton fx:id="ccYesBtn" onAction="#handleButtonAction" text="Yes">
+                              <JFXRadioButton fx:id="ccYesBtn" text="Yes">
                                  <toggleGroup>
                                     <ToggleGroup fx:id="ccGroup" />
                                  </toggleGroup>
@@ -137,7 +137,7 @@
                                     <Insets top="3.0" />
                                  </VBox.margin>
                               </JFXRadioButton>
-                              <JFXRadioButton fx:id="ccNoBtn" onAction="#handleButtonAction" text="No" toggleGroup="$ccGroup">
+                              <JFXRadioButton fx:id="ccNoBtn" text="No" toggleGroup="$ccGroup">
                                  <VBox.margin>
                                     <Insets top="3.0" />
                                  </VBox.margin>
@@ -156,7 +156,7 @@
                               <Font name="MS Reference Sans Serif" size="15.0" />
                            </font>
                         </Text>
-                        <VBox>
+                        <VBox spacing="5.0">
                            <padding>
                               <Insets left="20.0" />
                            </padding>
@@ -164,7 +164,7 @@
                               <Insets bottom="-10.0" />
                            </VBox.margin>
                            <children>
-                              <JFXRadioButton fx:id="testYesBtn" onAction="#handleButtonAction" text="Yes">
+                              <JFXRadioButton fx:id="testYesBtn" text="Yes">
                                  <toggleGroup>
                                     <ToggleGroup fx:id="testGroup" />
                                  </toggleGroup>
@@ -172,7 +172,7 @@
                                     <Insets top="3.0" />
                                  </VBox.margin>
                               </JFXRadioButton>
-                              <JFXRadioButton fx:id="testNoBtn" onAction="#handleButtonAction" text="No" toggleGroup="$testGroup">
+                              <JFXRadioButton fx:id="testNoBtn" text="No" toggleGroup="$testGroup">
                                  <VBox.margin>
                                     <Insets top="3.0" />
                                  </VBox.margin>
