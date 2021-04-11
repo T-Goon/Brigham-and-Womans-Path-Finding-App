@@ -1,13 +1,10 @@
 package edu.wpi.teamB.views.menus;
 
 import com.jfoenix.controls.JFXButton;
-import edu.wpi.teamB.App;
 import edu.wpi.teamB.util.SceneSwitcher;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 
 import java.io.IOException;
 
@@ -19,9 +16,8 @@ public class PatientDirectoryMenuController {
     @FXML private JFXButton btnExit;
     @FXML private JFXButton btnServiceRequests;
 
-
     @FXML
-    public void handleButtonAction(ActionEvent actionEvent) {
+    public void handleButtonAction(ActionEvent actionEvent) throws IOException {
         JFXButton btn = (JFXButton) actionEvent.getSource();
 
         switch (btn.getId()) {
@@ -32,6 +28,9 @@ public class PatientDirectoryMenuController {
                     ex.printStackTrace();
                     break;
                 }
+                break;
+            case "btnDirections":
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/pathfindingMenu.fxml");
                 break;
             case "btnExit":
                 Platform.exit();
