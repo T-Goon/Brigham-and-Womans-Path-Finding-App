@@ -1,4 +1,4 @@
-package edu.wpi.teamB.views;
+package edu.wpi.teamB.views.requestForms;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDatePicker;
@@ -38,7 +38,7 @@ public class FloralDeliveryRequestFormController {
         Button btn = (Button) e.getSource();
 
         if (btn.getId().equals("btnCancel")) {
-            Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/serviceRequestMenu.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/menus/serviceRequestMenu.fxml"));
             App.getPrimaryStage().getScene().setRoot(root);
         }
     }
