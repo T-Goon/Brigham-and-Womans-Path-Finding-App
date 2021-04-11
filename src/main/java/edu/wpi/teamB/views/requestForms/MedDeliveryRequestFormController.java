@@ -8,7 +8,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
 
 import java.io.IOException;
 
@@ -45,7 +44,7 @@ public class MedDeliveryRequestFormController {
         switch (btn.getId()) {
             case "cancelBtn":
                 try {
-                    Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/serviceRequestMenu.fxml"));
+                    Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/menus/serviceRequestMenu.fxml"));
                     App.getPrimaryStage().getScene().setRoot(root);
                     break;
                 } catch (IOException ex) {
@@ -57,7 +56,7 @@ public class MedDeliveryRequestFormController {
                 break;
             case "submitBtn":
                 try {
-                    Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/formSubmitted.fxml"));
+                    Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/requestForms/formSubmitted.fxml"));
                     App.getPrimaryStage().getScene().setRoot(root);
                     break;
                 } catch (IOException ex) {

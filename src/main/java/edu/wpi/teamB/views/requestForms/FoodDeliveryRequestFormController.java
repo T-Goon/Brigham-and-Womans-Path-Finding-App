@@ -42,7 +42,7 @@ public class FoodDeliveryRequestFormController {
                 break;
             case "btnSubmit":
                 try {
-                    Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/formSubmitted.fxml"));
+                    Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/requestForms/formSubmitted.fxml"));
                     App.getPrimaryStage().getScene().setRoot(root);
                     break;
                 } catch (IOException ex) {

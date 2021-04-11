@@ -1,4 +1,4 @@
-package edu.wpi.teamB.views;
+package edu.wpi.teamB.views.requestForms;
 
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.teamB.App;
@@ -22,7 +22,7 @@ public class FormSubmittedController {
 
         if (bnt.getId().equals("btnReturn")) {
             try {
-                Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/serviceRequestMenu.fxml"));
+                Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/menus/serviceRequestMenu.fxml"));
                 App.getPrimaryStage().getScene().setRoot(root);
             } catch (IOException ex) {
                 ex.printStackTrace();

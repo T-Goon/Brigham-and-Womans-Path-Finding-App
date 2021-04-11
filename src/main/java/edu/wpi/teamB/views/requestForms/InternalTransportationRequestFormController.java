@@ -44,7 +44,7 @@ public class InternalTransportationRequestFormController {
 
         if (bnt.getId().equals("SubmitB")) {
             try {
-                Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/formSubmitted.fxml"));
+                Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/requestForms/formSubmitted.fxml"));
                 App.getPrimaryStage().getScene().setRoot(root);
 
             } catch (IOException ex) {
