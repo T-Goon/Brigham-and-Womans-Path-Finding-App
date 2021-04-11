@@ -102,7 +102,7 @@ public class Graph {
 
 
   //putting values in hashmap
-  private static HashMap<String, Node> populateHashmap(Collection<Node> nodes) {
+  public static HashMap<String, Node> populateHashmap(Collection<Node> nodes) {
     HashMap<String, Node> spInfo = new HashMap<>();
 
     for (Node node : nodes) {
@@ -199,7 +199,6 @@ public class Graph {
     for(String stack: path){
       String add = path.pop();
       fPath.add(add);
-
     }
     return fPath;
   }
