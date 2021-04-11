@@ -85,8 +85,9 @@ public class CSVHandler {
      * and saves it to a directory specified by the user
      *
      * @param path directory where to save nodes csv
+     * @return the string representation of the csv file
      */
-    public static void saveCSVNodes(Path path) throws SQLException {
+    public static String saveCSVNodes(Path path) throws SQLException {
         List<Node> nodes = DatabaseHandler.getDatabaseHandler("main.db").getNodeInformation();
 
         // make string representation of csv file
@@ -111,6 +112,8 @@ public class CSVHandler {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        return sb.toString();
     }
 
     /**
@@ -118,8 +121,9 @@ public class CSVHandler {
      * and saves it to a directory specified by the user
      *
      * @param path directory where to save edges csv
+     * @return the string representation of the csv file
      */
-    public static void saveCSVEdges(Path path) throws SQLException {
+    public static String saveCSVEdges(Path path) throws SQLException {
         List<Edge> edges = DatabaseHandler.getDatabaseHandler("main.db").getEdgeInformation();
 
         // make string representation of csv file
@@ -139,5 +143,7 @@ public class CSVHandler {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        return sb.toString();
     }
 }
