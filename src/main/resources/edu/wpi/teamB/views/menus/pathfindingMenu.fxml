@@ -2,36 +2,43 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
+<?import javafx.scene.Group?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamB.views.menus.PathfindingMenuController">
+<VBox alignment="TOP_CENTER" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamB.views.menus.PathfindingMenuController">
    <children>
-      <ScrollPane hbarPolicy="NEVER" pannable="true" prefHeight="800.0" vbarPolicy="NEVER">
+      <ScrollPane hbarPolicy="NEVER" maxHeight="500.0" maxWidth="1000.0" pannable="true" vbarPolicy="NEVER">
          <content>
-            <VBox>
+            <Group>
                <children>
-                  <ImageView fx:id="map" fitHeight="2000.0" fitWidth="2000.0" onZoom="#zoom" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../images/maps/01_thefirstfloor-Edited.png" />
-                     </image>
-                  </ImageView>
+                  <AnchorPane fx:id="mapHolder">
+                     <children>
+                        <ImageView fx:id="map" fitHeight="1500.0" fitWidth="1500.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../images/maps/01_thefirstfloor-Edited.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </AnchorPane>
                </children>
-            </VBox>
+            </Group>
          </content>
       </ScrollPane>
-      <HBox prefHeight="100.0" prefWidth="200.0">
+      <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0">
          <children>
-            <JFXButton fx:id="zoomInBtn" onAction="#handleButtonAction" text="Zoom In" />
-            <JFXButton fx:id="zoomOutBtn" onAction="#handleButtonAction" text="Zoom Out" />
+            <JFXButton fx:id="btnZoomIn" onAction="#handleButtonAction" text="Zoom In" />
+            <JFXButton fx:id="btnZoomOut" onAction="#handleButtonAction" text="Zoom Out" />
+            <JFXButton fx:id="btnPlaceDot" onAction="#handleButtonAction" text="Place Dot" />
          </children>
       </HBox>
       <JFXComboBox fx:id="startLocComboBox" promptText="Start Location" />
       <JFXComboBox fx:id="endLocComboBox" promptText="End Location" />
-      <JFXButton fx:id="findPathBtn" text="Find Path" />
-      <JFXButton fx:id="backBtn" cancelButton="true" onAction="#handleButtonAction" text="Back" />
+      <JFXButton fx:id="btnFindPath" text="Find Path" />
+      <JFXButton fx:id="btnBack" cancelButton="true" onAction="#handleButtonAction" text="Back" />
    </children>
 </VBox>
