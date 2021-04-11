@@ -1,4 +1,4 @@
-package edu.wpi.teamB.views;
+package edu.wpi.teamB.views.requestForms;
 
 import edu.wpi.teamB.App;
 import javafx.event.ActionEvent;
@@ -19,7 +19,7 @@ public class SecurityRequestFormController {
         Button btn = (Button) e.getSource();
 
         if (btn.getId().equals("backBtn")) {
-            Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/serviceRequestMenu.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/menus/serviceRequestMenu.fxml"));
             App.getPrimaryStage().getScene().setRoot(root);
         }
     }
