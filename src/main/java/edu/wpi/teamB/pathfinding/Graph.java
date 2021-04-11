@@ -4,7 +4,7 @@ import java.util.*;
 
 public class Graph {
 
-  public static HashMap<String, List<Node>> initHashMap() {
+  private static HashMap<String, List<Node>> initHashMap() {
     HashMap<String, List<Node>> adjNodes = new HashMap<String, List<Node>>();
     HashMap<String, Node> nodeInfo = Read.parseCSVNodes();
 

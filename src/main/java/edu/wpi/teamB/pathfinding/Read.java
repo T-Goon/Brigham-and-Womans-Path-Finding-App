@@ -23,7 +23,7 @@ public class Read {
       fileContent =
           new String(
               Files.readAllBytes(
-                  Paths.get(new File("").getAbsolutePath() + "\\" + "testdata\\MapBNodes.csv")));
+                  Paths.get( "pathfindingdata\\nodes.csv")));
     } catch (IOException e) {
       e.printStackTrace();
       return null;
@@ -61,7 +61,7 @@ public class Read {
       fileContent =
           new String(
               Files.readAllBytes(
-                  Paths.get(new File("").getAbsolutePath() + "\\" + "testdata\\MapBedges.csv")));
+                  Paths.get("pathfindingdata\\edges.csv")));
     } catch (IOException e) {
       e.printStackTrace();
       return null;
