@@ -1,0 +1,2 @@
+nodeID,xcoord,ycoord,floor,building,nodeType,longName,shortName
+testNode,0,-992,1,test_building,NODETYPE,Name With Many Spaces,N W M S

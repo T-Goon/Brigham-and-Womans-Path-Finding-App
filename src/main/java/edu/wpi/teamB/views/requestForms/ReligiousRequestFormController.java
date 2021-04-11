@@ -1,61 +1,46 @@
-package edu.wpi.teamB.views;
+package edu.wpi.teamB.views.requestForms;
 
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXTextArea;
-import com.jfoenix.controls.JFXTextField;
 import edu.wpi.teamB.App;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
 
 import java.io.IOException;
 
-public class MedDeliveryRequestFormController {
+public class ReligiousRequestFormController {
 
     @FXML
-    private JFXButton cancelBtn;
+    private JFXButton btnCancel;
 
     @FXML
-    private JFXButton emergencyBtn;
+    private JFXButton btnHelp;
 
     @FXML
-    private JFXButton submitBtn;
+    private JFXButton btnSubmit;
 
     @FXML
-    private JFXButton helpBtn;
+    private JFXButton btnEmergency;
 
     @FXML
-    private JFXTextField patName;
+    public void handleButtonAction(ActionEvent actionEvent) {
+        JFXButton btn = (JFXButton) actionEvent.getSource();
 
-    @FXML
-    private JFXTextField rmNum;
-
-    @FXML
-    private JFXTextField medName;
-
-    @FXML
-    private JFXTextArea reason;
-
-    @FXML
-    public void handleButtonAction(ActionEvent e) {
-        JFXButton btn = (JFXButton) e.getSource();
-
-        switch (btn.getId()) {
-            case "cancelBtn":
+        switch(btn.getId()) {
+            case "btnCancel":
                 try {
-                    Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/serviceRequestMenu.fxml"));
+                    Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/menus/serviceRequestMenu.fxml"));
                     App.getPrimaryStage().getScene().setRoot(root);
                     break;
                 } catch (IOException ex) {
                     ex.printStackTrace();
                     break;
                 }
-            case "helpBtn":
+            case "btnHelp":
                 // handle help button
                 break;
-            case "submitBtn":
+            case "btnSubmit":
                 try {
                     Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/formSubmitted.fxml"));
                     App.getPrimaryStage().getScene().setRoot(root);
@@ -64,7 +49,9 @@ public class MedDeliveryRequestFormController {
                     ex.printStackTrace();
                     break;
                 }
-
+            case "btnEmergency":
+                // handle emergency button
+                break;
         }
     }
 }

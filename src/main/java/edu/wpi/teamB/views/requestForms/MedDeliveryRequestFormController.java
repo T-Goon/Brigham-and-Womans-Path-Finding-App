@@ -1,34 +1,49 @@
-package edu.wpi.teamB.views;
+package edu.wpi.teamB.views.requestForms;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXTextArea;
+import com.jfoenix.controls.JFXTextField;
 import edu.wpi.teamB.App;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.control.Button;
 
 import java.io.IOException;
 
-public class ReligiousRequestFormController {
+public class MedDeliveryRequestFormController {
 
     @FXML
-    private JFXButton btnCancel;
+    private JFXButton cancelBtn;
 
     @FXML
-    private JFXButton btnHelp;
+    private JFXButton emergencyBtn;
 
     @FXML
-    private JFXButton btnSubmit;
+    private JFXButton submitBtn;
 
     @FXML
-    private JFXButton btnEmergency;
+    private JFXButton helpBtn;
 
     @FXML
-    public void handleButtonAction(ActionEvent actionEvent) {
-        JFXButton btn = (JFXButton) actionEvent.getSource();
+    private JFXTextField patName;
 
-        switch(btn.getId()) {
-            case "btnCancel":
+    @FXML
+    private JFXTextField rmNum;
+
+    @FXML
+    private JFXTextField medName;
+
+    @FXML
+    private JFXTextArea reason;
+
+    @FXML
+    public void handleButtonAction(ActionEvent e) {
+        JFXButton btn = (JFXButton) e.getSource();
+
+        switch (btn.getId()) {
+            case "cancelBtn":
                 try {
                     Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/serviceRequestMenu.fxml"));
                     App.getPrimaryStage().getScene().setRoot(root);
@@ -37,10 +52,10 @@ public class ReligiousRequestFormController {
                     ex.printStackTrace();
                     break;
                 }
-            case "btnHelp":
+            case "helpBtn":
                 // handle help button
                 break;
-            case "btnSubmit":
+            case "submitBtn":
                 try {
                     Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/formSubmitted.fxml"));
                     App.getPrimaryStage().getScene().setRoot(root);
@@ -49,9 +64,7 @@ public class ReligiousRequestFormController {
                     ex.printStackTrace();
                     break;
                 }
-            case "btnEmergency":
-                // handle emergency button
-                break;
+
         }
     }
 }

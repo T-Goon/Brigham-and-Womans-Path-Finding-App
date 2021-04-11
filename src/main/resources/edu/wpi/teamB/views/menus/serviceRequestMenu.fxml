@@ -4,21 +4,19 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" spacing="20.0" style="-fx-background-color: #012d5a;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamB.views.ServiceRequestMenuController">
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" spacing="20.0" style="-fx-background-color: #012d5a;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamB.views.menus.ServiceRequestMenuController">
    <children>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #FFFFFF;">
          <children>
             <ImageView fitHeight="114.0" fitWidth="314.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../images/hospitalLogo.png" />
+                  <Image url="@../../images/general/hospitalLogo.png" />
                </image>
                <HBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -46,22 +44,9 @@
             </VBox>
          </children>
       </HBox>
-      <GridPane>
-        <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-        </rowConstraints>
+      <FlowPane columnHalignment="CENTER" hgap="20.0" vgap="20.0" VBox.vgrow="NEVER">
          <children>
-            <VBox alignment="TOP_CENTER" prefWidth="0.0">
+            <VBox alignment="TOP_CENTER" minWidth="200.0">
                <children>
                   <JFXButton fx:id="btnSanitation" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="70.0" minWidth="70.0" onAction="#handleButtonAction" ripplerFill="WHITE" style="-fx-background-color: #F6BD39;" text="Sanitation Services">
                      <font>
@@ -70,7 +55,7 @@
                      <graphic>
                         <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../images/sanitationIcon.png" />
+                              <Image url="@../../images/requestForms/sanitationIcon.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -85,7 +70,7 @@
                   </Text>
                </children>
             </VBox>
-            <VBox alignment="TOP_CENTER" prefWidth="0.0" GridPane.columnIndex="1">
+            <VBox alignment="TOP_CENTER" minWidth="200.0">
                <children>
                   <JFXButton fx:id="btnFloralDelivery" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="70.0" minWidth="70.0" nodeOrientation="LEFT_TO_RIGHT" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39;" text="Floral Delivery">
                      <font>
@@ -94,7 +79,7 @@
                      <graphic>
                         <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../images/flowerIcon.png" />
+                              <Image url="@../../images/requestForms/flowerIcon.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -109,7 +94,7 @@
                   </Text>
                </children>
             </VBox>
-            <VBox alignment="TOP_CENTER" prefWidth="0.0" GridPane.columnIndex="2">
+            <VBox alignment="TOP_CENTER" minWidth="200.0">
                <children>
                   <JFXButton fx:id="btnMedicine" contentDisplay="GRAPHIC_ONLY" minHeight="70.0" minWidth="70.0" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39;" text="Medicine Delivery">
                      <font>
@@ -118,7 +103,7 @@
                      <graphic>
                         <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../images/medsIcon.png" />
+                              <Image url="@../../images/requestForms/medsIcon.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -133,7 +118,7 @@
                   </Text>
                </children>
             </VBox>
-            <VBox alignment="TOP_CENTER" prefWidth="0.0" GridPane.rowIndex="2">
+            <VBox alignment="TOP_CENTER" minWidth="200.0">
                <children>
                   <JFXButton fx:id="btnSecurity" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="70.0" minWidth="70.0" nodeOrientation="LEFT_TO_RIGHT" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39;" text="Security Services">
                      <font>
@@ -142,7 +127,7 @@
                      <graphic>
                         <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../images/securityIcon.png" />
+                              <Image url="@../../images/requestForms/securityIcon.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -157,21 +142,21 @@
                   </Text>
                </children>
             </VBox>
-            <VBox alignment="TOP_CENTER" prefWidth="0.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <VBox alignment="TOP_CENTER" minWidth="200.0">
                <children>
-                  <JFXButton fx:id="btnIntTransp" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="70.0" minWidth="70.0" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39;" text="Internal Transportation">
+                  <JFXButton fx:id="btnIntTransp" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="70.0" minWidth="70.0" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39;" text="Internal Transportation" VBox.vgrow="NEVER">
                      <font>
                         <Font size="14.0" />
                      </font>
                      <graphic>
                         <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../images/wheelChairIcon.png" />
+                              <Image url="@../../images/requestForms/wheelChairIcon.png" />
                            </image>
                         </ImageView>
                      </graphic>
                   </JFXButton>
-                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Internal Patient Transport">
+                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Internal Patient Transport" textAlignment="CENTER" wrappingWidth="200.0" VBox.vgrow="NEVER">
                      <font>
                         <Font name="MS Reference Sans Serif" size="18.0" />
                      </font>
@@ -181,7 +166,7 @@
                   </Text>
                </children>
             </VBox>
-            <VBox alignment="TOP_CENTER" prefWidth="0.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
+            <VBox alignment="TOP_CENTER" minWidth="200.0">
                <children>
                   <JFXButton fx:id="btnExtTransp" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="70.0" minWidth="70.0" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39;" text="External Patient Transport">
                      <font>
@@ -190,12 +175,12 @@
                      <graphic>
                         <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../images/ambulance.png" />
+                              <Image url="@../../images/requestForms/ambulance.png" />
                            </image>
                         </ImageView>
                      </graphic>
                   </JFXButton>
-                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="External Patient Transport">
+                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="External Patient Transport" textAlignment="CENTER" wrappingWidth="200.0">
                      <font>
                         <Font name="MS Reference Sans Serif" size="18.0" />
                      </font>
@@ -205,7 +190,7 @@
                   </Text>
                </children>
             </VBox>
-            <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="4">
+            <VBox alignment="TOP_CENTER" minWidth="200.0">
                <children>
                   <JFXButton fx:id="btnReligiousRequest" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="70.0" minWidth="70.0" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39;" text="Religious Service">
                      <font>
@@ -214,7 +199,7 @@
                      <graphic>
                         <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../images/religiousIcon.png" />
+                              <Image url="@../../images/requestForms/religiousIcon.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -229,7 +214,7 @@
                   </Text>
                </children>
             </VBox>
-            <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+            <VBox alignment="TOP_CENTER" minWidth="200.0">
                <children>
                   <JFXButton fx:id="btnFoodDelivery" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="70.0" minWidth="70.0" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39;" text="Food Delivery">
                      <font>
@@ -238,7 +223,7 @@
                      <graphic>
                         <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../images/forkIcon.png" />
+                              <Image url="@../../images/requestForms/forkIcon.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -253,7 +238,7 @@
                   </Text>
                </children>
             </VBox>
-            <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="4">
+            <VBox alignment="TOP_CENTER" minWidth="200.0" prefHeight="200.0">
                <children>
                   <JFXButton fx:id="btnLaundryRequest" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="70.0" minWidth="70.0" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39;" text="Laundry">
                      <font>
@@ -262,7 +247,7 @@
                      <graphic>
                         <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../images/laundryIcon.png" />
+                              <Image url="@../../images/requestForms/laundryIcon.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -278,6 +263,21 @@
                </children>
             </VBox>
          </children>
-      </GridPane>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </FlowPane>
+      <HBox alignment="BOTTOM_LEFT" VBox.vgrow="ALWAYS">
+         <children>
+            <JFXButton fx:id="backBtn" alignment="CENTER" cancelButton="true" contentDisplay="CENTER" onAction="#handleButtonAction" style="-fx-background-color: #0067B1; -fx-background-radius: 50%;" text="←" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font size="27.0" />
+               </font>
+            </JFXButton>
+         </children>
+         <VBox.margin>
+            <Insets bottom="15.0" left="15.0" />
+         </VBox.margin>
+      </HBox>
    </children>
 </VBox>

@@ -12,13 +12,13 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox prefWidth="658.0" style="-fx-background-color: #012d5a;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamB.views.MedDeliveryRequestFormController">
+<VBox prefWidth="658.0" style="-fx-background-color: #012d5a;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamB.views.requestForms.MedDeliveryRequestFormController">
    <children>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #FFFFFF;">
          <children>
             <ImageView fitHeight="114.0" fitWidth="314.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../images/hospitalLogo.png" />
+                  <Image url="@../../images/general/hospitalLogo.png" />
                </image>
                <HBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -65,7 +65,7 @@
                               <Font name="MS Reference Sans Serif" size="14.0" />
                            </font>
                         </Text>
-                        <JFXTextField style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f1f1f1" />
+                        <JFXTextField style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f0f0f000" />
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Room Number:">
                            <VBox.margin>
                               <Insets top="10.0" />
@@ -74,7 +74,7 @@
                               <Font name="MS Reference Sans Serif" size="14.0" />
                            </font>
                         </Text>
-                        <JFXTextField style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f1f1f1" />
+                        <JFXTextField style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f0f0f000" />
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Medicine Name:">
                            <VBox.margin>
                               <Insets top="10.0" />
@@ -83,7 +83,7 @@
                               <Font name="MS Reference Sans Serif" size="14.0" />
                            </font>
                         </Text>
-                        <JFXTextField style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f1f1f1" />
+                        <JFXTextField style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f0f0f000" />
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Reason for Request:">
                            <VBox.margin>
                               <Insets top="10.0" />
@@ -92,7 +92,7 @@
                               <Font name="MS Reference Sans Serif" size="14.0" />
                            </font>
                         </Text>
-                        <JFXTextArea style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f1f1f1">
+                        <JFXTextArea style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f0f0f000">
                            <VBox.margin>
                               <Insets bottom="10.0" />
                            </VBox.margin>
@@ -101,7 +101,7 @@
                            <children>
                               <HBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
                                  <children>
-                                    <JFXButton id="cancelBtn" fx:id="cancelBtn" buttonType="RAISED" onAction="#handleButtonAction" style="-fx-background-radius: 7; -fx-background-color: #0067B1;" text="Cancel" textFill="WHITE">
+                                    <JFXButton id="cancelBtn" fx:id="cancelBtn" buttonType="RAISED" cancelButton="true" onAction="#handleButtonAction" style="-fx-background-radius: 7; -fx-background-color: #0067B1;" text="Cancel" textFill="WHITE">
                                        <font>
                                           <Font name="MS Reference Sans Serif" size="14.0" />
                                        </font>

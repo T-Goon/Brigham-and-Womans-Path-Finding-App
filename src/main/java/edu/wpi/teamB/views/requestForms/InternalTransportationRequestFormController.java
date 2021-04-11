@@ -1,50 +1,41 @@
-package edu.wpi.teamB.views;
+package edu.wpi.teamB.views.requestForms;
 
-import com.jfoenix.controls.*;
 import edu.wpi.teamB.App;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
 import java.io.IOException;
 
-public class ExternalTransportationRequestFormController {
+public class InternalTransportationRequestFormController {
 
     @FXML
-    private JFXButton btnCancel;
+    private Button btnCancel;
     @FXML
-    private JFXButton SubmitB;
+    private Button SubmitB;
     @FXML
-    private JFXButton HelpB;
+    private Button HelpB;
     @FXML
-    private JFXTextField NAME;
+    private TextField NAME;
     @FXML
-    private JFXTextField ROOMNUM;
+    private TextField ROOMNUM;
     @FXML
-    private JFXComboBox TRTYPE;
+    private TextField TRTYPE;
     @FXML
-    private JFXTextArea DESCRIPTION;
-    @FXML
-    private JFXTextArea ALLERGIES;
-    @FXML
-    private JFXCheckBox UNCONSCIOUS;
-    @FXML
-    private JFXCheckBox INFECTIOUS;
-    @FXML
-    private JFXCheckBox OUTNETWORK;
+    private TextArea REASON;
 
     @FXML
     public void handleButtonAction(ActionEvent e) {
-        JFXButton bnt = (JFXButton) e.getSource();
+        Button bnt = (Button) e.getSource();
 
         if (bnt.getId().equals("btnCancel")) {
+            // Go back to the service request menu
             try {
-                Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/serviceRequestMenu.fxml"));
+                Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/menus/serviceRequestMenu.fxml"));
                 App.getPrimaryStage().getScene().setRoot(root);
             } catch (IOException ex) {
                 ex.printStackTrace();
@@ -55,9 +46,14 @@ public class ExternalTransportationRequestFormController {
             try {
                 Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/formSubmitted.fxml"));
                 App.getPrimaryStage().getScene().setRoot(root);
+
             } catch (IOException ex) {
                 ex.printStackTrace();
-            }
+                }
+        }
+
+        if (bnt.getId().equals("HelpB")) {
+            //Show the help page
         }
 
     }
