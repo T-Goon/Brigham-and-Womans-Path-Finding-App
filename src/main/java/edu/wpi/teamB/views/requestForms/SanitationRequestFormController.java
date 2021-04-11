@@ -20,6 +20,9 @@ public class SanitationRequestFormController implements Initializable {
     private JFXButton btnCancel;
 
     @FXML
+    private JFXButton SubmitB;
+
+    @FXML
     private JFXComboBox<Label> comboTypeService = new JFXComboBox<>();
 
     @FXML
@@ -44,6 +47,15 @@ public class SanitationRequestFormController implements Initializable {
             case "btnCancel":
                 try {
                     Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/menus/serviceRequestMenu.fxml"));
+                    App.getPrimaryStage().getScene().setRoot(root);
+                    break;
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                    break;
+                }
+            case "SubmitB":
+                try {
+                    Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/requestForms/formSubmitted.fxml"));
                     App.getPrimaryStage().getScene().setRoot(root);
                     break;
                 } catch (IOException ex) {

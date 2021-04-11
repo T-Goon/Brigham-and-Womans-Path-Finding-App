@@ -43,7 +43,13 @@ public class InternalTransportationRequestFormController {
         }
 
         if (bnt.getId().equals("SubmitB")) {
-            //Show the confirmation page
+            try {
+                Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/requestForms/formSubmitted.fxml"));
+                App.getPrimaryStage().getScene().setRoot(root);
+
+            } catch (IOException ex) {
+                ex.printStackTrace();
+                }
         }
 
         if (bnt.getId().equals("HelpB")) {
