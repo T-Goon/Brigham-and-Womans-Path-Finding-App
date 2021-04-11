@@ -22,7 +22,7 @@ public class DatabaseHandler {
                 this.databaseConnection = DriverManager.getConnection(this.databaseURL);
                 System.out.println("Connected to DB using " + this.databaseConnection.getMetaData().getDriverName());
             } catch (SQLException e) {
-                System.out.println(e.getStackTrace());
+                e.printStackTrace();
             }
         }
         return this.databaseConnection;
@@ -187,8 +187,8 @@ public class DatabaseHandler {
         try {
             this.getConnection().close();
             System.out.println("Database is closed");
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 }
