@@ -1,7 +1,10 @@
 package edu.wpi.teamB.entities;
 
-import java.util.Objects;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 
+@Getter
+@EqualsAndHashCode
 public class Edge {
 
     private final String edgeID;
@@ -12,31 +15,6 @@ public class Edge {
         this.edgeID = edgeID;
         this.startNodeName = startNodeName;
         this.endNodeName = endNodeName;
-    }
-
-    public String getEdgeID() {
-        return edgeID;
-    }
-
-    public String getStartNodeName() {
-        return startNodeName;
-    }
-
-    public String getEndNodeName() {
-        return endNodeName;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Edge edge = (Edge) o;
-        return Objects.equals(edgeID, edge.edgeID) && Objects.equals(startNodeName, edge.startNodeName) && Objects.equals(endNodeName, edge.endNodeName);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(edgeID, startNodeName, endNodeName);
     }
 
     @Override
