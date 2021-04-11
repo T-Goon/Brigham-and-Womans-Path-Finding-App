@@ -110,7 +110,7 @@ public class DatabaseHandlerTest {
         edges.add(targetEdge);
 
         try {
-            db.fillDatabase(edges, nodes);
+            db.fillDatabase(nodes, edges);
             List<Node> outnodes = db.getNodeInformation();
             assert(outnodes.containsAll(nodes));
             List<Edge> outedges = db.getEdgeInformation();
@@ -134,7 +134,7 @@ public class DatabaseHandlerTest {
                 "Name With Many Spaces",
                 "N W M S");
         actual.add(target);
-        db.fillDatabase(edges, actual);
+        db.fillDatabase(actual, edges);
 
         String nodeID = target.getNodeID();
         int xcoord = 1;
@@ -162,7 +162,7 @@ public class DatabaseHandlerTest {
         List<Edge> actual = new ArrayList<>();
         Edge target = new Edge("bPARK01201_bWALK00501", "test_start", "test_end");
         actual.add(target);
-        db.fillDatabase(actual, nodes);
+        db.fillDatabase(nodes, actual);
 
         String edgeID = target.getEdgeID();
         String startNode = "bPARK01201";

@@ -56,7 +56,7 @@ public class DatabaseHandler {
      * Given the list of edges and nodes, clear and fill the database
      * with that data.
      */
-    public void fillDatabase(List<Edge> edges, List<Node> nodes) throws SQLException {
+    public void fillDatabase(List<Node> nodes, List<Edge> edges) throws SQLException {
 
         Statement statement = this.getStatement();
         // Drop tables if they exist already
@@ -197,6 +197,19 @@ public class DatabaseHandler {
             e.printStackTrace();
         }
     }
+
+    public boolean isInitialized() {
+        try {
+            // Try getting a list of the tables -- If there is a table there, it will return true
+            if (handler.getConnection().getMetaData().getTables(null, null, "%", new String[]{"TABLES"}).next())
+                return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return false;
+    }
+
 
     /**
      * Shutdown the database

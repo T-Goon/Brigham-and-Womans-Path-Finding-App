@@ -1,7 +1,11 @@
 package edu.wpi.teamB;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
+import java.sql.SQLException;
 
+import edu.wpi.teamB.database.CSVHandler;
 import edu.wpi.teamB.database.DatabaseHandler;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -18,10 +22,18 @@ public class App extends Application {
     private static Stage primaryStage;
     private DatabaseHandler db;
 
+    private static final String NODES_PATH = new File("").getAbsolutePath() + "/src/main/resources/edu/wpi/teamB/csvfiles/MapBNodes.csv";
+    private static final String EDGES_PATH = new File("").getAbsolutePath() + "/src/main/resources/edu/wpi/teamB/csvfiles/MapBEdges.csv";
+
     @Override
-    public void init() {
+    public void init() throws SQLException {
         System.out.println("Starting Up");
         db = DatabaseHandler.getDatabaseHandler("main.db");
+
+        // If the database is empty, fill it with the csv files
+        // Note later we want to ask the user to give the location using a file chooser to the CSV files to load from
+        if (!db.isInitialized())
+            db.fillDatabase(CSVHandler.loadCSVNodes(Paths.get(NODES_PATH)), CSVHandler.loadCSVEdges(Paths.get(EDGES_PATH)));
     }
 
     @Override
