@@ -21,7 +21,7 @@ public class DatabaseHandlerTest {
 
     @BeforeAll
     static void initDB() {
-        db = new DatabaseHandler("test.db");
+        db = DatabaseHandler.getDatabaseHandler("test.db");
         resourcesPathString = new File("").getAbsolutePath() + "/src/test/resources/edu/wpi/teamB/database/";
     }
 
@@ -36,14 +36,14 @@ public class DatabaseHandlerTest {
                 "Name With Many Spaces",
                 "N W M S");
         Path nodes = Paths.get(resourcesPathString + "SimpleTestNodes.csv");
-        Node actual = CSVHandler.parseCSVNodes(nodes).get(0);
+        Node actual = CSVHandler.loadCSVNodes(nodes).get(0);
         assertEquals(target.toString(), actual.toString());
     }
 
     @Test
     public void complexParseNodesLength() {
         Path nodePath = Paths.get(resourcesPathString + "ComplexTestNodes.csv");
-        List<Node> nodes = CSVHandler.parseCSVNodes(nodePath);
+        List<Node> nodes = CSVHandler.loadCSVNodes(nodePath);
         assertEquals(32, nodes.size());
     }
 
@@ -51,7 +51,7 @@ public class DatabaseHandlerTest {
     public void complexParseNodesValues() {
         Node target = new Node("bWALK00501", 1872, 1965, 1, "Parking", "WALK", "Vining Street Walkway", "ViningWalk");
         Path nodePath = Paths.get(resourcesPathString + "ComplexTestNodes.csv");
-        List<Node> nodes = CSVHandler.parseCSVNodes(nodePath);
+        List<Node> nodes = CSVHandler.loadCSVNodes(nodePath);
         List<String> expanded = nodes.stream().map(Node::toString).collect(Collectors.toList());
         assertTrue(expanded.contains(target.toString()));
     }
@@ -60,14 +60,14 @@ public class DatabaseHandlerTest {
     public void simpleParseEdges() {
         Edge target = new Edge("bPARK00101_bWALK00101", "bPARK00101", "bWALK00101");
         Path nodes = Paths.get(resourcesPathString + "SimpleTestEdges.csv");
-        Edge actual = CSVHandler.parseCSVEdges(nodes).get(0);
+        Edge actual = CSVHandler.loadCSVEdges(nodes).get(0);
         assertEquals(target.toString(), actual.toString());
     }
 
     @Test
     public void complexParseEdgesLength() {
         Path nodePath = Paths.get(resourcesPathString + "ComplexTestEdges.csv");
-        List<Edge> nodes = CSVHandler.parseCSVEdges(nodePath);
+        List<Edge> nodes = CSVHandler.loadCSVEdges(nodePath);
         assertEquals(31, nodes.size());
     }
 
@@ -75,7 +75,7 @@ public class DatabaseHandlerTest {
     public void complexParseEdgesValues() {
         Edge target = new Edge("bPARK01201_bWALK00501", "bPARK01201", "bWALK00501");
         Path nodePath = Paths.get(resourcesPathString + "ComplexTestEdges.csv");
-        List<Edge> nodes = CSVHandler.parseCSVEdges(nodePath);
+        List<Edge> nodes = CSVHandler.loadCSVEdges(nodePath);
         List<String> expanded = nodes.stream().map(Edge::toString).collect(Collectors.toList());
         assertTrue(expanded.contains(target.toString()));
     }

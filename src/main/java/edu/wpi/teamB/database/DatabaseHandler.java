@@ -6,14 +6,21 @@ import java.util.List;
 
 public class DatabaseHandler {
 
-    private static final String URLBASE = "jdbc:sqlite:src/main/resources/edu/wpi/teamB/database/";
-    private final String databaseURL;
+    private static final String URL_BASE = "jdbc:sqlite:src/main/resources/edu/wpi/teamB/database/";
 
+    private String databaseURL;
     private Connection databaseConnection;
 
-    public DatabaseHandler(String dbURL) {
-        this.databaseURL = URLBASE + dbURL;
-        this.databaseConnection = this.getConnection();
+    // Singleton
+    private static final DatabaseHandler handler = new DatabaseHandler();
+
+    private DatabaseHandler() {
+    }
+
+    public static DatabaseHandler getDatabaseHandler(String dbURL) {
+        handler.databaseURL = URL_BASE + dbURL;
+        handler.databaseConnection = handler.getConnection();
+        return handler;
     }
 
     public Connection getConnection() {
@@ -103,7 +110,7 @@ public class DatabaseHandler {
 
         Statement statement = this.getStatement();
 
-        String query = "SELECT nodeID, xcoord, ycoord, floor, building, nodeType, longName, shortName FROM Nodes";
+        String query = "SELECT * FROM Nodes";
         ResultSet rs = statement.executeQuery(query);
         LinkedList<Node> nodes = new LinkedList<Node>();
         while (rs.next()) {
@@ -122,6 +129,26 @@ public class DatabaseHandler {
         return nodes;
     }
 
+    /**
+     * Displays the list of edges along with their attributes.
+     */
+    public List<Edge> getEdgeInformation() throws SQLException {
+        Statement statement = this.getStatement();
+
+        String query = "SELECT * FROM Edges";
+        ResultSet rs = statement.executeQuery(query);
+        LinkedList<Edge> edges = new LinkedList<Edge>();
+        while (rs.next()) {
+            Edge outEdge = new Edge(
+                    rs.getString("edgeID").trim(),
+                    rs.getString("startNode").trim(),
+                    rs.getString("endNode").trim()
+            );
+            edges.add(outEdge);
+        }
+
+        return edges;
+    }
 
     /**
      * Updates the node coordinates of the node with the
@@ -156,27 +183,6 @@ public class DatabaseHandler {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
-
-    /**
-     * Displays the list of edges along with their attributes.
-     */
-    public List<Edge> getEdgeInformation() throws SQLException {
-        Statement statement = this.getStatement();
-
-        String query = "SELECT edgeID, startNode, endNode FROM Edges";
-        ResultSet rs = statement.executeQuery(query);
-        LinkedList<Edge> edges = new LinkedList<Edge>();
-        while (rs.next()) {
-            Edge outEdge = new Edge(
-                    rs.getString("edgeID").trim(),
-                    rs.getString("startNode").trim(),
-                    rs.getString("endNode").trim()
-            );
-            edges.add(outEdge);
-        }
-
-        return edges;
     }
 
     /**
