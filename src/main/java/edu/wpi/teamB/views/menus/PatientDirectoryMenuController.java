@@ -2,6 +2,7 @@ package edu.wpi.teamB.views.menus;
 
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.teamB.App;
+import edu.wpi.teamB.util.SceneSwitcher;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -34,9 +35,7 @@ public class PatientDirectoryMenuController {
         switch (btn.getId()) {
             case "serviceBtn":
                 try {
-                    Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/menus/serviceRequestMenu.fxml"));
-                    App.getPrimaryStage().getScene().setRoot(root);
-                    break;
+                    SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/serviceRequestMenu.fxml");
                 } catch (IOException ex) {
                     ex.printStackTrace();
                     break;

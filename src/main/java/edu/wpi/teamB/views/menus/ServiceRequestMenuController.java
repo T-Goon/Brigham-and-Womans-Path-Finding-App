@@ -2,11 +2,17 @@ package edu.wpi.teamB.views.menus;
 
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.teamB.App;
+import edu.wpi.teamB.util.SceneSwitcher;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.layout.Pane;
+import javafx.scene.transform.Scale;
 
 import java.io.IOException;
 
@@ -87,10 +93,9 @@ public class ServiceRequestMenuController {
         }
 
         try {
-            Parent root = FXMLLoader.load(getClass().getResource(path));
-            App.getPrimaryStage().getScene().setRoot(root);
-        } catch (IOException ex) {
-            ex.printStackTrace();
+            SceneSwitcher.switchScene(getClass(), path);
+        } catch (IOException err) {
+            err.printStackTrace();
         }
     }
 }
