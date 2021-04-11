@@ -40,29 +40,32 @@ public class MedDeliveryRequestFormController {
 
     @FXML
     public void handleButtonAction(ActionEvent e) {
-        Button bnt = (Button) e.getSource();
+        JFXButton btn = (JFXButton) e.getSource();
 
-        if (bnt.getId().equals("cancelBtn")) {
-            // Go back to the service request menu
-            try {
-                Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/menus/serviceRequestMenu.fxml"));
-                App.getPrimaryStage().getScene().setRoot(root);
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
+        switch (btn.getId()) {
+            case "cancelBtn":
+                try {
+                    Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/menus/serviceRequestMenu.fxml"));
+                    App.getPrimaryStage().getScene().setRoot(root);
+                    break;
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                    break;
+                }
+            case "helpBtn":
+                // handle help button
+                break;
+            case "submitBtn":
+                try {
+                    Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/requestForms/formSubmitted.fxml"));
+                    App.getPrimaryStage().getScene().setRoot(root);
+                    break;
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                    break;
+                }
+
+
         }
-
-        if (bnt.getId().equals("submitBtn")) {
-            //Show the confirmation page
-        }
-
-        if (bnt.getId().equals("helpBtn")) {
-            //Show the help page
-        }
-
-        if (bnt.getId().equals("emergencyBtn")) {
-            //Show the help page
-        }
-
     }
 }

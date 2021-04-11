@@ -143,7 +143,7 @@ public class DatabaseHandler {
     public List<Edge> getEdgeInformation() throws SQLException {
         Statement statement = this.getStatement();
 
-        String query = "SELECT * FROM Edges";
+        String query = "SELECT edgeID, startNode, endNode FROM Edges";
         ResultSet rs = statement.executeQuery(query);
         LinkedList<Edge> edges = new LinkedList<Edge>();
         while (rs.next()) {
@@ -159,13 +159,20 @@ public class DatabaseHandler {
     }
 
     /**
-     * Updates the node coordinates of the node with the
-     * specified ID.
+     * Updates the node with the specified ID.
      */
-    public void updateNodeCoordinates(String nodeID, int xcoord, int ycoord) {
+    public void updateNode(String nodeID, int xcoord, int ycoord, int floor, String building, String nodeType, String longName, String shortName) {
 
         Statement statement = this.getStatement();
-        String query = "UPDATE Nodes SET xcoord = " + xcoord + ", ycoord = " + ycoord + " WHERE nodeID = '" + nodeID + "'";
+
+        String query = "UPDATE Nodes SET xcoord = " + xcoord
+                + ", ycoord = " + ycoord
+                + ", floor = " + floor
+                + ", building = '" + building
+                + "', nodeType = '" + nodeType
+                + "', longName = '" + longName
+                + "', shortName = '" + shortName
+                + "' WHERE nodeID = '" + nodeID + "'";
 
         try {
             // If no rows are updated, then the node ID is not in the table
@@ -177,17 +184,18 @@ public class DatabaseHandler {
     }
 
     /**
-     * Updates the long name of the node with the
-     * specified ID.
+     * Updates the edge with the specified ID.
      */
-    public void updateNodeLocationLongName(String nodeID, String longName) {
+    public void updateEdge(String edgeID, String startNode, String endNode) {
+
         Statement statement = this.getStatement();
-        String query = "UPDATE Nodes SET longName = '" + longName + "' WHERE nodeID = '" + nodeID + "'";
+
+        String query = "UPDATE Edges SET startNode = '" + startNode + "', endNode = '" + endNode + "' WHERE edgeID = '" + edgeID + "'";
 
         try {
-            // If no rows are updated, then the node ID is not in the table
+            // If no rows are updated, then the edge ID is not in the table
             if (statement.executeUpdate(query) == 0)
-                System.err.println("Node ID does not exist in the table!");
+                System.err.println("Edge ID does not exist in the table!");
         } catch (SQLException e) {
             e.printStackTrace();
         }

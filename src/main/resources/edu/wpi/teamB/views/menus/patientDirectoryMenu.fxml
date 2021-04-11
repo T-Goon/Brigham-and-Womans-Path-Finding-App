@@ -81,8 +81,11 @@
                      </HBox.margin>
                   </VBox>
                   <VBox prefHeight="200.0" prefWidth="100.0">
+                     <HBox.margin>
+                        <Insets left="20.0" />
+                     </HBox.margin>
                      <children>
-                        <JFXButton fx:id="btnServiceRequests" buttonType="RAISED" onAction="#handleButtonAction" text="Service Requests" textOverrun="CLIP">
+                        <JFXButton fx:id="btnServiceRequests" buttonType="RAISED" onAction="#handleButtonAction" textOverrun="CLIP">
                            <graphic>
                               <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -92,9 +95,6 @@
                            </graphic>
                         </JFXButton>
                      </children>
-                     <HBox.margin>
-                        <Insets left="20.0" />
-                     </HBox.margin>
                   </VBox>
                </children>
                <VBox.margin>
