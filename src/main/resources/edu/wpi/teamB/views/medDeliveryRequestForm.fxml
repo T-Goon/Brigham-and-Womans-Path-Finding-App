@@ -12,7 +12,6 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
 <VBox prefWidth="658.0" style="-fx-background-color: #012d5a;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamB.views.MedDeliveryRequestFormController">
    <children>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #FFFFFF;">
@@ -102,7 +101,7 @@
                            <children>
                               <HBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
                                  <children>
-                                    <JFXButton id="cancelBtn" buttonType="RAISED" onAction="#handleButtonAction" style="-fx-background-radius: 7; -fx-background-color: #0067B1;" text="Cancel" textFill="WHITE">
+                                    <JFXButton id="cancelBtn" buttonType="RAISED" cancelButton="true" onAction="#handleButtonAction" style="-fx-background-radius: 7; -fx-background-color: #0067B1;" text="Cancel" textFill="WHITE">
                                        <font>
                                           <Font name="MS Reference Sans Serif" size="14.0" />
                                        </font>
