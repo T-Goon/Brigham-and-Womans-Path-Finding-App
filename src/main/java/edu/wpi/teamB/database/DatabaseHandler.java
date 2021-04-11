@@ -1,5 +1,8 @@
 package edu.wpi.teamB.database;
 
+import edu.wpi.teamB.entities.Edge;
+import edu.wpi.teamB.entities.Node;
+
 import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;

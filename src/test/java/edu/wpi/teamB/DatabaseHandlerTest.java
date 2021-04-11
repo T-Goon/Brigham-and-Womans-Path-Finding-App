@@ -1,6 +1,8 @@
 package edu.wpi.teamB;
 
 import edu.wpi.teamB.database.*;
+import edu.wpi.teamB.entities.Edge;
+import edu.wpi.teamB.entities.Node;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 

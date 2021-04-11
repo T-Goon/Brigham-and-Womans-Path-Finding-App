@@ -1,4 +1,4 @@
-package edu.wpi.teamB.database;
+package edu.wpi.teamB.entities;
 
 import java.util.Objects;
 
