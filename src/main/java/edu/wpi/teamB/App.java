@@ -24,7 +24,8 @@ public class App extends Application {
 
         // Open first view
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("views/patientDirectoryMenu.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("views/menus/patientDirectoryMenu.fxml"));
+
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);
             primaryStage.show();
