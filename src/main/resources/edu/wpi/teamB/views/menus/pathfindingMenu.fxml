@@ -2,43 +2,218 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
-<?import javafx.scene.Group?>
-<?import javafx.scene.control.ScrollPane?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+<?import net.kurobako.gesturefx.GesturePane?>
 
-<VBox alignment="TOP_CENTER" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamB.views.menus.PathfindingMenuController">
+<VBox alignment="TOP_CENTER" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #012d5a;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamB.views.menus.PathfindingMenuController">
    <children>
-      <ScrollPane hbarPolicy="NEVER" maxHeight="500.0" maxWidth="1000.0" pannable="true" vbarPolicy="NEVER">
-         <content>
-            <Group>
-               <children>
-                  <AnchorPane fx:id="mapHolder">
-                     <children>
-                        <ImageView fx:id="map" fitHeight="1500.0" fitWidth="1500.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../images/maps/01_thefirstfloor-Edited.png" />
-                           </image>
-                        </ImageView>
-                     </children>
-                  </AnchorPane>
-               </children>
-            </Group>
-         </content>
-      </ScrollPane>
-      <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0">
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #FFFFFF;">
          <children>
-            <JFXButton fx:id="btnZoomIn" onAction="#handleButtonAction" text="Zoom In" />
-            <JFXButton fx:id="btnZoomOut" onAction="#handleButtonAction" text="Zoom Out" />
-            <JFXButton fx:id="btnPlaceDot" onAction="#handleButtonAction" text="Place Dot" />
+            <ImageView fitHeight="114.0" fitWidth="314.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../images/general/hospitalLogo.png" />
+               </image>
+               <HBox.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </HBox.margin>
+            </ImageView>
+            <VBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <JFXButton buttonType="RAISED" style="-fx-background-color: #CE2029;" text="EMERGENCY" textFill="WHITE">
+                     <font>
+                        <Font name="MS Reference Sans Serif" size="16.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
+                     </VBox.margin>
+                  </JFXButton>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Hospital Map">
+                     <font>
+                        <Font size="30.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
+                     </VBox.margin>
+                  </Text>
+               </children>
+            </VBox>
          </children>
       </HBox>
-      <JFXComboBox fx:id="startLocComboBox" promptText="Start Location" />
-      <JFXComboBox fx:id="endLocComboBox" promptText="End Location" />
-      <JFXButton fx:id="btnFindPath" text="Find Path" />
-      <JFXButton fx:id="btnBack" cancelButton="true" onAction="#handleButtonAction" text="Back" />
+      <HBox prefHeight="9.999999999E9" prefWidth="9.99999999E8">
+         <children>
+            <VBox prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #0067B1;">
+               <children>
+                  <JFXButton fx:id="btnBack" alignment="TOP_LEFT" buttonType="RAISED" cancelButton="true" contentDisplay="TOP" onAction="#handleButtonAction" style="-fx-background-color: #012D5A; -fx-background-radius: 50%;" text="←" textAlignment="CENTER" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="27.0" />
+                     </font>
+                     <padding>
+                        <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
+                     </padding>
+                     <VBox.margin>
+                        <Insets left="10.0" top="10.0" />
+                     </VBox.margin>
+                  </JFXButton>
+                  <HBox alignment="TOP_CENTER" minWidth="200.0" prefWidth="200.0" />
+                  <VBox alignment="CENTER_LEFT">
+                     <children>
+                        <HBox alignment="CENTER_RIGHT" prefWidth="200.0">
+                           <children>
+                              <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="From:">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets right="10.0" />
+                                 </HBox.margin>
+                              </Text>
+                              <VBox alignment="CENTER" prefHeight="30.0" style="-fx-background-color: #F6BD39; -fx-background-radius: 5;">
+                                 <children>
+                                    <ImageView fitHeight="24.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../images/maps/node.png" />
+                                       </image>
+                                    </ImageView>
+                                 </children>
+                                 <padding>
+                                    <Insets left="5.0" right="5.0" />
+                                 </padding>
+                              </VBox>
+                              <JFXComboBox fx:id="startLocComboBox" opacity="0.5" prefHeight="30.0" promptText="Start Location" style="-fx-background-color: white; -fx-background-radius: 5;" />
+                           </children>
+                           <padding>
+                              <Insets left="10.0" right="10.0" top="10.0" />
+                           </padding>
+                        </HBox>
+                        <HBox alignment="CENTER_RIGHT" prefWidth="200.0">
+                           <children>
+                              <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="To:">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets right="10.0" />
+                                 </HBox.margin>
+                              </Text>
+                              <VBox alignment="CENTER" prefHeight="30.0" style="-fx-background-color: #F6BD39; -fx-background-radius: 5;">
+                                 <children>
+                                    <ImageView fitHeight="24.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../images/maps/node.png" />
+                                       </image>
+                                       <VBox.margin>
+                                          <Insets />
+                                       </VBox.margin>
+                                    </ImageView>
+                                 </children>
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                                 <padding>
+                                    <Insets left="5.0" right="5.0" />
+                                 </padding>
+                              </VBox>
+                              <JFXComboBox fx:id="endLocComboBox" opacity="0.5" prefHeight="30.0" promptText="End Location" style="-fx-background-color: white;" />
+                           </children>
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="5.0" />
+                           </padding>
+                        </HBox>
+                     </children>
+                  </VBox>
+                  <HBox alignment="CENTER">
+                     <children>
+                        <JFXButton fx:id="btnFindPath" prefHeight="30.0" prefWidth="50.0" style="-fx-background-color: #F6BD39; -fx-background-radius: 5;" text="Go" textFill="#012d5a">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </JFXButton>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                     <children>
+                        <VBox alignment="BOTTOM_LEFT" HBox.hgrow="ALWAYS">
+                           <children>
+                              <JFXButton contentDisplay="GRAPHIC_ONLY" style="-fx-background-color: #F6BD39; -fx-background-radius: 5;">
+                                 <graphic>
+                                    <ImageView fitHeight="24.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../images/menus/wrench.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" left="10.0" />
+                                 </VBox.margin>
+                                 <padding>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </padding>
+                              </JFXButton>
+                           </children>
+                        </VBox>
+                        <VBox alignment="BOTTOM_RIGHT" HBox.hgrow="ALWAYS">
+                           <children>
+                              <JFXButton style="-fx-background-color: #9A9999; -fx-background-radius: 50%;" text="?" textFill="WHITE">
+                                 <font>
+                                    <Font name="MS Reference Sans Serif" size="24.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets bottom="2.0" left="10.0" right="10.0" top="2.0" />
+                                 </padding>
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" right="10.0" />
+                                 </VBox.margin>
+                              </JFXButton>
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <GesturePane fitMode="COVER" maxHeight="-Infinity" maxScale="25.0" maxWidth="-Infinity" prefHeight="9.9999999999E10" prefWidth="9.999999999E9" scrollMode="ZOOM" vbarPolicy="NEVER" VBox.vgrow="ALWAYS">
+               <AnchorPane fx:id="nodeHolder">
+                  <children>
+                     <AnchorPane fx:id="mapHolder">
+                        <children>
+                           <ImageView fx:id="map" fitHeight="1500.0" fitWidth="1500.0" pickOnBounds="true" preserveRatio="true">
+                              <image>
+                                 <Image url="@../../images/maps/01_thefirstfloor-Edited.png" />
+                              </image>
+                           </ImageView>
+                        </children>
+                     </AnchorPane>
+                  </children>
+               </AnchorPane>
+            </GesturePane>
+<!--            <ScrollPane hbarPolicy="NEVER" maxHeight="-Infinity" maxWidth="-Infinity" pannable="true" prefHeight="9.9999999999E10" prefWidth="9.999999999E9" vbarPolicy="NEVER">-->
+<!--               <content>-->
+<!--                  <Group>-->
+<!--                     <children>-->
+<!--                        <AnchorPane fx:id="nodeHolder">-->
+<!--                           <children>-->
+<!--                              <AnchorPane fx:id="mapHolder">-->
+<!--                                 <children>-->
+<!--                                    <ImageView fx:id="map" fitHeight="1500.0" fitWidth="1500.0" pickOnBounds="true" preserveRatio="true">-->
+<!--                                       <image>-->
+<!--                                          <Image url="@../../images/maps/01_thefirstfloor-Edited.png" />-->
+<!--                                       </image>-->
+<!--                                    </ImageView>-->
+<!--                                 </children>-->
+<!--                              </AnchorPane>-->
+<!--                           </children>-->
+<!--                        </AnchorPane>-->
+<!--                     </children>-->
+<!--                  </Group>-->
+<!--               </content>-->
+<!--            </ScrollPane>-->
+         </children>
+      </HBox>
    </children>
 </VBox>

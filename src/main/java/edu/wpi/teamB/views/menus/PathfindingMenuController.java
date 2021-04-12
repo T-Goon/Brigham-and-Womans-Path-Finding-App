@@ -29,6 +29,8 @@ public class PathfindingMenuController implements Initializable {
     private JFXComboBox<String> endLocComboBox;
 
     @FXML
+    private AnchorPane nodeHolder;
+    @FXML
     private AnchorPane mapHolder;
 
     @FXML
@@ -107,24 +109,24 @@ public class PathfindingMenuController implements Initializable {
      * @param value Value to zoom in or out.
      */
     private void zoomMap(boolean value) {
-        if (mapHolder.getScaleX() * (1 + zoomAmount) < PathfindingMenuController.zoomMax &&
-                mapHolder.getScaleY() * (1 + zoomAmount) < PathfindingMenuController.zoomMax &&
+        if (nodeHolder.getScaleX() * (1 + zoomAmount) < PathfindingMenuController.zoomMax &&
+                nodeHolder.getScaleY() * (1 + zoomAmount) < PathfindingMenuController.zoomMax &&
                 value) {
-            mapHolder.setScaleX(mapHolder.getScaleX() * (1 + zoomAmount));
-            mapHolder.setScaleY(mapHolder.getScaleX() * (1 + zoomAmount));
+            nodeHolder.setScaleX(nodeHolder.getScaleX() * (1 + zoomAmount));
+            nodeHolder.setScaleY(nodeHolder.getScaleX() * (1 + zoomAmount));
         }
 
-        if (mapHolder.getScaleX() * (1 - zoomAmount) > PathfindingMenuController.zoomMin &&
-                mapHolder.getScaleY() * (1 - zoomAmount) > PathfindingMenuController.zoomMin &&
+        if (nodeHolder.getScaleX() * (1 - zoomAmount) > PathfindingMenuController.zoomMin &&
+                nodeHolder.getScaleY() * (1 - zoomAmount) > PathfindingMenuController.zoomMin &&
                 !value) {
-            mapHolder.setScaleX(mapHolder.getScaleX() * (1 - zoomAmount));
-            mapHolder.setScaleY(mapHolder.getScaleX() * (1 - zoomAmount));
+            nodeHolder.setScaleX(nodeHolder.getScaleX() * (1 - zoomAmount));
+            nodeHolder.setScaleY(nodeHolder.getScaleX() * (1 - zoomAmount));
         }
     }
 
     /**
      * Places an image for a node on the map at the given pixel coordinates.
-     * <p>
+     *
      * IMPORTANT!!!: ALWAYS PLACE EDGES BEFORE NODES.
      *
      * @param x x coordinates of node in pixels
@@ -132,12 +134,12 @@ public class PathfindingMenuController implements Initializable {
      */
     public void placeNode(int x, int y) {
         try {
-            Circle c = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/misc/node.fxml"));
+            ImageView i = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/misc/node.fxml"));
 
-            c.setCenterX(x / PathfindingMenuController.coordinateScale);
-            c.setCenterY(y / PathfindingMenuController.coordinateScale);
+            i.setLayoutX((x / PathfindingMenuController.coordinateScale)-(i.getFitWidth()/4));
+            i.setLayoutY((y / PathfindingMenuController.coordinateScale)-(i.getFitHeight()));
 
-            mapHolder.getChildren().add(c);
+            nodeHolder.getChildren().add(i);
 
         } catch (IOException e) {
             e.printStackTrace();
