@@ -17,6 +17,8 @@ public class AStar {
      */
     public static List<String> findPath(String startID, String endID) {
 
+        Graph graph = Graph.getGraph();
+
         //Database connection to get start and end nodes by the ids passed in as parameters
         DatabaseHandler db = DatabaseHandler.getDatabaseHandler("main.db");
         Node startNode = null;
@@ -51,7 +53,7 @@ public class AStar {
                 break;
 
             //Check the adj nodes of the current node
-            for (Node neighbor : Graph.findAdjNodes(current.getNodeID())) {
+            for (Node neighbor : graph.getAdjNodesById(current.getNodeID())) {
 
                 //Calculate the cost of reaching the next node
                 double newCost = costSoFar.get(current.getNodeID()) + Graph.dist(current, neighbor);

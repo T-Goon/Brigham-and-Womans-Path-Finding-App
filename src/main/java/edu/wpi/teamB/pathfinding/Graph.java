@@ -15,8 +15,10 @@ public class Graph {
 
     private Map<String, Node> nodes;
     private Map<String, Edge> edges;
+    private Map<String, List<Node>> adjMap;
 
     private Graph() {
+        adjMap = new HashMap<>();
         DatabaseHandler db = DatabaseHandler.getDatabaseHandler("main.db");
 
         try {
@@ -25,6 +27,31 @@ public class Graph {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+
+        for(Edge edge: edges.values()){
+            if(!adjMap.containsKey(edge.getStartNodeName())){
+                LinkedList<Node> tempList = new LinkedList<>();
+                tempList.add(nodes.get(edge.getEndNodeName()));
+                adjMap.put(edge.getStartNodeName(), tempList);
+            }else{
+                adjMap.get(edge.getStartNodeName()).add(nodes.get(edge.getEndNodeName()));
+            }
+
+            if(!adjMap.containsKey(edge.getEndNodeName())){
+                LinkedList<Node> tempList = new LinkedList<>();
+                tempList.add(nodes.get(edge.getStartNodeName()));
+                adjMap.put(edge.getEndNodeName(), tempList);
+            }else{
+                adjMap.get(edge.getEndNodeName()).add(nodes.get(edge.getStartNodeName()));
+            }
+
+        }
+
+    }
+
+    public List<Node> getAdjNodesById(String nodeID){
+        return adjMap.get(nodeID);
     }
 
     /**
@@ -35,48 +62,6 @@ public class Graph {
             graph = new Graph();
         }
         return graph;
-    }
-
-    /**
-     * findAdjNodes: Finds adjacent nodes of the given node
-     *
-     * @param ID: The NodeID that we are getting the adjacent nodes of
-     * @return The list of adjacent nodes of the given node id
-     */
-    public static List<Node> findAdjNodes(String ID) {
-        List<Node> adjNodeList = new ArrayList<>();
-
-        // Get edges and nodes from database
-        Map<String, Edge> edgeInfo;
-        Map<String, Node> nodeInfo;
-        try {
-            DatabaseHandler db = DatabaseHandler.getDatabaseHandler("main.db");
-            edgeInfo = db.getEdges();
-            nodeInfo = db.getNodes();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
-        }
-
-        // Fills the adjacent node list bidirectionally
-        for (Edge edges : edgeInfo.values()) {
-            if (edges.getStartNodeName().equals(ID)) {
-                for (Node node : nodeInfo.values()) {
-                    if (edges.getEndNodeName().equals(node.getNodeID())) {
-                        adjNodeList.add(node);
-                        break;
-                    }
-                }
-            } else if (edges.getEndNodeName().equals(ID)) {
-                for (Node node : nodeInfo.values()) {
-                    if (edges.getStartNodeName().equals(node.getNodeID())) {
-                        adjNodeList.add(node);
-                        break;
-                    }
-                }
-            }
-        }
-        return adjNodeList;
     }
 
     /**

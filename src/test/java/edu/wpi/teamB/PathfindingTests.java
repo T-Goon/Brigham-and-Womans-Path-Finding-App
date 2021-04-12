@@ -9,6 +9,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 public class PathfindingTests {
@@ -18,7 +19,7 @@ public class PathfindingTests {
         List<Node> adjNodes = new ArrayList<>();
         Node bWALK00101 = new Node("bWALK00101",568,1894,1,"Parking","WALK","Left Parking Lot Walkway","Llot Walk");
         adjNodes.add(bWALK00101);
-        assertEquals(adjNodes, Graph.findAdjNodes("bPARK00101"));
+        assertEquals(adjNodes, Graph.getGraph().getAdjNodesById("bPARK00101"));
 
         //testing bidirectional and multiple adj nodes
         List<Node> adjNodes3 = new ArrayList<>();
@@ -37,7 +38,7 @@ public class PathfindingTests {
         adjNodes3.add(bEXIT00101);
         adjNodes3.add(bEXIT00201);
 
-        assertEquals(adjNodes3, Graph.findAdjNodes("bWALK00401"));
+        assertTrue(Graph.getGraph().getAdjNodesById("bWALK00401").containsAll(adjNodes3));
 
     }
 
