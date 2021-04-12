@@ -114,7 +114,7 @@ public class DatabaseHandlerTest {
         try {
             db.fillDatabase(nodes, edges);
             List<Node> outnodes = db.getNodeInformation();
-            assert(outnodes.containsAll(nodes));
+            assert (outnodes.containsAll(nodes));
             List<Edge> outedges = db.getEdgeInformation();
             assertEquals(outedges.get(0), targetEdge);
         } catch (SQLException e) {
