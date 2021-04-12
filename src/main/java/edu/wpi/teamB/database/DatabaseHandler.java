@@ -61,7 +61,7 @@ public class DatabaseHandler {
      * Given the list of edges and nodes, clear and fill the database
      * with that data.
      */
-    public void fillDatabase(List<Node> nodes, List<Edge> edges) throws SQLException {
+    public void loadDatabase(List<Node> nodes, List<Edge> edges) throws SQLException {
 
         Statement statement = this.getStatement();
         // Drop tables if they exist already
@@ -86,6 +86,15 @@ public class DatabaseHandler {
                 + "shortName CHAR(20))";
         statement.execute(query);
 
+        query = "CREATE TABLE Edges("
+                + "edgeID CHAR(30), "
+                + "startNode CHAR(20), "
+                + "endNode CHAR(20))";
+        statement.execute(query);
+
+        // If either list is empty, then nothing should be put in
+        if (nodes == null || edges == null) return;
+
         for (Node node : nodes) {
             query = "INSERT INTO Nodes(nodeID, xcoord, ycoord, floor, building, nodeType, longName, shortName) " +
                     "VALUES('"
@@ -99,12 +108,6 @@ public class DatabaseHandler {
                     + node.getShortName() + "')";
             statement.execute(query);
         }
-
-        query = "CREATE TABLE Edges("
-                + "edgeID CHAR(30), "
-                + "startNode CHAR(20), "
-                + "endNode CHAR(20))";
-        statement.execute(query);
 
         for (Edge edge : edges) {
             query = "INSERT INTO Edges(edgeID, startNode, endNode) "

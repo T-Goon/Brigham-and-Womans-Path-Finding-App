@@ -5,6 +5,7 @@ import edu.wpi.teamB.entities.Edge;
 import edu.wpi.teamB.entities.Node;
 import edu.wpi.teamB.util.CSVHandler;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
@@ -27,6 +28,15 @@ public class DatabaseHandlerTest {
     static void initDB() {
         db = DatabaseHandler.getDatabaseHandler("test.db");
         resourcesPathString = new File("").getAbsolutePath() + "/src/test/resources/edu/wpi/teamB/database/load/";
+    }
+
+    @BeforeEach
+    void resetDB() {
+        try {
+            db.loadDatabase(null, null);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
@@ -114,7 +124,7 @@ public class DatabaseHandlerTest {
         edges.add(targetEdge);
 
         try {
-            db.fillDatabase(nodes, edges);
+            db.loadDatabase(nodes, edges);
             Map<String, Node> outNodes = db.getNodes();
             assert (outNodes.values().containsAll(nodes));
             Map<String, Edge> outEdges = db.getEdges();
@@ -138,7 +148,7 @@ public class DatabaseHandlerTest {
                 "Name With Many Spaces",
                 "N W M S");
         actual.add(target);
-        db.fillDatabase(actual, edges);
+        db.loadDatabase(actual, edges);
 
         String nodeID = target.getNodeID();
         int xcoord = 1;
@@ -166,7 +176,7 @@ public class DatabaseHandlerTest {
         List<Edge> actual = new ArrayList<>();
         Edge target = new Edge("bPARK01201_bWALK00501", "test_start", "test_end");
         actual.add(target);
-        db.fillDatabase(nodes, actual);
+        db.loadDatabase(nodes, actual);
 
         String edgeID = target.getEdgeID();
         String startNode = "bPARK01201";
