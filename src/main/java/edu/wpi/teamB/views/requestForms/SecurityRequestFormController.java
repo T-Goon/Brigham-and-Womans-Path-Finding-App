@@ -9,7 +9,7 @@ import javafx.scene.control.Label;
 public class SecurityRequestFormController extends DefaultServiceRequestFormController {
 
     @FXML
-    private JFXTextField location;
+    private JFXTextField loc;
 
     @FXML
     private JFXComboBox<Label> comboSecurityType;

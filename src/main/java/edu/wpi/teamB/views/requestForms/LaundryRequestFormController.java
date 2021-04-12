@@ -14,7 +14,7 @@ import java.util.ResourceBundle;
 public class LaundryRequestFormController extends DefaultServiceRequestFormController implements Initializable {
 
     @FXML
-    private JFXTextField location;
+    private JFXTextField loc;
 
     @FXML
     private JFXComboBox<Label> comboTypeService;
