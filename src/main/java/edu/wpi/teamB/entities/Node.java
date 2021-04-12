@@ -16,14 +16,10 @@ public class Node implements Comparable<Node> {
     private final String longName;
     private final String shortName;
 
-    @Setter
-    private double accumWeight;
+    @EqualsAndHashCode.Exclude
     @Setter
     private double fVal;
-    @Setter
-    private Node prevNode;
-    @Setter
-    private boolean isClosed;
+
 
     public Node(String nodeID, int xCoord, int yCoord, int floor, String building, String nodeType, String longName, String shortName) {
         this.nodeID = nodeID;
@@ -34,7 +30,6 @@ public class Node implements Comparable<Node> {
         this.nodeType = nodeType;
         this.longName = longName;
         this.shortName = shortName;
-        this.isClosed = false;
     }
 
     @Override
