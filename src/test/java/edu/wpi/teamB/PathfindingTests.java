@@ -52,7 +52,7 @@ public class PathfindingTests {
     @Test
     public void populateHashmapTest(){
 
-        HashMap<String, Node> nodeMap = Read.parseCSVNodes("src/main/resources/edu/wpi/teamB/csvfiles/MapBedges.csv");
+        HashMap<String, Node> nodeMap = Read.parseCSVNodes("src/main/resources/edu/wpi/teamB/csvfiles/MapBnodes.csv");
         HashMap<String, Node> shortPathInfo = Graph.populateHashmap(nodeMap.values());
 
         Node check = shortPathInfo.get("bWALK00301");
@@ -76,5 +76,13 @@ public class PathfindingTests {
 //
 //    }
 
+
+    @Test
+    public void testAStar(){
+
+        List<String> path = Graph.AStr("bPARK00101", "bPARK02501");
+        System.out.println();
+
+    }
 
 }

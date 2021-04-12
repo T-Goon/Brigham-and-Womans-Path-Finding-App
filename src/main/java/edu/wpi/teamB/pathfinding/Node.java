@@ -1,5 +1,6 @@
 package edu.wpi.teamB.pathfinding;
 
+
 import java.util.Objects;
 
 public class Node {
@@ -35,54 +36,6 @@ public class Node {
     this.longName = longName;
     this.shortName = shortName;
     this.isClosed = false;
-  }
-
-  public String getNodeID() {
-    return nodeID;
-  }
-
-  public int getXCoord() {
-    return xcoord;
-  }
-
-  public int getYCoord() {
-    return ycoord;
-  }
-
-  public int getFloor() {
-    return floor;
-  }
-
-  public String getBuilding() {
-    return building;
-  }
-
-  public String getNodeType() {
-    return nodeType;
-  }
-
-  public String getLongName() {
-    return longName;
-  }
-
-  public String getShortName() {
-    return shortName;
-  }
-
-  public double getAccumWeight() {
-    return accumWeight;
-  }
-
-  public double getfVal() {
-    return fVal;
-  }
-
-  public Node getPrevNode() {
-    return prevNode;
-  }
-
-  public boolean isClosed() {
-    return isClosed;
   }
 
   public void setAccumWeight(double accumWeight) {
