@@ -18,9 +18,9 @@ public class PathfindingTests {
     public void adjNodes() {
         //Testing only one adj node
         List<Node> adjNodes = new ArrayList<>();
-        Node bWALK00501 = new Node("bWALK00501", 1872, 1965, 1, "Parking", "WALK", "Vining Street Walkway", "ViningWalk");
-        adjNodes.add(bWALK00501);
-        assertEquals(adjNodes, Graph.findAdjNodes("bPARK02501"));
+        Node bWALK00101 = new Node("bWALK00101",568,1894,1,"Parking","WALK","Left Parking Lot Walkway","Llot Walk");
+        adjNodes.add(bWALK00101);
+        assertEquals(adjNodes, Graph.findAdjNodes("bPARK00101"));
 
         //testing bidirectional and multiple adj nodes
         List<Node> adjNodes3 = new ArrayList<>();
@@ -32,8 +32,8 @@ public class PathfindingTests {
         * */
 
         Node bWALK00301 = new Node("bWALK00301",1874,1611,1,"Parking","WALK","Francis Street Vining Street Intersection","FrancisViningInt");
-        Node bEXIT00101 = new Node("bEXIT00101",1749,1389,1,"Parking","EXIT","75 Francis Lobby Entrance","FrancisLobbyEnt");
-        Node bEXIT00201 = new Node("bEXIT00201",2061,1390,1,"Parking","EXIT","Emergency Entrance","EmergencyEnt");
+        Node bEXIT00101 = new Node("bEXIT00101",1749,1389,1,"Parking","EXIT","75 Francis Lobby Enterance","FrancisLobbyEnt");
+        Node bEXIT00201 = new Node("bEXIT00201",2061,1390,1,"Parking","EXIT","Emergency Enterance","EmergencyEnt");
 
         adjNodes3.add(bWALK00301);
         adjNodes3.add(bEXIT00101);
