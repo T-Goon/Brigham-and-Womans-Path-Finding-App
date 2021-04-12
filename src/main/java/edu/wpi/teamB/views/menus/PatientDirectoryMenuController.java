@@ -35,6 +35,13 @@ public class PatientDirectoryMenuController {
             case "btnExit":
                 Platform.exit();
                 break;
+            case "btnCovid":
+                try {
+                    SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/secondaryForms/covidSurvey.fxml");
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                    break;
+                }
         }
 
     }

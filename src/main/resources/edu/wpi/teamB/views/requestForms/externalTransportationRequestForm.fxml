@@ -34,7 +34,7 @@
                     </ImageView>
                     <VBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
                         <children>
-                            <JFXButton buttonType="RAISED" style="-fx-background-color: #ce2029;" text="EMERGENCY" textFill="WHITE">
+                            <JFXButton fx:id="btnEmergency" buttonType="RAISED" onAction="#handleButtonAction" style="-fx-background-color: #ce2029;" text="EMERGENCY" textFill="WHITE">
                                 <font>
                                     <Font name="MS Reference Sans Serif" size="16.0" />
                                 </font>
@@ -79,12 +79,12 @@
                      <children>
                           <VBox GridPane.columnIndex="1">
                               <children>
-                                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Room">
+                                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Room:">
                                       <font>
                                           <Font size="14.0" />
                                       </font>
                                   </Text>
-                                  <JFXTextField fx:id="ROOMNUM" style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" />
+                                  <JFXTextField fx:id="roomNum" style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" />
                               </children>
                               <padding>
                                   <Insets left="10.0" right="10.0" />
@@ -92,12 +92,12 @@
                           </VBox>
                           <VBox>
                               <children>
-                                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Name">
+                                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Name:">
                                       <font>
                                           <Font size="14.0" />
                                       </font>
                                   </Text>
-                              <JFXTextField fx:id="NAME" prefHeight="25.0" style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" />
+                              <JFXTextField fx:id="name" prefHeight="25.0" style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" />
                               </children>
                               <padding>
                                   <Insets left="10.0" right="10.0" />
@@ -105,7 +105,7 @@
                           </VBox>
                         <VBox GridPane.rowIndex="2">
                            <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Destination Address">
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Destination Address:">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
@@ -121,7 +121,7 @@
                         </VBox>
                         <VBox GridPane.columnIndex="1" GridPane.rowIndex="2">
                            <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Transportation Type">
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Transportation Type:">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
@@ -129,7 +129,7 @@
                                     <Insets top="10.0" />
                                  </VBox.margin>
                               </Text>
-                              <JFXComboBox fx:id="TRTYPE" prefHeight="25.0" promptText="Transportation Option" style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" />
+                              <JFXComboBox fx:id="transpType" prefHeight="25.0" promptText="Transportation Option" style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" />
                            </children>
                            <padding>
                               <Insets left="10.0" right="10.0" />
@@ -137,12 +137,12 @@
                         </VBox>
                           <VBox GridPane.rowIndex="4">
                               <children>
-                                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Transportation Details">
+                                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Transportation Details:">
                                       <font>
                                           <Font size="14.0" />
                                       </font>
                                   </Text>
-                              <JFXTextArea fx:id="DESCRIPTION" promptText="List Optional Transportation Details" style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" />
+                              <JFXTextArea fx:id="description" promptText="List Optional Transportation Details" style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" />
                               </children>
                               <padding>
                                   <Insets left="10.0" right="10.0" />
@@ -150,12 +150,12 @@
                           </VBox>
                         <VBox GridPane.columnIndex="1" GridPane.rowIndex="4">
                            <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Allergies">
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Allergies:">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
                               </Text>
-                              <JFXTextArea fx:id="ALLERGIES" promptText="List Allergies" style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" />
+                              <JFXTextArea fx:id="allergies" promptText="List Allergies" style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" />
                            </children>
                            <padding>
                               <Insets left="10.0" right="10.0" />
@@ -165,16 +165,16 @@
                   </GridPane>
                     <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="50.0">
                         <children>
-                            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Special Flags" HBox.hgrow="ALWAYS">
+                            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Special Flags:" HBox.hgrow="ALWAYS">
                                 <font>
                                     <Font size="14.0" />
                                 </font>
                             </Text>
                         <FlowPane hgap="10.0" HBox.hgrow="ALWAYS">
                            <children>
-                                    <JFXCheckBox fx:id="UNCONSCIOUS" text="Unconscious Patient" />
-                                    <JFXCheckBox fx:id="INFECTIOUS" text="Infectious Patient" />
-                              <JFXCheckBox fx:id="OUTNETWORK" text="Out-network Transfer" />
+                                    <JFXCheckBox fx:id="unconscious" text="Unconscious Patient" />
+                                    <JFXCheckBox fx:id="infectious" text="Infectious Patient" />
+                              <JFXCheckBox fx:id="outNetwork" text="Out-network Transfer" />
                            </children>
                         </FlowPane>
                         </children>
@@ -195,7 +195,7 @@
                             </HBox>
                             <HBox alignment="CENTER" fillHeight="false" spacing="10.0" HBox.hgrow="ALWAYS">
                                 <children>
-                                    <JFXButton buttonType="RAISED" style="-fx-background-color: #F6BD39; -fx-background-radius: 7;" text="Submit">
+                                    <JFXButton fx:id="btnSubmit" buttonType="RAISED" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39; -fx-background-radius: 7;" text="Submit">
                                         <font>
                                             <Font name="MS Reference Sans Serif" size="20.0" />
                                         </font>
@@ -204,7 +204,7 @@
                             </HBox>
                             <HBox alignment="CENTER_RIGHT" fillHeight="false" spacing="10.0" HBox.hgrow="ALWAYS">
                                 <children>
-                                    <JFXButton buttonType="RAISED" style="-fx-background-color: #9A9999; -fx-background-radius: 50%;" text="?" textFill="WHITE">
+                                    <JFXButton fx:id="btnHelp" buttonType="RAISED" onAction="#handleButtonAction" style="-fx-background-color: #9A9999; -fx-background-radius: 50%;" text="?" textFill="WHITE">
                                         <font>
                                             <Font name="MS Reference Sans Serif" size="14.0" />
                                         </font>
