@@ -18,6 +18,10 @@ public class Graph {
     private Map<String, List<Node>> adjMap;
 
     private Graph() {
+        updateGraph();
+    }
+
+    public void updateGraph(){
         adjMap = new HashMap<>();
         DatabaseHandler db = DatabaseHandler.getDatabaseHandler("main.db");
 
@@ -47,7 +51,6 @@ public class Graph {
             }
 
         }
-
     }
 
     public List<Node> getAdjNodesById(String nodeID) {
