@@ -6,11 +6,9 @@ import edu.wpi.teamB.entities.Node;
 import lombok.Getter;
 
 import java.sql.SQLException;
-
 import java.util.*;
 
 @Getter
-
 public class Graph {
 
     private static Graph graph;
