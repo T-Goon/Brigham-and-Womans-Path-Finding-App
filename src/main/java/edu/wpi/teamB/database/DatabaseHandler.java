@@ -4,8 +4,10 @@ import edu.wpi.teamB.entities.Edge;
 import edu.wpi.teamB.entities.Node;
 
 import java.sql.*;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 public class DatabaseHandler {
 
@@ -115,15 +117,39 @@ public class DatabaseHandler {
     }
 
     /**
-     * Displays the list of nodes along with their attributes.
+     * Get specific node information from the database given the node's ID
+     *
+     * @param ID requested node ID
+     * @return Node object with data from database
+     * @throws SQLException
      */
-    public List<Node> getNodeInformation() throws SQLException {
-
+    public Node getNodeById(String ID) throws SQLException {
         Statement statement = this.getStatement();
 
+        String query = "SELECT * FROM Nodes WHERE nodeID = '" + ID + "'";
+        ResultSet rs = statement.executeQuery(query);
+
+        Node outNode = new Node(
+                rs.getString("nodeID").trim(),
+                rs.getInt("xcoord"),
+                rs.getInt("ycoord"),
+                rs.getInt("floor"),
+                rs.getString("building").trim(),
+                rs.getString("nodeType").trim(),
+                rs.getString("longName").trim(),
+                rs.getString("shortName").trim()
+        );
+        return outNode;
+    }
+
+    /**
+     * Displays the list of nodes along with their attributes.
+     */
+    public Map<String, Node> getNodes() throws SQLException {
+        Statement statement = this.getStatement();
         String query = "SELECT * FROM Nodes";
         ResultSet rs = statement.executeQuery(query);
-        LinkedList<Node> nodes = new LinkedList<>();
+        Map<String, Node> nodes = new HashMap<>();
         while (rs.next()) {
             Node outNode = new Node(
                     rs.getString("NodeID").trim(),
@@ -135,7 +161,7 @@ public class DatabaseHandler {
                     rs.getString("longName").trim(),
                     rs.getString("shortName").trim()
             );
-            nodes.add(outNode);
+            nodes.put(rs.getString("NodeID").trim(), outNode);
         }
         return nodes;
     }
@@ -143,19 +169,19 @@ public class DatabaseHandler {
     /**
      * Displays the list of edges along with their attributes.
      */
-    public List<Edge> getEdgeInformation() throws SQLException {
+    public Map<String, Edge> getEdges() throws SQLException {
         Statement statement = this.getStatement();
 
         String query = "SELECT edgeID, startNode, endNode FROM Edges";
         ResultSet rs = statement.executeQuery(query);
-        LinkedList<Edge> edges = new LinkedList<>();
+        Map<String, Edge> edges = new HashMap<>();
         while (rs.next()) {
             Edge outEdge = new Edge(
                     rs.getString("edgeID").trim(),
                     rs.getString("startNode").trim(),
                     rs.getString("endNode").trim()
             );
-            edges.add(outEdge);
+            edges.put(rs.getString("edgeID").trim(), outEdge);
         }
 
         return edges;
@@ -225,31 +251,5 @@ public class DatabaseHandler {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
-
-
-    /**
-     * Get specific node information from the database given the node's ID
-     * @param ID requested node ID
-     * @return Node object with data from database
-     * @throws SQLException
-     */
-    public Node getNodeById(String ID) throws SQLException {
-        Statement statement = this.getStatement();
-
-        String query = "SELECT * FROM Nodes WHERE nodeID = '" + ID + "'";
-        ResultSet rs = statement.executeQuery(query);
-
-        Node outNode = new Node(
-                rs.getString("nodeID").trim(),
-                rs.getInt("xcoord"),
-                rs.getInt("ycoord"),
-                rs.getInt("floor"),
-                rs.getString("building").trim(),
-                rs.getString("nodeType").trim(),
-                rs.getString("longName").trim(),
-                rs.getString("shortName").trim()
-        );
-        return outNode;
     }
 }

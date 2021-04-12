@@ -1,22 +1,17 @@
 package edu.wpi.teamB.entities;
 
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 @Getter
 @EqualsAndHashCode
+@AllArgsConstructor
 public class Edge {
 
     private final String edgeID;
     private final String startNodeName;
     private final String endNodeName;
-    private int weight;
-
-    public Edge(String edgeID, String startNodeName, String endNodeName) {
-        this.edgeID = edgeID;
-        this.startNodeName = startNodeName;
-        this.endNodeName = endNodeName;
-    }
 
     @Override
     public String toString() {

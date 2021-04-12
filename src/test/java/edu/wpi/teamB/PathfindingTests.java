@@ -3,10 +3,8 @@ package edu.wpi.teamB;
 import edu.wpi.teamB.entities.Node;
 import edu.wpi.teamB.pathfinding.AStar;
 import edu.wpi.teamB.pathfinding.Graph;
-import edu.wpi.teamB.pathfinding.Read;
 import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 

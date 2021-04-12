@@ -12,6 +12,7 @@ import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -113,10 +114,10 @@ public class DatabaseHandlerTest {
 
         try {
             db.fillDatabase(nodes, edges);
-            List<Node> outnodes = db.getNodeInformation();
-            assert (outnodes.containsAll(nodes));
-            List<Edge> outedges = db.getEdgeInformation();
-            assertEquals(outedges.get(0), targetEdge);
+            Map<String, Node> outNodes = db.getNodes();
+            assert (outNodes.values().containsAll(nodes));
+            Map<String, Edge> outEdges = db.getEdges();
+            assertEquals(outEdges.values().toArray()[0], targetEdge);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -148,14 +149,14 @@ public class DatabaseHandlerTest {
         String shortName = "LLot10";
         db.updateNode(new Node(nodeID, xcoord, ycoord, floor, building, nodeType, longName, shortName));
 
-        List<Node> nodes = db.getNodeInformation();
-        assertEquals(1, nodes.get(0).getXCoord());
-        assertEquals(2, nodes.get(0).getYCoord());
-        assertEquals(3, nodes.get(0).getFloor());
-        assertEquals("Parking", nodes.get(0).getBuilding());
-        assertEquals("PARK", nodes.get(0).getNodeType());
-        assertEquals("Left Parking Lot Spot 10", nodes.get(0).getLongName());
-        assertEquals("LLot10", nodes.get(0).getShortName());
+        Map<String, Node> nodes = db.getNodes();
+        assertEquals(1, nodes.get("testNode").getXCoord());
+        assertEquals(2, nodes.get("testNode").getYCoord());
+        assertEquals(3, nodes.get("testNode").getFloor());
+        assertEquals("Parking", nodes.get("testNode").getBuilding());
+        assertEquals("PARK", nodes.get("testNode").getNodeType());
+        assertEquals("Left Parking Lot Spot 10", nodes.get("testNode").getLongName());
+        assertEquals("LLot10", nodes.get("testNode").getShortName());
     }
 
     @Test
@@ -171,8 +172,8 @@ public class DatabaseHandlerTest {
         String endNode = "bWALK00501";
         db.updateEdge(new Edge(edgeID, startNode, endNode));
 
-        List<Edge> edges = db.getEdgeInformation();
-        assertEquals("bPARK01201", edges.get(0).getStartNodeName());
-        assertEquals("bWALK00501", edges.get(0).getEndNodeName());
+        Map<String, Edge> edges = db.getEdges();
+        assertEquals("bPARK01201", edges.get("bPARK01201_bWALK00501").getStartNodeName());
+        assertEquals("bWALK00501", edges.get("bPARK01201_bWALK00501").getEndNodeName());
     }
 }

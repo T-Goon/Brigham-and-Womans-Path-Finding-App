@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 public class CSVHandler {
 
@@ -93,12 +94,12 @@ public class CSVHandler {
         String dbName = "main.db";
         if (testing) dbName = "test.db";
 
-        List<Node> nodes = DatabaseHandler.getDatabaseHandler(dbName).getNodeInformation();
+        Map<String, Node> nodes = DatabaseHandler.getDatabaseHandler(dbName).getNodes();
 
         // make string representation of csv file
         StringBuilder sb = new StringBuilder();
         sb.append("nodeID,xcoord,ycoord,floor,building,nodeType,longName,shortName\n");
-        for (Node n : nodes) {
+        for (Node n : nodes.values()) {
             sb.append(n.getNodeID()).append(",")
                     .append(n.getXCoord()).append(",")
                     .append(n.getYCoord()).append(",")
@@ -134,12 +135,12 @@ public class CSVHandler {
         String dbName = "main.db";
         if (testing) dbName = "test.db";
 
-        List<Edge> edges = DatabaseHandler.getDatabaseHandler(dbName).getEdgeInformation();
+        Map<String, Edge> edges = DatabaseHandler.getDatabaseHandler(dbName).getEdges();
 
         // make string representation of csv file
         StringBuilder sb = new StringBuilder();
         sb.append("edgeID,startNode,endNode\n");
-        for (Edge e : edges) {
+        for (Edge e : edges.values()) {
             sb.append(e.getEdgeID()).append(",")
                     .append(e.getStartNodeName()).append(",")
                     .append(e.getEndNodeName()).append("\n");
