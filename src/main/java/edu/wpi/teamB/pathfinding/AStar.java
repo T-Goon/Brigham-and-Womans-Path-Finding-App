@@ -7,8 +7,6 @@ import java.util.*;
 
 public class AStar {
 
-    private static final DatabaseHandler db = DatabaseHandler.getDatabaseHandler("main.db");
-
     /**
      * Main pathfinding algorithm used to find a path between two nodes.
      *
@@ -18,7 +16,7 @@ public class AStar {
      */
     public static List<String> findPath(String startID, String endID) {
 
-        Graph graph = Graph.getGraph(db);
+        Graph graph = Graph.getGraph(DatabaseHandler.getDatabaseHandler("main.db"));
         Node startNode = graph.getNodes().get(startID);
         Node endNode = graph.getNodes().get(endID);
 
