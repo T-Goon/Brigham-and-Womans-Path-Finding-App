@@ -88,5 +88,12 @@ public class PathfindingTests {
 //
 //    }
 
+    @Test
+    public void testAStar(){
+        List<String> path = Graph.AStr("bPARK00101", "bPARK02501");
+        assertTrue(true);
+    }
+
+
 
 }
