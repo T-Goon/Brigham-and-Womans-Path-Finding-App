@@ -56,7 +56,7 @@ public class PathfindingMenuController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        HashMap<String, Node> locations = Read.parseCSVNodes("src/main/resources/edu/wpi/teamB/csvfiles/MapBedges.csv");
+        HashMap<String, Node> locations = Read.parseCSVNodes("src/main/resources/edu/wpi/teamB/csvfiles/MapBnodes.csv");
 
         // Populate the combo boxes with locations
         try{

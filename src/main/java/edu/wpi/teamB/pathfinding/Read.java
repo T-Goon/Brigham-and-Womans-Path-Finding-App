@@ -51,7 +51,7 @@ public class Read {
   }
 
   // tested by databases
-  public static List<Edge> parseCSVEdges() {
+  public static List<Edge> parseCSVEdges(String path) {
 
     List<Edge> list = new ArrayList<>();
 
@@ -62,7 +62,7 @@ public class Read {
       fileContent =
           new String(
               Files.readAllBytes(
-                  Paths.get("src/main/resources/edu/wpi/teamB/pathfindingData/edges.csv")));
+                  Paths.get(path)));
     } catch (IOException e) {
       e.printStackTrace();
       return null;

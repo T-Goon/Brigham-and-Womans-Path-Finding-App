@@ -4,7 +4,7 @@ public class Graph {
 
   private static HashMap<String, List<Node>> initHashMap() {
     HashMap<String, List<Node>> adjNodes = new HashMap<String, List<Node>>();
-    HashMap<String, Node> nodeInfo = Read.parseCSVNodes("src/main/resources/edu/wpi/teamB/csvfiles/MapBedges.csv");
+    HashMap<String, Node> nodeInfo = Read.parseCSVNodes("src/main/resources/edu/wpi/teamB/csvfiles/MapBnodes.csv");
 
     for (Node node : nodeInfo.values()) {
       List<Node> adjNodesList = findAdjNodes(node.getNodeID());
@@ -16,8 +16,8 @@ public class Graph {
   //testing
   public static List<Node> findAdjNodes(String ID) {
     List<Node> adjNodeList = new ArrayList<>();
-    List<Edge> edgeInfo = Read.parseCSVEdges();
-    HashMap<String, Node> nodeInfo = Read.parseCSVNodes("src/main/resources/edu/wpi/teamB/csvfiles/MapBedges.csv");
+    List<Edge> edgeInfo = Read.parseCSVEdges("src/main/resources/edu/wpi/teamB/csvfiles/MapBedges.csv");
+    HashMap<String, Node> nodeInfo = Read.parseCSVNodes("src/main/resources/edu/wpi/teamB/csvfiles/MapBnodes.csv");
 
     for (Edge edges : edgeInfo) {
       if (edges.getStartNodeName().equals(ID)) {
@@ -129,7 +129,7 @@ public class Graph {
 
   public static HashMap<String, Node> AStrHashTable(String startStr, String endStr) {
     HashMap<String, List<Node>> adjMat = initHashMap();
-    HashMap<String, Node> nodes = Read.parseCSVNodes("src/main/resources/edu/wpi/teamB/csvfiles/MapBedges.csv");
+    HashMap<String, Node> nodes = Read.parseCSVNodes("src/main/resources/edu/wpi/teamB/csvfiles/MapBnodes.csv");
     HashMap<String, Node> shortPathInfo = populateHashmap(nodes.values());
 
 
