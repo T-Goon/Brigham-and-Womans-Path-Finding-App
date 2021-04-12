@@ -195,7 +195,7 @@ public class Graph {
         List<String> fPath = new ArrayList<>();
 
         while (!start.equals(end)) {
-            Node node = aStrData.get(end).getPrevNode();
+            Node node = aStrData.get(end.getNodeID()).getPrevNode();
             path.push(node.getNodeID());
             end = node;
         }
