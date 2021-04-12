@@ -14,7 +14,7 @@ public class Node {
 
   private double accumWeight;
   private double fVal;
-  private Node prevNode;
+  private String prevNode;
   private boolean isClosed;
 
   public Node(
@@ -77,7 +77,7 @@ public class Node {
     return fVal;
   }
 
-  public Node getPrevNode() {
+  public String getPrevNode() {
     return prevNode;
   }
 
@@ -93,7 +93,7 @@ public class Node {
     this.fVal = fVal;
   }
 
-  public void setPrevNode(Node prevNode) {
+  public void setPrevNode(String prevNode) {
     this.prevNode = prevNode;
   }
 

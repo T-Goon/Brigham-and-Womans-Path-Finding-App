@@ -3,6 +3,7 @@ package edu.wpi.teamB.views.menus;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 
+import edu.wpi.teamB.pathfinding.Graph;
 import edu.wpi.teamB.pathfinding.Node;
 import edu.wpi.teamB.pathfinding.Read;
 import edu.wpi.teamB.util.SceneSwitcher;
@@ -17,6 +18,7 @@ import javafx.scene.shape.Line;
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class PathfindingMenuController implements Initializable {
@@ -183,5 +185,9 @@ public class PathfindingMenuController implements Initializable {
      */
     public String getEndLocation(){
         return endLocComboBox.getValue();
+    }
+
+    public void runAstr(){
+        List<String> path = Graph.AStr(getStartLocation(), getEndLocation());
     }
 }
