@@ -50,20 +50,20 @@ public class PathfindingTests {
         assertEquals(5.0, Graph.dist(start, end));
     }
 
-    @Test
-    public void populateHashmapTest(){
-
-        HashMap<String, Node> nodeMap = Read.parseCSVNodes("src/main/resources/edu/wpi/teamB/csvfiles/MapBnodes.csv");
-        HashMap<String, Node> shortPathInfo = Graph.populateHashmap(nodeMap.values());
-
-        Node check = shortPathInfo.get("bWALK00301");
-        assertEquals(check.getXCoord(), 1874);
-        assertEquals(check.getYCoord(), 1611);
-        assertEquals(check.isClosed(), false);
-        assertEquals(check.getFVal(), Double.MAX_VALUE);
-        assertEquals(check.getAccumWeight(), Double.MAX_VALUE);
-        assertEquals(check.getPrevNode(), null);
-    }
+//    @Test
+//    public void populateHashmapTest(){
+//
+//        HashMap<String, Node> nodeMap = Read.parseCSVNodes("src/main/resources/edu/wpi/teamB/csvfiles/MapBnodes.csv");
+//        HashMap<String, Node> shortPathInfo = Graph.populateHashmap(nodeMap.values());
+//
+//        Node check = shortPathInfo.get("bWALK00301");
+//        assertEquals(check.getXCoord(), 1874);
+//        assertEquals(check.getYCoord(), 1611);
+//        assertEquals(check.isClosed(), false);
+//        assertEquals(check.getFVal(), Double.MAX_VALUE);
+//        assertEquals(check.getAccumWeight(), Double.MAX_VALUE);
+//        assertEquals(check.getPrevNode(), null);
+//    }
 
 //    @Test
 //    public void AstrHashTest() {
