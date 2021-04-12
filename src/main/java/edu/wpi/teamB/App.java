@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.sql.SQLException;
 
-import edu.wpi.teamB.database.CSVHandler;
+import edu.wpi.teamB.util.CSVHandler;
 import edu.wpi.teamB.database.DatabaseHandler;
 import javafx.application.Application;
 import javafx.application.Platform;
