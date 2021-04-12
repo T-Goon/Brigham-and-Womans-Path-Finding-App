@@ -1,12 +1,10 @@
 package edu.wpi.teamB.pathfinding;
-
 import java.util.*;
-
 public class Graph {
 
   private static HashMap<String, List<Node>> initHashMap() {
     HashMap<String, List<Node>> adjNodes = new HashMap<String, List<Node>>();
-    HashMap<String, Node> nodeInfo = Read.parseCSVNodes();
+    HashMap<String, Node> nodeInfo = Read.parseCSVNodes("src/main/resources/edu/wpi/teamB/csvfiles/MapBedges.csv");
 
     for (Node node : nodeInfo.values()) {
       List<Node> adjNodesList = findAdjNodes(node.getNodeID());
@@ -19,7 +17,7 @@ public class Graph {
   public static List<Node> findAdjNodes(String ID) {
     List<Node> adjNodeList = new ArrayList<>();
     List<Edge> edgeInfo = Read.parseCSVEdges();
-    HashMap<String, Node> nodeInfo = Read.parseCSVNodes();
+    HashMap<String, Node> nodeInfo = Read.parseCSVNodes("src/main/resources/edu/wpi/teamB/csvfiles/MapBedges.csv");
 
     for (Edge edges : edgeInfo) {
       if (edges.getStartNodeName().equals(ID)) {
@@ -116,11 +114,12 @@ public class Graph {
 
   private static String getMin(HashMap<String, Node> hashTbl){
     //priority queue
-    double min = Double.MAX_VALUE;
+    double min = Double.MAX_VALUE+1;
     String result = null;
 
     for(Node data: hashTbl.values()){
-      if((data.getfVal() < min) && (!data.isClosed())){
+      boolean isClosed = data.isClosed();
+      if((data.getfVal() <= min) && (!data.isClosed())){
         min = data.getfVal();
         result = data.getNodeID();
       }
@@ -128,15 +127,17 @@ public class Graph {
     return result;
   }
 
-  private static HashMap<String, Node> AStrHashTable(Node startStr, Node endStr) {
+  public static HashMap<String, Node> AStrHashTable(String startStr, String endStr) {
     HashMap<String, List<Node>> adjMat = initHashMap();
-    HashMap<String, Node> nodes = Read.parseCSVNodes();
+    HashMap<String, Node> nodes = Read.parseCSVNodes("src/main/resources/edu/wpi/teamB/csvfiles/MapBedges.csv");
+    HashMap<String, Node> shortPathInfo = populateHashmap(nodes.values());
+
 
     Node start = nodes.get(startStr);
     Node end = nodes.get(endStr);
 
-    HashMap<String, Node> shortPathInfo = populateHashmap(nodes.values());
     List<Node> adjList;
+
     List<Node> close = new ArrayList<>();
 
     double heur = dist(start, end);
@@ -149,14 +150,24 @@ public class Graph {
     curr.setPrevNode(curr);
     curr.setfVal(fVal);
 
-    shortPathInfo.replace(start.getNodeID(), curr);
+    shortPathInfo.replace(curr.getNodeID(), curr);
 
     while ((!curr.equals(end))) {
+
       //getting adj nodes of current node
       adjList = adjMat.get(curr.getNodeID());
+      List<Node> adjListRead = new ArrayList();
 
+      if(adjList.contains(end)){
+        end.setPrevNode(curr);
+        shortPathInfo.replace(end.getNodeID(), end);
+        return shortPathInfo;
+      }
       //for each adj node
       for (Node node : adjList) {
+        if(!adjListRead.contains(node)){
+          adjListRead.add(node);
+
         //check if curr node is close list
         if (!(close.contains(node))) {
 
@@ -174,10 +185,13 @@ public class Graph {
             nodeMetrics.setfVal(fVal);
             nodeMetrics.setAccumWeight(weight);
             nodeMetrics.setPrevNode(curr);
+            curr.setClosed();
+            //shortPathInfo.replace(node.getNodeID(), nodeMetrics);
+            shortPathInfo.replace(curr.getNodeID(), curr);
           }
 
         }
-
+        }
       }
       close.add(curr);
       curr = nodes.get(getMin(shortPathInfo));
@@ -186,20 +200,25 @@ public class Graph {
   }
 
   //backtracking to find A* path
-  public static List<String> AStr(Node start, Node end, HashMap<String, Node> aStrData){
+  public static List<String> AStr(String start, String end) {
     // go to the end node check its previous node, keep doing this until you reach the start node
-    Stack<String> path = new Stack<>();
-    List<String> fPath = new ArrayList<>();
+    HashMap<String, Node> AstrMap =  AStrHashTable(start, end);
+    Stack<String> pathBwd = new Stack<>();
+    List<String> path = new ArrayList<>();
 
-    while(!start.equals(end)){
-      Node node = aStrData.get(end).getPrevNode();
-      path.push(node.getNodeID());
-      end = node;
+    pathBwd.push(AstrMap.get(end).getNodeID());
+
+    while((!end.equals(start) && (AstrMap.get(end).getPrevNode() != null))){
+      String push = AstrMap.get(end).getPrevNode().getNodeID();
+      pathBwd.push(push);
+      end = push;
     }
-    for(String stack: path){
-      String add = path.pop();
-      fPath.add(add);
+
+    while(!pathBwd.isEmpty()){
+      path.add(pathBwd.pop());
     }
-    return fPath;
+    return path;
   }
+
+
 }

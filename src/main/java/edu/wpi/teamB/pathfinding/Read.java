@@ -12,7 +12,7 @@ import java.util.List;
 public class Read {
 
   // tested by databases
-  public static HashMap<String, Node> parseCSVNodes() {
+  public static HashMap<String, Node> parseCSVNodes(String path) {
 
     // List<Node> list = new ArrayList<>();
     HashMap<String, Node> nodesMaps = new HashMap<>();
@@ -23,7 +23,7 @@ public class Read {
       fileContent =
           new String(
               Files.readAllBytes(
-                  Paths.get( "src/main/resources/edu/wpi/teamB/pathfindingData/nodes.csv")));
+                  Paths.get( path)));
     } catch (IOException e) {
       e.printStackTrace();
       return null;
