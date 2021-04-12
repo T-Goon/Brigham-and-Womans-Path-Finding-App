@@ -16,6 +16,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -56,35 +57,28 @@ public class PathfindingMenuController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
         // Get node info from database
-        DatabaseHandler db = DatabaseHandler.getDatabaseHandler("main.db");
-
         List<Node> nodes = null;
-
-        try{
-            nodes = db.getNodeInformation();
-        } catch (SQLException e){
+        try {
+            nodes = DatabaseHandler.getDatabaseHandler("main.db").getNodeInformation();
+        } catch (SQLException e) {
             e.printStackTrace();
         }
 
         // Populate the combo boxes with locations
-        try {
-            assert nodes != null;
-            for (Node n : nodes) {
-                Label l = new Label();
-                String s = n.getLongName();
-                l.setText(s);
 
-                // Add new label to combobox
-                startLocComboBox.getItems().add(l);
-                endLocComboBox.getItems().add(l);
+        assert nodes != null;
+        for (Node n : nodes) {
+            Label l = new Label();
+            String s = n.getLongName();
+            l.setText(s);
 
-                // Add nodes to map
-                placeNode(n.getXCoord(), n.getYCoord());
-            }
-        } catch (NullPointerException e) {
-            e.printStackTrace();
+            // Add new label to combobox
+            startLocComboBox.getItems().add(l);
+            endLocComboBox.getItems().add(l);
+
+            // Add nodes to map
+            placeNode(n.getXCoord(), n.getYCoord());
         }
-
     }
 
     @FXML
@@ -103,6 +97,7 @@ public class PathfindingMenuController implements Initializable {
 
     /**
      * Places an image for a node on the map at the given pixel coordinates.
+     *
      * @param x x coordinates of node in pixels
      * @param y y coordinates of node in pixels
      */
@@ -110,8 +105,8 @@ public class PathfindingMenuController implements Initializable {
         try {
             ImageView i = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/misc/node.fxml")));
 
-            i.setLayoutX((x / PathfindingMenuController.coordinateScale)-(i.getFitWidth()/4));
-            i.setLayoutY((y / PathfindingMenuController.coordinateScale)-(i.getFitHeight()));
+            i.setLayoutX((x / PathfindingMenuController.coordinateScale) - (i.getFitWidth() / 4));
+            i.setLayoutY((y / PathfindingMenuController.coordinateScale) - (i.getFitHeight()));
 
             nodeHolder.getChildren().add(i);
 
@@ -122,6 +117,7 @@ public class PathfindingMenuController implements Initializable {
 
     /**
      * Draws an edge between 2 points on the map.
+     *
      * @param xStart x start coordinate in pixels
      * @param yStart y start coordinate in pixels
      * @param xEnd   x end coordinate in pixels
@@ -162,7 +158,7 @@ public class PathfindingMenuController implements Initializable {
         return endLocComboBox.getValue().getText();
     }
 
-    public void runAstr(){
+    public void runAstr() {
         List<String> path = Graph.AStr(getStartLocation(), getEndLocation());
     }
 }
