@@ -208,7 +208,7 @@
                                     <ToggleGroup fx:id="testGroup" />
                                  </toggleGroup>
                                  <VBox.margin>
-                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                  </VBox.margin>
                                  <font>
                                     <Font name="MS Reference Sans Serif" size="14.0" />
@@ -216,7 +216,7 @@
                               </JFXRadioButton>
                               <JFXRadioButton fx:id="btnTestNo" text="No" toggleGroup="$testGroup">
                                  <VBox.margin>
-                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                  </VBox.margin>
                                  <font>
                                     <Font name="MS Reference Sans Serif" size="14.0" />
