@@ -1,6 +1,9 @@
 package edu.wpi.teamB.pathfinding;
 
-public class Edge {
+import lombok.Getter;
+
+@Getter
+public class Edge implements Comparable<Edge>{
 
   private final String edgeID;
   private final String startNodeName;
@@ -13,15 +16,8 @@ public class Edge {
     this.endNodeName = endNodeName;
   }
 
-  public String getEdgeID() {
-    return edgeID;
-  }
-
-  public String getStartNodeName() {
-    return startNodeName;
-  }
-
-  public String getEndNodeName() {
-    return endNodeName;
+  @Override
+  public int compareTo(Edge o) {
+    return Integer.compare(weight, o.getWeight());
   }
 }

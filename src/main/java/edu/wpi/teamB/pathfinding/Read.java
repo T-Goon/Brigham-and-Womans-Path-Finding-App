@@ -1,5 +1,7 @@
 package edu.wpi.teamB.pathfinding;
 
+import edu.wpi.teamB.entities.Node;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;

@@ -1,4 +1,6 @@
 package edu.wpi.teamB.pathfinding;
+import edu.wpi.teamB.entities.Node;
+
 import java.util.*;
 public class Graph {
 
@@ -105,7 +107,7 @@ public class Graph {
 
     for (Node node : nodes) {
       node.setAccumWeight(Double.MAX_VALUE);
-      node.setfVal(Double.MAX_VALUE);
+      node.setFVal(Double.MAX_VALUE);
       node.setPrevNode(null);
       spInfo.put(node.getNodeID(), node);
     }
@@ -119,8 +121,8 @@ public class Graph {
 
     for(Node data: hashTbl.values()){
       boolean isClosed = data.isClosed();
-      if((data.getfVal() <= min) && (!data.isClosed())){
-        min = data.getfVal();
+      if((data.getFVal() <= min) && (!data.isClosed())){
+        min = data.getFVal();
         result = data.getNodeID();
       }
     }
@@ -148,7 +150,7 @@ public class Graph {
 
     curr.setAccumWeight(weight);
     curr.setPrevNode(curr);
-    curr.setfVal(fVal);
+    curr.setFVal(fVal);
 
     shortPathInfo.replace(curr.getNodeID(), curr);
 
@@ -181,11 +183,11 @@ public class Graph {
 
           //updating fVal if a shorter path has been found
           //set the prev value of the node to the parent node (curr)
-          if (fVal < nodeMetrics.getfVal()) {
-            nodeMetrics.setfVal(fVal);
+          if (fVal < nodeMetrics.getFVal()) {
+            nodeMetrics.setFVal(fVal);
             nodeMetrics.setAccumWeight(weight);
             nodeMetrics.setPrevNode(curr);
-            curr.setClosed();
+            curr.setClosed(true);
             //shortPathInfo.replace(node.getNodeID(), nodeMetrics);
             shortPathInfo.replace(curr.getNodeID(), curr);
           }

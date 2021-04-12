@@ -2,10 +2,11 @@ package edu.wpi.teamB.entities;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @EqualsAndHashCode
-public class Node {
+public class Node implements Comparable<Node> {
     private final String nodeID;
     private final int xCoord;
     private final int yCoord;
@@ -14,6 +15,15 @@ public class Node {
     private final String nodeType;
     private final String longName;
     private final String shortName;
+
+    @Setter
+    private double accumWeight;
+    @Setter
+    private double fVal;
+    @Setter
+    private Node prevNode;
+    @Setter
+    private boolean isClosed;
 
     public Node(String nodeID, int xCoord, int yCoord, int floor, String building, String nodeType, String longName, String shortName) {
         this.nodeID = nodeID;
@@ -24,6 +34,7 @@ public class Node {
         this.nodeType = nodeType;
         this.longName = longName;
         this.shortName = shortName;
+        this.isClosed = false;
     }
 
     @Override
@@ -38,5 +49,10 @@ public class Node {
                 ", longName='" + longName + '\'' +
                 ", shortName='" + shortName + '\'' +
                 '}';
+    }
+
+    @Override
+    public int compareTo(Node o) {
+        return Double.compare(this.accumWeight, o.getAccumWeight());
     }
 }

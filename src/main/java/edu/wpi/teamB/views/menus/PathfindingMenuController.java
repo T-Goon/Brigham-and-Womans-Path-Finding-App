@@ -3,7 +3,7 @@ package edu.wpi.teamB.views.menus;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 
-import edu.wpi.teamB.pathfinding.Node;
+import edu.wpi.teamB.entities.Node;
 import edu.wpi.teamB.pathfinding.Read;
 import edu.wpi.teamB.util.SceneSwitcher;
 import javafx.event.ActionEvent;
