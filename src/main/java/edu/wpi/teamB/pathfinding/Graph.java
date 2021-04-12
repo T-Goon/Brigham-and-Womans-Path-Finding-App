@@ -6,9 +6,11 @@ import edu.wpi.teamB.entities.Node;
 import lombok.Getter;
 
 import java.sql.SQLException;
+
 import java.util.*;
 
 @Getter
+
 public class Graph {
 
     private static Graph graph;
@@ -29,20 +31,20 @@ public class Graph {
         }
 
 
-        for(Edge edge: edges.values()){
-            if(!adjMap.containsKey(edge.getStartNodeName())){
+        for (Edge edge : edges.values()) {
+            if (!adjMap.containsKey(edge.getStartNodeName())) {
                 LinkedList<Node> tempList = new LinkedList<>();
                 tempList.add(nodes.get(edge.getEndNodeName()));
                 adjMap.put(edge.getStartNodeName(), tempList);
-            }else{
+            } else {
                 adjMap.get(edge.getStartNodeName()).add(nodes.get(edge.getEndNodeName()));
             }
 
-            if(!adjMap.containsKey(edge.getEndNodeName())){
+            if (!adjMap.containsKey(edge.getEndNodeName())) {
                 LinkedList<Node> tempList = new LinkedList<>();
                 tempList.add(nodes.get(edge.getStartNodeName()));
                 adjMap.put(edge.getEndNodeName(), tempList);
-            }else{
+            } else {
                 adjMap.get(edge.getEndNodeName()).add(nodes.get(edge.getStartNodeName()));
             }
 
@@ -50,7 +52,7 @@ public class Graph {
 
     }
 
-    public List<Node> getAdjNodesById(String nodeID){
+    public List<Node> getAdjNodesById(String nodeID) {
         return adjMap.get(nodeID);
     }
 
@@ -69,7 +71,7 @@ public class Graph {
      * based on their coordinates.
      *
      * @param start starting node
-     * @param end ending node
+     * @param end   ending node
      * @return the distance between the two nodes
      */
     public static double dist(Node start, Node end) {

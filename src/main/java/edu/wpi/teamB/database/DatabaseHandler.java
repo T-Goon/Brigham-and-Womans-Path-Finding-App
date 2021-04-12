@@ -23,7 +23,7 @@ public class DatabaseHandler {
     }
 
     /**
-     * @param dbURL the path to the database (should default to "main.db"
+     * @param dbURL the path to the database (should default to "main.db")
      * @return the database handler
      */
     public static DatabaseHandler getDatabaseHandler(String dbURL) {
