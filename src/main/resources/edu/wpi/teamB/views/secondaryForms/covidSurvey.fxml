@@ -119,14 +119,14 @@
                                  <font>
                                     <Font name="MS Reference Sans Serif" size="14.0" />
                                  </font></JFXCheckBox>
-                              <JFXCheckBox checkedColor="#f6bd39" text="Runny Nose/ Congestion">
+                              <JFXCheckBox checkedColor="#f6bd39" text="Runny Nose/Congestion">
                                  <VBox.margin>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </VBox.margin>
                                  <font>
                                     <Font name="MS Reference Sans Serif" size="14.0" />
                                  </font></JFXCheckBox>
-                              <JFXCheckBox checkedColor="#f6bd39" text="Loss of Taste/ Smell">
+                              <JFXCheckBox checkedColor="#f6bd39" text="Loss of Taste/Smell">
                                  <VBox.margin>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </VBox.margin>
@@ -157,32 +157,26 @@
                               <Font name="MS Reference Sans Serif" size="15.0" />
                            </font>
                         </Text>
-                        <VBox spacing="10.0" stylesheets="@../../css/covidSurvey.css">
-                           <padding>
-                              <Insets left="20.0" />
-                           </padding>
+                        <HBox spacing="20.0">
                            <children>
                               <JFXRadioButton fx:id="btnCCYes" text="Yes">
                                  <toggleGroup>
                                     <ToggleGroup fx:id="ccGroup" />
                                  </toggleGroup>
-                                 <VBox.margin>
-                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                 </VBox.margin>
                                  <font>
                                     <Font name="MS Reference Sans Serif" size="14.0" />
                                  </font>
                               </JFXRadioButton>
                               <JFXRadioButton fx:id="btnCCNo" text="No" toggleGroup="$ccGroup">
-                                 <VBox.margin>
-                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                 </VBox.margin>
                                  <font>
                                     <Font name="MS Reference Sans Serif" size="14.0" />
                                  </font>
                               </JFXRadioButton>
                            </children>
-                        </VBox>
+                           <padding>
+                              <Insets left="30.0" />
+                           </padding>
+                        </HBox>
                      </children>
                      <VBox.margin>
                         <Insets left="15.0" />
@@ -195,35 +189,29 @@
                               <Font name="MS Reference Sans Serif" size="15.0" />
                            </font>
                         </Text>
-                        <VBox spacing="10.0">
-                           <padding>
-                              <Insets left="20.0" />
-                           </padding>
-                           <VBox.margin>
-                              <Insets bottom="-10.0" />
-                           </VBox.margin>
+                        <HBox alignment="CENTER_LEFT" spacing="20.0">
                            <children>
                               <JFXRadioButton fx:id="btnTestYes" text="Yes">
                                  <toggleGroup>
                                     <ToggleGroup fx:id="testGroup" />
                                  </toggleGroup>
-                                 <VBox.margin>
-                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                 </VBox.margin>
                                  <font>
                                     <Font name="MS Reference Sans Serif" size="14.0" />
                                  </font>
                               </JFXRadioButton>
                               <JFXRadioButton fx:id="btnTestNo" text="No" toggleGroup="$testGroup">
-                                 <VBox.margin>
-                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                 </VBox.margin>
                                  <font>
                                     <Font name="MS Reference Sans Serif" size="14.0" />
                                  </font>
                               </JFXRadioButton>
                            </children>
-                        </VBox>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                           <padding>
+                              <Insets left="30.0" />
+                           </padding>
+                        </HBox>
                      </children>
                      <VBox.margin>
                         <Insets />
