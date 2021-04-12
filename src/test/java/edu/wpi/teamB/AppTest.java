@@ -29,8 +29,8 @@ public class AppTest extends FxRobot {
         FxToolkit.setupApplication(App.class);
     }
 
-//    @ParameterizedTest
-//    @MethodSource("textProvider")
+    @ParameterizedTest
+    @MethodSource("textProvider")
     void testBackButtons(String button, String title) {
         clickOn("Service Requests");
         verifyThat("Service Request Directory", Node::isVisible);
@@ -41,8 +41,8 @@ public class AppTest extends FxRobot {
         clickOn("#btnBack");
     }
 
-//    @ParameterizedTest
-//    @MethodSource("textProvider")
+    @ParameterizedTest
+    @MethodSource("textProvider")
     void testSubmitForms(String button, String title) {
         clickOn("Service Requests");
         verifyThat("Service Request Directory", Node::isVisible);
