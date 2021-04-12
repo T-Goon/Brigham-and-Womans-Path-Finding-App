@@ -110,7 +110,6 @@ public class CSVHandler {
                     .append(n.getLongName()).append(",")
                     .append(n.getShortName()).append("\n");
         }
-        sb.setLength(sb.length() - 1);
 
         // Write to the file
         try {
@@ -147,7 +146,6 @@ public class CSVHandler {
                     .append(e.getStartNodeName()).append(",")
                     .append(e.getEndNodeName()).append("\n");
         }
-        sb.setLength(sb.length() - 1);
 
         // Write to the file
         try {
