@@ -12,21 +12,21 @@ import java.io.IOException;
 public class SecurityRequestFormController {
 
     @FXML
-    private JFXButton backBtn;
+    private JFXButton btnCancel;
 
     @FXML
-    private JFXButton SubmitB;
+    private JFXButton btnSubmit;
 
     @FXML
-    void handleBackButton(ActionEvent e) throws IOException {
+    void handleButtonAction(ActionEvent e) throws IOException {
         JFXButton btn = (JFXButton) e.getSource();
 
-        if (btn.getId().equals("backBtn")) {
+        if (btn.getId().equals("btnCancel")) {
             Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/menus/serviceRequestMenu.fxml"));
             App.getPrimaryStage().getScene().setRoot(root);
         }
 
-        if (btn.getId().equals("SubmitB")) {
+        if (btn.getId().equals("btnSubmit")) {
                 Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/requestForms/formSubmitted.fxml"));
                 App.getPrimaryStage().getScene().setRoot(root);
             }

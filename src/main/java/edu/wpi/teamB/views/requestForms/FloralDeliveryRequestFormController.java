@@ -34,7 +34,7 @@ public class FloralDeliveryRequestFormController {
     private JFXButton btnCancel;
 
     @FXML
-    private JFXButton SubmitB;
+    private JFXButton btnSubmit;
 
 
     @FXML
@@ -46,7 +46,7 @@ public class FloralDeliveryRequestFormController {
             App.getPrimaryStage().getScene().setRoot(root);
         }
 
-        if (btn.getId().equals("SubmitB")) {
+        if (btn.getId().equals("btnSubmit")) {
             try {
                 Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/requestForms/formSubmitted.fxml"));
                 App.getPrimaryStage().getScene().setRoot(root);

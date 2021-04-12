@@ -15,16 +15,16 @@ import java.io.IOException;
 public class MedDeliveryRequestFormController {
 
     @FXML
-    private JFXButton cancelBtn;
+    private JFXButton btnCancel;
 
     @FXML
-    private JFXButton emergencyBtn;
+    private JFXButton btnEmergency;
 
     @FXML
-    private JFXButton submitBtn;
+    private JFXButton btnSubmit;
 
     @FXML
-    private JFXButton helpBtn;
+    private JFXButton btnHelp;
 
     @FXML
     private JFXTextField patName;
@@ -43,7 +43,7 @@ public class MedDeliveryRequestFormController {
         JFXButton btn = (JFXButton) e.getSource();
 
         switch (btn.getId()) {
-            case "cancelBtn":
+            case "btnCancel":
                 try {
                     Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/menus/serviceRequestMenu.fxml"));
                     App.getPrimaryStage().getScene().setRoot(root);
@@ -52,10 +52,10 @@ public class MedDeliveryRequestFormController {
                     ex.printStackTrace();
                     break;
                 }
-            case "helpBtn":
+            case "btnHelp":
                 // handle help button
                 break;
-            case "submitBtn":
+            case "btnSubmit":
                 try {
                     Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/requestForms/formSubmitted.fxml"));
                     App.getPrimaryStage().getScene().setRoot(root);

@@ -52,7 +52,7 @@ public class AppTest extends FxRobot {
     verifyThat(title, Node::isVisible);
     clickOn("Cancel");
     verifyThat("Service Request Directory", Node::isVisible);
-    clickOn("#backBtn");
+    clickOn("#btnBack");
   }
 
   @ParameterizedTest
