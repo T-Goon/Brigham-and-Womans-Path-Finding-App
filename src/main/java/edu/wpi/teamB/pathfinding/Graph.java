@@ -29,7 +29,10 @@ public class Graph {
         }
 
 
+        //Populates the adjMap
         for(Edge edge: edges.values()){
+
+            //Adds edges from start to end node
             if(!adjMap.containsKey(edge.getStartNodeName())){
                 LinkedList<Node> tempList = new LinkedList<>();
                 tempList.add(nodes.get(edge.getEndNodeName()));
@@ -38,6 +41,7 @@ public class Graph {
                 adjMap.get(edge.getStartNodeName()).add(nodes.get(edge.getEndNodeName()));
             }
 
+            //Adds edges from end to start node
             if(!adjMap.containsKey(edge.getEndNodeName())){
                 LinkedList<Node> tempList = new LinkedList<>();
                 tempList.add(nodes.get(edge.getStartNodeName()));
@@ -50,6 +54,11 @@ public class Graph {
 
     }
 
+    /**
+     * Gets a list of the nodes adjacent to the given node ID
+     * @param nodeID ID of the node to get the adjacent nodes of
+     * @return LinkedList of adjacent nodes
+     */
     public List<Node> getAdjNodesById(String nodeID){
         return adjMap.get(nodeID);
     }
