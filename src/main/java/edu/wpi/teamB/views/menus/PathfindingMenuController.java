@@ -48,9 +48,6 @@ public class PathfindingMenuController implements Initializable {
     @FXML
     private JFXButton btnBack;
 
-    private static final double zoomAmount = 0.2;
-    private static final double zoomMin = 0.1;
-    private static final double zoomMax = 10;
     private static final double coordinateScale = 10 / 3.0;
 
     @Override

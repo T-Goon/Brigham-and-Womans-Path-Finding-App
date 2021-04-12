@@ -20,6 +20,8 @@ public class PatientDirectoryMenuController {
     private JFXButton btnExit;
     @FXML
     private JFXButton btnServiceRequests;
+    @FXML
+    private JFXButton btnMapEditor;
 
     @FXML
     public void handleButtonAction(ActionEvent actionEvent) throws IOException {
@@ -36,6 +38,9 @@ public class PatientDirectoryMenuController {
                 break;
             case "btnDirections":
                 SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/pathfindingMenu.fxml");
+                break;
+            case "btnMapEditor":
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/editorIntermediateMenu.fxml");
                 break;
             case "btnExit":
                 Platform.exit();
