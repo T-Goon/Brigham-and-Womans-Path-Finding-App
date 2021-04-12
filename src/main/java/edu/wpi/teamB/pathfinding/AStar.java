@@ -18,18 +18,8 @@ public class AStar {
     public static List<String> findPath(String startID, String endID) {
 
         Graph graph = Graph.getGraph();
-
-        //Database connection to get start and end nodes by the ids passed in as parameters
-        DatabaseHandler db = DatabaseHandler.getDatabaseHandler("main.db");
-        Node startNode = null;
-        Node endNode = null;
-
-        try {
-            startNode = db.getNodeById(startID);
-            endNode = db.getNodeById(endID);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        Node startNode = graph.getNodes().get(startID);
+        Node endNode = graph.getNodes().get(endID);
 
         //Initialize data structures used in the A* algorithm
         LinkedList<String> ret = new LinkedList<>();
