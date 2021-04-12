@@ -37,13 +37,29 @@ public class Graph {
         return graph;
     }
 
-    //testing
+    /**
+     * findAdjNodes: Finds adjacent nodes of the given node
+     *
+     * @param ID: The NodeID that we are getting the adjacent nodes of
+     * @return The list of adjacent nodes of the given node id
+     */
     public static List<Node> findAdjNodes(String ID) {
         List<Node> adjNodeList = new ArrayList<>();
-        List<Edge> edgeInfo = Read.parseCSVEdges("src/main/resources/edu/wpi/teamB/csvfiles/MapBedges.csv");
-        HashMap<String, Node> nodeInfo = Read.parseCSVNodes("src/main/resources/edu/wpi/teamB/csvfiles/MapBnodes.csv");
 
-        for (Edge edges : edgeInfo) {
+        // Get edges and nodes from database
+        Map<String, Edge> edgeInfo;
+        Map<String, Node> nodeInfo;
+        try {
+            DatabaseHandler db = DatabaseHandler.getDatabaseHandler("main.db");
+            edgeInfo = db.getEdges();
+            nodeInfo = db.getNodes();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        // Fills the adjacent node list bidirectionally
+        for (Edge edges : edgeInfo.values()) {
             if (edges.getStartNodeName().equals(ID)) {
                 for (Node node : nodeInfo.values()) {
                     if (edges.getEndNodeName().equals(node.getNodeID())) {
