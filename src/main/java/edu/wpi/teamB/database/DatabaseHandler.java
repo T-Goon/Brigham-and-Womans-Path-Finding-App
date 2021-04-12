@@ -4,10 +4,7 @@ import edu.wpi.teamB.entities.Edge;
 import edu.wpi.teamB.entities.Node;
 
 import java.sql.*;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class DatabaseHandler {
 
@@ -61,7 +58,7 @@ public class DatabaseHandler {
      * Given the list of edges and nodes, clear and fill the database
      * with that data.
      */
-    public void fillDatabase(List<Node> nodes, List<Edge> edges) throws SQLException {
+    public void loadDatabase(List<Node> nodes, List<Edge> edges) throws SQLException {
 
         Statement statement = this.getStatement();
         // Drop tables if they exist already
@@ -86,6 +83,15 @@ public class DatabaseHandler {
                 + "shortName CHAR(20))";
         statement.execute(query);
 
+        query = "CREATE TABLE Edges("
+                + "edgeID CHAR(30), "
+                + "startNode CHAR(20), "
+                + "endNode CHAR(20))";
+        statement.execute(query);
+
+        // If either list is empty, then nothing should be put in
+        if (nodes == null || edges == null) return;
+
         for (Node node : nodes) {
             query = "INSERT INTO Nodes(nodeID, xcoord, ycoord, floor, building, nodeType, longName, shortName) " +
                     "VALUES('"
@@ -99,12 +105,6 @@ public class DatabaseHandler {
                     + node.getShortName() + "')";
             statement.execute(query);
         }
-
-        query = "CREATE TABLE Edges("
-                + "edgeID CHAR(30), "
-                + "startNode CHAR(20), "
-                + "endNode CHAR(20))";
-        statement.execute(query);
 
         for (Edge edge : edges) {
             query = "INSERT INTO Edges(edgeID, startNode, endNode) "
@@ -188,7 +188,54 @@ public class DatabaseHandler {
     }
 
     /**
+     * Adds an node to the database with the given information
+     *
+     * @param node the node to add
+     */
+    public void addNode(Node node) {
+        Statement statement = this.getStatement();
+
+        String query = "INSERT INTO Nodes VALUES " +
+                "('" + node.getNodeID()
+                + "', " + node.getXCoord()
+                + ", " + node.getYCoord()
+                + ", " + node.getFloor()
+                + ", '" + node.getBuilding()
+                + "', '" + node.getNodeType()
+                + "', '" + node.getLongName()
+                + "', '" + node.getShortName()
+                + "')";
+
+        try {
+            assert statement != null;
+            statement.execute(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Adds an edge to the database with the given information
+     *
+     * @param edge the edge to add
+     */
+    public void addEdge(Edge edge) {
+        Statement statement = this.getStatement();
+
+        String query = "INSERT INTO Edges VALUES ('" + edge.getEdgeID() + "', '" + edge.getStartNodeName() + "', '" + edge.getEndNodeName() + "')";
+
+        try {
+            assert statement != null;
+            statement.execute(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
      * Updates the node with the specified ID.
+     *
+     * @param node the node to update
      */
     public void updateNode(Node node) {
         Statement statement = this.getStatement();
@@ -213,6 +260,8 @@ public class DatabaseHandler {
 
     /**
      * Updates the edge with the specified ID.
+     *
+     * @param edge the edge to update
      */
     public void updateEdge(Edge edge) {
         Statement statement = this.getStatement();
@@ -227,6 +276,69 @@ public class DatabaseHandler {
         }
     }
 
+    /**
+     * Removes the node given by the node ID.
+     *
+     * @param nodeID the node to remove, given by the node ID
+     */
+    public void removeNode(String nodeID) {
+        Statement statement = this.getStatement();
+        String query = "DELETE FROM Nodes WHERE nodeID = '" + nodeID + "'";
+
+        try {
+            statement.execute(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Removes the edge given by the edge ID.
+     *
+     * @param edgeID the edge to remove, given by the edge ID
+     */
+    public void removeEdge(String edgeID) {
+        Statement statement = this.getStatement();
+        String query = "DELETE FROM Edges WHERE edgeID = '" + edgeID + "'";
+
+        try {
+            statement.execute(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Given a node ID, returns a list of all the edges that are adjacent to that node.
+     *
+     * @param nodeID the node ID of the node to get the adjacent edges of
+     * @return the list of all adjacent edges of that node
+     */
+    public List<Edge> getAdjacentEdgesOfNode(String nodeID) {
+        Statement statement = this.getStatement();
+        String query = "SELECT DISTINCT * FROM Edges WHERE startNode = '" + nodeID + "' OR endNode = '" + nodeID + "'";
+        List<Edge> edges = new ArrayList<>();
+
+        try {
+            ResultSet set = statement.executeQuery(query);
+            while (set.next()) {
+                Edge outEdge = new Edge(
+                        set.getString("edgeID").trim(),
+                        set.getString("startNode").trim(),
+                        set.getString("endNode").trim()
+                );
+                edges.add(outEdge);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return edges;
+    }
+
+    /**
+     * @return whether the database is initialized or not
+     */
     public boolean isInitialized() {
         try {
             // Try getting a list of the tables -- If there is a table there, it will return true
@@ -238,7 +350,6 @@ public class DatabaseHandler {
         }
         return false;
     }
-
 
     /**
      * Shutdown the database

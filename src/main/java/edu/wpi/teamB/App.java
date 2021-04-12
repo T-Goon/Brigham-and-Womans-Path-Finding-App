@@ -33,7 +33,7 @@ public class App extends Application {
         // If the database is empty, fill it with the csv files
         // Note later we want to ask the user to give the location using a file chooser to the CSV files to load from
         if (!db.isInitialized())
-            db.fillDatabase(CSVHandler.loadCSVNodes(Paths.get(NODES_PATH)), CSVHandler.loadCSVEdges(Paths.get(EDGES_PATH)));
+            db.loadDatabase(CSVHandler.loadCSVNodes(Paths.get(NODES_PATH)), CSVHandler.loadCSVEdges(Paths.get(EDGES_PATH)));
     }
 
     @Override
