@@ -4,6 +4,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
+
 @Getter
 @EqualsAndHashCode
 public class Node {
@@ -18,12 +19,15 @@ public class Node {
 
     @Setter
     private double accumWeight;
+
     @Setter
     private double fVal;
+
     @Setter
-    private Node prevNode;
+    private String prevNode;
+
     @Setter
-    private boolean closed;
+    private boolean isClosed;
 
     public Node(
             String nodeID,
@@ -42,7 +46,7 @@ public class Node {
         this.nodeType = nodeType;
         this.longName = longName;
         this.shortName = shortName;
-        this.closed = false;
+        this.isClosed = false;
     }
 
     @Override

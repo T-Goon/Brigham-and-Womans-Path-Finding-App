@@ -5,7 +5,7 @@ import com.jfoenix.controls.JFXComboBox;
 
 import edu.wpi.teamB.database.DatabaseHandler;
 import edu.wpi.teamB.entities.Node;
-import edu.wpi.teamB.pathfinding.Read;
+import edu.wpi.teamB.pathfinding.Graph;
 import edu.wpi.teamB.util.SceneSwitcher;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -16,12 +16,12 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
-
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class PathfindingMenuController implements Initializable {
@@ -34,6 +34,7 @@ public class PathfindingMenuController implements Initializable {
 
     @FXML
     private AnchorPane nodeHolder;
+
     @FXML
     private AnchorPane mapHolder;
 
@@ -44,16 +45,10 @@ public class PathfindingMenuController implements Initializable {
     private JFXButton btnFindPath;
 
     @FXML
-    private JFXButton btnZoomIn;
-
-    @FXML
-    private JFXButton btnZoomOut;
-
-    @FXML
     private JFXButton btnBack;
 
-    private static final double zoomAmount = .2;
-    private static final double zoomMin = .1;
+    private static final double zoomAmount = 0.2;
+    private static final double zoomMin = 0.1;
     private static final double zoomMax = 10;
     private static final double coordinateScale = 10 / 3.0;
 
@@ -100,36 +95,9 @@ public class PathfindingMenuController implements Initializable {
             case "btnFindPath":
                 // TODO pathfinding stuff
                 break;
-            case "btnZoomIn":
-                zoomMap(true);
-                break;
-            case "btnZoomOut":
-                zoomMap(false);
-                break;
             case "btnBack":
                 SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/patientDirectoryMenu.fxml");
                 break;
-        }
-    }
-
-    /**
-     * Zooms the map byt the value.
-     *
-     * @param value Value to zoom in or out.
-     */
-    private void zoomMap(boolean value) {
-        if (nodeHolder.getScaleX() * (1 + zoomAmount) < PathfindingMenuController.zoomMax &&
-                nodeHolder.getScaleY() * (1 + zoomAmount) < PathfindingMenuController.zoomMax &&
-                value) {
-            nodeHolder.setScaleX(nodeHolder.getScaleX() * (1 + zoomAmount));
-            nodeHolder.setScaleY(nodeHolder.getScaleX() * (1 + zoomAmount));
-        }
-
-        if (nodeHolder.getScaleX() * (1 - zoomAmount) > PathfindingMenuController.zoomMin &&
-                nodeHolder.getScaleY() * (1 - zoomAmount) > PathfindingMenuController.zoomMin &&
-                !value) {
-            nodeHolder.setScaleX(nodeHolder.getScaleX() * (1 - zoomAmount));
-            nodeHolder.setScaleY(nodeHolder.getScaleX() * (1 - zoomAmount));
         }
     }
 
@@ -140,7 +108,7 @@ public class PathfindingMenuController implements Initializable {
      */
     public void placeNode(int x, int y) {
         try {
-            ImageView i = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/misc/node.fxml"));
+            ImageView i = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/misc/node.fxml")));
 
             i.setLayoutX((x / PathfindingMenuController.coordinateScale)-(i.getFitWidth()/4));
             i.setLayoutY((y / PathfindingMenuController.coordinateScale)-(i.getFitHeight()));
@@ -161,7 +129,7 @@ public class PathfindingMenuController implements Initializable {
      */
     public void placeEdge(int xStart, int yStart, int xEnd, int yEnd) {
         try {
-            Line l = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/misc/edge.fxml"));
+            Line l = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/misc/edge.fxml")));
 
             l.setStartX(xStart / PathfindingMenuController.coordinateScale);
             l.setStartY(yStart / PathfindingMenuController.coordinateScale);
@@ -192,5 +160,9 @@ public class PathfindingMenuController implements Initializable {
      */
     public String getEndLocation() {
         return endLocComboBox.getValue().getText();
+    }
+
+    public void runAstr(){
+        List<String> path = Graph.AStr(getStartLocation(), getEndLocation());
     }
 }
