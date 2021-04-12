@@ -4,11 +4,13 @@ import com.jfoenix.controls.JFXButton;
 import edu.wpi.teamB.database.DatabaseHandler;
 import edu.wpi.teamB.entities.Edge;
 import edu.wpi.teamB.entities.Node;
+import edu.wpi.teamB.views.menus.NodesEditorMenuController;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import lombok.Getter;
+import lombok.SneakyThrows;
 import org.apache.derby.iapi.db.Database;
 
 import java.io.IOException;
@@ -64,9 +66,11 @@ public class NodeWrapper {
 
         // TODO connect button to action
         btnDel.setOnAction(new EventHandler<ActionEvent>() {
+            @SneakyThrows
             @Override
             public void handle(ActionEvent event) {
-                System.out.println("Foo");
+                DatabaseHandler.getDatabaseHandler("main.db").removeNode(n.getNodeID());
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/nodesEditorMenu.fxml");
             }
         });
 
