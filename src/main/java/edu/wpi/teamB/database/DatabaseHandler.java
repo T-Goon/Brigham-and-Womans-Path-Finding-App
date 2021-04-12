@@ -226,4 +226,30 @@ public class DatabaseHandler {
             e.printStackTrace();
         }
     }
+
+
+    /**
+     * Get specific node information from the database given the node's ID
+     * @param ID requested node ID
+     * @return Node object with data from database
+     * @throws SQLException
+     */
+    public Node getNodeById(String ID) throws SQLException {
+        Statement statement = this.getStatement();
+
+        String query = "SELECT * FROM Nodes WHERE nodeID = '" + ID + "'";
+        ResultSet rs = statement.executeQuery(query);
+
+        Node outNode = new Node(
+                rs.getString("nodeID").trim(),
+                rs.getInt("xcoord"),
+                rs.getInt("ycoord"),
+                rs.getInt("floor"),
+                rs.getString("building").trim(),
+                rs.getString("nodeType").trim(),
+                rs.getString("longName").trim(),
+                rs.getString("shortName").trim()
+        );
+        return outNode;
+    }
 }
