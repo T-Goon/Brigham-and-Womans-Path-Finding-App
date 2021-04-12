@@ -84,8 +84,8 @@ public class DatabaseHandlerTest {
 
     @Test
     void fillDatabase() {
-        List<Edge> edges = new ArrayList<>();
         List<Node> nodes = new ArrayList<>();
+        List<Edge> edges = new ArrayList<>();
 
         //Theres a less scuffed way to do this, but hey, it works and is easy to tweak.
         Node targetNode0 = new Node("bWALK00501", 1872, 1965, 1, "Parking", "WALK", "Vining Street Walkway", "ViningWalk");

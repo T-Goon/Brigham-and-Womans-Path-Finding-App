@@ -1,9 +1,36 @@
 package edu.wpi.teamB.pathfinding;
+import edu.wpi.teamB.database.DatabaseHandler;
 import edu.wpi.teamB.entities.Edge;
 import edu.wpi.teamB.entities.Node;
+import lombok.Getter;
 
 import java.util.*;
+
+@Getter
 public class Graph {
+
+  private static Graph graph;
+
+
+  private HashMap<String, Node> nodes;
+  private HashMap<String, Edge> edges;
+
+  private Graph() {
+    DatabaseHandler db = DatabaseHandler.getDatabaseHandler("main.db");
+
+
+  }
+
+  /**
+   * Returns the graph singleton
+   * @return
+   */
+  public static Graph getGraph() {
+    if (graph == null) {
+      graph = new Graph();
+    }
+    return graph;
+  }
 
   //testing
   public static List<Node> findAdjNodes(String ID) {
