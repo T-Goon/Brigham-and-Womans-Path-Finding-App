@@ -2,6 +2,8 @@ package edu.wpi.teamB.entities;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.Setter;
+
 
 @Getter
 @EqualsAndHashCode
@@ -15,7 +17,27 @@ public class Node {
     private final String longName;
     private final String shortName;
 
-    public Node(String nodeID, int xCoord, int yCoord, int floor, String building, String nodeType, String longName, String shortName) {
+    @Setter
+    private double accumWeight;
+
+    @Setter
+    private double fVal;
+
+    @Setter
+    private String prevNode;
+
+    @Setter
+    private boolean isClosed;
+
+    public Node(
+            String nodeID,
+            int xCoord,
+            int yCoord,
+            int floor,
+            String building,
+            String nodeType,
+            String longName,
+            String shortName) {
         this.nodeID = nodeID;
         this.xCoord = xCoord;
         this.yCoord = yCoord;
@@ -24,19 +46,6 @@ public class Node {
         this.nodeType = nodeType;
         this.longName = longName;
         this.shortName = shortName;
-    }
-
-    @Override
-    public String toString() {
-        return "Node{" +
-                "nodeID='" + nodeID + '\'' +
-                ", xcoord=" + xCoord +
-                ", ycoord=" + yCoord +
-                ", floor=" + floor +
-                ", building='" + building + '\'' +
-                ", nodeType='" + nodeType + '\'' +
-                ", longName='" + longName + '\'' +
-                ", shortName='" + shortName + '\'' +
-                '}';
+        this.isClosed = false;
     }
 }

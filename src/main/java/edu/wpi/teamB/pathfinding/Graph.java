@@ -1,4 +1,7 @@
 package edu.wpi.teamB.pathfinding;
+import edu.wpi.teamB.entities.Edge;
+import edu.wpi.teamB.entities.Node;
+
 import java.util.*;
 public class Graph {
 
@@ -11,8 +14,8 @@ public class Graph {
    * the adjacent nodes
    */
   private static HashMap<String, List<Node>> initHashMap() {
-    HashMap<String, List<Node>> adjNodes = new HashMap<String, List<Node>>();
-    HashMap<String, Node> nodeInfo = Read.parseCSVNodes("src/main/resources/edu/wpi/teamB/csvfiles/MapBnodes.csv");
+    HashMap<String, List<Node>> adjNodes = new HashMap<>();
+    HashMap<String, Node> nodeInfo = Read.parseCSVNodes("src/main/resources/edu/wpi/teamB/csvfiles/MapBNodes.csv");
 
     for (Node node : nodeInfo.values()) {
       List<Node> adjNodesList = findAdjNodes(node.getNodeID());
@@ -30,7 +33,7 @@ public class Graph {
   public static List<Node> findAdjNodes(String ID) {
     List<Node> adjNodeList = new ArrayList<>();
     List<Edge> edgeInfo = Read.parseCSVEdges("src/main/resources/edu/wpi/teamB/csvfiles/MapBedges.csv");
-    HashMap<String, Node> nodeInfo = Read.parseCSVNodes("src/main/resources/edu/wpi/teamB/csvfiles/MapBnodes.csv");
+    HashMap<String, Node> nodeInfo = Read.parseCSVNodes("src/main/resources/edu/wpi/teamB/csvfiles/MapBNodes.csv");
 
     for (Edge edges : edgeInfo) {
       if (edges.getStartNodeName().equals(ID)) {
@@ -76,7 +79,7 @@ public class Graph {
 
     for (Node node : nodes) {
       node.setAccumWeight(Double.MAX_VALUE);
-      node.setfVal(Double.MAX_VALUE);
+      node.setFVal(Double.MAX_VALUE);
       node.setPrevNode(null);
       spInfo.put(node.getNodeID(), node);
     }
@@ -94,8 +97,8 @@ public class Graph {
     String result = null;
 
     for(Node data: hashTbl.values()){
-      if((data.getfVal() <= min) && (!data.isClosed())){
-        min = data.getfVal();
+      if((data.getFVal() <= min) && (!data.isClosed())){
+        min = data.getFVal();
         result = data.getNodeID();
       }
     }
@@ -127,7 +130,7 @@ public class Graph {
 
     curr.setAccumWeight(weight);
     curr.setPrevNode(curr.getNodeID());
-    curr.setfVal(fVal);
+    curr.setFVal(fVal);
 
     shortPathInfo.replace(curr.getNodeID(), curr);
 
@@ -135,7 +138,7 @@ public class Graph {
 
       //getting adj nodes of current node
       adjList = adjMat.get(curr.getNodeID());
-      List<Node> adjListRead = new ArrayList();
+      List<Node> adjListRead = new ArrayList<>();
 
       if(adjList.contains(end)){
         end.setPrevNode(curr.getNodeID());
@@ -159,18 +162,18 @@ public class Graph {
 
           //updating fVal if a shorter path has been found
           //set the prev value of the node to the parent node (curr)
-          if (fVal < nodeMetrics.getfVal()) {
-            nodeMetrics.setfVal(fVal);
+          if (fVal < nodeMetrics.getFVal()) {
+            nodeMetrics.setFVal(fVal);
             nodeMetrics.setAccumWeight(weight);
             nodeMetrics.setPrevNode(curr.getNodeID());
-            curr.setClosed();
+            curr.setClosed(true);
             shortPathInfo.replace(curr.getNodeID(), curr);
           }
 
         }
         }
       }
-      curr.setClosed();
+      curr.setClosed(true);
       curr = nodes.get(getMin(shortPathInfo));
     }
     return shortPathInfo;

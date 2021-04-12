@@ -3,8 +3,8 @@ package edu.wpi.teamB.views.menus;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 
+import edu.wpi.teamB.entities.Node;
 import edu.wpi.teamB.pathfinding.Graph;
-import edu.wpi.teamB.pathfinding.Node;
 import edu.wpi.teamB.pathfinding.Read;
 import edu.wpi.teamB.util.SceneSwitcher;
 import javafx.event.ActionEvent;
@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class PathfindingMenuController implements Initializable {
@@ -50,10 +51,10 @@ public class PathfindingMenuController implements Initializable {
     @FXML
     private JFXButton btnBack;
 
-    private static final double zoomAmount = .2;
-    private static final double zoomMin = .1;
+    private static final double zoomAmount = 0.2;
+    private static final double zoomMin = 0.1;
     private static final double zoomMax = 10;
-    private static final double coordinateScale = 3.33333333333333333333333333333333333333333;
+    private static final double coordinateScale = 10 / 3.0;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -132,7 +133,7 @@ public class PathfindingMenuController implements Initializable {
      */
     public void placeNode(int x, int y) {
         try {
-            Circle c = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/misc/node.fxml"));
+            Circle c = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/misc/node.fxml")));
 
             c.setCenterX(x/PathfindingMenuController.coordinateScale);
             c.setCenterY(y/PathfindingMenuController.coordinateScale);
@@ -156,7 +157,7 @@ public class PathfindingMenuController implements Initializable {
      */
     public void placeEdge(int xStart, int yStart, int xEnd, int yEnd){
         try {
-            Line l = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/misc/edge.fxml"));
+            Line l = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/misc/edge.fxml")));
 
             l.setStartX(xStart/PathfindingMenuController.coordinateScale);
             l.setStartY(yStart/PathfindingMenuController.coordinateScale);

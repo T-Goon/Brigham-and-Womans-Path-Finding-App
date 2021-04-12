@@ -1,5 +1,8 @@
 package edu.wpi.teamB.pathfinding;
 
+import edu.wpi.teamB.entities.Edge;
+import edu.wpi.teamB.entities.Node;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -58,7 +61,6 @@ public class Read {
     // Read in the file
     String fileContent;
     try {
-      System.out.println(new File("").getAbsolutePath());
       fileContent =
           new String(
               Files.readAllBytes(

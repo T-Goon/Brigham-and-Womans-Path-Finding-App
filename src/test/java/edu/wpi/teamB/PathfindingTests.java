@@ -1,15 +1,14 @@
 package edu.wpi.teamB;
 
 import edu.wpi.teamB.pathfinding.Graph;
-import edu.wpi.teamB.pathfinding.Node;
+import edu.wpi.teamB.entities.Node;
 import edu.wpi.teamB.pathfinding.Read;
 import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import static edu.wpi.teamB.pathfinding.Graph.populateHashmap;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 public class PathfindingTests {
@@ -58,10 +57,10 @@ public class PathfindingTests {
         Node check = shortPathInfo.get("bWALK00301");
         assertEquals(check.getXCoord(), 1874);
         assertEquals(check.getYCoord(), 1611);
-        assertEquals(check.isClosed(), false);
-        assertEquals(check.getfVal(), Double.MAX_VALUE);
+        assertFalse(check.isClosed());
+        assertEquals(check.getFVal(), Double.MAX_VALUE);
         assertEquals(check.getAccumWeight(), Double.MAX_VALUE);
-        assertEquals(check.getPrevNode(), null);
+        assertNull(check.getPrevNode());
     }
 
 //    @Test
