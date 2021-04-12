@@ -3,9 +3,9 @@ package edu.wpi.teamB.views.menus;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 
+import edu.wpi.teamB.database.DatabaseHandler;
 import edu.wpi.teamB.entities.Node;
 import edu.wpi.teamB.pathfinding.Graph;
-import edu.wpi.teamB.pathfinding.Read;
 import edu.wpi.teamB.util.SceneSwitcher;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,6 +17,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
@@ -59,7 +60,17 @@ public class PathfindingMenuController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        HashMap<String, Node> locations = Read.parseCSVNodes("src/main/resources/edu/wpi/teamB/csvfiles/MapBnodes.csv");
+        HashMap<String, Node> locations = new HashMap<>();
+
+        // Pulls nodes from the database to fill the nodeInfo hashmap
+        try {
+            List<Node> nodes = DatabaseHandler.getDatabaseHandler("main.db").getNodeInformation();
+            for (Node n : nodes) {
+                locations.put(n.getNodeID(), n);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
         // Populate the combo boxes with locations
         try{
