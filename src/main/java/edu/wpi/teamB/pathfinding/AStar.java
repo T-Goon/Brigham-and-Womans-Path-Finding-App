@@ -1,10 +1,13 @@
 package edu.wpi.teamB.pathfinding;
 
+import edu.wpi.teamB.database.DatabaseHandler;
 import edu.wpi.teamB.entities.Node;
 
 import java.util.*;
 
 public class AStar {
+
+    private static final DatabaseHandler db = DatabaseHandler.getDatabaseHandler("main.db");
 
     /**
      * Main pathfinding algorithm used to find a path between two nodes.
@@ -15,7 +18,7 @@ public class AStar {
      */
     public static List<String> findPath(String startID, String endID) {
 
-        Graph graph = Graph.getGraph();
+        Graph graph = Graph.getGraph(db);
         Node startNode = graph.getNodes().get(startID);
         Node endNode = graph.getNodes().get(endID);
 

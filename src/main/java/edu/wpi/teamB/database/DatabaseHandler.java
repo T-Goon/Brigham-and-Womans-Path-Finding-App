@@ -28,8 +28,13 @@ public class DatabaseHandler {
             handler = new DatabaseHandler();
             handler.databaseURL = URL_BASE + dbURL;
             handler.databaseConnection = handler.getConnection();
-        } else if (!(URL_BASE + dbURL).equals(handler.databaseURL))
-            throw new IllegalArgumentException("Trying to change where the database handler points!");
+        } else if (!(URL_BASE + dbURL).equals(handler.databaseURL)) {
+            // If switching between main.db and test.db, shut down the old database and start
+            handler.shutdown();
+            handler = new DatabaseHandler();
+            handler.databaseURL = URL_BASE + dbURL;
+            handler.databaseConnection = handler.getConnection();
+        }
         return handler;
     }
 

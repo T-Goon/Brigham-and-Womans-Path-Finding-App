@@ -1,9 +1,14 @@
 package edu.wpi.teamB;
 
+import edu.wpi.teamB.database.DatabaseHandler;
 import edu.wpi.teamB.entities.Node;
 import edu.wpi.teamB.pathfinding.AStar;
 import edu.wpi.teamB.pathfinding.Graph;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -13,13 +18,21 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 public class PathfindingTests {
+
+    private static DatabaseHandler db;
+
+    @BeforeAll
+    static void initDB() {
+        db = DatabaseHandler.getDatabaseHandler("test.db");
+    }
+
     @Test
     public void adjNodes() {
         //Testing only one adj node
         List<Node> adjNodes = new ArrayList<>();
         Node bWALK00101 = new Node("bWALK00101",568,1894,1,"Parking","WALK","Left Parking Lot Walkway","Llot Walk");
         adjNodes.add(bWALK00101);
-        assertEquals(adjNodes, Graph.getGraph().getAdjNodesById("bPARK00101"));
+        assertEquals(adjNodes, Graph.getGraph(db).getAdjNodesById("bPARK00101"));
 
         //testing bidirectional and multiple adj nodes
         List<Node> adjNodes3 = new ArrayList<>();
@@ -38,7 +51,7 @@ public class PathfindingTests {
         adjNodes3.add(bEXIT00101);
         adjNodes3.add(bEXIT00201);
 
-        assertTrue(Graph.getGraph().getAdjNodesById("bWALK00401").containsAll(adjNodes3));
+        assertTrue(Graph.getGraph(db).getAdjNodesById("bWALK00401").containsAll(adjNodes3));
 
     }
 
