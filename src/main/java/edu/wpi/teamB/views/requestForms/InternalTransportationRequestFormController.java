@@ -1,56 +1,41 @@
 package edu.wpi.teamB.views.requestForms;
 
-import edu.wpi.teamB.App;
-import javafx.event.ActionEvent;
+import com.jfoenix.controls.JFXCheckBox;
+import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXTextArea;
+import com.jfoenix.controls.JFXTextField;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.Label;
+import javafx.fxml.Initializable;
 
-import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class InternalTransportationRequestFormController {
 
-    @FXML
-    private Button btnCancel;
-    @FXML
-    private Button SubmitB;
-    @FXML
-    private Button HelpB;
-    @FXML
-    private TextField NAME;
-    @FXML
-    private TextField ROOMNUM;
-    @FXML
-    private TextField TRTYPE;
-    @FXML
-    private TextArea REASON;
+public class InternalTransportationRequestFormController extends DefaultServiceRequestFormController implements Initializable {
 
     @FXML
-    public void handleButtonAction(ActionEvent e) {
-        Button bnt = (Button) e.getSource();
+    private JFXTextField name;
 
-        if (bnt.getId().equals("btnCancel")) {
-            // Go back to the service request menu
-            try {
-                Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/menus/serviceRequestMenu.fxml"));
-                App.getPrimaryStage().getScene().setRoot(root);
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-        }
+    @FXML
+    private JFXTextField roomNum;
 
-        if (bnt.getId().equals("SubmitB")) {
-            //Show the confirmation page
-        }
+    @FXML
+    private JFXComboBox<Label> comboTranspType;
 
-        if (bnt.getId().equals("HelpB")) {
-            //Show the help page
-        }
+    @FXML
+    private JFXTextArea description;
 
+    @FXML
+    private JFXCheckBox unconscious;
+
+    @FXML
+    private JFXCheckBox infectious;
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        comboTranspType.getItems().add(new Label("Wheelchair"));
+        comboTranspType.getItems().add(new Label("Stretcher"));
+        comboTranspType.getItems().add(new Label("Gurney"));
     }
-
-
 }

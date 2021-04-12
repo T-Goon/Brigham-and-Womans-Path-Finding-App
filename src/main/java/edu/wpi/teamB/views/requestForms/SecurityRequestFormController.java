@@ -1,26 +1,29 @@
 package edu.wpi.teamB.views.requestForms;
 
-import edu.wpi.teamB.App;
-import javafx.event.ActionEvent;
+import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXTextArea;
+import com.jfoenix.controls.JFXTextField;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 
-import java.io.IOException;
-
-public class SecurityRequestFormController {
+public class SecurityRequestFormController extends DefaultServiceRequestFormController {
 
     @FXML
-    private Button backBtn;
+    private JFXTextField loc;
 
     @FXML
-    void handleBackButton(ActionEvent e) throws IOException {
-        Button btn = (Button) e.getSource();
+    private JFXComboBox<Label> comboSecurityType;
 
-        if (btn.getId().equals("backBtn")) {
-            Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/menus/serviceRequestMenu.fxml"));
-            App.getPrimaryStage().getScene().setRoot(root);
-        }
-    }
+    @FXML
+    private JFXTextArea description;
+
+    @FXML
+    private JFXTextField detailOne;
+
+    @FXML
+    private JFXTextField detailTwo;
+
+    @FXML
+    private JFXTextField detailThree;
 }
+

@@ -11,8 +11,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
-<VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: #012d5a;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamB.views.requestForms.ReligiousRequestFormController">
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #012d5a;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamB.views.requestForms.ReligiousRequestFormController">
    <children>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #FFFFFF;">
          <children>
@@ -26,7 +25,7 @@
             </ImageView>
             <VBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
                <children>
-                  <JFXButton buttonType="RAISED" style="-fx-background-color: #CE2029;" text="EMERGENCY" textFill="WHITE">
+                  <JFXButton fx:id="btnEmergency" buttonType="RAISED" onAction="#handleButtonAction" style="-fx-background-color: #CE2029;" text="EMERGENCY" textFill="WHITE">
                      <font>
                         <Font name="MS Reference Sans Serif" size="16.0" />
                      </font>
@@ -55,12 +54,12 @@
             </Text>
             <VBox>
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Name">
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Name:">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Text>
-                  <JFXTextField style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" />
+                  <JFXTextField fx:id="name" style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" />
                </children>
                <VBox.margin>
                   <Insets />
@@ -74,12 +73,12 @@
             </VBox>
             <VBox>
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Room Number">
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Room Number:">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Text>
-                  <JFXTextField style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" />
+                  <JFXTextField fx:id="roomNum" style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" />
                </children>
                <padding>
                   <Insets left="10.0" right="10.0" />
@@ -87,12 +86,12 @@
             </VBox>
             <VBox>
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Description">
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Description:">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Text>
-                  <JFXTextArea maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="653.0" style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" VBox.vgrow="NEVER">
+                  <JFXTextArea fx:id="description" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="653.0" style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" VBox.vgrow="NEVER">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -115,7 +114,7 @@
                   </HBox>
                   <HBox alignment="CENTER" fillHeight="false" spacing="10.0" HBox.hgrow="ALWAYS">
                      <children>
-                        <JFXButton buttonType="RAISED" style="-fx-background-color: #F6BD39; -fx-background-radius: 7;" text="Submit">
+                        <JFXButton fx:id="btnSubmit" buttonType="RAISED" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39; -fx-background-radius: 7;" text="Submit">
                            <font>
                               <Font name="MS Reference Sans Serif" size="20.0" />
                            </font>
@@ -124,7 +123,7 @@
                   </HBox>
                   <HBox alignment="CENTER_RIGHT" fillHeight="false" spacing="10.0" HBox.hgrow="ALWAYS">
                      <children>
-                        <JFXButton buttonType="RAISED" style="-fx-background-color: #9A9999; -fx-background-radius: 50%;" text="?" textFill="WHITE">
+                        <JFXButton fx:id="btnHelp" buttonType="RAISED" onAction="#handleButtonAction" style="-fx-background-color: #9A9999; -fx-background-radius: 50%;" text="?" textFill="WHITE">
                            <font>
                               <Font name="MS Reference Sans Serif" size="14.0" />
                            </font>
