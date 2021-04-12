@@ -18,10 +18,7 @@ import javafx.scene.shape.Line;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Objects;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class PathfindingMenuController implements Initializable {
 
@@ -64,8 +61,8 @@ public class PathfindingMenuController implements Initializable {
 
         // Pulls nodes from the database to fill the nodeInfo hashmap
         try {
-            List<Node> nodes = DatabaseHandler.getDatabaseHandler("main.db").getNodeInformation();
-            for (Node n : nodes) {
+            Map<String, Node> nodes = DatabaseHandler.getDatabaseHandler("main.db").getNodes();
+            for (Node n : nodes.values()) {
                 locations.put(n.getNodeID(), n);
             }
         } catch (SQLException e) {
@@ -197,9 +194,5 @@ public class PathfindingMenuController implements Initializable {
      */
     public String getEndLocation(){
         return endLocComboBox.getValue();
-    }
-
-    public void runAstr(){
-        List<String> path = Graph.AStr(getStartLocation(), getEndLocation());
     }
 }
