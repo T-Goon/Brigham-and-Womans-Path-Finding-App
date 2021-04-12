@@ -188,6 +188,51 @@ public class DatabaseHandler {
     }
 
     /**
+     * Adds an node to the database with the given information
+     *
+     * @param node the node to add
+     */
+    public void addNode(Node node) {
+        Statement statement = this.getStatement();
+
+        String query = "INSERT INTO Nodes VALUES " +
+                "('" + node.getNodeID()
+                + "', " + node.getXCoord()
+                + ", " + node.getYCoord()
+                + ", " + node.getFloor()
+                + ", '" + node.getBuilding()
+                + "', '" + node.getNodeType()
+                + "', '" + node.getLongName()
+                + "', '" + node.getShortName()
+                + "')";
+
+        try {
+            assert statement != null;
+            statement.execute(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Adds an edge to the database with the given information
+     *
+     * @param edge the edge to add
+     */
+    public void addEdge(Edge edge) {
+        Statement statement = this.getStatement();
+
+        String query = "INSERT INTO Edges VALUES ('" + edge.getEdgeID() + "', '" + edge.getStartNodeName() + "', '" + edge.getEndNodeName() + "')";
+
+        try {
+            assert statement != null;
+            statement.execute(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
      * Updates the node with the specified ID.
      */
     public void updateNode(Node node) {
