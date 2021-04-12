@@ -118,7 +118,7 @@
                         </VBox>
                         <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="50.0">
                             <children>
-                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Special Flags" HBox.hgrow="ALWAYS">
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Special Flags:" HBox.hgrow="ALWAYS">
                                     <font>
                                         <Font size="14.0" />
                                     </font>
