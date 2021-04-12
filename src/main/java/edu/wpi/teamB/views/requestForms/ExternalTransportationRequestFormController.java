@@ -14,9 +14,9 @@ public class ExternalTransportationRequestFormController {
     @FXML
     private JFXButton btnCancel;
     @FXML
-    private JFXButton SubmitB;
+    private JFXButton btnSubmit;
     @FXML
-    private JFXButton HelpB;
+    private JFXButton btnHelp;
     @FXML
     private JFXTextField NAME;
     @FXML
@@ -41,6 +41,15 @@ public class ExternalTransportationRequestFormController {
         if (bnt.getId().equals("btnCancel")) {
             try {
                 Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/menus/serviceRequestMenu.fxml"));
+                App.getPrimaryStage().getScene().setRoot(root);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+
+        if (bnt.getId().equals("btnSubmit")) {
+            try {
+                Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/requestForms/formSubmitted.fxml"));
                 App.getPrimaryStage().getScene().setRoot(root);
             } catch (IOException ex) {
                 ex.printStackTrace();

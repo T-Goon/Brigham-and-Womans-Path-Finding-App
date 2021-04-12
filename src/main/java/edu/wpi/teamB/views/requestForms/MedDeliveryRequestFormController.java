@@ -15,16 +15,16 @@ import java.io.IOException;
 public class MedDeliveryRequestFormController {
 
     @FXML
-    private JFXButton cancelBtn;
+    private JFXButton btnCancel;
 
     @FXML
-    private JFXButton emergencyBtn;
+    private JFXButton btnEmergency;
 
     @FXML
-    private JFXButton submitBtn;
+    private JFXButton btnSubmit;
 
     @FXML
-    private JFXButton helpBtn;
+    private JFXButton btnHelp;
 
     @FXML
     private JFXTextField patName;
@@ -40,29 +40,32 @@ public class MedDeliveryRequestFormController {
 
     @FXML
     public void handleButtonAction(ActionEvent e) {
-        Button bnt = (Button) e.getSource();
+        JFXButton btn = (JFXButton) e.getSource();
 
-        if (bnt.getId().equals("cancelBtn")) {
-            // Go back to the service request menu
-            try {
-                Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/menus/serviceRequestMenu.fxml"));
-                App.getPrimaryStage().getScene().setRoot(root);
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
+        switch (btn.getId()) {
+            case "btnCancel":
+                try {
+                    Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/menus/serviceRequestMenu.fxml"));
+                    App.getPrimaryStage().getScene().setRoot(root);
+                    break;
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                    break;
+                }
+            case "btnHelp":
+                // handle help button
+                break;
+            case "btnSubmit":
+                try {
+                    Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/requestForms/formSubmitted.fxml"));
+                    App.getPrimaryStage().getScene().setRoot(root);
+                    break;
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                    break;
+                }
+
+
         }
-
-        if (bnt.getId().equals("submitBtn")) {
-            //Show the confirmation page
-        }
-
-        if (bnt.getId().equals("helpBtn")) {
-            //Show the help page
-        }
-
-        if (bnt.getId().equals("emergencyBtn")) {
-            //Show the help page
-        }
-
     }
 }

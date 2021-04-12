@@ -148,7 +148,7 @@
                         </HBox>
                         <HBox alignment="CENTER" fillHeight="false" spacing="10.0" HBox.hgrow="ALWAYS">
                            <children>
-                              <JFXButton buttonType="RAISED" style="-fx-background-color: #F6BD39; -fx-background-radius: 7;" text="Submit">
+                              <JFXButton fx:id="btnSubmit" buttonType="RAISED" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39; -fx-background-radius: 7;" text="Submit">
                                  <font>
                                     <Font name="MS Reference Sans Serif" size="20.0" />
                                  </font>

@@ -1,0 +1,24 @@
+.scroll-pane > .viewport {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar:vertical .track {
+    -fx-background-color: #0067B1;
+    -fx-pref-width: 4;
+}
+
+.scroll-bar:vertical .thumb {
+    -fx-background-color: #80B3D8;
+    -fx-background-radius: 2.0em;
+}
+
+.increment-button, .decrement-button {
+    -fx-background-color: #80B3D8;
+    -fx-border-color: #80B3D8;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 16px;
+}
