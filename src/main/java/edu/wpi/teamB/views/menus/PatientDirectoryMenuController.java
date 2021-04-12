@@ -10,11 +10,16 @@ import java.io.IOException;
 
 public class PatientDirectoryMenuController {
 
-    @FXML private JFXButton btnCovid;
-    @FXML private JFXButton btnEmergency;
-    @FXML private JFXButton btnDirections;
-    @FXML private JFXButton btnExit;
-    @FXML private JFXButton btnServiceRequests;
+    @FXML
+    private JFXButton btnCovid;
+    @FXML
+    private JFXButton btnEmergency;
+    @FXML
+    private JFXButton btnDirections;
+    @FXML
+    private JFXButton btnExit;
+    @FXML
+    private JFXButton btnServiceRequests;
 
     @FXML
     public void handleButtonAction(ActionEvent actionEvent) throws IOException {
