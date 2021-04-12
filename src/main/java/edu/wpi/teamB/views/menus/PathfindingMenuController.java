@@ -3,6 +3,7 @@ package edu.wpi.teamB.views.menus;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 
+import edu.wpi.teamB.database.DatabaseHandler;
 import edu.wpi.teamB.entities.Node;
 import edu.wpi.teamB.pathfinding.Read;
 import edu.wpi.teamB.util.SceneSwitcher;
@@ -10,6 +11,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Circle;
@@ -17,16 +19,18 @@ import javafx.scene.shape.Line;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class PathfindingMenuController implements Initializable {
 
     @FXML
-    private JFXComboBox<String> startLocComboBox;
+    private JFXComboBox<Label> startLocComboBox;
 
     @FXML
-    private JFXComboBox<String> endLocComboBox;
+    private JFXComboBox<Label> endLocComboBox;
 
     @FXML
     private AnchorPane nodeHolder;
@@ -46,9 +50,6 @@ public class PathfindingMenuController implements Initializable {
     private JFXButton btnZoomOut;
 
     @FXML
-    private JFXButton btnPlaceDot;// TODO This is just an example. Remove it later.
-
-    @FXML
     private JFXButton btnBack;
 
     private static final double zoomAmount = .2;
@@ -59,13 +60,31 @@ public class PathfindingMenuController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        HashMap<String, Node> locations = Read.parseCSVNodes();
+        // Get node info from database
+        DatabaseHandler db = DatabaseHandler.getDatabaseHandler("main.db");
+
+        List<Node> nodes = null;
+
+        try{
+            nodes = db.getNodeInformation();
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
 
         // Populate the combo boxes with locations
         try {
-            for (Node n : locations.values()) {
-                startLocComboBox.getItems().add(n.getLongName());
-                endLocComboBox.getItems().add(n.getLongName());
+            assert nodes != null;
+            for (Node n : nodes) {
+                Label l = new Label();
+                String s = n.getLongName();
+                l.setText(s);
+
+                // Add new label to combobox
+                startLocComboBox.getItems().add(l);
+                endLocComboBox.getItems().add(l);
+
+                // Add nodes to map
+                placeNode(n.getXCoord(), n.getYCoord());
             }
         } catch (NullPointerException e) {
             e.printStackTrace();
@@ -86,16 +105,6 @@ public class PathfindingMenuController implements Initializable {
                 break;
             case "btnZoomOut":
                 zoomMap(false);
-                break;
-            case "btnPlaceDot":
-                // TODO This is just and example. Remove it later.
-
-                placeEdge(2077, 2031, 56, 2078);
-
-                placeNode(2077, 2031);
-
-                placeNode(56, 2078);
-
                 break;
             case "btnBack":
                 SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/patientDirectoryMenu.fxml");
@@ -126,9 +135,6 @@ public class PathfindingMenuController implements Initializable {
 
     /**
      * Places an image for a node on the map at the given pixel coordinates.
-     *
-     * IMPORTANT!!!: ALWAYS PLACE EDGES BEFORE NODES.
-     *
      * @param x x coordinates of node in pixels
      * @param y y coordinates of node in pixels
      */
@@ -148,9 +154,6 @@ public class PathfindingMenuController implements Initializable {
 
     /**
      * Draws an edge between 2 points on the map.
-     * <p>
-     * IMPORTANT!!!: ALWAYS PLACE EDGES BEFORE NODES.
-     *
      * @param xStart x start coordinate in pixels
      * @param yStart y start coordinate in pixels
      * @param xEnd   x end coordinate in pixels
@@ -179,7 +182,7 @@ public class PathfindingMenuController implements Initializable {
      * @return The long name of the node selected in the combobox.
      */
     public String getStartLocation() {
-        return startLocComboBox.getValue();
+        return startLocComboBox.getValue().getText();
     }
 
     /**
@@ -188,6 +191,6 @@ public class PathfindingMenuController implements Initializable {
      * @return The long name of the node selected in the combobox.
      */
     public String getEndLocation() {
-        return endLocComboBox.getValue();
+        return endLocComboBox.getValue().getText();
     }
 }
