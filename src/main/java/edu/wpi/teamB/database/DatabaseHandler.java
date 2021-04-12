@@ -4,10 +4,7 @@ import edu.wpi.teamB.entities.Edge;
 import edu.wpi.teamB.entities.Node;
 
 import java.sql.*;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class DatabaseHandler {
 
@@ -237,6 +234,8 @@ public class DatabaseHandler {
 
     /**
      * Updates the node with the specified ID.
+     *
+     * @param node the node to update
      */
     public void updateNode(Node node) {
         Statement statement = this.getStatement();
@@ -261,6 +260,8 @@ public class DatabaseHandler {
 
     /**
      * Updates the edge with the specified ID.
+     *
+     * @param edge the edge to update
      */
     public void updateEdge(Edge edge) {
         Statement statement = this.getStatement();
@@ -275,6 +276,69 @@ public class DatabaseHandler {
         }
     }
 
+    /**
+     * Removes the node given by the node ID.
+     *
+     * @param nodeID the node to remove, given by the node ID
+     */
+    public void removeNode(String nodeID) {
+        Statement statement = this.getStatement();
+        String query = "DELETE FROM Nodes WHERE nodeID = '" + nodeID + "'";
+
+        try {
+            statement.execute(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Removes the edge given by the edge ID.
+     *
+     * @param edgeID the edge to remove, given by the edge ID
+     */
+    public void removeEdge(String edgeID) {
+        Statement statement = this.getStatement();
+        String query = "DELETE FROM Edges WHERE edgeID = '" + edgeID + "'";
+
+        try {
+            statement.execute(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Given a node ID, returns a list of all the edges that are adjacent to that node.
+     *
+     * @param nodeID the node ID of the node to get the adjacent edges of
+     * @return the list of all adjacent edges of that node
+     */
+    public List<Edge> getAdjacentEdgesOfNode(String nodeID) {
+        Statement statement = this.getStatement();
+        String query = "SELECT DISTINCT * FROM Edges WHERE startNode = '" + nodeID + "' OR endNode = '" + nodeID + "'";
+        List<Edge> edges = new ArrayList<>();
+
+        try {
+            ResultSet set = statement.executeQuery(query);
+            while (set.next()) {
+                Edge outEdge = new Edge(
+                        set.getString("edgeID").trim(),
+                        set.getString("startNode").trim(),
+                        set.getString("endNode").trim()
+                );
+                edges.add(outEdge);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return edges;
+    }
+
+    /**
+     * @return whether the database is initialized or not
+     */
     public boolean isInitialized() {
         try {
             // Try getting a list of the tables -- If there is a table there, it will return true
@@ -286,7 +350,6 @@ public class DatabaseHandler {
         }
         return false;
     }
-
 
     /**
      * Shutdown the database
