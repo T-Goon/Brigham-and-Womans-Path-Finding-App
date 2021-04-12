@@ -27,7 +27,7 @@
                   </ImageView>
                   <VBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
                      <children>
-                        <JFXButton buttonType="RAISED" style="-fx-background-color: #CE2029;" text="EMERGENCY" textFill="WHITE">
+                        <JFXButton fx:id="btnEmergency" buttonType="RAISED" onAction="#handleButtonAction" style="-fx-background-color: #CE2029;" text="EMERGENCY" textFill="WHITE">
                            <font>
                               <Font name="MS Reference Sans Serif" size="16.0" />
                            </font>
@@ -73,7 +73,7 @@
                               <Insets left="5.0" />
                            </VBox.margin>
                         </Text>
-                        <JFXTextField style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00">
+                        <JFXTextField fx:id="name" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00">
                            <VBox.margin>
                               <Insets left="5.0" right="5.0" />
                            </VBox.margin>
@@ -86,7 +86,7 @@
                               <Insets left="5.0" top="10.0" />
                            </VBox.margin>
                         </Text>
-                        <JFXTextField style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00">
+                        <JFXTextField fx:id="roomNum" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00">
                            <VBox.margin>
                               <Insets left="5.0" right="5.0" />
                            </VBox.margin>
@@ -99,7 +99,7 @@
                               <Insets left="5.0" top="10.0" />
                            </VBox.margin>
                         </Text>
-                        <JFXTextField style="-fx-background-color: #E5E5E5; -fx-background-radius: 8;" unFocusColor="#4d4d4d00">
+                        <JFXTextField fx:id="mealChoice" style="-fx-background-color: #E5E5E5; -fx-background-radius: 8;" unFocusColor="#4d4d4d00">
                            <VBox.margin>
                               <Insets left="5.0" right="5.0" />
                            </VBox.margin>
@@ -127,7 +127,7 @@
                               </HBox>
                               <HBox alignment="CENTER_RIGHT" fillHeight="false" spacing="10.0" HBox.hgrow="ALWAYS">
                                  <children>
-                                    <JFXButton buttonType="RAISED" style="-fx-background-color: #9A9999; -fx-background-radius: 50%;" text="?" textFill="WHITE">
+                                    <JFXButton fx:id="btnHelp" buttonType="RAISED" onAction="#handleButtonAction" style="-fx-background-color: #9A9999; -fx-background-radius: 50%;" text="?" textFill="WHITE">
                                        <font>
                                           <Font name="MS Reference Sans Serif" size="14.0" />
                                        </font>

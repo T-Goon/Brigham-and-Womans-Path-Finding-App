@@ -27,7 +27,7 @@
             </ImageView>
             <VBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
                <children>
-                  <JFXButton buttonType="RAISED" style="-fx-background-color: #CE2029;" text="EMERGENCY" textFill="WHITE">
+                  <JFXButton fx:id="btnEmergency" buttonType="RAISED" onAction="#handleButtonAction" style="-fx-background-color: #CE2029;" text="EMERGENCY" textFill="WHITE">
                      <font>
                         <Font name="MS Reference Sans Serif" size="16.0" />
                      </font>
@@ -61,11 +61,7 @@
                         <Font size="14.0" />
                      </font>
                   </Text>
-                  <JFXTextField style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f0f0f000">
-                     <VBox.margin>
-                        <Insets />
-                     </VBox.margin>
-                  </JFXTextField>
+                  <JFXTextField fx:id="loc" style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" />
                </children>
             </VBox>
             <VBox>
@@ -78,7 +74,7 @@
                         <Font size="14.0" />
                      </font>
                   </Text>
-                  <JFXComboBox maxWidth="1.7976931348623157E308" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f0f0f000" />
+                  <JFXComboBox fx:id="comboSecurityType" maxWidth="1.7976931348623157E308" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f0f0f000" />
                </children>
             </VBox>
             <VBox>
@@ -88,7 +84,7 @@
                         <Font size="14.0" />
                      </font>
                   </Text>
-                  <JFXTextArea style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f0f0f000" />
+                  <JFXTextArea fx:id="description" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f0f0f000" />
                </children>
             </VBox>
             <HBox prefWidth="200.0">
@@ -103,17 +99,17 @@
                   </Label>
                </children>
             </HBox>
-            <JFXTextField style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f0f0f000">
+            <JFXTextField fx:id="detailOne" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f0f0f000">
                <VBox.margin>
                   <Insets bottom="3.0" />
                </VBox.margin>
             </JFXTextField>
-            <JFXTextField style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f0f0f000">
+            <JFXTextField fx:id="detailTwo" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f0f0f000">
                <VBox.margin>
                   <Insets bottom="3.0" />
                </VBox.margin>
             </JFXTextField>
-            <JFXTextField style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f0f0f000" />
+            <JFXTextField fx:id="detailThree" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f0f0f000" />
             <HBox alignment="CENTER_LEFT" prefWidth="200.0">
                <children>
                   <HBox alignment="CENTER_LEFT" fillHeight="false" HBox.hgrow="ALWAYS">
@@ -136,7 +132,7 @@
                   </HBox>
                   <HBox alignment="CENTER_RIGHT" fillHeight="false" spacing="10.0" HBox.hgrow="ALWAYS">
                      <children>
-                        <JFXButton buttonType="RAISED" style="-fx-background-color: #9A9999; -fx-background-radius: 50%;" text="?" textFill="WHITE">
+                        <JFXButton fx:id="btnHelp" buttonType="RAISED" onAction="#handleButtonAction" style="-fx-background-color: #9A9999; -fx-background-radius: 50%;" text="?" textFill="WHITE">
                            <font>
                               <Font name="MS Reference Sans Serif" size="14.0" />
                            </font>

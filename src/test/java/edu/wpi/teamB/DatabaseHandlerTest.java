@@ -24,7 +24,7 @@ public class DatabaseHandlerTest {
     @BeforeAll
     static void initDB() {
         db = DatabaseHandler.getDatabaseHandler("test.db");
-        resourcesPathString = new File("").getAbsolutePath() + "/src/test/resources/edu/wpi/teamB/database/";
+        resourcesPathString = new File("").getAbsolutePath() + "/src/test/resources/edu/wpi/teamB/database/load/";
     }
 
     @Test
@@ -114,7 +114,7 @@ public class DatabaseHandlerTest {
         try {
             db.fillDatabase(nodes, edges);
             List<Node> outnodes = db.getNodeInformation();
-            assert(outnodes.containsAll(nodes));
+            assert (outnodes.containsAll(nodes));
             List<Edge> outedges = db.getEdgeInformation();
             assertEquals(outedges.get(0), targetEdge);
         } catch (SQLException e) {

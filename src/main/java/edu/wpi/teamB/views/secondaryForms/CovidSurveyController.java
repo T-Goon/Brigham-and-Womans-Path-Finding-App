@@ -3,6 +3,7 @@ package edu.wpi.teamB.views.secondaryForms;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXRadioButton;
 import edu.wpi.teamB.App;
+import edu.wpi.teamB.util.SceneSwitcher;
 import javafx.css.CssMetaData;
 import javafx.css.Styleable;
 import javafx.event.ActionEvent;
@@ -16,6 +17,7 @@ import javafx.fxml.Initializable;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class CovidSurveyController implements Initializable {
@@ -49,31 +51,22 @@ public class CovidSurveyController implements Initializable {
         btnCCNo.setToggleGroup(ccGroup);
         btnTestYes.setToggleGroup(testGroup);
         btnTestNo.setToggleGroup(testGroup);
-
     }
 
-
     @FXML
-    void handleButtonAction(ActionEvent e) {
+    void handleButtonAction(ActionEvent e) throws IOException {
         JFXButton btn = (JFXButton) e.getSource();
 
-        if (btn.getId().equals("btnBack")) {
-            try {
-                Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/menus/patientDirectoryMenu.fxml"));
-                App.getPrimaryStage().getScene().setRoot(root);
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-        }
-
-        if (btn.getId().equals("btnSubmit")) {
-            try {
-                Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/requestForms/formSubmitted.fxml"));
-                App.getPrimaryStage().getScene().setRoot(root);
-            } catch (IOException ex) {
-                ex.printStackTrace();
-
-            }
+        switch (btn.getId()) {
+            case "btnBack":
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/patientDirectoryMenu.fxml");
+                break;
+            case "btnSubmit":
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/requestForms/formSubmitted.fxml");
+                break;
+            case "btnEmergency":
+                // Not implemented
+                break;
         }
     }
 }

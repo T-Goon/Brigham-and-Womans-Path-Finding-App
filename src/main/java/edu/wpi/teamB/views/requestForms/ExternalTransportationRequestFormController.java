@@ -1,62 +1,32 @@
 package edu.wpi.teamB.views.requestForms;
 
 import com.jfoenix.controls.*;
-import edu.wpi.teamB.App;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
+import javafx.scene.control.Label;
 
-import java.io.IOException;
-
-public class ExternalTransportationRequestFormController {
+public class ExternalTransportationRequestFormController extends DefaultServiceRequestFormController {
 
     @FXML
-    private JFXButton btnCancel;
-    @FXML
-    private JFXButton btnSubmit;
-    @FXML
-    private JFXButton btnHelp;
-    @FXML
-    private JFXTextField NAME;
-    @FXML
-    private JFXTextField ROOMNUM;
-    @FXML
-    private JFXComboBox TRTYPE;
-    @FXML
-    private JFXTextArea DESCRIPTION;
-    @FXML
-    private JFXTextArea ALLERGIES;
-    @FXML
-    private JFXCheckBox UNCONSCIOUS;
-    @FXML
-    private JFXCheckBox INFECTIOUS;
-    @FXML
-    private JFXCheckBox OUTNETWORK;
+    private JFXTextField name;
 
     @FXML
-    public void handleButtonAction(ActionEvent e) {
-        JFXButton bnt = (JFXButton) e.getSource();
+    private JFXTextField roomNum;
 
-        if (bnt.getId().equals("btnCancel")) {
-            try {
-                Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/menus/serviceRequestMenu.fxml"));
-                App.getPrimaryStage().getScene().setRoot(root);
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-        }
+    @FXML
+    private JFXComboBox<Label> transpType;
 
-        if (bnt.getId().equals("btnSubmit")) {
-            try {
-                Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/requestForms/formSubmitted.fxml"));
-                App.getPrimaryStage().getScene().setRoot(root);
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-        }
+    @FXML
+    private JFXTextArea description;
 
-    }
+    @FXML
+    private JFXTextArea allergies;
 
+    @FXML
+    private JFXCheckBox unconscious;
 
+    @FXML
+    private JFXCheckBox infectious;
+
+    @FXML
+    private JFXCheckBox outNetwork;
 }

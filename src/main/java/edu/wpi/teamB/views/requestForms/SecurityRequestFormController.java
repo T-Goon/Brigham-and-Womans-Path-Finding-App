@@ -1,35 +1,29 @@
 package edu.wpi.teamB.views.requestForms;
 
-import com.jfoenix.controls.JFXButton;
-import edu.wpi.teamB.App;
-import javafx.event.ActionEvent;
+import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXTextArea;
+import com.jfoenix.controls.JFXTextField;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
+import javafx.scene.control.Label;
 
-import java.io.IOException;
-
-public class SecurityRequestFormController {
+public class SecurityRequestFormController extends DefaultServiceRequestFormController {
 
     @FXML
-    private JFXButton btnCancel;
+    private JFXTextField loc;
 
     @FXML
-    private JFXButton btnSubmit;
+    private JFXComboBox<Label> comboSecurityType;
 
     @FXML
-    void handleButtonAction(ActionEvent e) throws IOException {
-        JFXButton btn = (JFXButton) e.getSource();
+    private JFXTextArea description;
 
-        if (btn.getId().equals("btnCancel")) {
-            Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/menus/serviceRequestMenu.fxml"));
-            App.getPrimaryStage().getScene().setRoot(root);
-        }
+    @FXML
+    private JFXTextField detailOne;
 
-        if (btn.getId().equals("btnSubmit")) {
-                Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/requestForms/formSubmitted.fxml"));
-                App.getPrimaryStage().getScene().setRoot(root);
-            }
-        }
-    }
+    @FXML
+    private JFXTextField detailTwo;
+
+    @FXML
+    private JFXTextField detailThree;
+}
 

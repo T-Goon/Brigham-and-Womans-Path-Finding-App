@@ -1,57 +1,16 @@
 package edu.wpi.teamB.views.requestForms;
 
-import com.jfoenix.controls.JFXButton;
-import edu.wpi.teamB.App;
-import javafx.event.ActionEvent;
+import com.jfoenix.controls.JFXTextField;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 
-import java.io.IOException;
-
-public class FoodDeliveryRequestFormController {
+public class FoodDeliveryRequestFormController extends DefaultServiceRequestFormController {
 
     @FXML
-    private JFXButton btnCancel;
+    private JFXTextField name;
 
     @FXML
-    private JFXButton btnHelp;
+    private JFXTextField roomNum;
 
     @FXML
-    private JFXButton btnSubmit;
-
-    @FXML
-    private JFXButton btnEmergency;
-
-    @FXML
-    public void handleButtonAction(ActionEvent actionEvent) {
-        JFXButton btn = (JFXButton) actionEvent.getSource();
-
-        switch(btn.getId()) {
-            case "btnCancel":
-                try {
-                    Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/menus/serviceRequestMenu.fxml"));
-                    App.getPrimaryStage().getScene().setRoot(root);
-                    break;
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                    break;
-                }
-            case "btnHelp":
-                // handle help button
-                break;
-            case "btnSubmit":
-                try {
-                    Parent root = FXMLLoader.load(getClass().getResource("/edu/wpi/teamB/views/requestForms/formSubmitted.fxml"));
-                    App.getPrimaryStage().getScene().setRoot(root);
-                    break;
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                    break;
-                }
-            case "btnEmergency":
-                // handle emergency button
-                break;
-        }
-    }
+    private JFXTextField mealChoice;
 }

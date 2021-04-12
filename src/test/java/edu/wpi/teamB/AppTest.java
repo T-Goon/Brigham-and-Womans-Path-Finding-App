@@ -22,15 +22,18 @@ import java.util.stream.Stream;
 @ExtendWith(ApplicationExtension.class)
 public class AppTest extends FxRobot {
 
-  /** Setup test suite. */
-  @BeforeAll
-  public static void setup() throws Exception {
-    FxToolkit.registerPrimaryStage();
-    FxToolkit.setupApplication(App.class);
-  }
+    /**
+     * Setup test suite.
+     */
+    @BeforeAll
+    public static void setup() throws Exception {
+        FxToolkit.registerPrimaryStage();
+        FxToolkit.setupApplication(App.class);
+    }
 
-  @AfterAll
-  public static void cleanup() {}
+    @AfterAll
+    public static void cleanup() {
+    }
 
   @Test
   void testPathfindingBackBtn()
@@ -40,44 +43,42 @@ public class AppTest extends FxRobot {
     clickOn("#btnBack");
   }
 
-  @ParameterizedTest
-  @MethodSource("textProvider")
-  void testBackButtons(String button, String title)
-  {
-    clickOn("Service Requests");
-    verifyThat("Service Request Directory", Node::isVisible);
-    clickOn(button);
-    verifyThat(title, Node::isVisible);
-    clickOn("Cancel");
-    verifyThat("Service Request Directory", Node::isVisible);
-    clickOn("#btnBack");
-  }
+    @ParameterizedTest
+    @MethodSource("textProvider")
+    void testBackButtons(String button, String title) {
+        clickOn("Service Requests");
+        verifyThat("Service Request Directory", Node::isVisible);
+        clickOn(button);
+        verifyThat(title, Node::isVisible);
+        clickOn("Cancel");
+        verifyThat("Service Request Directory", Node::isVisible);
+        clickOn("#btnBack");
+    }
 
-  @ParameterizedTest
-  @MethodSource("textProvider")
-  void testSubmitForms(String button, String title){
-    clickOn("Service Requests");
-    verifyThat("Service Request Directory", Node::isVisible);
-    clickOn(button);
-    verifyThat(title, Node::isVisible);
-    clickOn("Submit");
-    verifyThat("Form Successfully Submitted!", Node::isVisible);
-    clickOn("Return to Main Screen");
-    verifyThat("Service Requests", Node::isVisible);
-  }
+    @ParameterizedTest
+    @MethodSource("textProvider")
+    void testSubmitForms(String button, String title) {
+        clickOn("Service Requests");
+        verifyThat("Service Request Directory", Node::isVisible);
+        clickOn(button);
+        verifyThat(title, Node::isVisible);
+        clickOn("Submit");
+        verifyThat("Form Successfully Submitted!", Node::isVisible);
+        clickOn("Return to Main Screen");
+        verifyThat("Service Requests", Node::isVisible);
+    }
 
-  private static Stream<Arguments> textProvider()
-  {
-    return Stream.of(
-            Arguments.of("Sanitation Services", "Sanitation Services Request Form"),
-            Arguments.of("Floral Delivery", "Floral Delivery Request Form"),
-            Arguments.of("Medicine Delivery", "Medicine Delivery Request Form"),
-            Arguments.of("Security Services", "Security Services Request Form"),
-            Arguments.of("Internal Transportation", "Internal Transportation Request Form"),
-            Arguments.of("External Patient Transport", "External Transportation Request Form"),
-            Arguments.of("Religious Service", "Religious Request Form"),
-            Arguments.of("Food Delivery", "Food Delivery Request Form"),
-            Arguments.of("Laundry", "Laundry Services Request Form")
-    );
-  }
+    private static Stream<Arguments> textProvider() {
+        return Stream.of(
+                Arguments.of("Sanitation Services", "Sanitation Services Request Form"),
+                Arguments.of("Floral Delivery", "Floral Delivery Request Form"),
+                Arguments.of("Medicine Delivery", "Medicine Delivery Request Form"),
+                Arguments.of("Security Services", "Security Services Request Form"),
+                Arguments.of("Internal Transportation", "Internal Transportation Request Form"),
+                Arguments.of("External Patient Transport", "External Transportation Request Form"),
+                Arguments.of("Religious Service", "Religious Request Form"),
+                Arguments.of("Food Delivery", "Food Delivery Request Form"),
+                Arguments.of("Laundry", "Laundry Services Request Form")
+        );
+    }
 }
