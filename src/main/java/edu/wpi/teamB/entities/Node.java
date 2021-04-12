@@ -48,4 +48,18 @@ public class Node {
         this.shortName = shortName;
         this.isClosed = false;
     }
+
+    @Override
+    public String toString() {
+        return "Node{" +
+                "nodeID='" + nodeID + '\'' +
+                ", xcoord=" + xCoord +
+                ", ycoord=" + yCoord +
+                ", floor=" + floor +
+                ", building='" + building + '\'' +
+                ", nodeType='" + nodeType + '\'' +
+                ", longName='" + longName + '\'' +
+                ", shortName='" + shortName + '\'' +
+                '}';
+    }
 }
