@@ -49,42 +49,6 @@ public class PathfindingTests {
         assertEquals(5.0, Graph.dist(start, end));
     }
 
-//    @Test
-//    public void populateHashmapTest(){
-//
-//        HashMap<String, Node> nodeMap = Read.parseCSVNodes("src/main/resources/edu/wpi/teamB/csvfiles/MapBnodes.csv");
-//        HashMap<String, Node> shortPathInfo = Graph.populateHashmap(nodeMap.values());
-//
-//        Node check = shortPathInfo.get("bWALK00301");
-//        assertEquals(check.getXCoord(), 1874);
-//        assertEquals(check.getYCoord(), 1611);
-//        assertEquals(check.isClosed(), false);
-//        assertEquals(check.getFVal(), Double.MAX_VALUE);
-//        assertEquals(check.getAccumWeight(), Double.MAX_VALUE);
-//        assertEquals(check.getPrevNode(), null);
-//    }
-
-//    @Test
-//    public void AstrHashTest() {
-//        Node bWALK00301 = new Node("bWALK00301",1874,1611,1,"Parking","WALK","Francis Street Vining Street Intersection","FrancisViningInt");
-//        Node bWALK00201 = new Node("bEXIT00101",1749,1389,1,"Parking","EXIT","75 Francis Lobby Entrance","FrancisLobbyEnt");
-//
-//        //HashMap<String, Node> test = Graph.AStrHashTable("bWALK00301", "bWALK00201");
-//
-//        Node nodes = Graph.getNode("bWALK00301", "bWALK00201");
-//        assertEquals(nodes, bWALK00301);
-//
-//    }
-
-
-//    @Test
-//    public void testAStar(){
-//
-//        List<String> path = Graph.AStr("bPARK00101", "bPARK02501");
-//        System.out.println();
-//
-//    }
-
     @Test
     public void testAStar(){
         LinkedList<String> expectedPath = new LinkedList<>();

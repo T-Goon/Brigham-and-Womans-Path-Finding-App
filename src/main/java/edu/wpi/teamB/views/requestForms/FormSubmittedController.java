@@ -21,7 +21,7 @@ public class FormSubmittedController {
             SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/patientDirectoryMenu.fxml");
         else if (btn.getId().equals("btnEmergency")) {
             // not implemented
-
+            System.err.println("Emergency not implemented yet!");
         }
     }
 }

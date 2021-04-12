@@ -1,6 +1,6 @@
 # Getting Started with this code
 
-We require that all teams do their work for CS3733 Projects on a private repository in a Github Organization. 
+We require that all teams do their work for CS3733 Projects on a private repository in a GitHub Organization. 
 In order to turn this code into such a repository, please follow these instructions.
 
 https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/duplicating-a-repository 
@@ -9,11 +9,11 @@ https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/du
 # Important Files
 ## build.gradle / gradle.properties
 This is the gradle configuration file. Modify this file to add dependencies to your project. In
- general you should only modify the depedencies section of this file, however there are a few
-  modification you will need to make when you begin the project
+ general, you should only modify the dependencies section of this file, however there are a few 
+modifications you will need to make when you begin the project
   
   - `mainClassName`
-    - Modifiy this variable to point to your main class. By default it is `edu.wpi.teamB.Main
+    - Modify this variable to point to your main class. By default, it is `edu.wpi.teamB.Main
     `, but once you update your teamname package to your team letter you will need to update this
      path.
 

@@ -5,7 +5,6 @@ import com.jfoenix.controls.JFXComboBox;
 
 import edu.wpi.teamB.database.DatabaseHandler;
 import edu.wpi.teamB.entities.Node;
-import edu.wpi.teamB.pathfinding.Graph;
 import edu.wpi.teamB.util.SceneSwitcher;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

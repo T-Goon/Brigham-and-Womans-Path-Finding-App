@@ -1,9 +1,10 @@
 package edu.wpi.teamB;
 
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.SQLException;
+import java.util.Objects;
 
 import edu.wpi.teamB.util.CSVHandler;
 import edu.wpi.teamB.database.DatabaseHandler;
@@ -22,8 +23,8 @@ public class App extends Application {
     private static Stage primaryStage;
     private DatabaseHandler db;
 
-    private static final String NODES_PATH = new File("").getAbsolutePath() + "/src/main/resources/edu/wpi/teamB/csvfiles/MapBNodes.csv";
-    private static final String EDGES_PATH = new File("").getAbsolutePath() + "/src/main/resources/edu/wpi/teamB/csvfiles/MapBEdges.csv";
+    private static final Path NODES_PATH = Paths.get("src/main/resources/edu/wpi/teamB/csvfiles/MapBNodes.csv");
+    private static final Path EDGES_PATH = Paths.get("src/main/resources/edu/wpi/teamB/csvfiles/MapBEdges.csv");
 
     @Override
     public void init() throws SQLException {
@@ -33,7 +34,7 @@ public class App extends Application {
         // If the database is empty, fill it with the csv files
         // Note later we want to ask the user to give the location using a file chooser to the CSV files to load from
         if (!db.isInitialized())
-            db.loadDatabase(CSVHandler.loadCSVNodes(Paths.get(NODES_PATH)), CSVHandler.loadCSVEdges(Paths.get(EDGES_PATH)));
+            db.loadDatabase(CSVHandler.loadCSVNodes(NODES_PATH), CSVHandler.loadCSVEdges(EDGES_PATH));
     }
 
     @Override
@@ -42,7 +43,7 @@ public class App extends Application {
 
         // Open first view
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("views/menus/patientDirectoryMenu.fxml"));
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("views/menus/patientDirectoryMenu.fxml")));
 
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);
