@@ -24,7 +24,7 @@ public class DatabaseHandlerTest {
     @BeforeAll
     static void initDB() {
         db = DatabaseHandler.getDatabaseHandler("test.db");
-        resourcesPathString = new File("").getAbsolutePath() + "/src/test/resources/edu/wpi/teamB/database/";
+        resourcesPathString = new File("").getAbsolutePath() + "/src/test/resources/edu/wpi/teamB/database/load/";
     }
 
     @Test
