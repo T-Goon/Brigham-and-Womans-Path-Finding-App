@@ -97,7 +97,7 @@ public class PathfindingTests {
         expectedPath.add("bWALK00801");
         expectedPath.add("bWALK00901");
         expectedPath.add("bPARK02501");
-        LinkedList<String> path = AStar.findPath("bPARK00101", "bPARK02501");
+        List<String> path = AStar.findPath("bPARK00101", "bPARK02501");
         assertEquals(expectedPath, path);
     }
 
