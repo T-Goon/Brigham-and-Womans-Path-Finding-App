@@ -1,11 +1,13 @@
 package edu.wpi.teamB;
 
 import edu.wpi.teamB.entities.Node;
+import edu.wpi.teamB.pathfinding.AStar;
 import edu.wpi.teamB.pathfinding.Graph;
 import edu.wpi.teamB.pathfinding.Read;
 import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -76,12 +78,29 @@ public class PathfindingTests {
 //    }
 
 
+//    @Test
+//    public void testAStar(){
+//
+//        List<String> path = Graph.AStr("bPARK00101", "bPARK02501");
+//        System.out.println();
+//
+//    }
+
     @Test
     public void testAStar(){
-
-        List<String> path = Graph.AStr("bPARK00101", "bPARK02501");
-        System.out.println();
-
+        LinkedList<String> expectedPath = new LinkedList<>();
+        expectedPath.add("bPARK00101");
+        expectedPath.add("bWALK00101");
+        expectedPath.add("bWALK00201");
+        expectedPath.add("bWALK00301");
+        expectedPath.add("bWALK00501");
+        expectedPath.add("bWALK00601");
+        expectedPath.add("bWALK00701");
+        expectedPath.add("bWALK00801");
+        expectedPath.add("bWALK00901");
+        expectedPath.add("bPARK02501");
+        LinkedList<String> path = AStar.findPath("bPARK00101", "bPARK02501");
+        assertEquals(expectedPath, path);
     }
 
 }

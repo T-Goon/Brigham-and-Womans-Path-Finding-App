@@ -53,6 +53,6 @@ public class Node implements Comparable<Node> {
 
     @Override
     public int compareTo(Node o) {
-        return Double.compare(this.accumWeight, o.getAccumWeight());
+        return Double.compare(this.fVal, o.getFVal());
     }
 }
