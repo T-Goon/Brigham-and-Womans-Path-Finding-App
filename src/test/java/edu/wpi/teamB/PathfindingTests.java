@@ -1,10 +1,11 @@
 package edu.wpi.teamB;
 
+import edu.wpi.teamB.database.DatabaseHandler;
 import edu.wpi.teamB.pathfinding.Graph;
 import edu.wpi.teamB.entities.Node;
-import edu.wpi.teamB.pathfinding.Read;
 import org.junit.jupiter.api.Test;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -52,7 +53,18 @@ public class PathfindingTests {
     @Test
     public void populateHashmapTest() {
 
-        HashMap<String, Node> nodeMap = Read.parseCSVNodes("src/main/resources/edu/wpi/teamB/csvfiles/MapBedges.csv");
+        HashMap<String, Node> nodeMap = new HashMap<>();
+
+        // Pulls nodes from the database to fill the nodeInfo hashmap
+        try {
+            List<Node> nodes = DatabaseHandler.getDatabaseHandler("main.db").getNodeInformation();
+            for (Node n : nodes) {
+                nodeMap.put(n.getNodeID(), n);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
         HashMap<String, Node> shortPathInfo = Graph.populateHashmap(nodeMap.values());
 
         Node check = shortPathInfo.get("bWALK00301");
