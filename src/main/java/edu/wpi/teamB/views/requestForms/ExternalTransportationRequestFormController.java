@@ -2,8 +2,10 @@ package edu.wpi.teamB.views.requestForms;
 
 import com.jfoenix.controls.*;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 
 public class ExternalTransportationRequestFormController extends DefaultServiceRequestFormController {
+
     @FXML
     private JFXTextField name;
 
@@ -11,7 +13,7 @@ public class ExternalTransportationRequestFormController extends DefaultServiceR
     private JFXTextField roomNum;
 
     @FXML
-    private JFXComboBox transpType;
+    private JFXComboBox<Label> transpType;
 
     @FXML
     private JFXTextArea description;

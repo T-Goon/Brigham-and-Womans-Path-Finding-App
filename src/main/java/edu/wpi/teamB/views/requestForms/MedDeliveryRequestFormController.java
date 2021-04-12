@@ -5,11 +5,12 @@ import com.jfoenix.controls.JFXTextField;
 import javafx.fxml.FXML;
 
 public class MedDeliveryRequestFormController extends DefaultServiceRequestFormController {
-    @FXML
-    private JFXTextField patName;
 
     @FXML
-    private JFXTextField rmNum;
+    private JFXTextField name;
+
+    @FXML
+    private JFXTextField roomNum;
 
     @FXML
     private JFXTextField medName;

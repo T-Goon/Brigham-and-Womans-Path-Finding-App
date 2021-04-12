@@ -1,6 +1,9 @@
 package edu.wpi.teamB.views.requestForms;
 
+import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXTextArea;
+import com.jfoenix.controls.JFXTextField;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -9,11 +12,27 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class LaundryRequestFormController extends DefaultServiceRequestFormController implements Initializable {
-    @FXML
-    private JFXComboBox<Label> comboTypeService = new JFXComboBox<>();
 
     @FXML
-    private JFXComboBox<Label> comboSizeService = new JFXComboBox<>();
+    private JFXTextField location;
+
+    @FXML
+    private JFXComboBox<Label> comboTypeService;
+
+    @FXML
+    private JFXComboBox<Label> comboSizeService;
+
+    @FXML
+    private JFXTextArea description;
+
+    @FXML
+    private JFXCheckBox darks;
+
+    @FXML
+    private JFXCheckBox lights;
+
+    @FXML
+    private JFXCheckBox roomOccupied;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

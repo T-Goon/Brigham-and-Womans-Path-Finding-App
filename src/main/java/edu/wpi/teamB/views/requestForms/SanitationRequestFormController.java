@@ -1,6 +1,9 @@
 package edu.wpi.teamB.views.requestForms;
 
+import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXTextArea;
+import com.jfoenix.controls.JFXTextField;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -11,10 +14,25 @@ import java.util.ResourceBundle;
 public class SanitationRequestFormController extends DefaultServiceRequestFormController implements Initializable {
 
     @FXML
+    private JFXTextField location;
+
+    @FXML
     private JFXComboBox<Label> comboTypeService;
 
     @FXML
     private JFXComboBox<Label> comboSizeService;
+
+    @FXML
+    private JFXTextArea description;
+
+    @FXML
+    private JFXCheckBox safetyHazard;
+
+    @FXML
+    private JFXCheckBox biologicalSubstance;
+
+    @FXML
+    private JFXCheckBox roomOccupied;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
