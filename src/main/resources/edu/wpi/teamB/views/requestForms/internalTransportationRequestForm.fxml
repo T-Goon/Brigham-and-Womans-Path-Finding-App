@@ -62,7 +62,7 @@
                     </Text>
                     <VBox>
                         <children>
-                            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Name">
+                            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Name:">
                                 <font>
                                     <Font size="14.0" />
                                 </font>
@@ -75,7 +75,7 @@
                     </VBox>
                     <VBox>
                         <children>
-                            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Room">
+                            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Room:">
                                 <font>
                                     <Font size="14.0" />
                                 </font>
@@ -88,7 +88,7 @@
                     </VBox>
                     <VBox>
                         <children>
-                            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Transportation Type">
+                            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Transportation Type:">
                                 <font>
                                     <Font size="14.0" />
                                 </font>
@@ -101,7 +101,7 @@
                     </VBox>
                     <VBox maxHeight="1.7976931348623157E308" prefWidth="673.0">
                         <children>
-                            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Description of Transport">
+                            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Description of Transport:">
                                 <font>
                                     <Font size="14.0" />
                                 </font>
@@ -118,7 +118,7 @@
                     </VBox>
                     <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="50.0">
                         <children>
-                            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Special Flags" HBox.hgrow="ALWAYS">
+                            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Special Flags:" HBox.hgrow="ALWAYS">
                                 <font>
                                     <Font size="14.0" />
                                 </font>

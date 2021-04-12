@@ -177,13 +177,13 @@
                                              <children>
                                                 <HBox alignment="BOTTOM_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="5.0">
                                                    <children>
-                                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Month" />
+                                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Month:" />
                                                       <JFXTextField style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" />
                                                    </children>
                                                 </HBox>
                                                 <HBox alignment="BOTTOM_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="5.0">
                                                    <children>
-                                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Year" />
+                                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Year:" />
                                                       <JFXTextField style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" />
                                                    </children>
                                                 </HBox>
@@ -215,7 +215,7 @@
                                     </VBox>
                                     <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="20.0">
                                         <children>
-                                            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Flowers: ($4.99 each)" HBox.hgrow="ALWAYS">
+                                            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Flowers ($4.99 each):" HBox.hgrow="ALWAYS">
                                                 <font>
                                                     <Font size="14.0" />
                                                 </font>

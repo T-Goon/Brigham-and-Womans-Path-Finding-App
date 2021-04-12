@@ -54,7 +54,7 @@
             </Text>
             <VBox>
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Name">
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Name:">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -73,7 +73,7 @@
             </VBox>
             <VBox>
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Room Number">
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Room Number:">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -86,7 +86,7 @@
             </VBox>
             <VBox>
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Description">
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Description:">
                      <font>
                         <Font size="14.0" />
                      </font>

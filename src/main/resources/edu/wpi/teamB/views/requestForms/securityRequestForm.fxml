@@ -54,25 +54,33 @@
                   <Font size="24.0" />
                </font>
             </Text>
-            <HBox fillHeight="false" prefWidth="200.0">
+            <VBox>
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Location: ">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Text>
+                  <JFXTextField style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f0f0f000">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </JFXTextField>
                </children>
-            </HBox>
-            <JFXTextField promptText="Location" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f0f0f000">
-               <VBox.margin>
-                  <Insets top="10.0" />
-               </VBox.margin>
-            </JFXTextField>
-            <JFXComboBox maxWidth="1.7976931348623157E308" promptText="Type" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f0f0f000">
+            </VBox>
+            <VBox>
                <VBox.margin>
                   <Insets bottom="10.0" top="10.0" />
                </VBox.margin>
-            </JFXComboBox>
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Security Type:">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Text>
+                  <JFXComboBox maxWidth="1.7976931348623157E308" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f0f0f000" />
+               </children>
+            </VBox>
             <VBox>
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Description: ">
