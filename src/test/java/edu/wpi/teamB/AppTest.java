@@ -33,14 +33,12 @@ public class AppTest extends FxRobot {
   public static void cleanup() {}
 
   @Test
-  public void testButton() {
-//    verifyThat("Service Request Menu", Node::isVisible);
-//    clickOn("Blank Form");
-//    verifyThat("Back", Node::isVisible);
-//    clickOn("Back");
-//    verifyThat("Service Request Menu", Node::isVisible);
+  void testPathfindingBackBtn()
+  {
+    clickOn("#btnDirections");
+    verifyThat("Hospital Map", Node::isVisible);
+    clickOn("#btnBack");
   }
-
 
   @ParameterizedTest
   @MethodSource("textProvider")
