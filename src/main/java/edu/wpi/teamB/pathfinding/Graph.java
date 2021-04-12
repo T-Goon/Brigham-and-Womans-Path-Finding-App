@@ -79,7 +79,14 @@ public class Graph {
         return adjNodeList;
     }
 
-    //test dist
+    /**
+     * Given two nodes, return the distance between them
+     * based on their coordinates.
+     *
+     * @param start starting node
+     * @param end ending node
+     * @return the distance between the two nodes
+     */
     public static double dist(Node start, Node end) {
         double dist = Math.pow((start.getXCoord() - end.getXCoord()), 2) + Math.pow((start.getYCoord() + end.getYCoord()), 2);
         return Math.sqrt(dist);

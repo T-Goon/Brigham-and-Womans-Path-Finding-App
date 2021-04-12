@@ -8,7 +8,6 @@ import java.util.*;
 
 public class AStar {
 
-
     /**
      * Main pathfinding algorithm used to find a path between two nodes.
      *
@@ -16,7 +15,7 @@ public class AStar {
      * @param endID   nodeID of the ending node
      * @return LinkedList of nodeIDs which dictates the order of nodes in the path
      */
-    public static LinkedList<String> findPath(String startID, String endID) {
+    public static List<String> findPath(String startID, String endID) {
 
         //Database connection to get start and end nodes by the ids passed in as parameters
         DatabaseHandler db = DatabaseHandler.getDatabaseHandler("main.db");
@@ -30,20 +29,17 @@ public class AStar {
             e.printStackTrace();
         }
 
-
         //Initialize data structures used in the A* algorithm
         LinkedList<String> ret = new LinkedList<>();
-        PriorityQueue<Node> pQueue = new PriorityQueue<>();
-        HashMap<String, String> cameFrom = new HashMap<>();
-        HashMap<String, Double> costSoFar = new HashMap<>();
-
+        Queue<Node> pQueue = new PriorityQueue<>();
+        Map<String, String> cameFrom = new HashMap<>();
+        Map<String, Double> costSoFar = new HashMap<>();
 
         //A* logic as described here
         //https://www.redblobgames.com/pathfinding/a-star/introduction.html:w
         pQueue.add(startNode);
         cameFrom.put(startID, "START");
         costSoFar.put(startID, 0.0);
-
 
         Node current = null;
         while (!pQueue.isEmpty()) {
@@ -78,14 +74,12 @@ public class AStar {
             }
         }
 
-
         //backtrack from end node to start node to create final path.
         String currentID = current.getNodeID();
         while (!currentID.equals("START")) {
             ret.addFirst(currentID);
             currentID = cameFrom.get(currentID);
         }
-
 
         return ret;
 
