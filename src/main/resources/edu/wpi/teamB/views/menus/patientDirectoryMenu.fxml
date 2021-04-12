@@ -100,7 +100,7 @@
                      <children>
                         <JFXButton fx:id="btnMapEditor" buttonType="RAISED" onAction="#handleButtonAction" ripplerFill="#0080ff" text="Service Requests" textOverrun="CLIP">
                            <graphic>
-                              <ImageView fitHeight="148.0" fitWidth="124.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fitHeight="149.0" fitWidth="137.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../../images/menus/mapEditorIcon.PNG" />
                                  </image>

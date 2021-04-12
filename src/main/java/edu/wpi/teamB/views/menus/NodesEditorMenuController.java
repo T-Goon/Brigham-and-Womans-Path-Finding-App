@@ -4,14 +4,19 @@ import com.jfoenix.controls.JFXButton;
 import edu.wpi.teamB.database.DatabaseHandler;
 import edu.wpi.teamB.entities.Edge;
 import edu.wpi.teamB.entities.Node;
+import edu.wpi.teamB.util.NodeWrapper;
+import edu.wpi.teamB.util.SceneSwitcher;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import lombok.SneakyThrows;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -39,15 +44,14 @@ public class NodesEditorMenuController implements Initializable {
     @FXML
     private TableColumn<String, JFXButton> delCol;
 
+    @SneakyThrows
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
         Map<String, Node> nodes = null;
-        Map<String, Edge> edges = null;
 
         try {
             nodes = DatabaseHandler.getDatabaseHandler("main.db").getNodes();
-            edges = DatabaseHandler.getDatabaseHandler("main.db").getEdges();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -56,22 +60,41 @@ public class NodesEditorMenuController implements Initializable {
         for(TableColumn<String, Label> c : cols){
             c.getId();
             switch (c.getId()){
-                case "IDcol":
-                    c.setCellValueFactory(new PropertyValueFactory<>("nodeID"));
+                case "editBtnCol":
+                    c.setCellValueFactory(new PropertyValueFactory<>("editBtn"));
                     break;
-                case "Typecol":
-                    c.setCellValueFactory(new PropertyValueFactory<>("nodeType"));
+                case "idCol":
+                    c.setCellValueFactory(new PropertyValueFactory<>("id"));
                     break;
-                case "Namecol":
-                    c.setCellValueFactory(new PropertyValueFactory<>("longName"));
+                case "nameCol":
+                    c.setCellValueFactory(new PropertyValueFactory<>("name"));
                     break;
-                case ""
+                case "typeCol":
+                    c.setCellValueFactory(new PropertyValueFactory<>("type"));
+                    break;
+                case "edgesCol":
+                    c.setCellValueFactory(new PropertyValueFactory<>("edges"));
+                    break;
+                case "delCol":
+                    c.setCellValueFactory(new PropertyValueFactory<>("delBtn"));
+                    break;
             }
         }
 
         assert nodes != null;
         for(Node n : nodes.values()){
+            tblNodes.getItems().add(new NodeWrapper(n));
+        }
+    }
 
+    @FXML
+    private void handleButtonAction(ActionEvent e) throws IOException {
+        JFXButton btn = (JFXButton) e.getSource();
+
+        switch (btn.getId()){
+            case "btnBack":
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/editorIntermediateMenu.fxml");
+                break;
         }
     }
 }
