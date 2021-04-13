@@ -98,32 +98,32 @@ public class PathfindingMenuController implements Initializable {
         }
     }
 
-    private Map<String, String> longNameID(){
-        Map<String, Node> nodesId =  Graph.getGraph(DatabaseHandler.getDatabaseHandler("main.db")).getNodes();
+    private Map<String, String> longNameID() {
+        Map<String, Node> nodesId = Graph.getGraph(DatabaseHandler.getDatabaseHandler("main.db")).getNodes();
         Map<String, String> longName = new HashMap<>();
 
-        for(Node node: nodesId.values()){
+        for (Node node : nodesId.values()) {
             longName.put(node.getLongName(), node.getNodeID());
         }
         return longName;
     }
 
-   private void drawPath(){
-       Map<String, Node> nodesId =  Graph.getGraph(DatabaseHandler.getDatabaseHandler("main.db")).getNodes();
-       Map<String, String> hmLongName = longNameID();
-       List<String> AstrPath = AStar.findPath(hmLongName.get(getStartLocation()), hmLongName.get(getEndLocation()));
+    private void drawPath() {
+        Map<String, Node> nodesId = Graph.getGraph(DatabaseHandler.getDatabaseHandler("main.db")).getNodes();
+        Map<String, String> hmLongName = longNameID();
+        List<String> AstrPath = AStar.findPath(hmLongName.get(getStartLocation()), hmLongName.get(getEndLocation()));
 
-       Node prev = null;
-       Node curr;
-       for(String loc: AstrPath){
+        Node prev = null;
+        Node curr;
+        for (String loc : AstrPath) {
 
-           if((prev != null) && (loc != null)){
-               curr = nodesId.get(loc);
-               placeEdge(prev.getXCoord(), prev.getYCoord(), curr.getXCoord(), curr.getYCoord());
-           }
-           prev = nodesId.get(loc);
-       }
-   }
+            if ((prev != null) && (loc != null)) {
+                curr = nodesId.get(loc);
+                placeEdge(prev.getXCoord(), prev.getYCoord(), curr.getXCoord(), curr.getYCoord());
+            }
+            prev = nodesId.get(loc);
+        }
+    }
 
     @FXML
     private void handleButtonAction(ActionEvent e) throws IOException {
@@ -161,13 +161,11 @@ public class PathfindingMenuController implements Initializable {
 
             nodeHolder.getChildren().add(i);
 
-
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    //loop through node holder children and if id of child is of popup window, remove it
     /**
      * Places an image for a node on the map at the given pixel coordinates.
      * @param n Node object to place on the map
@@ -297,8 +295,6 @@ public class PathfindingMenuController implements Initializable {
             e.printStackTrace();
         }
     }
-
-
 
     /**
      * Gets the start location
