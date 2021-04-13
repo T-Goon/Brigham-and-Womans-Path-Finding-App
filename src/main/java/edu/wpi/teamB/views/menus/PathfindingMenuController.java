@@ -19,6 +19,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 
@@ -181,7 +182,7 @@ public class PathfindingMenuController implements Initializable {
             i.setOnMouseClicked((MouseEvent e) ->{
 
                 try {
-                    AnchorPane locInput = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/misc/graphicalInput.fxml")));
+                    VBox locInput = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/misc/graphicalInput.fxml")));
 
                     locInput.setLayoutX((n.getXCoord() / PathfindingMenuController.coordinateScale));
                     locInput.setLayoutY((n.getYCoord() / PathfindingMenuController.coordinateScale) - (locInput.getHeight()));
@@ -191,7 +192,7 @@ public class PathfindingMenuController implements Initializable {
                             showGraphicalSelection(startLocComboBox, node,n);
                         }
 
-                       else{
+                        else if(node.getId().equals("BtnEnd")){
                             showGraphicalSelection(endLocComboBox, node,n);
                        }
                     }
@@ -223,10 +224,9 @@ public class PathfindingMenuController implements Initializable {
             c.setCenterY((n.getYCoord() / PathfindingMenuController.coordinateScale));
 
             c.setOnMouseClicked((MouseEvent e) ->{
-               // System.out.println("Foo");
 
                 try {
-                    AnchorPane locInput = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/misc/graphicalInput.fxml")));
+                    VBox locInput = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/misc/graphicalInput.fxml")));
 
                     locInput.setLayoutX((n.getXCoord() / PathfindingMenuController.coordinateScale));
                     locInput.setLayoutY((n.getYCoord() / PathfindingMenuController.coordinateScale) - (locInput.getHeight()));
@@ -236,8 +236,12 @@ public class PathfindingMenuController implements Initializable {
                             showGraphicalSelection(startLocComboBox, node,n);
                         }
 
-                        else{
+                        else if(node.getId().equals("BtnEnd")){
                             showGraphicalSelection(endLocComboBox, node,n);
+                        }
+
+                        else{
+                            locInput.setVisible(false);
                         }
                     }
                     nodeHolder.getChildren().add(locInput);
@@ -246,7 +250,6 @@ public class PathfindingMenuController implements Initializable {
                 catch (IOException ioException) {
                     ioException.printStackTrace();
                 }
-
 
             });
 
