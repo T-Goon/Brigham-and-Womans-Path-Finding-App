@@ -75,7 +75,7 @@ public class EditNodeMenuController implements Initializable {
     }
 
     @FXML
-    private void handleButtonAction(ActionEvent e) throws IOException, SQLException {
+    private void handleButtonAction(ActionEvent e) throws IOException {
         JFXButton btn = (JFXButton) e.getSource();
 
         switch (btn.getId()) {
