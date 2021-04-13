@@ -9,6 +9,7 @@ import edu.wpi.teamB.util.SceneSwitcher;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 
@@ -67,7 +68,7 @@ public class AddNodeMenuController implements Initializable {
     // EDGES
 
     @FXML
-    public JFXTextField edgeID;
+    public Label edgeID;
 
     @FXML
     private JFXTextField startNode;
@@ -92,6 +93,12 @@ public class AddNodeMenuController implements Initializable {
             case "btnCancel":
                 SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapeditor/nodes/nodeEditorMenu.fxml");
                 break;
+            case "btnAddEdge":
+                String aStartNode = startNode.getText();
+                String aEndNode = endNode.getText();
+                String aEdge = aStartNode + "_" + aEndNode;
+                edgeID.setText(aEdge);
+                break;
             case "btnAddNode":
                 String aNodeId = nodeID.getText();
                 int aFloor = Integer.parseInt(floor.getText());
@@ -102,6 +109,7 @@ public class AddNodeMenuController implements Initializable {
                 int aXCoord = Integer.parseInt(xCoord.getText());
                 int aYCoord = Integer.parseInt(yCoord.getText());
                 Node aNode = new Node(aNodeId, aXCoord, aYCoord, aFloor, aBuilding, aNodeType, aLongName, aShortName);
+
                 DatabaseHandler.getDatabaseHandler("main.db").addNode(aNode);
                 SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapeditor/nodes/nodeEditorMenu.fxml");
                 break;
