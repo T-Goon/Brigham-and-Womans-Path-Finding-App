@@ -3,9 +3,7 @@ package edu.wpi.teamB;
 import static org.testfx.api.FxAssert.verifyThat;
 
 import javafx.scene.Node;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.*;
@@ -30,18 +28,6 @@ public class AppTest extends FxRobot {
         FxToolkit.registerPrimaryStage();
         FxToolkit.setupApplication(App.class);
     }
-
-    @AfterAll
-    public static void cleanup() {
-    }
-
-  @Test
-  void testPathfindingBackBtn()
-  {
-    clickOn("#btnDirections");
-    verifyThat("Hospital Map", Node::isVisible);
-    clickOn("#btnBack");
-  }
 
     @ParameterizedTest
     @MethodSource("textProvider")

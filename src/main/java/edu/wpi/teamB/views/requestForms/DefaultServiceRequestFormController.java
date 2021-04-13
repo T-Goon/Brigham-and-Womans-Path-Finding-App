@@ -31,8 +31,6 @@ public abstract class DefaultServiceRequestFormController {
                 SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/serviceRequestMenu.fxml");
                 break;
             case "btnHelp":
-                // not implemented
-                break;
             case "btnEmergency":
                 // not implemented
                 break;

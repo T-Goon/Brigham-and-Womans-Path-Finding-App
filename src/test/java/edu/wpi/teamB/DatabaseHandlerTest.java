@@ -5,27 +5,37 @@ import edu.wpi.teamB.entities.Edge;
 import edu.wpi.teamB.entities.Node;
 import edu.wpi.teamB.util.CSVHandler;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class DatabaseHandlerTest {
-    private static String resourcesPathString;
+    private static Path resourcesPath;
     private static DatabaseHandler db;
 
     @BeforeAll
     static void initDB() {
         db = DatabaseHandler.getDatabaseHandler("test.db");
-        resourcesPathString = new File("").getAbsolutePath() + "/src/test/resources/edu/wpi/teamB/database/load/";
+        resourcesPath = Paths.get("src/test/resources/edu/wpi/teamB/database/load");
+    }
+
+    @BeforeEach
+    void resetDB() {
+        try {
+            db.loadDatabase(null, null);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
@@ -38,14 +48,14 @@ public class DatabaseHandlerTest {
                 "NODETYPE",
                 "Name With Many Spaces",
                 "N W M S");
-        Path nodes = Paths.get(resourcesPathString + "SimpleTestNodes.csv");
+        Path nodes = Paths.get(resourcesPath + "/SimpleTestNodes.csv");
         Node actual = CSVHandler.loadCSVNodes(nodes).get(0);
         assertEquals(target.toString(), actual.toString());
     }
 
     @Test
     public void complexParseNodesLength() {
-        Path nodePath = Paths.get(resourcesPathString + "ComplexTestNodes.csv");
+        Path nodePath = Paths.get(resourcesPath + "/ComplexTestNodes.csv");
         List<Node> nodes = CSVHandler.loadCSVNodes(nodePath);
         assertEquals(32, nodes.size());
     }
@@ -53,7 +63,7 @@ public class DatabaseHandlerTest {
     @Test
     public void complexParseNodesValues() {
         Node target = new Node("bWALK00501", 1872, 1965, 1, "Parking", "WALK", "Vining Street Walkway", "ViningWalk");
-        Path nodePath = Paths.get(resourcesPathString + "ComplexTestNodes.csv");
+        Path nodePath = Paths.get(resourcesPath + "/ComplexTestNodes.csv");
         List<Node> nodes = CSVHandler.loadCSVNodes(nodePath);
         List<String> expanded = nodes.stream().map(Node::toString).collect(Collectors.toList());
         assertTrue(expanded.contains(target.toString()));
@@ -62,14 +72,14 @@ public class DatabaseHandlerTest {
     @Test
     public void simpleParseEdges() {
         Edge target = new Edge("bPARK00101_bWALK00101", "bPARK00101", "bWALK00101");
-        Path nodes = Paths.get(resourcesPathString + "SimpleTestEdges.csv");
-        Edge actual = CSVHandler.loadCSVEdges(nodes).get(0);
+        Path edges = Paths.get(resourcesPath + "/SimpleTestEdges.csv");
+        Edge actual = CSVHandler.loadCSVEdges(edges).get(0);
         assertEquals(target.toString(), actual.toString());
     }
 
     @Test
     public void complexParseEdgesLength() {
-        Path nodePath = Paths.get(resourcesPathString + "ComplexTestEdges.csv");
+        Path nodePath = Paths.get(resourcesPath + "/ComplexTestEdges.csv");
         List<Edge> nodes = CSVHandler.loadCSVEdges(nodePath);
         assertEquals(31, nodes.size());
     }
@@ -77,7 +87,7 @@ public class DatabaseHandlerTest {
     @Test
     public void complexParseEdgesValues() {
         Edge target = new Edge("bPARK01201_bWALK00501", "bPARK01201", "bWALK00501");
-        Path nodePath = Paths.get(resourcesPathString + "ComplexTestEdges.csv");
+        Path nodePath = Paths.get(resourcesPath + "/ComplexTestEdges.csv");
         List<Edge> nodes = CSVHandler.loadCSVEdges(nodePath);
         List<String> expanded = nodes.stream().map(Edge::toString).collect(Collectors.toList());
         assertTrue(expanded.contains(target.toString()));
@@ -85,8 +95,8 @@ public class DatabaseHandlerTest {
 
     @Test
     void fillDatabase() {
-        List<Edge> edges = new ArrayList<>();
         List<Node> nodes = new ArrayList<>();
+        List<Edge> edges = new ArrayList<>();
 
         //Theres a less scuffed way to do this, but hey, it works and is easy to tweak.
         Node targetNode0 = new Node("bWALK00501", 1872, 1965, 1, "Parking", "WALK", "Vining Street Walkway", "ViningWalk");
@@ -113,11 +123,11 @@ public class DatabaseHandlerTest {
         edges.add(targetEdge);
 
         try {
-            db.fillDatabase(nodes, edges);
-            List<Node> outnodes = db.getNodeInformation();
-            assert (outnodes.containsAll(nodes));
-            List<Edge> outedges = db.getEdgeInformation();
-            assertEquals(outedges.get(0), targetEdge);
+            db.loadDatabase(nodes, edges);
+            Map<String, Node> outNodes = db.getNodes();
+            assert (outNodes.values().containsAll(nodes));
+            Map<String, Edge> outEdges = db.getEdges();
+            assertEquals(outEdges.values().toArray()[0], targetEdge);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -137,7 +147,7 @@ public class DatabaseHandlerTest {
                 "Name With Many Spaces",
                 "N W M S");
         actual.add(target);
-        db.fillDatabase(actual, edges);
+        db.loadDatabase(actual, edges);
 
         String nodeID = target.getNodeID();
         int xcoord = 1;
@@ -149,14 +159,14 @@ public class DatabaseHandlerTest {
         String shortName = "LLot10";
         db.updateNode(new Node(nodeID, xcoord, ycoord, floor, building, nodeType, longName, shortName));
 
-        List<Node> nodes = db.getNodeInformation();
-        assertEquals(1, nodes.get(0).getXCoord());
-        assertEquals(2, nodes.get(0).getYCoord());
-        assertEquals(3, nodes.get(0).getFloor());
-        assertEquals("Parking", nodes.get(0).getBuilding());
-        assertEquals("PARK", nodes.get(0).getNodeType());
-        assertEquals("Left Parking Lot Spot 10", nodes.get(0).getLongName());
-        assertEquals("LLot10", nodes.get(0).getShortName());
+        Map<String, Node> nodes = db.getNodes();
+        assertEquals(1, nodes.get("testNode").getXCoord());
+        assertEquals(2, nodes.get("testNode").getYCoord());
+        assertEquals(3, nodes.get("testNode").getFloor());
+        assertEquals("Parking", nodes.get("testNode").getBuilding());
+        assertEquals("PARK", nodes.get("testNode").getNodeType());
+        assertEquals("Left Parking Lot Spot 10", nodes.get("testNode").getLongName());
+        assertEquals("LLot10", nodes.get("testNode").getShortName());
     }
 
     @Test
@@ -165,15 +175,15 @@ public class DatabaseHandlerTest {
         List<Edge> actual = new ArrayList<>();
         Edge target = new Edge("bPARK01201_bWALK00501", "test_start", "test_end");
         actual.add(target);
-        db.fillDatabase(nodes, actual);
+        db.loadDatabase(nodes, actual);
 
         String edgeID = target.getEdgeID();
         String startNode = "bPARK01201";
         String endNode = "bWALK00501";
         db.updateEdge(new Edge(edgeID, startNode, endNode));
 
-        List<Edge> edges = db.getEdgeInformation();
-        assertEquals("bPARK01201", edges.get(0).getStartNodeName());
-        assertEquals("bWALK00501", edges.get(0).getEndNodeName());
+        Map<String, Edge> edges = db.getEdges();
+        assertEquals("bPARK01201", edges.get("bPARK01201_bWALK00501").getStartNodeName());
+        assertEquals("bWALK00501", edges.get("bPARK01201_bWALK00501").getEndNodeName());
     }
 }
