@@ -46,6 +46,15 @@ public class EditEdgeMenuController implements Initializable {
         endNode.setText(edge.getEndNodeName());
     }
 
+    @FXML
+    private void validateButton(){
+        if (!edgeID.getText().isEmpty() && !startNode.getText().isEmpty() && !endNode.getText().isEmpty()) {
+            btnUpdateEdge.setDisable(false);
+        }
+        else {
+            btnUpdateEdge.setDisable(true);
+        }}
+
     public void handleButtonAction(ActionEvent e) throws IOException {
         JFXButton btn = (JFXButton) e.getSource();
 

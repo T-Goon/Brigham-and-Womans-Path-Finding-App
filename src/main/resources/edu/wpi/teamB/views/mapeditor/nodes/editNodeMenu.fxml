@@ -79,7 +79,7 @@
                                           <Insets left="5.0" />
                                        </VBox.margin>
                                     </Text>
-                                    <JFXTextField fx:id="nodeID" maxWidth="300.0" prefWidth="50.0" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00">
+                                    <JFXTextField fx:id="nodeID" maxWidth="300.0" onKeyReleased="#validateButton" prefWidth="50.0" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00">
                                        <VBox.margin>
                                           <Insets left="5.0" right="5.0" />
                                        </VBox.margin>
@@ -98,7 +98,7 @@
                                                 <Insets left="5.0" />
                                              </VBox.margin>
                                           </Text>
-                                          <JFXTextField style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" fx:id="xCoord">
+                                          <JFXTextField onKeyReleased="#validateButton" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" fx:id="xCoord">
                                              <VBox.margin>
                                                 <Insets left="5.0" right="5.0" />
                                              </VBox.margin>
@@ -115,7 +115,7 @@
                                                 <Insets left="5.0" />
                                              </VBox.margin>
                                           </Text>
-                                          <JFXTextField fx:id="yCoord" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00">
+                                          <JFXTextField fx:id="yCoord" onKeyReleased="#validateButton" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00">
                                              <VBox.margin>
                                                 <Insets left="5.0" right="5.0" />
                                              </VBox.margin>
@@ -144,7 +144,7 @@
                                           <Insets left="5.0" />
                                        </VBox.margin>
                                     </Text>
-                                    <JFXTextField fx:id="floor" prefColumnCount="20" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00">
+                                    <JFXTextField fx:id="floor" onKeyReleased="#validateButton" prefColumnCount="20" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00">
                                        <VBox.margin>
                                           <Insets left="5.0" right="5.0" />
                                        </VBox.margin>
@@ -164,7 +164,7 @@
                                           <Insets left="5.0" />
                                        </VBox.margin>
                                     </Text>
-                                    <JFXTextField fx:id="building" prefColumnCount="20" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00">
+                                    <JFXTextField fx:id="building" onKeyReleased="#validateButton" prefColumnCount="20" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00">
                                        <VBox.margin>
                                           <Insets left="5.0" right="5.0" />
                                        </VBox.margin>
@@ -184,7 +184,7 @@
                                           <Insets left="5.0" />
                                        </VBox.margin>
                                     </Text>
-                                    <JFXTextField fx:id="nodeType" prefColumnCount="20" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00">
+                                    <JFXTextField fx:id="nodeType" onKeyReleased="#validateButton" prefColumnCount="20" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00">
                                        <VBox.margin>
                                           <Insets left="5.0" right="5.0" />
                                        </VBox.margin>
@@ -211,7 +211,7 @@
                                           <Insets left="5.0" />
                                        </VBox.margin>
                                     </Text>
-                                    <JFXTextField fx:id="longName" prefColumnCount="20" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00">
+                                    <JFXTextField fx:id="longName" onKeyReleased="#validateButton" prefColumnCount="20" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00">
                                        <VBox.margin>
                                           <Insets left="5.0" right="35.0" />
                                        </VBox.margin>
@@ -231,7 +231,7 @@
                                           <Insets left="5.0" />
                                        </VBox.margin>
                                     </Text>
-                                    <JFXTextField fx:id="shortName" prefColumnCount="20" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00">
+                                    <JFXTextField fx:id="shortName" onKeyReleased="#validateButton" prefColumnCount="20" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00">
                                        <VBox.margin>
                                           <Insets left="5.0" right="5.0" />
                                        </VBox.margin>

@@ -78,6 +78,24 @@ public class EditNodeMenuController implements Initializable {
     }
 
     @FXML
+    private void validateButton() throws NumberFormatException {
+        if (!nodeID.getText().isEmpty() && !building.getText().isEmpty() && !nodeType.getText().isEmpty()
+                && !longName.getText().isEmpty() && !shortName.getText().isEmpty() && !floor.getText().isEmpty()
+                && !xCoord.getText().isEmpty() && !yCoord.getText().isEmpty()) {
+            btnUpdate.setDisable(false);
+        }
+        else {
+            btnUpdate.setDisable(true);
+        }
+        try {
+            Integer.parseInt(floor.getText());
+            Integer.parseInt(xCoord.getText());
+            Integer.parseInt(yCoord.getText());
+        } catch (NumberFormatException notInt) {
+            btnUpdate.setDisable(true);
+        }}
+
+    @FXML
     private void handleButtonAction(ActionEvent e) throws IOException {
         JFXButton btn = (JFXButton) e.getSource();
 
