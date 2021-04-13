@@ -13,8 +13,8 @@ bWALK00101,568,1894,1,Parking,WALK,Left Parking Lot Walkway,Llot Walk
 bWALK00201,564,1611,1,Parking,WALK,Francis Street Left Walkway,FrancisWalk
 bWALK00301,1874,1611,1,Parking,WALK,Francis Street Vining Street Intersection,FrancisViningInt
 bWALK00401,1940,1450,1,Parking,WALK,75 Francis Driveway,FrancisDrive
-bEXIT00101,1749,1389,1,Parking,EXIT,75 Francis Lobby Enterance,FrancisLobbyEnt
-bEXIT00201,2061,1390,1,Parking,EXIT,Emergency Enterance,EmergencyEnt
+bEXIT00101,1749,1389,1,Parking,EXIT,75 Francis Lobby Entrance,FrancisLobbyEnt
+bEXIT00201,2061,1390,1,Parking,EXIT,Emergency Entrance,EmergencyEnt
 bWALK00501,3371,1629,1,Parking,WALK,Francis Street Right Walkway,Rlot Walk
 bWALK00601,3371,1504,1,Parking,WALK,Francis Street Right Walkway,Rlot Walk
 bWALK00701,3203,1501,1,Parking,WALK,Francis Street Right Walkway,Rlot Walk
