@@ -57,20 +57,16 @@ public class PathfindingMenuController implements Initializable {
         // Pulls nodes from the database to fill the nodeInfo hashmap
         try {
             Map<String, Node> nodes = DatabaseHandler.getDatabaseHandler("main.db").getNodes();
-            for (Node n : nodes.values()) {
+            for (Node n : nodes.values())
                 locations.put(n.getNodeID(), n);
-            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
         // Place nodes on map
-        for(Node n : locations.values()){
-            if(!n.getNodeType().equals("WALK")){
-                placeNode(n.getXCoord(), n.getYCoord());
-            } else{
-                placeIntermediateNode(n.getXCoord(), n.getYCoord());
-            }
+        for (Node n : locations.values()) {
+            if (!n.getNodeType().equals("WALK")) placeNode(n.getXCoord(), n.getYCoord());
+            else placeIntermediateNode(n.getXCoord(), n.getYCoord());
         }
 
         // Populate the combo boxes with locations
@@ -91,32 +87,32 @@ public class PathfindingMenuController implements Initializable {
         }
     }
 
-    private Map<String, String> longNameID(){
-        Map<String, Node> nodesId =  Graph.getGraph(DatabaseHandler.getDatabaseHandler("main.db")).getNodes();
+    private Map<String, String> longNameID() {
+        Map<String, Node> nodesId = Graph.getGraph(DatabaseHandler.getDatabaseHandler("main.db")).getNodes();
         Map<String, String> longName = new HashMap<>();
 
-        for(Node node: nodesId.values()){
+        for (Node node : nodesId.values()) {
             longName.put(node.getLongName(), node.getNodeID());
         }
         return longName;
     }
 
-   private void drawPath(){
-       Map<String, Node> nodesId =  Graph.getGraph(DatabaseHandler.getDatabaseHandler("main.db")).getNodes();
-       Map<String, String> hmLongName = longNameID();
-       List<String> AstrPath = AStar.findPath(hmLongName.get(getStartLocation()), hmLongName.get(getEndLocation()));
+    private void drawPath() {
+        Map<String, Node> nodesId = Graph.getGraph(DatabaseHandler.getDatabaseHandler("main.db")).getNodes();
+        Map<String, String> hmLongName = longNameID();
+        List<String> AstrPath = AStar.findPath(hmLongName.get(getStartLocation()), hmLongName.get(getEndLocation()));
 
-       Node prev = null;
-       Node curr;
-       for(String loc: AstrPath){
+        Node prev = null;
+        Node curr;
+        for (String loc : AstrPath) {
 
-           if((prev != null) && (loc != null)){
-               curr = nodesId.get(loc);
-               placeEdge(prev.getXCoord(), prev.getYCoord(), curr.getXCoord(), curr.getYCoord());
-           }
-           prev = nodesId.get(loc);
-       }
-   }
+            if ((prev != null) && (loc != null)) {
+                curr = nodesId.get(loc);
+                placeEdge(prev.getXCoord(), prev.getYCoord(), curr.getXCoord(), curr.getYCoord());
+            }
+            prev = nodesId.get(loc);
+        }
+    }
 
     @FXML
     private void handleButtonAction(ActionEvent e) throws IOException {
@@ -125,10 +121,8 @@ public class PathfindingMenuController implements Initializable {
         switch (b.getId()) {
             case "btnFindPath":
                 // Remove old path
-                for(Line l : edgePlaced){
+                for (Line l : edgePlaced)
                     mapHolder.getChildren().remove(l);
-
-                }
                 edgePlaced = new ArrayList<>();
 
                 drawPath();
@@ -141,6 +135,7 @@ public class PathfindingMenuController implements Initializable {
 
     /**
      * Places an image for a node on the map at the given pixel coordinates.
+     *
      * @param x x coordinates of node in pixels
      * @param y y coordinates of node in pixels
      */
@@ -160,6 +155,7 @@ public class PathfindingMenuController implements Initializable {
 
     /**
      * Places an image for a node on the map at the given pixel coordinates.
+     *
      * @param x x coordinates of node in pixels
      * @param y y coordinates of node in pixels
      */
@@ -179,6 +175,7 @@ public class PathfindingMenuController implements Initializable {
 
     /**
      * Draws an edge between 2 points on the map.
+     *
      * @param xStart x start coordinate in pixels
      * @param yStart y start coordinate in pixels
      * @param xEnd   x end coordinate in pixels
