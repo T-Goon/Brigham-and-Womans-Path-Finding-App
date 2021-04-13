@@ -28,7 +28,8 @@ public class NodesEditorMenuController implements Initializable {
 
     @FXML
     private JFXButton btnBack;
-
+    @FXML
+    private JFXButton btnAddNode;
     @FXML
     private TableView tblNodes;
     @FXML
@@ -94,6 +95,9 @@ public class NodesEditorMenuController implements Initializable {
         switch (btn.getId()){
             case "btnBack":
                 SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/editorIntermediateMenu.fxml");
+                break;
+            case "btnAddNode":
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/addNodeMenu.fxml");
                 break;
         }
     }
