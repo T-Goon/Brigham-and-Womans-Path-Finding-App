@@ -189,7 +189,6 @@ public class PathfindingMenuController implements Initializable {
 
                 try {
                     VBox locInput = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/misc/graphicalInput.fxml")));
-                    locInput.setVisible(true);
 
                     locInput.setLayoutX((n.getXCoord() / PathfindingMenuController.coordinateScale));
                     locInput.setLayoutY((n.getYCoord() / PathfindingMenuController.coordinateScale) - (locInput.getHeight()));
@@ -198,12 +197,10 @@ public class PathfindingMenuController implements Initializable {
                     for(javafx.scene.Node node: locInput.getChildren()){
                         if(node.getId().equals("BtnStart")){
                             showGraphicalSelection(startLocComboBox, node,n);
-                            locInput.setVisible(false);
                         }
 
                         else if(node.getId().equals("BtnEnd")){
                             showGraphicalSelection(endLocComboBox, node,n);
-                            locInput.setVisible(false);
                        }
                     }
                     nodeHolder.getChildren().add(locInput);
@@ -216,6 +213,7 @@ public class PathfindingMenuController implements Initializable {
             });
 
             nodeHolder.getChildren().add(i);
+
 
         } catch (IOException e) {
             e.printStackTrace();
