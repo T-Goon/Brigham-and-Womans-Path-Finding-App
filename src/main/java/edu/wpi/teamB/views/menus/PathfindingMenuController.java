@@ -5,6 +5,8 @@ import com.jfoenix.controls.JFXComboBox;
 
 import edu.wpi.teamB.database.DatabaseHandler;
 import edu.wpi.teamB.entities.Node;
+import edu.wpi.teamB.pathfinding.AStar;
+import edu.wpi.teamB.pathfinding.Graph;
 import edu.wpi.teamB.util.SceneSwitcher;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -81,6 +83,33 @@ public class PathfindingMenuController implements Initializable {
         }
     }
 
+    private Map<String, String> longNameID(){
+        Map<String, Node> nodesId =  Graph.getGraph(DatabaseHandler.getDatabaseHandler("main.db")).getNodes();
+        Map<String, String> longName = new HashMap<>();
+
+        for(Node node: nodesId.values()){
+            longName.put(node.getLongName(), node.getNodeID());
+        }
+        return longName;
+    }
+
+   private void drawPath(){
+       Map<String, Node> nodesId =  Graph.getGraph(DatabaseHandler.getDatabaseHandler("main.db")).getNodes();
+       Map<String, String> hmLongName = longNameID();
+       List<String> AstrPath = AStar.findPath(hmLongName.get(getStartLocation()), hmLongName.get(getEndLocation()));
+
+       Node prev = null;
+       Node curr;
+       for(String loc: AstrPath){
+
+           if((prev != null) && (loc != null)){
+               curr = nodesId.get(loc);
+               placeEdge(prev.getXCoord(), prev.getYCoord(), curr.getXCoord(), curr.getYCoord());
+           }
+           prev = nodesId.get(loc);
+       }
+   }
+
     @FXML
     private void handleButtonAction(ActionEvent e) throws IOException {
         JFXButton b = (JFXButton) e.getSource();
@@ -88,6 +117,9 @@ public class PathfindingMenuController implements Initializable {
         switch (b.getId()) {
             case "btnFindPath":
                 // TODO pathfinding stuff
+                drawPath();
+//                System.out.println(getStartLocation());
+//                System.out.println(getEndLocation());
                 break;
             case "btnPlaceDot":
                 // TODO This is just and example. Remove it later.
