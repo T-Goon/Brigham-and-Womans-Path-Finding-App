@@ -52,6 +52,8 @@ public class PathfindingMenuController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+        validateFindPathButton();
+
         HashMap<String, Node> locations = new HashMap<>();
 
         // Pulls nodes from the database to fill the nodeInfo hashmap
@@ -111,6 +113,15 @@ public class PathfindingMenuController implements Initializable {
                 placeEdge(prev.getXCoord(), prev.getYCoord(), curr.getXCoord(), curr.getYCoord());
             }
             prev = nodesId.get(loc);
+        }
+    }
+
+    @FXML
+    private void validateFindPathButton() throws NumberFormatException {
+        if (startLocComboBox.getValue() == null || endLocComboBox.getValue() == null || startLocComboBox.getValue() == endLocComboBox.getValue()){
+            btnFindPath.setDisable(true);
+        }else{
+            btnFindPath.setDisable(false);
         }
     }
 
