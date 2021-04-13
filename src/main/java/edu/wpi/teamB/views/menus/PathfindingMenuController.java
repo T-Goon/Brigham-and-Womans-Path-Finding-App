@@ -64,28 +64,21 @@ public class PathfindingMenuController implements Initializable {
 //            e.printStackTrace();
 //        }
 
-        // Place nodes on map
+        // Place nodes on map, and only add location nodes to the start and end combo boxes
+        List<String> locationNames = new ArrayList<>();
         for (Node n : locations.values()) {
-            if (!(n.getNodeType().equals("WALK")||n.getNodeType().equals("HALL"))) placeNode(n.getXCoord(), n.getYCoord());
+            if (!(n.getNodeType().equals("WALK")||n.getNodeType().equals("HALL"))) {
+                placeNode(n.getXCoord(), n.getYCoord());
+                locationNames.add(n.getLongName());
+            }
             else placeIntermediateNode(n.getXCoord(), n.getYCoord());
         }
 
-        // Populate the combo boxes with locations
-        try {
-            List<Node> nodes = new ArrayList<>(locations.values());
-            List<String> nodeNames = new ArrayList<>();
-            for (Node n : nodes) {
-                nodeNames.add(n.getLongName());
-            }
+        //Populate the Combo Boxes with valid locations (Sorted)
+        Collections.sort(locationNames);
+        startLocComboBox.getItems().addAll(locationNames);
+        endLocComboBox.getItems().addAll(locationNames);
 
-            Collections.sort(nodeNames);
-            for (String name : nodeNames) {
-                startLocComboBox.getItems().add(name);
-                endLocComboBox.getItems().add(name);
-            }
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
     }
 
     private Map<String, String> longNameID() {
