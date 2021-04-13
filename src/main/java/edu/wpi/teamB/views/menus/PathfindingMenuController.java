@@ -13,6 +13,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
@@ -48,11 +49,12 @@ public class PathfindingMenuController implements Initializable {
     private static final double coordinateScale = 10 / 3.0;
 
     private List<Line> edgePlaced = new ArrayList<>();
+    private  HashMap<String, Node> locations;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        HashMap<String, Node> locations = new HashMap<>();
+        locations = new HashMap<>();
 
         // Pulls nodes from the database to fill the nodeInfo hashmap
         try {
@@ -67,9 +69,9 @@ public class PathfindingMenuController implements Initializable {
         // Place nodes on map
         for(Node n : locations.values()){
             if(!n.getNodeType().equals("WALK")){
-                placeNode(n.getXCoord(), n.getYCoord());
+                placeNode(n);
             } else{
-                placeIntermediateNode(n.getXCoord(), n.getYCoord());
+                placeIntermediateNode(n);
             }
         }
 
@@ -141,15 +143,19 @@ public class PathfindingMenuController implements Initializable {
 
     /**
      * Places an image for a node on the map at the given pixel coordinates.
-     * @param x x coordinates of node in pixels
-     * @param y y coordinates of node in pixels
+     * @param n Node object to place on the map
      */
-    public void placeNode(int x, int y) {
+    public void placeNode(Node n) {
         try {
             ImageView i = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/misc/node.fxml")));
 
-            i.setLayoutX((x / PathfindingMenuController.coordinateScale) - (i.getFitWidth() / 4));
-            i.setLayoutY((y / PathfindingMenuController.coordinateScale) - (i.getFitHeight()));
+            i.setLayoutX((n.getXCoord() / PathfindingMenuController.coordinateScale) - (i.getFitWidth() / 4));
+            i.setLayoutY((n.getYCoord() / PathfindingMenuController.coordinateScale) - (i.getFitHeight()));
+
+            i.setOnMouseClicked((MouseEvent e) ->{
+                System.out.println("Hello World");
+
+            });
 
             nodeHolder.getChildren().add(i);
 
@@ -160,15 +166,18 @@ public class PathfindingMenuController implements Initializable {
 
     /**
      * Places an image for a node on the map at the given pixel coordinates.
-     * @param x x coordinates of node in pixels
-     * @param y y coordinates of node in pixels
+     * @param n Node object to place on the map
      */
-    public void placeIntermediateNode(int x, int y) {
+    public void placeIntermediateNode(Node n) {
         try {
             Circle c = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/misc/intermediateNode.fxml")));
 
-            c.setCenterX((x / PathfindingMenuController.coordinateScale));
-            c.setCenterY((y / PathfindingMenuController.coordinateScale));
+            c.setCenterX((n.getXCoord() / PathfindingMenuController.coordinateScale));
+            c.setCenterY((n.getYCoord() / PathfindingMenuController.coordinateScale));
+
+            c.setOnMouseClicked((MouseEvent e) ->{
+                System.out.println("Foo");
+            });
 
             nodeHolder.getChildren().add(c);
 
