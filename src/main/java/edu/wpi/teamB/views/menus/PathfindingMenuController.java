@@ -225,7 +225,27 @@ public class PathfindingMenuController implements Initializable {
             c.setOnMouseClicked((MouseEvent e) ->{
                // System.out.println("Foo");
 
+                try {
+                    AnchorPane locInput = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/misc/graphicalInput.fxml")));
 
+                    locInput.setLayoutX((n.getXCoord() / PathfindingMenuController.coordinateScale));
+                    locInput.setLayoutY((n.getYCoord() / PathfindingMenuController.coordinateScale) - (locInput.getHeight()));
+
+                    for(javafx.scene.Node node: locInput.getChildren()){
+                        if(node.getId().equals("BtnStart")){
+                            showGraphicalSelection(startLocComboBox, node,n);
+                        }
+
+                        else{
+                            showGraphicalSelection(endLocComboBox, node,n);
+                        }
+                    }
+                    nodeHolder.getChildren().add(locInput);
+                }
+
+                catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
 
 
             });
