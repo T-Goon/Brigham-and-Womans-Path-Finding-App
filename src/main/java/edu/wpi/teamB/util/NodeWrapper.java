@@ -1,6 +1,7 @@
 package edu.wpi.teamB.util;
 
 import com.jfoenix.controls.JFXButton;
+import edu.wpi.teamB.App;
 import edu.wpi.teamB.database.DatabaseHandler;
 import edu.wpi.teamB.entities.Edge;
 import edu.wpi.teamB.entities.Node;
@@ -8,7 +9,10 @@ import edu.wpi.teamB.views.menus.NodesEditorMenuController;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.stage.Stage;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import org.apache.derby.iapi.db.Database;
@@ -52,9 +56,12 @@ public class NodeWrapper {
 
         // TODO connect button to action
         btnEdit.setOnAction(new EventHandler<ActionEvent>() {
+            @SneakyThrows
             @Override
             public void handle(ActionEvent event) {
-                System.out.println("Hello world");
+                Stage stage = App.getPrimaryStage();
+                stage.setUserData(n);
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/editNodeMenu.fxml");
             }
         });
 
