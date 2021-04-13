@@ -54,6 +54,7 @@ public class PathfindingMenuController implements Initializable {
     private static final double coordinateScale = 10 / 3.0;
 
     private List<Line> edgePlaced = new ArrayList<>();
+    private VBox popup = null;
     private  HashMap<String, Node> locations;
 
     @Override
@@ -134,7 +135,6 @@ public class PathfindingMenuController implements Initializable {
                 // Remove old path
                 for(Line l : edgePlaced){
                     mapHolder.getChildren().remove(l);
-
                 }
                 edgePlaced = new ArrayList<>();
 
@@ -145,14 +145,104 @@ public class PathfindingMenuController implements Initializable {
                 break;
         }
     }
-    private void deleteBox(javafx.scene.Node cancelNode, VBox locInput){
-        for (cancelNode: nodeHolder.getChildren()) {
-            if ("SelectionPopUp".equals(cancelNode.getId())) {
-                nodeHolder.getChildren().remove(locInput);
-            }
+
+    /**
+     * Places an image for a node on the map at the given pixel coordinates.
+     * @param n Node object to place on the map
+     */
+    public void placeNode(Node n) {
+        try {
+            ImageView i = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/misc/node.fxml")));
+
+            i.setLayoutX((n.getXCoord() / PathfindingMenuController.coordinateScale) - (i.getFitWidth() / 4));
+            i.setLayoutY((n.getYCoord() / PathfindingMenuController.coordinateScale) - (i.getFitHeight()));
+
+            i.setOnMouseClicked((MouseEvent e) ->{ createGraphicalInputPopup(n); });
+
+            nodeHolder.getChildren().add(i);
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
-    private void showGraphicalSelection(ComboBox comboBox, javafx.scene.Node node, Node n, VBox locInput){
+
+    /**
+     * Places an image for a node on the map at the given pixel coordinates.
+     * @param n Node object to place on the map
+     */
+    public void placeIntermediateNode(Node n) {
+        try {
+            Circle c = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/misc/intermediateNode.fxml")));
+
+            c.setCenterX((n.getXCoord() / PathfindingMenuController.coordinateScale));
+            c.setCenterY((n.getYCoord() / PathfindingMenuController.coordinateScale));
+
+            c.setOnMouseClicked((MouseEvent e) ->{ createGraphicalInputPopup(n); });
+
+            nodeHolder.getChildren().add(c);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Creates the popup for the graphical input.
+     * @param n Node to create the popup for
+     */
+    private void createGraphicalInputPopup(Node n){
+
+        try {
+            // Load fxml
+            final VBox locInput = FXMLLoader.load(
+                    Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/misc/graphicalInput.fxml")));
+
+            // Set coordinates of popup
+            locInput.setLayoutX((n.getXCoord() / PathfindingMenuController.coordinateScale));
+            locInput.setLayoutY((n.getYCoord() / PathfindingMenuController.coordinateScale) - (locInput.getHeight()));
+
+            // Set up popup buttons
+            for (javafx.scene.Node node : locInput.getChildren()) {
+                switch (node.getId()) {
+                    case "BtnStart":
+                        showGraphicalSelection(startLocComboBox, node, n);
+                        break;
+                    case "BtnEnd":
+                        showGraphicalSelection(endLocComboBox, node, n);
+                        break;
+                    case "BtnCancel":
+                        Button cancelButton = (Button) node;
+                        cancelButton.setOnAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent event) {
+                                deleteBox();
+                            }
+                        });
+                        break;
+                }
+            }
+
+            if(popup != null){
+                deleteBox();
+            }
+
+            popup = locInput;
+            nodeHolder.getChildren().add(locInput);
+
+        }catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
+
+    }
+
+    /**
+     * Shows the popup for the graphical input.
+     * @param comboBox Combobox to select items from
+     * @param node javafx node that will show popup when clicked
+     * @param n map node the popup is for
+     */
+    private void showGraphicalSelection(ComboBox comboBox, javafx.scene.Node node, Node n){
         Button tempButton = (Button)node;
 
         tempButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -168,120 +258,18 @@ public class PathfindingMenuController implements Initializable {
 
                     }
                 }
-                deleteBox(node, locInput);
 
+                deleteBox();
             }
         });
     }
 
     /**
-     * Places an image for a node on the map at the given pixel coordinates.
-     * @param n Node object to place on the map
+     * Removes the graphical input popup from the map.
      */
-    public void placeNode(Node n) {
-        try {
-            ImageView i = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/misc/node.fxml")));
-
-            i.setLayoutX((n.getXCoord() / PathfindingMenuController.coordinateScale) - (i.getFitWidth() / 4));
-            i.setLayoutY((n.getYCoord() / PathfindingMenuController.coordinateScale) - (i.getFitHeight()));
-
-            i.setOnMouseClicked((MouseEvent e) ->{
-
-                try {
-                    VBox locInput = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/misc/graphicalInput.fxml")));
-
-                    locInput.setLayoutX((n.getXCoord() / PathfindingMenuController.coordinateScale));
-                    locInput.setLayoutY((n.getYCoord() / PathfindingMenuController.coordinateScale) - (locInput.getHeight()));
-
-
-                    for(javafx.scene.Node node: locInput.getChildren()){
-                        if(node.getId().equals("BtnStart")){
-                            showGraphicalSelection(startLocComboBox, node,n);
-                        }
-
-                        else if(node.getId().equals("BtnEnd")){
-                            showGraphicalSelection(endLocComboBox, node,n);
-                       }
-                    }
-                    nodeHolder.getChildren().add(locInput);
-                }
-
-                catch (IOException ioException) {
-                    ioException.printStackTrace();
-                }
-
-            });
-
-            nodeHolder.getChildren().add(i);
-
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    //loop through node holder children and if id of child is of popup window, remove it
-    /**
-     * Places an image for a node on the map at the given pixel coordinates.
-     * @param n Node object to place on the map
-     */
-    public void placeIntermediateNode(Node n) {
-        try {
-            Circle c = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/misc/intermediateNode.fxml")));
-
-            c.setCenterX((n.getXCoord() / PathfindingMenuController.coordinateScale));
-            c.setCenterY((n.getYCoord() / PathfindingMenuController.coordinateScale));
-
-            c.setOnMouseClicked((MouseEvent e) ->{
-
-                try {
-                    VBox locInput = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/misc/graphicalInput.fxml")));
-
-                    locInput.setLayoutX((n.getXCoord() / PathfindingMenuController.coordinateScale));
-                    locInput.setLayoutY((n.getYCoord() / PathfindingMenuController.coordinateScale) - (locInput.getHeight()));
-
-                    for(javafx.scene.Node node: locInput.getChildren()){
-                        if(node.getId().equals("BtnStart")){
-                            showGraphicalSelection(startLocComboBox, node,n);
-                        }
-
-                        else if(node.getId().equals("BtnEnd")){
-                            showGraphicalSelection(endLocComboBox, node,n);
-
-                        }
-
-                        else if (node.getId().equals ("BtnCancel")) {
-                            Button cancelButton = (Button)node;
-                            cancelButton.setOnAction(new EventHandler<ActionEvent>() {
-                                @Override
-                                public void handle(ActionEvent event) {
-                                    deleteBox(node, locInput);
-                                    /* for (javafx.scene.Node cancelNode: nodeHolder.getChildren()) {
-                                        if ("SelectionPopUp".equals(cancelNode.getId())) {
-                                            nodeHolder.getChildren().remove(locInput);
-                                        }
-                                    }*/
-                                }
-                            });
-
-                        }
-                    }
-                    nodeHolder.getChildren().add(locInput);
-
-                }
-
-
-                catch (IOException ioException) {
-                    ioException.printStackTrace();
-                }
-
-            });
-
-            nodeHolder.getChildren().add(c);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    private void deleteBox(){
+        nodeHolder.getChildren().remove(popup);
+        popup = null;
     }
 
     /**
