@@ -9,6 +9,7 @@ import edu.wpi.teamB.entities.Node;
 import edu.wpi.teamB.pathfinding.AStar;
 import edu.wpi.teamB.pathfinding.Graph;
 import edu.wpi.teamB.util.SceneSwitcher;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -145,8 +146,8 @@ public class PathfindingMenuController implements Initializable {
                 break;
         }
     }
-    private void deleteBox(javafx.scene.Node cancelNode, VBox locInput){
-        for (cancelNode: nodeHolder.getChildren()) {
+    private void deleteBox(VBox locInput){
+        for (javafx.scene.Node cancelNode: nodeHolder.getChildren()) {
             if ("SelectionPopUp".equals(cancelNode.getId())) {
                 nodeHolder.getChildren().remove(locInput);
             }
@@ -168,7 +169,7 @@ public class PathfindingMenuController implements Initializable {
 
                     }
                 }
-                deleteBox(node, locInput);
+                //deleteBox(locInput);
 
             }
         });
@@ -196,12 +197,29 @@ public class PathfindingMenuController implements Initializable {
 
                     for(javafx.scene.Node node: locInput.getChildren()){
                         if(node.getId().equals("BtnStart")){
-                            showGraphicalSelection(startLocComboBox, node,n);
+                            showGraphicalSelection(startLocComboBox, node,n, locInput);
                         }
 
                         else if(node.getId().equals("BtnEnd")){
-                            showGraphicalSelection(endLocComboBox, node,n);
+                            showGraphicalSelection(endLocComboBox, node,n, locInput);
                        }
+
+                        else if (node.getId().equals ("BtnCancel")) {
+                            Button cancelButton = (Button)node;
+                            cancelButton.setOnAction(new EventHandler<ActionEvent>() {
+                                @Override
+                                public void handle(ActionEvent event) {
+                                    deleteBox(locInput);
+
+                                    /* for (javafx.scene.Node cancelNode: nodeHolder.getChildren()) {
+                                        if ("SelectionPopUp".equals(cancelNode.getId())) {
+                                            nodeHolder.getChildren().remove(locInput);
+                                        }
+                                    }*/
+                                }
+                            });
+
+                        }
                     }
                     nodeHolder.getChildren().add(locInput);
                 }
@@ -242,11 +260,11 @@ public class PathfindingMenuController implements Initializable {
 
                     for(javafx.scene.Node node: locInput.getChildren()){
                         if(node.getId().equals("BtnStart")){
-                            showGraphicalSelection(startLocComboBox, node,n);
+                            showGraphicalSelection(startLocComboBox, node,n, locInput);
                         }
 
                         else if(node.getId().equals("BtnEnd")){
-                            showGraphicalSelection(endLocComboBox, node,n);
+                            showGraphicalSelection(endLocComboBox, node,n, locInput);
 
                         }
 
@@ -255,7 +273,8 @@ public class PathfindingMenuController implements Initializable {
                             cancelButton.setOnAction(new EventHandler<ActionEvent>() {
                                 @Override
                                 public void handle(ActionEvent event) {
-                                    deleteBox(node, locInput);
+                                    deleteBox(locInput);
+
                                     /* for (javafx.scene.Node cancelNode: nodeHolder.getChildren()) {
                                         if ("SelectionPopUp".equals(cancelNode.getId())) {
                                             nodeHolder.getChildren().remove(locInput);
