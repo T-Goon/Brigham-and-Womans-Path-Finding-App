@@ -1,4 +1,4 @@
-package edu.wpi.teamB.views;
+package edu.wpi.teamB.views.mapeditor;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXRadioButton;
@@ -15,7 +15,6 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class EditNodeMenuController implements Initializable {
@@ -80,7 +79,7 @@ public class EditNodeMenuController implements Initializable {
 
         switch (btn.getId()) {
             case "btnBack":
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/nodesEditorMenu.fxml");
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapeditor/nodesEditorMenu.fxml");
                 break;
             case "btnUpdate":
                 Stage stage = App.getPrimaryStage();
@@ -88,7 +87,7 @@ public class EditNodeMenuController implements Initializable {
                 // TODO fix -- node doesn't have the updated data
                 Node node = (Node) stage.getUserData();
                 DatabaseHandler.getDatabaseHandler("main.db").updateNode(node);
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/nodesEditorMenu.fxml");
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapeditor/nodesEditorMenu.fxml");
                 break;
         }
     }

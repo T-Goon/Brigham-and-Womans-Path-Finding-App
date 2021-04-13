@@ -1,4 +1,4 @@
-package edu.wpi.teamB.views.secondaryForms;
+package edu.wpi.teamB.views.covidsurvey;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXRadioButton;

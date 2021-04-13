@@ -19,7 +19,7 @@
                <children>
                   <ImageView fitHeight="114.0" fitWidth="314.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../images/general/hospitalLogo.png" />
+                        <Image url="@../../images/general/hospitalLogo.png" />
                      </image>
                      <HBox.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -50,7 +50,7 @@
             <GesturePane fitMode="COVER" maxScale="25.0" scrollMode="ZOOM" vbarPolicy="NEVER" VBox.vgrow="ALWAYS">
             <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../images/maps/00_thegroundfloor.png" />
+                  <Image url="@../../images/maps/00_thegroundfloor.png" />
                </image>
             </ImageView>
             </GesturePane>

@@ -1,4 +1,4 @@
-package edu.wpi.teamB.views.menus;
+package edu.wpi.teamB.views.mapeditor;
 
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.teamB.database.DatabaseHandler;
@@ -103,10 +103,10 @@ public class NodesEditorMenuController implements Initializable {
 
         switch (btn.getId()) {
             case "btnBack":
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/editorIntermediateMenu.fxml");
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapeditor/editorIntermediateMenu.fxml");
                 break;
             case "btnAddNode":
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/addNodeMenu.fxml");
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapeditor/addNodeMenu.fxml");
                 break;
         }
     }

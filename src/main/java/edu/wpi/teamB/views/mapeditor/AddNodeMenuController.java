@@ -1,4 +1,4 @@
-package edu.wpi.teamB.views;
+package edu.wpi.teamB.views.mapeditor;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXRadioButton;
@@ -9,7 +9,6 @@ import edu.wpi.teamB.util.SceneSwitcher;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 
@@ -87,7 +86,7 @@ public class AddNodeMenuController implements Initializable {
 
         switch (btn.getId()) {
             case "btnBack":
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/nodesEditorMenu.fxml");
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapeditor/nodesEditorMenu.fxml");
                 break;
 
             case "btnAddNode":
@@ -101,7 +100,7 @@ public class AddNodeMenuController implements Initializable {
                 int aYCoord = Integer.parseInt(yCoord.getText());
                 Node aNode = new Node(aNodeId, aXCoord, aYCoord, aFloor, aBuilding, aNodeType, aLongName, aShortName);
                 DatabaseHandler.getDatabaseHandler("main.db").addNode(aNode);
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/editorIntermediateMenu.fxml");
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapeditor/editorIntermediateMenu.fxml");
                 break;
         }
     }

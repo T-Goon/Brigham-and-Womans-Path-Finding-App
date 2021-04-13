@@ -1,4 +1,4 @@
-package edu.wpi.teamB.views.menus;
+package edu.wpi.teamB.views.mapeditor;
 
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.teamB.util.SceneSwitcher;
@@ -26,10 +26,10 @@ public class EditorIntermediateMenuController {
         try {
             switch (btn.getId()) {
                 case "btnNodes":
-                    SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/nodesEditorMenu.fxml");
+                    SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapeditor/nodesEditorMenu.fxml");
                     break;
                 case "btnEdges":
-                    SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/edgesEditorMenu.fxml");
+                    SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapeditor/edgesEditorMenu.fxml");
                     break;
                 case "btnBack":
                     SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/patientDirectoryMenu.fxml");

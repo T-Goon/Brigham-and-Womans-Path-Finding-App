@@ -40,7 +40,7 @@ public class PatientDirectoryMenuController {
                 SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/pathfindingMenu.fxml");
                 break;
             case "btnMapEditor":
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/editorIntermediateMenu.fxml");
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapeditor/editorIntermediateMenu.fxml");
                 break;
             case "btnExit":
                 Platform.exit();
