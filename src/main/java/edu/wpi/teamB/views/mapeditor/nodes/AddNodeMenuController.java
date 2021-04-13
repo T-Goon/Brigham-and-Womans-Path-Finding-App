@@ -26,12 +26,6 @@ public class AddNodeMenuController implements Initializable {
     private JFXButton btnCancel;
 
     @FXML
-    private JFXButton btnAddNode;
-
-
-    // NODES
-
-    @FXML
     private JFXRadioButton notRestricted;
 
     @FXML
@@ -64,20 +58,8 @@ public class AddNodeMenuController implements Initializable {
     @FXML
     private TextField shortName;
 
-
-    // EDGES
-
     @FXML
-    public Label edgeID;
-
-    @FXML
-    private JFXTextField startNode;
-
-    @FXML
-    private JFXTextField endNode;
-
-    @FXML
-    private JFXButton btnAddEdge;
+    private JFXButton btnAddNode;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -92,12 +74,6 @@ public class AddNodeMenuController implements Initializable {
         switch (btn.getId()) {
             case "btnCancel":
                 SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapeditor/nodes/nodeEditorMenu.fxml");
-                break;
-            case "btnAddEdge":
-                String aStartNode = startNode.getText();
-                String aEndNode = endNode.getText();
-                String aEdge = aStartNode + "_" + aEndNode;
-                edgeID.setText(aEdge);
                 break;
             case "btnAddNode":
                 String aNodeId = nodeID.getText();

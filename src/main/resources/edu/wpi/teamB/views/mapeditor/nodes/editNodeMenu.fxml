@@ -281,67 +281,6 @@
                               <Insets bottom="5.0" top="5.0" />
                            </VBox.margin>
                         </HBox>
-                        <HBox alignment="BASELINE_LEFT">
-                           <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Edges:">
-                                 <font>
-                                    <Font name="MS Reference Sans Serif" size="14.0" />
-                                 </font>
-                                 <HBox.margin>
-                                    <Insets left="5.0" />
-                                 </HBox.margin>
-                              </Text>
-                              <JFXTextField fx:id="edges" prefColumnCount="20" style="-fx-background-radius: 7; -fx-background-color: e5e5e5;" unFocusColor="#4d4d4d00" HBox.hgrow="ALWAYS">
-                                 <HBox.margin>
-                                    <Insets right="10.0" />
-                                 </HBox.margin>
-                              </JFXTextField>
-                           </children>
-                           <VBox.margin>
-                              <Insets bottom="5.0" top="5.0" />
-                           </VBox.margin>
-                        </HBox>
-                        <HBox alignment="BASELINE_LEFT" prefWidth="200.0">
-                           <children>
-                              <HBox alignment="BASELINE_LEFT" prefWidth="200.0">
-                                 <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Start Node:">
-                                       <font>
-                                          <Font name="MS Reference Sans Serif" size="14.0" />
-                                       </font>
-                                    </Text>
-                                    <JFXTextField fx:id="startNode" prefColumnCount="20" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" />
-                                 </children>
-                              </HBox>
-                              <HBox alignment="BASELINE_LEFT" prefWidth="200.0">
-                                 <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="End Node:">
-                                       <font>
-                                          <Font name="MS Reference Sans Serif" size="14.0" />
-                                       </font>
-                                    </Text>
-                                    <JFXTextField fx:id="endNode" prefColumnCount="20" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" />
-                                 </children>
-                                 <HBox.margin>
-                                    <Insets left="10.0" />
-                                 </HBox.margin>
-                                 <opaqueInsets>
-                                    <Insets right="10.0" />
-                                 </opaqueInsets>
-                              </HBox>
-                              <JFXButton fx:id="btnAddNode" alignment="CENTER" cancelButton="true" contentDisplay="CENTER" style="-fx-background-color: F6BD39; -fx-background-radius: 50%;" text="+" textAlignment="CENTER" textFill="#012d5a" textOverrun="CLIP">
-                                 <font>
-                                    <Font size="20.0" />
-                                 </font>
-                                 <HBox.margin>
-                                    <Insets left="10.0" />
-                                 </HBox.margin>
-                              </JFXButton>
-                           </children>
-                           <VBox.margin>
-                              <Insets bottom="5.0" top="5.0" />
-                           </VBox.margin>
-                        </HBox>
                         <HBox alignment="CENTER_LEFT" prefWidth="200.0">
                            <children>
                               <HBox alignment="CENTER_LEFT" fillHeight="false" HBox.hgrow="ALWAYS">
