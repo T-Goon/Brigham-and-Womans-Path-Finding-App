@@ -183,17 +183,21 @@ public class PathfindingMenuController implements Initializable {
 
                 try {
                     VBox locInput = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/misc/graphicalInput.fxml")));
+                    locInput.setVisible(true);
 
                     locInput.setLayoutX((n.getXCoord() / PathfindingMenuController.coordinateScale));
                     locInput.setLayoutY((n.getYCoord() / PathfindingMenuController.coordinateScale) - (locInput.getHeight()));
 
+
                     for(javafx.scene.Node node: locInput.getChildren()){
                         if(node.getId().equals("BtnStart")){
                             showGraphicalSelection(startLocComboBox, node,n);
+                            locInput.setVisible(false);
                         }
 
                         else if(node.getId().equals("BtnEnd")){
                             showGraphicalSelection(endLocComboBox, node,n);
+                            locInput.setVisible(false);
                        }
                     }
                     nodeHolder.getChildren().add(locInput);
@@ -212,6 +216,7 @@ public class PathfindingMenuController implements Initializable {
         }
     }
 
+    //loop through node holder children and if id of child is of popup window, remove it
     /**
      * Places an image for a node on the map at the given pixel coordinates.
      * @param n Node object to place on the map

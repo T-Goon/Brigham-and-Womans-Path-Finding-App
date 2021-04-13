@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.VBox?>
 
 
-<VBox alignment="CENTER" spacing="10.0" style="-fx-background-color: #0067B1; -fx-background-radius: 5;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<VBox fx:id="SelectionPopUp" alignment="CENTER" spacing="10.0" style="-fx-background-color: #0067B1; -fx-background-radius: 5;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Button fx:id="BtnStart" alignment="CENTER" mnemonicParsing="false" prefHeight="31.0" prefWidth="276.0" text="Start Loc">
          <VBox.margin>
