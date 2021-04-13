@@ -27,6 +27,12 @@ public class NodesEditorMenuController implements Initializable {
     public JFXButton btnEmergency;
 
     @FXML
+    public JFXButton btnLoad;
+
+    @FXML
+    public JFXButton btnSave;
+
+    @FXML
     private JFXButton btnBack;
 
     @FXML

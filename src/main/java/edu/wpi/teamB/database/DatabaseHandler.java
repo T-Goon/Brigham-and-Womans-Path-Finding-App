@@ -342,10 +342,9 @@ public class DatabaseHandler {
     public boolean isInitialized() {
         try {
             // Try getting a list of the tables -- If there is a table there, it will return true
-            if (handler.getConnection().getMetaData().getTables(null, null, "%", new String[]{"TABLES"}).next())
+            if (!getNodes().isEmpty())
                 return true;
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (SQLException ignored) {
             return false;
         }
         return false;
