@@ -56,7 +56,7 @@ public class EdgeWrapper {
         btnDel.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                DatabaseHandler.getDatabaseHandler("main.db").removeNode(e.getEdgeID());
+                DatabaseHandler.getDatabaseHandler("main.db").removeEdge(e.getEdgeID());
                 try {
                     SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapeditor/edges/edgeEditorMenu.fxml");
                 } catch (IOException e) {

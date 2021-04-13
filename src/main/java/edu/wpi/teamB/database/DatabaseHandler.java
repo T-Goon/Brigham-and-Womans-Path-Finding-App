@@ -59,14 +59,17 @@ public class DatabaseHandler {
      * with that data.
      */
     public void loadDatabase(List<Node> nodes, List<Edge> edges) throws SQLException {
+        loadDatabaseNodes(nodes);
+        loadDatabaseEdges(edges);
+    }
+
+    public void loadDatabaseNodes(List<Node> nodes) throws SQLException {
 
         Statement statement = this.getStatement();
         // Drop tables if they exist already
         String query;
         try {
             query = "DROP TABLE Nodes";
-            statement.execute(query);
-            query = "DROP TABLE Edges";
             statement.execute(query);
         } catch (SQLException ignored) {
         }
@@ -83,15 +86,8 @@ public class DatabaseHandler {
                 + "shortName CHAR(20))";
         statement.execute(query);
 
-        query = "CREATE TABLE Edges("
-                + "edgeID CHAR(30), "
-                + "startNode CHAR(20), "
-                + "endNode CHAR(20))";
-        statement.execute(query);
-
         // If either list is empty, then nothing should be put in
-        if (nodes == null || edges == null) return;
-
+        if (nodes == null) return;
         for (Node node : nodes) {
             query = "INSERT INTO Nodes(nodeID, xcoord, ycoord, floor, building, nodeType, longName, shortName) " +
                     "VALUES('"
@@ -105,7 +101,27 @@ public class DatabaseHandler {
                     + node.getShortName() + "')";
             statement.execute(query);
         }
+    }
 
+    public void loadDatabaseEdges(List<Edge> edges) throws SQLException {
+
+        Statement statement = this.getStatement();
+        // Drop tables if they exist already
+        String query;
+        try {
+            query = "DROP TABLE Edges";
+            statement.execute(query);
+        } catch (SQLException ignored) {
+        }
+
+        query = "CREATE TABLE Edges("
+                + "edgeID CHAR(30), "
+                + "startNode CHAR(20), "
+                + "endNode CHAR(20))";
+        statement.execute(query);
+
+        // If either list is empty, then nothing should be put in
+        if (edges == null) return;
         for (Edge edge : edges) {
             query = "INSERT INTO Edges(edgeID, startNode, endNode) "
                     + "VALUES('"

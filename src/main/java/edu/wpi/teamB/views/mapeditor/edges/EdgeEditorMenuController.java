@@ -1,9 +1,13 @@
 package edu.wpi.teamB.views.mapeditor.edges;
 
 import com.jfoenix.controls.JFXButton;
+import edu.wpi.teamB.App;
 import edu.wpi.teamB.database.DatabaseHandler;
 import edu.wpi.teamB.entities.Edge;
+import edu.wpi.teamB.entities.Node;
+import edu.wpi.teamB.util.CSVHandler;
 import edu.wpi.teamB.util.EdgeWrapper;
+import edu.wpi.teamB.util.NodeWrapper;
 import edu.wpi.teamB.util.SceneSwitcher;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -13,15 +17,21 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
 @SuppressWarnings("unchecked") // Added so Java doesn't get mad at the raw use of TableView that is necessary
-public class EdgesEditorMenuController implements Initializable {
+public class EdgeEditorMenuController implements Initializable {
 
     @FXML
     public JFXButton btnEmergency;
@@ -56,6 +66,8 @@ public class EdgesEditorMenuController implements Initializable {
     @FXML
     private TableColumn<String, JFXButton> delCol;
 
+    FileChooser fileChooser = new FileChooser();
+    DirectoryChooser directoryChooser = new DirectoryChooser();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -98,6 +110,55 @@ public class EdgesEditorMenuController implements Initializable {
                 err.printStackTrace();
             }
         }
+
+
+        // Set up Load and Save buttons
+        btnLoad.setOnAction(
+                event -> {
+                    // Get the CSV file and load it
+                    Stage stage = App.getPrimaryStage();
+                    fileChooser.setTitle("Select Edges CSV file");
+                    fileChooser.setInitialDirectory(new File(new File("").getAbsolutePath()));
+                    File file = fileChooser.showOpenDialog(stage);
+                    if (file == null) return;
+
+                    List<Edge> newEdges = new ArrayList<>();
+                    try {
+                        newEdges = CSVHandler.loadCSVEdges(file.toPath());
+                        DatabaseHandler.getDatabaseHandler("main.db").loadDatabaseEdges(newEdges);
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+
+                    // Add them to the refreshed table
+                    tblEdges.getItems().clear();
+                    for (Edge e : newEdges) {
+                        try {
+                            tblEdges.getItems().add(new EdgeWrapper(e));
+                        } catch (IOException err) {
+                            err.printStackTrace();
+                        }
+                    }
+                }
+        );
+
+        btnSave.setOnAction(
+                event -> {
+                    // Get the CSV directory location
+                    Stage stage = App.getPrimaryStage();
+                    directoryChooser.setTitle("Select directory to save Edges CSV file to");
+                    directoryChooser.setInitialDirectory(new File(new File("").getAbsolutePath()));
+                    File file = directoryChooser.showDialog(stage);
+                    if (file == null) return;
+
+                    // Save the current database into that csv folder
+                    try {
+                        CSVHandler.saveCSVEdges(file.toPath(), false);
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+        );
     }
 
     @FXML
