@@ -1,8 +1,8 @@
-package edu.wpi.teamB.views.mapeditor;
+package edu.wpi.teamB.views.mapeditor.nodes;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXRadioButton;
-import edu.wpi.teamB.App;
+import com.jfoenix.controls.JFXTextField;
 import edu.wpi.teamB.database.DatabaseHandler;
 import edu.wpi.teamB.entities.Node;
 import edu.wpi.teamB.util.SceneSwitcher;
@@ -11,19 +11,24 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class EditNodeMenuController implements Initializable {
+public class AddNodeMenuController implements Initializable {
 
     @FXML
-    private JFXButton btnBack;
+    public JFXButton btnEmergency;
 
     @FXML
-    private JFXButton btnUpdate;
+    private JFXButton btnCancel;
+
+    @FXML
+    private JFXButton btnAddNode;
+
+
+    // NODES
 
     @FXML
     private JFXRadioButton notRestricted;
@@ -58,20 +63,25 @@ public class EditNodeMenuController implements Initializable {
     @FXML
     private TextField shortName;
 
+
+    // EDGES
+
+    @FXML
+    public JFXTextField edgeID;
+
+    @FXML
+    private JFXTextField startNode;
+
+    @FXML
+    private JFXTextField endNode;
+
+    @FXML
+    private JFXButton btnAddEdge;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Stage stage = App.getPrimaryStage();
-        Node node = (Node) stage.getUserData();
-
-        nodeID.setText(node.getNodeID());
-        nodeID.setDisable(true);
-        xCoord.setText(String.valueOf(node.getXCoord()));
-        yCoord.setText(String.valueOf(node.getXCoord()));
-        floor.setText(String.valueOf(node.getFloor()));
-        building.setText(node.getBuilding());
-        nodeType.setText(node.getNodeType());
-        longName.setText(node.getLongName());
-        shortName.setText(node.getShortName());
+        notRestricted.setToggleGroup(areaGroup);
+        restricted.setToggleGroup(areaGroup);
     }
 
     @FXML
@@ -79,25 +89,21 @@ public class EditNodeMenuController implements Initializable {
         JFXButton btn = (JFXButton) e.getSource();
 
         switch (btn.getId()) {
-            case "btnBack":
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapeditor/nodesEditorMenu.fxml");
+            case "btnCancel":
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapeditor/nodes/nodesEditorMenu.fxml");
                 break;
-            case "btnUpdate":
-                Stage stage = App.getPrimaryStage();
-                Node node = (Node) stage.getUserData();
-
-                int aXCoord = Integer.parseInt(xCoord.getText());
-                int aYCoord = Integer.parseInt(yCoord.getText());
+            case "btnAddNode":
+                String aNodeId = nodeID.getText();
                 int aFloor = Integer.parseInt(floor.getText());
                 String aBuilding = building.getText();
                 String aNodeType = nodeType.getText();
                 String aLongName = longName.getText();
                 String aShortName = shortName.getText();
-
-                node = new Node(node.getNodeID(), aXCoord, aYCoord, aFloor, aBuilding, aNodeType, aLongName, aShortName);
-
-                DatabaseHandler.getDatabaseHandler("main.db").updateNode(node);
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapeditor/nodesEditorMenu.fxml");
+                int aXCoord = Integer.parseInt(xCoord.getText());
+                int aYCoord = Integer.parseInt(yCoord.getText());
+                Node aNode = new Node(aNodeId, aXCoord, aYCoord, aFloor, aBuilding, aNodeType, aLongName, aShortName);
+                DatabaseHandler.getDatabaseHandler("main.db").addNode(aNode);
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapeditor/nodes/nodesEditorMenu.fxml");
                 break;
         }
     }

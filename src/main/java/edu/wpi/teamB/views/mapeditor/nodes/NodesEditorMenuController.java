@@ -1,4 +1,4 @@
-package edu.wpi.teamB.views.mapeditor;
+package edu.wpi.teamB.views.mapeditor.nodes;
 
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.teamB.database.DatabaseHandler;
@@ -22,6 +22,9 @@ import java.util.ResourceBundle;
 
 @SuppressWarnings("unchecked") // Added so Java doesn't get mad at the raw use of TableView that is necessary
 public class NodesEditorMenuController implements Initializable {
+
+    @FXML
+    public JFXButton btnEmergency;
 
     @FXML
     private JFXButton btnBack;
@@ -106,7 +109,7 @@ public class NodesEditorMenuController implements Initializable {
                 SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapeditor/editorIntermediateMenu.fxml");
                 break;
             case "btnAddNode":
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapeditor/addNodeMenu.fxml");
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapeditor/nodes/addNodeMenu.fxml");
                 break;
         }
     }

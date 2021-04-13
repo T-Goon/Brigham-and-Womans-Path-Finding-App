@@ -52,7 +52,7 @@ public class NodeWrapper {
                 Stage stage = App.getPrimaryStage();
                 stage.setUserData(n);
                 try {
-                    SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapeditor/editNodeMenu.fxml");
+                    SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapeditor/nodes/editNodeMenu.fxml");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -71,7 +71,7 @@ public class NodeWrapper {
             public void handle(ActionEvent event) {
                 DatabaseHandler.getDatabaseHandler("main.db").removeNode(n.getNodeID());
                 try {
-                    SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapeditor/nodesEditorMenu.fxml");
+                    SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapeditor/nodes/nodesEditorMenu.fxml");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
