@@ -35,7 +35,7 @@
                                         <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
                                     </VBox.margin>
                                 </JFXButton>
-                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Add Edge">
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Edge Editing">
                                     <font>
                                         <Font size="30.0" />
                                     </font>
@@ -73,7 +73,7 @@
                                         <Insets left="5.0" />
                                     </VBox.margin>
                                 </Text>
-                                <JFXTextField fx:id="edgeID" disable="true" editable="false" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00">
+                                <JFXTextField fx:id="edgeID" disable="true" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00">
                                     <VBox.margin>
                                         <Insets left="5.0" right="5.0" />
                                     </VBox.margin>

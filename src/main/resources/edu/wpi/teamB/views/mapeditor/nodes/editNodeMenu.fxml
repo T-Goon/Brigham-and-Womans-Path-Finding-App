@@ -281,7 +281,7 @@
                               <Insets bottom="5.0" top="5.0" />
                            </VBox.margin>
                         </HBox>
-                        <HBox alignment="BASELINE_LEFT" prefWidth="200.0">
+                        <HBox alignment="BASELINE_LEFT">
                            <children>
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Edges:">
                                  <font>
@@ -291,13 +291,10 @@
                                     <Insets left="5.0" />
                                  </HBox.margin>
                               </Text>
-                              <JFXTextField fx:id="edges" prefColumnCount="20" style="-fx-background-radius: 7;" unFocusColor="#4d4d4d00" HBox.hgrow="ALWAYS">
+                              <JFXTextField fx:id="edges" prefColumnCount="20" style="-fx-background-radius: 7; -fx-background-color: e5e5e5;" unFocusColor="#4d4d4d00" HBox.hgrow="ALWAYS">
                                  <HBox.margin>
                                     <Insets right="10.0" />
                                  </HBox.margin>
-                                 <padding>
-                                    <Insets bottom="-2.0" />
-                                 </padding>
                               </JFXTextField>
                            </children>
                            <VBox.margin>
