@@ -2,7 +2,6 @@ package edu.wpi.teamB.views.menus;
 
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.teamB.database.DatabaseHandler;
-import edu.wpi.teamB.entities.Edge;
 import edu.wpi.teamB.entities.Node;
 import edu.wpi.teamB.util.NodeWrapper;
 import edu.wpi.teamB.util.SceneSwitcher;
@@ -14,14 +13,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import lombok.SneakyThrows;
 
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.Observable;
 import java.util.ResourceBundle;
 
 @SuppressWarnings("unchecked") // Added so Java doesn't get mad at the raw use of TableView that is necessary
@@ -71,7 +67,7 @@ public class NodesEditorMenuController implements Initializable {
             c.getId();
             switch (c.getId()) {
                 case "editBtnCol":
-                    c.setCellValueFactory(new PropertyValueFactory<>("editBtn"));
+                    c.setCellValueFactory(new PropertyValueFactory<>("btnEdit"));
                     break;
                 case "idCol":
                     c.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -86,7 +82,7 @@ public class NodesEditorMenuController implements Initializable {
                     c.setCellValueFactory(new PropertyValueFactory<>("edges"));
                     break;
                 case "delCol":
-                    c.setCellValueFactory(new PropertyValueFactory<>("delBtn"));
+                    c.setCellValueFactory(new PropertyValueFactory<>("btnDel"));
                     break;
             }
         }

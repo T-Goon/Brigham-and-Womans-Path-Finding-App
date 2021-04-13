@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class addNodeMenuController implements Initializable {
+public class AddNodeMenuController implements Initializable {
 
     // NODES
 
