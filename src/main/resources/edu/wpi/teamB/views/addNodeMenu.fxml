@@ -79,16 +79,16 @@
                                           <Insets left="5.0" />
                                        </VBox.margin>
                                     </Text>
-                                    <JFXTextField fx:id="nodeID" maxWidth="300.0" prefWidth="50.0" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00">
+                                    <JFXTextField fx:id="nodeID" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" VBox.vgrow="ALWAYS">
                                        <VBox.margin>
                                           <Insets left="5.0" right="5.0" />
                                        </VBox.margin>
                                     </JFXTextField>
                                  </children>
                               </VBox>
-                              <HBox alignment="CENTER_RIGHT">
+                              <HBox alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS">
                                  <children>
-                                    <VBox>
+                                    <VBox HBox.hgrow="ALWAYS">
                                        <children>
                                           <Text strokeType="OUTSIDE" strokeWidth="0.0" text="X-Coordinate:">
                                              <font>
@@ -105,7 +105,7 @@
                                           </JFXTextField>
                                        </children>
                                     </VBox>
-                                    <VBox>
+                                    <VBox HBox.hgrow="ALWAYS">
                                        <children>
                                           <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Y-Coordinate:">
                                              <font>
@@ -134,7 +134,7 @@
                         </HBox>
                         <HBox prefWidth="200.0">
                            <children>
-                              <VBox>
+                              <VBox HBox.hgrow="ALWAYS">
                                  <children>
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Floor:">
                                        <font>
@@ -151,10 +151,10 @@
                                     </JFXTextField>
                                  </children>
                                  <HBox.margin>
-                                    <Insets right="80.0" />
+                                    <Insets />
                                  </HBox.margin>
                               </VBox>
-                              <VBox>
+                              <VBox HBox.hgrow="ALWAYS">
                                  <children>
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Building:">
                                        <font>
@@ -171,10 +171,10 @@
                                     </JFXTextField>
                                  </children>
                                  <HBox.margin>
-                                    <Insets left="80.0" right="80.0" />
+                                    <Insets />
                                  </HBox.margin>
                               </VBox>
-                              <VBox>
+                              <VBox HBox.hgrow="ALWAYS">
                                  <children>
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Node Type:">
                                        <font>
@@ -191,7 +191,7 @@
                                     </JFXTextField>
                                  </children>
                                  <HBox.margin>
-                                    <Insets left="80.0" />
+                                    <Insets />
                                  </HBox.margin>
                               </VBox>
                            </children>
