@@ -1,13 +1,13 @@
 nodeID,xcoord,ycoord,floor,building,nodeType,longName,shortName
-bPARK00101,179,1895,1,Parking,PARK,Left Parking Lot Spot 1,LLot1
-bPARK00201,225,1899,1,Parking,PARK,Left Parking Lot Spot 2,LLot2
-bPARK00301,358,1896,1,Parking,PARK,Left Parking Lot Spot 3,LLot3
-bPARK00401,441,1894,1,Parking,PARK,Left Parking Lot Spot 4,LLot4
-bPARK00501,664,1896,1,Parking,PARK,Left Parking Lot Spot 5,LLot5
-bPARK00601,56,2078,1,Parking,PARK,Left Parking Lot Spot 6,LLot6
-bPARK00701,144,2076,1,Parking,PARK,Left Parking Lot Spot 7,LLot7
-bPARK00801,516,2082,1,Parking,PARK,Left Parking Lot Spot 8,LLot8
-bPARK00901,613,2079,1,Parking,PARK,Left Parking Lot Spot 9,LLot9
+bPARK00101,179,1895,1,Parking,PARK,Left Parking Lot Spot 01,LLot1
+bPARK00201,225,1899,1,Parking,PARK,Left Parking Lot Spot 02,LLot2
+bPARK00301,358,1896,1,Parking,PARK,Left Parking Lot Spot 03,LLot3
+bPARK00401,441,1894,1,Parking,PARK,Left Parking Lot Spot 04,LLot4
+bPARK00501,664,1896,1,Parking,PARK,Left Parking Lot Spot 05,LLot5
+bPARK00601,56,2078,1,Parking,PARK,Left Parking Lot Spot 06,LLot6
+bPARK00701,144,2076,1,Parking,PARK,Left Parking Lot Spot 07,LLot7
+bPARK00801,516,2082,1,Parking,PARK,Left Parking Lot Spot 08,LLot8
+bPARK00901,613,2079,1,Parking,PARK,Left Parking Lot Spot 09,LLot9
 bPARK01001,681,2076,1,Parking,PARK,Left Parking Lot Spot 10,LLot10
 bWALK00101,568,1894,1,Parking,WALK,Left Parking Lot Walkway,Llot Walk
 bWALK00201,564,1611,1,Parking,WALK,Francis Street Left Walkway,FrancisWalk
@@ -20,15 +20,15 @@ bWALK00601,3371,1504,1,Parking,WALK,Francis Street Right Walkway,Rlot Walk
 bWALK00701,3203,1501,1,Parking,WALK,Francis Street Right Walkway,Rlot Walk
 bWALK00801,3209,1362,1,Parking,WALK,Francis Street Right Walkway,Rlot Walk
 bWALK00901,3336,1358,1,Parking,WALK,Francis Street Right Walkway,Rlot Walk
-bPARK01101,3161,1126,1,Parking,PARK,Right Parking Lot Spot 1,RLot1
-bPARK01201,3159,1153,1,Parking,PARK,Right Parking Lot Spot 2,RLot2
-bPARK01301,3158,1178,1,Parking,PARK,Right Parking Lot Spot 3,RLot3
-bPARK01401,3161,1204,1,Parking,PARK,Right Parking Lot Spot 4,RLot4
-bPARK01501,3159,1228,1,Parking,PARK,Right Parking Lot Spot 5,RLot5
-bPARK01601,3161,1251,1,Parking,PARK,Right Parking Lot Spot 6,RLot6
-bPARK01701,3160,1278,1,Parking,PARK,Right Parking Lot Spot 7,RLot7
-bPARK01801,3364,1132,1,Parking,PARK,Right Parking Lot Spot 8,RLot8
-bPARK01901,3363,1155,1,Parking,PARK,Right Parking Lot Spot 9,RLot9
+bPARK01101,3161,1126,1,Parking,PARK,Right Parking Lot Spot 01,RLot1
+bPARK01201,3159,1153,1,Parking,PARK,Right Parking Lot Spot 02,RLot2
+bPARK01301,3158,1178,1,Parking,PARK,Right Parking Lot Spot 03,RLot3
+bPARK01401,3161,1204,1,Parking,PARK,Right Parking Lot Spot 04,RLot4
+bPARK01501,3159,1228,1,Parking,PARK,Right Parking Lot Spot 05,RLot5
+bPARK01601,3161,1251,1,Parking,PARK,Right Parking Lot Spot 06,RLot6
+bPARK01701,3160,1278,1,Parking,PARK,Right Parking Lot Spot 07,RLot7
+bPARK01801,3364,1132,1,Parking,PARK,Right Parking Lot Spot 08,RLot8
+bPARK01901,3363,1155,1,Parking,PARK,Right Parking Lot Spot 09,RLot9
 bPARK02001,3364,1180,1,Parking,PARK,Right Parking Lot Spot 10,RLot10
 bPARK02101,3363,1208,1,Parking,PARK,Right Parking Lot Spot 11,RLot11
 bPARK02201,3364,1231,1,Parking,PARK,Right Parking Lot Spot 12,RLot12
