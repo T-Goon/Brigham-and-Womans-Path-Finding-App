@@ -50,6 +50,7 @@ public class editNodeMenuController implements Initializable {
         Stage stage = App.getPrimaryStage();
         Node node = (Node) stage.getUserData();
         nodeID.setText(node.getNodeID());
+        nodeID.setDisable(true);
         xCoord.setText(String.valueOf(node.getXCoord()));
         yCoord.setText(String.valueOf(node.getXCoord()));
         floor.setText(String.valueOf(node.getFloor()));
