@@ -4,7 +4,6 @@
 <?import com.jfoenix.controls.JFXRadioButton?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -80,7 +79,7 @@
                                           <Insets left="5.0" />
                                        </VBox.margin>
                                     </Text>
-                                    <JFXTextField fx:id="nodeID" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" VBox.vgrow="ALWAYS">
+                                    <JFXTextField fx:id="nodeID" onKeyReleased="#validateButton" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" VBox.vgrow="ALWAYS">
                                        <VBox.margin>
                                           <Insets left="5.0" right="5.0" />
                                        </VBox.margin>
@@ -99,7 +98,7 @@
                                                 <Insets left="5.0" />
                                              </VBox.margin>
                                           </Text>
-                                          <JFXTextField style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" fx:id="xCoord">
+                                          <JFXTextField onKeyReleased="#validateButton" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" fx:id="xCoord">
                                              <VBox.margin>
                                                 <Insets left="5.0" right="5.0" />
                                              </VBox.margin>
@@ -116,7 +115,7 @@
                                                 <Insets left="5.0" />
                                              </VBox.margin>
                                           </Text>
-                                          <JFXTextField fx:id="yCoord" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00">
+                                          <JFXTextField fx:id="yCoord" onKeyReleased="#validateButton" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00">
                                              <VBox.margin>
                                                 <Insets left="5.0" right="5.0" />
                                              </VBox.margin>
@@ -145,7 +144,7 @@
                                           <Insets left="5.0" />
                                        </VBox.margin>
                                     </Text>
-                                    <JFXTextField fx:id="floor" prefColumnCount="20" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00">
+                                    <JFXTextField fx:id="floor" onKeyReleased="#validateButton" prefColumnCount="20" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00">
                                        <VBox.margin>
                                           <Insets left="5.0" right="5.0" />
                                        </VBox.margin>
@@ -165,7 +164,7 @@
                                           <Insets left="5.0" />
                                        </VBox.margin>
                                     </Text>
-                                    <JFXTextField fx:id="building" prefColumnCount="20" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00">
+                                    <JFXTextField fx:id="building" onKeyReleased="#validateButton" prefColumnCount="20" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00">
                                        <VBox.margin>
                                           <Insets left="5.0" right="5.0" />
                                        </VBox.margin>
@@ -185,7 +184,7 @@
                                           <Insets left="5.0" />
                                        </VBox.margin>
                                     </Text>
-                                    <JFXTextField fx:id="nodeType" prefColumnCount="20" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00">
+                                    <JFXTextField fx:id="nodeType" onKeyReleased="#validateButton" prefColumnCount="20" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00">
                                        <VBox.margin>
                                           <Insets left="5.0" right="5.0" />
                                        </VBox.margin>
@@ -212,7 +211,7 @@
                                           <Insets left="5.0" />
                                        </VBox.margin>
                                     </Text>
-                                    <JFXTextField fx:id="longName" prefColumnCount="20" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00">
+                                    <JFXTextField fx:id="longName" onKeyReleased="#validateButton" prefColumnCount="20" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00">
                                        <VBox.margin>
                                           <Insets left="5.0" right="35.0" />
                                        </VBox.margin>
@@ -232,7 +231,7 @@
                                           <Insets left="5.0" />
                                        </VBox.margin>
                                     </Text>
-                                    <JFXTextField fx:id="shortName" prefColumnCount="20" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00">
+                                    <JFXTextField fx:id="shortName" onKeyReleased="#validateButton" prefColumnCount="20" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00">
                                        <VBox.margin>
                                           <Insets left="5.0" right="5.0" />
                                        </VBox.margin>
@@ -282,63 +281,6 @@
                               <Insets bottom="5.0" top="5.0" />
                            </VBox.margin>
                         </HBox>
-                        <HBox alignment="BASELINE_LEFT" prefWidth="200.0">
-                           <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="EdgeID:">
-                                 <font>
-                                    <Font name="MS Reference Sans Serif" size="14.0" />
-                                 </font>
-                                 <HBox.margin>
-                                    <Insets left="5.0" />
-                                 </HBox.margin>
-                              </Text>
-                              <Label fx:id="edgeID" />
-                           </children>
-                           <VBox.margin>
-                              <Insets bottom="5.0" top="5.0" />
-                           </VBox.margin>
-                        </HBox>
-                        <HBox alignment="BASELINE_LEFT" prefWidth="200.0">
-                           <children>
-                              <HBox alignment="BASELINE_LEFT" prefWidth="200.0">
-                                 <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Start Node:">
-                                       <font>
-                                          <Font name="MS Reference Sans Serif" size="14.0" />
-                                       </font>
-                                    </Text>
-                                    <JFXTextField fx:id="startNode" prefColumnCount="20" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" />
-                                 </children>
-                              </HBox>
-                              <HBox alignment="BASELINE_LEFT" prefWidth="200.0">
-                                 <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="End Node:">
-                                       <font>
-                                          <Font name="MS Reference Sans Serif" size="14.0" />
-                                       </font>
-                                    </Text>
-                                    <JFXTextField fx:id="endNode" prefColumnCount="20" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" />
-                                 </children>
-                                 <HBox.margin>
-                                    <Insets left="10.0" />
-                                 </HBox.margin>
-                                 <opaqueInsets>
-                                    <Insets right="10.0" />
-                                 </opaqueInsets>
-                              </HBox>
-                              <JFXButton fx:id="btnAddEdge" alignment="CENTER" buttonType="RAISED" cancelButton="true" contentDisplay="CENTER" onAction="#handleButtonAction" style="-fx-background-color: F6BD39; -fx-background-radius: 50%;" text="+" textAlignment="CENTER" textFill="#012d5a" textOverrun="CLIP">
-                                 <font>
-                                    <Font size="20.0" />
-                                 </font>
-                                 <HBox.margin>
-                                    <Insets left="10.0" />
-                                 </HBox.margin>
-                              </JFXButton>
-                           </children>
-                           <VBox.margin>
-                              <Insets bottom="5.0" top="5.0" />
-                           </VBox.margin>
-                        </HBox>
                         <HBox alignment="CENTER_LEFT" prefWidth="200.0">
                            <children>
                               <HBox alignment="CENTER_LEFT" fillHeight="false" HBox.hgrow="ALWAYS">
@@ -352,7 +294,7 @@
                               </HBox>
                               <HBox alignment="CENTER" fillHeight="false" spacing="10.0" HBox.hgrow="ALWAYS">
                                  <children>
-                                    <JFXButton fx:id="btnAddNode" buttonType="RAISED" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39; -fx-background-radius: 7;" text="Add Node">
+                                    <JFXButton fx:id="btnAddNode" buttonType="RAISED" disable="true" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39; -fx-background-radius: 7;" text="Add Node">
                                        <font>
                                           <Font name="MS Reference Sans Serif" size="20.0" />
                                        </font>

@@ -26,12 +26,6 @@ public class AddNodeMenuController implements Initializable {
     private JFXButton btnCancel;
 
     @FXML
-    private JFXButton btnAddNode;
-
-
-    // NODES
-
-    @FXML
     private JFXRadioButton notRestricted;
 
     @FXML
@@ -64,27 +58,34 @@ public class AddNodeMenuController implements Initializable {
     @FXML
     private TextField shortName;
 
-
-    // EDGES
-
     @FXML
-    public Label edgeID;
-
-    @FXML
-    private JFXTextField startNode;
-
-    @FXML
-    private JFXTextField endNode;
-
-    @FXML
-    private JFXButton btnAddEdge;
+    private JFXButton btnAddNode;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         notRestricted.setToggleGroup(areaGroup);
         restricted.setToggleGroup(areaGroup);
     }
+    @FXML
+    private void validateButton() throws NumberFormatException {
+        if (!nodeID.getText().isEmpty() && !building.getText().isEmpty() && !nodeType.getText().isEmpty()
+            && !longName.getText().isEmpty() && !shortName.getText().isEmpty() && !floor.getText().isEmpty()
+            && !xCoord.getText().isEmpty() && !yCoord.getText().isEmpty()) {
+            btnAddNode.setDisable(false);
+        }
+        else {
+            btnAddNode.setDisable(true);
+        }
+        try {
+            Integer.parseInt(floor.getText());
+            Integer.parseInt(xCoord.getText());
+            Integer.parseInt(yCoord.getText());
+        } catch (NumberFormatException notInt) {
+            btnAddNode.setDisable(true);
+        }
 
+
+    }
     @FXML
     private void handleButtonAction(ActionEvent e) throws IOException {
         JFXButton btn = (JFXButton) e.getSource();
@@ -92,12 +93,6 @@ public class AddNodeMenuController implements Initializable {
         switch (btn.getId()) {
             case "btnCancel":
                 SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapeditor/nodes/nodeEditorMenu.fxml");
-                break;
-            case "btnAddEdge":
-                String aStartNode = startNode.getText();
-                String aEndNode = endNode.getText();
-                String aEdge = aStartNode + "_" + aEndNode;
-                edgeID.setText(aEdge);
                 break;
             case "btnAddNode":
                 String aNodeId = nodeID.getText();
@@ -109,7 +104,6 @@ public class AddNodeMenuController implements Initializable {
                 int aXCoord = Integer.parseInt(xCoord.getText());
                 int aYCoord = Integer.parseInt(yCoord.getText());
                 Node aNode = new Node(aNodeId, aXCoord, aYCoord, aFloor, aBuilding, aNodeType, aLongName, aShortName);
-
                 DatabaseHandler.getDatabaseHandler("main.db").addNode(aNode);
                 SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapeditor/nodes/nodeEditorMenu.fxml");
                 break;

@@ -33,6 +33,15 @@ public class AddEdgeMenuController {
     @FXML
     public JFXTextField endNode;
 
+    @FXML
+    private void validateButton(){
+        if (!edgeID.getText().isEmpty() && !startNode.getText().isEmpty() && !endNode.getText().isEmpty()) {
+            btnAddEdge.setDisable(false);
+        }
+        else {
+            btnAddEdge.setDisable(true);
+        }}
+
     public void handleButtonAction(ActionEvent e) throws IOException {
         JFXButton btn = (JFXButton) e.getSource();
 

@@ -353,17 +353,31 @@ public class DatabaseHandler {
     }
 
     /**
-     * @return whether the database is initialized or not
+     * @return whether the nodes table is initialized or not
      */
-    public boolean isInitialized() {
+    public boolean isNodesInitialized() {
         try {
-            // Try getting a list of the tables -- If there is a table there, it will return true
-            if (!getNodes().isEmpty())
-                return true;
+            // If getNodes() succeeds, it has been initialized
+            getNodes();
+            return true;
         } catch (SQLException ignored) {
+            // If getNodes() fails, it has not been initialized so a SQLException is thrown
             return false;
         }
-        return false;
+    }
+
+    /**
+     * @return whether the edges table is initialized or not
+     */
+    public boolean isEdgesInitialized() {
+        try {
+            // If getEdges() succeeds, it has been initialized
+            getEdges();
+            return true;
+        } catch (SQLException ignored) {
+            // If getEdges() fails, it has not been initialized so a SQLException is thrown
+            return false;
+        }
     }
 
     /**

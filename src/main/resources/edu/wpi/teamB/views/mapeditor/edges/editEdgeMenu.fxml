@@ -73,7 +73,7 @@
                                         <Insets left="5.0" />
                                     </VBox.margin>
                                 </Text>
-                                <JFXTextField fx:id="edgeID" disable="true" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00">
+                                <JFXTextField fx:id="edgeID" disable="true" onKeyReleased="#validateButton" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00">
                                     <VBox.margin>
                                         <Insets left="5.0" right="5.0" />
                                     </VBox.margin>
@@ -86,7 +86,7 @@
                                         <Insets left="5.0" top="10.0" />
                                     </VBox.margin>
                                 </Text>
-                                <JFXTextField fx:id="startNode" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00">
+                                <JFXTextField fx:id="startNode" onKeyReleased="#validateButton" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00">
                                     <VBox.margin>
                                         <Insets left="5.0" right="5.0" />
                                     </VBox.margin>
@@ -99,7 +99,7 @@
                                         <Insets left="5.0" top="10.0" />
                                     </VBox.margin>
                                 </Text>
-                                <JFXTextField fx:id="endNode" style="-fx-background-color: #E5E5E5; -fx-background-radius: 8;" unFocusColor="#4d4d4d00">
+                                <JFXTextField fx:id="endNode" onKeyReleased="#validateButton" style="-fx-background-color: #E5E5E5; -fx-background-radius: 8;" unFocusColor="#4d4d4d00">
                                     <VBox.margin>
                                         <Insets left="5.0" right="5.0" />
                                     </VBox.margin>
