@@ -47,7 +47,7 @@ public class CSVHandler {
         for (String row : rows) {
             row = row.replace("\r", "");
             String[] values = row.split(",");
-            list.add(new Node(values[0], Integer.parseInt(values[1]), Integer.parseInt(values[2]), Integer.parseInt(values[3]), values[4], values[5], values[6], values[7]));
+            list.add(new Node(values[0], Integer.parseInt(values[1]), Integer.parseInt(values[2]), values[3], values[4], values[5], values[6], values[7]));
         }
         return list;
     }
@@ -113,7 +113,7 @@ public class CSVHandler {
 
         // Write to the file
         try {
-            FileOutputStream out = new FileOutputStream(path.toAbsolutePath() + "/MapBNodes.csv");
+            FileOutputStream out = new FileOutputStream(path.toAbsolutePath() + "/bwBnodes.csv");
             out.write(sb.toString().getBytes(StandardCharsets.UTF_8));
             out.close();
         } catch (IOException e) {
@@ -149,7 +149,7 @@ public class CSVHandler {
 
         // Write to the file
         try {
-            FileOutputStream out = new FileOutputStream(path.toAbsolutePath() + "/MapBEdges.csv");
+            FileOutputStream out = new FileOutputStream(path.toAbsolutePath() + "/bwBedges.csv");
             out.write(sb.toString().getBytes(StandardCharsets.UTF_8));
             out.close();
         } catch (IOException e) {

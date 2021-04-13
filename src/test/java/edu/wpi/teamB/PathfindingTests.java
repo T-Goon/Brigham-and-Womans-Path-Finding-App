@@ -30,7 +30,7 @@ public class PathfindingTests {
     public void adjNodes() {
         //Testing only one adj node
         List<Node> adjNodes = new ArrayList<>();
-        Node bWALK00101 = new Node("bWALK00101",568,1894,1,"Parking","WALK","Left Parking Lot Walkway","Llot Walk");
+        Node bWALK00101 = new Node("bWALK00101",568,1894,"1","Parking","WALK","Left Parking Lot Walkway","Llot Walk");
         adjNodes.add(bWALK00101);
         assertEquals(adjNodes, Graph.getGraph(db).getAdjNodesById("bPARK00101"));
 
@@ -43,9 +43,9 @@ public class PathfindingTests {
         bWALK00401_bEXIT00201,bWALK00401,bEXIT00201
         * */
 
-        Node bWALK00301 = new Node("bWALK00301",1874,1611,1,"Parking","WALK","Francis Street Vining Street Intersection","FrancisViningInt");
-        Node bEXIT00101 = new Node("bEXIT00101",1749,1389,1,"Parking","EXIT","75 Francis Lobby Entrance","FrancisLobbyEnt");
-        Node bEXIT00201 = new Node("bEXIT00201",2061,1390,1,"Parking","EXIT","Emergency Entrance","EmergencyEnt");
+        Node bWALK00301 = new Node("bWALK00301",1874,1611,"1","Parking","WALK","Francis Street Vining Street Intersection","FrancisViningInt");
+        Node bEXIT00101 = new Node("bEXIT00101",1749,1389,"1","Parking","EXIT","75 Francis Lobby Entrance","FrancisLobbyEnt");
+        Node bEXIT00201 = new Node("bEXIT00201",2061,1390,"1","Parking","EXIT","Emergency Entrance","EmergencyEnt");
 
         adjNodes3.add(bWALK00301);
         adjNodes3.add(bEXIT00101);
@@ -57,8 +57,8 @@ public class PathfindingTests {
 
     @Test
     public void testDist(){
-        Node start =  new Node("bWALK00301",3,0,1,"Parking","WALK","Francis Street Vining Street Intersection","FrancisViningInt");
-        Node end = new Node("bEXIT00101",0,4,1,"Parking","EXIT","75 Francis Lobby Entrance","FrancisLobbyEnt");
+        Node start =  new Node("bWALK00301",3,0,"1","Parking","WALK","Francis Street Vining Street Intersection","FrancisViningInt");
+        Node end = new Node("bEXIT00101",0,4,"1","Parking","EXIT","75 Francis Lobby Entrance","FrancisLobbyEnt");
         assertEquals(5.0, Graph.dist(start, end));
     }
 

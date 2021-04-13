@@ -42,14 +42,14 @@ public class CSVHandlerTest {
                 "1,1,1,2,Parking,PARK,Left Parking Lot Spot 10,LLot10\n";
 
         DatabaseHandler.getDatabaseHandler("test.db").addNode(new Node(
-                "1",1,1,2,"Parking","PARK",
+                "1",1,1,"2","Parking","PARK",
                 "Left Parking Lot Spot 10","LLot10"));
 
         String actualString = CSVHandler.saveCSVNodes(resourcesPath, true);
-        assertTrue(Files.exists(Paths.get(resourcesPath + "/MapBNodes.csv")));
+        assertTrue(Files.exists(Paths.get(resourcesPath + "/bwBnodes.csv")));
         assertEquals(expected, actualString);
 
-        String actualFile = new String(Files.readAllBytes(Paths.get(resourcesPath + "/MapBNodes.csv")));
+        String actualFile = new String(Files.readAllBytes(Paths.get(resourcesPath + "/bwBnodes.csv")));
         assertEquals(expected, actualFile);
     }
 
@@ -60,10 +60,10 @@ public class CSVHandlerTest {
         DatabaseHandler.getDatabaseHandler("test.db").addEdge(new Edge("1","2","3"));
 
         String actualString = CSVHandler.saveCSVEdges(resourcesPath, true);
-        assertTrue(Files.exists(Paths.get(resourcesPath + "/MapBEdges.csv")));
+        assertTrue(Files.exists(Paths.get(resourcesPath + "/bwBedges.csv")));
         assertEquals(expected, actualString);
 
-        String actualFile = new String(Files.readAllBytes(Paths.get(resourcesPath + "/MapBEdges.csv")));
+        String actualFile = new String(Files.readAllBytes(Paths.get(resourcesPath + "/bwBedges.csv")));
         assertEquals(expected, actualFile);
     }
 }
