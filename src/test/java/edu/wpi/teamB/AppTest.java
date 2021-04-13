@@ -2,8 +2,11 @@ package edu.wpi.teamB;
 
 import static org.testfx.api.FxAssert.verifyThat;
 
+import javafx.geometry.VerticalDirection;
 import javafx.scene.Node;
+import javafx.scene.input.MouseButton;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.*;
@@ -27,6 +30,45 @@ public class AppTest extends FxRobot {
     public static void setup() throws Exception {
         FxToolkit.registerPrimaryStage();
         FxToolkit.setupApplication(App.class);
+    }
+
+    @Test
+    void testMapMovement(){
+        clickOn("#btnDirections");
+        moveTo("#map");
+        scroll(25, VerticalDirection.UP);
+        scroll(5, VerticalDirection.DOWN);
+        press(MouseButton.PRIMARY);
+        drag(100, 0, MouseButton.PRIMARY);
+        release(MouseButton.PRIMARY);
+        clickOn("#btnBack");
+    }
+
+    @Test
+    void testMapPathDisplay(){
+        clickOn("#btnDirections");
+
+        // Select start and end locations
+        clickOn("#startLocComboBox");
+        clickOn("75 Francis Driveway");
+        clickOn("#endLocComboBox");
+        clickOn("Francis Street Right Walkway");
+
+        clickOn("#btnFindPath");
+
+        // Check that something is drawn
+        verifyThat("#edge1940145018741611", Node::isVisible);
+        verifyThat("#edge1874161133711629", Node::isVisible);
+        verifyThat("#edge3371162933711504", Node::isVisible);
+
+        clickOn("#btnBack");
+    }
+
+    @Test
+    void testMapBack(){
+        clickOn("#btnDirections");
+        verifyThat("Hospital Map", Node::isVisible);
+        clickOn("#btnBack");
     }
 
     @ParameterizedTest

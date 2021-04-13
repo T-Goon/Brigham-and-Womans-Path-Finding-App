@@ -187,6 +187,7 @@ public class PathfindingMenuController implements Initializable {
     public void placeEdge(int xStart, int yStart, int xEnd, int yEnd) {
         try {
             Line l = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/misc/edge.fxml")));
+            l.setId("edge"+xStart+yStart+xEnd+yEnd);
 
             l.setStartX(xStart / PathfindingMenuController.coordinateScale);
             l.setStartY(yStart / PathfindingMenuController.coordinateScale);
