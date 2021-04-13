@@ -47,6 +47,8 @@ public class PathfindingMenuController implements Initializable {
 
     private static final double coordinateScale = 10 / 3.0;
 
+    private List<Line> edgePlaced = new ArrayList<>();
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -66,6 +68,8 @@ public class PathfindingMenuController implements Initializable {
         for(Node n : locations.values()){
             if(!n.getNodeType().equals("WALK")){
                 placeNode(n.getXCoord(), n.getYCoord());
+            } else{
+                placeIntermediateNode(n.getXCoord(), n.getYCoord());
             }
         }
 
@@ -120,7 +124,13 @@ public class PathfindingMenuController implements Initializable {
 
         switch (b.getId()) {
             case "btnFindPath":
-                // TODO pathfinding stuff
+                // Remove old path
+                for(Line l : edgePlaced){
+                    mapHolder.getChildren().remove(l);
+
+                }
+                edgePlaced = new ArrayList<>();
+
                 drawPath();
                 break;
             case "btnBack":
@@ -138,10 +148,29 @@ public class PathfindingMenuController implements Initializable {
         try {
             ImageView i = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/misc/node.fxml")));
 
-            i.setLayoutX(x / PathfindingMenuController.coordinateScale);
-            i.setLayoutY(y / PathfindingMenuController.coordinateScale);
+            i.setLayoutX((x / PathfindingMenuController.coordinateScale) - (i.getFitWidth() / 4));
+            i.setLayoutY((y / PathfindingMenuController.coordinateScale) - (i.getFitHeight()));
 
             nodeHolder.getChildren().add(i);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Places an image for a node on the map at the given pixel coordinates.
+     * @param x x coordinates of node in pixels
+     * @param y y coordinates of node in pixels
+     */
+    public void placeIntermediateNode(int x, int y) {
+        try {
+            Circle c = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/misc/intermediateNode.fxml")));
+
+            c.setCenterX((x / PathfindingMenuController.coordinateScale));
+            c.setCenterY((y / PathfindingMenuController.coordinateScale));
+
+            nodeHolder.getChildren().add(c);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -166,6 +195,7 @@ public class PathfindingMenuController implements Initializable {
             l.setEndY(yEnd / PathfindingMenuController.coordinateScale);
 
             mapHolder.getChildren().add(l);
+            edgePlaced.add(l);
 
         } catch (IOException e) {
             e.printStackTrace();

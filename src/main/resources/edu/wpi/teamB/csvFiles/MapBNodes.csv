@@ -1,6 +1,6 @@
 nodeID,xcoord,ycoord,floor,building,nodeType,longName,shortName
 bPARK00101,179,1895,1,Parking,PARK,Left Parking Lot Spot 01,LLot1
-bPARK00201,225,1899,1,Parking,PARK,Left Parking Lot Spot 02,LLot2
+bPARK00201,265,1899,1,Parking,PARK,Left Parking Lot Spot 02,LLot2
 bPARK00301,358,1896,1,Parking,PARK,Left Parking Lot Spot 03,LLot3
 bPARK00401,441,1894,1,Parking,PARK,Left Parking Lot Spot 04,LLot4
 bPARK00501,664,1896,1,Parking,PARK,Left Parking Lot Spot 05,LLot5
