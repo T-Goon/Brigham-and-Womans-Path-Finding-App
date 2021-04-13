@@ -17,6 +17,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 
+import javax.xml.crypto.Data;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -52,20 +53,20 @@ public class PathfindingMenuController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        HashMap<String, Node> locations = new HashMap<>();
+        Map<String, Node> locations = Graph.getGraph(DatabaseHandler.getDatabaseHandler("main.db")).getNodes();
 
         // Pulls nodes from the database to fill the nodeInfo hashmap
-        try {
-            Map<String, Node> nodes = DatabaseHandler.getDatabaseHandler("main.db").getNodes();
-            for (Node n : nodes.values())
-                locations.put(n.getNodeID(), n);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            Map<String, Node> nodes = DatabaseHandler.getDatabaseHandler("main.db").getNodes();
+//            for (Node n : nodes.values())
+//                locations.put(n.getNodeID(), n);
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
 
         // Place nodes on map
         for (Node n : locations.values()) {
-            if (!n.getNodeType().equals("WALK")) placeNode(n.getXCoord(), n.getYCoord());
+            if (!(n.getNodeType().equals("WALK")||n.getNodeType().equals("HALL"))) placeNode(n.getXCoord(), n.getYCoord());
             else placeIntermediateNode(n.getXCoord(), n.getYCoord());
         }
 
