@@ -31,6 +31,9 @@ public class PathfindingMenuController implements Initializable {
     private JFXComboBox<String> endLocComboBox;
 
     @FXML
+    private AnchorPane nodeHolder;
+
+    @FXML
     private AnchorPane mapHolder;
 
     @FXML
@@ -40,15 +43,11 @@ public class PathfindingMenuController implements Initializable {
     private JFXButton btnFindPath;
 
     @FXML
-    private JFXButton btnPlaceDot;// TODO This is just and example. Remove it later.
-
-    @FXML
     private JFXButton btnBack;
 
-    private static final double zoomAmount = 0.2;
-    private static final double zoomMin = 0.1;
-    private static final double zoomMax = 10;
     private static final double coordinateScale = 10 / 3.0;
+
+    private List<Line> edgePlaced = new ArrayList<>();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -63,6 +62,15 @@ public class PathfindingMenuController implements Initializable {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+
+        // Place nodes on map
+        for(Node n : locations.values()){
+            if(!n.getNodeType().equals("WALK")){
+                placeNode(n.getXCoord(), n.getYCoord());
+            } else{
+                placeIntermediateNode(n.getXCoord(), n.getYCoord());
+            }
         }
 
         // Populate the combo boxes with locations
@@ -116,20 +124,14 @@ public class PathfindingMenuController implements Initializable {
 
         switch (b.getId()) {
             case "btnFindPath":
-                // TODO pathfinding stuff
+                // Remove old path
+                for(Line l : edgePlaced){
+                    mapHolder.getChildren().remove(l);
+
+                }
+                edgePlaced = new ArrayList<>();
+
                 drawPath();
-//                System.out.println(getStartLocation());
-//                System.out.println(getEndLocation());
-                break;
-            case "btnPlaceDot":
-                // TODO This is just and example. Remove it later.
-
-                placeEdge(2077, 2031, 56, 2078);
-
-                placeNode(2077, 2031);
-
-                placeNode(56, 2078);
-
                 break;
             case "btnBack":
                 SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/patientDirectoryMenu.fxml");
@@ -139,20 +141,36 @@ public class PathfindingMenuController implements Initializable {
 
     /**
      * Places an image for a node on the map at the given pixel coordinates.
-     * <p>
-     * IMPORTANT!!!: ALWAYS PLACE EDGES BEFORE NODES.
-     *
      * @param x x coordinates of node in pixels
      * @param y y coordinates of node in pixels
      */
     public void placeNode(int x, int y) {
         try {
-            Circle c = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/misc/node.fxml")));
+            ImageView i = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/misc/node.fxml")));
 
-            c.setCenterX(x / PathfindingMenuController.coordinateScale);
-            c.setCenterY(y / PathfindingMenuController.coordinateScale);
+            i.setLayoutX((x / PathfindingMenuController.coordinateScale) - (i.getFitWidth() / 4));
+            i.setLayoutY((y / PathfindingMenuController.coordinateScale) - (i.getFitHeight()));
 
-            mapHolder.getChildren().add(c);
+            nodeHolder.getChildren().add(i);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Places an image for a node on the map at the given pixel coordinates.
+     * @param x x coordinates of node in pixels
+     * @param y y coordinates of node in pixels
+     */
+    public void placeIntermediateNode(int x, int y) {
+        try {
+            Circle c = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/misc/intermediateNode.fxml")));
+
+            c.setCenterX((x / PathfindingMenuController.coordinateScale));
+            c.setCenterY((y / PathfindingMenuController.coordinateScale));
+
+            nodeHolder.getChildren().add(c);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -161,9 +179,6 @@ public class PathfindingMenuController implements Initializable {
 
     /**
      * Draws an edge between 2 points on the map.
-     * <p>
-     * IMPORTANT!!!: ALWAYS PLACE EDGES BEFORE NODES.
-     *
      * @param xStart x start coordinate in pixels
      * @param yStart y start coordinate in pixels
      * @param xEnd   x end coordinate in pixels
@@ -180,6 +195,7 @@ public class PathfindingMenuController implements Initializable {
             l.setEndY(yEnd / PathfindingMenuController.coordinateScale);
 
             mapHolder.getChildren().add(l);
+            edgePlaced.add(l);
 
         } catch (IOException e) {
             e.printStackTrace();
