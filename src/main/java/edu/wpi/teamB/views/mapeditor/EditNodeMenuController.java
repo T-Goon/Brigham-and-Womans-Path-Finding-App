@@ -62,6 +62,7 @@ public class EditNodeMenuController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         Stage stage = App.getPrimaryStage();
         Node node = (Node) stage.getUserData();
+
         nodeID.setText(node.getNodeID());
         nodeID.setDisable(true);
         xCoord.setText(String.valueOf(node.getXCoord()));
@@ -83,9 +84,18 @@ public class EditNodeMenuController implements Initializable {
                 break;
             case "btnUpdate":
                 Stage stage = App.getPrimaryStage();
-
-                // TODO fix -- node doesn't have the updated data
                 Node node = (Node) stage.getUserData();
+
+                int aXCoord = Integer.parseInt(xCoord.getText());
+                int aYCoord = Integer.parseInt(yCoord.getText());
+                int aFloor = Integer.parseInt(floor.getText());
+                String aBuilding = building.getText();
+                String aNodeType = nodeType.getText();
+                String aLongName = longName.getText();
+                String aShortName = shortName.getText();
+
+                node = new Node(node.getNodeID(), aXCoord, aYCoord, aFloor, aBuilding, aNodeType, aLongName, aShortName);
+
                 DatabaseHandler.getDatabaseHandler("main.db").updateNode(node);
                 SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapeditor/nodesEditorMenu.fxml");
                 break;

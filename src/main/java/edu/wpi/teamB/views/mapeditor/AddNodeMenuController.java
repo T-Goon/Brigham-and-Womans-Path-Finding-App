@@ -100,7 +100,7 @@ public class AddNodeMenuController implements Initializable {
                 int aYCoord = Integer.parseInt(yCoord.getText());
                 Node aNode = new Node(aNodeId, aXCoord, aYCoord, aFloor, aBuilding, aNodeType, aLongName, aShortName);
                 DatabaseHandler.getDatabaseHandler("main.db").addNode(aNode);
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapeditor/editorIntermediateMenu.fxml");
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapeditor/nodesEditorMenu.fxml");
                 break;
         }
     }
