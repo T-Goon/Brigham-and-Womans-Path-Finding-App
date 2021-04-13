@@ -3,7 +3,6 @@ package edu.wpi.teamB.views.menus;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 
-import com.sun.javafx.embed.HostDragStartListener;
 import edu.wpi.teamB.database.DatabaseHandler;
 import edu.wpi.teamB.entities.Node;
 import edu.wpi.teamB.pathfinding.AStar;
@@ -135,6 +134,7 @@ public class PathfindingMenuController implements Initializable {
                 // Remove old path
                 for(Line l : edgePlaced){
                     mapHolder.getChildren().remove(l);
+
                 }
                 edgePlaced = new ArrayList<>();
 
@@ -167,6 +167,7 @@ public class PathfindingMenuController implements Initializable {
         }
     }
 
+    //loop through node holder children and if id of child is of popup window, remove it
     /**
      * Places an image for a node on the map at the given pixel coordinates.
      * @param n Node object to place on the map
