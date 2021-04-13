@@ -1,6 +1,7 @@
 package edu.wpi.teamB.util;
 
 import com.jfoenix.controls.JFXButton;
+import com.sun.org.apache.xpath.internal.operations.String;
 import edu.wpi.teamB.App;
 import edu.wpi.teamB.database.DatabaseHandler;
 import edu.wpi.teamB.entities.Edge;
@@ -38,16 +39,16 @@ public class NodeWrapper {
         List<Edge> edgesList = DatabaseHandler.getDatabaseHandler("main.db").getAdjacentEdgesOfNode(n.getNodeID());
 
         // Construct string of all edge names
-        StringBuilder edgeString = null;
+        StringBuilder edgeString = new StringBuilder();
+        Boolean firstEdge = true;
         for(Edge e : edgesList){
-            if(edgeString == null){
-                edgeString = new StringBuilder(e.getEdgeID());
+            if(firstEdge == true){
+                edgeString.append(e.getEdgeID());
             } else{
                 edgeString.append(" ").append(e.getEdgeID());
             }
         }
 
-        assert edgeString != null;
         edges = new Label(edgeString.toString());
 
         // Set up edit button
