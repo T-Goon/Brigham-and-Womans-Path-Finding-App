@@ -66,13 +66,13 @@
                      <children>
                         <JFXScrollPane prefHeight="600.0" prefWidth="1200.0" stylesheets="@../../../css/editorTable.css">
                            <children>
-                              <TableView fx:id="tblNodes" maxWidth="1.7976931348623157E308" minWidth="-Infinity" style="-fx-background-color: #0067B1;">
+                              <TableView fx:id="tblNodes" minWidth="-Infinity" style="-fx-background-color: #0067B1;">
                                  <columns>
                                     <TableColumn fx:id="editBtnCol" prefWidth="110.0" style="-fx-background-color: #80B3D8;" />
-                                    <TableColumn fx:id="idCol" maxWidth="1.7976931348623157E308" minWidth="100.0" prefWidth="225.0" style="-fx-background-color: #80B3D8;" text="ID" />
-                                    <TableColumn fx:id="nameCol" maxWidth="1.7976931348623157E308" minWidth="100.0" prefWidth="225.0" style="-fx-background-color: #80B3D8;" text="Name" />
-                                    <TableColumn fx:id="typeCol" maxWidth="1.7976931348623157E308" minWidth="100.0" prefWidth="225.0" style="-fx-background-color: #80B3D8;" text="Node Type" />
-                                    <TableColumn fx:id="edgesCol" maxWidth="1.7976931348623157E308" minWidth="100.0" prefWidth="225.0" style="-fx-background-color: #80B3D8;" text="Edges" />
+                                    <TableColumn fx:id="idCol" maxWidth="1.7976931348623157E308" prefWidth="225.0" style="-fx-background-color: #80B3D8;" text="ID" />
+                                    <TableColumn fx:id="nameCol" maxWidth="1.7976931348623157E308" prefWidth="225.0" style="-fx-background-color: #80B3D8;" text="Name" />
+                                    <TableColumn fx:id="typeCol" maxWidth="1.7976931348623157E308" prefWidth="225.0" style="-fx-background-color: #80B3D8;" text="Node Type" />
+                                    <TableColumn fx:id="edgesCol" maxWidth="1.7976931348623157E308" prefWidth="225.0" style="-fx-background-color: #80B3D8;" text="Edges" />
                                     <TableColumn fx:id="delCol" prefWidth="110.0" style="-fx-background-color: #80B3D8;" />
                                  </columns>
                               </TableView>

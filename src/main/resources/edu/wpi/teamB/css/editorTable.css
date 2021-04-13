@@ -2,23 +2,22 @@
     -fx-background-color: #80B3D8;
 }
 
-.table-view{
-    -fx-background-color: transparent;
-}
+/*.table-view {*/
+/*    -fx-background-color: transparent;*/
+/*}*/
 
-.table-view .column-header-background{
-    -fx-background-color: #616161;
-}
-
+/*.table-view .column-header-background{*/
+/*    -fx-background-color: #80B3D8;*/
+/*}*/
 
 .table-view .column-header-background .label{
-    -fx-background-color: transparent;
+    /*-fx-background-color: transparent;*/
     -fx-text-fill: white;
 }
 
-.table-row-cell{
-    -fx-background-color: -fx-table-cell-border-color, #616161;
-}
+/*.table-row-cell{*/
+/*    -fx-background-color: -fx-table-cell-border-color, #0067B1;*/
+/*}*/
 
 .scroll-pane > .viewport {
     -fx-background-color: transparent;
@@ -45,4 +44,13 @@
 
 .table-column {
     -fx-alignment: CENTER;
+}
+
+.table-view .table-row-cell {
+    -fx-background-color: #0067B1;
+    -fx-border-color: #012D5A;
+}
+
+.table-view .table-row-cell .label {
+    -fx-text-fill: white;
 }
