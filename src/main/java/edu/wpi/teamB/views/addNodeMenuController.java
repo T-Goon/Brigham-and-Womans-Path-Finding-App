@@ -2,6 +2,7 @@ package edu.wpi.teamB.views;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXRadioButton;
+import com.jfoenix.controls.JFXTextField;
 import edu.wpi.teamB.database.DatabaseHandler;
 import edu.wpi.teamB.entities.Node;
 import edu.wpi.teamB.util.SceneSwitcher;
@@ -17,32 +18,62 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class addNodeMenuController implements Initializable {
+
+    // NODES
+
     @FXML
     private JFXButton btnBack;
+
     @FXML
     private JFXButton btnAddNode;
+
     @FXML
     private JFXRadioButton notRestricted;
+
     @FXML
     private JFXRadioButton restricted;
+
     @FXML
     private ToggleGroup areaGroup;
+
     @FXML
     private TextField nodeID;
+
     @FXML
     private TextField xCoord;
+
     @FXML
     private TextField yCoord;
+
     @FXML
     private TextField floor;
+
     @FXML
     private TextField building;
+
     @FXML
     private TextField nodeType;
+
     @FXML
     private TextField longName;
+
     @FXML
     private TextField shortName;
+
+
+    // EDGES
+
+    @FXML
+    public JFXTextField edgeID;
+
+    @FXML
+    private JFXTextField startNode;
+
+    @FXML
+    private JFXTextField endNode;
+
+    @FXML
+    private JFXButton btnAddEdge;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -54,7 +85,7 @@ public class addNodeMenuController implements Initializable {
     private void handleButtonAction(ActionEvent e) throws IOException {
         JFXButton btn = (JFXButton) e.getSource();
 
-        switch (btn.getId()){
+        switch (btn.getId()) {
             case "btnBack":
                 SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/nodesEditorMenu.fxml");
                 break;
@@ -71,11 +102,9 @@ public class addNodeMenuController implements Initializable {
                 Node aNode = new Node(aNodeId, aXCoord, aYCoord, aFloor, aBuilding, aNodeType, aLongName, aShortName);
                 DatabaseHandler.getDatabaseHandler("main.db").addNode(aNode);
                 SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/editorIntermediateMenu.fxml");
-                System.out.println("Third");
                 break;
         }
     }
-
 
 
 }
