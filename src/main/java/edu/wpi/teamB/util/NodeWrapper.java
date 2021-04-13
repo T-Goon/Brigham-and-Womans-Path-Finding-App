@@ -1,13 +1,18 @@
 package edu.wpi.teamB.util;
 
 import com.jfoenix.controls.JFXButton;
+import com.sun.org.apache.xpath.internal.operations.String;
+import edu.wpi.teamB.App;
 import edu.wpi.teamB.database.DatabaseHandler;
 import edu.wpi.teamB.entities.Edge;
 import edu.wpi.teamB.entities.Node;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.stage.Stage;
 import lombok.Getter;
 
 import java.io.IOException;
@@ -47,7 +52,13 @@ public class NodeWrapper {
         btnEdit.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                System.out.println("Hello world");
+                Stage stage = App.getPrimaryStage();
+                stage.setUserData(n);
+                try {
+                    SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/editNodeMenu.fxml");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
