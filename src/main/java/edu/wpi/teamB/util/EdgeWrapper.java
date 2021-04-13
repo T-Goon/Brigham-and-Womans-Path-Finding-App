@@ -4,7 +4,6 @@ import com.jfoenix.controls.JFXButton;
 import edu.wpi.teamB.App;
 import edu.wpi.teamB.database.DatabaseHandler;
 import edu.wpi.teamB.entities.Edge;
-import edu.wpi.teamB.entities.Node;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -13,46 +12,34 @@ import javafx.stage.Stage;
 import lombok.Getter;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Objects;
 
 @Getter
-public class NodeWrapper {
+public class EdgeWrapper {
 
     private final Label id;
-    private final Label name;
-    private final Label type;
-    private final Label edges;
+    private final Label startNode;
+    private final Label endNode;
     private final JFXButton btnEdit;
     private final JFXButton btnDel;
 
-    public NodeWrapper(Node n) throws IOException {
-        this.id = new Label(n.getNodeID());
-        this.name = new Label(n.getLongName());
-        this.type = new Label(n.getNodeType());
-        List<Edge> edgesList = DatabaseHandler.getDatabaseHandler("main.db").getAdjacentEdgesOfNode(n.getNodeID());
-
-        // Construct string of all edge names
-        StringBuilder edgeString = null;
-        for (Edge e : edgesList) {
-            if (edgeString == null) edgeString = new StringBuilder(e.getEdgeID());
-            else edgeString.append(" ").append(e.getEdgeID());
-        }
-
-        edges = new Label(edgeString == null ? "None" : edgeString.toString());
+    public EdgeWrapper(Edge e) throws IOException {
+        this.id = new Label(e.getEdgeID());
+        this.startNode = new Label(e.getStartNodeName());
+        this.endNode = new Label(e.getEndNodeName());
 
         // Set up edit button
         JFXButton btnEdit = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/misc/nodeEdgeEditBtn.fxml")));
-        btnEdit.setId(n.getNodeID() + "EditBtn");
+        btnEdit.setId(e.getEdgeID() + "EditBtn");
 
         // TODO connect button to action
         btnEdit.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 Stage stage = App.getPrimaryStage();
-                stage.setUserData(n);
+                stage.setUserData(e);
                 try {
-                    SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapeditor/nodes/editNodeMenu.fxml");
+                    SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapeditor/edges/editEdgeMenu.fxml");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -63,15 +50,15 @@ public class NodeWrapper {
 
         // Set up delete button
         JFXButton btnDel = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/misc/nodeEdgeDelBtn.fxml")));
-        btnDel.setId(n.getNodeID() + "DelBtn");
+        btnDel.setId(e.getEdgeID() + "DelBtn");
 
         // TODO connect button to action
         btnDel.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                DatabaseHandler.getDatabaseHandler("main.db").removeNode(n.getNodeID());
+                DatabaseHandler.getDatabaseHandler("main.db").removeNode(e.getEdgeID());
                 try {
-                    SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapeditor/nodes/nodeEditorMenu.fxml");
+                    SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapeditor/edges/edgeEditorMenu.fxml");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

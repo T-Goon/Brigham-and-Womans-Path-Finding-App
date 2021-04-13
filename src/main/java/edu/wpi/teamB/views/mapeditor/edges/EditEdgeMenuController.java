@@ -5,7 +5,6 @@ import com.jfoenix.controls.JFXTextField;
 import edu.wpi.teamB.App;
 import edu.wpi.teamB.database.DatabaseHandler;
 import edu.wpi.teamB.entities.Edge;
-import edu.wpi.teamB.entities.Node;
 import edu.wpi.teamB.util.SceneSwitcher;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -52,15 +51,15 @@ public class EditEdgeMenuController implements Initializable {
 
         switch (btn.getId()) {
             case "btnCancel":
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapeditor/nodes/nodesEditorMenu.fxml");
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapeditor/edges/edgeEditorMenu.fxml");
                 break;
             case "btnUpdateEdge":
                 String edgeIdentifier = edgeID.getText();
                 String startNodeName = startNode.getText();
                 String endNodeName = endNode.getText();
                 Edge edge = new Edge(edgeIdentifier, startNodeName, endNodeName);
-                DatabaseHandler.getDatabaseHandler("main.db").addEdge(edge);
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapeditor/edges/edgesEditorMenu.fxml");
+                DatabaseHandler.getDatabaseHandler("main.db").updateEdge(edge);
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapeditor/edges/edgeEditorMenu.fxml");
                 break;
         }
     }

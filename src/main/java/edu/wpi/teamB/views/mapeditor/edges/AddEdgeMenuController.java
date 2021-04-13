@@ -38,15 +38,15 @@ public class AddEdgeMenuController {
 
         switch (btn.getId()) {
             case "btnCancel":
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapeditor/nodes/nodesEditorMenu.fxml");
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapeditor/edges/edgeEditorMenu.fxml");
                 break;
-            case "btnAddNode":
+            case "btnAddEdge":
                 String edgeIdentifier = edgeID.getText();
                 String startNodeName = startNode.getText();
                 String endNodeName = endNode.getText();
                 Edge edge = new Edge(edgeIdentifier, startNodeName, endNodeName);
                 DatabaseHandler.getDatabaseHandler("main.db").addEdge(edge);
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapeditor/edges/edgesEditorMenu.fxml");
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapeditor/edges/edgeEditorMenu.fxml");
                 break;
         }
     }
