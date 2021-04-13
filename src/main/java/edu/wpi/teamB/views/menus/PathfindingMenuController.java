@@ -145,8 +145,14 @@ public class PathfindingMenuController implements Initializable {
                 break;
         }
     }
-
-    private void showGraphicalSelection(ComboBox comboBox, javafx.scene.Node node, Node n){
+    private void deleteBox(javafx.scene.Node cancelNode, VBox locInput){
+        for (cancelNode: nodeHolder.getChildren()) {
+            if ("SelectionPopUp".equals(cancelNode.getId())) {
+                nodeHolder.getChildren().remove(locInput);
+            }
+        }
+    }
+    private void showGraphicalSelection(ComboBox comboBox, javafx.scene.Node node, Node n, VBox locInput){
         Button tempButton = (Button)node;
 
         tempButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -162,7 +168,7 @@ public class PathfindingMenuController implements Initializable {
 
                     }
                 }
-
+                deleteBox(node, locInput);
 
             }
         });
@@ -243,14 +249,29 @@ public class PathfindingMenuController implements Initializable {
 
                         else if(node.getId().equals("BtnEnd")){
                             showGraphicalSelection(endLocComboBox, node,n);
+
                         }
 
-                        else{
-                            locInput.setVisible(false);
+                        else if (node.getId().equals ("BtnCancel")) {
+                            Button cancelButton = (Button)node;
+                            cancelButton.setOnAction(new EventHandler<ActionEvent>() {
+                                @Override
+                                public void handle(ActionEvent event) {
+                                    deleteBox(node, locInput);
+                                    /* for (javafx.scene.Node cancelNode: nodeHolder.getChildren()) {
+                                        if ("SelectionPopUp".equals(cancelNode.getId())) {
+                                            nodeHolder.getChildren().remove(locInput);
+                                        }
+                                    }*/
+                                }
+                            });
+
                         }
                     }
                     nodeHolder.getChildren().add(locInput);
+
                 }
+
 
                 catch (IOException ioException) {
                     ioException.printStackTrace();
