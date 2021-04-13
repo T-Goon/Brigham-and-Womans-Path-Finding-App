@@ -58,6 +58,7 @@ public class addNodeMenuController implements Initializable {
             case "btnBack":
                 SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/nodesEditorMenu.fxml");
                 break;
+
             case "btnAddNode":
                 String aNodeId = nodeID.getText();
                 int aFloor = Integer.parseInt(floor.getText());
@@ -67,9 +68,10 @@ public class addNodeMenuController implements Initializable {
                 String aShortName = shortName.getText();
                 int aXCoord = Integer.parseInt(xCoord.getText());
                 int aYCoord = Integer.parseInt(yCoord.getText());
-                Node aNode = new Node(aNodeId,aXCoord,aYCoord, aFloor, aBuilding,aNodeType, aLongName,aShortName);
+                Node aNode = new Node(aNodeId, aXCoord, aYCoord, aFloor, aBuilding, aNodeType, aLongName, aShortName);
                 DatabaseHandler.getDatabaseHandler("main.db").addNode(aNode);
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/nodesEditorMenu.fxml");
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/editorIntermediateMenu.fxml");
+                System.out.println("Third");
                 break;
         }
     }
