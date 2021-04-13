@@ -169,12 +169,12 @@
                   </HBox>
                </children>
             </VBox>
-            <GesturePane fitMode="COVER" maxHeight="-Infinity" maxScale="25.0" maxWidth="-Infinity" prefHeight="9.9999999999E10" prefWidth="9.999999999E9" scrollMode="ZOOM" vbarPolicy="NEVER" VBox.vgrow="ALWAYS">
+            <GesturePane fitMode="COVER" hbarPolicy="NEVER" maxHeight="-Infinity" maxScale="25.0" maxWidth="-Infinity" minScale="1.0" prefHeight="9.9999999999E10" prefWidth="9.999999999E9" scrollMode="ZOOM" vbarPolicy="NEVER" VBox.vgrow="ALWAYS">
                <AnchorPane fx:id="nodeHolder">
                   <children>
                      <AnchorPane fx:id="mapHolder">
                         <children>
-                           <ImageView fx:id="map" fitHeight="1500.0" fitWidth="1500.0" pickOnBounds="true" preserveRatio="true">
+                           <ImageView fx:id="map" fitHeight="1305.0" fitWidth="1920.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                               <image>
                                  <Image url="@../../images/maps/01_thefirstfloor-Edited.png" />
                               </image>
