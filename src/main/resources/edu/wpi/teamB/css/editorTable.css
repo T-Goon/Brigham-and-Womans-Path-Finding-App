@@ -19,3 +19,30 @@
 .table-row-cell{
     -fx-background-color: -fx-table-cell-border-color, #616161;
 }
+
+.scroll-pane > .viewport {
+    -fx-background-color: transparent;
+}
+
+.text-area .scroll-pane .corner {
+    -fx-background-color: #0067B1;
+}
+
+.scroll-bar .track {
+    -fx-background-color: #0067B1;
+    -fx-pref-width: 4;
+}
+
+.scroll-bar .thumb {
+    -fx-background-color: #80B3D8;
+    -fx-background-radius: 2.0em;
+}
+
+.increment-button, .decrement-button {
+    -fx-background-color: #80B3D8;
+    -fx-border-color: #80B3D8;
+}
+
+.table-column {
+    -fx-alignment: CENTER;
+}
