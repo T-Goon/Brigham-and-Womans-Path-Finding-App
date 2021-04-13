@@ -3,15 +3,19 @@ package edu.wpi.teamB.views.menus;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 
+import com.sun.javafx.embed.HostDragStartListener;
 import edu.wpi.teamB.database.DatabaseHandler;
 import edu.wpi.teamB.entities.Node;
 import edu.wpi.teamB.pathfinding.AStar;
 import edu.wpi.teamB.pathfinding.Graph;
 import edu.wpi.teamB.util.SceneSwitcher;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -141,6 +145,28 @@ public class PathfindingMenuController implements Initializable {
         }
     }
 
+    private void showGraphicalSelection(ComboBox comboBox, javafx.scene.Node node, Node n){
+        Button tempButton = (Button)node;
+
+        tempButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                //loop through combo box if string == name of node
+                //keep track of index and pass it in
+
+                for(int i=0; i<comboBox.getItems().size(); i++) {
+
+                    if (n.getLongName().equals(comboBox.getItems().get(i))) {
+                        comboBox.getSelectionModel().select(i);
+
+                    }
+                }
+
+
+            }
+        });
+    }
+
     /**
      * Places an image for a node on the map at the given pixel coordinates.
      * @param n Node object to place on the map
@@ -153,7 +179,28 @@ public class PathfindingMenuController implements Initializable {
             i.setLayoutY((n.getYCoord() / PathfindingMenuController.coordinateScale) - (i.getFitHeight()));
 
             i.setOnMouseClicked((MouseEvent e) ->{
-                System.out.println("Hello World");
+
+                try {
+                    AnchorPane locInput = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/misc/graphicalInput.fxml")));
+
+                    locInput.setLayoutX((n.getXCoord() / PathfindingMenuController.coordinateScale));
+                    locInput.setLayoutY((n.getYCoord() / PathfindingMenuController.coordinateScale) - (locInput.getHeight()));
+
+                    for(javafx.scene.Node node: locInput.getChildren()){
+                        if(node.getId().equals("BtnStart")){
+                            showGraphicalSelection(startLocComboBox, node,n);
+                        }
+
+                       else{
+                            showGraphicalSelection(endLocComboBox, node,n);
+                       }
+                    }
+                    nodeHolder.getChildren().add(locInput);
+                }
+
+                catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
 
             });
 
@@ -176,7 +223,11 @@ public class PathfindingMenuController implements Initializable {
             c.setCenterY((n.getYCoord() / PathfindingMenuController.coordinateScale));
 
             c.setOnMouseClicked((MouseEvent e) ->{
-                System.out.println("Foo");
+               // System.out.println("Foo");
+
+
+
+
             });
 
             nodeHolder.getChildren().add(c);
@@ -210,6 +261,8 @@ public class PathfindingMenuController implements Initializable {
             e.printStackTrace();
         }
     }
+
+
 
     /**
      * Gets the start location

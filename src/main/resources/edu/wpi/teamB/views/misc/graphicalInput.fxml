@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane prefHeight="81.0" prefWidth="226.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Button fx:id="BtnStart" alignment="CENTER" layoutY="24.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="265.0" text="Start Loc" AnchorPane.bottomAnchor="76.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="24.0" />
+      <Button fx:id="BtnEnd" layoutY="66.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="276.0" text="End Loc" AnchorPane.bottomAnchor="33.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="66.0" />
+   </children>
+</AnchorPane>
