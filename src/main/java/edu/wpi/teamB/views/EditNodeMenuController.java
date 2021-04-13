@@ -15,33 +15,47 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-public class editNodeMenuController implements Initializable {
+public class EditNodeMenuController implements Initializable {
+
     @FXML
     private JFXButton btnBack;
+
     @FXML
     private JFXButton btnUpdate;
+
     @FXML
     private JFXRadioButton notRestricted;
+
     @FXML
     private JFXRadioButton restricted;
+
     @FXML
     private ToggleGroup areaGroup;
+
     @FXML
     private TextField nodeID;
+
     @FXML
     private TextField xCoord;
+
     @FXML
     private TextField yCoord;
+
     @FXML
     private TextField floor;
+
     @FXML
     private TextField building;
+
     @FXML
     private TextField nodeType;
+
     @FXML
     private TextField longName;
+
     @FXML
     private TextField shortName;
 
@@ -61,7 +75,7 @@ public class editNodeMenuController implements Initializable {
     }
 
     @FXML
-    private void handleButtonAction(ActionEvent e) throws IOException {
+    private void handleButtonAction(ActionEvent e) throws IOException, SQLException {
         JFXButton btn = (JFXButton) e.getSource();
 
         switch (btn.getId()) {
@@ -70,7 +84,11 @@ public class editNodeMenuController implements Initializable {
                 break;
             case "btnUpdate":
                 Stage stage = App.getPrimaryStage();
+
+                // TODO fix -- node doesn't have the updated data
                 Node node = (Node) stage.getUserData();
+                DatabaseHandler.getDatabaseHandler("main.db").updateNode(node);
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/nodesEditorMenu.fxml");
                 break;
         }
     }

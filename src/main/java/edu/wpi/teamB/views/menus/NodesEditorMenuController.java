@@ -2,7 +2,6 @@ package edu.wpi.teamB.views.menus;
 
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.teamB.database.DatabaseHandler;
-import edu.wpi.teamB.entities.Edge;
 import edu.wpi.teamB.entities.Node;
 import edu.wpi.teamB.util.NodeWrapper;
 import edu.wpi.teamB.util.SceneSwitcher;
@@ -14,38 +13,44 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import lombok.SneakyThrows;
 
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.Observable;
 import java.util.ResourceBundle;
 
+@SuppressWarnings("unchecked") // Added so Java doesn't get mad at the raw use of TableView that is necessary
 public class NodesEditorMenuController implements Initializable {
 
     @FXML
     private JFXButton btnBack;
+
     @FXML
     private JFXButton btnAddNode;
+
     @FXML
     private TableView tblNodes;
+
     @FXML
     private TableColumn<String, JFXButton> editBtnCol;
+
     @FXML
     private TableColumn<String, Label> idCol;
+
     @FXML
     private TableColumn<String, Label> nameCol;
+
     @FXML
     private TableColumn<String, Label> typeCol;
+
     @FXML
     private TableColumn<String, Label> edgesCol;
+
     @FXML
     private TableColumn<String, JFXButton> delCol;
 
-    @SneakyThrows
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -53,16 +58,16 @@ public class NodesEditorMenuController implements Initializable {
 
         try {
             nodes = DatabaseHandler.getDatabaseHandler("main.db").getNodes();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
         ObservableList<TableColumn<String, Label>> cols = tblNodes.getColumns();
-        for(TableColumn<String, Label> c : cols){
+        for (TableColumn<String, Label> c : cols) {
             c.getId();
-            switch (c.getId()){
+            switch (c.getId()) {
                 case "editBtnCol":
-                    c.setCellValueFactory(new PropertyValueFactory<>("editBtn"));
+                    c.setCellValueFactory(new PropertyValueFactory<>("btnEdit"));
                     break;
                 case "idCol":
                     c.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -77,14 +82,18 @@ public class NodesEditorMenuController implements Initializable {
                     c.setCellValueFactory(new PropertyValueFactory<>("edges"));
                     break;
                 case "delCol":
-                    c.setCellValueFactory(new PropertyValueFactory<>("delBtn"));
+                    c.setCellValueFactory(new PropertyValueFactory<>("btnDel"));
                     break;
             }
         }
 
         assert nodes != null;
-        for(Node n : nodes.values()){
-            tblNodes.getItems().add(new NodeWrapper(n));
+        for (Node n : nodes.values()) {
+            try {
+                tblNodes.getItems().add(new NodeWrapper(n));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -92,7 +101,7 @@ public class NodesEditorMenuController implements Initializable {
     private void handleButtonAction(ActionEvent e) throws IOException {
         JFXButton btn = (JFXButton) e.getSource();
 
-        switch (btn.getId()){
+        switch (btn.getId()) {
             case "btnBack":
                 SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/editorIntermediateMenu.fxml");
                 break;

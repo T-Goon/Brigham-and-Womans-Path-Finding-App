@@ -13,7 +13,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #012d5a;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamB.views.addNodeMenuController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #012d5a;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamB.views.AddNodeMenuController">
    <children>
       <VBox layoutX="-5.0" style="-fx-background-color: #012d5a;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -283,7 +283,7 @@
                         </HBox>
                         <HBox alignment="BASELINE_LEFT" prefWidth="200.0">
                            <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Edges:">
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="EdgeID:">
                                  <font>
                                     <Font name="MS Reference Sans Serif" size="14.0" />
                                  </font>
@@ -291,7 +291,7 @@
                                     <Insets left="5.0" />
                                  </HBox.margin>
                               </Text>
-                              <JFXTextField fx:id="edges" prefColumnCount="20" style="-fx-background-radius: 7;" unFocusColor="#4d4d4d00" HBox.hgrow="ALWAYS">
+                              <JFXTextField fx:id="edgeID" prefColumnCount="20" style="-fx-background-radius: 7;" unFocusColor="#4d4d4d00" HBox.hgrow="ALWAYS">
                                  <HBox.margin>
                                     <Insets right="10.0" />
                                  </HBox.margin>
@@ -332,7 +332,7 @@
                                     <Insets right="10.0" />
                                  </opaqueInsets>
                               </HBox>
-                              <JFXButton fx:id="btnAddNode" alignment="CENTER" cancelButton="true" contentDisplay="CENTER" style="-fx-background-color: F6BD39; -fx-background-radius: 50%;" text="+" textAlignment="CENTER" textFill="#012d5a" textOverrun="CLIP">
+                              <JFXButton fx:id="btnAddEdge" alignment="CENTER" buttonType="RAISED" cancelButton="true" contentDisplay="CENTER" style="-fx-background-color: F6BD39; -fx-background-radius: 50%;" text="+" textAlignment="CENTER" textFill="#012d5a" textOverrun="CLIP">
                                  <font>
                                     <Font size="20.0" />
                                  </font>

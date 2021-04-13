@@ -20,11 +20,11 @@ public class EditorIntermediateMenuController {
     private JFXButton btnEdges;
 
     @FXML
-    private void handleButtonAction(ActionEvent event){
+    private void handleButtonAction(ActionEvent event) {
         JFXButton btn = (JFXButton) event.getSource();
 
-        try{
-            switch (btn.getId()){
+        try {
+            switch (btn.getId()) {
                 case "btnNodes":
                     SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/nodesEditorMenu.fxml");
                     break;
@@ -36,7 +36,7 @@ public class EditorIntermediateMenuController {
                     break;
             }
 
-        } catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
