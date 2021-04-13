@@ -52,7 +52,7 @@
                         <Insets left="50.0" right="50.0" top="10.0" />
                     </VBox.margin>
                     <children>
-                        <Text fill="#0067b1" strokeType="OUTSIDE" strokeWidth="0.0" text="Add an Edge to the Map" wrappingWidth="319.31207275390625">
+                        <Text fill="#0067b1" strokeType="OUTSIDE" strokeWidth="0.0" text="Edit an Edge on the Map" textAlignment="CENTER" wrappingWidth="319.31207275390625">
                             <font>
                                 <Font name="MS Reference Sans Serif" size="20.0" />
                             </font>
