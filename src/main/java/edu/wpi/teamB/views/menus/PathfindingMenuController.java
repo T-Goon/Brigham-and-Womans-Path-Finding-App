@@ -114,7 +114,7 @@ public class PathfindingMenuController implements Initializable {
     private void drawPath() {
         Map<String, Node> nodesId = Graph.getGraph(DatabaseHandler.getDatabaseHandler("main.db")).getNodes();
         Map<String, String> hmLongName = longNameID();
-        List<String> AstrPath = AStar.findPath(hmLongName.get(getStartLocation()), hmLongName.get(getEndLocation()));
+        List<String> AstrPath = AStar.findPath(hmLongName.get(getStartLocation()), hmLongName.get(getEndLocation()), false);
 
         Node prev = null;
         Node curr;
