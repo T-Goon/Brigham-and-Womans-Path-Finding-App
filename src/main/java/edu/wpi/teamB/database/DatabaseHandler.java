@@ -333,11 +333,13 @@ public class DatabaseHandler {
      */
     public void removeNode(String nodeID) {
         Statement statement = this.getStatement();
-        String query = "DELETE FROM Nodes WHERE nodeID = '" + nodeID + "'";
+        String nodeQuery = "DELETE FROM Nodes WHERE nodeID = '" + nodeID + "'";
+        String edgesQuery = "DELETE FROM Edges WHERE startNode = '" + nodeID + "' OR endNode = '" + nodeID + "'";
 
         try {
             assert statement != null;
-            statement.execute(query);
+            statement.execute(nodeQuery);
+            statement.execute(edgesQuery);
         } catch (SQLException e) {
             e.printStackTrace();
         }
