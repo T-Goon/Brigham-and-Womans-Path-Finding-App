@@ -3,6 +3,7 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -128,7 +129,17 @@
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </VBox.margin>
                   </GridPane>
-                  <HBox alignment="CENTER" />
+                  <HBox alignment="CENTER">
+                     <children>
+                        <Label fx:id="lblError" style="-fx-background-color: #CE2029; -fx-background-radius: 7;" text="Path could not be found between the selected locations!" textAlignment="CENTER" textFill="WHITE" visible="false" wrapText="true">
+                           <font>
+                              <Font name="MS Reference Sans Serif" size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                     <VBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </VBox.margin></HBox>
                   <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                      <children>
                         <VBox alignment="BOTTOM_LEFT" HBox.hgrow="ALWAYS">
