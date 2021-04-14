@@ -187,10 +187,6 @@ public class PathfindingMenuController implements Initializable {
             c.setCenterX((n.getXCoord() / PathfindingMenuController.coordinateScale));
             c.setCenterY((n.getYCoord() / PathfindingMenuController.coordinateScale));
 
-            c.setOnMouseClicked((MouseEvent e) -> {
-                createGraphicalInputPopup(n);
-            });
-
             nodeHolder.getChildren().add(c);
 
         } catch (IOException e) {
