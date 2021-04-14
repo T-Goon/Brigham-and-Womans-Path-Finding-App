@@ -96,6 +96,9 @@ public class PathfindingMenuController implements Initializable {
      * @param floorID the floor id for the nodes "L2", "L1", "1", "2", "3"
      */
     private void drawNodesOnFloor(String floorID) {
+        // If the floor has no nodes, return
+        if (!floorNodes.containsKey(floorID)) return;
+
         for (Node n : floorNodes.get(floorID)) {
             if (!(n.getNodeType().equals("WALK") || n.getNodeType().equals("HALL"))) {
                 placeNode(n);
