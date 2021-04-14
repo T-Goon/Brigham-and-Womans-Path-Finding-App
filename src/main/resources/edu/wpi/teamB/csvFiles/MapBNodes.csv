@@ -1,0 +1,44 @@
+nodeID,xcoord,ycoord,floor,building,nodeType,longName,shortName
+bPARK00101,179,1895,1,Parking,PARK,Left Parking Lot Spot 01,LLot1
+bPARK00201,225,1899,1,Parking,PARK,Left Parking Lot Spot 02,LLot2
+bPARK00301,358,1896,1,Parking,PARK,Left Parking Lot Spot 03,LLot3
+bPARK00401,441,1894,1,Parking,PARK,Left Parking Lot Spot 04,LLot4
+bPARK00501,664,1896,1,Parking,PARK,Left Parking Lot Spot 05,LLot5
+bPARK00601,56,2078,1,Parking,PARK,Left Parking Lot Spot 06,LLot6
+bPARK00701,144,2076,1,Parking,PARK,Left Parking Lot Spot 07,LLot7
+bPARK00801,516,2082,1,Parking,PARK,Left Parking Lot Spot 08,LLot8
+bPARK00901,613,2079,1,Parking,PARK,Left Parking Lot Spot 09,LLot9
+bPARK01001,681,2076,1,Parking,PARK,Left Parking Lot Spot 10,LLot10
+bWALK00101,568,1894,1,Parking,WALK,Left Parking Lot Walkway,Llot Walk
+bWALK00201,575,1688,1,Parking,WALK,Francis Street Left Walkway,FrancisWalk
+bWALK00301,918,1701,1,Parking,WALK,Francis Street Biney Street Intersection Left,FrancisBineyIntLeft
+bWALK00401,1101,1710,1,Parking,WALK,Francis Street Biney Street Intersection Right,FrancisBineyIntRight
+bWALK00501,1735,1678,1,Parking,WALK,Francis Vining Intersection Bottom Left,FrancisViningIntBotLeft
+bWALK00601,1738,1545,1,Parking,WALK,Francis Vining Intersection Top Left,FrancisViningIntTopLeft
+bWALK00701,1992,1538,1,Parking,WALK,Francis Vining Intersection Top Right,FrancisViningIntTopRight
+bWALK00801,2147,1535,1,Parking,WALK,Francis Drop Off Sidewalk 1,FrancisDrop1
+bWALK00901,2142,1451,1,Parking,WALK,Francis Drop Off Sidewalk 2,FrancisDrop2
+bWALK01001,2470,1541,1,Parking,WALK,Francis Top Sidewalk 1,FrancisSidewalk1
+bWALK01101,2598,1554,1,Parking,WALK,Francis Top Sidewalk 2,FrancisSidewalk2
+bWALK01201,3373,1554,1,Parking,WALK,Francis Top Sidewalk 3,FrancisSidewalk3
+bWALK01301,3371,1504,1,Parking,WALK,Right Parking Lot Walkway 1,RlotWalk1
+bWALK01401,3203,1501,1,Parking,WALK,Right Parking Lot Walkway 2,RlotWalk2
+bWALK01501,3209,1362,1,Parking,WALK,Right Parking Lot Walkway 3,RlotWalk3
+bWALK01601,3336,1358,1,Parking,WALK,Right Parking Lot Walkway 4,RlotWalk4
+bEXIT00101,1749,1389,1,Parking,EXIT,75 Francis Lobby Entrance,FrancisLobbyEnt
+bEXIT00201,2061,1390,1,Parking,EXIT,Emergency Entrance,EmergencyEnt
+bPARK01101,3161,1126,1,Parking,PARK,Right Parking Lot Spot 01,RLot1
+bPARK01201,3159,1153,1,Parking,PARK,Right Parking Lot Spot 02,RLot2
+bPARK01301,3158,1178,1,Parking,PARK,Right Parking Lot Spot 03,RLot3
+bPARK01401,3161,1204,1,Parking,PARK,Right Parking Lot Spot 04,RLot4
+bPARK01501,3159,1228,1,Parking,PARK,Right Parking Lot Spot 05,RLot5
+bPARK01601,3161,1251,1,Parking,PARK,Right Parking Lot Spot 06,RLot6
+bPARK01701,3160,1278,1,Parking,PARK,Right Parking Lot Spot 07,RLot7
+bPARK01801,3364,1132,1,Parking,PARK,Right Parking Lot Spot 08,RLot8
+bPARK01901,3363,1155,1,Parking,PARK,Right Parking Lot Spot 09,RLot9
+bPARK02001,3364,1180,1,Parking,PARK,Right Parking Lot Spot 10,RLot10
+bPARK02101,3363,1208,1,Parking,PARK,Right Parking Lot Spot 11,RLot11
+bPARK02201,3364,1231,1,Parking,PARK,Right Parking Lot Spot 12,RLot12
+bPARK02301,3362,1254,1,Parking,PARK,Right Parking Lot Spot 13,RLot13
+bPARK02401,3365,1280,1,Parking,PARK,Right Parking Lot Spot 14,RLot14
+bPARK02501,3364,1307,1,Parking,PARK,Right Parking Lot Spot 15,RLot15

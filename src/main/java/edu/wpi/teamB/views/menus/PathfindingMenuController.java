@@ -5,6 +5,7 @@ import com.jfoenix.controls.JFXComboBox;
 
 import edu.wpi.teamB.database.DatabaseHandler;
 import edu.wpi.teamB.entities.Node;
+import edu.wpi.teamB.pathfinding.AStar;
 import edu.wpi.teamB.pathfinding.Graph;
 import edu.wpi.teamB.util.SceneSwitcher;
 import javafx.event.ActionEvent;
@@ -15,6 +16,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -29,6 +31,9 @@ public class PathfindingMenuController implements Initializable {
     private JFXComboBox<String> endLocComboBox;
 
     @FXML
+    private AnchorPane nodeHolder;
+
+    @FXML
     private AnchorPane mapHolder;
 
     @FXML
@@ -38,21 +43,11 @@ public class PathfindingMenuController implements Initializable {
     private JFXButton btnFindPath;
 
     @FXML
-    private JFXButton btnZoomIn;
-
-    @FXML
-    private JFXButton btnZoomOut;
-
-    @FXML
-    private JFXButton btnPlaceDot;// TODO This is just and example. Remove it later.
-
-    @FXML
     private JFXButton btnBack;
 
-    private static final double zoomAmount = 0.2;
-    private static final double zoomMin = 0.1;
-    private static final double zoomMax = 10;
     private static final double coordinateScale = 10 / 3.0;
+
+    private List<Line> edgePlaced = new ArrayList<>();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -62,48 +57,75 @@ public class PathfindingMenuController implements Initializable {
         // Pulls nodes from the database to fill the nodeInfo hashmap
         try {
             Map<String, Node> nodes = DatabaseHandler.getDatabaseHandler("main.db").getNodes();
-            for (Node n : nodes.values()) {
+            for (Node n : nodes.values())
                 locations.put(n.getNodeID(), n);
-            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        // Populate the combo boxes with locations
-        try{
-            for (Node n : locations.values()){
-                startLocComboBox.getItems().add(n.getLongName());
-                endLocComboBox.getItems().add(n.getLongName());
-            }
-        } catch (NullPointerException e){
-            e.printStackTrace();
+        // Place nodes on map
+        for (Node n : locations.values()) {
+            if (!n.getNodeType().equals("WALK")) placeNode(n.getXCoord(), n.getYCoord());
+            else placeIntermediateNode(n.getXCoord(), n.getYCoord());
         }
 
+        // Populate the combo boxes with locations
+        try {
+            List<Node> nodes = new ArrayList<>(locations.values());
+            List<String> nodeNames = new ArrayList<>();
+            for (Node n : nodes) {
+                nodeNames.add(n.getLongName());
+            }
+
+            Collections.sort(nodeNames);
+            for (String name : nodeNames) {
+                startLocComboBox.getItems().add(name);
+                endLocComboBox.getItems().add(name);
+            }
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private Map<String, String> longNameID() {
+        Map<String, Node> nodesId = Graph.getGraph(DatabaseHandler.getDatabaseHandler("main.db")).getNodes();
+        Map<String, String> longName = new HashMap<>();
+
+        for (Node node : nodesId.values()) {
+            longName.put(node.getLongName(), node.getNodeID());
+        }
+        return longName;
+    }
+
+    private void drawPath() {
+        Map<String, Node> nodesId = Graph.getGraph(DatabaseHandler.getDatabaseHandler("main.db")).getNodes();
+        Map<String, String> hmLongName = longNameID();
+        List<String> AstrPath = AStar.findPath(hmLongName.get(getStartLocation()), hmLongName.get(getEndLocation()));
+
+        Node prev = null;
+        Node curr;
+        for (String loc : AstrPath) {
+
+            if ((prev != null) && (loc != null)) {
+                curr = nodesId.get(loc);
+                placeEdge(prev.getXCoord(), prev.getYCoord(), curr.getXCoord(), curr.getYCoord());
+            }
+            prev = nodesId.get(loc);
+        }
     }
 
     @FXML
     private void handleButtonAction(ActionEvent e) throws IOException {
         JFXButton b = (JFXButton) e.getSource();
 
-        switch (b.getId()){
+        switch (b.getId()) {
             case "btnFindPath":
-                // TODO pathfinding stuff
-                break;
-            case "btnZoomIn":
-                zoomMap(true);
-                break;
-            case "btnZoomOut":
-                zoomMap(false);
-                break;
-            case "btnPlaceDot":
-                // TODO This is just and example. Remove it later.
+                // Remove old path
+                for (Line l : edgePlaced)
+                    mapHolder.getChildren().remove(l);
+                edgePlaced = new ArrayList<>();
 
-                placeEdge(2077, 2031, 56, 2078);
-
-                placeNode(2077, 2031);
-
-                placeNode(56, 2078);
-
+                drawPath();
                 break;
             case "btnBack":
                 SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/patientDirectoryMenu.fxml");
@@ -112,41 +134,39 @@ public class PathfindingMenuController implements Initializable {
     }
 
     /**
-     * Zooms the map byt the value.
-     * @param value Value to zoom in or out.
-     */
-    private void zoomMap(boolean value){
-        if(mapHolder.getScaleX()*(1+zoomAmount) < PathfindingMenuController.zoomMax &&
-                mapHolder.getScaleY()*(1+zoomAmount) < PathfindingMenuController.zoomMax &&
-                value){
-            mapHolder.setScaleX(mapHolder.getScaleX()*(1+zoomAmount));
-            mapHolder.setScaleY(mapHolder.getScaleX()*(1+zoomAmount));
-        }
-
-        if(mapHolder.getScaleX()*(1-zoomAmount) > PathfindingMenuController.zoomMin &&
-                mapHolder.getScaleY()*(1-zoomAmount) > PathfindingMenuController.zoomMin &&
-                !value){
-            mapHolder.setScaleX(mapHolder.getScaleX()*(1-zoomAmount));
-            mapHolder.setScaleY(mapHolder.getScaleX()*(1-zoomAmount));
-        }
-    }
-
-    /**
      * Places an image for a node on the map at the given pixel coordinates.
-     *
-     * IMPORTANT!!!: ALWAYS PLACE EDGES BEFORE NODES.
      *
      * @param x x coordinates of node in pixels
      * @param y y coordinates of node in pixels
      */
     public void placeNode(int x, int y) {
         try {
-            Circle c = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/misc/node.fxml")));
+            ImageView i = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/misc/node.fxml")));
 
-            c.setCenterX(x/PathfindingMenuController.coordinateScale);
-            c.setCenterY(y/PathfindingMenuController.coordinateScale);
+            i.setLayoutX((x / PathfindingMenuController.coordinateScale) - (i.getFitWidth() / 4));
+            i.setLayoutY((y / PathfindingMenuController.coordinateScale) - (i.getFitHeight()));
 
-            mapHolder.getChildren().add(c);
+            nodeHolder.getChildren().add(i);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Places an image for a node on the map at the given pixel coordinates.
+     *
+     * @param x x coordinates of node in pixels
+     * @param y y coordinates of node in pixels
+     */
+    public void placeIntermediateNode(int x, int y) {
+        try {
+            Circle c = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/misc/intermediateNode.fxml")));
+
+            c.setCenterX((x / PathfindingMenuController.coordinateScale));
+            c.setCenterY((y / PathfindingMenuController.coordinateScale));
+
+            nodeHolder.getChildren().add(c);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -156,24 +176,24 @@ public class PathfindingMenuController implements Initializable {
     /**
      * Draws an edge between 2 points on the map.
      *
-     * IMPORTANT!!!: ALWAYS PLACE EDGES BEFORE NODES.
-     *
      * @param xStart x start coordinate in pixels
      * @param yStart y start coordinate in pixels
-     * @param xEnd x end coordinate in pixels
-     * @param yEnd y end coordinate in pixels
+     * @param xEnd   x end coordinate in pixels
+     * @param yEnd   y end coordinate in pixels
      */
-    public void placeEdge(int xStart, int yStart, int xEnd, int yEnd){
+    public void placeEdge(int xStart, int yStart, int xEnd, int yEnd) {
         try {
             Line l = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/misc/edge.fxml")));
+            l.setId("edge"+xStart+yStart+xEnd+yEnd);
 
-            l.setStartX(xStart/PathfindingMenuController.coordinateScale);
-            l.setStartY(yStart/PathfindingMenuController.coordinateScale);
+            l.setStartX(xStart / PathfindingMenuController.coordinateScale);
+            l.setStartY(yStart / PathfindingMenuController.coordinateScale);
 
-            l.setEndX(xEnd/PathfindingMenuController.coordinateScale);
-            l.setEndY(yEnd/PathfindingMenuController.coordinateScale);
+            l.setEndX(xEnd / PathfindingMenuController.coordinateScale);
+            l.setEndY(yEnd / PathfindingMenuController.coordinateScale);
 
             mapHolder.getChildren().add(l);
+            edgePlaced.add(l);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -182,17 +202,19 @@ public class PathfindingMenuController implements Initializable {
 
     /**
      * Gets the start location
+     *
      * @return The long name of the node selected in the combobox.
      */
-    public String getStartLocation(){
+    public String getStartLocation() {
         return startLocComboBox.getValue();
     }
 
     /**
      * Gets the end location
+     *
      * @return The long name of the node selected in the combobox.
      */
-    public String getEndLocation(){
+    public String getEndLocation() {
         return endLocComboBox.getValue();
     }
 }
