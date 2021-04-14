@@ -33,11 +33,8 @@ public class DatabaseHandlerTest {
 
     @BeforeEach
     void resetDB() {
-        try {
-            db.loadDatabase(null, null);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        db.loadDatabase(null, null);
+
     }
 
     @Test
@@ -124,15 +121,12 @@ public class DatabaseHandlerTest {
         Edge targetEdge = new Edge("bPARK01201_bWALK00501", "bPARK01201", "bWALK00501");
         edges.add(targetEdge);
 
-        try {
-            db.loadDatabase(nodes, edges);
-            Map<String, Node> outNodes = db.getNodes();
-            assert (outNodes.values().containsAll(nodes));
-            Map<String, Edge> outEdges = db.getEdges();
-            assertEquals(outEdges.values().toArray()[0], targetEdge);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        db.loadDatabase(nodes, edges);
+        Map<String, Node> outNodes = db.getNodes();
+        assert (outNodes.values().containsAll(nodes));
+        Map<String, Edge> outEdges = db.getEdges();
+        assertEquals(outEdges.values().toArray()[0], targetEdge);
+
 
     }
 
