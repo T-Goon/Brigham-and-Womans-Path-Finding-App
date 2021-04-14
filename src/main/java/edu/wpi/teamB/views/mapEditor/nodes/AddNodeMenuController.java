@@ -2,13 +2,13 @@ package edu.wpi.teamB.views.mapEditor.nodes;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXRadioButton;
+import com.jfoenix.controls.JFXTextField;
 import edu.wpi.teamB.database.DatabaseHandler;
 import edu.wpi.teamB.entities.Node;
 import edu.wpi.teamB.util.SceneSwitcher;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 
 import java.io.IOException;
@@ -33,28 +33,28 @@ public class AddNodeMenuController implements Initializable {
     private ToggleGroup areaGroup;
 
     @FXML
-    private TextField nodeID;
+    private JFXTextField nodeID;
 
     @FXML
-    private TextField xCoord;
+    private JFXTextField xCoord;
 
     @FXML
-    private TextField yCoord;
+    private JFXTextField yCoord;
 
     @FXML
-    private TextField floor;
+    private JFXTextField floor;
 
     @FXML
-    private TextField building;
+    private JFXTextField building;
 
     @FXML
-    private TextField nodeType;
+    private JFXTextField nodeType;
 
     @FXML
-    private TextField longName;
+    private JFXTextField longName;
 
     @FXML
-    private TextField shortName;
+    private JFXTextField shortName;
 
     @FXML
     private JFXButton btnAddNode;
