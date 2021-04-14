@@ -1,6 +1,7 @@
 .table-view .column-header-background .label{ /*the actual text inside of the header*/
     -fx-background-color:transparent;
     -fx-text-fill: white;
+    -fx-font: bold;
 }
 .table-column { /*controls columns*/
     -fx-alignment: CENTER;
@@ -25,6 +26,7 @@
 
 .table-view .table-cell .label{ /*text in the cells*/
     -fx-background-color: transparent;
+    -fx-text-fill: white;
 }
 
 .table-view .table-cell{/*controls all none header filled cells*/
