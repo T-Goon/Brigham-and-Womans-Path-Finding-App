@@ -31,15 +31,11 @@ public class CSVHandlerTest {
 
     @BeforeEach
     void resetDB() {
-        try {
-            db.loadDatabase(null, null);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        db.loadDatabase(null, null);
     }
 
     @Test
-    public void testSaveCSVNodesFilepath() throws SQLException, IOException {
+    public void testSaveCSVNodesFilepath() throws IOException {
         String expected = "nodeID,xcoord,ycoord,floor,building,nodeType,longName,shortName\n" +
                 "1,1,1,2,Parking,PARK,Left Parking Lot Spot 10,LLot10\n";
 
@@ -56,7 +52,7 @@ public class CSVHandlerTest {
     }
 
     @Test
-    public void testSaveCSVEdgesFilepath() throws SQLException, IOException {
+    public void testSaveCSVEdgesFilepath() throws IOException {
         String expected = "edgeID,startNode,endNode\n1,2,3\n";
 
         DatabaseHandler.getDatabaseHandler("test.db").addEdge(new Edge("1","2","3"));

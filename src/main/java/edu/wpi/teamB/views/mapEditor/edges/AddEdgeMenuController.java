@@ -55,7 +55,8 @@ public class AddEdgeMenuController implements Initializable {
         }
     }
 
-    public void handleButtonAction(ActionEvent e) throws IOException {
+    @FXML
+    private void handleButtonAction(ActionEvent e) throws IOException {
         JFXButton btn = (JFXButton) e.getSource();
 
         switch (btn.getId()) {
