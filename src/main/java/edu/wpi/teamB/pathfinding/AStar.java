@@ -42,8 +42,9 @@ public class AStar {
             if (current.equals(endNode))
                 break;
 
-            //Check the adj nodes of the current node
+            //Try-catch will catch a NullPointerException caused by a node with no edges
             try {
+                //Check the adj nodes of the current node
                 for (Node neighbor : graph.getAdjNodesById(current.getNodeID())) {
 
                     //Calculate the cost of reaching the next node

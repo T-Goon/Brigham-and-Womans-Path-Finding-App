@@ -15,6 +15,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -49,6 +50,9 @@ public class PathfindingMenuController implements Initializable {
 
     @FXML
     private JFXButton btnBack;
+
+    @FXML
+    private Label lblError;
 
     private static final double coordinateScale = 10 / 3.0;
     private List<Line> edgePlaced = new ArrayList<>();
@@ -116,16 +120,22 @@ public class PathfindingMenuController implements Initializable {
         Map<String, String> hmLongName = longNameID();
         List<String> AstrPath = AStar.findPath(hmLongName.get(getStartLocation()), hmLongName.get(getEndLocation()));
 
-        Node prev = null;
-        Node curr;
-        for (String loc : AstrPath) {
+        if(AstrPath.isEmpty()){
+            lblError.setVisible(true);
+            return;
+        }else{
+            Node prev = null;
+            Node curr;
+            for (String loc : AstrPath) {
 
-            if ((prev != null) && (loc != null)) {
-                curr = nodesId.get(loc);
-                placeEdge(prev.getXCoord(), prev.getYCoord(), curr.getXCoord(), curr.getYCoord());
+                if ((prev != null) && (loc != null)) {
+                    curr = nodesId.get(loc);
+                    placeEdge(prev.getXCoord(), prev.getYCoord(), curr.getXCoord(), curr.getYCoord());
+                }
+                prev = nodesId.get(loc);
             }
-            prev = nodesId.get(loc);
         }
+
     }
 
     @FXML
@@ -140,6 +150,7 @@ public class PathfindingMenuController implements Initializable {
         switch (b.getId()) {
             case "btnFindPath":
                 // Remove old path
+                lblError.setVisible(false);
                 for (Line l : edgePlaced)
                     mapHolder.getChildren().remove(l);
                 edgePlaced = new ArrayList<>();
