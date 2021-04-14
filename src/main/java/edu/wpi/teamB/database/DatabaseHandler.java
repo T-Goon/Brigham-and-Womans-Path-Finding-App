@@ -64,15 +64,24 @@ public class DatabaseHandler {
      * with that data.
      */
     public void loadDatabase(List<Node> nodes, List<Edge> edges) throws SQLException {
+        loadDatabaseNodes(nodes);
+        loadDatabaseEdges(edges);
+    }
+
+    /**
+     * Refreshes the nodes table and loads the nodes given into
+     * the database
+     *
+     * @param nodes the list of nodes
+     * @throws SQLException if the query is malformed
+     */
+    public void loadDatabaseNodes(List<Node> nodes) throws SQLException {
 
         Statement statement = this.getStatement();
         // Drop tables if they exist already
         String query;
         try {
             query = "DROP TABLE Nodes";
-            assert statement != null;
-            statement.execute(query);
-            query = "DROP TABLE Edges";
             statement.execute(query);
         } catch (SQLException ignored) {
         }
@@ -89,15 +98,8 @@ public class DatabaseHandler {
                 + "shortName CHAR(20))";
         statement.execute(query);
 
-        query = "CREATE TABLE Edges("
-                + "edgeID CHAR(30), "
-                + "startNode CHAR(20), "
-                + "endNode CHAR(20))";
-        statement.execute(query);
-
         // If either list is empty, then nothing should be put in
-        if (nodes == null || edges == null) return;
-
+        if (nodes == null) return;
         for (Node node : nodes) {
             query = "INSERT INTO Nodes(nodeID, xcoord, ycoord, floor, building, nodeType, longName, shortName) " +
                     "VALUES('"
@@ -111,7 +113,34 @@ public class DatabaseHandler {
                     + node.getShortName() + "')";
             statement.execute(query);
         }
+    }
 
+    /**
+     * Refreshes the edges table and loads the edges given into
+     * the database
+     *
+     * @param edges the list of edges
+     * @throws SQLException if the query is malformed
+     */
+    public void loadDatabaseEdges(List<Edge> edges) throws SQLException {
+
+        Statement statement = this.getStatement();
+        // Drop tables if they exist already
+        String query;
+        try {
+            query = "DROP TABLE Edges";
+            statement.execute(query);
+        } catch (SQLException ignored) {
+        }
+
+        query = "CREATE TABLE Edges("
+                + "edgeID CHAR(30), "
+                + "startNode CHAR(20), "
+                + "endNode CHAR(20))";
+        statement.execute(query);
+
+        // If either list is empty, then nothing should be put in
+        if (edges == null) return;
         for (Edge edge : edges) {
             query = "INSERT INTO Edges(edgeID, startNode, endNode) "
                     + "VALUES('"
@@ -127,6 +156,7 @@ public class DatabaseHandler {
      *
      * @param ID requested node ID
      * @return Node object with data from database
+     * @throws SQLException if query is malformed
      */
     public Node getNodeById(String ID) throws SQLException {
         Statement statement = this.getStatement();
@@ -349,17 +379,31 @@ public class DatabaseHandler {
     }
 
     /**
-     * @return whether the database is initialized or not
+     * @return whether the nodes table is initialized or not
      */
-    public boolean isInitialized() {
+    public boolean isNodesInitialized() {
         try {
-            // Tries to get the nodes table. If it throws a SQLException, it's not initialized
-            if (!getNodes().isEmpty())
-                return true;
+            // If getNodes() succeeds, it has been initialized
+            getNodes();
+            return true;
         } catch (SQLException ignored) {
+            // If getNodes() fails, it has not been initialized so a SQLException is thrown
             return false;
         }
-        return false;
+    }
+
+    /**
+     * @return whether the edges table is initialized or not
+     */
+    public boolean isEdgesInitialized() {
+        try {
+            // If getEdges() succeeds, it has been initialized
+            getEdges();
+            return true;
+        } catch (SQLException ignored) {
+            // If getEdges() fails, it has not been initialized so a SQLException is thrown
+            return false;
+        }
     }
 
     /**

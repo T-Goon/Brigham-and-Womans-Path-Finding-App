@@ -31,10 +31,9 @@ public class App extends Application {
         System.out.println("Starting Up");
         db = DatabaseHandler.getDatabaseHandler("main.db");
 
-        // If the database is empty, fill it with the csv files
-        // Note later we want to ask the user to give the location using a file chooser to the CSV files to load from
-        if (!db.isInitialized())
-            db.loadDatabase(CSVHandler.loadCSVNodes(NODES_PATH), CSVHandler.loadCSVEdges(EDGES_PATH));
+        // If the database is uninitialized, fill it with the csv files
+        if (!db.isNodesInitialized()) db.loadDatabaseNodes(CSVHandler.loadCSVNodes(NODES_PATH));
+        if (!db.isEdgesInitialized()) db.loadDatabaseEdges(CSVHandler.loadCSVEdges(EDGES_PATH));
     }
 
     @Override
@@ -49,16 +48,13 @@ public class App extends Application {
             primaryStage.setScene(scene);
             primaryStage.show();
 
-
             //Press F11 to escape fullscreen. Allows users to use the ESC key to go back to the previous scene
             primaryStage.setFullScreenExitKeyCombination(new KeyCombination() {
                 @Override
                 public boolean match(KeyEvent event) {
                     return event.getCode().equals(KeyCode.F11);
-
                 }
             });
-
 
             primaryStage.setFullScreen(true);
         } catch (IOException e) {
