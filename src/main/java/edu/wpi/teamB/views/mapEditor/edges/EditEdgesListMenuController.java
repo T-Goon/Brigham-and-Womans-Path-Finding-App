@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXButton;
 import edu.wpi.teamB.App;
 import edu.wpi.teamB.database.DatabaseHandler;
 import edu.wpi.teamB.entities.Edge;
+import edu.wpi.teamB.pathfinding.Graph;
 import edu.wpi.teamB.util.CSVHandler;
 import edu.wpi.teamB.util.EdgeWrapper;
 import edu.wpi.teamB.util.SceneSwitcher;
@@ -69,15 +70,7 @@ public class EditEdgesListMenuController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
-        Map<String, Edge> edges = null;
-
-        try {
-            edges = DatabaseHandler.getDatabaseHandler("main.db").getEdges();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
+        Map<String, Edge> edges = DatabaseHandler.getDatabaseHandler("main.db").getEdges();
         ObservableList<TableColumn<String, Label>> cols = tblEdges.getColumns();
         for (TableColumn<String, Label> c : cols) {
             c.getId();
@@ -120,13 +113,9 @@ public class EditEdgesListMenuController implements Initializable {
                     File file = fileChooser.showOpenDialog(stage);
                     if (file == null) return;
 
-                    List<Edge> newEdges = new ArrayList<>();
-                    try {
-                        newEdges = CSVHandler.loadCSVEdges(file.toPath());
-                        DatabaseHandler.getDatabaseHandler("main.db").loadDatabaseEdges(newEdges);
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
+                    List<Edge> newEdges = CSVHandler.loadCSVEdges(file.toPath());
+                    DatabaseHandler.getDatabaseHandler("main.db").loadDatabaseEdges(newEdges);
+                    Graph.getGraph().updateGraph();
 
                     // Add them to the refreshed table
                     tblEdges.getItems().clear();
@@ -150,11 +139,8 @@ public class EditEdgesListMenuController implements Initializable {
                     if (file == null) return;
 
                     // Save the current database into that csv folder
-                    try {
-                        CSVHandler.saveCSVEdges(file.toPath(), false);
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
+                    CSVHandler.saveCSVEdges(file.toPath(), false);
+                    Graph.getGraph().updateGraph();
                 }
         );
     }

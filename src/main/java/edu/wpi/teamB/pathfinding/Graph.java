@@ -17,7 +17,7 @@ public class Graph {
     private Map<String, Edge> edges;
     private Map<String, List<Node>> adjMap;
 
-    private DatabaseHandler db ;
+    private DatabaseHandler db;
 
     private Graph() {
         this.db = DatabaseHandler.getDatabaseHandler("main.db");
@@ -31,13 +31,8 @@ public class Graph {
 
     public void updateGraph() {
         adjMap = new HashMap<>();
-
-        try {
-            nodes = db.getNodes();
-            edges = db.getEdges();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        nodes = db.getNodes();
+        edges = db.getEdges();
 
         for (Edge edge : edges.values()) {
             if (!adjMap.containsKey(edge.getStartNodeName())) {
@@ -66,8 +61,8 @@ public class Graph {
     /**
      * Changes the database that the graph uses.
      * Should only be used in testing
+     *
      * @param db database handler to switch the graph to
-     * @return the graph singleton
      */
     public static void setGraph(DatabaseHandler db) {
         graph = new Graph(db);
@@ -75,12 +70,11 @@ public class Graph {
 
     /**
      * Get the graph with whatever database handler is set
+     *
      * @return graph singleton
      */
-    public static Graph getGraph(){
-        if (graph==null){
-            graph = new Graph();
-        }
+    public static Graph getGraph() {
+        if (graph == null) graph = new Graph();
         return graph;
     }
 
@@ -95,7 +89,7 @@ public class Graph {
      */
     public static double dist(Node start, Node end) {
         double dist = Math.sqrt(Math.pow((start.getXCoord() - end.getXCoord()), 2) + Math.pow((start.getYCoord() + end.getYCoord()), 2));
-        dist += Math.abs(end.getFloorAsInt()-start.getFloorAsInt())*5000;
+        dist += Math.abs(end.getFloorAsInt() - start.getFloorAsInt()) * 5000;
         return dist;
     }
 }
