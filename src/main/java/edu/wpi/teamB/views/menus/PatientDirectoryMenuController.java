@@ -40,14 +40,14 @@ public class PatientDirectoryMenuController {
                 SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/pathfindingMenu.fxml");
                 break;
             case "btnMapEditor":
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapeditor/editorIntermediateMenu.fxml");
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapEditor/editorIntermediateMenu.fxml");
                 break;
             case "btnExit":
                 Platform.exit();
                 break;
             case "btnCovid":
                 try {
-                    SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/covidsurvey/covidSurvey.fxml");
+                    SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/covidSurvey/covidSurvey.fxml");
                 } catch (IOException ex) {
                     ex.printStackTrace();
                     break;
