@@ -17,13 +17,12 @@ public class Graph {
     private Map<String, Edge> edges;
     private Map<String, List<Node>> adjMap;
 
-    private Graph() {
-        updateGraph();
+    private Graph(DatabaseHandler db) {
+        updateGraph(db);
     }
 
-    public void updateGraph(){
+    public void updateGraph(DatabaseHandler db) {
         adjMap = new HashMap<>();
-        DatabaseHandler db = DatabaseHandler.getDatabaseHandler("main.db");
 
         try {
             nodes = db.getNodes();
@@ -31,7 +30,6 @@ public class Graph {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
 
         for (Edge edge : edges.values()) {
             if (!adjMap.containsKey(edge.getStartNodeName())) {
@@ -60,9 +58,9 @@ public class Graph {
     /**
      * @return the graph singleton
      */
-    public static Graph getGraph() {
+    public static Graph getGraph(DatabaseHandler db) {
         if (graph == null) {
-            graph = new Graph();
+            graph = new Graph(db);
         }
         return graph;
     }

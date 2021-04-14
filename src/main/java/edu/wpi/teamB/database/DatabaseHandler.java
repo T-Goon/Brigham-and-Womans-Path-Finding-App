@@ -28,8 +28,13 @@ public class DatabaseHandler {
             handler = new DatabaseHandler();
             handler.databaseURL = URL_BASE + dbURL;
             handler.databaseConnection = handler.getConnection();
-        } else if (!(URL_BASE + dbURL).equals(handler.databaseURL))
-            throw new IllegalArgumentException("Trying to change where the database handler points!");
+        } else if (!(URL_BASE + dbURL).equals(handler.databaseURL)) {
+            // If switching between main.db and test.db, shut down the old database and start
+            handler.shutdown();
+            handler = new DatabaseHandler();
+            handler.databaseURL = URL_BASE + dbURL;
+            handler.databaseConnection = handler.getConnection();
+        }
         return handler;
     }
 
@@ -63,6 +68,13 @@ public class DatabaseHandler {
         loadDatabaseEdges(edges);
     }
 
+    /**
+     * Refreshes the nodes table and loads the nodes given into
+     * the database
+     *
+     * @param nodes the list of nodes
+     * @throws SQLException if the query is malformed
+     */
     public void loadDatabaseNodes(List<Node> nodes) throws SQLException {
 
         Statement statement = this.getStatement();
@@ -103,6 +115,13 @@ public class DatabaseHandler {
         }
     }
 
+    /**
+     * Refreshes the edges table and loads the edges given into
+     * the database
+     *
+     * @param edges the list of edges
+     * @throws SQLException if the query is malformed
+     */
     public void loadDatabaseEdges(List<Edge> edges) throws SQLException {
 
         Statement statement = this.getStatement();
@@ -137,15 +156,16 @@ public class DatabaseHandler {
      *
      * @param ID requested node ID
      * @return Node object with data from database
-     * @throws SQLException
+     * @throws SQLException if query is malformed
      */
     public Node getNodeById(String ID) throws SQLException {
         Statement statement = this.getStatement();
 
         String query = "SELECT * FROM Nodes WHERE nodeID = '" + ID + "'";
+        assert statement != null;
         ResultSet rs = statement.executeQuery(query);
 
-        Node outNode = new Node(
+        return new Node(
                 rs.getString("nodeID").trim(),
                 rs.getInt("xcoord"),
                 rs.getInt("ycoord"),
@@ -155,7 +175,6 @@ public class DatabaseHandler {
                 rs.getString("longName").trim(),
                 rs.getString("shortName").trim()
         );
-        return outNode;
     }
 
     /**
@@ -164,6 +183,7 @@ public class DatabaseHandler {
     public Map<String, Node> getNodes() throws SQLException {
         Statement statement = this.getStatement();
         String query = "SELECT * FROM Nodes";
+        assert statement != null;
         ResultSet rs = statement.executeQuery(query);
         Map<String, Node> nodes = new HashMap<>();
         while (rs.next()) {
@@ -189,6 +209,7 @@ public class DatabaseHandler {
         Statement statement = this.getStatement();
 
         String query = "SELECT edgeID, startNode, endNode FROM Edges";
+        assert statement != null;
         ResultSet rs = statement.executeQuery(query);
         Map<String, Edge> edges = new HashMap<>();
         while (rs.next()) {
@@ -267,6 +288,7 @@ public class DatabaseHandler {
 
         try {
             // If no rows are updated, then the node ID is not in the table
+            assert statement != null;
             if (statement.executeUpdate(query) == 0)
                 System.err.println("Node ID does not exist in the table!");
         } catch (SQLException e) {
@@ -285,6 +307,7 @@ public class DatabaseHandler {
 
         try {
             // If no rows are updated, then the edge ID is not in the table
+            assert statement != null;
             if (statement.executeUpdate(query) == 0)
                 System.err.println("Edge ID does not exist in the table!");
         } catch (SQLException e) {
@@ -302,6 +325,7 @@ public class DatabaseHandler {
         String query = "DELETE FROM Nodes WHERE nodeID = '" + nodeID + "'";
 
         try {
+            assert statement != null;
             statement.execute(query);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -318,6 +342,7 @@ public class DatabaseHandler {
         String query = "DELETE FROM Edges WHERE edgeID = '" + edgeID + "'";
 
         try {
+            assert statement != null;
             statement.execute(query);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -336,6 +361,7 @@ public class DatabaseHandler {
         List<Edge> edges = new ArrayList<>();
 
         try {
+            assert statement != null;
             ResultSet set = statement.executeQuery(query);
             while (set.next()) {
                 Edge outEdge = new Edge(

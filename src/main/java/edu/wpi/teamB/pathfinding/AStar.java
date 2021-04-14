@@ -3,7 +3,6 @@ package edu.wpi.teamB.pathfinding;
 import edu.wpi.teamB.database.DatabaseHandler;
 import edu.wpi.teamB.entities.Node;
 
-import java.sql.SQLException;
 import java.util.*;
 
 public class AStar {
@@ -17,7 +16,7 @@ public class AStar {
      */
     public static List<String> findPath(String startID, String endID) {
 
-        Graph graph = Graph.getGraph();
+        Graph graph = Graph.getGraph(DatabaseHandler.getDatabaseHandler("main.db"));
         Node startNode = graph.getNodes().get(startID);
         Node endNode = graph.getNodes().get(endID);
 
@@ -67,6 +66,7 @@ public class AStar {
         }
 
         //backtrack from end node to start node to create final path.
+        assert current != null;
         String currentID = current.getNodeID();
         while (!currentID.equals("START")) {
             ret.addFirst(currentID);

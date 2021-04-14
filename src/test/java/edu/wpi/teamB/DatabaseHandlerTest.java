@@ -8,7 +8,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.SQLException;
@@ -21,13 +20,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class DatabaseHandlerTest {
-    private static String resourcesPathString;
+    private static Path resourcesPath;
     private static DatabaseHandler db;
 
     @BeforeAll
     static void initDB() {
         db = DatabaseHandler.getDatabaseHandler("test.db");
-        resourcesPathString = new File("").getAbsolutePath() + "/src/test/resources/edu/wpi/teamB/database/load/";
+        resourcesPath = Paths.get("src/test/resources/edu/wpi/teamB/database/load");
     }
 
     @BeforeEach
@@ -49,14 +48,14 @@ public class DatabaseHandlerTest {
                 "NODETYPE",
                 "Name With Many Spaces",
                 "N W M S");
-        Path nodes = Paths.get(resourcesPathString + "SimpleTestNodes.csv");
+        Path nodes = Paths.get(resourcesPath + "/SimpleTestNodes.csv");
         Node actual = CSVHandler.loadCSVNodes(nodes).get(0);
         assertEquals(target.toString(), actual.toString());
     }
 
     @Test
     public void complexParseNodesLength() {
-        Path nodePath = Paths.get(resourcesPathString + "ComplexTestNodes.csv");
+        Path nodePath = Paths.get(resourcesPath + "/ComplexTestNodes.csv");
         List<Node> nodes = CSVHandler.loadCSVNodes(nodePath);
         assertEquals(32, nodes.size());
     }
@@ -64,7 +63,7 @@ public class DatabaseHandlerTest {
     @Test
     public void complexParseNodesValues() {
         Node target = new Node("bWALK00501", 1872, 1965, 1, "Parking", "WALK", "Vining Street Walkway", "ViningWalk");
-        Path nodePath = Paths.get(resourcesPathString + "ComplexTestNodes.csv");
+        Path nodePath = Paths.get(resourcesPath + "/ComplexTestNodes.csv");
         List<Node> nodes = CSVHandler.loadCSVNodes(nodePath);
         List<String> expanded = nodes.stream().map(Node::toString).collect(Collectors.toList());
         assertTrue(expanded.contains(target.toString()));
@@ -73,14 +72,14 @@ public class DatabaseHandlerTest {
     @Test
     public void simpleParseEdges() {
         Edge target = new Edge("bPARK00101_bWALK00101", "bPARK00101", "bWALK00101");
-        Path nodes = Paths.get(resourcesPathString + "SimpleTestEdges.csv");
-        Edge actual = CSVHandler.loadCSVEdges(nodes).get(0);
+        Path edges = Paths.get(resourcesPath + "/SimpleTestEdges.csv");
+        Edge actual = CSVHandler.loadCSVEdges(edges).get(0);
         assertEquals(target.toString(), actual.toString());
     }
 
     @Test
     public void complexParseEdgesLength() {
-        Path nodePath = Paths.get(resourcesPathString + "ComplexTestEdges.csv");
+        Path nodePath = Paths.get(resourcesPath + "/ComplexTestEdges.csv");
         List<Edge> nodes = CSVHandler.loadCSVEdges(nodePath);
         assertEquals(31, nodes.size());
     }
@@ -88,7 +87,7 @@ public class DatabaseHandlerTest {
     @Test
     public void complexParseEdgesValues() {
         Edge target = new Edge("bPARK01201_bWALK00501", "bPARK01201", "bWALK00501");
-        Path nodePath = Paths.get(resourcesPathString + "ComplexTestEdges.csv");
+        Path nodePath = Paths.get(resourcesPath + "/ComplexTestEdges.csv");
         List<Edge> nodes = CSVHandler.loadCSVEdges(nodePath);
         List<String> expanded = nodes.stream().map(Edge::toString).collect(Collectors.toList());
         assertTrue(expanded.contains(target.toString()));
