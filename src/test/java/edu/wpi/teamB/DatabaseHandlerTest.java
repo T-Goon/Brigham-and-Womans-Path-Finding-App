@@ -192,7 +192,7 @@ public class DatabaseHandlerTest {
         Node target = new Node("testNode",
                 0,
                 -992,
-                1,
+                "1",
                 "test_building",
                 "NODETYPE",
                 "Name With Many Spaces",
@@ -203,7 +203,7 @@ public class DatabaseHandlerTest {
         Map<String, Node> nodes = db.getNodes();
         assertEquals(0, nodes.get("testNode").getXCoord());
         assertEquals(-992, nodes.get("testNode").getYCoord());
-        assertEquals(1, nodes.get("testNode").getFloor());
+        assertEquals("1", nodes.get("testNode").getFloor());
         assertEquals("test_building", nodes.get("testNode").getBuilding());
         assertEquals("NODETYPE", nodes.get("testNode").getNodeType());
         assertEquals("Name With Many Spaces", nodes.get("testNode").getLongName());
@@ -226,7 +226,7 @@ public class DatabaseHandlerTest {
         Node target = new Node("testNode",
                 0,
                 -992,
-                1,
+                "1",
                 "test_building",
                 "NODETYPE",
                 "Name With Many Spaces",
