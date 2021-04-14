@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Getter
+@SuppressWarnings("unchecked")
 public class NodeWrapper {
 
     private final Label id;
