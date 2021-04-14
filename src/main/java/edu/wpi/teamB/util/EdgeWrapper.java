@@ -8,6 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 import lombok.Getter;
 
@@ -22,17 +23,18 @@ public class EdgeWrapper {
     private final Label endNode;
     private final JFXButton btnEdit;
     private final JFXButton btnDel;
+    private final TableView parentTable;
 
-    public EdgeWrapper(Edge e) throws IOException {
+    public EdgeWrapper(Edge e, TableView parentTable) throws IOException {
         this.id = new Label(e.getEdgeID());
         this.startNode = new Label(e.getStartNodeName());
         this.endNode = new Label(e.getEndNodeName());
+        this.parentTable = parentTable;
 
         // Set up edit button
         JFXButton btnEdit = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/misc/nodeEdgeEditBtn.fxml")));
         btnEdit.setId(e.getEdgeID() + "EditBtn");
 
-        // TODO connect button to action
         btnEdit.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -52,16 +54,11 @@ public class EdgeWrapper {
         JFXButton btnDel = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/misc/nodeEdgeDelBtn.fxml")));
         btnDel.setId(e.getEdgeID() + "DelBtn");
 
-        // TODO connect button to action
         btnDel.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 DatabaseHandler.getDatabaseHandler("main.db").removeEdge(e.getEdgeID());
-                try {
-                    SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapeditor/edges/editEdgesListMenu.fxml");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                parentTable.getItems().removeIf( (Object o) -> ((EdgeWrapper) o).id == id);
             }
         });
 
