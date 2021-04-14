@@ -32,6 +32,23 @@ public class Node implements Comparable<Node> {
         this.shortName = shortName;
     }
 
+    public int getFloorAsInt(){
+        switch(floor){
+            case "L2":
+                return 0;
+            case "L1":
+                return 1;
+            case "1":
+                return 2;
+            case "2":
+                return 3;
+            case "3":
+                return 4;
+            default:
+                return -1;
+        }
+    }
+
     @Override
     public String toString() {
         return "Node{" +
