@@ -581,7 +581,7 @@ WHALL00802,1720,1745,2,Shapiro,HALL,Hallway Connector 8 Floor 2,Hallway W0802
 WHALL00902,1690,2240,2,Shapiro,HALL,Hallway Connector 9 Floor 2,Hallway W0902
 WHALL01002,1690,2455,2,BTM,HALL,Hallway Connector 10 Floor 2,Hallway W1002
 bPARK00101,179,1895,1,Parking,PARK,Left Parking Lot Spot 1,LLot1
-bPARK00201,225,1899,1,Parking,PARK,Left Parking Lot Spot 2,LLot2
+bPARK00201,270,1899,1,Parking,PARK,Left Parking Lot Spot 2,LLot2
 bPARK00301,358,1896,1,Parking,PARK,Left Parking Lot Spot 3,LLot3
 bPARK00401,441,1894,1,Parking,PARK,Left Parking Lot Spot 4,LLot4
 bPARK00501,664,1896,1,Parking,PARK,Left Parking Lot Spot 5,LLot5
