@@ -61,6 +61,9 @@ public class Graph {
     public static Graph getGraph(DatabaseHandler db) {
         if (graph == null) {
             graph = new Graph(db);
+        }else{
+            //This is very inefficient, we should consider a cache-invalidation scheme
+            graph.updateGraph(db);
         }
         return graph;
     }

@@ -89,7 +89,7 @@ public class DatabaseHandler {
 
         // Create the tables
         query = "CREATE TABLE Nodes("
-                + "nodeID CHAR(20), "
+                + "nodeID CHAR(20) PRIMARY KEY, "
                 + "xcoord INT, "
                 + "ycoord INT, "
                 + "floor CHAR(20), "
@@ -135,9 +135,11 @@ public class DatabaseHandler {
         }
 
         query = "CREATE TABLE Edges("
-                + "edgeID CHAR(30), "
-                + "startNode CHAR(20), "
-                + "endNode CHAR(20))";
+                + "edgeID CHAR(30) PRIMARY KEY, "
+                + "startNode CHAR(20) NOT NULL, "
+                + "endNode CHAR(20) NOT NULL CHECK (startNode != endNode), "
+                + "FOREIGN KEY (startNode) REFERENCES Nodes(nodeID), "
+                + "FOREIGN KEY (endNode) REFERENCES Nodes(nodeID))";
         statement.execute(query);
 
         // If either list is empty, then nothing should be put in
