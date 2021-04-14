@@ -153,10 +153,10 @@ public class EditNodesListMenuController implements Initializable {
 
         switch (btn.getId()) {
             case "btnBack":
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapeditor/editorIntermediateMenu.fxml");
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapEditor/editorIntermediateMenu.fxml");
                 break;
             case "btnAddNode":
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapeditor/nodes/addNodeMenu.fxml");
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapEditor/nodes/addNodeMenu.fxml");
                 break;
         }
     }
