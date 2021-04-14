@@ -34,38 +34,43 @@ public class EditEdgeMenuController implements Initializable {
     private JFXTextField edgeID;
 
     @FXML
-    private JFXComboBox<Label> startNode;
+    private JFXComboBox<String> startNode;
 
     @FXML
-    private JFXComboBox<Label> endNode;
+    private JFXComboBox<String> endNode;
 
+    private String oldEdgeID;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Stage stage = App.getPrimaryStage();
         Edge edge = (Edge) stage.getUserData();
 
-        // Set default values
+        // Set default values of strings
+        oldEdgeID = edge.getEdgeID();
         edgeID.setText(edge.getEdgeID());
-        startNode.setValue(new Label(edge.getStartNodeName()));
-        endNode.setValue(new Label(edge.getEndNodeName()));
 
-        // Set
-        Map<String, Edge> edges = null;
-        try {
-             edges = DatabaseHandler.getDatabaseHandler("main.db").getEdges();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        // Give the combo boxes all the values
+        Map<String, Edge> edges = DatabaseHandler.getDatabaseHandler("main.db").getEdges();
         for (Edge e : edges.values()) {
-            startNode.getItems().add(new Label(e.getStartNodeName()));
-            endNode.getItems().add(new  Label(e.getEndNodeName()));
+            startNode.getItems().add(e.getStartNodeName());
+            endNode.getItems().add(e.getEndNodeName());
         }
+
+        // Set default values of combo box
+        startNode.getSelectionModel().select(edge.getStartNodeName());
+        endNode.getSelectionModel().select(edge.getEndNodeName());
     }
 
     @FXML
-    private void validateButton(){
-        btnUpdateEdge.setDisable(edgeID.getText().isEmpty());
+    private void generateEdgeID() {
+        if (!startNode.getSelectionModel().isEmpty() && !endNode.getSelectionModel().isEmpty())
+            edgeID.setText(startNode.getValue() + "_" + endNode.getValue());
+    }
+
+    @FXML
+    private void validateButton() {
+        btnUpdateEdge.setDisable(edgeID.getText().isEmpty() || startNode.getSelectionModel().isEmpty() || endNode.getSelectionModel().isEmpty());
     }
 
     public void handleButtonAction(ActionEvent e) throws IOException {
@@ -77,10 +82,15 @@ public class EditEdgeMenuController implements Initializable {
                 break;
             case "btnUpdateEdge":
                 String edgeIdentifier = edgeID.getText();
-                String startNodeName = startNode.getValue().getText();
-                String endNodeName = endNode.getValue().getText();
+                String startNodeName = startNode.getValue();
+                String endNodeName = endNode.getValue();
                 Edge edge = new Edge(edgeIdentifier, startNodeName, endNodeName);
-                DatabaseHandler.getDatabaseHandler("main.db").updateEdge(edge);
+
+                // Remove the old edge out of the database and put in the new one because the primary key changes
+                DatabaseHandler db = DatabaseHandler.getDatabaseHandler("main.db");
+                db.removeEdge(oldEdgeID);
+                db.addEdge(edge);
+
                 SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapeditor/edges/editEdgesListMenu.fxml");
                 break;
         }

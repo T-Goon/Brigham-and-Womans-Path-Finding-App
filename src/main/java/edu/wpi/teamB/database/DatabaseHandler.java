@@ -217,8 +217,7 @@ public class DatabaseHandler {
                 nodes.put(rs.getString("NodeID").trim(), outNode);
             }
             return nodes;
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (SQLException ignored) {
             return null;
         }
     }
@@ -244,8 +243,7 @@ public class DatabaseHandler {
                 edges.put(rs.getString("edgeID").trim(), outEdge);
             }
             return edges;
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (SQLException ignored) {
             return null;
         }
     }

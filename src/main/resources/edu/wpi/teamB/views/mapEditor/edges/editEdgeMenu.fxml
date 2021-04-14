@@ -91,7 +91,7 @@
                                                     <Font name="MS Reference Sans Serif" size="14.0" />
                                                 </font>
                                             </Text>
-                                    <JFXComboBox fx:id="startNode" prefWidth="9999.0" style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" />
+                                    <JFXComboBox fx:id="startNode" onAction="#generateEdgeID" prefWidth="9999.0" style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" />
                                  </children>
                               </VBox>
                               <VBox>
@@ -101,7 +101,7 @@
                                                     <Font name="MS Reference Sans Serif" size="14.0" />
                                                 </font>
                                             </Text>
-                                    <JFXComboBox fx:id="endNode" prefWidth="9999.0" style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" />
+                                    <JFXComboBox fx:id="endNode" onAction="#generateEdgeID" prefWidth="9999.0" style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" />
                                  </children>
                               </VBox>
                            </children>
