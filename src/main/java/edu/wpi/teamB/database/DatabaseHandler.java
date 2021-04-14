@@ -253,6 +253,8 @@ public class DatabaseHandler {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        Graph.getGraph().updateGraph();
     }
 
     /**
@@ -271,6 +273,7 @@ public class DatabaseHandler {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        Graph.getGraph().updateGraph();
     }
 
     /**
@@ -338,6 +341,7 @@ public class DatabaseHandler {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        Graph.getGraph().updateGraph();
     }
 
     /**
@@ -355,6 +359,7 @@ public class DatabaseHandler {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        Graph.getGraph().updateGraph();
     }
 
     /**
