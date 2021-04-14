@@ -102,7 +102,7 @@
                            <graphic>
                               <ImageView fitHeight="149.0" fitWidth="137.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../../images/menus/mapEditorIcon.PNG" />
+                                    <Image url="@../../images/menus/mapEditorIcon.png" />
                                  </image>
                               </ImageView>
                            </graphic>
