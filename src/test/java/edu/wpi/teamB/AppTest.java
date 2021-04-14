@@ -33,6 +33,26 @@ public class AppTest extends FxRobot {
     }
 
     @Test
+    void testMapGraphicalInput(){
+        clickOn("#btnDirections");
+
+        // Select start node
+        clickOn("#FDEPT00101Icon");
+        clickOn("#BtnStart");
+
+        // Select end node
+        clickOn("#ADEPT00201Icon");
+        clickOn("#BtnEnd");
+
+        clickOn("#btnFindPath");
+
+        verifyThat(".edge", Node::isVisible);
+
+        clickOn("#btnBack");
+
+    }
+
+    @Test
     void testMapMovement(){
         clickOn("#btnDirections");
         moveTo("#map");

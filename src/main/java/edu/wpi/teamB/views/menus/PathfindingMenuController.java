@@ -175,6 +175,8 @@ public class PathfindingMenuController implements Initializable {
             i.setLayoutX((n.getXCoord() / PathfindingMenuController.coordinateScale) - (i.getFitWidth() / 4));
             i.setLayoutY((n.getYCoord() / PathfindingMenuController.coordinateScale) - (i.getFitHeight()));
 
+            i.setId(n.getNodeID()+"Icon");
+
             i.setOnMouseClicked((MouseEvent e) -> {
                 createGraphicalInputPopup(n);
             });
