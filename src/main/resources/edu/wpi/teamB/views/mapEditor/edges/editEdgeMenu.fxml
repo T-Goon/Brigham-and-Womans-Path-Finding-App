@@ -78,33 +78,42 @@
                                         <Insets left="5.0" right="5.0" />
                                     </VBox.margin>
                                 </JFXTextField>
-                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Start Node:">
-                                    <font>
-                                        <Font name="MS Reference Sans Serif" size="14.0" />
-                                    </font>
-                                    <VBox.margin>
-                                        <Insets left="5.0" top="10.0" />
-                                    </VBox.margin>
-                                </Text>
-                                <JFXTextField fx:id="startNode" onKeyReleased="#validateButton" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00">
-                                    <VBox.margin>
-                                        <Insets left="5.0" right="5.0" />
-                                    </VBox.margin>
-                                </JFXTextField>
-                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="End Node:">
-                                    <font>
-                                        <Font name="MS Reference Sans Serif" size="14.0" />
-                                    </font>
-                                    <VBox.margin>
-                                        <Insets left="5.0" top="10.0" />
-                                    </VBox.margin>
-                                </Text>
-                                <JFXTextField fx:id="endNode" onKeyReleased="#validateButton" style="-fx-background-color: #E5E5E5; -fx-background-radius: 8;" unFocusColor="#4d4d4d00">
-                                    <VBox.margin>
-                                        <Insets left="5.0" right="5.0" />
-                                    </VBox.margin>
-                                </JFXTextField>
-                                <Text strokeType="OUTSIDE" strokeWidth="0.0" />
+                        <HBox>
+                           <VBox.margin>
+                              <Insets left="5.0" top="10.0" />
+                           </VBox.margin>
+                           <children>
+                              <VBox>
+                                 <children>
+                                            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Start Node:">
+                                                <font>
+                                                    <Font name="MS Reference Sans Serif" size="14.0" />
+                                                </font>
+                                            </Text>
+                                            <JFXTextField fx:id="startNode" onKeyReleased="#validateButton" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00">
+                                                <VBox.margin>
+                                                    <Insets left="5.0" right="5.0" />
+                                                </VBox.margin>
+                                            </JFXTextField>
+                                 </children>
+                              </VBox>
+                              <VBox />
+                              <VBox>
+                                 <children>
+                                            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="End Node:">
+                                                <font>
+                                                    <Font name="MS Reference Sans Serif" size="14.0" />
+                                                </font>
+                                            </Text>
+                                            <JFXTextField fx:id="endNode" onKeyReleased="#validateButton" style="-fx-background-color: #E5E5E5; -fx-background-radius: 8;" unFocusColor="#4d4d4d00">
+                                                <VBox.margin>
+                                                    <Insets left="5.0" right="5.0" />
+                                                </VBox.margin>
+                                            </JFXTextField>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
                                 <HBox alignment="CENTER_LEFT" prefWidth="200.0">
                                     <children>
                                         <HBox alignment="CENTER_LEFT" fillHeight="false" HBox.hgrow="ALWAYS">
@@ -122,6 +131,9 @@
                                                     <font>
                                                         <Font name="MS Reference Sans Serif" size="20.0" />
                                                     </font>
+                                       <HBox.margin>
+                                          <Insets top="10.0" />
+                                       </HBox.margin>
                                                 </JFXButton>
                                             </children>
                                         </HBox>
