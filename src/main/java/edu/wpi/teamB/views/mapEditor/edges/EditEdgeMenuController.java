@@ -1,16 +1,21 @@
-package edu.wpi.teamB.views.mapeditor.edges;
+package edu.wpi.teamB.views.mapEditor.edges;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
+import edu.wpi.teamB.App;
 import edu.wpi.teamB.database.DatabaseHandler;
 import edu.wpi.teamB.entities.Edge;
 import edu.wpi.teamB.util.SceneSwitcher;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class AddEdgeMenuController {
+public class EditEdgeMenuController implements Initializable {
 
     @FXML
     public JFXButton btnEmergency;
@@ -19,10 +24,7 @@ public class AddEdgeMenuController {
     public JFXButton btnCancel;
 
     @FXML
-    public JFXButton btnAddEdge;
-
-
-    // EDGES
+    public JFXButton btnUpdateEdge;
 
     @FXML
     public JFXTextField edgeID;
@@ -33,13 +35,24 @@ public class AddEdgeMenuController {
     @FXML
     public JFXTextField endNode;
 
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        Stage stage = App.getPrimaryStage();
+        Edge edge = (Edge) stage.getUserData();
+
+        edgeID.setText(edge.getEdgeID());
+        startNode.setText(edge.getStartNodeName());
+        endNode.setText(edge.getEndNodeName());
+    }
+
     @FXML
     private void validateButton(){
         if (!edgeID.getText().isEmpty() && !startNode.getText().isEmpty() && !endNode.getText().isEmpty()) {
-            btnAddEdge.setDisable(false);
+            btnUpdateEdge.setDisable(false);
         }
         else {
-            btnAddEdge.setDisable(true);
+            btnUpdateEdge.setDisable(true);
         }}
 
     public void handleButtonAction(ActionEvent e) throws IOException {
@@ -49,12 +62,12 @@ public class AddEdgeMenuController {
             case "btnCancel":
                 SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapeditor/edges/edgeEditorMenu.fxml");
                 break;
-            case "btnAddEdge":
+            case "btnUpdateEdge":
                 String edgeIdentifier = edgeID.getText();
                 String startNodeName = startNode.getText();
                 String endNodeName = endNode.getText();
                 Edge edge = new Edge(edgeIdentifier, startNodeName, endNodeName);
-                DatabaseHandler.getDatabaseHandler("main.db").addEdge(edge);
+                DatabaseHandler.getDatabaseHandler("main.db").updateEdge(edge);
                 SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapeditor/edges/edgeEditorMenu.fxml");
                 break;
         }

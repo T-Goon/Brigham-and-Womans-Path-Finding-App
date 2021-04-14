@@ -1,4 +1,4 @@
-package edu.wpi.teamB.views.mapeditor.nodes;
+package edu.wpi.teamB.views.mapEditor.nodes;
 
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.teamB.App;
@@ -9,7 +9,6 @@ import edu.wpi.teamB.util.NodeWrapper;
 import edu.wpi.teamB.util.SceneSwitcher;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -23,7 +22,6 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;

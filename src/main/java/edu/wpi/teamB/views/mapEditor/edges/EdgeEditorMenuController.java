@@ -1,13 +1,11 @@
-package edu.wpi.teamB.views.mapeditor.edges;
+package edu.wpi.teamB.views.mapEditor.edges;
 
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.teamB.App;
 import edu.wpi.teamB.database.DatabaseHandler;
 import edu.wpi.teamB.entities.Edge;
-import edu.wpi.teamB.entities.Node;
 import edu.wpi.teamB.util.CSVHandler;
 import edu.wpi.teamB.util.EdgeWrapper;
-import edu.wpi.teamB.util.NodeWrapper;
 import edu.wpi.teamB.util.SceneSwitcher;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;

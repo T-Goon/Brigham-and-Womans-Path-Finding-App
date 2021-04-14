@@ -1,4 +1,4 @@
-package edu.wpi.teamB.views.covidsurvey;
+package edu.wpi.teamB.views.covidSurvey;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXRadioButton;
