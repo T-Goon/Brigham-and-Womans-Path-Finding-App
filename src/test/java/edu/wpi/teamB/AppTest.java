@@ -50,16 +50,14 @@ public class AppTest extends FxRobot {
 
         // Select start and end locations
         clickOn("#startLocComboBox");
-        clickOn("75 Francis Driveway");
+        clickOn("75 Francis Valet Drop-off");
         clickOn("#endLocComboBox");
-        clickOn("Francis Street Right Walkway");
+        clickOn("75 Francis Lobby Entrance");
 
         clickOn("#btnFindPath");
 
-        // Check that something is drawn
-        verifyThat("#edge1940145018741611", Node::isVisible);
-        verifyThat("#edge1874161133711629", Node::isVisible);
-        verifyThat("#edge3371162933711504", Node::isVisible);
+        // Check that an edge is drawn
+        verifyThat(".edge", Node::isVisible);
 
         clickOn("#btnBack");
     }

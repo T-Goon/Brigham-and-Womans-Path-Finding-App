@@ -3,6 +3,7 @@ package edu.wpi.teamB;
 import edu.wpi.teamB.database.*;
 import edu.wpi.teamB.entities.Edge;
 import edu.wpi.teamB.entities.Node;
+import edu.wpi.teamB.pathfinding.Graph;
 import edu.wpi.teamB.util.CSVHandler;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,6 +28,7 @@ public class DatabaseHandlerTest {
     static void initDB() {
         db = DatabaseHandler.getDatabaseHandler("test.db");
         resourcesPath = Paths.get("src/test/resources/edu/wpi/teamB/database/load");
+        Graph.setGraph(db);
     }
 
     @BeforeEach

@@ -14,12 +14,10 @@ public class AStar {
      * @param endID   nodeID of the ending node
      * @return LinkedList of nodeIDs which dictates the order of nodes in the path
      */
-    public static List<String> findPath(String startID, String endID, boolean testing) {
+    public static List<String> findPath(String startID, String endID) {
 
-        String dbName = "main.db";
-        if (testing) dbName = "test.db";
 
-        Graph graph = Graph.getGraph(DatabaseHandler.getDatabaseHandler(dbName));
+        Graph graph = Graph.getGraph();
         Node startNode = graph.getNodes().get(startID);
         Node endNode = graph.getNodes().get(endID);
 

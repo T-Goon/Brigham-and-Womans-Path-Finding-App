@@ -17,12 +17,6 @@ public class Edge {
     private final String endNodeName;
 
 
-    public boolean floorChange(){
-        Graph graph = Graph.getGraph(DatabaseHandler.getDatabaseHandler("main.db"));
-        return graph.getNodes().get(startNodeName).getFloor().equals(graph.getNodes().get(endNodeName).getFloor());
-    }
-
-
     @Override
     public String toString() {
         return "Edge{" +

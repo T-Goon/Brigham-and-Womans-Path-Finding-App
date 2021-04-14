@@ -58,7 +58,7 @@ public class PathfindingMenuController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Map<String, Node> locations = Graph.getGraph(DatabaseHandler.getDatabaseHandler("main.db")).getNodes();
+        Map<String, Node> locations = Graph.getGraph().getNodes();
         List<String> locationNames = new ArrayList<>();
 
         validateFindPathButton();
@@ -102,7 +102,7 @@ public class PathfindingMenuController implements Initializable {
 
 
     private Map<String, String> longNameID() {
-        Map<String, Node> nodesId = Graph.getGraph(DatabaseHandler.getDatabaseHandler("main.db")).getNodes();
+        Map<String, Node> nodesId = Graph.getGraph().getNodes();
         Map<String, String> longName = new HashMap<>();
 
         for (Node node : nodesId.values()) {
@@ -112,9 +112,9 @@ public class PathfindingMenuController implements Initializable {
     }
 
     private void drawPath() {
-        Map<String, Node> nodesId = Graph.getGraph(DatabaseHandler.getDatabaseHandler("main.db")).getNodes();
+        Map<String, Node> nodesId = Graph.getGraph().getNodes();
         Map<String, String> hmLongName = longNameID();
-        List<String> AstrPath = AStar.findPath(hmLongName.get(getStartLocation()), hmLongName.get(getEndLocation()), false);
+        List<String> AstrPath = AStar.findPath(hmLongName.get(getStartLocation()), hmLongName.get(getEndLocation()));
 
         Node prev = null;
         Node curr;

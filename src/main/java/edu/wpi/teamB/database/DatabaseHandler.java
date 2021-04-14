@@ -2,6 +2,7 @@ package edu.wpi.teamB.database;
 
 import edu.wpi.teamB.entities.Edge;
 import edu.wpi.teamB.entities.Node;
+import edu.wpi.teamB.pathfinding.Graph;
 
 import java.sql.*;
 import java.util.*;
@@ -297,6 +298,8 @@ public class DatabaseHandler {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        Graph.getGraph().updateGraph();
     }
 
     /**
@@ -316,6 +319,8 @@ public class DatabaseHandler {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        Graph.getGraph().updateGraph();
     }
 
     /**
