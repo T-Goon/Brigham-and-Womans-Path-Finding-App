@@ -1,4 +1,4 @@
-package edu.wpi.teamB.views.mapeditor.nodes;
+package edu.wpi.teamB.views.mapEditor.nodes;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXRadioButton;

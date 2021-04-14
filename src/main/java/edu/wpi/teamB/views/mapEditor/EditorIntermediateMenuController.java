@@ -1,4 +1,4 @@
-package edu.wpi.teamB.views.mapeditor;
+package edu.wpi.teamB.views.mapEditor;
 
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.teamB.util.SceneSwitcher;

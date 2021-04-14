@@ -47,7 +47,7 @@ public class PatientDirectoryMenuController {
                 break;
             case "btnCovid":
                 try {
-                    SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/secondaryForms/covidSurvey.fxml");
+                    SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/covidsurvey/covidSurvey.fxml");
                 } catch (IOException ex) {
                     ex.printStackTrace();
                     break;
