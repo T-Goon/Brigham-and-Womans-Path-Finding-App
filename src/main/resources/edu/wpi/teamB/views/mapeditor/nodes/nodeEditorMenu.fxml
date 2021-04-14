@@ -64,7 +64,7 @@
                         <Insets />
                      </HBox.margin>
                      <children>
-                        <JFXScrollPane prefHeight="600.0" prefWidth="1050.0" stylesheets="@../../../css/editorTable.css">
+                        <JFXScrollPane prefHeight="600.0" prefWidth="1025.0" stylesheets="@../../../css/editorTable.css">
                            <children>
                               <TableView fx:id="tblNodes" style="-fx-background-color: #0067B1;">
                                  <columns>
@@ -117,7 +117,7 @@
                         <Font size="27.0" />
                      </font>
                      <HBox.margin>
-                        <Insets right="10.0" />
+                        <Insets left="10.0" right="10.0" />
                      </HBox.margin>
                   </JFXButton>
                </children>
