@@ -3,7 +3,6 @@ package edu.wpi.teamB.views.menus;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 
-import edu.wpi.teamB.database.DatabaseHandler;
 import edu.wpi.teamB.entities.Node;
 import edu.wpi.teamB.pathfinding.AStar;
 import edu.wpi.teamB.pathfinding.Graph;
@@ -25,7 +24,6 @@ import javafx.scene.shape.Line;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.*;
 
 public class PathfindingMenuController implements Initializable {
@@ -38,6 +36,9 @@ public class PathfindingMenuController implements Initializable {
 
     @FXML
     private AnchorPane nodeHolder;
+
+    @FXML
+    private AnchorPane intermediateNodeHolder;
 
     @FXML
     private AnchorPane mapHolder;
@@ -57,7 +58,6 @@ public class PathfindingMenuController implements Initializable {
     private static final double coordinateScale = 10 / 3.0;
     private List<Line> edgePlaced = new ArrayList<>();
     private VBox popup = null;
-    private HashMap<String, Node> locations;
     private final HashMap<String, List<Node>> floorNodes = new HashMap<>();
 
     @Override
@@ -91,21 +91,22 @@ public class PathfindingMenuController implements Initializable {
     }
 
     /**
-     * Draws all the nodes and intermediate nodes on a given floor
-     * @param floorID the floor id for the nodes "LL", "L", "G", "1", "2", "3"
+     * Draws all the nodes on a given floor
+     *
+     * @param floorID the floor id for the nodes "L2", "L1", "1", "2", "3"
      */
     private void drawNodesOnFloor(String floorID) {
         for (Node n : floorNodes.get(floorID)) {
             if (!(n.getNodeType().equals("WALK") || n.getNodeType().equals("HALL"))) {
                 placeNode(n);
-            } else {
-                placeIntermediateNode(n);
             }
         }
     }
 
-
-    private Map<String, String> longNameID() {
+    /**
+     * @return a map of long names to node IDs
+     */
+    private Map<String, String> makeLongToIDMap() {
         Map<String, Node> nodesId = Graph.getGraph().getNodes();
         Map<String, String> longName = new HashMap<>();
 
@@ -115,27 +116,26 @@ public class PathfindingMenuController implements Initializable {
         return longName;
     }
 
+    /**
+     * Draws the path on the map
+     */
     private void drawPath() {
         Map<String, Node> nodesId = Graph.getGraph().getNodes();
-        Map<String, String> hmLongName = longNameID();
-        List<String> AstrPath = AStar.findPath(hmLongName.get(getStartLocation()), hmLongName.get(getEndLocation()));
+        Map<String, String> hmLongName = makeLongToIDMap();
+        List<String> AstarPath = AStar.findPath(hmLongName.get(getStartLocation()), hmLongName.get(getEndLocation()));
 
-        if(AstrPath.isEmpty()){
+        if (AstarPath.isEmpty()) {
             lblError.setVisible(true);
-            return;
-        }else{
+        } else {
             Node prev = null;
-            Node curr;
-            for (String loc : AstrPath) {
-
+            for (String loc : AstarPath) {
                 if ((prev != null) && (loc != null)) {
-                    curr = nodesId.get(loc);
+                    Node curr = nodesId.get(loc);
                     placeEdge(prev.getXCoord(), prev.getYCoord(), curr.getXCoord(), curr.getYCoord());
                 }
                 prev = nodesId.get(loc);
             }
         }
-
     }
 
     @FXML
@@ -198,7 +198,7 @@ public class PathfindingMenuController implements Initializable {
             c.setCenterX((n.getXCoord() / PathfindingMenuController.coordinateScale));
             c.setCenterY((n.getYCoord() / PathfindingMenuController.coordinateScale));
 
-            nodeHolder.getChildren().add(c);
+            intermediateNodeHolder.getChildren().add(c);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -232,12 +232,7 @@ public class PathfindingMenuController implements Initializable {
                         break;
                     case "BtnCancel":
                         Button cancelButton = (Button) node;
-                        cancelButton.setOnAction(new EventHandler<ActionEvent>() {
-                            @Override
-                            public void handle(ActionEvent event) {
-                                deleteBox();
-                            }
-                        });
+                        cancelButton.setOnAction(event -> deleteBox());
                         break;
                 }
             }
@@ -265,22 +260,19 @@ public class PathfindingMenuController implements Initializable {
     private void showGraphicalSelection(ComboBox comboBox, javafx.scene.Node node, Node n) {
         Button tempButton = (Button) node;
 
-        tempButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                //loop through combo box if string == name of node
-                //keep track of index and pass it in
+        tempButton.setOnAction(event -> {
+            //loop through combo box if string == name of node
+            //keep track of index and pass it in
 
-                for (int i = 0; i < comboBox.getItems().size(); i++) {
+            for (int i = 0; i < comboBox.getItems().size(); i++) {
 
-                    if (n.getLongName().equals(comboBox.getItems().get(i))) {
-                        comboBox.getSelectionModel().select(i);
+                if (n.getLongName().equals(comboBox.getItems().get(i))) {
+                    comboBox.getSelectionModel().select(i);
 
-                    }
                 }
-
-                deleteBox();
             }
+
+            deleteBox();
         });
     }
 
