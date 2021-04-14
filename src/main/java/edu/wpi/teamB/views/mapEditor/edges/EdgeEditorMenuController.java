@@ -103,7 +103,7 @@ public class EdgeEditorMenuController implements Initializable {
         assert edges != null;
         for (Edge e : edges.values()) {
             try {
-                tblEdges.getItems().add(new EdgeWrapper(e));
+                tblEdges.getItems().add(new EdgeWrapper(e, tblEdges));
             } catch (IOException err) {
                 err.printStackTrace();
             }
@@ -132,7 +132,7 @@ public class EdgeEditorMenuController implements Initializable {
                     tblEdges.getItems().clear();
                     for (Edge e : newEdges) {
                         try {
-                            tblEdges.getItems().add(new EdgeWrapper(e));
+                            tblEdges.getItems().add(new EdgeWrapper(e, tblEdges));
                         } catch (IOException err) {
                             err.printStackTrace();
                         }

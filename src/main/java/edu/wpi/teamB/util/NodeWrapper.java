@@ -54,8 +54,6 @@ public class NodeWrapper {
         JFXButton btnEdit = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/misc/nodeEdgeEditBtn.fxml")));
         btnEdit.setId(n.getNodeID() + "EditBtn");
 
-
-        // TODO connect button to action
         btnEdit.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -75,13 +73,11 @@ public class NodeWrapper {
         JFXButton btnDel = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/misc/nodeEdgeDelBtn.fxml")));
         btnDel.setId(n.getNodeID() + "DelBtn");
 
-        // TODO connect button to action
         btnDel.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 DatabaseHandler.getDatabaseHandler("main.db").removeNode(n.getNodeID());
                 parentTable.getItems().removeIf( (Object o) -> ((NodeWrapper) o).id == id);
-//                    SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapeditor/nodes/nodeEditorMenu.fxml");
             }
         });
 
