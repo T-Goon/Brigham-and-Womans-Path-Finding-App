@@ -72,15 +72,7 @@ public class EditNodesListMenuController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
-        Map<String, Node> nodes = null;
-
-        try {
-            nodes = DatabaseHandler.getDatabaseHandler("main.db").getNodes();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
+        Map<String, Node> nodes = DatabaseHandler.getDatabaseHandler("main.db").getNodes();
         ObservableList<TableColumn<String, Label>> cols = tblNodes.getColumns();
         for (TableColumn<String, Label> c : cols) {
             c.getId();
@@ -125,13 +117,8 @@ public class EditNodesListMenuController implements Initializable {
                     File file = fileChooser.showOpenDialog(stage);
                     if (file == null) return;
 
-                    List<Node> newNodes = new ArrayList<>();
-                    try {
-                        newNodes = CSVHandler.loadCSVNodes(file.toPath());
-                        DatabaseHandler.getDatabaseHandler("main.db").loadDatabaseNodes(newNodes);
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
+                    List<Node> newNodes = CSVHandler.loadCSVNodes(file.toPath());
+                    DatabaseHandler.getDatabaseHandler("main.db").loadDatabaseNodes(newNodes);
 
                     // Add them to the refreshed table
                     tblNodes.getItems().clear();
@@ -155,11 +142,7 @@ public class EditNodesListMenuController implements Initializable {
                     if (file == null) return;
 
                     // Save the current database into that csv folder
-                    try {
-                        CSVHandler.saveCSVNodes(file.toPath(), false);
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
+                    CSVHandler.saveCSVNodes(file.toPath(), false);
                 }
         );
     }
