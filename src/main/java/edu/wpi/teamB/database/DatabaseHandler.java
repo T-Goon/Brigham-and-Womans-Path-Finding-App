@@ -92,7 +92,7 @@ public class DatabaseHandler {
                 + "nodeID CHAR(20), "
                 + "xcoord INT, "
                 + "ycoord INT, "
-                + "floor INT, "
+                + "floor CHAR(20), "
                 + "building CHAR(20), "
                 + "nodeType CHAR(20), "
                 + "longName CHAR(50), "
@@ -106,8 +106,8 @@ public class DatabaseHandler {
                     "VALUES('"
                     + node.getNodeID() + "', "
                     + node.getXCoord() + ", "
-                    + node.getYCoord() + ", "
-                    + node.getFloor() + ", '"
+                    + node.getYCoord() + ", '"
+                    + node.getFloor() + "', '"
                     + node.getBuilding() + "', '"
                     + node.getNodeType() + "', '"
                     + node.getLongName() + "', '"
@@ -170,7 +170,7 @@ public class DatabaseHandler {
                 rs.getString("nodeID").trim(),
                 rs.getInt("xcoord"),
                 rs.getInt("ycoord"),
-                rs.getInt("floor"),
+                rs.getString("floor"),
                 rs.getString("building").trim(),
                 rs.getString("nodeType").trim(),
                 rs.getString("longName").trim(),
@@ -192,7 +192,7 @@ public class DatabaseHandler {
                     rs.getString("NodeID").trim(),
                     rs.getInt("xcoord"),
                     rs.getInt("ycoord"),
-                    rs.getInt("floor"),
+                    rs.getString("floor"),
                     rs.getString("building").trim(),
                     rs.getString("nodeType").trim(),
                     rs.getString("longName").trim(),

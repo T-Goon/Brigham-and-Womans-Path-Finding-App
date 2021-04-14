@@ -6,11 +6,10 @@ import edu.wpi.teamB.entities.Node;
 import edu.wpi.teamB.pathfinding.AStar;
 import edu.wpi.teamB.pathfinding.Graph;
 import edu.wpi.teamB.util.CSVHandler;
-import lombok.SneakyThrows;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -27,8 +26,8 @@ public class PathfindingTests {
     @BeforeAll
     static void initDB() {
         db = DatabaseHandler.getDatabaseHandler("test.db");
-        List<Node> nodes = CSVHandler.loadCSVNodes(App.NODES_PATH);
-        List<Edge> edges = CSVHandler.loadCSVEdges(App.EDGES_PATH);
+        List<Node> nodes = CSVHandler.loadCSVNodes(Paths.get("src/test/resources/edu/wpi/teamB/csvFiles/bwBnodes.csv"));
+        List<Edge> edges = CSVHandler.loadCSVEdges(Paths.get("src/test/resources/edu/wpi/teamB/csvFiles/bwBedges.csv"));
         try {
             db.loadDatabase(nodes, edges);
         } catch (SQLException e) {
@@ -40,35 +39,15 @@ public class PathfindingTests {
     public void adjNodes() {
         //Testing only one adj node
         List<Node> adjNodes = new ArrayList<>();
-        Node bWALK00101 = new Node("bWALK00101", 568, 1894, 1, "Parking", "WALK", "Left Parking Lot Walkway", "Llot Walk");
+        Node bWALK00101 = new Node("bWALK00101", 568, 1894, "1", "Parking", "WALK", "Left Parking Lot Walkway", "Llot Walk");
         adjNodes.add(bWALK00101);
         assertEquals(adjNodes, Graph.getGraph(db).getAdjNodesById("bPARK00101"));
-
-        //testing bidirectional and multiple adj nodes
-        List<Node> adjNodes3 = new ArrayList<>();
-
-        /*
-        * bWALK00301_bWALK00401,bWALK00301,bWALK00401
-        bWALK00401_bEXIT00101,bWALK00401,bEXIT00101
-        bWALK00401_bEXIT00201,bWALK00401,bEXIT00201
-        * */
-
-        Node bWALK00301 = new Node("bWALK00301", 1874, 1611, 1, "Parking", "WALK", "Francis Street Vining Street Intersection", "FrancisViningInt");
-        Node bEXIT00101 = new Node("bEXIT00101", 1749, 1389, 1, "Parking", "EXIT", "75 Francis Lobby Entrance", "FrancisLobbyEnt");
-        Node bEXIT00201 = new Node("bEXIT00201", 2061, 1390, 1, "Parking", "EXIT", "Emergency Entrance", "EmergencyEnt");
-
-        adjNodes3.add(bWALK00301);
-        adjNodes3.add(bEXIT00101);
-        adjNodes3.add(bEXIT00201);
-
-        assertTrue(Graph.getGraph(db).getAdjNodesById("bWALK00401").containsAll(adjNodes3));
-
     }
 
     @Test
     public void testDist() {
-        Node start = new Node("bWALK00301", 3, 0, 1, "Parking", "WALK", "Francis Street Vining Street Intersection", "FrancisViningInt");
-        Node end = new Node("bEXIT00101", 0, 4, 1, "Parking", "EXIT", "75 Francis Lobby Entrance", "FrancisLobbyEnt");
+        Node start = new Node("bWALK00301", 3, 0, "1", "Parking", "WALK", "Francis Street Vining Street Intersection", "FrancisViningInt");
+        Node end = new Node("bEXIT00101", 0, 4, "1", "Parking", "EXIT", "75 Francis Lobby Entrance", "FrancisLobbyEnt");
         assertEquals(5.0, Graph.dist(start, end));
     }
 
@@ -79,11 +58,18 @@ public class PathfindingTests {
         expectedPath.add("bWALK00101");
         expectedPath.add("bWALK00201");
         expectedPath.add("bWALK00301");
+        expectedPath.add("bWALK00401");
         expectedPath.add("bWALK00501");
         expectedPath.add("bWALK00601");
         expectedPath.add("bWALK00701");
         expectedPath.add("bWALK00801");
-        expectedPath.add("bWALK00901");
+        expectedPath.add("bWALK01001");
+        expectedPath.add("bWALK01101");
+        expectedPath.add("bWALK01201");
+        expectedPath.add("bWALK01301");
+        expectedPath.add("bWALK01401");
+        expectedPath.add("bWALK01501");
+        expectedPath.add("bWALK01601");
         expectedPath.add("bPARK02501");
         List<String> path = AStar.findPath("bPARK00101", "bPARK02501", true);
         assertEquals(expectedPath, path);

@@ -43,7 +43,7 @@ public class DatabaseHandlerTest {
         Node target = new Node("testNode",
                 0,
                 -992,
-                1,
+                "1",
                 "test_building",
                 "NODETYPE",
                 "Name With Many Spaces",
@@ -62,7 +62,7 @@ public class DatabaseHandlerTest {
 
     @Test
     public void complexParseNodesValues() {
-        Node target = new Node("bWALK00501", 1872, 1965, 1, "Parking", "WALK", "Vining Street Walkway", "ViningWalk");
+        Node target = new Node("bWALK00501", 1872, 1965, "1", "Parking", "WALK", "Vining Street Walkway", "ViningWalk");
         Path nodePath = Paths.get(resourcesPath + "/ComplexTestNodes.csv");
         List<Node> nodes = CSVHandler.loadCSVNodes(nodePath);
         List<String> expanded = nodes.stream().map(Node::toString).collect(Collectors.toList());
@@ -99,16 +99,16 @@ public class DatabaseHandlerTest {
         List<Edge> edges = new ArrayList<>();
 
         //Theres a less scuffed way to do this, but hey, it works and is easy to tweak.
-        Node targetNode0 = new Node("bWALK00501", 1872, 1965, 1, "Parking", "WALK", "Vining Street Walkway", "ViningWalk");
-        Node targetNode1 = new Node("bWALK00502", 1872, 1965, 1, "Parking", "WALK", "Vining Street Walkway", "ViningWalk");
-        Node targetNode2 = new Node("bWALK00503", 1872, 1965, 1, "Parking", "WALK", "Vining Street Walkway", "ViningWalk");
-        Node targetNode3 = new Node("bWALK00504", 1872, 1965, 1, "Parking", "WALK", "Vining Street Walkway", "ViningWalk");
-        Node targetNode4 = new Node("bWALK00505", 1872, 1965, 1, "Parking", "WALK", "Vining Street Walkway", "ViningWalk");
-        Node targetNode5 = new Node("bWALK00506", 1872, 1965, 1, "Parking", "WALK", "Vining Street Walkway", "ViningWalk");
-        Node targetNode6 = new Node("bWALK00507", 1872, 1965, 1, "Parking", "WALK", "Vining Street Walkway", "ViningWalk");
-        Node targetNode7 = new Node("bWALK00508", 1872, 1965, 1, "Parking", "WALK", "Vining Street Walkway", "ViningWalk");
-        Node targetNode8 = new Node("bWALK00509", 1872, 1965, 1, "Parking", "WALK", "Vining Street Walkway", "ViningWalk");
-        Node targetNode9 = new Node("bWALK00510", 1872, 1965, 1, "Parking", "WALK", "Vining Street Walkway", "ViningWalk");
+        Node targetNode0 = new Node("bWALK00501", 1872, 1965, "1", "Parking", "WALK", "Vining Street Walkway", "ViningWalk");
+        Node targetNode1 = new Node("bWALK00502", 1872, 1965, "1", "Parking", "WALK", "Vining Street Walkway", "ViningWalk");
+        Node targetNode2 = new Node("bWALK00503", 1872, 1965, "1", "Parking", "WALK", "Vining Street Walkway", "ViningWalk");
+        Node targetNode3 = new Node("bWALK00504", 1872, 1965, "1", "Parking", "WALK", "Vining Street Walkway", "ViningWalk");
+        Node targetNode4 = new Node("bWALK00505", 1872, 1965, "1", "Parking", "WALK", "Vining Street Walkway", "ViningWalk");
+        Node targetNode5 = new Node("bWALK00506", 1872, 1965, "1", "Parking", "WALK", "Vining Street Walkway", "ViningWalk");
+        Node targetNode6 = new Node("bWALK00507", 1872, 1965, "1", "Parking", "WALK", "Vining Street Walkway", "ViningWalk");
+        Node targetNode7 = new Node("bWALK00508", 1872, 1965, "1", "Parking", "WALK", "Vining Street Walkway", "ViningWalk");
+        Node targetNode8 = new Node("bWALK00509", 1872, 1965, "1", "Parking", "WALK", "Vining Street Walkway", "ViningWalk");
+        Node targetNode9 = new Node("bWALK00510", 1872, 1965, "1", "Parking", "WALK", "Vining Street Walkway", "ViningWalk");
         nodes.add(targetNode0);
         nodes.add(targetNode1);
         nodes.add(targetNode2);
@@ -141,7 +141,7 @@ public class DatabaseHandlerTest {
         Node target = new Node("testNode",
                 0,
                 -992,
-                1,
+                "1",
                 "test_building",
                 "NODETYPE",
                 "Name With Many Spaces",
@@ -152,7 +152,7 @@ public class DatabaseHandlerTest {
         String nodeID = target.getNodeID();
         int xcoord = 1;
         int ycoord = 2;
-        int floor = 3;
+        String floor = "3";
         String building = "Parking";
         String nodeType = "PARK";
         String longName = "Left Parking Lot Spot 10";
@@ -162,7 +162,7 @@ public class DatabaseHandlerTest {
         Map<String, Node> nodes = db.getNodes();
         assertEquals(1, nodes.get("testNode").getXCoord());
         assertEquals(2, nodes.get("testNode").getYCoord());
-        assertEquals(3, nodes.get("testNode").getFloor());
+        assertEquals("3", nodes.get("testNode").getFloor());
         assertEquals("Parking", nodes.get("testNode").getBuilding());
         assertEquals("PARK", nodes.get("testNode").getNodeType());
         assertEquals("Left Parking Lot Spot 10", nodes.get("testNode").getLongName());
@@ -192,7 +192,7 @@ public class DatabaseHandlerTest {
         Node target = new Node("testNode",
                 0,
                 -992,
-                1,
+                "1",
                 "test_building",
                 "NODETYPE",
                 "Name With Many Spaces",
@@ -203,7 +203,7 @@ public class DatabaseHandlerTest {
         Map<String, Node> nodes = db.getNodes();
         assertEquals(0, nodes.get("testNode").getXCoord());
         assertEquals(-992, nodes.get("testNode").getYCoord());
-        assertEquals(1, nodes.get("testNode").getFloor());
+        assertEquals("1", nodes.get("testNode").getFloor());
         assertEquals("test_building", nodes.get("testNode").getBuilding());
         assertEquals("NODETYPE", nodes.get("testNode").getNodeType());
         assertEquals("Name With Many Spaces", nodes.get("testNode").getLongName());
@@ -226,7 +226,7 @@ public class DatabaseHandlerTest {
         Node target = new Node("testNode",
                 0,
                 -992,
-                1,
+                "1",
                 "test_building",
                 "NODETYPE",
                 "Name With Many Spaces",

@@ -109,7 +109,7 @@ public class EditNodeMenuController implements Initializable {
 
                 int aXCoord = Integer.parseInt(xCoord.getText());
                 int aYCoord = Integer.parseInt(yCoord.getText());
-                int aFloor = Integer.parseInt(floor.getText());
+                String aFloor = floor.getText();
                 String aBuilding = building.getText();
                 String aNodeType = nodeType.getText();
                 String aLongName = longName.getText();

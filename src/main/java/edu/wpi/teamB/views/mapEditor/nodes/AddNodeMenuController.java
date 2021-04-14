@@ -94,7 +94,7 @@ public class AddNodeMenuController implements Initializable {
                 break;
             case "btnAddNode":
                 String aNodeId = nodeID.getText();
-                int aFloor = Integer.parseInt(floor.getText());
+                String aFloor = floor.getText();
                 String aBuilding = building.getText();
                 String aNodeType = nodeType.getText();
                 String aLongName = longName.getText();

@@ -51,49 +51,55 @@ public class PathfindingMenuController implements Initializable {
     private JFXButton btnBack;
 
     private static final double coordinateScale = 10 / 3.0;
-
     private List<Line> edgePlaced = new ArrayList<>();
     private VBox popup = null;
     private HashMap<String, Node> locations;
+    private final HashMap<String, List<Node>> floorNodes = new HashMap<>();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        Map<String, Node> locations = Graph.getGraph(DatabaseHandler.getDatabaseHandler("main.db")).getNodes();
+        List<String> locationNames = new ArrayList<>();
 
         validateFindPathButton();
-        locations = new HashMap<>();
 
-        // Pulls nodes from the database to fill the nodeInfo hashmap
-        try {
-            Map<String, Node> nodes = DatabaseHandler.getDatabaseHandler("main.db").getNodes();
-            for (Node n : nodes.values())
-                locations.put(n.getNodeID(), n);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        // Place nodes on map
+        //Adds all the destination names to locationNames and sort the nodes by floor
         for (Node n : locations.values()) {
-            if (!n.getNodeType().equals("WALK")) placeNode(n);
-            else placeIntermediateNode(n);
+            if (!(n.getNodeType().equals("WALK") || n.getNodeType().equals("HALL"))) {
+                locationNames.add(n.getLongName());
+            }
+
+            if (floorNodes.containsKey(n.getFloor())) {
+                floorNodes.get(n.getFloor()).add(n);
+            } else {
+                ArrayList<Node> tempList = new ArrayList<>();
+                tempList.add(n);
+                floorNodes.put(n.getFloor(), tempList);
+            }
         }
 
-        // Populate the combo boxes with locations
-        try {
-            List<Node> nodes = new ArrayList<>(locations.values());
-            List<String> nodeNames = new ArrayList<>();
-            for (Node n : nodes) {
-                nodeNames.add(n.getLongName());
-            }
+        //Populate the Combo Boxes with valid locations (Sorted)
+        Collections.sort(locationNames);
+        startLocComboBox.getItems().addAll(locationNames);
+        endLocComboBox.getItems().addAll(locationNames);
 
-            Collections.sort(nodeNames);
-            for (String name : nodeNames) {
-                startLocComboBox.getItems().add(name);
-                endLocComboBox.getItems().add(name);
+        drawNodesOnFloor("1");
+    }
+
+    /**
+     * Draws all the nodes and intermediate nodes on a given floor
+     * @param floorID the floor id for the nodes "LL", "L", "G", "1", "2", "3"
+     */
+    private void drawNodesOnFloor(String floorID) {
+        for (Node n : floorNodes.get(floorID)) {
+            if (!(n.getNodeType().equals("WALK") || n.getNodeType().equals("HALL"))) {
+                placeNode(n);
+            } else {
+                placeIntermediateNode(n);
             }
-        } catch (NullPointerException e) {
-            e.printStackTrace();
         }
     }
+
 
     private Map<String, String> longNameID() {
         Map<String, Node> nodesId = Graph.getGraph(DatabaseHandler.getDatabaseHandler("main.db")).getNodes();
@@ -180,10 +186,6 @@ public class PathfindingMenuController implements Initializable {
 
             c.setCenterX((n.getXCoord() / PathfindingMenuController.coordinateScale));
             c.setCenterY((n.getYCoord() / PathfindingMenuController.coordinateScale));
-
-            c.setOnMouseClicked((MouseEvent e) -> {
-                createGraphicalInputPopup(n);
-            });
 
             nodeHolder.getChildren().add(c);
 
