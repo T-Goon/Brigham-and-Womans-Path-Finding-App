@@ -101,7 +101,7 @@ public class EditNodeMenuController implements Initializable {
 
         switch (btn.getId()) {
             case "btnBack":
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapeditor/nodes/nodeEditorMenu.fxml");
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapeditor/nodes/editNodesListMenu.fxml");
                 break;
             case "btnUpdate":
                 Stage stage = App.getPrimaryStage();
@@ -118,7 +118,7 @@ public class EditNodeMenuController implements Initializable {
                 node = new Node(node.getNodeID(), aXCoord, aYCoord, aFloor, aBuilding, aNodeType, aLongName, aShortName);
 
                 DatabaseHandler.getDatabaseHandler("main.db").updateNode(node);
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapeditor/nodes/nodeEditorMenu.fxml");
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapeditor/nodes/editNodesListMenu.fxml");
                 break;
         }
     }

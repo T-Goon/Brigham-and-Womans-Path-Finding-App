@@ -78,7 +78,7 @@ public class NodeWrapper {
             public void handle(ActionEvent event) {
                 DatabaseHandler.getDatabaseHandler("main.db").removeNode(n.getNodeID());
                 try {
-                    SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapeditor/nodes/nodeEditorMenu.fxml");
+                    SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapeditor/nodes/editNodesListMenu.fxml");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

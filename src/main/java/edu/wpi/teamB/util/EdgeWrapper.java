@@ -58,7 +58,7 @@ public class EdgeWrapper {
             public void handle(ActionEvent event) {
                 DatabaseHandler.getDatabaseHandler("main.db").removeEdge(e.getEdgeID());
                 try {
-                    SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapeditor/edges/edgeEditorMenu.fxml");
+                    SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapeditor/edges/editEdgesListMenu.fxml");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
