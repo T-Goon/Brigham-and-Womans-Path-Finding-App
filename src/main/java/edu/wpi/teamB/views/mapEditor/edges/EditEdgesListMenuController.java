@@ -1,11 +1,11 @@
-package edu.wpi.teamB.views.mapEditor.nodes;
+package edu.wpi.teamB.views.mapEditor.edges;
 
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.teamB.App;
 import edu.wpi.teamB.database.DatabaseHandler;
-import edu.wpi.teamB.entities.Node;
+import edu.wpi.teamB.entities.Edge;
 import edu.wpi.teamB.util.CSVHandler;
-import edu.wpi.teamB.util.NodeWrapper;
+import edu.wpi.teamB.util.EdgeWrapper;
 import edu.wpi.teamB.util.SceneSwitcher;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -29,25 +29,25 @@ import java.util.Map;
 import java.util.ResourceBundle;
 
 @SuppressWarnings("unchecked") // Added so Java doesn't get mad at the raw use of TableView that is necessary
-public class NodeEditorMenuController implements Initializable {
+public class EditEdgesListMenuController implements Initializable {
 
     @FXML
-    public JFXButton btnEmergency;
+    private JFXButton btnEmergency;
 
     @FXML
-    public JFXButton btnLoad;
+    private JFXButton btnLoad;
 
     @FXML
-    public JFXButton btnSave;
+    private JFXButton btnSave;
 
     @FXML
     private JFXButton btnBack;
 
     @FXML
-    private JFXButton btnAddNode;
+    private JFXButton btnAddEdge;
 
     @FXML
-    private TableView tblNodes;
+    private TableView tblEdges;
 
     @FXML
     private TableColumn<String, JFXButton> editBtnCol;
@@ -56,13 +56,10 @@ public class NodeEditorMenuController implements Initializable {
     private TableColumn<String, Label> idCol;
 
     @FXML
-    private TableColumn<String, Label> nameCol;
+    private TableColumn<String, Label> startNodeCol;
 
     @FXML
-    private TableColumn<String, Label> typeCol;
-
-    @FXML
-    private TableColumn<String, Label> edgesCol;
+    private TableColumn<String, Label> endNodeCol;
 
     @FXML
     private TableColumn<String, JFXButton> delCol;
@@ -73,15 +70,15 @@ public class NodeEditorMenuController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        Map<String, Node> nodes = null;
+        Map<String, Edge> edges = null;
 
         try {
-            nodes = DatabaseHandler.getDatabaseHandler("main.db").getNodes();
+            edges = DatabaseHandler.getDatabaseHandler("main.db").getEdges();
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        ObservableList<TableColumn<String, Label>> cols = tblNodes.getColumns();
+        ObservableList<TableColumn<String, Label>> cols = tblEdges.getColumns();
         for (TableColumn<String, Label> c : cols) {
             c.getId();
             switch (c.getId()) {
@@ -91,14 +88,11 @@ public class NodeEditorMenuController implements Initializable {
                 case "idCol":
                     c.setCellValueFactory(new PropertyValueFactory<>("id"));
                     break;
-                case "nameCol":
-                    c.setCellValueFactory(new PropertyValueFactory<>("name"));
+                case "startNodeCol":
+                    c.setCellValueFactory(new PropertyValueFactory<>("startNode"));
                     break;
-                case "typeCol":
-                    c.setCellValueFactory(new PropertyValueFactory<>("type"));
-                    break;
-                case "edgesCol":
-                    c.setCellValueFactory(new PropertyValueFactory<>("edges"));
+                case "endNodeCol":
+                    c.setCellValueFactory(new PropertyValueFactory<>("endNode"));
                     break;
                 case "delCol":
                     c.setCellValueFactory(new PropertyValueFactory<>("btnDel"));
@@ -106,40 +100,41 @@ public class NodeEditorMenuController implements Initializable {
             }
         }
 
-        assert nodes != null;
-        for (Node n : nodes.values()) {
+        assert edges != null;
+        for (Edge e : edges.values()) {
             try {
-                tblNodes.getItems().add(new NodeWrapper(n));
-            } catch (IOException e) {
-                e.printStackTrace();
+                tblEdges.getItems().add(new EdgeWrapper(e, tblEdges));
+            } catch (IOException err) {
+                err.printStackTrace();
             }
         }
+
 
         // Set up Load and Save buttons
         btnLoad.setOnAction(
                 event -> {
                     // Get the CSV file and load it
                     Stage stage = App.getPrimaryStage();
-                    fileChooser.setTitle("Select Nodes CSV file");
+                    fileChooser.setTitle("Select Edges CSV file");
                     fileChooser.setInitialDirectory(new File(new File("").getAbsolutePath()));
                     File file = fileChooser.showOpenDialog(stage);
                     if (file == null) return;
 
-                    List<Node> newNodes = new ArrayList<>();
+                    List<Edge> newEdges = new ArrayList<>();
                     try {
-                        newNodes = CSVHandler.loadCSVNodes(file.toPath());
-                        DatabaseHandler.getDatabaseHandler("main.db").loadDatabaseNodes(newNodes);
+                        newEdges = CSVHandler.loadCSVEdges(file.toPath());
+                        DatabaseHandler.getDatabaseHandler("main.db").loadDatabaseEdges(newEdges);
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
 
                     // Add them to the refreshed table
-                    tblNodes.getItems().clear();
-                    for (Node n : newNodes) {
+                    tblEdges.getItems().clear();
+                    for (Edge e : newEdges) {
                         try {
-                            tblNodes.getItems().add(new NodeWrapper(n));
-                        } catch (IOException e) {
-                            e.printStackTrace();
+                            tblEdges.getItems().add(new EdgeWrapper(e, tblEdges));
+                        } catch (IOException err) {
+                            err.printStackTrace();
                         }
                     }
                 }
@@ -149,14 +144,14 @@ public class NodeEditorMenuController implements Initializable {
                 event -> {
                     // Get the CSV directory location
                     Stage stage = App.getPrimaryStage();
-                    directoryChooser.setTitle("Select directory to save Nodes CSV file to");
+                    directoryChooser.setTitle("Select directory to save Edges CSV file to");
                     directoryChooser.setInitialDirectory(new File(new File("").getAbsolutePath()));
                     File file = directoryChooser.showDialog(stage);
                     if (file == null) return;
 
                     // Save the current database into that csv folder
                     try {
-                        CSVHandler.saveCSVNodes(file.toPath(), false);
+                        CSVHandler.saveCSVEdges(file.toPath(), false);
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
@@ -172,8 +167,8 @@ public class NodeEditorMenuController implements Initializable {
             case "btnBack":
                 SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapeditor/editorIntermediateMenu.fxml");
                 break;
-            case "btnAddNode":
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapeditor/nodes/addNodeMenu.fxml");
+            case "btnAddEdge":
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapeditor/edges/addEdgeMenu.fxml");
                 break;
         }
     }

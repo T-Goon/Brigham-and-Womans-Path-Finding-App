@@ -2,13 +2,13 @@ package edu.wpi.teamB.views.mapEditor.nodes;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXRadioButton;
+import com.jfoenix.controls.JFXTextField;
 import edu.wpi.teamB.database.DatabaseHandler;
 import edu.wpi.teamB.entities.Node;
 import edu.wpi.teamB.util.SceneSwitcher;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 
 import java.io.IOException;
@@ -18,7 +18,7 @@ import java.util.ResourceBundle;
 public class AddNodeMenuController implements Initializable {
 
     @FXML
-    public JFXButton btnEmergency;
+    private JFXButton btnEmergency;
 
     @FXML
     private JFXButton btnCancel;
@@ -33,28 +33,28 @@ public class AddNodeMenuController implements Initializable {
     private ToggleGroup areaGroup;
 
     @FXML
-    private TextField nodeID;
+    private JFXTextField nodeID;
 
     @FXML
-    private TextField xCoord;
+    private JFXTextField xCoord;
 
     @FXML
-    private TextField yCoord;
+    private JFXTextField yCoord;
 
     @FXML
-    private TextField floor;
+    private JFXTextField floor;
 
     @FXML
-    private TextField building;
+    private JFXTextField building;
 
     @FXML
-    private TextField nodeType;
+    private JFXTextField nodeType;
 
     @FXML
-    private TextField longName;
+    private JFXTextField longName;
 
     @FXML
-    private TextField shortName;
+    private JFXTextField shortName;
 
     @FXML
     private JFXButton btnAddNode;
@@ -90,7 +90,7 @@ public class AddNodeMenuController implements Initializable {
 
         switch (btn.getId()) {
             case "btnCancel":
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapeditor/nodes/nodeEditorMenu.fxml");
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapeditor/nodes/editNodesListMenu.fxml");
                 break;
             case "btnAddNode":
                 String aNodeId = nodeID.getText();
@@ -103,7 +103,7 @@ public class AddNodeMenuController implements Initializable {
                 int aYCoord = Integer.parseInt(yCoord.getText());
                 Node aNode = new Node(aNodeId, aXCoord, aYCoord, aFloor, aBuilding, aNodeType, aLongName, aShortName);
                 DatabaseHandler.getDatabaseHandler("main.db").addNode(aNode);
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapeditor/nodes/nodeEditorMenu.fxml");
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapeditor/nodes/editNodesListMenu.fxml");
                 break;
         }
     }
