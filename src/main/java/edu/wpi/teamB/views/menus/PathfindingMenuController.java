@@ -93,9 +93,9 @@ public class PathfindingMenuController implements Initializable {
     private void drawNodesOnFloor(String floorID) {
         for (Node n : floorNodes.get(floorID)) {
             if (!(n.getNodeType().equals("WALK") || n.getNodeType().equals("HALL"))) {
-                placeNode(n.getXCoord(), n.getYCoord());
+                placeNode(n);
             } else {
-                placeIntermediateNode(n.getXCoord(), n.getYCoord());
+                placeIntermediateNode(n);
             }
         }
     }
