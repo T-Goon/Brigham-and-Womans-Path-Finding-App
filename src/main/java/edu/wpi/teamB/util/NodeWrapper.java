@@ -51,6 +51,7 @@ public class NodeWrapper {
         JFXButton btnEdit = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/misc/nodeEdgeEditBtn.fxml")));
         btnEdit.setId(n.getNodeID() + "EditBtn");
 
+
         // TODO connect button to action
         btnEdit.setOnAction(new EventHandler<ActionEvent>() {
             @Override

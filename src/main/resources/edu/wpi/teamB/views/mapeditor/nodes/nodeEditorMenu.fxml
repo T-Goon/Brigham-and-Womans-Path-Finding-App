@@ -61,22 +61,25 @@
                   </JFXButton>
                   <VBox>
                      <HBox.margin>
-                        <Insets right="10.0" />
+                        <Insets />
                      </HBox.margin>
                      <children>
-                        <JFXScrollPane prefHeight="600.0" prefWidth="1200.0" stylesheets="@../../../css/editorTable.css">
+                        <JFXScrollPane prefHeight="600.0" prefWidth="1050.0" stylesheets="@../../../css/editorTable.css">
                            <children>
-                              <TableView fx:id="tblNodes" minWidth="-Infinity" style="-fx-background-color: #0067B1;">
+                              <TableView fx:id="tblNodes" style="-fx-background-color: #0067B1;">
                                  <columns>
-                                    <TableColumn fx:id="editBtnCol" prefWidth="110.0" style="-fx-background-color: #80B3D8;" />
-                                    <TableColumn fx:id="idCol" maxWidth="1.7976931348623157E308" prefWidth="225.0" style="-fx-background-color: #80B3D8;" text="ID" />
-                                    <TableColumn fx:id="nameCol" maxWidth="1.7976931348623157E308" prefWidth="225.0" style="-fx-background-color: #80B3D8;" text="Name" />
-                                    <TableColumn fx:id="typeCol" maxWidth="1.7976931348623157E308" prefWidth="225.0" style="-fx-background-color: #80B3D8;" text="Node Type" />
-                                    <TableColumn fx:id="edgesCol" maxWidth="1.7976931348623157E308" prefWidth="225.0" style="-fx-background-color: #80B3D8;" text="Edges" />
-                                    <TableColumn fx:id="delCol" prefWidth="110.0" style="-fx-background-color: #80B3D8;" />
+                                    <TableColumn fx:id="editBtnCol" maxWidth="-1.0" minWidth="50.0" prefWidth="50.0" />
+                                    <TableColumn fx:id="idCol" maxWidth="1.7976931348623157E308" minWidth="100.0" prefWidth="225.0" text="ID" />
+                                    <TableColumn fx:id="nameCol" maxWidth="1.7976931348623157E308" minWidth="100.0" prefWidth="225.0" text="Name" />
+                                    <TableColumn fx:id="typeCol" maxWidth="1.7976931348623157E308" minWidth="100.0" prefWidth="225.0" text="Node Type" />
+                                    <TableColumn fx:id="edgesCol" maxWidth="1.7976931348623157E308" minWidth="100.0" prefWidth="225.0" text="Edges" />
+                                    <TableColumn fx:id="delCol" maxWidth="-1.0" minWidth="50.0" prefWidth="50.0" />
                                  </columns>
                               </TableView>
                            </children>
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
                         </JFXScrollPane>
                         <HBox alignment="CENTER_RIGHT" spacing="20.0">
                            <children>
