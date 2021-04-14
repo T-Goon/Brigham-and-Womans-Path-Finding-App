@@ -96,7 +96,7 @@
                               <Insets left="5.0" right="5.0" />
                            </padding>
                         </VBox>
-                        <JFXComboBox fx:id="startLocComboBox" onHiding="#validateFindPathButton" prefHeight="30.0" prefWidth="150.0" promptText="Start Location" style="-fx-background-color: #ffffff99; -fx-background-radius: 5;" GridPane.columnIndex="2" GridPane.halignment="RIGHT" />
+                        <JFXComboBox fx:id="startLocComboBox" onAction="#validateFindPathButton" prefHeight="30.0" prefWidth="150.0" promptText="Start Location" style="-fx-background-color: #ffffff99; -fx-background-radius: 5;" GridPane.columnIndex="2" GridPane.halignment="RIGHT" />
                         <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="To:" GridPane.rowIndex="2">
                            <font>
                               <Font size="18.0" />
@@ -117,7 +117,7 @@
                               <Insets left="5.0" right="5.0" />
                            </padding>
                         </VBox>
-                        <JFXComboBox fx:id="endLocComboBox" onHiding="#validateFindPathButton" prefHeight="30.0" prefWidth="150.0" promptText="End Location" style="-fx-background-color: #ffffff99; -fx-background-radius: 5;" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
+                        <JFXComboBox fx:id="endLocComboBox" onAction="#validateFindPathButton" prefHeight="30.0" prefWidth="150.0" promptText="End Location" style="-fx-background-color: #ffffff99; -fx-background-radius: 5;" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
                         <JFXButton fx:id="btnFindPath" onAction="#handleButtonAction" prefHeight="30.0" prefWidth="84.0" style="-fx-background-color: #F6BD39; -fx-background-radius: 5;" text="Go" textFill="#012d5a" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER">
                            <font>
                               <Font name="System Bold" size="12.0" />
