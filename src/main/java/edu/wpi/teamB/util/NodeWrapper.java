@@ -80,7 +80,7 @@ public class NodeWrapper {
             @Override
             public void handle(ActionEvent event) {
                 DatabaseHandler.getDatabaseHandler("main.db").removeNode(n.getNodeID());
-                parentTable.getItems().remove(this);
+                parentTable.getItems().removeIf( (Object o) -> ((NodeWrapper) o).id == id);
 //                    SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapeditor/nodes/nodeEditorMenu.fxml");
             }
         });
