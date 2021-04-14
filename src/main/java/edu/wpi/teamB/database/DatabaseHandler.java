@@ -9,7 +9,7 @@ import java.util.*;
 
 public class DatabaseHandler {
 
-    private static final String URL_BASE = "jdbc:sqlite:src/main/resources/edu/wpi/teamB/database/";
+    private static final String URL_BASE = "jdbc:sqlite:";
 
     private String databaseURL;
     private Connection databaseConnection;
