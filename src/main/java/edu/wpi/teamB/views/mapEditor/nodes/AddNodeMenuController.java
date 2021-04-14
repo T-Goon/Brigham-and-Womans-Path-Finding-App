@@ -18,7 +18,7 @@ import java.util.ResourceBundle;
 public class AddNodeMenuController implements Initializable {
 
     @FXML
-    public JFXButton btnEmergency;
+    private JFXButton btnEmergency;
 
     @FXML
     private JFXButton btnCancel;

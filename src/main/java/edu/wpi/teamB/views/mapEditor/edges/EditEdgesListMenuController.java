@@ -32,13 +32,13 @@ import java.util.ResourceBundle;
 public class EditEdgesListMenuController implements Initializable {
 
     @FXML
-    public JFXButton btnEmergency;
+    private JFXButton btnEmergency;
 
     @FXML
-    public JFXButton btnLoad;
+    private JFXButton btnLoad;
 
     @FXML
-    public JFXButton btnSave;
+    private JFXButton btnSave;
 
     @FXML
     private JFXButton btnBack;

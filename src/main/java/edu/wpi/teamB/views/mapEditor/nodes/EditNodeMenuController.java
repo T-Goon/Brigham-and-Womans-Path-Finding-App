@@ -20,7 +20,7 @@ import java.util.ResourceBundle;
 public class EditNodeMenuController implements Initializable {
 
     @FXML
-    public JFXButton btnEmergency;
+    private JFXButton btnEmergency;
 
     @FXML
     private JFXButton btnBack;

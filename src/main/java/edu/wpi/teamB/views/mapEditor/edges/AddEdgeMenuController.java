@@ -13,34 +13,30 @@ import java.io.IOException;
 public class AddEdgeMenuController {
 
     @FXML
-    public JFXButton btnEmergency;
+    private JFXButton btnEmergency;
 
     @FXML
-    public JFXButton btnCancel;
+    private JFXButton btnCancel;
 
     @FXML
-    public JFXButton btnAddEdge;
+    private JFXButton btnAddEdge;
 
 
     // EDGES
 
     @FXML
-    public JFXTextField edgeID;
+    private JFXTextField edgeID;
 
     @FXML
-    public JFXTextField startNode;
+    private JFXTextField startNode;
 
     @FXML
-    public JFXTextField endNode;
+    private JFXTextField endNode;
 
     @FXML
     private void validateButton(){
-        if (!edgeID.getText().isEmpty() && !startNode.getText().isEmpty() && !endNode.getText().isEmpty()) {
-            btnAddEdge.setDisable(false);
-        }
-        else {
-            btnAddEdge.setDisable(true);
-        }}
+        btnAddEdge.setDisable(edgeID.getText().isEmpty() || startNode.getText().isEmpty() || endNode.getText().isEmpty());
+    }
 
     public void handleButtonAction(ActionEvent e) throws IOException {
         JFXButton btn = (JFXButton) e.getSource();
