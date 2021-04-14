@@ -2,7 +2,7 @@ nodeID,xcoord,ycoord,floor,building,nodeType,longName,shortName
 ACONF00102,1580,2538,2,BTM,HALL,Hall,Hall
 ACONF00103,1648,2968,3,BTM,CONF,BTM Conference Center,BTM Conference
 ADEPT00101,1401,2628,1,BTM,DEPT,Neuroscience Waiting Room,Neuro Waiting Room
-ADEPT00102,1395,2674,2,BTM,DEPT,Orthopedics and Rhemutalogy,Orthopedics and Rhemutalogy
+ADEPT00102,1395,2674,2,BTM,DEPT,Orthopedics and Rheumatology,Orthopedics and Rheumatology
 ADEPT00201,1720,2847,1,BTM,DEPT,MS Waiting,MS Waiting
 ADEPT00301,986,2852,1,BTM,DEPT,CART Waiting,CART Waiting
 AELEV00S01,1534,2777,1,BTM,ELEV,Elevator S 01,Elevator S 1
@@ -43,7 +43,7 @@ ALABS00203,1671,2695,3,BTM,LABS,Clinical Trials,Clinical Trials
 AREST00101,1556,2604,1,BTM,REST,Restroom S elevator 1st floor,Restroom
 AREST00103,1552,2854,3,BTM,REST,Restroom BTM conference center 3rd floor,Restroom
 ARETL00101,1619,2522,1,BTM,RETL,Cafe,Cafe
-ASTAI00101,1642,2596,1,BTM,STAI,Cafe Stairs,Cafe Staris
+ASTAI00101,1642,2596,1,BTM,STAI,Cafe Stairs,Cafe Stairs
 ASTAI00102,1650,2602,2,BTM,STAI,Stairs Floor 2,Stairs Floor 2
 BCONF00102,2150,1025,2,45 Francis,CONF,Duncan Reid Conference Room,Conf B0102
 BHALL03802,2279,786,2,45 Francis,HALL,Hallway Intersection 38 Level 2,Hallway B3802
@@ -274,7 +274,7 @@ EREST00101,2950,730,1,45 Francis,REST,Restroom G1 Floor 1,Restroom G1
 EEXIT00201,2950,705,1,45 Francis,EXIT,Exit 2 Floor 1,Exit 2
 ELABS00101,3050,730,1,45 Francis,LABS,Asthma Research Floor 1,Asthma 1
 EDEPT00201,3100,890,1,45 Francis,DEPT,Wound and Ambulatory 1,WCCAT 1
-EDEPT00301,3200,880,1,45 Francis,DEPT,Ocupational Health Floor 1,Ocupational 1
+EDEPT00301,3200,880,1,45 Francis,DEPT,Occupational Health Floor 1,Occupational 1
 EHALL02101,3230,880,1,45 Francis,HALL,Hallway Node 19 Floor 1,HallE19
 EHALL02201,3270,875,1,45 Francis,HALL,Hallway Node 20 Floor 1,HallE20
 EHALL02301,3325,870,1,45 Francis,HALL,Hallway Node 21 Floor 1,HallE21
