@@ -69,9 +69,9 @@
                                       <TableView fx:id="tblEdges" maxWidth="1.7976931348623157E308" minWidth="-Infinity" style="-fx-background-color: #0067B1;">
                                           <columns>
                                               <TableColumn fx:id="editBtnCol" prefWidth="110.0" />
-                                              <TableColumn fx:id="idCol" maxWidth="1.7976931348623157E308" minWidth="100.0" prefWidth="225.0" text="ID" />
-                                              <TableColumn fx:id="startNodeCol" maxWidth="1.7976931348623157E308" minWidth="100.0" prefWidth="225.0" text="Start Node" />
-                                              <TableColumn fx:id="endNodeCol" maxWidth="1.7976931348623157E308" minWidth="100.0" prefWidth="225.0" text="End Node" />
+                                              <TableColumn fx:id="idCol" maxWidth="1.7976931348623157E308" minWidth="100.0" prefWidth="300.0" text="ID" />
+                                              <TableColumn fx:id="startNodeCol" maxWidth="1.7976931348623157E308" minWidth="100.0" prefWidth="300.0" text="Start Node" />
+                                              <TableColumn fx:id="endNodeCol" maxWidth="1.7976931348623157E308" minWidth="100.0" prefWidth="300.0" text="End Node" />
                                               <TableColumn fx:id="delCol" prefWidth="110.0" />
                                           </columns>
                                       </TableView>
