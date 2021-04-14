@@ -2,9 +2,13 @@ package edu.wpi.teamB.views.requestForms;
 
 import com.jfoenix.controls.*;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 
-public class ExternalTransportationRequestFormController extends DefaultServiceRequestFormController {
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class ExternalTransportationRequestFormController extends DefaultServiceRequestFormController implements Initializable {
 
     @FXML
     private JFXTextField name;
@@ -13,7 +17,7 @@ public class ExternalTransportationRequestFormController extends DefaultServiceR
     private JFXTextField roomNum;
 
     @FXML
-    private JFXComboBox<Label> transpType;
+    private JFXComboBox<Label> comboTranspType;
 
     @FXML
     private JFXTextArea description;
@@ -29,4 +33,11 @@ public class ExternalTransportationRequestFormController extends DefaultServiceR
 
     @FXML
     private JFXCheckBox outNetwork;
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        comboTranspType.getItems().add(new Label("Bus"));
+        comboTranspType.getItems().add(new Label("Ambulance"));
+        comboTranspType.getItems().add(new Label("Helicopter"));
+    }
 }
