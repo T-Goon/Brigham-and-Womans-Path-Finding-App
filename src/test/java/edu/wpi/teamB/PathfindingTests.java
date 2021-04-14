@@ -28,11 +28,8 @@ public class PathfindingTests {
         db = DatabaseHandler.getDatabaseHandler("test.db");
         List<Node> nodes = CSVHandler.loadCSVNodes(Paths.get("src/test/resources/edu/wpi/teamB/csvFiles/bwBnodes.csv"));
         List<Edge> edges = CSVHandler.loadCSVEdges(Paths.get("src/test/resources/edu/wpi/teamB/csvFiles/bwBedges.csv"));
-        try {
-            db.loadDatabase(nodes, edges);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+
+        db.loadDatabase(nodes, edges);
 
         Graph.setGraph(db);
 
