@@ -90,7 +90,7 @@ public class CSVHandler {
      * @param testing whether it's being tested or not
      * @return the string representation of the csv file
      */
-    public static String saveCSVNodes(Path path, boolean testing) throws SQLException {
+    public static String saveCSVNodes(Path path, boolean testing) {
         // Check if testing or running the application
         String dbName = "main.db";
         if (testing) dbName = "test.db";
@@ -131,7 +131,7 @@ public class CSVHandler {
      * @param testing whether it's being tested or not
      * @return the string representation of the csv file
      */
-    public static String saveCSVEdges(Path path, boolean testing) throws SQLException {
+    public static String saveCSVEdges(Path path, boolean testing) {
         // Check if testing or running the application
         String dbName = "main.db";
         if (testing) dbName = "test.db";

@@ -75,8 +75,5 @@ public class AStar {
         }
 
         return ret;
-
     }
-
-
 }
