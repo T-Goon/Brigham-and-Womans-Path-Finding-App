@@ -186,4 +186,67 @@ public class DatabaseHandlerTest {
         assertEquals("bPARK01201", edges.get("bPARK01201_bWALK00501").getStartNodeName());
         assertEquals("bWALK00501", edges.get("bPARK01201_bWALK00501").getEndNodeName());
     }
+
+    @Test
+    public void testAddNode() throws SQLException {
+        Node target = new Node("testNode",
+                0,
+                -992,
+                1,
+                "test_building",
+                "NODETYPE",
+                "Name With Many Spaces",
+                "N W M S");
+
+        db.addNode(target);
+
+        Map<String, Node> nodes = db.getNodes();
+        assertEquals(0, nodes.get("testNode").getXCoord());
+        assertEquals(-992, nodes.get("testNode").getYCoord());
+        assertEquals(1, nodes.get("testNode").getFloor());
+        assertEquals("test_building", nodes.get("testNode").getBuilding());
+        assertEquals("NODETYPE", nodes.get("testNode").getNodeType());
+        assertEquals("Name With Many Spaces", nodes.get("testNode").getLongName());
+        assertEquals("N W M S", nodes.get("testNode").getShortName());
+    }
+
+    @Test
+    public void testAddEdge() throws SQLException {
+        Edge target = new Edge("bPARK01201_bWALK00501", "test_start", "test_end");
+
+        db.addEdge(target);
+
+        Map<String, Edge> edges = db.getEdges();
+        assertEquals("test_start", edges.get("bPARK01201_bWALK00501").getStartNodeName());
+        assertEquals("test_end", edges.get("bPARK01201_bWALK00501").getEndNodeName());
+    }
+
+    @Test
+    public void testRemoveNode() throws SQLException {
+        Node target = new Node("testNode",
+                0,
+                -992,
+                1,
+                "test_building",
+                "NODETYPE",
+                "Name With Many Spaces",
+                "N W M S");
+
+        db.addNode(target);
+        assertTrue(!db.getNodes().isEmpty());
+
+        db.removeNode(target.getNodeID());
+        assertTrue(db.getNodes().isEmpty());
+    }
+
+    @Test
+    public void testRemoveEdge() throws SQLException {
+        Edge target = new Edge("bPARK01201_bWALK00501", "test_start", "test_end");
+
+        db.addEdge(target);
+        assertTrue(!db.getEdges().isEmpty());
+
+        db.removeEdge(target.getEdgeID());
+        assertTrue(db.getEdges().isEmpty());
+    }
 }

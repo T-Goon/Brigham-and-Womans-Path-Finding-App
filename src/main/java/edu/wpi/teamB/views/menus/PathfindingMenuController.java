@@ -54,30 +54,27 @@ public class PathfindingMenuController implements Initializable {
 
     private List<Line> edgePlaced = new ArrayList<>();
     private VBox popup = null;
-    private  HashMap<String, Node> locations;
+    private HashMap<String, Node> locations;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+        validateFindPathButton();
         locations = new HashMap<>();
 
         // Pulls nodes from the database to fill the nodeInfo hashmap
         try {
             Map<String, Node> nodes = DatabaseHandler.getDatabaseHandler("main.db").getNodes();
-            for (Node n : nodes.values()) {
+            for (Node n : nodes.values())
                 locations.put(n.getNodeID(), n);
-            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
         // Place nodes on map
-        for(Node n : locations.values()){
-            if(!n.getNodeType().equals("WALK")){
-                placeNode(n);
-            } else{
-                placeIntermediateNode(n);
-            }
+        for (Node n : locations.values()) {
+            if (!n.getNodeType().equals("WALK")) placeNode(n);
+            else placeIntermediateNode(n);
         }
 
         // Populate the combo boxes with locations
@@ -126,16 +123,19 @@ public class PathfindingMenuController implements Initializable {
     }
 
     @FXML
+    private void validateFindPathButton() throws NumberFormatException {
+        btnFindPath.setDisable(startLocComboBox.getValue() == null || endLocComboBox.getValue() == null || startLocComboBox.getValue().equals(endLocComboBox.getValue()));
+    }
+
+    @FXML
     private void handleButtonAction(ActionEvent e) throws IOException {
         JFXButton b = (JFXButton) e.getSource();
 
         switch (b.getId()) {
             case "btnFindPath":
                 // Remove old path
-                for(Line l : edgePlaced){
+                for (Line l : edgePlaced)
                     mapHolder.getChildren().remove(l);
-
-                }
                 edgePlaced = new ArrayList<>();
 
                 drawPath();
@@ -148,6 +148,7 @@ public class PathfindingMenuController implements Initializable {
 
     /**
      * Places an image for a node on the map at the given pixel coordinates.
+     *
      * @param n Node object to place on the map
      */
     public void placeNode(Node n) {
@@ -157,7 +158,9 @@ public class PathfindingMenuController implements Initializable {
             i.setLayoutX((n.getXCoord() / PathfindingMenuController.coordinateScale) - (i.getFitWidth() / 4));
             i.setLayoutY((n.getYCoord() / PathfindingMenuController.coordinateScale) - (i.getFitHeight()));
 
-            i.setOnMouseClicked((MouseEvent e) ->{ createGraphicalInputPopup(n); });
+            i.setOnMouseClicked((MouseEvent e) -> {
+                createGraphicalInputPopup(n);
+            });
 
             nodeHolder.getChildren().add(i);
 
@@ -168,6 +171,7 @@ public class PathfindingMenuController implements Initializable {
 
     /**
      * Places an image for a node on the map at the given pixel coordinates.
+     *
      * @param n Node object to place on the map
      */
     public void placeIntermediateNode(Node n) {
@@ -177,7 +181,9 @@ public class PathfindingMenuController implements Initializable {
             c.setCenterX((n.getXCoord() / PathfindingMenuController.coordinateScale));
             c.setCenterY((n.getYCoord() / PathfindingMenuController.coordinateScale));
 
-            c.setOnMouseClicked((MouseEvent e) ->{ createGraphicalInputPopup(n); });
+            c.setOnMouseClicked((MouseEvent e) -> {
+                createGraphicalInputPopup(n);
+            });
 
             nodeHolder.getChildren().add(c);
 
@@ -188,9 +194,10 @@ public class PathfindingMenuController implements Initializable {
 
     /**
      * Creates the popup for the graphical input.
+     *
      * @param n Node to create the popup for
      */
-    private void createGraphicalInputPopup(Node n){
+    private void createGraphicalInputPopup(Node n) {
 
         try {
             // Load fxml
@@ -222,14 +229,14 @@ public class PathfindingMenuController implements Initializable {
                 }
             }
 
-            if(popup != null){
+            if (popup != null) {
                 deleteBox();
             }
 
             popup = locInput;
             nodeHolder.getChildren().add(locInput);
 
-        }catch (IOException ioException) {
+        } catch (IOException ioException) {
             ioException.printStackTrace();
         }
 
@@ -237,12 +244,13 @@ public class PathfindingMenuController implements Initializable {
 
     /**
      * Shows the popup for the graphical input.
+     *
      * @param comboBox Combobox to select items from
-     * @param node javafx node that will show popup when clicked
-     * @param n map node the popup is for
+     * @param node     javafx node that will show popup when clicked
+     * @param n        map node the popup is for
      */
-    private void showGraphicalSelection(ComboBox comboBox, javafx.scene.Node node, Node n){
-        Button tempButton = (Button)node;
+    private void showGraphicalSelection(ComboBox comboBox, javafx.scene.Node node, Node n) {
+        Button tempButton = (Button) node;
 
         tempButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -250,7 +258,7 @@ public class PathfindingMenuController implements Initializable {
                 //loop through combo box if string == name of node
                 //keep track of index and pass it in
 
-                for(int i=0; i<comboBox.getItems().size(); i++) {
+                for (int i = 0; i < comboBox.getItems().size(); i++) {
 
                     if (n.getLongName().equals(comboBox.getItems().get(i))) {
                         comboBox.getSelectionModel().select(i);
@@ -266,13 +274,14 @@ public class PathfindingMenuController implements Initializable {
     /**
      * Removes the graphical input popup from the map.
      */
-    private void deleteBox(){
+    private void deleteBox() {
         nodeHolder.getChildren().remove(popup);
         popup = null;
     }
 
     /**
      * Draws an edge between 2 points on the map.
+     *
      * @param xStart x start coordinate in pixels
      * @param yStart y start coordinate in pixels
      * @param xEnd   x end coordinate in pixels
