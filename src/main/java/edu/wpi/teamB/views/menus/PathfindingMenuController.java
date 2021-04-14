@@ -87,7 +87,9 @@ public class PathfindingMenuController implements Initializable {
         startLocComboBox.getItems().addAll(locationNames);
         endLocComboBox.getItems().addAll(locationNames);
 
-        drawNodesOnFloor("1");
+        try{
+            drawNodesOnFloor("1");
+        } catch (NullPointerException ignored){}
     }
 
     /**
