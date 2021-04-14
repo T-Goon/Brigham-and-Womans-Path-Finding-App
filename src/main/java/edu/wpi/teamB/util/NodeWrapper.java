@@ -10,6 +10,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
@@ -31,11 +32,13 @@ public class NodeWrapper {
     private final Label edges;
     private final JFXButton btnEdit;
     private final JFXButton btnDel;
+    private final TableView parentTable;
 
-    public NodeWrapper(Node n) throws IOException {
+    public NodeWrapper(Node n, TableView parentTable) throws IOException {
         this.id = new Label(n.getNodeID());
         this.name = new Label(n.getLongName());
         this.type = new Label(n.getNodeType());
+        this.parentTable = parentTable;
         List<Edge> edgesList = DatabaseHandler.getDatabaseHandler("main.db").getAdjacentEdgesOfNode(n.getNodeID());
 
         // Construct string of all edge names
@@ -51,8 +54,6 @@ public class NodeWrapper {
         JFXButton btnEdit = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/misc/nodeEdgeEditBtn.fxml")));
         btnEdit.setId(n.getNodeID() + "EditBtn");
 
-
-        // TODO connect button to action
         btnEdit.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -72,16 +73,11 @@ public class NodeWrapper {
         JFXButton btnDel = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/misc/nodeEdgeDelBtn.fxml")));
         btnDel.setId(n.getNodeID() + "DelBtn");
 
-        // TODO connect button to action
         btnDel.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 DatabaseHandler.getDatabaseHandler("main.db").removeNode(n.getNodeID());
-                try {
-                    SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapeditor/nodes/editNodesListMenu.fxml");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                parentTable.getItems().removeIf( (Object o) -> ((NodeWrapper) o).id == id);
             }
         });
 

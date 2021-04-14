@@ -109,7 +109,7 @@ public class EditNodesListMenuController implements Initializable {
         assert nodes != null;
         for (Node n : nodes.values()) {
             try {
-                tblNodes.getItems().add(new NodeWrapper(n));
+                tblNodes.getItems().add(new NodeWrapper(n, tblNodes));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -137,7 +137,7 @@ public class EditNodesListMenuController implements Initializable {
                     tblNodes.getItems().clear();
                     for (Node n : newNodes) {
                         try {
-                            tblNodes.getItems().add(new NodeWrapper(n));
+                            tblNodes.getItems().add(new NodeWrapper(n, tblNodes));
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
