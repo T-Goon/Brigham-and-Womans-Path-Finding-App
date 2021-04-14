@@ -69,7 +69,7 @@ public class EditNodeMenuController implements Initializable {
         nodeID.setText(node.getNodeID());
         nodeID.setDisable(true);
         xCoord.setText(String.valueOf(node.getXCoord()));
-        yCoord.setText(String.valueOf(node.getXCoord()));
+        yCoord.setText(String.valueOf(node.getYCoord()));
         floor.setText(String.valueOf(node.getFloor()));
         building.setText(node.getBuilding());
         nodeType.setText(node.getNodeType());
