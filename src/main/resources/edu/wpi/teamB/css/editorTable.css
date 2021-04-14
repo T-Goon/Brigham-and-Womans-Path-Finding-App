@@ -1,7 +1,7 @@
 .table-view .column-header-background .label{ /*the actual text inside of the header*/
     -fx-background-color:transparent;
     -fx-text-fill: white;
-    -fx-font: bold;
+    -fx-font-weight: bold;
 }
 .table-column { /*controls columns*/
     -fx-alignment: CENTER;
@@ -37,10 +37,10 @@
     -fx-background-color: #80B3D8;
     -fx-padding: 0 0 0 0;
 }
-.table-row-cell: odd{/*starts at second row?*/
+.table-row-cell:odd{/*starts at second row?*/
     -fx-background-color: #0067B1;
 }
-.table-row-cell: even{/*starts at first row?*/
+.table-row-cell:even{/*starts at first row?*/
     -fx-background-color: #0264AA;
 }
 
