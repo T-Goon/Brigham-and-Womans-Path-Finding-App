@@ -18,22 +18,22 @@ import java.util.ResourceBundle;
 public class EditEdgeMenuController implements Initializable {
 
     @FXML
-    public JFXButton btnEmergency;
+    private JFXButton btnEmergency;
 
     @FXML
-    public JFXButton btnCancel;
+    private JFXButton btnCancel;
 
     @FXML
-    public JFXButton btnUpdateEdge;
+    private JFXButton btnUpdateEdge;
 
     @FXML
-    public JFXTextField edgeID;
+    private JFXTextField edgeID;
 
     @FXML
-    public JFXTextField startNode;
+    private JFXTextField startNode;
 
     @FXML
-    public JFXTextField endNode;
+    private JFXTextField endNode;
 
 
     @Override
@@ -48,19 +48,15 @@ public class EditEdgeMenuController implements Initializable {
 
     @FXML
     private void validateButton(){
-        if (!edgeID.getText().isEmpty() && !startNode.getText().isEmpty() && !endNode.getText().isEmpty()) {
-            btnUpdateEdge.setDisable(false);
-        }
-        else {
-            btnUpdateEdge.setDisable(true);
-        }}
+        btnUpdateEdge.setDisable(edgeID.getText().isEmpty() || startNode.getText().isEmpty() || endNode.getText().isEmpty());
+    }
 
     public void handleButtonAction(ActionEvent e) throws IOException {
         JFXButton btn = (JFXButton) e.getSource();
 
         switch (btn.getId()) {
             case "btnCancel":
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapeditor/edges/edgeEditorMenu.fxml");
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapeditor/edges/editEdgesListMenu.fxml");
                 break;
             case "btnUpdateEdge":
                 String edgeIdentifier = edgeID.getText();
@@ -68,7 +64,7 @@ public class EditEdgeMenuController implements Initializable {
                 String endNodeName = endNode.getText();
                 Edge edge = new Edge(edgeIdentifier, startNodeName, endNodeName);
                 DatabaseHandler.getDatabaseHandler("main.db").updateEdge(edge);
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapeditor/edges/edgeEditorMenu.fxml");
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapeditor/edges/editEdgesListMenu.fxml");
                 break;
         }
     }

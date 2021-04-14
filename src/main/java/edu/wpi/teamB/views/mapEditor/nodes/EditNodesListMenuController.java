@@ -29,16 +29,16 @@ import java.util.Map;
 import java.util.ResourceBundle;
 
 @SuppressWarnings("unchecked") // Added so Java doesn't get mad at the raw use of TableView that is necessary
-public class NodeEditorMenuController implements Initializable {
+public class EditNodesListMenuController implements Initializable {
 
     @FXML
-    public JFXButton btnEmergency;
+    private JFXButton btnEmergency;
 
     @FXML
-    public JFXButton btnLoad;
+    private JFXButton btnLoad;
 
     @FXML
-    public JFXButton btnSave;
+    private JFXButton btnSave;
 
     @FXML
     private JFXButton btnBack;
