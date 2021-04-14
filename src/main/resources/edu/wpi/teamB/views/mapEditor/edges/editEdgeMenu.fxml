@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.image.Image?>
@@ -78,9 +79,9 @@
                                         <Insets left="5.0" right="5.0" />
                                     </VBox.margin>
                                 </JFXTextField>
-                        <HBox>
+                        <HBox spacing="50.0">
                            <VBox.margin>
-                              <Insets left="5.0" top="10.0" />
+                              <Insets left="5.0" right="5.0" top="10.0" />
                            </VBox.margin>
                            <children>
                               <VBox>
@@ -90,14 +91,9 @@
                                                     <Font name="MS Reference Sans Serif" size="14.0" />
                                                 </font>
                                             </Text>
-                                            <JFXTextField fx:id="startNode" onKeyReleased="#validateButton" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00">
-                                                <VBox.margin>
-                                                    <Insets left="5.0" right="5.0" />
-                                                </VBox.margin>
-                                            </JFXTextField>
+                                    <JFXComboBox fx:id="startNode" prefWidth="9999.0" style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" />
                                  </children>
                               </VBox>
-                              <VBox />
                               <VBox>
                                  <children>
                                             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="End Node:">
@@ -105,11 +101,7 @@
                                                     <Font name="MS Reference Sans Serif" size="14.0" />
                                                 </font>
                                             </Text>
-                                            <JFXTextField fx:id="endNode" onKeyReleased="#validateButton" style="-fx-background-color: #E5E5E5; -fx-background-radius: 8;" unFocusColor="#4d4d4d00">
-                                                <VBox.margin>
-                                                    <Insets left="5.0" right="5.0" />
-                                                </VBox.margin>
-                                            </JFXTextField>
+                                    <JFXComboBox fx:id="endNode" prefWidth="9999.0" style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" />
                                  </children>
                               </VBox>
                            </children>

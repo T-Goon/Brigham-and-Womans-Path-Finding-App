@@ -1,6 +1,7 @@
 package edu.wpi.teamB.views.mapEditor.edges;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import edu.wpi.teamB.App;
 import edu.wpi.teamB.database.DatabaseHandler;
@@ -9,10 +10,13 @@ import edu.wpi.teamB.util.SceneSwitcher;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 public class EditEdgeMenuController implements Initializable {
@@ -30,10 +34,10 @@ public class EditEdgeMenuController implements Initializable {
     private JFXTextField edgeID;
 
     @FXML
-    private JFXTextField startNode;
+    private JFXComboBox<Label> startNode;
 
     @FXML
-    private JFXTextField endNode;
+    private JFXComboBox<Label> endNode;
 
 
     @Override
@@ -41,14 +45,27 @@ public class EditEdgeMenuController implements Initializable {
         Stage stage = App.getPrimaryStage();
         Edge edge = (Edge) stage.getUserData();
 
+        // Set default values
         edgeID.setText(edge.getEdgeID());
-        startNode.setText(edge.getStartNodeName());
-        endNode.setText(edge.getEndNodeName());
+        startNode.setValue(new Label(edge.getStartNodeName()));
+        endNode.setValue(new Label(edge.getEndNodeName()));
+
+        // Set
+        Map<String, Edge> edges = null;
+        try {
+             edges = DatabaseHandler.getDatabaseHandler("main.db").getEdges();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        for (Edge e : edges.values()) {
+            startNode.getItems().add(new Label(e.getStartNodeName()));
+            endNode.getItems().add(new  Label(e.getEndNodeName()));
+        }
     }
 
     @FXML
     private void validateButton(){
-        btnUpdateEdge.setDisable(edgeID.getText().isEmpty() || startNode.getText().isEmpty() || endNode.getText().isEmpty());
+        btnUpdateEdge.setDisable(edgeID.getText().isEmpty());
     }
 
     public void handleButtonAction(ActionEvent e) throws IOException {
@@ -60,8 +77,8 @@ public class EditEdgeMenuController implements Initializable {
                 break;
             case "btnUpdateEdge":
                 String edgeIdentifier = edgeID.getText();
-                String startNodeName = startNode.getText();
-                String endNodeName = endNode.getText();
+                String startNodeName = startNode.getValue().getText();
+                String endNodeName = endNode.getValue().getText();
                 Edge edge = new Edge(edgeIdentifier, startNodeName, endNodeName);
                 DatabaseHandler.getDatabaseHandler("main.db").updateEdge(edge);
                 SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapeditor/edges/editEdgesListMenu.fxml");
