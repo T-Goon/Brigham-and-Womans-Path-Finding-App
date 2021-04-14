@@ -20,7 +20,6 @@ public class Node implements Comparable<Node> {
     @Setter
     private double fVal;
 
-
     public Node(String nodeID, int xCoord, int yCoord, String floor, String building, String nodeType, String longName, String shortName) {
         this.nodeID = nodeID;
         this.xCoord = xCoord;

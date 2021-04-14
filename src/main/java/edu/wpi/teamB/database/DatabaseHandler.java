@@ -64,7 +64,7 @@ public class DatabaseHandler {
      * Given the list of edges and nodes, clear and fill the database
      * with that data.
      */
-    public void loadDatabase(List<Node> nodes, List<Edge> edges) throws SQLException {
+    public void loadDatabase(List<Node> nodes, List<Edge> edges) {
         loadDatabaseNodes(nodes);
         loadDatabaseEdges(edges);
     }
@@ -76,7 +76,7 @@ public class DatabaseHandler {
      * @param nodes the list of nodes
      * @throws SQLException if the query is malformed
      */
-    public void loadDatabaseNodes(List<Node> nodes) throws SQLException {
+    public void loadDatabaseNodes(List<Node> nodes) {
 
         Statement statement = this.getStatement();
         // Drop tables if they exist already
@@ -88,32 +88,36 @@ public class DatabaseHandler {
         } catch (SQLException ignored) {
         }
 
-        // Create the tables
-        query = "CREATE TABLE Nodes("
-                + "nodeID CHAR(20) PRIMARY KEY, "
-                + "xcoord INT, "
-                + "ycoord INT, "
-                + "floor CHAR(20), "
-                + "building CHAR(20), "
-                + "nodeType CHAR(20), "
-                + "longName CHAR(50), "
-                + "shortName CHAR(20))";
-        statement.execute(query);
-
-        // If either list is empty, then nothing should be put in
-        if (nodes == null) return;
-        for (Node node : nodes) {
-            query = "INSERT INTO Nodes(nodeID, xcoord, ycoord, floor, building, nodeType, longName, shortName) " +
-                    "VALUES('"
-                    + node.getNodeID() + "', "
-                    + node.getXCoord() + ", "
-                    + node.getYCoord() + ", '"
-                    + node.getFloor() + "', '"
-                    + node.getBuilding() + "', '"
-                    + node.getNodeType() + "', '"
-                    + node.getLongName() + "', '"
-                    + node.getShortName() + "')";
+        try {
+            // Create the tables
+            query = "CREATE TABLE Nodes("
+                    + "nodeID CHAR(20) PRIMARY KEY, "
+                    + "xcoord INT, "
+                    + "ycoord INT, "
+                    + "floor CHAR(20), "
+                    + "building CHAR(20), "
+                    + "nodeType CHAR(20), "
+                    + "longName CHAR(50), "
+                    + "shortName CHAR(20))";
             statement.execute(query);
+
+            // If either list is empty, then nothing should be put in
+            if (nodes == null) return;
+            for (Node node : nodes) {
+                query = "INSERT INTO Nodes(nodeID, xcoord, ycoord, floor, building, nodeType, longName, shortName) " +
+                        "VALUES('"
+                        + node.getNodeID() + "', "
+                        + node.getXCoord() + ", "
+                        + node.getYCoord() + ", '"
+                        + node.getFloor() + "', '"
+                        + node.getBuilding() + "', '"
+                        + node.getNodeType() + "', '"
+                        + node.getLongName() + "', '"
+                        + node.getShortName() + "')";
+                statement.execute(query);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
@@ -124,7 +128,7 @@ public class DatabaseHandler {
      * @param edges the list of edges
      * @throws SQLException if the query is malformed
      */
-    public void loadDatabaseEdges(List<Edge> edges) throws SQLException {
+    public void loadDatabaseEdges(List<Edge> edges) {
 
         Statement statement = this.getStatement();
         // Drop tables if they exist already
@@ -135,23 +139,27 @@ public class DatabaseHandler {
         } catch (SQLException ignored) {
         }
 
-        query = "CREATE TABLE Edges("
-                + "edgeID CHAR(30) PRIMARY KEY, "
-                + "startNode CHAR(20) NOT NULL, "
-                + "endNode CHAR(20) NOT NULL CHECK (startNode != endNode), "
-                + "FOREIGN KEY (startNode) REFERENCES Nodes(nodeID), "
-                + "FOREIGN KEY (endNode) REFERENCES Nodes(nodeID))";
-        statement.execute(query);
-
-        // If either list is empty, then nothing should be put in
-        if (edges == null) return;
-        for (Edge edge : edges) {
-            query = "INSERT INTO Edges(edgeID, startNode, endNode) "
-                    + "VALUES('"
-                    + edge.getEdgeID() + "', '"
-                    + edge.getStartNodeName() + "', '"
-                    + edge.getEndNodeName() + "')";
+        try {
+            query = "CREATE TABLE Edges("
+                    + "edgeID CHAR(30) PRIMARY KEY, "
+                    + "startNode CHAR(20) NOT NULL, "
+                    + "endNode CHAR(20) NOT NULL CHECK (startNode != endNode), "
+                    + "FOREIGN KEY (startNode) REFERENCES Nodes(nodeID), "
+                    + "FOREIGN KEY (endNode) REFERENCES Nodes(nodeID))";
             statement.execute(query);
+
+            // If either list is empty, then nothing should be put in
+            if (edges == null) return;
+            for (Edge edge : edges) {
+                query = "INSERT INTO Edges(edgeID, startNode, endNode) "
+                        + "VALUES('"
+                        + edge.getEdgeID() + "', '"
+                        + edge.getStartNodeName() + "', '"
+                        + edge.getEndNodeName() + "')";
+                statement.execute(query);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
@@ -160,39 +168,16 @@ public class DatabaseHandler {
      *
      * @param ID requested node ID
      * @return Node object with data from database
-     * @throws SQLException if query is malformed
      */
-    public Node getNodeById(String ID) throws SQLException {
+    public Node getNodeById(String ID) {
         Statement statement = this.getStatement();
 
         String query = "SELECT * FROM Nodes WHERE nodeID = '" + ID + "'";
         assert statement != null;
-        ResultSet rs = statement.executeQuery(query);
-
-        return new Node(
-                rs.getString("nodeID").trim(),
-                rs.getInt("xcoord"),
-                rs.getInt("ycoord"),
-                rs.getString("floor"),
-                rs.getString("building").trim(),
-                rs.getString("nodeType").trim(),
-                rs.getString("longName").trim(),
-                rs.getString("shortName").trim()
-        );
-    }
-
-    /**
-     * Displays the list of nodes along with their attributes.
-     */
-    public Map<String, Node> getNodes() throws SQLException {
-        Statement statement = this.getStatement();
-        String query = "SELECT * FROM Nodes";
-        assert statement != null;
-        ResultSet rs = statement.executeQuery(query);
-        Map<String, Node> nodes = new HashMap<>();
-        while (rs.next()) {
-            Node outNode = new Node(
-                    rs.getString("NodeID").trim(),
+        try {
+            ResultSet rs = statement.executeQuery(query);
+            return new Node(
+                    rs.getString("nodeID").trim(),
                     rs.getInt("xcoord"),
                     rs.getInt("ycoord"),
                     rs.getString("floor"),
@@ -201,31 +186,68 @@ public class DatabaseHandler {
                     rs.getString("longName").trim(),
                     rs.getString("shortName").trim()
             );
-            nodes.put(rs.getString("NodeID").trim(), outNode);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
         }
-        return nodes;
+    }
+
+    /**
+     * Displays the list of nodes along with their attributes.
+     * @return a map of node IDs to actual nodes
+     */
+    public Map<String, Node> getNodes() {
+        Statement statement = this.getStatement();
+        String query = "SELECT * FROM Nodes";
+        assert statement != null;
+        try {
+            ResultSet rs = statement.executeQuery(query);
+            Map<String, Node> nodes = new HashMap<>();
+            while (rs.next()) {
+                Node outNode = new Node(
+                        rs.getString("NodeID").trim(),
+                        rs.getInt("xcoord"),
+                        rs.getInt("ycoord"),
+                        rs.getString("floor"),
+                        rs.getString("building").trim(),
+                        rs.getString("nodeType").trim(),
+                        rs.getString("longName").trim(),
+                        rs.getString("shortName").trim()
+                );
+                nodes.put(rs.getString("NodeID").trim(), outNode);
+            }
+            return nodes;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     /**
      * Displays the list of edges along with their attributes.
+     * @return a map of edge IDs to actual edges
      */
-    public Map<String, Edge> getEdges() throws SQLException {
+    public Map<String, Edge> getEdges() {
         Statement statement = this.getStatement();
 
         String query = "SELECT edgeID, startNode, endNode FROM Edges";
         assert statement != null;
-        ResultSet rs = statement.executeQuery(query);
-        Map<String, Edge> edges = new HashMap<>();
-        while (rs.next()) {
-            Edge outEdge = new Edge(
-                    rs.getString("edgeID").trim(),
-                    rs.getString("startNode").trim(),
-                    rs.getString("endNode").trim()
-            );
-            edges.put(rs.getString("edgeID").trim(), outEdge);
+        try {
+            ResultSet rs = statement.executeQuery(query);
+            Map<String, Edge> edges = new HashMap<>();
+            while (rs.next()) {
+                Edge outEdge = new Edge(
+                        rs.getString("edgeID").trim(),
+                        rs.getString("startNode").trim(),
+                        rs.getString("endNode").trim()
+                );
+                edges.put(rs.getString("edgeID").trim(), outEdge);
+            }
+            return edges;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
         }
-
-        return edges;
     }
 
     /**
@@ -395,28 +417,14 @@ public class DatabaseHandler {
      * @return whether the nodes table is initialized or not
      */
     public boolean isNodesInitialized() {
-        try {
-            // If getNodes() succeeds, it has been initialized
-            getNodes();
-            return true;
-        } catch (SQLException ignored) {
-            // If getNodes() fails, it has not been initialized so a SQLException is thrown
-            return false;
-        }
+        return getNodes() != null;
     }
 
     /**
      * @return whether the edges table is initialized or not
      */
     public boolean isEdgesInitialized() {
-        try {
-            // If getEdges() succeeds, it has been initialized
-            getEdges();
-            return true;
-        } catch (SQLException ignored) {
-            // If getEdges() fails, it has not been initialized so a SQLException is thrown
-            return false;
-        }
+        return getEdges() != null;
     }
 
     /**
