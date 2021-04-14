@@ -43,28 +43,34 @@ public class AStar {
                 break;
 
             //Check the adj nodes of the current node
-            for (Node neighbor : graph.getAdjNodesById(current.getNodeID())) {
+            try {
+                for (Node neighbor : graph.getAdjNodesById(current.getNodeID())) {
 
-                //Calculate the cost of reaching the next node
-                double newCost = costSoFar.get(current.getNodeID()) + Graph.dist(current, neighbor);
+                    //Calculate the cost of reaching the next node
+                    double newCost = costSoFar.get(current.getNodeID()) + Graph.dist(current, neighbor);
 
-                //If the cost is not in the hash map, or if this cost would be cheaper
-                if (!costSoFar.containsKey(neighbor.getNodeID()) || newCost < costSoFar.get(neighbor.getNodeID())) {
+                    //If the cost is not in the hash map, or if this cost would be cheaper
+                    if (!costSoFar.containsKey(neighbor.getNodeID()) || newCost < costSoFar.get(neighbor.getNodeID())) {
 
-                    //Add the new cost to the hashmap
-                    costSoFar.put(neighbor.getNodeID(), newCost);
+                        //Add the new cost to the hashmap
+                        costSoFar.put(neighbor.getNodeID(), newCost);
 
-                    //Set the new fVal of the node
-                    neighbor.setFVal(newCost + Graph.dist(neighbor, endNode));
+                        //Set the new fVal of the node
+                        neighbor.setFVal(newCost + Graph.dist(neighbor, endNode));
 
-                    //Add the node to the priority queue
-                    pQueue.add(neighbor);
+                        //Add the node to the priority queue
+                        pQueue.add(neighbor);
 
-                    //Add the node to the cameFrom hashmap to indicate it came from this node.
-                    cameFrom.put(neighbor.getNodeID(), current.getNodeID());
+                        //Add the node to the cameFrom hashmap to indicate it came from this node.
+                        cameFrom.put(neighbor.getNodeID(), current.getNodeID());
+                    }
                 }
+            } catch (NullPointerException e){
+                System.err.println("A Node has no edges");
+                return new LinkedList<>();
             }
         }
+
 
         //backtrack from end node to start node to create final path.
         assert current != null;
