@@ -118,11 +118,7 @@ public class PathfindingMenuController implements Initializable {
 
     @FXML
     private void validateFindPathButton() throws NumberFormatException {
-        if (startLocComboBox.getValue() == null || endLocComboBox.getValue() == null || startLocComboBox.getValue() == endLocComboBox.getValue()){
-            btnFindPath.setDisable(true);
-        }else{
-            btnFindPath.setDisable(false);
-        }
+        btnFindPath.setDisable(startLocComboBox.getValue() == null || endLocComboBox.getValue() == null || startLocComboBox.getValue().equals(endLocComboBox.getValue()));
     }
 
     @FXML
