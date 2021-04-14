@@ -11,6 +11,7 @@
 plugins {
     id 'application'
     id 'java'
+    id "io.freefair.lombok" version "5.3.0"
 }
 mainClassName = 'edu.wpi.teamB.Main'
 
@@ -37,12 +38,16 @@ dependencies {
 
             'org.slf4j:slf4j-api:1.7.30',
             'org.slf4j:slf4j-simple:1.7.30',
+            'org.projectlombok:lombok:1.18.20',
+            'net.kurobako:gesturefx:0.6.0',
     )
+    implementation 'junit:junit:4.12'
 //These are test dependencies. These are only used for running verification tasks via Gradle.
     testCompile(
             "org.testfx:testfx-core:4.0.16-alpha",
             'org.junit.jupiter:junit-jupiter:5.6.0',
             'org.testfx:testfx-junit5:4.0.16-alpha',
+            'org.projectlombok:lombok:1.18.20',
     )
 }
 
@@ -55,10 +60,13 @@ test {
 // with the Main method you want run!
 jar {
     manifest {
-        attributes 'Main-Class': 'edu.wpi.teamB.Main'
+        attributes 'Main-Class': mainClassName
+    }
+
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
     }
 }
-
 
 
 
