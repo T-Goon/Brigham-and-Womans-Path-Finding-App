@@ -1,7 +1,7 @@
 .table-view .column-header-background .label{ /*the actual text inside of the header*/
     -fx-background-color:transparent;
     -fx-text-fill: white;
-    -fx-font-weight: bold;
+    -fx-font: bold;
 }
 .table-column { /*controls columns*/
     -fx-alignment: CENTER;

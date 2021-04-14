@@ -68,12 +68,12 @@
                            <children>
                               <TableView fx:id="tblNodes" style="-fx-background-color: #0067B1;">
                                  <columns>
-                                    <TableColumn fx:id="editBtnCol" maxWidth="-1.0" minWidth="50.0" prefWidth="50.0" />
-                                    <TableColumn fx:id="idCol" maxWidth="1.7976931348623157E308" minWidth="100.0" prefWidth="225.0" text="ID" />
-                                    <TableColumn fx:id="nameCol" maxWidth="1.7976931348623157E308" minWidth="100.0" prefWidth="225.0" text="Name" />
-                                    <TableColumn fx:id="typeCol" maxWidth="1.7976931348623157E308" minWidth="100.0" prefWidth="225.0" text="Node Type" />
-                                    <TableColumn fx:id="edgesCol" maxWidth="1.7976931348623157E308" minWidth="100.0" prefWidth="225.0" text="Edges" />
-                                    <TableColumn fx:id="delCol" maxWidth="-1.0" minWidth="50.0" prefWidth="50.0" />
+                                    <TableColumn fx:id="editBtnCol" minWidth="50.0" prefWidth="100.0" />
+                                    <TableColumn fx:id="idCol" maxWidth="1.7976931348623157E308" minWidth="100.0" prefWidth="208.0" text="ID" />
+                                    <TableColumn fx:id="nameCol" maxWidth="1.7976931348623157E308" minWidth="100.0" prefWidth="205.0" text="Name" />
+                                    <TableColumn fx:id="typeCol" maxWidth="1.7976931348623157E308" minWidth="100.0" prefWidth="205.0" text="Node Type" />
+                                    <TableColumn fx:id="edgesCol" maxWidth="1.7976931348623157E308" minWidth="100.0" prefWidth="205.0" text="Edges" />
+                                    <TableColumn fx:id="delCol" minWidth="50.0" prefWidth="100.0" />
                                  </columns>
                               </TableView>
                            </children>
