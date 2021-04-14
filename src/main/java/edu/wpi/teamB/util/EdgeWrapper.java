@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.util.Objects;
 
 @Getter
+@SuppressWarnings("unchecked")
 public class EdgeWrapper {
 
     private final Label id;
