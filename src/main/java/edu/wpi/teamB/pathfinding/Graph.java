@@ -17,11 +17,19 @@ public class Graph {
     private Map<String, Edge> edges;
     private Map<String, List<Node>> adjMap;
 
-    private Graph(DatabaseHandler db) {
-        updateGraph(db);
+    private DatabaseHandler db ;
+
+    private Graph() {
+        this.db = DatabaseHandler.getDatabaseHandler("main.db");
+        updateGraph();
     }
 
-    public void updateGraph(DatabaseHandler db) {
+    private Graph(DatabaseHandler db) {
+        this.db = db;
+        updateGraph();
+    }
+
+    public void updateGraph() {
         adjMap = new HashMap<>();
 
         try {
@@ -56,14 +64,26 @@ public class Graph {
     }
 
     /**
+     * Changes the database that the graph uses.
+     * Should only be used in testing
+     * @param db database handler to switch the graph to
      * @return the graph singleton
      */
-    public static Graph getGraph(DatabaseHandler db) {
-        if (graph == null) {
-            graph = new Graph(db);
+    public static void setGraph(DatabaseHandler db) {
+        graph = new Graph(db);
+    }
+
+    /**
+     * Get the graph with whatever database handler is set
+     * @return graph singleton
+     */
+    public static Graph getGraph(){
+        if (graph==null){
+            graph = new Graph();
         }
         return graph;
     }
+
 
     /**
      * Given two nodes, return the distance between them
