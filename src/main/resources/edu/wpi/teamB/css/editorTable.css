@@ -1,0 +1,69 @@
+.table-view .column-header-background .label{ /*the actual text inside of the header*/
+    -fx-background-color:transparent;
+    -fx-text-fill: white;
+}
+.table-column { /*controls columns*/
+    -fx-alignment: CENTER;
+    -fx-border-color: transparent;
+}
+
+.table-view .column-header-background .filler {/*top right corner to the right of headers*/
+    -fx-background-color: transparent;
+}
+.table-view .corner { /*bottom right corner between scroll bars*/
+    -fx-background-color: transparent;
+}
+
+.table-row-cell{ /*Area to the right of the cells and controls row kinda*/
+   -fx-border-color: transparent;
+}
+
+.table-view .column-header {/*controls just top row*/
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.table-view .table-cell .label{ /*text in the cells*/
+    -fx-background-color: transparent;
+}
+
+.table-view .table-cell{/*controls all none header filled cells*/
+    -fx-background-color: transparent
+}
+
+.table-view .column-header-background{/*controls area behind the top row*/
+    -fx-background-color: #80B3D8;
+    -fx-padding: 0 0 0 0;
+}
+.table-row-cell: odd{/*starts at second row?*/
+    -fx-background-color: #0067B1;
+}
+.table-row-cell: even{/*starts at first row?*/
+    -fx-background-color: #0264AA;
+}
+
+.scroll-pane > .viewport {
+    -fx-background-color: transparent;
+}
+
+.text-area .scroll-pane .corner {
+    -fx-background-color: #0067B1;
+}
+
+.scroll-bar .track {
+    -fx-background-color: #0067B1;
+    -fx-pref-width: 4;
+}
+
+.scroll-bar .thumb {
+    -fx-background-color: #80B3D8;
+    -fx-background-radius: 2.0em;
+}
+
+.increment-button, .decrement-button {
+    -fx-background-color: #80B3D8;
+    -fx-border-color: #80B3D8;
+}
+
+
+
