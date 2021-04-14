@@ -27,7 +27,7 @@ public class App extends Application {
     public static final Path EDGES_PATH = Paths.get("src/main/resources/edu/wpi/teamB/csvfiles/bwBedges.csv");
 
     @Override
-    public void init() throws SQLException {
+    public void init() {
         System.out.println("Starting Up");
         db = DatabaseHandler.getDatabaseHandler("main.db");
 
