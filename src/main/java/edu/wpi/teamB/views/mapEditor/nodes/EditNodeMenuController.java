@@ -79,18 +79,13 @@ public class EditNodeMenuController implements Initializable {
 
     @FXML
     private void validateButton() throws NumberFormatException {
-        if (!nodeID.getText().isEmpty() && !building.getText().isEmpty() && !nodeType.getText().isEmpty()
-                && !longName.getText().isEmpty() && !shortName.getText().isEmpty() && !floor.getText().isEmpty()
-                && !xCoord.getText().isEmpty() && !yCoord.getText().isEmpty()) {
-            btnUpdate.setDisable(false);
-        }
-        else {
-            btnUpdate.setDisable(true);
-        }
+        btnUpdate.setDisable(nodeID.getText().trim().isEmpty() || building.getText().trim().isEmpty() || nodeType.getText().trim().isEmpty()
+                || longName.getText().trim().isEmpty() || shortName.getText().trim().isEmpty() || floor.getText().trim().isEmpty()
+                || xCoord.getText().trim().isEmpty() || yCoord.getText().trim().isEmpty());
         try {
-            Integer.parseInt(floor.getText());
-            Integer.parseInt(xCoord.getText());
-            Integer.parseInt(yCoord.getText());
+            Integer.parseInt(floor.getText().trim());
+            Integer.parseInt(xCoord.getText().trim());
+            Integer.parseInt(yCoord.getText().trim());
         } catch (NumberFormatException notInt) {
             btnUpdate.setDisable(true);
         }}
@@ -107,13 +102,13 @@ public class EditNodeMenuController implements Initializable {
                 Stage stage = App.getPrimaryStage();
                 Node node = (Node) stage.getUserData();
 
-                int aXCoord = Integer.parseInt(xCoord.getText());
-                int aYCoord = Integer.parseInt(yCoord.getText());
-                String aFloor = floor.getText();
-                String aBuilding = building.getText();
-                String aNodeType = nodeType.getText();
-                String aLongName = longName.getText();
-                String aShortName = shortName.getText();
+                int aXCoord = Integer.parseInt(xCoord.getText().trim());
+                int aYCoord = Integer.parseInt(yCoord.getText().trim());
+                String aFloor = floor.getText().trim();
+                String aBuilding = building.getText().trim();
+                String aNodeType = nodeType.getText().trim();
+                String aLongName = longName.getText().trim();
+                String aShortName = shortName.getText().trim();
 
                 node = new Node(node.getNodeID(), aXCoord, aYCoord, aFloor, aBuilding, aNodeType, aLongName, aShortName);
 

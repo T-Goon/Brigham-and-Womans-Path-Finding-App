@@ -67,7 +67,6 @@ public class AStar {
                     }
                 }
             } catch (NullPointerException e){
-                System.err.println("A Node has no edges");
                 return new LinkedList<>();
             }
         }

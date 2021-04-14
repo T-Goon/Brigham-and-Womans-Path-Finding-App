@@ -64,26 +64,21 @@ public class AddNodeMenuController implements Initializable {
         notRestricted.setToggleGroup(areaGroup);
         restricted.setToggleGroup(areaGroup);
     }
+
     @FXML
     private void validateButton() throws NumberFormatException {
-        if (!nodeID.getText().isEmpty() && !building.getText().isEmpty() && !nodeType.getText().isEmpty()
-            && !longName.getText().isEmpty() && !shortName.getText().isEmpty() && !floor.getText().isEmpty()
-            && !xCoord.getText().isEmpty() && !yCoord.getText().isEmpty()) {
-            btnAddNode.setDisable(false);
-        }
-        else {
-            btnAddNode.setDisable(true);
-        }
+        btnAddNode.setDisable(nodeID.getText().trim().isEmpty() || building.getText().trim().isEmpty() || nodeType.getText().trim().isEmpty()
+                || longName.getText().trim().isEmpty() || shortName.getText().trim().isEmpty() || floor.getText().trim().isEmpty()
+                || xCoord.getText().trim().isEmpty() || yCoord.getText().trim().isEmpty());
         try {
-            Integer.parseInt(floor.getText());
-            Integer.parseInt(xCoord.getText());
-            Integer.parseInt(yCoord.getText());
+            Integer.parseInt(floor.getText().trim());
+            Integer.parseInt(xCoord.getText().trim());
+            Integer.parseInt(yCoord.getText().trim());
         } catch (NumberFormatException notInt) {
             btnAddNode.setDisable(true);
         }
-
-
     }
+
     @FXML
     private void handleButtonAction(ActionEvent e) throws IOException {
         JFXButton btn = (JFXButton) e.getSource();
@@ -93,14 +88,14 @@ public class AddNodeMenuController implements Initializable {
                 SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapeditor/nodes/editNodesListMenu.fxml");
                 break;
             case "btnAddNode":
-                String aNodeId = nodeID.getText();
-                String aFloor = floor.getText();
-                String aBuilding = building.getText();
-                String aNodeType = nodeType.getText();
-                String aLongName = longName.getText();
-                String aShortName = shortName.getText();
-                int aXCoord = Integer.parseInt(xCoord.getText());
-                int aYCoord = Integer.parseInt(yCoord.getText());
+                String aNodeId = nodeID.getText().trim();
+                String aFloor = floor.getText().trim();
+                String aBuilding = building.getText().trim();
+                String aNodeType = nodeType.getText().trim();
+                String aLongName = longName.getText().trim();
+                String aShortName = shortName.getText().trim();
+                int aXCoord = Integer.parseInt(xCoord.getText().trim());
+                int aYCoord = Integer.parseInt(yCoord.getText().trim());
                 Node aNode = new Node(aNodeId, aXCoord, aYCoord, aFloor, aBuilding, aNodeType, aLongName, aShortName);
                 DatabaseHandler.getDatabaseHandler("main.db").addNode(aNode);
                 SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapeditor/nodes/editNodesListMenu.fxml");
