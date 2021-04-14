@@ -33,6 +33,9 @@ public class PathfindingTests {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        Graph.setGraph(db);
+
     }
 
     @Test
@@ -41,7 +44,7 @@ public class PathfindingTests {
         List<Node> adjNodes = new ArrayList<>();
         Node bWALK00101 = new Node("bWALK00101", 568, 1894, "1", "Parking", "WALK", "Left Parking Lot Walkway", "Llot Walk");
         adjNodes.add(bWALK00101);
-        assertEquals(adjNodes, Graph.getGraph(db).getAdjNodesById("bPARK00101"));
+        assertEquals(adjNodes, Graph.getGraph().getAdjNodesById("bPARK00101"));
     }
 
     @Test
@@ -71,7 +74,7 @@ public class PathfindingTests {
         expectedPath.add("bWALK01501");
         expectedPath.add("bWALK01601");
         expectedPath.add("bPARK02501");
-        List<String> path = AStar.findPath("bPARK00101", "bPARK02501", true);
+        List<String> path = AStar.findPath("bPARK00101", "bPARK02501");
         assertEquals(expectedPath, path);
     }
 
