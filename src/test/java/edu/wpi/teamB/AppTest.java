@@ -37,11 +37,11 @@ public class AppTest extends FxRobot {
         clickOn("#btnDirections");
 
         // Select start node
-        clickOn("#FDEPT00101Icon");
+        clickOn("#bPARK01801Icon");
         clickOn("#BtnStart");
 
         // Select end node
-        clickOn("#ADEPT00201Icon");
+        clickOn("#bPARK00101Icon");
         clickOn("#BtnEnd");
 
         clickOn("#btnFindPath");
