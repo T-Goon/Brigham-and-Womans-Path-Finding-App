@@ -82,6 +82,7 @@ public class DatabaseHandler {
         String query;
         try {
             query = "DROP TABLE Nodes";
+            assert statement != null;
             statement.execute(query);
         } catch (SQLException ignored) {
         }
