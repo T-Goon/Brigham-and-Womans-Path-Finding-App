@@ -23,6 +23,7 @@ public class StaffLoginController {
 
         switch (btn.getId()) {
             case "btnLogin":
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/staffDirectoryMenu.fxml");
                 break;
             case "btnBack":
                 SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/loginPages/loginOptions.fxml");

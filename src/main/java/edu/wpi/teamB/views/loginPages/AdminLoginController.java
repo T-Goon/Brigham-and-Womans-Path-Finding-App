@@ -24,6 +24,7 @@ public class AdminLoginController {
 
         switch (btn.getId()) {
             case "btnLogin":
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/adminDirectoryMenu.fxml");
                 break;
             case "btnBack":
                 SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/loginPages/loginOptions.fxml");
