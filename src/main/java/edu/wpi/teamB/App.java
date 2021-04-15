@@ -24,9 +24,6 @@ public class App extends Application {
     private static Stage primaryStage;
     private DatabaseHandler db;
 
-    public static final Path NODES_PATH = Paths.get("src/main/resources/edu/wpi/teamB/csvFiles/bwBnodes.csv");
-    public static final Path EDGES_PATH = Paths.get("src/main/resources/edu/wpi/teamB/csvFiles/bwBedges.csv");
-
     @Override
     public void init() {
         System.out.println("Starting Up");
