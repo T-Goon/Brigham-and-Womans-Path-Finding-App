@@ -111,7 +111,7 @@ public class EditEdgesListMenuController implements Initializable {
                     File file = fileChooser.showOpenDialog(stage);
                     if (file == null) return;
 
-                    List<Edge> newEdges = CSVHandler.loadCSVEdges(file.toPath().toString());
+                    List<Edge> newEdges = CSVHandler.loadCSVEdgesFromExternalPath(file.toPath());
                     DatabaseHandler.getDatabaseHandler("main.db").loadDatabaseEdges(newEdges);
                     Graph.getGraph().updateGraph();
 
