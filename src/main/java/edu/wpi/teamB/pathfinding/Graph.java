@@ -51,7 +51,6 @@ public class Graph {
             } else {
                 adjMap.get(edge.getEndNodeName()).add(nodes.get(edge.getStartNodeName()));
             }
-
         }
     }
 

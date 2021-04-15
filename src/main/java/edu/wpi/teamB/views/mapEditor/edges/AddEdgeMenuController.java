@@ -3,7 +3,6 @@ package edu.wpi.teamB.views.mapEditor.edges;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
-import edu.wpi.teamB.App;
 import edu.wpi.teamB.database.DatabaseHandler;
 import edu.wpi.teamB.entities.Edge;
 import edu.wpi.teamB.entities.Node;
@@ -11,7 +10,6 @@ import edu.wpi.teamB.util.SceneSwitcher;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
@@ -41,11 +39,10 @@ public class AddEdgeMenuController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         // Give the combo boxes all the values
-        System.out.println("does this init only once?");
         Map<String, Node> nodes = DatabaseHandler.getDatabaseHandler("main.db").getNodes();
         for (Node n : nodes.values()) {
-            startNode.getItems().add(n.getLongName());
-            endNode.getItems().add(n.getLongName());
+            startNode.getItems().add(n.getNodeID());
+            endNode.getItems().add(n.getNodeID());
         }
     }
 

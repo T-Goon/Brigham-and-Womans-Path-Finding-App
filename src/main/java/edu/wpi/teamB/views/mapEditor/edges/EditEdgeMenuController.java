@@ -6,6 +6,7 @@ import com.jfoenix.controls.JFXTextField;
 import edu.wpi.teamB.App;
 import edu.wpi.teamB.database.DatabaseHandler;
 import edu.wpi.teamB.entities.Edge;
+import edu.wpi.teamB.pathfinding.Graph;
 import edu.wpi.teamB.util.SceneSwitcher;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -90,7 +91,6 @@ public class EditEdgeMenuController implements Initializable {
                 DatabaseHandler db = DatabaseHandler.getDatabaseHandler("main.db");
                 db.removeEdge(oldEdgeID);
                 db.addEdge(edge);
-
                 SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapEditor/edges/editEdgesListMenu.fxml");
                 break;
         }
