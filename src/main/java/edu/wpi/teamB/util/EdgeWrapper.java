@@ -28,8 +28,8 @@ public class EdgeWrapper {
 
     public EdgeWrapper(Edge e, TableView parentTable) throws IOException {
         this.id = new Label(e.getEdgeID());
-        this.startNode = new Label(e.getStartNodeName());
-        this.endNode = new Label(e.getEndNodeName());
+        this.startNode = new Label(e.getStartNodeID());
+        this.endNode = new Label(e.getEndNodeID());
         this.parentTable = parentTable;
 
         // Set up edit button
@@ -42,7 +42,7 @@ public class EdgeWrapper {
                 Stage stage = App.getPrimaryStage();
                 stage.setUserData(e);
                 try {
-                    SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapeditor/edges/editEdgeMenu.fxml");
+                    SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapEditor/edges/editEdgeMenu.fxml");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -55,12 +55,9 @@ public class EdgeWrapper {
         JFXButton btnDel = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/misc/nodeEdgeDelBtn.fxml")));
         btnDel.setId(e.getEdgeID() + "DelBtn");
 
-        btnDel.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                DatabaseHandler.getDatabaseHandler("main.db").removeEdge(e.getEdgeID());
-                parentTable.getItems().removeIf( (Object o) -> ((EdgeWrapper) o).id == id);
-            }
+        btnDel.setOnAction(event -> {
+            DatabaseHandler.getDatabaseHandler("main.db").removeEdge(e.getEdgeID());
+            parentTable.getItems().removeIf( (Object o) -> ((EdgeWrapper) o).id == id);
         });
 
         this.btnDel = btnDel;

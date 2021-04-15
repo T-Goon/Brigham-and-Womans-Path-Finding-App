@@ -24,9 +24,6 @@ public class App extends Application {
     private static Stage primaryStage;
     private DatabaseHandler db;
 
-    public static final Path NODES_PATH = Paths.get("src/main/resources/edu/wpi/teamB/csvFiles/bwBnodes.csv");
-    public static final Path EDGES_PATH = Paths.get("src/main/resources/edu/wpi/teamB/csvFiles/bwBedges.csv");
-
     @Override
     public void init() {
         System.out.println("Starting Up");
@@ -34,8 +31,8 @@ public class App extends Application {
 
 
         // If the database is uninitialized, fill it with the csv files
-        if (!db.isEdgesInitialized()) db.loadDatabaseEdges(CSVHandler.loadCSVEdges("/edu/wpi/teamB/csvFiles/bwBedges.csv"));
         if (!db.isNodesInitialized()) db.loadDatabaseNodes(CSVHandler.loadCSVNodes("/edu/wpi/teamB/csvFiles/bwBnodes.csv"));
+        if (!db.isEdgesInitialized()) db.loadDatabaseEdges(CSVHandler.loadCSVEdges("/edu/wpi/teamB/csvFiles/bwBedges.csv"));
     }
 
     @Override
