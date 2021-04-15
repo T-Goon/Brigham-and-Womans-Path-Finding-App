@@ -36,6 +36,9 @@ public class PatientDirectoryMenuController {
                     break;
                 }
                 break;
+            case "btnEmergency":
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");
+                break;
             case "btnDirections":
                 SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/pathfindingMenu.fxml");
                 break;
