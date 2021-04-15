@@ -31,8 +31,7 @@ public class DatabaseHandlerTest {
 
     @BeforeEach
     void resetDB() {
-        db.loadDatabase(null, null);
-
+        db.loadDatabase(null,null);
     }
 
     @Test
@@ -110,7 +109,7 @@ public class DatabaseHandlerTest {
         nodes.add(targetNode7);
         nodes.add(targetNode8);
         nodes.add(targetNode9);
-        Edge targetEdge = new Edge("bPARK01201_bWALK00501", "bPARK01201", "bWALK00501");
+        Edge targetEdge = new Edge("bPARK01201_bWALK00501", "bWALK00502", "bWALK00501");
         edges.add(targetEdge);
 
         db.loadDatabase(nodes, edges);
@@ -162,17 +161,21 @@ public class DatabaseHandlerTest {
         List<Node> nodes = new ArrayList<>();
         List<Edge> actual = new ArrayList<>();
         Edge target = new Edge("bPARK01201_bWALK00501", "test_start", "test_end");
+        Node start = new Node("test_start",0,0,"0","0","0","test","t");
+        Node end = new Node("test_end",0,0,"0","0","0","test","t");
         actual.add(target);
+        nodes.add(start);
+        nodes.add(end);
         db.loadDatabase(nodes, actual);
 
         String edgeID = target.getEdgeID();
-        String startNode = "bPARK01201";
-        String endNode = "bWALK00501";
+        String startNode = "test_start";
+        String endNode = "test_end";
         db.updateEdge(new Edge(edgeID, startNode, endNode));
 
         Map<String, Edge> edges = db.getEdges();
-        assertEquals("bPARK01201", edges.get("bPARK01201_bWALK00501").getStartNodeID());
-        assertEquals("bWALK00501", edges.get("bPARK01201_bWALK00501").getEndNodeID());
+        assertEquals("test_start", edges.get("bPARK01201_bWALK00501").getStartNodeID());
+        assertEquals("test_end", edges.get("bPARK01201_bWALK00501").getEndNodeID());
     }
 
     @Test
@@ -200,7 +203,14 @@ public class DatabaseHandlerTest {
 
     @Test
     public void testAddEdge() throws SQLException {
+        Node start = new Node("test_start",0,0,"0","0","0","test","t");
+        Node end = new Node("test_end",0,0,"0","0","0","test","t");
+
+        db.addNode(start);
+        db.addNode(end);
+
         Edge target = new Edge("bPARK01201_bWALK00501", "test_start", "test_end");
+
 
         db.addEdge(target);
 
@@ -229,6 +239,11 @@ public class DatabaseHandlerTest {
 
     @Test
     public void testRemoveEdge() throws SQLException {
+        Node start = new Node("test_start",0,0,"0","0","0","test","t");
+        Node end = new Node("test_end",0,0,"0","0","0","test","t");
+        db.addNode(start);
+        db.addNode(end);
+
         Edge target = new Edge("bPARK01201_bWALK00501", "test_start", "test_end");
 
         db.addEdge(target);

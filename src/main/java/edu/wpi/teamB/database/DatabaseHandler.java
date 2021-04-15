@@ -4,6 +4,7 @@ import edu.wpi.teamB.entities.Edge;
 import edu.wpi.teamB.entities.Node;
 import edu.wpi.teamB.pathfinding.Graph;
 
+import javax.swing.plaf.nimbus.State;
 import java.sql.*;
 import java.util.*;
 
@@ -65,8 +66,57 @@ public class DatabaseHandler {
      * with that data.
      */
     public void loadDatabase(List<Node> nodes, List<Edge> edges) {
+        resetDatabase();
+        executeSchema();
         loadDatabaseNodes(nodes);
         loadDatabaseEdges(edges);
+    }
+
+    public void resetDatabase() {
+        Statement statement = this.getStatement();
+        String disableForeignKeys = "PRAGMA foreign_keys = OFF;";
+
+        String resetEdges = "DROP TABLE Edges;";
+        String resetNodes = "DROP TABLE Nodes;";
+        try {
+            System.out.println(statement.execute(resetEdges));
+            System.out.println(statement.execute(resetNodes));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void executeSchema() {
+        Statement statement = this.getStatement();
+        String configuration = "PRAGMA foreign_keys = ON;";
+
+
+        String nodesTable = "CREATE TABLE IF NOT EXISTS Nodes("
+                + "nodeID CHAR(20) PRIMARY KEY, "
+                + "xcoord INT, "
+                + "ycoord INT, "
+                + "floor CHAR(20), "
+                + "building CHAR(20), "
+                + "nodeType CHAR(20), "
+                + "longName CHAR(50), "
+                + "shortName CHAR(20))";
+
+        String edgesTable = "CREATE TABLE IF NOT EXISTS Edges("
+                + "edgeID CHAR(30) PRIMARY KEY, "
+                + "startNode CHAR(20) NOT NULL, "
+                + "endNode CHAR(20) NOT NULL CHECK (startNode != endNode), "
+                + "FOREIGN KEY (startNode) REFERENCES Nodes(nodeID), "
+                + "FOREIGN KEY (endNode) REFERENCES Nodes(nodeID))";
+
+        try {
+            statement.execute(configuration);
+            statement.execute(nodesTable);
+            statement.execute(edgesTable);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
     }
 
     /**
@@ -79,28 +129,9 @@ public class DatabaseHandler {
     public void loadDatabaseNodes(List<Node> nodes) {
 
         Statement statement = this.getStatement();
-        // Drop tables if they exist already
         String query;
-        try {
-            query = "DROP TABLE Nodes";
-            assert statement != null;
-            statement.execute(query);
-        } catch (SQLException ignored) {
-        }
 
         try {
-            // Create the tables
-            query = "CREATE TABLE Nodes("
-                    + "nodeID CHAR(20) PRIMARY KEY, "
-                    + "xcoord INT, "
-                    + "ycoord INT, "
-                    + "floor CHAR(20), "
-                    + "building CHAR(20), "
-                    + "nodeType CHAR(20), "
-                    + "longName CHAR(50), "
-                    + "shortName CHAR(20))";
-            statement.execute(query);
-
             // If either list is empty, then nothing should be put in
             if (nodes == null) return;
             for (Node node : nodes) {
@@ -131,23 +162,9 @@ public class DatabaseHandler {
     public void loadDatabaseEdges(List<Edge> edges) {
 
         Statement statement = this.getStatement();
-        // Drop tables if they exist already
         String query;
-        try {
-            query = "DROP TABLE Edges";
-            statement.execute(query);
-        } catch (SQLException ignored) {
-        }
 
         try {
-            query = "CREATE TABLE Edges("
-                    + "edgeID CHAR(30) PRIMARY KEY, "
-                    + "startNode CHAR(20) NOT NULL, "
-                    + "endNode CHAR(20) NOT NULL CHECK (startNode != endNode), "
-                    + "FOREIGN KEY (startNode) REFERENCES Nodes(nodeID), "
-                    + "FOREIGN KEY (endNode) REFERENCES Nodes(nodeID))";
-            statement.execute(query);
-
             // If either list is empty, then nothing should be put in
             if (edges == null) return;
             for (Edge edge : edges) {
@@ -194,6 +211,7 @@ public class DatabaseHandler {
 
     /**
      * Displays the list of nodes along with their attributes.
+     *
      * @return a map of node IDs to actual nodes
      */
     public Map<String, Node> getNodes() {
@@ -224,6 +242,7 @@ public class DatabaseHandler {
 
     /**
      * Displays the list of edges along with their attributes.
+     *
      * @return a map of edge IDs to actual edges
      */
     public Map<String, Edge> getEdges() {
