@@ -73,8 +73,8 @@ public class DatabaseHandler {
 
     public void resetDatabase() {
         Statement statement = this.getStatement();
-        String resetEdges = "DROP TABLE Edges";
-        String resetNodes = "DROP TABLE Nodes";
+        String resetEdges = "DROP TABLE IF EXISTS Edges";
+        String resetNodes = "DROP TABLE IF EXISTS Nodes";
         try {
             assert statement != null;
             statement.execute(resetEdges);
