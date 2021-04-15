@@ -55,7 +55,7 @@ public class PathfindingMenuController implements Initializable {
     @FXML
     private Label lblError;
 
-    private static final double coordinateScale = 10 / 3.0;
+    private static final double coordinateScale = 25/9.0;
     private List<Line> edgePlaced = new ArrayList<>();
     private VBox popup = null;
     private final HashMap<String, List<Node>> floorNodes = new HashMap<>();
@@ -87,7 +87,9 @@ public class PathfindingMenuController implements Initializable {
         startLocComboBox.getItems().addAll(locationNames);
         endLocComboBox.getItems().addAll(locationNames);
 
-        drawNodesOnFloor("1");
+        try{
+            drawNodesOnFloor("1");
+        } catch (NullPointerException ignored){}
     }
 
     /**
@@ -177,6 +179,8 @@ public class PathfindingMenuController implements Initializable {
 
             i.setLayoutX((n.getXCoord() / PathfindingMenuController.coordinateScale) - (i.getFitWidth() / 4));
             i.setLayoutY((n.getYCoord() / PathfindingMenuController.coordinateScale) - (i.getFitHeight()));
+
+            i.setId(n.getNodeID()+"Icon");
 
             i.setOnMouseClicked((MouseEvent e) -> {
                 createGraphicalInputPopup(n);

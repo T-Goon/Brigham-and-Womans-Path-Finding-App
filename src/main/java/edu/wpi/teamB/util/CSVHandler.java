@@ -4,16 +4,15 @@ import edu.wpi.teamB.database.DatabaseHandler;
 import edu.wpi.teamB.entities.Edge;
 import edu.wpi.teamB.entities.Node;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class CSVHandler {
 
@@ -24,10 +23,62 @@ public class CSVHandler {
      * @param path path to nodes csv
      * @return the list of nodes
      */
-    public static List<Node> loadCSVNodes(Path path) {
+    public static List<Node> loadCSVNodes(String path) {
 
         List<Node> list = new ArrayList<>();
+        InputStream s = CSVHandler.class.getResourceAsStream(path);
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(s));
 
+        List<String> lines = bufferedReader.lines().collect(Collectors.toList());
+        lines.remove(0);
+
+        // Read in the file
+        for(String line: lines){
+            line = line.replace("\r", "");
+            String[] values = line.split(",");
+            list.add(new Node(values[0], Integer.parseInt(values[1]), Integer.parseInt(values[2]), values[3], values[4], values[5], values[6], values[7]));
+        }
+
+        return list;
+    }
+
+    /**
+     * Parses the CSV file for edges given by the user
+     * and adds the data into the list of edges.
+     *
+     * @param path path to edges csv
+     * @return the list of edges
+     */
+    public static List<Edge> loadCSVEdges(String path) {
+
+        List<Edge> list = new ArrayList<>();
+        InputStream s = CSVHandler.class.getResourceAsStream(path);
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(s));
+
+        List<String> lines = bufferedReader.lines().collect(Collectors.toList());
+        lines.remove(0);
+
+        // Read in the file
+        for(String line: lines){
+            line = line.replace("\r", "");
+            String[] values = line.split(",");
+            list.add(new Edge(values[0], values[1], values[2]));
+        }
+
+        return list;
+    }
+
+
+    /**
+     * Parses the CSV file for nodes given by the user
+     * and adds the data into the list of nodes.
+     *
+     * @param path path to nodes csv
+     * @return the list of nodes
+     */
+    public static List<Node> loadCSVNodesFromExternalPath(Path path) {
+
+        List<Node> list = new ArrayList<>();
         // Read in the file
         String fileContent;
         try {
@@ -44,6 +95,7 @@ public class CSVHandler {
         } catch (ArrayIndexOutOfBoundsException e) {
             System.err.println("No rows properly extracted from CSV");
         }
+
         for (String row : rows) {
             row = row.replace("\r", "");
             String[] values = row.split(",");
@@ -59,7 +111,7 @@ public class CSVHandler {
      * @param path path to edges csv
      * @return the list of edges
      */
-    public static List<Edge> loadCSVEdges(Path path) {
+    public static List<Edge> loadCSVEdgesFromExternalPath(Path path) {
 
         List<Edge> list = new ArrayList<>();
 
@@ -72,8 +124,15 @@ public class CSVHandler {
             return list;
         }
 
+
         // Split by row, then by column, and pass in everything
         String[] rows = Arrays.copyOfRange(fileContent.split("\n"), 1, fileContent.split("\n").length);
+        try {
+            rows = Arrays.copyOfRange(rows, 1, rows.length);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.err.println("No rows properly extracted from CSV");
+        }
+
         for (String row : rows) {
             row = row.replace("\r", "");
             String[] values = row.split(",");
@@ -81,6 +140,7 @@ public class CSVHandler {
         }
         return list;
     }
+
 
     /**
      * Saves the database information for nodes into a csv file
@@ -143,8 +203,8 @@ public class CSVHandler {
         sb.append("edgeID,startNode,endNode\n");
         for (Edge e : edges.values()) {
             sb.append(e.getEdgeID()).append(",")
-                    .append(e.getStartNodeName()).append(",")
-                    .append(e.getEndNodeName()).append("\n");
+                    .append(e.getStartNodeID()).append(",")
+                    .append(e.getEndNodeID()).append("\n");
         }
 
         // Write to the file

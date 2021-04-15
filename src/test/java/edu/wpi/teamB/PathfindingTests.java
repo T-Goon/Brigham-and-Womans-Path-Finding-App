@@ -26,8 +26,8 @@ public class PathfindingTests {
     @BeforeAll
     static void initDB() {
         db = DatabaseHandler.getDatabaseHandler("test.db");
-        List<Node> nodes = CSVHandler.loadCSVNodes(Paths.get("src/test/resources/edu/wpi/teamB/csvFiles/bwBnodes.csv"));
-        List<Edge> edges = CSVHandler.loadCSVEdges(Paths.get("src/test/resources/edu/wpi/teamB/csvFiles/bwBedges.csv"));
+        List<Node> nodes = CSVHandler.loadCSVNodes("/edu/wpi/teamB/csvFiles/bwBnodes.csv");
+        List<Edge> edges = CSVHandler.loadCSVEdges("/edu/wpi/teamB/csvFiles/bwBedges.csv");
 
         db.loadDatabase(nodes, edges);
 

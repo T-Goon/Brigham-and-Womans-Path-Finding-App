@@ -1,6 +1,5 @@
 package edu.wpi.teamB.pathfinding;
 
-import edu.wpi.teamB.database.DatabaseHandler;
 import edu.wpi.teamB.entities.Node;
 
 import java.util.*;
@@ -66,7 +65,7 @@ public class AStar {
                         cameFrom.put(neighbor.getNodeID(), current.getNodeID());
                     }
                 }
-            } catch (NullPointerException e){
+            } catch (NullPointerException e) {
                 return new LinkedList<>();
             }
         }
