@@ -122,7 +122,7 @@ public class DatabaseHandlerTest {
     }
 
     @Test
-    public void testUpdateNode() throws SQLException {
+    public void testUpdateNode() {
         List<Node> actual = new ArrayList<>();
         List<Edge> edges = new ArrayList<>();
         Node target = new Node("testNode",
@@ -157,7 +157,7 @@ public class DatabaseHandlerTest {
     }
 
     @Test
-    public void testUpdateEdge() throws SQLException {
+    public void testUpdateEdge() {
         List<Node> nodes = new ArrayList<>();
         List<Edge> actual = new ArrayList<>();
         Edge target = new Edge("bPARK01201_bWALK00501", "test_start", "test_end");
@@ -179,7 +179,7 @@ public class DatabaseHandlerTest {
     }
 
     @Test
-    public void testAddNode() throws SQLException {
+    public void testAddNode() {
         Node target = new Node("testNode",
                 0,
                 -992,
@@ -202,7 +202,7 @@ public class DatabaseHandlerTest {
     }
 
     @Test
-    public void testAddEdge() throws SQLException {
+    public void testAddEdge() {
         Node start = new Node("test_start",0,0,"0","0","0","test","t");
         Node end = new Node("test_end",0,0,"0","0","0","test","t");
 
@@ -220,7 +220,7 @@ public class DatabaseHandlerTest {
     }
 
     @Test
-    public void testRemoveNode() throws SQLException {
+    public void testRemoveNode() {
         Node target = new Node("testNode",
                 0,
                 -992,
@@ -238,7 +238,7 @@ public class DatabaseHandlerTest {
     }
 
     @Test
-    public void testRemoveEdge() throws SQLException {
+    public void testRemoveEdge() {
         Node start = new Node("test_start",0,0,"0","0","0","test","t");
         Node end = new Node("test_end",0,0,"0","0","0","test","t");
         db.addNode(start);

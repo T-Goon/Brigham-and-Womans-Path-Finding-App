@@ -4,7 +4,6 @@ import edu.wpi.teamB.entities.Edge;
 import edu.wpi.teamB.entities.Node;
 import edu.wpi.teamB.pathfinding.Graph;
 
-import javax.swing.plaf.nimbus.State;
 import java.sql.*;
 import java.util.*;
 
@@ -74,13 +73,12 @@ public class DatabaseHandler {
 
     public void resetDatabase() {
         Statement statement = this.getStatement();
-        String disableForeignKeys = "PRAGMA foreign_keys = OFF;";
-
-        String resetEdges = "DROP TABLE Edges;";
-        String resetNodes = "DROP TABLE Nodes;";
+        String resetEdges = "DROP TABLE Edges";
+        String resetNodes = "DROP TABLE Nodes";
         try {
-            System.out.println(statement.execute(resetEdges));
-            System.out.println(statement.execute(resetNodes));
+            assert statement != null;
+            statement.execute(resetEdges);
+            statement.execute(resetNodes);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -88,8 +86,7 @@ public class DatabaseHandler {
 
     private void executeSchema() {
         Statement statement = this.getStatement();
-        String configuration = "PRAGMA foreign_keys = ON;";
-
+        String configuration = "PRAGMA foreign_keys = ON";
 
         String nodesTable = "CREATE TABLE IF NOT EXISTS Nodes("
                 + "nodeID CHAR(20) PRIMARY KEY, "
@@ -109,14 +106,13 @@ public class DatabaseHandler {
                 + "FOREIGN KEY (endNode) REFERENCES Nodes(nodeID))";
 
         try {
+            assert statement != null;
             statement.execute(configuration);
             statement.execute(nodesTable);
             statement.execute(edgesTable);
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-
     }
 
     /**
@@ -124,7 +120,6 @@ public class DatabaseHandler {
      * the database
      *
      * @param nodes the list of nodes
-     * @throws SQLException if the query is malformed
      */
     public void loadDatabaseNodes(List<Node> nodes) {
 
@@ -145,6 +140,7 @@ public class DatabaseHandler {
                         + node.getNodeType() + "', '"
                         + node.getLongName() + "', '"
                         + node.getShortName() + "')";
+                assert statement != null;
                 statement.execute(query);
             }
         } catch (SQLException e) {
@@ -157,25 +153,29 @@ public class DatabaseHandler {
      * the database
      *
      * @param edges the list of edges
-     * @throws SQLException if the query is malformed
      */
     public void loadDatabaseEdges(List<Edge> edges) {
 
         Statement statement = this.getStatement();
         String query;
 
+        Edge test = null;
         try {
             // If either list is empty, then nothing should be put in
             if (edges == null) return;
             for (Edge edge : edges) {
+                test = edge;
                 query = "INSERT INTO Edges(edgeID, startNode, endNode) "
                         + "VALUES('"
                         + edge.getEdgeID() + "', '"
                         + edge.getStartNodeID() + "', '"
                         + edge.getEndNodeID() + "')";
+                assert statement != null;
                 statement.execute(query);
             }
         } catch (SQLException e) {
+            System.out.println(getNodes());
+            System.out.println(test.getEdgeID() + " " + test.getStartNodeID() + " " + test.getEndNodeID());
             e.printStackTrace();
         }
     }

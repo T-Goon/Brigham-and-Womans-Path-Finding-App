@@ -8,10 +8,7 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class CSVHandler {
@@ -27,7 +24,7 @@ public class CSVHandler {
 
         List<Node> list = new ArrayList<>();
         InputStream s = CSVHandler.class.getResourceAsStream(path);
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(s));
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(Objects.requireNonNull(s)));
 
         List<String> lines = bufferedReader.lines().collect(Collectors.toList());
         lines.remove(0);
@@ -53,7 +50,7 @@ public class CSVHandler {
 
         List<Edge> list = new ArrayList<>();
         InputStream s = CSVHandler.class.getResourceAsStream(path);
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(s));
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(Objects.requireNonNull(s)));
 
         List<String> lines = bufferedReader.lines().collect(Collectors.toList());
         lines.remove(0);

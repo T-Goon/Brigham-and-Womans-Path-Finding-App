@@ -65,8 +65,8 @@ public class EditNodesListMenuController implements Initializable {
     @FXML
     private TableColumn<String, JFXButton> delCol;
 
-    FileChooser fileChooser = new FileChooser();
-    DirectoryChooser directoryChooser = new DirectoryChooser();
+    final FileChooser fileChooser = new FileChooser();
+    final DirectoryChooser directoryChooser = new DirectoryChooser();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

@@ -13,7 +13,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.sql.SQLException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -40,8 +39,8 @@ public class CSVHandlerTest {
                 "1,1,1,2,Parking,PARK,Left Parking Lot Spot 10,LLot10\n";
 
         DatabaseHandler.getDatabaseHandler("test.db").addNode(new Node(
-                "1",1,1,"2","Parking","PARK",
-                "Left Parking Lot Spot 10","LLot10"));
+                "1", 1, 1, "2", "Parking", "PARK",
+                "Left Parking Lot Spot 10", "LLot10"));
 
         String actualString = CSVHandler.saveCSVNodes(resourcesPath, true);
         assertTrue(Files.exists(Paths.get(resourcesPath + "/bwBnodes.csv")));
@@ -55,7 +54,10 @@ public class CSVHandlerTest {
     public void testSaveCSVEdgesFilepath() throws IOException {
         String expected = "edgeID,startNode,endNode\n1,2,3\n";
 
-        DatabaseHandler.getDatabaseHandler("test.db").addEdge(new Edge("1","2","3"));
+        DatabaseHandler db = DatabaseHandler.getDatabaseHandler("test.db");
+        db.addNode(new Node("2", 1, 1, "1", "building", "type", "longName", "shortName (which is longer than long name)"));
+        db.addNode(new Node("3", 1, 1, "1", "building", "type", "longName", "shortName (which is longer than long name)"));
+        db.addEdge(new Edge("1", "2", "3"));
 
         String actualString = CSVHandler.saveCSVEdges(resourcesPath, true);
         assertTrue(Files.exists(Paths.get(resourcesPath + "/bwBedges.csv")));
