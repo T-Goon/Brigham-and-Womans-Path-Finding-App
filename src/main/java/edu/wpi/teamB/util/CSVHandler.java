@@ -4,8 +4,7 @@ import edu.wpi.teamB.database.DatabaseHandler;
 import edu.wpi.teamB.entities.Edge;
 import edu.wpi.teamB.entities.Node;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -14,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class CSVHandler {
 
@@ -24,31 +24,44 @@ public class CSVHandler {
      * @param path path to nodes csv
      * @return the list of nodes
      */
-    public static List<Node> loadCSVNodes(Path path) {
+    public static List<Node> loadCSVNodes(String path) {
 
         List<Node> list = new ArrayList<>();
+        InputStream s = CSVHandler.class.getResourceAsStream(path);
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(s));
+
+        List<String> lines = bufferedReader.lines().collect(Collectors.toList());
+        lines.remove(0);
 
         // Read in the file
-        String fileContent;
-        try {
-            fileContent = new String(Files.readAllBytes(path));
-        } catch (IOException e) {
-            e.printStackTrace();
-            return list;
-        }
-
-        // Split by row, then by column, and pass in everything
-        String[] rows = fileContent.split("\n");
-        try {
-            rows = Arrays.copyOfRange(rows, 1, rows.length);
-        } catch (ArrayIndexOutOfBoundsException e) {
-            System.err.println("No rows properly extracted from CSV");
-        }
-        for (String row : rows) {
-            row = row.replace("\r", "");
-            String[] values = row.split(",");
+        for(String line: lines){
+            line = line.replace("\r", "");
+            String[] values = line.split(",");
             list.add(new Node(values[0], Integer.parseInt(values[1]), Integer.parseInt(values[2]), values[3], values[4], values[5], values[6], values[7]));
         }
+
+
+//        // Read in the file
+//        String fileContent;
+//        try {
+//            fileContent = new String(Files.readAllBytes(path));
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//            return list;
+//        }
+//
+//        // Split by row, then by column, and pass in everything
+//        String[] rows = fileContent.split("\n");
+//        try {
+//            rows = Arrays.copyOfRange(rows, 1, rows.length);
+//        } catch (ArrayIndexOutOfBoundsException e) {
+//            System.err.println("No rows properly extracted from CSV");
+//        }
+//        for (String row : rows) {
+//            row = row.replace("\r", "");
+//            String[] values = row.split(",");
+//            list.add(new Node(values[0], Integer.parseInt(values[1]), Integer.parseInt(values[2]), values[3], values[4], values[5], values[6], values[7]));
+//        }
         return list;
     }
 
@@ -59,26 +72,28 @@ public class CSVHandler {
      * @param path path to edges csv
      * @return the list of edges
      */
-    public static List<Edge> loadCSVEdges(Path path) {
+    public static List<Edge> loadCSVEdges(String path) {
 
         List<Edge> list = new ArrayList<>();
+        InputStream s = CSVHandler.class.getResourceAsStream(path);
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(s));
+
+        List<String> lines = bufferedReader.lines().collect(Collectors.toList());
 
         // Read in the file
-        String fileContent;
-        try {
-            fileContent = new String(Files.readAllBytes(path));
-        } catch (IOException e) {
-            e.printStackTrace();
-            return list;
-        }
-
-        // Split by row, then by column, and pass in everything
-        String[] rows = Arrays.copyOfRange(fileContent.split("\n"), 1, fileContent.split("\n").length);
-        for (String row : rows) {
-            row = row.replace("\r", "");
-            String[] values = row.split(",");
+        for(String line: lines){
+            line = line.replace("\r", "");
+            String[] values = line.split(",");
             list.add(new Edge(values[0], values[1], values[2]));
         }
+
+//        // Split by row, then by column, and pass in everything
+//        String[] rows = Arrays.copyOfRange(fileContent.split("\n"), 1, fileContent.split("\n").length);
+//        for (String row : rows) {
+//            row = row.replace("\r", "");
+//            String[] values = row.split(",");
+//            list.add(new Edge(values[0], values[1], values[2]));
+//        }
         return list;
     }
 

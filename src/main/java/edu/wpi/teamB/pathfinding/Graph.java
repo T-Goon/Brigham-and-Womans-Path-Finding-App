@@ -17,7 +17,7 @@ public class Graph {
     private Map<String, Edge> edges;
     private Map<String, List<Node>> adjMap;
 
-    private DatabaseHandler db;
+    private final DatabaseHandler db;
 
     private Graph() {
         this.db = DatabaseHandler.getDatabaseHandler("main.db");
