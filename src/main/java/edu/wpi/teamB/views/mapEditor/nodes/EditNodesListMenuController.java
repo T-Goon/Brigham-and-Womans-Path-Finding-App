@@ -22,8 +22,6 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -117,7 +115,7 @@ public class EditNodesListMenuController implements Initializable {
                     File file = fileChooser.showOpenDialog(stage);
                     if (file == null) return;
 
-                    List<Node> newNodes = CSVHandler.loadCSVNodes(file.toPath());
+                    List<Node> newNodes = CSVHandler.loadCSVNodes(file.toPath().toString());
                     DatabaseHandler.getDatabaseHandler("main.db").loadDatabaseNodes(newNodes);
 
                     // Add them to the refreshed table
@@ -153,10 +151,10 @@ public class EditNodesListMenuController implements Initializable {
 
         switch (btn.getId()) {
             case "btnBack":
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapeditor/editorIntermediateMenu.fxml");
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapEditor/editorIntermediateMenu.fxml");
                 break;
             case "btnAddNode":
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapeditor/nodes/addNodeMenu.fxml");
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapEditor/nodes/addNodeMenu.fxml");
                 break;
         }
     }

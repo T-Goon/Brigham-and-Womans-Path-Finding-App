@@ -5,7 +5,6 @@ import edu.wpi.teamB.entities.Edge;
 import edu.wpi.teamB.entities.Node;
 import lombok.Getter;
 
-import java.sql.SQLException;
 import java.util.*;
 
 @Getter
@@ -17,7 +16,7 @@ public class Graph {
     private Map<String, Edge> edges;
     private Map<String, List<Node>> adjMap;
 
-    private DatabaseHandler db;
+    private final DatabaseHandler db;
 
     private Graph() {
         this.db = DatabaseHandler.getDatabaseHandler("main.db");
@@ -33,6 +32,8 @@ public class Graph {
         adjMap = new HashMap<>();
         nodes = db.getNodes();
         edges = db.getEdges();
+
+        if (edges == null || nodes == null) return;
 
         for (Edge edge : edges.values()) {
             if (!adjMap.containsKey(edge.getStartNodeName())) {

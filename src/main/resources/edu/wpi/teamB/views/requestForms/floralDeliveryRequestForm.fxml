@@ -8,6 +8,7 @@
 <?import com.jfoenix.controls.JFXTimePicker?>
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -164,13 +165,13 @@
                                             </Text>
                                             <HBox alignment="CENTER_LEFT" fillHeight="false" spacing="10.0" HBox.hgrow="ALWAYS">
                                        <children>
-                                          <JFXCheckBox text="Roses" />
-                                          <JFXCheckBox text="Tulips" />
-                                          <JFXCheckBox text="Daisies" />
-                                          <JFXCheckBox text="Lilies" />
-                                          <JFXCheckBox text="Sunflowers" />
-                                          <JFXCheckBox text="Carnations" />
-                                          <JFXCheckBox text="Orchids" />
+                                          <JFXCheckBox fx:id="roses" onAction="#updatePrice" text="Roses" />
+                                          <JFXCheckBox fx:id="tulips" onAction="#updatePrice" text="Tulips" />
+                                          <JFXCheckBox fx:id="daisies" onAction="#updatePrice" text="Daisies" />
+                                          <JFXCheckBox fx:id="lilies" onAction="#updatePrice" text="Lilies" />
+                                          <JFXCheckBox fx:id="sunflowers" onAction="#updatePrice" text="Sunflowers" />
+                                          <JFXCheckBox fx:id="carnations" onAction="#updatePrice" text="Carnations" />
+                                          <JFXCheckBox fx:id="orchids" onAction="#updatePrice" text="Orchids" />
                                        </children>
                                             </HBox>
                                         </children>
@@ -180,11 +181,11 @@
                                     </HBox>
                               <HBox alignment="CENTER_LEFT" prefHeight="17.0" prefWidth="546.0">
                                  <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Total Price: $0.00">
+                                    <Label fx:id="totalPrice" text="Total Price: $0.00" textOverrun="CLIP">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
-                                    </Text>
+                                    </Label>
                                  </children>
                                  <opaqueInsets>
                                     <Insets />

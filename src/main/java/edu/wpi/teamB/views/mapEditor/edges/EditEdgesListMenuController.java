@@ -23,8 +23,6 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -113,7 +111,7 @@ public class EditEdgesListMenuController implements Initializable {
                     File file = fileChooser.showOpenDialog(stage);
                     if (file == null) return;
 
-                    List<Edge> newEdges = CSVHandler.loadCSVEdges(file.toPath());
+                    List<Edge> newEdges = CSVHandler.loadCSVEdges(file.toPath().toString());
                     DatabaseHandler.getDatabaseHandler("main.db").loadDatabaseEdges(newEdges);
                     Graph.getGraph().updateGraph();
 
@@ -151,10 +149,10 @@ public class EditEdgesListMenuController implements Initializable {
 
         switch (btn.getId()) {
             case "btnBack":
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapeditor/editorIntermediateMenu.fxml");
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapEditor/editorIntermediateMenu.fxml");
                 break;
             case "btnAddEdge":
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapeditor/edges/addEdgeMenu.fxml");
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapEditor/edges/addEdgeMenu.fxml");
                 break;
         }
     }

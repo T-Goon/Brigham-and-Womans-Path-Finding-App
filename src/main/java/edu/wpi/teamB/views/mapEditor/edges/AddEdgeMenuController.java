@@ -61,7 +61,7 @@ public class AddEdgeMenuController implements Initializable {
 
         switch (btn.getId()) {
             case "btnCancel":
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapeditor/edges/editEdgesListMenu.fxml");
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapEditor/edges/editEdgesListMenu.fxml");
                 break;
             case "btnAddEdge":
                 String edgeIdentifier = edgeID.getText();
@@ -69,7 +69,7 @@ public class AddEdgeMenuController implements Initializable {
                 String endNodeName = endNode.getValue();
                 Edge edge = new Edge(edgeIdentifier, startNodeName, endNodeName);
                 DatabaseHandler.getDatabaseHandler("main.db").addEdge(edge);
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapeditor/edges/editEdgesListMenu.fxml");
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapEditor/edges/editEdgesListMenu.fxml");
                 break;
         }
     }
