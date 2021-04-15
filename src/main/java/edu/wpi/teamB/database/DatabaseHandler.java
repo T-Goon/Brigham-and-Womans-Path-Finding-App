@@ -229,7 +229,7 @@ public class DatabaseHandler {
     public Map<String, Edge> getEdges() {
         Statement statement = this.getStatement();
 
-        String query = "SELECT edgeID, startNode, endNode FROM Edges";
+        String query = "SELECT * FROM Edges";
         assert statement != null;
         try {
             ResultSet rs = statement.executeQuery(query);
