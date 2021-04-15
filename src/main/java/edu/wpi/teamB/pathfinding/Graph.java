@@ -66,6 +66,7 @@ public class Graph {
      */
     public static void setGraph(DatabaseHandler db) {
         graph = new Graph(db);
+        graph.updateGraph();
     }
 
     /**

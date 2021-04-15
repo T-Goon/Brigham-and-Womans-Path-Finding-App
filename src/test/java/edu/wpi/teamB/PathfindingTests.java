@@ -9,14 +9,11 @@ import edu.wpi.teamB.util.CSVHandler;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import java.nio.file.Paths;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 public class PathfindingTests {
@@ -71,6 +68,7 @@ public class PathfindingTests {
         expectedPath.add("bWALK01501");
         expectedPath.add("bWALK01601");
         expectedPath.add("bPARK02501");
+
         List<String> path = AStar.findPath("bPARK00101", "bPARK02501");
         assertEquals(expectedPath, path);
     }
