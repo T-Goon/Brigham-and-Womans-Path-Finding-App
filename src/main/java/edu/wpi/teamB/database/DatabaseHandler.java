@@ -159,12 +159,10 @@ public class DatabaseHandler {
         Statement statement = this.getStatement();
         String query;
 
-        Edge test = null;
         try {
             // If either list is empty, then nothing should be put in
             if (edges == null) return;
             for (Edge edge : edges) {
-                test = edge;
                 query = "INSERT INTO Edges(edgeID, startNode, endNode) "
                         + "VALUES('"
                         + edge.getEdgeID() + "', '"
@@ -174,8 +172,6 @@ public class DatabaseHandler {
                 statement.execute(query);
             }
         } catch (SQLException e) {
-            System.out.println(getNodes());
-            System.out.println(test.getEdgeID() + " " + test.getStartNodeID() + " " + test.getEndNodeID());
             e.printStackTrace();
         }
     }
@@ -435,16 +431,10 @@ public class DatabaseHandler {
     /**
      * @return whether the nodes table is initialized or not
      */
-    public boolean isNodesInitialized() {
-        return getNodes() != null;
+    public boolean isInitialized() {
+        return getNodes() != null && getEdges() != null;
     }
 
-    /**
-     * @return whether the edges table is initialized or not
-     */
-    public boolean isEdgesInitialized() {
-        return getEdges() != null;
-    }
 
     /**
      * Shutdown the database

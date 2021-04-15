@@ -30,7 +30,7 @@ public class CSVHandler {
         lines.remove(0);
 
         // Read in the file
-        for(String line: lines){
+        for (String line : lines) {
             line = line.replace("\r", "");
             String[] values = line.split(",");
             list.add(new Node(values[0], Integer.parseInt(values[1]), Integer.parseInt(values[2]), values[3], values[4], values[5], values[6], values[7]));
@@ -56,10 +56,10 @@ public class CSVHandler {
         lines.remove(0);
 
         // Read in the file
-        for(String line: lines){
+        for (String line : lines) {
             line = line.replace("\r", "");
             String[] values = line.split(",");
-            list.add(new Edge(values[0], values[1], values[2]));
+            list.add(new Edge(values[0].trim(), values[1].trim(), values[2].trim()));
         }
 
         return list;
@@ -96,7 +96,7 @@ public class CSVHandler {
         for (String row : rows) {
             row = row.replace("\r", "");
             String[] values = row.split(",");
-            list.add(new Node(values[0], Integer.parseInt(values[1]), Integer.parseInt(values[2]), values[3], values[4], values[5], values[6], values[7]));
+            list.add(new Node(values[0].trim(), Integer.parseInt(values[1].trim()), Integer.parseInt(values[2].trim()), values[3].trim(), values[4].trim(), values[5].trim(), values[6].trim(), values[7].trim()));
         }
         return list;
     }
@@ -143,7 +143,7 @@ public class CSVHandler {
      * Saves the database information for nodes into a csv file
      * and saves it to a directory specified by the user
      *
-     * @param path directory where to save nodes csv
+     * @param path    directory where to save nodes csv
      * @param testing whether it's being tested or not
      * @return the string representation of the csv file
      */
@@ -184,7 +184,7 @@ public class CSVHandler {
      * Saves the database information for edges into a csv file
      * and saves it to a directory specified by the user
      *
-     * @param path directory where to save edges csv
+     * @param path    directory where to save edges csv
      * @param testing whether it's being tested or not
      * @return the string representation of the csv file
      */
