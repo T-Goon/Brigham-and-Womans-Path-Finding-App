@@ -79,6 +79,7 @@ public class CSVHandler {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(s));
 
         List<String> lines = bufferedReader.lines().collect(Collectors.toList());
+        lines.remove(0);
 
         // Read in the file
         for(String line: lines){
