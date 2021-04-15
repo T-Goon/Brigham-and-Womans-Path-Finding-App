@@ -21,13 +21,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class DatabaseHandlerTest {
-    private static Path resourcesPath;
+    private static String resourcesPath;
     private static DatabaseHandler db;
 
     @BeforeAll
     static void initDB() {
         db = DatabaseHandler.getDatabaseHandler("test.db");
-        resourcesPath = Paths.get("src/test/resources/edu/wpi/teamB/database/load");
+        resourcesPath = "/edu/wpi/teamB/database/load";
         Graph.setGraph(db);
     }
 
@@ -47,23 +47,20 @@ public class DatabaseHandlerTest {
                 "NODETYPE",
                 "Name With Many Spaces",
                 "N W M S");
-        Path nodes = Paths.get(resourcesPath + "/SimpleTestNodes.csv");
-        Node actual = CSVHandler.loadCSVNodes(nodes).get(0);
+        Node actual = CSVHandler.loadCSVNodes(resourcesPath + "/SimpleTestNodes.csv").get(0);
         assertEquals(target.toString(), actual.toString());
     }
 
     @Test
     public void complexParseNodesLength() {
-        Path nodePath = Paths.get(resourcesPath + "/ComplexTestNodes.csv");
-        List<Node> nodes = CSVHandler.loadCSVNodes(nodePath);
+        List<Node> nodes = CSVHandler.loadCSVNodes(resourcesPath+"/ComplexTestNodes.csv");
         assertEquals(32, nodes.size());
     }
 
     @Test
     public void complexParseNodesValues() {
         Node target = new Node("bWALK00501", 1872, 1965, "1", "Parking", "WALK", "Vining Street Walkway", "ViningWalk");
-        Path nodePath = Paths.get(resourcesPath + "/ComplexTestNodes.csv");
-        List<Node> nodes = CSVHandler.loadCSVNodes(nodePath);
+        List<Node> nodes = CSVHandler.loadCSVNodes(resourcesPath + "/ComplexTestNodes.csv");
         List<String> expanded = nodes.stream().map(Node::toString).collect(Collectors.toList());
         assertTrue(expanded.contains(target.toString()));
     }
@@ -71,23 +68,20 @@ public class DatabaseHandlerTest {
     @Test
     public void simpleParseEdges() {
         Edge target = new Edge("bPARK00101_bWALK00101", "bPARK00101", "bWALK00101");
-        Path edges = Paths.get(resourcesPath + "/SimpleTestEdges.csv");
-        Edge actual = CSVHandler.loadCSVEdges(edges).get(0);
+        Edge actual = CSVHandler.loadCSVEdges(resourcesPath + "/SimpleTestEdges.csv").get(0);
         assertEquals(target.toString(), actual.toString());
     }
 
     @Test
     public void complexParseEdgesLength() {
-        Path nodePath = Paths.get(resourcesPath + "/ComplexTestEdges.csv");
-        List<Edge> nodes = CSVHandler.loadCSVEdges(nodePath);
+        List<Edge> nodes = CSVHandler.loadCSVEdges(resourcesPath + "/ComplexTestEdges.csv");
         assertEquals(31, nodes.size());
     }
 
     @Test
     public void complexParseEdgesValues() {
         Edge target = new Edge("bPARK01201_bWALK00501", "bPARK01201", "bWALK00501");
-        Path nodePath = Paths.get(resourcesPath + "/ComplexTestEdges.csv");
-        List<Edge> nodes = CSVHandler.loadCSVEdges(nodePath);
+        List<Edge> nodes = CSVHandler.loadCSVEdges(resourcesPath + "/ComplexTestEdges.csv");
         List<String> expanded = nodes.stream().map(Edge::toString).collect(Collectors.toList());
         assertTrue(expanded.contains(target.toString()));
     }

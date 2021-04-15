@@ -117,7 +117,7 @@ public class EditNodesListMenuController implements Initializable {
                     File file = fileChooser.showOpenDialog(stage);
                     if (file == null) return;
 
-                    List<Node> newNodes = CSVHandler.loadCSVNodes(file.toPath());
+                    List<Node> newNodes = CSVHandler.loadCSVNodes(file.toPath().toString());
                     DatabaseHandler.getDatabaseHandler("main.db").loadDatabaseNodes(newNodes);
 
                     // Add them to the refreshed table
