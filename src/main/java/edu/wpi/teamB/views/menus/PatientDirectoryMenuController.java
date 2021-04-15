@@ -42,6 +42,9 @@ public class PatientDirectoryMenuController {
             case "btnMapEditor":
                 SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapEditor/editorIntermediateMenu.fxml");
                 break;
+            case "btnBack":
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/loginPages/loginOptions.fxml");
+                break;
             case "btnExit":
                 Platform.exit();
                 break;
