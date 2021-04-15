@@ -26,7 +26,7 @@ public class CSVHandlerTest {
     static void initDB() {
         resourcesPath = Paths.get("src/test/resources/edu/wpi/teamB/database/save");
         db = DatabaseHandler.getDatabaseHandler("test.db");
-//        Graph.setGraph(db);
+        Graph.setGraph(db);
     }
 
     @BeforeEach
