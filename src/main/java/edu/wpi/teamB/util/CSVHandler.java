@@ -6,11 +6,8 @@ import edu.wpi.teamB.entities.Node;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -130,8 +127,8 @@ public class CSVHandler {
         sb.append("edgeID,startNode,endNode\n");
         for (Edge e : edges.values()) {
             sb.append(e.getEdgeID()).append(",")
-                    .append(e.getStartNodeName()).append(",")
-                    .append(e.getEndNodeName()).append("\n");
+                    .append(e.getStartNodeID()).append(",")
+                    .append(e.getEndNodeID()).append("\n");
         }
 
         // Write to the file

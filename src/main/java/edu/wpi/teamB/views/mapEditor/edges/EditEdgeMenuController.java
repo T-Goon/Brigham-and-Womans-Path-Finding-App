@@ -6,17 +6,14 @@ import com.jfoenix.controls.JFXTextField;
 import edu.wpi.teamB.App;
 import edu.wpi.teamB.database.DatabaseHandler;
 import edu.wpi.teamB.entities.Edge;
-import edu.wpi.teamB.pathfinding.Graph;
 import edu.wpi.teamB.util.SceneSwitcher;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.Map;
 import java.util.ResourceBundle;
 
@@ -54,13 +51,13 @@ public class EditEdgeMenuController implements Initializable {
         // Give the combo boxes all the values
         Map<String, Edge> edges = DatabaseHandler.getDatabaseHandler("main.db").getEdges();
         for (Edge e : edges.values()) {
-            startNode.getItems().add(e.getStartNodeName());
-            endNode.getItems().add(e.getEndNodeName());
+            startNode.getItems().add(e.getStartNodeID());
+            endNode.getItems().add(e.getEndNodeID());
         }
 
         // Set default values of combo box
-        startNode.getSelectionModel().select(edge.getStartNodeName());
-        endNode.getSelectionModel().select(edge.getEndNodeName());
+        startNode.getSelectionModel().select(edge.getStartNodeID());
+        endNode.getSelectionModel().select(edge.getEndNodeID());
     }
 
     @FXML

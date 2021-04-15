@@ -28,8 +28,8 @@ public class EdgeWrapper {
 
     public EdgeWrapper(Edge e, TableView parentTable) throws IOException {
         this.id = new Label(e.getEdgeID());
-        this.startNode = new Label(e.getStartNodeName());
-        this.endNode = new Label(e.getEndNodeName());
+        this.startNode = new Label(e.getStartNodeID());
+        this.endNode = new Label(e.getEndNodeID());
         this.parentTable = parentTable;
 
         // Set up edit button

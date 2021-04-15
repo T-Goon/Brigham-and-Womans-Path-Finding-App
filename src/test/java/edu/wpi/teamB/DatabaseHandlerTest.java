@@ -9,8 +9,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -173,8 +171,8 @@ public class DatabaseHandlerTest {
         db.updateEdge(new Edge(edgeID, startNode, endNode));
 
         Map<String, Edge> edges = db.getEdges();
-        assertEquals("bPARK01201", edges.get("bPARK01201_bWALK00501").getStartNodeName());
-        assertEquals("bWALK00501", edges.get("bPARK01201_bWALK00501").getEndNodeName());
+        assertEquals("bPARK01201", edges.get("bPARK01201_bWALK00501").getStartNodeID());
+        assertEquals("bWALK00501", edges.get("bPARK01201_bWALK00501").getEndNodeID());
     }
 
     @Test
@@ -207,8 +205,8 @@ public class DatabaseHandlerTest {
         db.addEdge(target);
 
         Map<String, Edge> edges = db.getEdges();
-        assertEquals("test_start", edges.get("bPARK01201_bWALK00501").getStartNodeName());
-        assertEquals("test_end", edges.get("bPARK01201_bWALK00501").getEndNodeName());
+        assertEquals("test_start", edges.get("bPARK01201_bWALK00501").getStartNodeID());
+        assertEquals("test_end", edges.get("bPARK01201_bWALK00501").getEndNodeID());
     }
 
     @Test

@@ -154,8 +154,8 @@ public class DatabaseHandler {
                 query = "INSERT INTO Edges(edgeID, startNode, endNode) "
                         + "VALUES('"
                         + edge.getEdgeID() + "', '"
-                        + edge.getStartNodeName() + "', '"
-                        + edge.getEndNodeName() + "')";
+                        + edge.getStartNodeID() + "', '"
+                        + edge.getEndNodeID() + "')";
                 statement.execute(query);
             }
         } catch (SQLException e) {
@@ -285,7 +285,7 @@ public class DatabaseHandler {
     public void addEdge(Edge edge) {
         Statement statement = this.getStatement();
 
-        String query = "INSERT INTO Edges VALUES ('" + edge.getEdgeID() + "', '" + edge.getStartNodeName() + "', '" + edge.getEndNodeName() + "')";
+        String query = "INSERT INTO Edges VALUES ('" + edge.getEdgeID() + "', '" + edge.getStartNodeID() + "', '" + edge.getEndNodeID() + "')";
 
         try {
             assert statement != null;
@@ -332,7 +332,7 @@ public class DatabaseHandler {
      */
     public void updateEdge(Edge edge) {
         Statement statement = this.getStatement();
-        String query = "UPDATE Edges SET startNode = '" + edge.getStartNodeName() + "', endNode = '" + edge.getEndNodeName() + "' WHERE edgeID = '" + edge.getEdgeID() + "'";
+        String query = "UPDATE Edges SET startNode = '" + edge.getStartNodeID() + "', endNode = '" + edge.getEndNodeID() + "' WHERE edgeID = '" + edge.getEdgeID() + "'";
 
         try {
             // If no rows are updated, then the edge ID is not in the table
