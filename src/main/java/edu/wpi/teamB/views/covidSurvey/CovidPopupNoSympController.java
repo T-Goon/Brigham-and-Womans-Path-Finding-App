@@ -18,7 +18,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 
-public class CovidPopupController implements Initializable {
+public class CovidPopupNoSympController implements Initializable {
     @FXML
     private JFXButton btnDirections;
 
