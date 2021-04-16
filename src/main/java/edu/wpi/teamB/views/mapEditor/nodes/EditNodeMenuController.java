@@ -2,6 +2,7 @@ package edu.wpi.teamB.views.mapEditor.nodes;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXRadioButton;
+import com.jfoenix.controls.JFXTextField;
 import edu.wpi.teamB.App;
 import edu.wpi.teamB.database.DatabaseHandler;
 import edu.wpi.teamB.entities.Node;
@@ -9,7 +10,6 @@ import edu.wpi.teamB.util.SceneSwitcher;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.stage.Stage;
 
@@ -20,7 +20,7 @@ import java.util.ResourceBundle;
 public class EditNodeMenuController implements Initializable {
 
     @FXML
-    public JFXButton btnEmergency;
+    private JFXButton btnEmergency;
 
     @FXML
     private JFXButton btnBack;
@@ -38,28 +38,28 @@ public class EditNodeMenuController implements Initializable {
     private ToggleGroup areaGroup;
 
     @FXML
-    private TextField nodeID;
+    private JFXTextField nodeID;
 
     @FXML
-    private TextField xCoord;
+    private JFXTextField xCoord;
 
     @FXML
-    private TextField yCoord;
+    private JFXTextField yCoord;
 
     @FXML
-    private TextField floor;
+    private JFXTextField floor;
 
     @FXML
-    private TextField building;
+    private JFXTextField building;
 
     @FXML
-    private TextField nodeType;
+    private JFXTextField nodeType;
 
     @FXML
-    private TextField longName;
+    private JFXTextField longName;
 
     @FXML
-    private TextField shortName;
+    private JFXTextField shortName;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -69,7 +69,7 @@ public class EditNodeMenuController implements Initializable {
         nodeID.setText(node.getNodeID());
         nodeID.setDisable(true);
         xCoord.setText(String.valueOf(node.getXCoord()));
-        yCoord.setText(String.valueOf(node.getXCoord()));
+        yCoord.setText(String.valueOf(node.getYCoord()));
         floor.setText(String.valueOf(node.getFloor()));
         building.setText(node.getBuilding());
         nodeType.setText(node.getNodeType());
@@ -79,18 +79,13 @@ public class EditNodeMenuController implements Initializable {
 
     @FXML
     private void validateButton() throws NumberFormatException {
-        if (!nodeID.getText().isEmpty() && !building.getText().isEmpty() && !nodeType.getText().isEmpty()
-                && !longName.getText().isEmpty() && !shortName.getText().isEmpty() && !floor.getText().isEmpty()
-                && !xCoord.getText().isEmpty() && !yCoord.getText().isEmpty()) {
-            btnUpdate.setDisable(false);
-        }
-        else {
-            btnUpdate.setDisable(true);
-        }
+        btnUpdate.setDisable(nodeID.getText().trim().isEmpty() || building.getText().trim().isEmpty() || nodeType.getText().trim().isEmpty()
+                || longName.getText().trim().isEmpty() || shortName.getText().trim().isEmpty() || floor.getText().trim().isEmpty()
+                || xCoord.getText().trim().isEmpty() || yCoord.getText().trim().isEmpty());
         try {
-            Integer.parseInt(floor.getText());
-            Integer.parseInt(xCoord.getText());
-            Integer.parseInt(yCoord.getText());
+            Integer.parseInt(floor.getText().trim());
+            Integer.parseInt(xCoord.getText().trim());
+            Integer.parseInt(yCoord.getText().trim());
         } catch (NumberFormatException notInt) {
             btnUpdate.setDisable(true);
         }}
@@ -101,24 +96,24 @@ public class EditNodeMenuController implements Initializable {
 
         switch (btn.getId()) {
             case "btnBack":
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapeditor/nodes/nodeEditorMenu.fxml");
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapEditor/nodes/editNodesListMenu.fxml");
                 break;
             case "btnUpdate":
                 Stage stage = App.getPrimaryStage();
                 Node node = (Node) stage.getUserData();
 
-                int aXCoord = Integer.parseInt(xCoord.getText());
-                int aYCoord = Integer.parseInt(yCoord.getText());
-                int aFloor = Integer.parseInt(floor.getText());
-                String aBuilding = building.getText();
-                String aNodeType = nodeType.getText();
-                String aLongName = longName.getText();
-                String aShortName = shortName.getText();
+                int aXCoord = Integer.parseInt(xCoord.getText().trim());
+                int aYCoord = Integer.parseInt(yCoord.getText().trim());
+                String aFloor = floor.getText().trim();
+                String aBuilding = building.getText().trim();
+                String aNodeType = nodeType.getText().trim();
+                String aLongName = longName.getText().trim();
+                String aShortName = shortName.getText().trim();
 
                 node = new Node(node.getNodeID(), aXCoord, aYCoord, aFloor, aBuilding, aNodeType, aLongName, aShortName);
 
                 DatabaseHandler.getDatabaseHandler("main.db").updateNode(node);
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapeditor/nodes/nodeEditorMenu.fxml");
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapEditor/nodes/editNodesListMenu.fxml");
                 break;
         }
     }

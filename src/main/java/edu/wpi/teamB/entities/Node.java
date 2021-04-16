@@ -10,7 +10,7 @@ public class Node implements Comparable<Node> {
     private final String nodeID;
     private final int xCoord;
     private final int yCoord;
-    private final int floor;
+    private final String floor;
     private final String building;
     private final String nodeType;
     private final String longName;
@@ -20,8 +20,7 @@ public class Node implements Comparable<Node> {
     @Setter
     private double fVal;
 
-
-    public Node(String nodeID, int xCoord, int yCoord, int floor, String building, String nodeType, String longName, String shortName) {
+    public Node(String nodeID, int xCoord, int yCoord, String floor, String building, String nodeType, String longName, String shortName) {
         this.nodeID = nodeID;
         this.xCoord = xCoord;
         this.yCoord = yCoord;
@@ -30,6 +29,23 @@ public class Node implements Comparable<Node> {
         this.nodeType = nodeType;
         this.longName = longName;
         this.shortName = shortName;
+    }
+
+    public int getFloorAsInt(){
+        switch(floor){
+            case "L2":
+                return 0;
+            case "L1":
+                return 1;
+            case "1":
+                return 2;
+            case "2":
+                return 3;
+            case "3":
+                return 4;
+            default:
+                return -1;
+        }
     }
 
     @Override

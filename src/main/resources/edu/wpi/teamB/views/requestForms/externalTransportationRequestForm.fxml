@@ -129,7 +129,7 @@
                                     <Insets top="10.0" />
                                  </VBox.margin>
                               </Text>
-                              <JFXComboBox fx:id="transpType" prefHeight="25.0" promptText="Transportation Option" style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" />
+                              <JFXComboBox fx:id="comboTranspType" prefHeight="25.0" promptText="Transportation Option" style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" />
                            </children>
                            <padding>
                               <Insets left="10.0" right="10.0" />

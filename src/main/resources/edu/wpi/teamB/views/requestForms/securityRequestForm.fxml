@@ -5,7 +5,6 @@
 <?import com.jfoenix.controls.JFXTextArea?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
@@ -56,6 +55,16 @@
             </Text>
             <VBox>
                <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Assign To: ">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Text>
+                  <JFXTextField fx:id="assignedTo" style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" />
+               </children>
+            </VBox>
+            <VBox>
+               <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Location: ">
                      <font>
                         <Font size="14.0" />
@@ -63,18 +72,21 @@
                   </Text>
                   <JFXTextField fx:id="loc" style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" />
                </children>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
             </VBox>
             <VBox>
                <VBox.margin>
                   <Insets bottom="10.0" top="10.0" />
                </VBox.margin>
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Security Type:">
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Urgency:">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Text>
-                  <JFXComboBox fx:id="comboSecurityType" maxWidth="1.7976931348623157E308" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f0f0f000" />
+                  <JFXComboBox fx:id="comboUrgency" maxWidth="1.7976931348623157E308" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f0f0f000" />
                </children>
             </VBox>
             <VBox>
@@ -87,29 +99,6 @@
                   <JFXTextArea fx:id="description" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f0f0f000" />
                </children>
             </VBox>
-            <HBox prefWidth="200.0">
-               <children>
-                  <Label text="Additional Details:">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                     <HBox.margin>
-                        <Insets top="10.0" />
-                     </HBox.margin>
-                  </Label>
-               </children>
-            </HBox>
-            <JFXTextField fx:id="detailOne" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f0f0f000">
-               <VBox.margin>
-                  <Insets bottom="3.0" />
-               </VBox.margin>
-            </JFXTextField>
-            <JFXTextField fx:id="detailTwo" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f0f0f000">
-               <VBox.margin>
-                  <Insets bottom="3.0" />
-               </VBox.margin>
-            </JFXTextField>
-            <JFXTextField fx:id="detailThree" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f0f0f000" />
             <HBox alignment="CENTER_LEFT" prefWidth="200.0">
                <children>
                   <HBox alignment="CENTER_LEFT" fillHeight="false" HBox.hgrow="ALWAYS">

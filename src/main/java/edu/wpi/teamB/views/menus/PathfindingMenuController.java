@@ -3,7 +3,6 @@ package edu.wpi.teamB.views.menus;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 
-import edu.wpi.teamB.database.DatabaseHandler;
 import edu.wpi.teamB.entities.Node;
 import edu.wpi.teamB.pathfinding.AStar;
 import edu.wpi.teamB.pathfinding.Graph;
@@ -12,14 +11,18 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.*;
 
 public class PathfindingMenuController implements Initializable {
@@ -34,6 +37,9 @@ public class PathfindingMenuController implements Initializable {
     private AnchorPane nodeHolder;
 
     @FXML
+    private AnchorPane intermediateNodeHolder;
+
+    @FXML
     private AnchorPane mapHolder;
 
     @FXML
@@ -45,52 +51,67 @@ public class PathfindingMenuController implements Initializable {
     @FXML
     private JFXButton btnBack;
 
-    private static final double coordinateScale = 10 / 3.0;
+    @FXML
+    private Label lblError;
 
+    private static final double coordinateScale = 25/9.0;
     private List<Line> edgePlaced = new ArrayList<>();
+    private VBox popup = null;
+    private final HashMap<String, List<Node>> floorNodes = new HashMap<>();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        Map<String, Node> locations = Graph.getGraph().getNodes();
+        List<String> locationNames = new ArrayList<>();
 
         validateFindPathButton();
 
-        HashMap<String, Node> locations = new HashMap<>();
-
-        // Pulls nodes from the database to fill the nodeInfo hashmap
-        try {
-            Map<String, Node> nodes = DatabaseHandler.getDatabaseHandler("main.db").getNodes();
-            for (Node n : nodes.values())
-                locations.put(n.getNodeID(), n);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        // Place nodes on map
+        //Adds all the destination names to locationNames and sort the nodes by floor
         for (Node n : locations.values()) {
-            if (!n.getNodeType().equals("WALK")) placeNode(n.getXCoord(), n.getYCoord());
-            else placeIntermediateNode(n.getXCoord(), n.getYCoord());
+            if (!(n.getNodeType().equals("WALK") || n.getNodeType().equals("HALL"))) {
+                locationNames.add(n.getLongName());
+            }
+
+            if (floorNodes.containsKey(n.getFloor())) {
+                floorNodes.get(n.getFloor()).add(n);
+            } else {
+                ArrayList<Node> tempList = new ArrayList<>();
+                tempList.add(n);
+                floorNodes.put(n.getFloor(), tempList);
+            }
         }
 
-        // Populate the combo boxes with locations
-        try {
-            List<Node> nodes = new ArrayList<>(locations.values());
-            List<String> nodeNames = new ArrayList<>();
-            for (Node n : nodes) {
-                nodeNames.add(n.getLongName());
-            }
+        //Populate the Combo Boxes with valid locations (Sorted)
+        Collections.sort(locationNames);
+        startLocComboBox.getItems().addAll(locationNames);
+        endLocComboBox.getItems().addAll(locationNames);
 
-            Collections.sort(nodeNames);
-            for (String name : nodeNames) {
-                startLocComboBox.getItems().add(name);
-                endLocComboBox.getItems().add(name);
+        try{
+            drawNodesOnFloor("1");
+        } catch (NullPointerException ignored){}
+    }
+
+    /**
+     * Draws all the nodes on a given floor
+     *
+     * @param floorID the floor id for the nodes "L2", "L1", "1", "2", "3"
+     */
+    private void drawNodesOnFloor(String floorID) {
+        // If the floor has no nodes, return
+        if (!floorNodes.containsKey(floorID)) return;
+
+        for (Node n : floorNodes.get(floorID)) {
+            if (!(n.getNodeType().equals("WALK") || n.getNodeType().equals("HALL"))) {
+                placeNode(n);
             }
-        } catch (NullPointerException e) {
-            e.printStackTrace();
         }
     }
 
-    private Map<String, String> longNameID() {
-        Map<String, Node> nodesId = Graph.getGraph(DatabaseHandler.getDatabaseHandler("main.db")).getNodes();
+    /**
+     * @return a map of long names to node IDs
+     */
+    private Map<String, String> makeLongToIDMap() {
+        Map<String, Node> nodesId = Graph.getGraph().getNodes();
         Map<String, String> longName = new HashMap<>();
 
         for (Node node : nodesId.values()) {
@@ -99,20 +120,25 @@ public class PathfindingMenuController implements Initializable {
         return longName;
     }
 
+    /**
+     * Draws the path on the map
+     */
     private void drawPath() {
-        Map<String, Node> nodesId = Graph.getGraph(DatabaseHandler.getDatabaseHandler("main.db")).getNodes();
-        Map<String, String> hmLongName = longNameID();
-        List<String> AstrPath = AStar.findPath(hmLongName.get(getStartLocation()), hmLongName.get(getEndLocation()));
+        Map<String, Node> nodesId = Graph.getGraph().getNodes();
+        Map<String, String> hmLongName = makeLongToIDMap();
+        List<String> AstarPath = AStar.findPath(hmLongName.get(getStartLocation()), hmLongName.get(getEndLocation()));
 
-        Node prev = null;
-        Node curr;
-        for (String loc : AstrPath) {
-
-            if ((prev != null) && (loc != null)) {
-                curr = nodesId.get(loc);
-                placeEdge(prev.getXCoord(), prev.getYCoord(), curr.getXCoord(), curr.getYCoord());
+        if (AstarPath.isEmpty()) {
+            lblError.setVisible(true);
+        } else {
+            Node prev = null;
+            for (String loc : AstarPath) {
+                if ((prev != null) && (loc != null)) {
+                    Node curr = nodesId.get(loc);
+                    placeEdge(prev.getXCoord(), prev.getYCoord(), curr.getXCoord(), curr.getYCoord());
+                }
+                prev = nodesId.get(loc);
             }
-            prev = nodesId.get(loc);
         }
     }
 
@@ -128,6 +154,7 @@ public class PathfindingMenuController implements Initializable {
         switch (b.getId()) {
             case "btnFindPath":
                 // Remove old path
+                lblError.setVisible(false);
                 for (Line l : edgePlaced)
                     mapHolder.getChildren().remove(l);
                 edgePlaced = new ArrayList<>();
@@ -143,15 +170,18 @@ public class PathfindingMenuController implements Initializable {
     /**
      * Places an image for a node on the map at the given pixel coordinates.
      *
-     * @param x x coordinates of node in pixels
-     * @param y y coordinates of node in pixels
+     * @param n Node object to place on the map
      */
-    public void placeNode(int x, int y) {
+    public void placeNode(Node n) {
         try {
             ImageView i = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/misc/node.fxml")));
 
-            i.setLayoutX((x / PathfindingMenuController.coordinateScale) - (i.getFitWidth() / 4));
-            i.setLayoutY((y / PathfindingMenuController.coordinateScale) - (i.getFitHeight()));
+            i.setLayoutX((n.getXCoord() / PathfindingMenuController.coordinateScale) - (i.getFitWidth() / 4));
+            i.setLayoutY((n.getYCoord() / PathfindingMenuController.coordinateScale) - (i.getFitHeight()));
+
+            i.setId(n.getNodeID()+"Icon");
+
+            i.setOnMouseClicked((MouseEvent e) -> createGraphicalInputPopup(n));
 
             nodeHolder.getChildren().add(i);
 
@@ -163,21 +193,99 @@ public class PathfindingMenuController implements Initializable {
     /**
      * Places an image for a node on the map at the given pixel coordinates.
      *
-     * @param x x coordinates of node in pixels
-     * @param y y coordinates of node in pixels
+     * @param n Node object to place on the map
      */
-    public void placeIntermediateNode(int x, int y) {
+    public void placeIntermediateNode(Node n) {
         try {
             Circle c = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/misc/intermediateNode.fxml")));
 
-            c.setCenterX((x / PathfindingMenuController.coordinateScale));
-            c.setCenterY((y / PathfindingMenuController.coordinateScale));
+            c.setCenterX((n.getXCoord() / PathfindingMenuController.coordinateScale));
+            c.setCenterY((n.getYCoord() / PathfindingMenuController.coordinateScale));
 
-            nodeHolder.getChildren().add(c);
+            intermediateNodeHolder.getChildren().add(c);
 
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Creates the popup for the graphical input.
+     *
+     * @param n Node to create the popup for
+     */
+    private void createGraphicalInputPopup(Node n) {
+
+        try {
+            // Load fxml
+            final VBox locInput = FXMLLoader.load(
+                    Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/misc/graphicalInput.fxml")));
+
+            // Set coordinates of popup
+            locInput.setLayoutX((n.getXCoord() / PathfindingMenuController.coordinateScale));
+            locInput.setLayoutY((n.getYCoord() / PathfindingMenuController.coordinateScale) - (locInput.getHeight()));
+
+            // Set up popup buttons
+            for (javafx.scene.Node node : locInput.getChildren()) {
+                switch (node.getId()) {
+                    case "BtnStart":
+                        showGraphicalSelection(startLocComboBox, node, n);
+                        break;
+                    case "BtnEnd":
+                        showGraphicalSelection(endLocComboBox, node, n);
+                        break;
+                    case "BtnCancel":
+                        Button cancelButton = (Button) node;
+                        cancelButton.setOnAction(event -> deleteBox());
+                        break;
+                }
+            }
+
+            if (popup != null) {
+                deleteBox();
+            }
+
+            popup = locInput;
+            nodeHolder.getChildren().add(locInput);
+
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
+
+    }
+
+    /**
+     * Shows the popup for the graphical input.
+     *
+     * @param comboBox Combobox to select items from
+     * @param node     javafx node that will show popup when clicked
+     * @param n        map node the popup is for
+     */
+    private void showGraphicalSelection(ComboBox comboBox, javafx.scene.Node node, Node n) {
+        Button tempButton = (Button) node;
+
+        tempButton.setOnAction(event -> {
+            //loop through combo box if string == name of node
+            //keep track of index and pass it in
+
+            for (int i = 0; i < comboBox.getItems().size(); i++) {
+
+                if (n.getLongName().equals(comboBox.getItems().get(i))) {
+                    comboBox.getSelectionModel().select(i);
+
+                }
+            }
+
+            deleteBox();
+        });
+    }
+
+    /**
+     * Removes the graphical input popup from the map.
+     */
+    private void deleteBox() {
+        nodeHolder.getChildren().remove(popup);
+        popup = null;
     }
 
     /**
@@ -191,7 +299,6 @@ public class PathfindingMenuController implements Initializable {
     public void placeEdge(int xStart, int yStart, int xEnd, int yEnd) {
         try {
             Line l = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/misc/edge.fxml")));
-            l.setId("edge"+xStart+yStart+xEnd+yEnd);
 
             l.setStartX(xStart / PathfindingMenuController.coordinateScale);
             l.setStartY(yStart / PathfindingMenuController.coordinateScale);

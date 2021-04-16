@@ -13,7 +13,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" style="-fx-background-color: #012d5a;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamB.views.mapEditor.edges.EdgeEditorMenuController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" style="-fx-background-color: #012d5a;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamB.views.mapEditor.edges.EditEdgesListMenuController">
     <children>
         <VBox layoutX="10.0" layoutY="10.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
@@ -64,15 +64,15 @@
                         <Insets right="10.0" />
                      </HBox.margin>
                      <children>
-                              <JFXScrollPane prefHeight="600.0" prefWidth="1200.0" stylesheets="@../../../css/editorTable.css">
+                              <JFXScrollPane prefHeight="600.0" prefWidth="1025.0" stylesheets="@../../../css/editorTable.css">
                                   <children>
-                                      <TableView fx:id="tblEdges" maxWidth="1.7976931348623157E308" minWidth="-Infinity" style="-fx-background-color: #0067B1;">
+                                      <TableView fx:id="tblEdges" style="-fx-background-color: #0067B1;">
                                           <columns>
-                                              <TableColumn fx:id="editBtnCol" prefWidth="110.0" />
-                                              <TableColumn fx:id="idCol" maxWidth="1.7976931348623157E308" minWidth="100.0" prefWidth="225.0" text="ID" />
-                                              <TableColumn fx:id="startNodeCol" maxWidth="1.7976931348623157E308" minWidth="100.0" prefWidth="225.0" text="Start Node" />
-                                              <TableColumn fx:id="endNodeCol" maxWidth="1.7976931348623157E308" minWidth="100.0" prefWidth="225.0" text="End Node" />
-                                              <TableColumn fx:id="delCol" prefWidth="110.0" />
+                                              <TableColumn fx:id="editBtnCol" minWidth="50.0" prefWidth="100.0" />
+                                              <TableColumn fx:id="idCol" maxWidth="1.7976931348623157E308" minWidth="100.0" prefWidth="275.0" text="ID" />
+                                              <TableColumn fx:id="startNodeCol" maxWidth="1.7976931348623157E308" minWidth="100.0" prefWidth="274.0" text="Start Node" />
+                                              <TableColumn fx:id="endNodeCol" maxWidth="1.7976931348623157E308" minWidth="100.0" prefWidth="274.0" text="End Node" />
+                                              <TableColumn fx:id="delCol" minWidth="50.0" prefWidth="100.0" />
                                           </columns>
                                       </TableView>
                                   </children>
@@ -105,7 +105,7 @@
                         </HBox>
                      </children>
                   </VBox>
-                        <JFXButton fx:id="btnAddEdge" alignment="CENTER" buttonType="RAISED" cancelButton="true" contentDisplay="CENTER" onAction="#handleButtonAction" style="-fx-background-color: F6BD39; -fx-background-radius: 50%;" text="+" textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP">
+                        <JFXButton fx:id="btnAddEdge" alignment="CENTER" buttonType="RAISED" cancelButton="false" contentDisplay="CENTER" onAction="#handleButtonAction" style="-fx-background-color: F6BD39; -fx-background-radius: 50%;" text="+" textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP">
                             <font>
                                 <Font size="27.0" />
                             </font>

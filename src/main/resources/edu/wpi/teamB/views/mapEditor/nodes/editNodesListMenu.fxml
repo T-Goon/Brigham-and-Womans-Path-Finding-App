@@ -13,7 +13,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" style="-fx-background-color: #012d5a;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamB.views.mapEditor.nodes.NodeEditorMenuController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" style="-fx-background-color: #012d5a;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamB.views.mapEditor.nodes.EditNodesListMenuController">
    <children>
       <VBox layoutX="10.0" layoutY="10.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -68,12 +68,12 @@
                            <children>
                               <TableView fx:id="tblNodes" style="-fx-background-color: #0067B1;">
                                  <columns>
-                                    <TableColumn fx:id="editBtnCol" maxWidth="-1.0" minWidth="50.0" prefWidth="50.0" />
-                                    <TableColumn fx:id="idCol" maxWidth="1.7976931348623157E308" minWidth="100.0" prefWidth="225.0" text="ID" />
-                                    <TableColumn fx:id="nameCol" maxWidth="1.7976931348623157E308" minWidth="100.0" prefWidth="225.0" text="Name" />
-                                    <TableColumn fx:id="typeCol" maxWidth="1.7976931348623157E308" minWidth="100.0" prefWidth="225.0" text="Node Type" />
-                                    <TableColumn fx:id="edgesCol" maxWidth="1.7976931348623157E308" minWidth="100.0" prefWidth="225.0" text="Edges" />
-                                    <TableColumn fx:id="delCol" maxWidth="-1.0" minWidth="50.0" prefWidth="50.0" />
+                                    <TableColumn fx:id="editBtnCol" minWidth="50.0" prefWidth="100.0" />
+                                    <TableColumn fx:id="idCol" maxWidth="1.7976931348623157E308" minWidth="100.0" prefWidth="208.0" text="ID" />
+                                    <TableColumn fx:id="nameCol" maxWidth="1.7976931348623157E308" minWidth="100.0" prefWidth="205.0" text="Name" />
+                                    <TableColumn fx:id="typeCol" maxWidth="1.7976931348623157E308" minWidth="100.0" prefWidth="205.0" text="Node Type" />
+                                    <TableColumn fx:id="edgesCol" maxWidth="1.7976931348623157E308" minWidth="100.0" prefWidth="205.0" text="Edges" />
+                                    <TableColumn fx:id="delCol" minWidth="50.0" prefWidth="100.0" />
                                  </columns>
                               </TableView>
                            </children>
@@ -112,7 +112,7 @@
                         </HBox>
                      </children>
                   </VBox>
-                  <JFXButton fx:id="btnAddNode" alignment="CENTER" buttonType="RAISED" cancelButton="true" contentDisplay="CENTER" onAction="#handleButtonAction" style="-fx-background-color: F6BD39; -fx-background-radius: 50%;" text="+" textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP">
+                  <JFXButton fx:id="btnAddNode" alignment="CENTER" buttonType="RAISED" cancelButton="false" contentDisplay="CENTER" onAction="#handleButtonAction" style="-fx-background-color: F6BD39; -fx-background-radius: 50%;" text="+" textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP">
                      <font>
                         <Font size="27.0" />
                      </font>

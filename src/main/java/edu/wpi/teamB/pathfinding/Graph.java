@@ -5,7 +5,6 @@ import edu.wpi.teamB.entities.Edge;
 import edu.wpi.teamB.entities.Node;
 import lombok.Getter;
 
-import java.sql.SQLException;
 import java.util.*;
 
 @Getter
@@ -17,37 +16,41 @@ public class Graph {
     private Map<String, Edge> edges;
     private Map<String, List<Node>> adjMap;
 
-    private Graph(DatabaseHandler db) {
-        updateGraph(db);
+    private final DatabaseHandler db;
+
+    private Graph() {
+        this.db = DatabaseHandler.getDatabaseHandler("main.db");
+        updateGraph();
     }
 
-    public void updateGraph(DatabaseHandler db) {
-        adjMap = new HashMap<>();
+    private Graph(DatabaseHandler db) {
+        this.db = db;
+        updateGraph();
+    }
 
-        try {
-            nodes = db.getNodes();
-            edges = db.getEdges();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public void updateGraph() {
+        adjMap = new HashMap<>();
+        nodes = db.getNodes();
+        edges = db.getEdges();
+
+        if (edges == null || nodes == null) return;
 
         for (Edge edge : edges.values()) {
-            if (!adjMap.containsKey(edge.getStartNodeName())) {
+            if (!adjMap.containsKey(edge.getStartNodeID())) {
                 LinkedList<Node> tempList = new LinkedList<>();
-                tempList.add(nodes.get(edge.getEndNodeName()));
-                adjMap.put(edge.getStartNodeName(), tempList);
+                tempList.add(nodes.get(edge.getEndNodeID()));
+                adjMap.put(edge.getStartNodeID(), tempList);
             } else {
-                adjMap.get(edge.getStartNodeName()).add(nodes.get(edge.getEndNodeName()));
+                adjMap.get(edge.getStartNodeID()).add(nodes.get(edge.getEndNodeID()));
             }
 
-            if (!adjMap.containsKey(edge.getEndNodeName())) {
+            if (!adjMap.containsKey(edge.getEndNodeID())) {
                 LinkedList<Node> tempList = new LinkedList<>();
-                tempList.add(nodes.get(edge.getStartNodeName()));
-                adjMap.put(edge.getEndNodeName(), tempList);
+                tempList.add(nodes.get(edge.getStartNodeID()));
+                adjMap.put(edge.getEndNodeID(), tempList);
             } else {
-                adjMap.get(edge.getEndNodeName()).add(nodes.get(edge.getStartNodeName()));
+                adjMap.get(edge.getEndNodeID()).add(nodes.get(edge.getStartNodeID()));
             }
-
         }
     }
 
@@ -56,14 +59,26 @@ public class Graph {
     }
 
     /**
-     * @return the graph singleton
+     * Changes the database that the graph uses.
+     * Should only be used in testing
+     *
+     * @param db database handler to switch the graph to
      */
-    public static Graph getGraph(DatabaseHandler db) {
-        if (graph == null) {
-            graph = new Graph(db);
-        }
+    public static void setGraph(DatabaseHandler db) {
+        graph = new Graph(db);
+        graph.updateGraph();
+    }
+
+    /**
+     * Get the graph with whatever database handler is set
+     *
+     * @return graph singleton
+     */
+    public static Graph getGraph() {
+        if (graph == null) graph = new Graph();
         return graph;
     }
+
 
     /**
      * Given two nodes, return the distance between them
@@ -74,7 +89,8 @@ public class Graph {
      * @return the distance between the two nodes
      */
     public static double dist(Node start, Node end) {
-        double dist = Math.pow((start.getXCoord() - end.getXCoord()), 2) + Math.pow((start.getYCoord() + end.getYCoord()), 2);
-        return Math.sqrt(dist);
+        double dist = Math.sqrt(Math.pow((start.getXCoord() - end.getXCoord()), 2) + Math.pow((start.getYCoord() + end.getYCoord()), 2));
+        dist += Math.abs(end.getFloorAsInt() - start.getFloorAsInt()) * 5000;
+        return dist;
     }
 }

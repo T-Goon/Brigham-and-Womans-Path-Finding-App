@@ -10,15 +10,15 @@ import lombok.Getter;
 public class Edge {
 
     private final String edgeID;
-    private final String startNodeName;
-    private final String endNodeName;
+    private final String startNodeID;
+    private final String endNodeID;
 
     @Override
     public String toString() {
         return "Edge{" +
                 "edgeID='" + edgeID + '\'' +
-                ", startNodeName='" + startNodeName + '\'' +
-                ", endNodeName='" + endNodeName + '\'' +
+                ", startNodeID='" + startNodeID + '\'' +
+                ", endNodeID='" + endNodeID + '\'' +
                 '}';
     }
 }
