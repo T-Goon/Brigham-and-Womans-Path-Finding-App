@@ -3,7 +3,7 @@ package edu.wpi.teamB.views.mapEditor.edges;
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.teamB.App;
 import edu.wpi.teamB.database.DatabaseHandler;
-import edu.wpi.teamB.entities.Edge;
+import edu.wpi.teamB.entities.map.Edge;
 import edu.wpi.teamB.pathfinding.Graph;
 import edu.wpi.teamB.util.CSVHandler;
 import edu.wpi.teamB.util.EdgeWrapper;

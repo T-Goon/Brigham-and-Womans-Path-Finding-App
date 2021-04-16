@@ -1,15 +1,14 @@
 package edu.wpi.teamB;
 
 import edu.wpi.teamB.database.*;
-import edu.wpi.teamB.entities.Edge;
-import edu.wpi.teamB.entities.Node;
+import edu.wpi.teamB.entities.map.Edge;
+import edu.wpi.teamB.entities.map.Node;
 import edu.wpi.teamB.pathfinding.Graph;
 import edu.wpi.teamB.util.CSVHandler;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;

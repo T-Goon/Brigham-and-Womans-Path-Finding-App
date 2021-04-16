@@ -1,7 +1,8 @@
 package edu.wpi.teamB.database;
 
-import edu.wpi.teamB.entities.Edge;
-import edu.wpi.teamB.entities.Node;
+import edu.wpi.teamB.entities.map.Edge;
+import edu.wpi.teamB.entities.map.Node;
+import edu.wpi.teamB.entities.requests.Request;
 import edu.wpi.teamB.pathfinding.Graph;
 
 import java.sql.*;
@@ -188,7 +189,7 @@ public class DatabaseHandler {
 
         String securityRequestsTable = "CREATE TABLE IF NOT EXISTS SecurityRequests("
                 + "requestID CHAR(20) PRIMARY KEY, "
-                + "urgency INTEGER, "
+                + "urgency INT, "
                 + "FOREIGN KEY (requestID) REFERENCES Requests(requestID))";
 
         String externalTransportTable = "CREATE TABLE IF NOT EXISTS ExternalTransportRequests("
@@ -548,6 +549,24 @@ public class DatabaseHandler {
     public boolean isInitialized() {
         return getNodes() != null && getEdges() != null;
     }
+
+
+
+    // REQUESTS ARE BELOW
+
+    public void addRequest(Request request) {
+        // TODO add to request databased based on the form
+
+        switch (request.getRequestType()) {
+            case "Sanitation":
+                // todo continue
+                break;
+        }
+
+    }
+
+
+
 
 
     /**
