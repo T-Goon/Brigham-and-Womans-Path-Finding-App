@@ -555,12 +555,58 @@ public class DatabaseHandler {
     // REQUESTS ARE BELOW
 
     public void addRequest(Request request) {
-        // TODO add to request databased based on the form
+        // TODO add to request database based on the form
+        Statement statement = this.getStatement();
+
+        String query = "INSERT INTO RequestsTable VALUES " +
+                "('" + request.getRequestID()
+                + "', '" + request.getRequestType()
+                + "', " + request.getDateRequested()
+                + ", '" + request.getEmployeeName()
+                + "', '" + request.getDescription()
+                + "')";
+
+        try {
+            assert statement != null;
+            statement.execute(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
         switch (request.getRequestType()) {
             case "Sanitation":
                 // todo continue
+                query = "INSERT INTO SanitationRequestsTable VALUES " +
+                        "('" + request.getRequestID()
+                        + "', '" + request.getRequestType()
+                        + "', " + request.getDateRequested()
+                        + ", '" + request.getEmployeeName()
+                        + "', '" + request.getDescription()
+                        + "')";
                 break;
+            case "Medicine":
+                break;
+            case "InternalTransport":
+                break;
+            case "Religious":
+                break;
+            case "Food":
+                break;
+            case "Floral":
+                break;
+            case "Security":
+                break;
+            case "ExternalTransport":
+                break;
+            case "Laundry":
+                break;
+        }
+
+        try {
+            assert statement != null;
+            statement.execute(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
     }
