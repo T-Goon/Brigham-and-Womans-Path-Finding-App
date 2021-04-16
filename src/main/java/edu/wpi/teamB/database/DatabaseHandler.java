@@ -14,7 +14,6 @@ public class DatabaseHandler {
      * MedicineRequests
      * InternalTransportRequests
      * ExternalTransportRequests
-     * FloralRequests
      * SecurityRequests
      * ReligiousRequests
      * LaundryRequests
@@ -94,7 +93,10 @@ public class DatabaseHandler {
         String resetInternalTransport = "DROP TABLE IF EXISTS InternalTransportRequests";
         String resetReligious = "DROP TABLE IF EXISTS ReligiousRequests";
         String resetFood = "DROP TABLE IF EXISTS FoodRequests";
-
+        String resetFloralRequests = "DROP TABLE IF EXISTS FloralRequests";
+        String resetSecurityRequests = "DROP TABLE IF EXISTS SecurityRequests";
+        String resetExternalTransport = "DROP TABLE IF EXISTS ExternalTransportRequests";
+        String resetLaundry = "DROP TABLE IF EXISTS LaundryRequests";
         try {
             assert statement != null;
             statement.execute(resetEdges);
@@ -105,6 +107,10 @@ public class DatabaseHandler {
             statement.execute(resetInternalTransport);
             statement.execute(resetReligious);
             statement.execute(resetFood);
+            statement.execute(resetFloralRequests);
+            statement.execute(resetSecurityRequests);
+            statement.execute(resetExternalTransport);
+            statement.execute(resetLaundry);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -136,11 +142,12 @@ public class DatabaseHandler {
                 + "requestType CHAR(30), "
                 + "requestDate CHAR(10), " // Stored as YYYY-MM-DD
                 + "requestTime CHAR(5), " // Stored as HH:MM (24 hour time)
-                + "complete CHAR(5), " // Stored as true/false (no boolean data type in SQL)
+                + "complete CHAR(1), " // Stored as T/F (no boolean data type in SQL)
                 + "employeeName CHAR(30), "
                 + "location CHAR(20), "
                 + "description VARCHAR(200), "
                 + "FOREIGN KEY (location) REFERENCES Nodes(nodeID))";
+
         String sanitationRequestsTable = "CREATE TABLE IF NOT EXISTS SanitationRequests("
                 + "requestID CHAR(20) PRIMARY KEY, "
                 + "type CHAR(20), "
@@ -176,6 +183,30 @@ public class DatabaseHandler {
                 + "arrivalTime CHAR(5), "
                 + "mealChoice CHAR(20))";
 
+        String floralRequestsTable = "CREATE TABLE IF NOT EXISTS FloralRequests("
+                + "requestID CHAR(20) PRIMARY KEY, "
+                + "patientName CHAR(30), "
+                + "deliveryDate CHAR(10), "
+                + "startTime CHAR(5), "
+                + "endTime CHAR(5), "
+                + "wantsRoses CHAR(1), " // Stored as T/F (no boolean data type in SQL)
+                + "wantsTulips CHAR(1), " // Stored as T/F (no boolean data type in SQL)
+                + "wantsDaisies CHAR(1), " // Stored as T/F (no boolean data type in SQL)
+                + "wantsLilies CHAR(1), " // Stored as T/F (no boolean data type in SQL)
+                + "wantsSunflowers CHAR(1), " // Stored as T/F (no boolean data type in SQL)
+                + "wantsCarnations CHAR(1), " // Stored as T/F (no boolean data type in SQL)
+                + "wantsOrchids CHAR(1), " // Stored as T/F (no boolean data type in SQL)
+                + "FOREIGN KEY (requestID) REFERENCES Requests(requestID))";
+
+        String securityRequestsTable = "CREATE TABLE IF NOT EXISTS SecurityRequests("
+                + "requestID CHAR(20) PRIMARY KEY, "
+                + "urgency INTEGER, "
+                + "FOREIGN KEY (requestID) REFERENCES Requests(requestID))";
+
+        String externalTransportTable = "";
+
+        String laundryTable = "";
+
         try {
             assert statement != null;
             statement.execute(configuration);
@@ -187,6 +218,10 @@ public class DatabaseHandler {
             statement.execute(internalTransportRequestsTable);
             statement.execute(religiousRequestsTable);
             statement.execute(foodRequestsTable);
+            statement.execute(floralRequestsTable);
+            statement.execute(securityRequestsTable);
+            statement.execute(externalTransportTable);
+            statement.execute(laundryTable);
         } catch (SQLException e) {
             e.printStackTrace();
         }
