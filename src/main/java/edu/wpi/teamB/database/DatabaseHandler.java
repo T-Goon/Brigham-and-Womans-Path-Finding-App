@@ -138,11 +138,11 @@ public class DatabaseHandler {
 
         String sanitationRequestsTable = "CREATE TABLE IF NOT EXISTS SanitationRequests("
                 + "requestID CHAR(20) PRIMARY KEY, "
-                + "type CHAR(20), "
-                + "size CHAR(20), "
-                + "hazard CHAR(5), "
-                + "biologicalSubstance CHAR(5), "
-                + "occupied CHAR(5))";
+                + "sanitationType CHAR(20), "
+                + "sanitationSize CHAR(20), "
+                + "hazard CHAR(1), " // Stored as T/F (no boolean data type in SQL)
+                + "biologicalSubstance CHAR(1), " // Stored as T/F (no boolean data type in SQL)
+                + "occupied CHAR(1))"; // Stored as T/F (no boolean data type in SQL)
 
         String medicineRequestsTable = "CREATE TABLE IF NOT EXISTS MedicineRequests("
                 + "requestID CHAR(20) PRIMARY KEY, "
@@ -152,31 +152,31 @@ public class DatabaseHandler {
         String internalTransportRequestsTable = "CREATE TABLE IF NOT EXISTS InternalTransportRequests("
                 + "requestID CHAR(20) PRIMARY KEY, "
                 + "patientName CHAR(30), "
-                + "type CHAR(20), "
-                + "unconscious CHAR(5), "
-                + "infectious CHAR(5))";
+                + "transportType CHAR(20), "
+                + "unconscious CHAR(1), " // Stored as T/F (no boolean data type in SQL)
+                + "infectious CHAR(1))"; // Stored as T/F (no boolean data type in SQL)
 
         String religiousRequestsTable = "CREATE TABLE IF NOT EXISTS ReligiousRequests("
                 + "requestID CHAR(20) PRIMARY KEY, "
                 + "patientName CHAR(30), "
-                + "startTime CHAR(5), "
-                + "endTime CHAR(5), "
-                + "date CHAR(10), "
+                + "startTime CHAR(5), " // Stored as HH:MM (24 hour time)
+                + "endTime CHAR(5), " // Stored as HH:MM (24 hour time)
+                + "religiousDate CHAR(10), " // Stored as YYYY-MM-DD
                 + "faith CHAR(20), "
-                + "infectious CHAR(5))";
+                + "infectious CHAR(1))"; // Stored as T/F (no boolean data type in SQL)
 
         String foodRequestsTable = "CREATE TABLE IF NOT EXISTS FoodRequests("
                 + "requestID CHAR(20) PRIMARY KEY, "
                 + "patientName CHAR(30), "
-                + "arrivalTime CHAR(5), "
+                + "arrivalTime CHAR(5), " // Stored as HH:MM (24 hour time)
                 + "mealChoice CHAR(20))";
 
         String floralRequestsTable = "CREATE TABLE IF NOT EXISTS FloralRequests("
                 + "requestID CHAR(20) PRIMARY KEY, "
                 + "patientName CHAR(30), "
-                + "deliveryDate CHAR(10), "
-                + "startTime CHAR(5), "
-                + "endTime CHAR(5), "
+                + "deliveryDate CHAR(10), " // Stored as YYYY-MM-DD
+                + "startTime CHAR(5), " // Stored as HH:MM (24 hour time)
+                + "endTime CHAR(5), " // Stored as HH:MM (24 hour time)
                 + "wantsRoses CHAR(1), " // Stored as T/F (no boolean data type in SQL)
                 + "wantsTulips CHAR(1), " // Stored as T/F (no boolean data type in SQL)
                 + "wantsDaisies CHAR(1), " // Stored as T/F (no boolean data type in SQL)
