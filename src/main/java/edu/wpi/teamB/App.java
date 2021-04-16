@@ -36,7 +36,7 @@ public class App extends Application {
 
         // Open first view
         try {
-            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("views/menus/patientDirectoryMenu.fxml")));
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("views/loginPages/loginOptions.fxml")));
 
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);
