@@ -59,22 +59,13 @@ public class CovidSurveyController implements Initializable {
                 break;
             case "btnSubmit":
                 //add in the no symptoms once that part gets set up
-                Parent root;
+
                 if(btnCCNo.isPressed() && btnTestNo.isPressed()){
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/edu/wpi/teamB/views/covidSurvey/covidFormSubmittedWithSymp.fxml"));
-                    root = (Parent) loader.load();
-                    CovidPopupWithSympController controller = (CovidPopupWithSympController) loader.getController();
                 }
                 else {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/edu/wpi/teamB/views/covidSurvey/covidFormSubmittedNoSymp.fxml"));
-                    root = (Parent) loader.load();
-                    CovidPopupNoSympController controller = (CovidPopupNoSympController) loader.getController();
+
                 }
-                Scene scene = new Scene(root);
-                Stage stage = new Stage();
-                stage.setScene(scene);
-                stage.setTitle("Response Submitted");
-                stage.show();
+
 
                 //SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/requestForms/formSubmitted.fxml");
                 break;
