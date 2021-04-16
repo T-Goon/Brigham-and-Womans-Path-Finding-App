@@ -11,8 +11,8 @@ public class FoodRequest extends Request {
     private String arrivalTime;
     private String mealChoice;
 
-    public FoodRequest(String patientName, String arrivalTime, String mealChoice, String requestID, String requestType, String employeeName, String location, String description) {
-        super(requestID, requestType, employeeName, location, description);
+    public FoodRequest(String patientName, String arrivalTime, String mealChoice, String requestID, String employeeName, String location, String description) {
+        super(requestID, "Food", employeeName, location, description);
         this.patientName = patientName;
         this.arrivalTime = arrivalTime;
         this.mealChoice = mealChoice;

@@ -14,8 +14,8 @@ public class ReligiousRequest extends Request {
     private String faith;
     private boolean infectious;
 
-    public ReligiousRequest(String patientName, String religiousDate, String startTime, String endTime, String faith, boolean infectious, String requestID, String requestType, String employeeName, String location, String description) {
-        super(requestID, requestType, employeeName, location, description);
+    public ReligiousRequest(String patientName, String religiousDate, String startTime, String endTime, String faith, boolean infectious, String requestID, String employeeName, String location, String description) {
+        super(requestID, "Religious", employeeName, location, description);
         this.patientName = patientName;
         this.religiousDate = religiousDate;
         this.startTime = startTime;

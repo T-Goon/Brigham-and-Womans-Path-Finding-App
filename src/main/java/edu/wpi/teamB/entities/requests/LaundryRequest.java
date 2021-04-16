@@ -1,5 +1,10 @@
 package edu.wpi.teamB.entities.requests;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class LaundryRequest extends Request {
     private String serviceType;
     private String serviceSize;
@@ -7,8 +12,8 @@ public class LaundryRequest extends Request {
     private boolean light;
     private boolean occupied;
 
-    public ExternalTransportRequest(String serviceType, String serviceSize, boolean dark, boolean light, boolean occupied, String requestID, String requestType, String employeeName, String location, String description) {
-        super(requestID, requestType, employeeName, location, description);
+    public LaundryRequest(String serviceType, String serviceSize, boolean dark, boolean light, boolean occupied, String requestID, String employeeName, String location, String description) {
+        super(requestID, "Laundry", employeeName, location, description);
         this.serviceType = serviceType;
         this.serviceSize = serviceSize;
         this.dark = dark;

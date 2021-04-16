@@ -13,8 +13,8 @@ public class SanitationRequest extends Request {
     private boolean biologicalSubstance;
     private boolean occupied;
 
-    public SanitationRequest(String sanitationType, String sanitationSize, boolean hazardous, boolean biologicalSubstance, boolean occupied, String requestID, String requestType, String employeeName, String location, String description) {
-        super(requestID, requestType, employeeName, location, description);
+    public SanitationRequest(String sanitationType, String sanitationSize, boolean hazardous, boolean biologicalSubstance, boolean occupied, String requestID, String employeeName, String location, String description) {
+        super(requestID, "Sanitation", employeeName, location, description);
         this.sanitationType = sanitationType;
         this.sanitationSize = sanitationSize;
         this.hazardous = hazardous;

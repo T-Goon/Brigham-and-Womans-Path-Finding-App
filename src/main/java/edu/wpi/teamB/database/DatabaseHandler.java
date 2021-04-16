@@ -2,7 +2,7 @@ package edu.wpi.teamB.database;
 
 import edu.wpi.teamB.entities.map.Edge;
 import edu.wpi.teamB.entities.map.Node;
-import edu.wpi.teamB.entities.requests.Request;
+import edu.wpi.teamB.entities.requests.*;
 import edu.wpi.teamB.pathfinding.Graph;
 
 import java.sql.*;
@@ -555,14 +555,13 @@ public class DatabaseHandler {
     // REQUESTS ARE BELOW
 
     public void addRequest(Request request) {
-        // TODO add to request database based on the form
         Statement statement = this.getStatement();
 
         String query = "INSERT INTO RequestsTable VALUES " +
                 "('" + request.getRequestID()
                 + "', '" + request.getRequestType()
-                + "', " + request.getDateRequested()
-                + ", '" + request.getEmployeeName()
+                + "', '" + request.getEmployeeName()
+                + "', '" + request.getLocation()
                 + "', '" + request.getDescription()
                 + "')";
 
@@ -575,30 +574,96 @@ public class DatabaseHandler {
 
         switch (request.getRequestType()) {
             case "Sanitation":
-                // todo continue
+                SanitationRequest sanitationRequest = (SanitationRequest) request;
                 query = "INSERT INTO SanitationRequestsTable VALUES " +
-                        "('" + request.getRequestID()
-                        + "', '" + request.getRequestType()
-                        + "', " + request.getDateRequested()
-                        + ", '" + request.getEmployeeName()
-                        + "', '" + request.getDescription()
-                        + "')";
+                        "('" + sanitationRequest.getRequestID()
+                        + "', '" + sanitationRequest.getSanitationType()
+                        + "', '" + sanitationRequest.getSanitationSize()
+                        + "', " + (sanitationRequest.isHazardous() ? "'T'" : "'F'")
+                        + ", " + (sanitationRequest.isBiologicalSubstance() ? "'T'" : "'F'")
+                        + ", " + (sanitationRequest.isOccupied() ? "'T'" : "'F'")
+                        + ")";
                 break;
             case "Medicine":
+                MedicineRequest medicineRequest = (MedicineRequest) request;
+                query = "INSERT INTO MedicineRequestsTable VALUES " +
+                        "('" + medicineRequest.getRequestID()
+                        + "', '" + medicineRequest.getPatientName()
+                        + "', '" + medicineRequest.getMedicine()
+                        + "')";
                 break;
             case "InternalTransport":
+                InternalTransportRequest internalTransportRequest = (InternalTransportRequest) request;
+                query = "INSERT INTO InternalTransportRequestsTable VALUES " +
+                        "('" + internalTransportRequest.getRequestID()
+                        + "', '" + internalTransportRequest.getPatientName()
+                        + "', '" + internalTransportRequest.getTransportType()
+                        + "', " + (internalTransportRequest.isUnconscious() ? "'T'" : "'F'")
+                        + ", " + (internalTransportRequest.isInfectious() ? "'T'" : "'F'")
+                        + ")";
                 break;
             case "Religious":
+                ReligiousRequest religiousRequest = (ReligiousRequest) request;
+                query = "INSERT INTO ReligiousRequestsTable VALUES " +
+                        "('" + religiousRequest.getRequestID()
+                        + "', '" + religiousRequest.getPatientName()
+                        + "', '" + religiousRequest.getReligiousDate()
+                        + "', '" + religiousRequest.getStartTime()
+                        + "', '" + religiousRequest.getEndTime()
+                        + "', '" + religiousRequest.getFaith()
+                        + "', " + (religiousRequest.isInfectious() ? "'T'" : "'F'")
+                        + ")";
                 break;
             case "Food":
+                FoodRequest foodRequest = (FoodRequest) request;
+                query = "INSERT INTO FoodRequestsTable VALUES " +
+                        "('" + foodRequest.getRequestID()
+                        + "', '" + foodRequest.getPatientName()
+                        + "', '" + foodRequest.getArrivalTime()
+                        + "', '" + foodRequest.getMealChoice()
+                        + "')";
                 break;
             case "Floral":
+                FloralRequest floralRequest = (FloralRequest) request;
+                query = "INSERT INTO FloralRequestsTable VALUES " +
+                        "('" + floralRequest.getRequestID()
+                        + "', '" + floralRequest.getPatientName()
+                        + "', '" + floralRequest.getDeliveryDate()
+                        + "', '" + floralRequest.getStartTime()
+                        + "', '" + floralRequest.getEndTime()
+                        + "', '" + floralRequest.getFlowerNames()
+                        + "')";
                 break;
             case "Security":
+                SecurityRequest securityRequest = (SecurityRequest) request;
+                query = "INSERT INTO SecurityRequestsTable VALUES " +
+                        "('" + securityRequest.getRequestID()
+                        + "', " + securityRequest.getUrgency()
+                        + ")";
                 break;
             case "ExternalTransport":
+                ExternalTransportRequest externalTransportRequest = (ExternalTransportRequest) request;
+                query = "INSERT INTO ExternalTransportRequestsTable VALUES " +
+                        "('" + externalTransportRequest.getRequestID()
+                        + "', '" + externalTransportRequest.getPatientName()
+                        + "', '" + externalTransportRequest.getTransportType()
+                        + "', '" + externalTransportRequest.getDestination()
+                        + "', '" + externalTransportRequest.getPatientAllergies()
+                        + "', " + (externalTransportRequest.isOutNetwork() ? "'T'" : "'F'")
+                        + ", " + (externalTransportRequest.isInfectious() ? "'T'" : "'F'")
+                        + ", " + (externalTransportRequest.isUnconscious() ? "'T'" : "'F'")
+                        + ")";
                 break;
             case "Laundry":
+                LaundryRequest laundryRequest = (LaundryRequest) request;
+                query = "INSERT INTO LaundryRequestsTable VALUES " +
+                        "('" + laundryRequest.getRequestID()
+                        + "', '" + laundryRequest.getServiceType()
+                        + "', '" + laundryRequest.getServiceSize()
+                        + "', " + (laundryRequest.isDark() ? "'T'" : "'F'")
+                        + ", " + (laundryRequest.isLight() ? "'T'" : "'F'")
+                        + ", " + (laundryRequest.isOccupied() ? "'T'" : "'F'")
+                        + ")";
                 break;
         }
 
@@ -608,12 +673,7 @@ public class DatabaseHandler {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
     }
-
-
-
-
 
     /**
      * Shutdown the database
