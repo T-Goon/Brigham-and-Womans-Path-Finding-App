@@ -59,6 +59,14 @@
                         <Font name="MS Reference Sans Serif" size="24.0" />
                     </font>
                 </Text>
+            <Text boundsType="LOGICAL_VERTICAL_CENTER" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Please remember to follow the CDC's guidelines for social distancing when entering the hospital." textAlignment="CENTER" wrappingWidth="827.94921875" VBox.vgrow="ALWAYS">
+               <font>
+                  <Font name="MS Reference Sans Serif" size="24.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="20.0" />
+               </VBox.margin>
+            </Text>
                 <JFXButton fx:id="btnDirections" buttonType="RAISED" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39;" text="Directions to Entrance">
                     <font>
                         <Font name="MS Reference Sans Serif" size="18.0" />

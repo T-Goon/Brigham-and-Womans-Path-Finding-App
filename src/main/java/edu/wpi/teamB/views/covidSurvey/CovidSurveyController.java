@@ -58,16 +58,12 @@ public class CovidSurveyController implements Initializable {
                 SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/patientDirectoryMenu.fxml");
                 break;
             case "btnSubmit":
-                //add in the no symptoms once that part gets set up
-
-                if(btnCCNo.isPressed() && btnTestNo.isPressed()){
+                if(btnCCNo.isSelected() && btnTestNo.isSelected()){
+                    SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/covidSurvey/covidFormSubmittedNoSymp.fxml");
                 }
                 else {
-
+                    SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/CovidSurvey/covidFormSubmittedWithSymp.fxml");
                 }
-
-
-                //SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/requestForms/formSubmitted.fxml");
                 break;
             case "btnEmergency":
                 // Not implemented
