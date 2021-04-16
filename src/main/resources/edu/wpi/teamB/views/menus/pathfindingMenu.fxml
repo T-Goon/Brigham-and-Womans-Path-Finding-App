@@ -2,6 +2,7 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXToggleButton?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
@@ -141,6 +142,15 @@
                                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                             </VBox.margin>
                         </HBox>
+                  <HBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
+                     <children>
+                        <JFXToggleButton fx:id="togEdit" text="Edit Map" textFill="WHITE" toggleColor="#012d5a" toggleLineColor="#f5ba3b">
+                           <font>
+                              <Font name="MS Reference Sans Serif" size="18.0" />
+                           </font>
+                        </JFXToggleButton>
+                     </children>
+                  </HBox>
                         <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                             <children>
                                 <VBox alignment="BOTTOM_LEFT" HBox.hgrow="ALWAYS">

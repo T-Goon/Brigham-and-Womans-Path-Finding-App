@@ -3,11 +3,13 @@ package edu.wpi.teamB.views.menus;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 
+import com.jfoenix.controls.JFXToggleButton;
 import edu.wpi.teamB.entities.Node;
 import edu.wpi.teamB.pathfinding.AStar;
 import edu.wpi.teamB.pathfinding.Graph;
 import edu.wpi.teamB.util.SceneSwitcher;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -54,6 +56,9 @@ public class PathfindingMenuController implements Initializable {
     @FXML
     private Label lblError;
 
+    @FXML
+    private JFXToggleButton togEdit;
+
     private static final double coordinateScale = 25/9.0;
     private List<Line> edgePlaced = new ArrayList<>();
     private VBox popup = null;
@@ -89,6 +94,16 @@ public class PathfindingMenuController implements Initializable {
         try{
             drawNodesOnFloor("1");
         } catch (NullPointerException ignored){}
+
+        map.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                // Coordinates on the map
+                double x = event.getX();
+                double y = event.getY();
+
+            }
+        });
     }
 
     /**
@@ -120,28 +135,6 @@ public class PathfindingMenuController implements Initializable {
         return longName;
     }
 
-    /**
-     * Draws the path on the map
-     */
-    private void drawPath() {
-        Map<String, Node> nodesId = Graph.getGraph().getNodes();
-        Map<String, String> hmLongName = makeLongToIDMap();
-        List<String> AstarPath = AStar.findPath(hmLongName.get(getStartLocation()), hmLongName.get(getEndLocation()));
-
-        if (AstarPath.isEmpty()) {
-            lblError.setVisible(true);
-        } else {
-            Node prev = null;
-            for (String loc : AstarPath) {
-                if ((prev != null) && (loc != null)) {
-                    Node curr = nodesId.get(loc);
-                    placeEdge(prev.getXCoord(), prev.getYCoord(), curr.getXCoord(), curr.getYCoord());
-                }
-                prev = nodesId.get(loc);
-            }
-        }
-    }
-
     @FXML
     private void validateFindPathButton() throws NumberFormatException {
         btnFindPath.setDisable(startLocComboBox.getValue() == null || endLocComboBox.getValue() == null || startLocComboBox.getValue().equals(endLocComboBox.getValue()));
@@ -164,48 +157,6 @@ public class PathfindingMenuController implements Initializable {
             case "btnBack":
                 SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/patientDirectoryMenu.fxml");
                 break;
-        }
-    }
-
-    /**
-     * Places an image for a node on the map at the given pixel coordinates.
-     *
-     * @param n Node object to place on the map
-     */
-    public void placeNode(Node n) {
-        try {
-            ImageView i = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/misc/node.fxml")));
-
-            i.setLayoutX((n.getXCoord() / PathfindingMenuController.coordinateScale) - (i.getFitWidth() / 4));
-            i.setLayoutY((n.getYCoord() / PathfindingMenuController.coordinateScale) - (i.getFitHeight()));
-
-            i.setId(n.getNodeID()+"Icon");
-
-            i.setOnMouseClicked((MouseEvent e) -> createGraphicalInputPopup(n));
-
-            nodeHolder.getChildren().add(i);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Places an image for a node on the map at the given pixel coordinates.
-     *
-     * @param n Node object to place on the map
-     */
-    public void placeIntermediateNode(Node n) {
-        try {
-            Circle c = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/misc/intermediateNode.fxml")));
-
-            c.setCenterX((n.getXCoord() / PathfindingMenuController.coordinateScale));
-            c.setCenterY((n.getYCoord() / PathfindingMenuController.coordinateScale));
-
-            intermediateNodeHolder.getChildren().add(c);
-
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
@@ -289,6 +240,51 @@ public class PathfindingMenuController implements Initializable {
     }
 
     /**
+     * Draws the path on the map
+     */
+    private void drawPath() {
+        Map<String, Node> nodesId = Graph.getGraph().getNodes();
+        Map<String, String> hmLongName = makeLongToIDMap();
+        List<String> AstarPath = AStar.findPath(hmLongName.get(getStartLocation()), hmLongName.get(getEndLocation()));
+
+        if (AstarPath.isEmpty()) {
+            lblError.setVisible(true);
+        } else {
+            Node prev = null;
+            for (String loc : AstarPath) {
+                if ((prev != null) && (loc != null)) {
+                    Node curr = nodesId.get(loc);
+                    placeEdge(prev.getXCoord(), prev.getYCoord(), curr.getXCoord(), curr.getYCoord());
+                }
+                prev = nodesId.get(loc);
+            }
+        }
+    }
+
+    /**
+     * Places an image for a node on the map at the given pixel coordinates.
+     *
+     * @param n Node object to place on the map
+     */
+    public void placeNode(Node n) {
+        try {
+            ImageView i = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/misc/node.fxml")));
+
+            i.setLayoutX((n.getXCoord() / PathfindingMenuController.coordinateScale) - (i.getFitWidth() / 4));
+            i.setLayoutY((n.getYCoord() / PathfindingMenuController.coordinateScale) - (i.getFitHeight()));
+
+            i.setId(n.getNodeID()+"Icon");
+
+            i.setOnMouseClicked((MouseEvent e) -> createGraphicalInputPopup(n));
+
+            nodeHolder.getChildren().add(i);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
      * Draws an edge between 2 points on the map.
      *
      * @param xStart x start coordinate in pixels
@@ -308,6 +304,25 @@ public class PathfindingMenuController implements Initializable {
 
             mapHolder.getChildren().add(l);
             edgePlaced.add(l);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Places an image for a node on the map at the given pixel coordinates.
+     *
+     * @param n Node object to place on the map
+     */
+    public void placeIntermediateNode(Node n) {
+        try {
+            Circle c = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/misc/intermediateNode.fxml")));
+
+            c.setCenterX((n.getXCoord() / PathfindingMenuController.coordinateScale));
+            c.setCenterY((n.getYCoord() / PathfindingMenuController.coordinateScale));
+
+            intermediateNodeHolder.getChildren().add(c);
 
         } catch (IOException e) {
             e.printStackTrace();
