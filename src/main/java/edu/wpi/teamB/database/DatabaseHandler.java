@@ -123,10 +123,21 @@ public class DatabaseHandler {
         Statement statement = this.getStatement();
         String resetEdges = "DROP TABLE IF EXISTS Edges";
         String resetNodes = "DROP TABLE IF EXISTS Nodes";
+        String resetSanitation = "DROP TABLE IF EXISTS SanitationRequests";
+        String resetMedicine = "DROP TABLE IF EXISTS MedicineRequests";
+        String resetInternalTransport = "DROP TABLE IF EXISTS InternalTransportRequests";
+        String resetReligious = "DROP TABLE IF EXISTS ReligiousRequests";
+        String resetFood = "DROP TABLE IF EXISTS FoodRequests";
+
         try {
             assert statement != null;
             statement.execute(resetEdges);
             statement.execute(resetNodes);
+            statement.execute(resetSanitation);
+            statement.execute(resetMedicine);
+            statement.execute(resetInternalTransport);
+            statement.execute(resetReligious);
+            statement.execute(resetFood);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -153,14 +164,51 @@ public class DatabaseHandler {
                 + "FOREIGN KEY (startNode) REFERENCES Nodes(nodeID), "
                 + "FOREIGN KEY (endNode) REFERENCES Nodes(nodeID))";
 
+        String sanitationRequestsTable = "CREATE TABLE IF NOT EXISTS SanitationRequests("
+                + "requestID CHAR(20) PRIMARY KEY, "
+                + "type CHAR(20), "
+                + "size CHAR(20), "
+                + "hazard CHAR(5), "
+                + "biologicalSubstance CHAR(5), "
+                + "occupied CHAR(5))";
 
+        String medicineRequestsTable = "CREATE TABLE IF NOT EXISTS MedicineRequests("
+                + "requestID CHAR(20) PRIMARY KEY, "
+                + "patientName CHAR(30), "
+                + "medicine CHAR(20))";
 
+        String internalTransportRequestsTable = "CREATE TABLE IF NOT EXISTS InternalTransportRequests("
+                + "requestID CHAR(20) PRIMARY KEY, "
+                + "patientName CHAR(30), "
+                + "type CHAR(20), "
+                + "unconscious CHAR(5), "
+                + "infectious CHAR(5))";
+
+        String religiousRequestsTable = "CREATE TABLE IF NOT EXISTS ReligiousRequests("
+                + "requestID CHAR(20) PRIMARY KEY, "
+                + "patientName CHAR(30), "
+                + "startTime CHAR(5), "
+                + "endTime CHAR(5), "
+                + "date CHAR(10), "
+                + "faith CHAR(20), "
+                + "infectious CHAR(5))";
+
+        String foodRequestsTable = "CREATE TABLE IF NOT EXISTS FoodRequests("
+                + "requestID CHAR(20) PRIMARY KEY, "
+                + "patientName CHAR(30), "
+                + "arrivalTime CHAR(5), "
+                + "mealChoice CHAR(20))";
 
         try {
             assert statement != null;
             statement.execute(configuration);
             statement.execute(nodesTable);
             statement.execute(edgesTable);
+            statement.execute(sanitationRequestsTable);
+            statement.execute(medicineRequestsTable);
+            statement.execute(internalTransportRequestsTable);
+            statement.execute(religiousRequestsTable);
+            statement.execute(foodRequestsTable);
         } catch (SQLException e) {
             e.printStackTrace();
         }
