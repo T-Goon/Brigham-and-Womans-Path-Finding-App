@@ -9,18 +9,6 @@ import java.util.*;
 
 public class DatabaseHandler {
 
-    /*
-     * SanitationRequests
-     * MedicineRequests
-     * InternalTransportRequests
-     * ExternalTransportRequests
-     * SecurityRequests
-     * ReligiousRequests
-     * LaundryRequests
-     * FoodRequests
-     */
-
-
     private static final String URL_BASE = "jdbc:sqlite:";
 
     private String databaseURL;
