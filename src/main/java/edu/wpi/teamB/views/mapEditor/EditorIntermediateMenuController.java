@@ -32,7 +32,7 @@ public class EditorIntermediateMenuController {
                     SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapEditor/edges/editEdgesListMenu.fxml");
                     break;
                 case "btnBack":
-                    SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/patientDirectoryMenu.fxml");
+                    SceneSwitcher.switchScene(getClass(), SceneSwitcher.popScene());
                     break;
             }
 

@@ -43,7 +43,7 @@
             </HBox>
             <HBox alignment="TOP_CENTER" prefHeight="1180.0">
                <children>
-                  <JFXButton alignment="CENTER" cancelButton="true" contentDisplay="CENTER" style="-fx-background-color: #0067B1; -fx-background-radius: 50%;" text="←" textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP">
+                  <JFXButton fx:id="btnBack" alignment="CENTER" cancelButton="true" contentDisplay="CENTER" onAction="#handleButtonAction" style="-fx-background-color: #0067B1; -fx-background-radius: 50%;" text="←" textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP">
                      <font>
                         <Font size="27.0" />
                      </font>

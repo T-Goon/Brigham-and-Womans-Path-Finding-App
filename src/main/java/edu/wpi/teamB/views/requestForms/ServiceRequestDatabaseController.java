@@ -1,5 +1,24 @@
 package edu.wpi.teamB.views.requestForms;
 
-public class ServiceRequestDatabaseController {
+import com.jfoenix.controls.JFXButton;
+import edu.wpi.teamB.util.SceneSwitcher;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 
+import java.io.IOException;
+
+public class ServiceRequestDatabaseController {
+    @FXML
+    private JFXButton btnBack;
+
+    @FXML
+    public void handleButtonAction(ActionEvent actionEvent) throws IOException {
+        JFXButton btn = (JFXButton) actionEvent.getSource();
+
+        switch(btn.getId()) {
+            case "btnBack":
+                SceneSwitcher.switchScene(getClass(), SceneSwitcher.popScene());
+                break;
+        }
+    }
 }

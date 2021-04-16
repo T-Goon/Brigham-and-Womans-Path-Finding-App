@@ -80,7 +80,8 @@ public class ServiceRequestMenuController {
                 path = VIEWS_PATH + "laundryRequestForm.fxml";
                 break;
             case "btnBack":
-                path = MENUS_PATH + "patientDirectoryMenu.fxml";
+                path = SceneSwitcher.popScene();
+//                path = MENUS_PATH + "patientDirectoryMenu.fxml";
                 break;
             default:
                 throw new IllegalStateException("WHAT BUTTON IS THIS AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
