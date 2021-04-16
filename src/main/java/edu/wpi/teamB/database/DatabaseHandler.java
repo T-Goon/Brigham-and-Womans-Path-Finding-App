@@ -81,8 +81,8 @@ public class DatabaseHandler {
         String resetInternalTransport = "DROP TABLE IF EXISTS InternalTransportRequests";
         String resetReligious = "DROP TABLE IF EXISTS ReligiousRequests";
         String resetFood = "DROP TABLE IF EXISTS FoodRequests";
-        String resetFloralRequests = "DROP TABLE IF EXISTS FloralRequests";
-        String resetSecurityRequests = "DROP TABLE IF EXISTS SecurityRequests";
+        String resetFloral = "DROP TABLE IF EXISTS FloralRequests";
+        String resetSecurity = "DROP TABLE IF EXISTS SecurityRequests";
         String resetExternalTransport = "DROP TABLE IF EXISTS ExternalTransportRequests";
         String resetLaundry = "DROP TABLE IF EXISTS LaundryRequests";
         try {
@@ -95,8 +95,8 @@ public class DatabaseHandler {
             statement.execute(resetInternalTransport);
             statement.execute(resetReligious);
             statement.execute(resetFood);
-            statement.execute(resetFloralRequests);
-            statement.execute(resetSecurityRequests);
+            statement.execute(resetFloral);
+            statement.execute(resetSecurity);
             statement.execute(resetExternalTransport);
             statement.execute(resetLaundry);
         } catch (SQLException e) {
@@ -191,9 +191,23 @@ public class DatabaseHandler {
                 + "urgency INTEGER, "
                 + "FOREIGN KEY (requestID) REFERENCES Requests(requestID))";
 
-        String externalTransportTable = "";
+        String externalTransportTable = "CREATE TABLE IF NOT EXISTS ExternalTransportRequests("
+                + "requestID CHAR(20) PRIMARY KEY, "
+                + "patientName CHAR(20), "
+                + "transportType CHAR(20), "
+                + "destination CHAR(20), "
+                + "patientAllergies CHAR(200), "
+                + "outNetwork CHAR(1), " // Stored as T/F (no boolean data type in SQL)
+                + "infectious CHAR(1), " // Stored as T/F (no boolean data type in SQL)
+                + "unconscious CHAR(1))"; // Stored as T/F (no boolean data type in SQL)
 
-        String laundryTable = "";
+        String laundryTable = "CREATE TABLE IF NOT EXISTS LaundryRequests("
+                + "requestID CHAR(20) PRIMARY KEY, "
+                + "serviceType CHAR(20), "
+                + "serviceSize CHAR(20), "
+                + "dark CHAR(1), " // Stored as T/F (no boolean data type in SQL)
+                + "light CHAR(1), " // Stored as T/F (no boolean data type in SQL)
+                + "occupied CHAR(1))"; // Stored as T/F (no boolean data type in SQL)
 
         try {
             assert statement != null;
