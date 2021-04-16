@@ -3,6 +3,7 @@ package edu.wpi.teamB.views.mapEditor;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXRadioButton;
 import com.jfoenix.controls.JFXTextField;
+import edu.wpi.teamB.App;
 import edu.wpi.teamB.database.DatabaseHandler;
 import edu.wpi.teamB.entities.Node;
 import edu.wpi.teamB.util.GraphicalEditorData;
@@ -18,7 +19,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class AddNodePopupController {
+public class AddNodePopupController implements Initializable{
 
     @FXML
     private VBox root;
@@ -62,6 +63,19 @@ public class AddNodePopupController {
     @FXML
     private JFXButton btnAddNode;
 
+    private GraphicalEditorData data;
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        data = (GraphicalEditorData) App.getPrimaryStage().getUserData();
+
+        xCoord.setText(Long.toString(Math.round(data.getX())));
+        yCoord.setText(Long.toString(Math.round(data.getY())));
+
+        floor.setText(Integer.toString(data.getFloor()));
+        floor.setDisable(true);
+    }
+
     @FXML
     private void validateButton() throws NumberFormatException {
         btnAddNode.setDisable(nodeID.getText().trim().isEmpty() || building.getText().trim().isEmpty() || nodeType.getText().trim().isEmpty()
@@ -82,22 +96,24 @@ public class AddNodePopupController {
 
         switch (btn.getId()) {
             case "btnCancel":
-                System.out.println(root.hashCode());
-                ((GraphicalEditorData)root.getUserData()).getNodeHolder().getChildren().remove(root);
+                data.getNodeHolder().getChildren().remove(root);
                 break;
-//            case "btnAddNode":
-//                String aNodeId = nodeID.getText().trim();
-//                String aFloor = floor.getText().trim();
-//                String aBuilding = building.getText().trim();
-//                String aNodeType = nodeType.getText().trim();
-//                String aLongName = longName.getText().trim();
-//                String aShortName = shortName.getText().trim();
-//                int aXCoord = Integer.parseInt(xCoord.getText().trim());
-//                int aYCoord = Integer.parseInt(yCoord.getText().trim());
-//                Node aNode = new Node(aNodeId, aXCoord, aYCoord, aFloor, aBuilding, aNodeType, aLongName, aShortName);
-//                DatabaseHandler.getDatabaseHandler("main.db").addNode(aNode);
-//                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapEditor/nodes/editNodesListMenu.fxml");
-//                break;
+            case "btnAddNode":
+                String aNodeId = nodeID.getText().trim();
+                String aFloor = floor.getText().trim();
+                String aBuilding = building.getText().trim();
+                String aNodeType = nodeType.getText().trim();
+                String aLongName = longName.getText().trim();
+                String aShortName = shortName.getText().trim();
+                int aXCoord = Integer.parseInt(xCoord.getText().trim());
+                int aYCoord = Integer.parseInt(yCoord.getText().trim());
+                Node aNode = new Node(aNodeId, aXCoord, aYCoord, aFloor, aBuilding, aNodeType, aLongName, aShortName);
+                DatabaseHandler.getDatabaseHandler("main.db").addNode(aNode);
+
+                data.getPfmc().refreshEditor();
+
+                data.getNodeHolder().getChildren().remove(root);
+                break;
         }
     }
 }
