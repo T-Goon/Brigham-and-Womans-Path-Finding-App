@@ -53,6 +53,9 @@ public class PathfindingMenuController implements Initializable {
     private JFXButton btnBack;
 
     @FXML
+    private JFXButton btnEmergency;
+
+    @FXML
     private Label lblError;
 
     private static final double coordinateScale = 25/9.0;
@@ -164,7 +167,9 @@ public class PathfindingMenuController implements Initializable {
                 break;
             case "btnBack":
                 SceneSwitcher.switchScene(getClass(), SceneSwitcher.popScene());
-//                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/patientDirectoryMenu.fxml");
+                break;
+            case "btnEmergency":
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");
                 break;
         }
     }

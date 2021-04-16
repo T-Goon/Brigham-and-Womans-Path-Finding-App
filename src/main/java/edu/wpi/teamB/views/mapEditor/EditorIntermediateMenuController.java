@@ -14,6 +14,9 @@ public class EditorIntermediateMenuController {
     private JFXButton btnBack;
 
     @FXML
+    private JFXButton btnEmergency;
+
+    @FXML
     private JFXButton btnNodes;
 
     @FXML
@@ -22,6 +25,7 @@ public class EditorIntermediateMenuController {
     @FXML
     private void handleButtonAction(ActionEvent event) {
         JFXButton btn = (JFXButton) event.getSource();
+//        SceneSwitcher.pushScene("/edu/wpi/teamB/views/mapEditor/editorIntermediateMenu.fxml");
 
         try {
             switch (btn.getId()) {
@@ -33,6 +37,9 @@ public class EditorIntermediateMenuController {
                     break;
                 case "btnBack":
                     SceneSwitcher.switchScene(getClass(), SceneSwitcher.popScene());
+                    break;
+                case "btnEmergency":
+                    SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");
                     break;
             }
 

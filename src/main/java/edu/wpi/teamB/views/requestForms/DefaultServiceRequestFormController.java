@@ -32,7 +32,7 @@ public abstract class DefaultServiceRequestFormController {
                 break;
             case "btnHelp":
             case "btnEmergency":
-                // not implemented
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");
                 break;
         }
     }

@@ -51,13 +51,14 @@ public class CovidSurveyController implements Initializable {
 
         switch (btn.getId()) {
             case "btnBack":
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/patientDirectoryMenu.fxml");
+                SceneSwitcher.switchScene(getClass(), SceneSwitcher.popScene());
+//                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/patientDirectoryMenu.fxml");
                 break;
             case "btnSubmit":
                 SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/requestForms/formSubmitted.fxml");
                 break;
             case "btnEmergency":
-                // Not implemented
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");
                 break;
         }
     }

@@ -20,6 +20,7 @@ public class StaffLoginController {
     @FXML
     public void handleButtonAction(ActionEvent actionEvent) throws IOException {
         JFXButton btn = (JFXButton) actionEvent.getSource();
+        SceneSwitcher.pushScene("/edu/wpi/teamB/views/loginPages/staffLogin.fxml");
 
         switch (btn.getId()) {
             case "btnLogin":
@@ -29,7 +30,7 @@ public class StaffLoginController {
                 SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/loginPages/loginOptions.fxml");
                 break;
             case "btnEmergency":
-                // Not implemented
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");
                 break;
         }
     }

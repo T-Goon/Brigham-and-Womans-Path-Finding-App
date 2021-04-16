@@ -41,7 +41,9 @@ public class AdminDirectoryMenuController {
             case "btnExit":
                 Platform.exit();
                 break;
-
+            case "btnEmergency":
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");
+                break;
         }
 
     }

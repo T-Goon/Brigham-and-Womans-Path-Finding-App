@@ -14,6 +14,7 @@ public class ServiceRequestDatabaseController {
     @FXML
     public void handleButtonAction(ActionEvent actionEvent) throws IOException {
         JFXButton btn = (JFXButton) actionEvent.getSource();
+//        SceneSwitcher.pushScene("/edu/wpi/teamB/views/requestForms/serviceRequestDatabase.fxml");
 
         switch(btn.getId()) {
             case "btnBack":

@@ -48,6 +48,9 @@ public class ServiceRequestMenuController {
     private JFXButton btnBack;
 
     @FXML
+    private JFXButton btnEmergency;
+
+    @FXML
     private void handleButtonAction(ActionEvent e) {
         Button btn = (Button) e.getSource();
         String path;
@@ -81,7 +84,9 @@ public class ServiceRequestMenuController {
                 break;
             case "btnBack":
                 path = SceneSwitcher.popScene();
-//                path = MENUS_PATH + "patientDirectoryMenu.fxml";
+                break;
+            case "btnEmergency":
+                path = VIEWS_PATH + "emergencyForm.fxml";
                 break;
             default:
                 throw new IllegalStateException("WHAT BUTTON IS THIS AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
