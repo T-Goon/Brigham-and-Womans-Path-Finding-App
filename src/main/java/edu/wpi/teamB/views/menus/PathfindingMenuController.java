@@ -3,12 +3,12 @@ package edu.wpi.teamB.views.menus;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 
-import com.jfoenix.controls.JFXToggleButton;
 import edu.wpi.teamB.database.DatabaseHandler;
 import edu.wpi.teamB.entities.Edge;
 import edu.wpi.teamB.entities.Node;
 import edu.wpi.teamB.pathfinding.AStar;
 import edu.wpi.teamB.pathfinding.Graph;
+import edu.wpi.teamB.util.GraphicalEditorData;
 import edu.wpi.teamB.util.SceneSwitcher;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -18,6 +18,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -59,12 +60,13 @@ public class PathfindingMenuController implements Initializable {
     private Label lblError;
 
     @FXML
-    private JFXToggleButton togEdit;
+    private JFXButton btnEditMap;
 
     private static final double coordinateScale = 25/9.0;
     private List<Line> edgePlaced = new ArrayList<>();
     private List<javafx.scene.Node> nodePlaced = new ArrayList<>();
     private List<javafx.scene.Node> intermediateNodePlaced = new ArrayList<>();
+    private boolean editMap = false;
     private VBox popup = null;
     private final HashMap<String, List<Node>> floorNodes = new HashMap<>();
 
@@ -125,15 +127,28 @@ public class PathfindingMenuController implements Initializable {
                 drawPath();
 
                 break;
+            case "btnEditMap":
+                ImageView graphic = (ImageView) btnEditMap.getChildrenUnmodifiable().get(1);
+
+                if(!editMap){
+                    graphic.setImage(new Image("edu/wpi/teamB/images/menus/directionsIcon.png"));
+                    editMap = true;
+                } else if(editMap){
+                    graphic.setImage(new Image("edu/wpi/teamB/images/menus/wrench.png"));
+                    editMap = false;
+                }
+
+                drawAllElements();
+
+                break;
             case "btnBack":
                 SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/patientDirectoryMenu.fxml");
                 break;
         }
     }
 
-    @FXML
     private void drawAllElements(){
-        if(togEdit.isSelected()){
+        if(editMap){
             removeOldPaths();
             removeNodes();
             drawEdgesOnFloor("1");
@@ -158,8 +173,29 @@ public class PathfindingMenuController implements Initializable {
                 double y = event.getY();
 
                 // if in editing mode
-                // show the intermediate nodes
-                // show all the edges
+                if(editMap){
+                    VBox addPopup = null;
+
+                    try{
+                        addPopup = FXMLLoader.load(Objects.requireNonNull(
+                                getClass().getClassLoader().getResource("edu/wpi/teamB/views/mapEditor/addNodePopup.fxml")));
+                    } catch (IOException e){
+                        e.printStackTrace();
+                    }
+
+                    assert addPopup != null;
+                    addPopup.setUserData(new GraphicalEditorData(x*PathfindingMenuController.coordinateScale,
+                            y*PathfindingMenuController.coordinateScale,
+                            nodeHolder));
+                    System.out.println(addPopup.hashCode());
+
+                    System.out.println(addPopup.getUserData());
+
+                    addPopup.setLayoutX(x);
+                    addPopup.setLayoutY(y);
+
+                    nodeHolder.getChildren().add(addPopup);
+                }
                 // clicks on any nodes now show an editing popup
                 // clicks on the map show popup for creating new node
                 // popup also has items to add edges
