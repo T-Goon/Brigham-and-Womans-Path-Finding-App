@@ -3,6 +3,7 @@ package edu.wpi.teamB.views.covidSurvey;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXRadioButton;
 import edu.wpi.teamB.util.SceneSwitcher;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ToggleGroup;
@@ -18,6 +19,9 @@ public class CovidSurveyController implements Initializable {
 
     @FXML
     private JFXButton btnBack;
+
+    @FXML
+    private JFXButton btnExit;
 
     @FXML
     private JFXRadioButton btnCCYes;
@@ -56,8 +60,11 @@ public class CovidSurveyController implements Initializable {
             case "btnSubmit":
                 SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/requestForms/formSubmitted.fxml");
                 break;
+            case "btnExit":
+                Platform.exit();
+                break;
             case "btnEmergency":
-                // Not implemented
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");
                 break;
         }
     }

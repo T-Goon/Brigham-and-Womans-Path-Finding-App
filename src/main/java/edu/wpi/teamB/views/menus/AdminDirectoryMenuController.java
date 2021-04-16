@@ -20,6 +20,8 @@ public class AdminDirectoryMenuController {
     @FXML
     private JFXButton btnExit;
     @FXML
+    private JFXButton btnBack;
+    @FXML
     private JFXButton btnMapEditor;
 
 
@@ -40,6 +42,9 @@ public class AdminDirectoryMenuController {
                 break;
             case "btnExit":
                 Platform.exit();
+                break;
+            case "btnEmergency":
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");
                 break;
 
         }

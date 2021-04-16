@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXButton;
 import edu.wpi.teamB.App;
 import edu.wpi.teamB.entities.Edge;
 import edu.wpi.teamB.util.SceneSwitcher;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -48,6 +49,9 @@ public class ServiceRequestMenuController {
     private JFXButton btnBack;
 
     @FXML
+    private JFXButton btnExit;
+
+    @FXML
     private void handleButtonAction(ActionEvent e) {
         Button btn = (Button) e.getSource();
         String path;
@@ -80,8 +84,11 @@ public class ServiceRequestMenuController {
                 path = VIEWS_PATH + "laundryRequestForm.fxml";
                 break;
             case "btnBack":
-                path = SceneSwitcher.popScene();
-//                path = MENUS_PATH + "patientDirectoryMenu.fxml";
+                path = MENUS_PATH + "patientDirectoryMenu.fxml";
+                break;
+            case "btnExit":
+                path = MENUS_PATH + "patientDirectoryMenu.fxml";
+                Platform.exit();
                 break;
             default:
                 throw new IllegalStateException("WHAT BUTTON IS THIS AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");

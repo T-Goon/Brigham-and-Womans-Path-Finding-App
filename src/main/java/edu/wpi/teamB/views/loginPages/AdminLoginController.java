@@ -19,6 +19,9 @@ public class AdminLoginController {
     private JFXButton btnEmergency;
 
     @FXML
+    private JFXButton btnExit;
+
+    @FXML
     public void handleButtonAction(ActionEvent actionEvent) throws IOException {
         JFXButton btn = (JFXButton) actionEvent.getSource();
 
@@ -29,8 +32,11 @@ public class AdminLoginController {
             case "btnBack":
                 SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/loginPages/loginOptions.fxml");
                 break;
+            case "btnExit":
+                Platform.exit();
+                break;
             case "btnEmergency":
-                // Not implemented
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");
                 break;
         }
     }

@@ -2,6 +2,7 @@ package edu.wpi.teamB.views.loginPages;
 
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.teamB.util.SceneSwitcher;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
@@ -18,6 +19,9 @@ public class StaffLoginController {
     private JFXButton btnEmergency;
 
     @FXML
+    private JFXButton btnExit;
+
+    @FXML
     public void handleButtonAction(ActionEvent actionEvent) throws IOException {
         JFXButton btn = (JFXButton) actionEvent.getSource();
 
@@ -28,8 +32,11 @@ public class StaffLoginController {
             case "btnBack":
                 SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/loginPages/loginOptions.fxml");
                 break;
+            case "btnExit":
+                Platform.exit();
+                break;
             case "btnEmergency":
-                // Not implemented
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");
                 break;
         }
     }

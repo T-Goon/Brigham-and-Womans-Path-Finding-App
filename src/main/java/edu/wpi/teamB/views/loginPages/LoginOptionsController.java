@@ -22,7 +22,7 @@ public class LoginOptionsController {
     private JFXButton btnEmergency;
 
     @FXML
-    private JFXButton btnEXit;
+    private JFXButton btnExit;
 
     @FXML
     public void handleButtonAction(ActionEvent actionEvent) throws IOException {

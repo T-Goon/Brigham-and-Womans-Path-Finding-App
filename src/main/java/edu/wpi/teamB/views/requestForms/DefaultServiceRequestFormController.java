@@ -2,6 +2,7 @@ package edu.wpi.teamB.views.requestForms;
 
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.teamB.util.SceneSwitcher;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
@@ -11,6 +12,9 @@ public abstract class DefaultServiceRequestFormController {
 
     @FXML
     private JFXButton btnSubmit;
+
+    @FXML
+    private JFXButton btnExit;
 
     @FXML
     private JFXButton btnCancel;
@@ -34,7 +38,9 @@ public abstract class DefaultServiceRequestFormController {
             case "btnEmergency":
                 SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");
                 break;
-
+            case "btnExit":
+                Platform.exit();
+                break;
         }
     }
 }

@@ -13,6 +13,8 @@ public class PatientDirectoryMenuController {
     @FXML
     private JFXButton btnCovid;
     @FXML
+    private JFXButton btnBack;
+    @FXML
     private JFXButton btnEmergency;
     @FXML
     private JFXButton btnDirections;
