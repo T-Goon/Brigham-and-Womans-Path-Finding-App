@@ -16,23 +16,35 @@
         <children>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #FFFFFF;">
                <children>
-                  <ImageView fitHeight="114.0" fitWidth="314.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../images/general/hospitalLogo.png" />
-                     </image>
-                     <HBox.margin>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                     </HBox.margin>
-                  </ImageView>
-                  <VBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+                  <VBox prefHeight="200.0" prefWidth="100.0">
                      <children>
-                        <JFXButton fx:id="btnExit" buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#handleButtonAction" prefHeight="30.0" prefWidth="30.0" rotate="45.0" style="-fx-background-color: #9A9999; -fx-background-radius: 50%;" text="+" textFill="WHITE">
+                        <ImageView fitHeight="114.0" fitWidth="314.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../images/general/hospitalLogo.png" />
+                           </image>
+                        </ImageView>
+                        <JFXButton fx:id="btnEmergency" buttonType="RAISED" style="-fx-background-color: #CE2029;" text="EMERGENCY" textFill="WHITE">
                            <font>
-                              <Font name="MS Reference Sans Serif" size="18.0" />
+                              <Font name="MS Reference Sans Serif" size="23.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets bottom="15.0" left="15.0" />
+                           </VBox.margin>
+                        </JFXButton>
+                     </children>
+                  </VBox>
+                  <VBox alignment="TOP_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <JFXButton fx:id="btnExit" buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#handleButtonAction" prefHeight="40.0" prefWidth="40.0" rotate="45.0" style="-fx-background-color: transparent; -fx-background-radius: 50%;" text="+">
+                           <font>
+                              <Font name="MS Reference Sans Serif" size="35.0" />
                            </font>
                            <VBox.margin>
                               <Insets left="15.0" right="10.0" top="10.0" />
                            </VBox.margin>
+                           <padding>
+                              <Insets bottom="-10.0" left="-10.0" right="-10.0" top="-10.0" />
+                           </padding>
                         </JFXButton>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Staff Directory">
                            <font>
@@ -42,14 +54,6 @@
                               <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
                            </VBox.margin>
                         </Text>
-                        <JFXButton fx:id="btnEmergency" buttonType="RAISED" style="-fx-background-color: #CE2029;" text="EMERGENCY" textFill="WHITE">
-                           <font>
-                              <Font name="MS Reference Sans Serif" size="23.0" />
-                           </font>
-                           <VBox.margin>
-                              <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
-                           </VBox.margin>
-                        </JFXButton>
                      </children>
                   </VBox>
                </children>
