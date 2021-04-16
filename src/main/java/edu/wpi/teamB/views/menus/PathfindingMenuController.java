@@ -4,6 +4,8 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 
 import com.jfoenix.controls.JFXToggleButton;
+import edu.wpi.teamB.database.DatabaseHandler;
+import edu.wpi.teamB.entities.Edge;
 import edu.wpi.teamB.entities.Node;
 import edu.wpi.teamB.pathfinding.AStar;
 import edu.wpi.teamB.pathfinding.Graph;
@@ -61,8 +63,12 @@ public class PathfindingMenuController implements Initializable {
 
     private static final double coordinateScale = 25/9.0;
     private List<Line> edgePlaced = new ArrayList<>();
+    private List<javafx.scene.Node> nodePlaced = new ArrayList<>();
+    private List<javafx.scene.Node> intermediateNodePlaced = new ArrayList<>();
     private VBox popup = null;
     private final HashMap<String, List<Node>> floorNodes = new HashMap<>();
+
+    // JavaFx code **************************************************************************************
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -91,50 +97,18 @@ public class PathfindingMenuController implements Initializable {
         startLocComboBox.getItems().addAll(locationNames);
         endLocComboBox.getItems().addAll(locationNames);
 
+        // Draw the nodes on the map
         try{
             drawNodesOnFloor("1");
         } catch (NullPointerException ignored){}
 
-        map.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                // Coordinates on the map
-                double x = event.getX();
-                double y = event.getY();
-
-            }
-        });
+        // Set up map to be edited
+        initMapForEditing();
     }
 
     /**
-     * Draws all the nodes on a given floor
-     *
-     * @param floorID the floor id for the nodes "L2", "L1", "1", "2", "3"
+     * Enables go button only when input is valid.
      */
-    private void drawNodesOnFloor(String floorID) {
-        // If the floor has no nodes, return
-        if (!floorNodes.containsKey(floorID)) return;
-
-        for (Node n : floorNodes.get(floorID)) {
-            if (!(n.getNodeType().equals("WALK") || n.getNodeType().equals("HALL"))) {
-                placeNode(n);
-            }
-        }
-    }
-
-    /**
-     * @return a map of long names to node IDs
-     */
-    private Map<String, String> makeLongToIDMap() {
-        Map<String, Node> nodesId = Graph.getGraph().getNodes();
-        Map<String, String> longName = new HashMap<>();
-
-        for (Node node : nodesId.values()) {
-            longName.put(node.getLongName(), node.getNodeID());
-        }
-        return longName;
-    }
-
     @FXML
     private void validateFindPathButton() throws NumberFormatException {
         btnFindPath.setDisable(startLocComboBox.getValue() == null || endLocComboBox.getValue() == null || startLocComboBox.getValue().equals(endLocComboBox.getValue()));
@@ -146,19 +120,55 @@ public class PathfindingMenuController implements Initializable {
 
         switch (b.getId()) {
             case "btnFindPath":
-                // Remove old path
-                lblError.setVisible(false);
-                for (Line l : edgePlaced)
-                    mapHolder.getChildren().remove(l);
-                edgePlaced = new ArrayList<>();
 
+                removeOldPaths();
                 drawPath();
+
                 break;
             case "btnBack":
                 SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/patientDirectoryMenu.fxml");
                 break;
         }
     }
+
+    @FXML
+    private void drawAllElements(){
+        if(togEdit.isSelected()){
+            removeOldPaths();
+            removeNodes();
+            drawEdgesOnFloor("1");
+            drawAltNodesOnFloor("1");
+            drawIntermediateNodesOnFloor("1");
+        } else{
+            removeOldPaths();
+            removeIntermediateNodes();
+            removeNodes();
+            drawNodesOnFloor("1");
+        }
+    }
+
+    // Code for graphical map editor *********************************************************************
+
+    private void initMapForEditing(){
+        map.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                // Coordinates on the map
+                double x = event.getX();
+                double y = event.getY();
+
+                // if in editing mode
+                // show the intermediate nodes
+                // show all the edges
+                // clicks on any nodes now show an editing popup
+                // clicks on the map show popup for creating new node
+                // popup also has items to add edges
+
+            }
+        });
+    }
+
+    // Code for graphical input to pathfinding ***********************************************************
 
     /**
      * Creates the popup for the graphical input.
@@ -239,6 +249,75 @@ public class PathfindingMenuController implements Initializable {
         popup = null;
     }
 
+    // Code for displaying the path on the map ***********************************************************
+
+    /**
+     * Draws all the nodes on a given floor with the default graphic
+     *
+     * @param floorID the floor id for the nodes "L2", "L1", "1", "2", "3"
+     */
+    private void drawNodesOnFloor(String floorID) {
+        // If the floor has no nodes, return
+        if (!floorNodes.containsKey(floorID)) return;
+
+        for (Node n : floorNodes.get(floorID)) {
+            if (!(n.getNodeType().equals("WALK") || n.getNodeType().equals("HALL"))) {
+                placeNode(n);
+            }
+        }
+    }
+
+    /**
+     * Draws all the nodes on a given floor with the alternate graphic
+     *
+     * @param floorID the floor id for the nodes "L2", "L1", "1", "2", "3"
+     */
+    private void drawAltNodesOnFloor(String floorID) {
+        // If the floor has no nodes, return
+        if (!floorNodes.containsKey(floorID)) return;
+
+        for (Node n : floorNodes.get(floorID)) {
+            if (!(n.getNodeType().equals("WALK") || n.getNodeType().equals("HALL"))) {
+                placeAltNode(n);
+            }
+        }
+    }
+
+    /**
+     * Draws all the intermediate nodes on a floor
+     * @param floorID
+     */
+    private void drawIntermediateNodesOnFloor(String floorID){
+        // If the floor has no nodes, return
+        if (!floorNodes.containsKey(floorID)) return;
+
+        for (Node n : floorNodes.get(floorID)) {
+            if ((n.getNodeType().equals("WALK") || n.getNodeType().equals("HALL"))) {
+                placeIntermediateNode(n);
+            }
+        }
+    }
+
+    /**
+     * Draws all edges on a floor
+     * @param floor number of floor as a string
+     */
+    private void drawEdgesOnFloor(String floor){
+        Map<String, Edge> edges = Graph.getGraph().getEdges();
+        DatabaseHandler db  = DatabaseHandler.getDatabaseHandler("main.db");
+
+        for(Edge e : edges.values()){
+            Node start = db.getNodeById( e.getStartNodeID() );
+            Node end = db.getNodeById( e.getEndNodeID() );
+
+            if(start.getFloor().equals(floor) && end.getFloor().equals(floor)){
+                placeEdge(
+                        start.getXCoord(), start.getYCoord(),
+                        end.getXCoord(), end.getYCoord());
+            }
+        }
+    }
+
     /**
      * Draws the path on the map
      */
@@ -262,13 +341,41 @@ public class PathfindingMenuController implements Initializable {
     }
 
     /**
+     * Removes any edges drawn on the map
+     */
+    private void removeOldPaths(){
+        lblError.setVisible(false);
+        for (Line l : edgePlaced)
+            mapHolder.getChildren().remove(l);
+        edgePlaced = new ArrayList<>();
+    }
+
+    /**
+     * Removes all nodes from the map
+     */
+    private void removeNodes(){
+        for (javafx.scene.Node n : nodePlaced)
+            nodeHolder.getChildren().remove(n);
+        nodePlaced = new ArrayList<>();
+    }
+
+    /**
+     * Removes all intermediate nodes from the map
+     */
+    private void removeIntermediateNodes(){
+        for (javafx.scene.Node n : intermediateNodePlaced)
+            intermediateNodeHolder.getChildren().remove(n);
+        intermediateNodePlaced = new ArrayList<>();
+    }
+
+    /**
      * Places an image for a node on the map at the given pixel coordinates.
      *
      * @param n Node object to place on the map
      */
-    public void placeNode(Node n) {
+    private void placeNode(Node n) {
         try {
-            ImageView i = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/misc/node.fxml")));
+            ImageView i = FXMLLoader.load(Objects.requireNonNull(getClass().getResource( "/edu/wpi/teamB/views/misc/node.fxml")));
 
             i.setLayoutX((n.getXCoord() / PathfindingMenuController.coordinateScale) - (i.getFitWidth() / 4));
             i.setLayoutY((n.getYCoord() / PathfindingMenuController.coordinateScale) - (i.getFitHeight()));
@@ -278,6 +385,26 @@ public class PathfindingMenuController implements Initializable {
             i.setOnMouseClicked((MouseEvent e) -> createGraphicalInputPopup(n));
 
             nodeHolder.getChildren().add(i);
+            nodePlaced.add(i);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void placeAltNode(Node n){
+        try {
+            Circle c = FXMLLoader.load(Objects.requireNonNull(getClass().getResource( "/edu/wpi/teamB/views/misc/nodeAlt.fxml")));
+
+            c.setLayoutX((n.getXCoord() / PathfindingMenuController.coordinateScale));
+            c.setLayoutY((n.getYCoord() / PathfindingMenuController.coordinateScale));
+
+            c.setId(n.getNodeID()+"Icon");
+
+            c.setOnMouseClicked((MouseEvent e) -> createGraphicalInputPopup(n));
+
+            nodeHolder.getChildren().add(c);
+            nodePlaced.add(c);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -323,10 +450,26 @@ public class PathfindingMenuController implements Initializable {
             c.setCenterY((n.getYCoord() / PathfindingMenuController.coordinateScale));
 
             intermediateNodeHolder.getChildren().add(c);
+            intermediateNodePlaced.add(c);
 
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    // Misc utility methods ****************************************************************************
+
+    /**
+     * @return a map of long names to node IDs
+     */
+    private Map<String, String> makeLongToIDMap() {
+        Map<String, Node> nodesId = Graph.getGraph().getNodes();
+        Map<String, String> longName = new HashMap<>();
+
+        for (Node node : nodesId.values()) {
+            longName.put(node.getLongName(), node.getNodeID());
+        }
+        return longName;
     }
 
     /**

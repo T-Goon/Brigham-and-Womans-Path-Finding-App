@@ -144,7 +144,7 @@
                         </HBox>
                   <HBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
                      <children>
-                        <JFXToggleButton fx:id="togEdit" text="Edit Map" textFill="WHITE" toggleColor="#012d5a" toggleLineColor="#f5ba3b">
+                        <JFXToggleButton fx:id="togEdit" onAction="#drawAllElements" text="Edit Map" textFill="WHITE" toggleColor="#012d5a" toggleLineColor="#f5ba3b">
                            <font>
                               <Font name="MS Reference Sans Serif" size="18.0" />
                            </font>
