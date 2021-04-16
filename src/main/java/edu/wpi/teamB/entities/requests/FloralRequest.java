@@ -15,8 +15,8 @@ public class FloralRequest extends Request {
     private String endTime;
     private List<String> flowerNames;
 
-    public FloralRequest(String patientName, String deliveryDate, String startTime, String endTime, List<String> flowerNames, String requestID, String requestType, String employeeName, String description) {
-        super(requestID, requestType, employeeName, description);
+    public FloralRequest(String patientName, String deliveryDate, String startTime, String endTime, List<String> flowerNames, String requestID, String requestType, String employeeName, String location, String description) {
+        super(requestID, requestType, employeeName, location, description);
         this.patientName = patientName;
         this.deliveryDate = deliveryDate;
         this.startTime = startTime;

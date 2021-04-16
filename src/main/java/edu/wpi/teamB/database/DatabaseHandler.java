@@ -141,7 +141,7 @@ public class DatabaseHandler {
                 + "requestID CHAR(20) PRIMARY KEY, "
                 + "sanitationType CHAR(20), "
                 + "sanitationSize CHAR(20), "
-                + "hazard CHAR(1), " // Stored as T/F (no boolean data type in SQL)
+                + "hazardous CHAR(1), " // Stored as T/F (no boolean data type in SQL)
                 + "biologicalSubstance CHAR(1), " // Stored as T/F (no boolean data type in SQL)
                 + "occupied CHAR(1))"; // Stored as T/F (no boolean data type in SQL)
 

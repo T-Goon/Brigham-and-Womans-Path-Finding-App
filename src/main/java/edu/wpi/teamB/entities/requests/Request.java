@@ -15,5 +15,7 @@ public abstract class Request {
 
     private String employeeName;
 
+    private String location;
+
     private String description;
 }
