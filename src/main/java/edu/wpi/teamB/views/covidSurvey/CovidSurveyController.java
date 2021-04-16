@@ -5,8 +5,12 @@ import com.jfoenix.controls.JFXRadioButton;
 import edu.wpi.teamB.util.SceneSwitcher;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.ToggleGroup;
 import javafx.fxml.Initializable;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
@@ -54,7 +58,25 @@ public class CovidSurveyController implements Initializable {
                 SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/patientDirectoryMenu.fxml");
                 break;
             case "btnSubmit":
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/requestForms/formSubmitted.fxml");
+                //add in the no symptoms once that part gets set up
+                Parent root;
+                if(btnCCNo.isPressed() && btnTestNo.isPressed()){
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/edu/wpi/teamB/views/covidSurvey/covidFormSubmittedWithSymp.fxml"));
+                    root = (Parent) loader.load();
+                    CovidPopupWithSympController controller = (CovidPopupWithSympController) loader.getController();
+                }
+                else {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/edu/wpi/teamB/views/covidSurvey/covidFormSubmittedNoSymp.fxml"));
+                    root = (Parent) loader.load();
+                    CovidPopupNoSympController controller = (CovidPopupNoSympController) loader.getController();
+                }
+                Scene scene = new Scene(root);
+                Stage stage = new Stage();
+                stage.setScene(scene);
+                stage.setTitle("Response Submitted");
+                stage.show();
+
+                //SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/requestForms/formSubmitted.fxml");
                 break;
             case "btnEmergency":
                 // Not implemented
