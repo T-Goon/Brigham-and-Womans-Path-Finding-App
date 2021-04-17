@@ -5,23 +5,17 @@ import com.jfoenix.controls.JFXButton;
 import edu.wpi.teamB.util.SceneSwitcher;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 
-import java.net.URL;
-import java.util.ResourceBundle;
+public class CovidSubmittedNoSympController {
 
-
-public class CovidSubmittedNoSympController implements Initializable {
     @FXML
     private JFXButton btnDirections;
 
     @FXML
     private JFXButton btnBack;
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-
-    }
+    @FXML
+    private JFXButton btnEmergency;
 
     @FXML
     void handleButtonAction(ActionEvent e) {
@@ -33,6 +27,9 @@ public class CovidSubmittedNoSympController implements Initializable {
                 break;
             case "btnDirections":
                 //SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapEditor/editorIntermediateMenu.fxml");
+                break;
+            case "btnEmergency":
+                SceneSwitcher.switchToTemp(getClass(), "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");
                 break;
         }
     }
