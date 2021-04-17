@@ -36,9 +36,8 @@ public class SceneSwitcher {
      * @param path     the path to the FXML file to switch to
      */
     public static void switchToTemp(Class newClass, String path) {
-        Parent root = null;
         try {
-            root = FXMLLoader.load(Objects.requireNonNull(newClass.getResource(path)));
+            Parent root = FXMLLoader.load(Objects.requireNonNull(newClass.getResource(path)));
             App.getPrimaryStage().getScene().setRoot(root);
         } catch (IOException e) {
             System.err.println("Path \"" + path + "\" is malformed or nonexistent!");
