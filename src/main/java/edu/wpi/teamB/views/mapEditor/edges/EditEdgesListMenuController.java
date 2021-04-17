@@ -63,8 +63,8 @@ public class EditEdgesListMenuController implements Initializable {
     @FXML
     private TableColumn<String, JFXButton> delCol;
 
-    FileChooser fileChooser = new FileChooser();
-    DirectoryChooser directoryChooser = new DirectoryChooser();
+    final FileChooser fileChooser = new FileChooser();
+    final DirectoryChooser directoryChooser = new DirectoryChooser();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -111,7 +111,7 @@ public class EditEdgesListMenuController implements Initializable {
                     File file = fileChooser.showOpenDialog(stage);
                     if (file == null) return;
 
-                    List<Edge> newEdges = CSVHandler.loadCSVEdges(file.toPath().toString());
+                    List<Edge> newEdges = CSVHandler.loadCSVEdgesFromExternalPath(file.toPath());
                     DatabaseHandler.getDatabaseHandler("main.db").loadDatabaseEdges(newEdges);
                     Graph.getGraph().updateGraph();
 

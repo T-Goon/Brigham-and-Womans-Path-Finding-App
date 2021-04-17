@@ -36,22 +36,21 @@ public class Graph {
         if (edges == null || nodes == null) return;
 
         for (Edge edge : edges.values()) {
-            if (!adjMap.containsKey(edge.getStartNodeName())) {
+            if (!adjMap.containsKey(edge.getStartNodeID())) {
                 LinkedList<Node> tempList = new LinkedList<>();
-                tempList.add(nodes.get(edge.getEndNodeName()));
-                adjMap.put(edge.getStartNodeName(), tempList);
+                tempList.add(nodes.get(edge.getEndNodeID()));
+                adjMap.put(edge.getStartNodeID(), tempList);
             } else {
-                adjMap.get(edge.getStartNodeName()).add(nodes.get(edge.getEndNodeName()));
+                adjMap.get(edge.getStartNodeID()).add(nodes.get(edge.getEndNodeID()));
             }
 
-            if (!adjMap.containsKey(edge.getEndNodeName())) {
+            if (!adjMap.containsKey(edge.getEndNodeID())) {
                 LinkedList<Node> tempList = new LinkedList<>();
-                tempList.add(nodes.get(edge.getStartNodeName()));
-                adjMap.put(edge.getEndNodeName(), tempList);
+                tempList.add(nodes.get(edge.getStartNodeID()));
+                adjMap.put(edge.getEndNodeID(), tempList);
             } else {
-                adjMap.get(edge.getEndNodeName()).add(nodes.get(edge.getStartNodeName()));
+                adjMap.get(edge.getEndNodeID()).add(nodes.get(edge.getStartNodeID()));
             }
-
         }
     }
 
@@ -67,6 +66,7 @@ public class Graph {
      */
     public static void setGraph(DatabaseHandler db) {
         graph = new Graph(db);
+        graph.updateGraph();
     }
 
     /**

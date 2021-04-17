@@ -8,7 +8,6 @@ import edu.wpi.teamB.pathfinding.AStar;
 import edu.wpi.teamB.pathfinding.Graph;
 import edu.wpi.teamB.util.SceneSwitcher;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -182,9 +181,7 @@ public class PathfindingMenuController implements Initializable {
 
             i.setId(n.getNodeID()+"Icon");
 
-            i.setOnMouseClicked((MouseEvent e) -> {
-                createGraphicalInputPopup(n);
-            });
+            i.setOnMouseClicked((MouseEvent e) -> createGraphicalInputPopup(n));
 
             nodeHolder.getChildren().add(i);
 
