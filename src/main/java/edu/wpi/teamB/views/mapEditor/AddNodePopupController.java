@@ -6,13 +6,11 @@ import com.jfoenix.controls.JFXTextField;
 import edu.wpi.teamB.App;
 import edu.wpi.teamB.database.DatabaseHandler;
 import edu.wpi.teamB.entities.Node;
-import edu.wpi.teamB.util.GraphicalEditorData;
-import edu.wpi.teamB.util.SceneSwitcher;
+import edu.wpi.teamB.util.GraphicalEditorNodeData;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
@@ -63,16 +61,16 @@ public class AddNodePopupController implements Initializable{
     @FXML
     private JFXButton btnAddNode;
 
-    private GraphicalEditorData data;
+    private GraphicalEditorNodeData data;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        data = (GraphicalEditorData) App.getPrimaryStage().getUserData();
+        data = (GraphicalEditorNodeData) App.getPrimaryStage().getUserData();
 
         xCoord.setText(Long.toString(Math.round(data.getX())));
         yCoord.setText(Long.toString(Math.round(data.getY())));
 
-        floor.setText(Integer.toString(data.getFloor()));
+        floor.setText(data.getFloor());
         floor.setDisable(true);
     }
 

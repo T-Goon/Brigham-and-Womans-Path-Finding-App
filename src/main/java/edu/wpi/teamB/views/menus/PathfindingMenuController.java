@@ -9,7 +9,7 @@ import edu.wpi.teamB.entities.Edge;
 import edu.wpi.teamB.entities.Node;
 import edu.wpi.teamB.pathfinding.AStar;
 import edu.wpi.teamB.pathfinding.Graph;
-import edu.wpi.teamB.util.GraphicalEditorData;
+import edu.wpi.teamB.util.GraphicalEditorNodeData;
 import edu.wpi.teamB.util.SceneSwitcher;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -26,7 +26,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
-import net.kurobako.gesturefx.GesturePane;
 
 import java.io.IOException;
 import java.net.URL;
@@ -72,6 +71,7 @@ public class PathfindingMenuController implements Initializable {
     private VBox popup = null;
     private String currentFloor = "1";
     private VBox addNodePopup;
+    private VBox editNodePopup;
     private final HashMap<String, List<Node>> floorNodes = new HashMap<>();
 
     // JavaFx code **************************************************************************************
@@ -182,9 +182,14 @@ public class PathfindingMenuController implements Initializable {
                     if(addNodePopup != null)
                         nodeHolder.getChildren().remove(addNodePopup);
 
-                    App.getPrimaryStage().setUserData(new GraphicalEditorData(x*PathfindingMenuController.coordinateScale,
+                    App.getPrimaryStage().setUserData(new GraphicalEditorNodeData(null,
+                            x*PathfindingMenuController.coordinateScale,
                             y*PathfindingMenuController.coordinateScale,
-                            currentFloor,
+                            currentFloor, null,
+                            null,
+                            null,
+                            null,
+                            null,
                             nodeHolder,
                             PathfindingMenuController.this));
 
@@ -213,7 +218,27 @@ public class PathfindingMenuController implements Initializable {
      * @param n Node that is to be edited.
      */
     private void showEditNodePopup(Node n){
-        // TODO
+
+        // Make sure there is only one editNodePopup at one time
+        if(editNodePopup != null){
+            nodeHolder.getChildren().remove(editNodePopup);
+            editNodePopup = null;
+        }
+
+        // Load popup
+        try{
+            editNodePopup = FXMLLoader.load(Objects.requireNonNull(
+                    getClass().getClassLoader().getResource("edu/wpi/teamB/views/mapEditor/nodePopupWindow.fxml")));
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+
+        // Set location on map
+        editNodePopup.setLayoutX(n.getXCoord() / PathfindingMenuController.coordinateScale);
+        editNodePopup.setLayoutY(n.getYCoord() / PathfindingMenuController.coordinateScale);
+
+        // Add to map
+        nodeHolder.getChildren().add(editNodePopup);
     }
 
     // Code for graphical input to pathfinding ***********************************************************
@@ -534,6 +559,8 @@ public class PathfindingMenuController implements Initializable {
 
             c.setCenterX((n.getXCoord() / PathfindingMenuController.coordinateScale));
             c.setCenterY((n.getYCoord() / PathfindingMenuController.coordinateScale));
+
+            c.setOnMouseClicked(event -> showEditNodePopup(n));
 
             intermediateNodeHolder.getChildren().add(c);
             intermediateNodePlaced.add(c);
