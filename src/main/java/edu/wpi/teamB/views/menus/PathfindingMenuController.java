@@ -198,7 +198,12 @@ public class PathfindingMenuController implements Initializable {
         }
         if(!selectedItem.equals(selectedLocation) && selectedItem.isLeaf()){
             //Selected item is a valid location
-            createGraphicalInputPopup(locations.get(mapLongToID.get(selectedItem.getValue())));
+
+            //For now only work on nodes that are on the first floor until multi-floor pathfinding is added
+            Node tempLocation = locations.get(mapLongToID.get(selectedItem.getValue()));
+            if(tempLocation.getFloor().equals("1")){
+                createGraphicalInputPopup(tempLocation);
+            }
         }
         selectedLocation = selectedItem;
         validateFindPathButton();
