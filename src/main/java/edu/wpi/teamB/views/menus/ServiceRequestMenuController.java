@@ -53,6 +53,8 @@ public class ServiceRequestMenuController {
     @FXML
     private void handleButtonAction(ActionEvent e) {
         Button btn = (Button) e.getSource();
+        SceneSwitcher.pushScene("/edu/wpi/teamB/views/menus/serviceRequestMenu.fxml");
+
         String path;
         switch (btn.getId()) {
             case "btnMedicine":
@@ -83,6 +85,7 @@ public class ServiceRequestMenuController {
                 path = VIEWS_PATH + "laundryRequestForm.fxml";
                 break;
             case "btnBack":
+                SceneSwitcher.popScene();
                 path = SceneSwitcher.popScene();
                 break;
             case "btnEmergency":

@@ -19,7 +19,7 @@ public class FormSubmittedController {
 //        SceneSwitcher.pushScene("/edu/wpi/teamB/views/requestForms/formSubmitted.fxml");
 
         if (btn.getId().equals("btnReturn")) {
-            SceneSwitcher.popScene();
+//            SceneSwitcher.popScene();
             SceneSwitcher.switchScene(getClass(), SceneSwitcher.popScene());
         } else if (btn.getId().equals("btnEmergency")) {
             SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");

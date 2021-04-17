@@ -156,6 +156,9 @@ public class EditNodesListMenuController implements Initializable {
             case "btnAddNode":
                 SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapEditor/nodes/addNodeMenu.fxml");
                 break;
+            case "btnEmergency":
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");
+                break;
         }
     }
 }

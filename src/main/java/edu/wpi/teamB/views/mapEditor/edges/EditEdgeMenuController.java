@@ -90,6 +90,9 @@ public class EditEdgeMenuController implements Initializable {
                 db.addEdge(edge);
                 SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapEditor/edges/editEdgesListMenu.fxml");
                 break;
+            case "btnEmergency":
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");
+                break;
         }
     }
 }

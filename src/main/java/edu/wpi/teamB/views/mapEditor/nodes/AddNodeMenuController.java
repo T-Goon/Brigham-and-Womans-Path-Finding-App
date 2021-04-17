@@ -100,6 +100,9 @@ public class AddNodeMenuController implements Initializable {
                 DatabaseHandler.getDatabaseHandler("main.db").addNode(aNode);
                 SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapEditor/nodes/editNodesListMenu.fxml");
                 break;
+            case "btnEmergency":
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");
+                break;
         }
     }
 }

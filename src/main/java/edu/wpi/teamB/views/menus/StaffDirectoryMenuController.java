@@ -48,7 +48,7 @@ public class StaffDirectoryMenuController {
                 SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/requestForms/serviceRequestDatabase.fxml");
                 break;
             case "btnBack":
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/loginPages/staffLogin.fxml");
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/loginPages/loginOptions.fxml");
                 break;
             case "btnExit":
                 Platform.exit();
