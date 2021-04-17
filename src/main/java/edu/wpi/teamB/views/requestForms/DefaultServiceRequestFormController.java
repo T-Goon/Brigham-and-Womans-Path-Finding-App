@@ -9,6 +9,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+
 public abstract class DefaultServiceRequestFormController {
 
     @FXML
@@ -35,7 +37,12 @@ public abstract class DefaultServiceRequestFormController {
             case "btnHelp":
                 //fix the path for the actual help screens
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/edu/wpi/teamB/views/requestForms/formSubmitted.fxml"));
-                Parent root = (Parent) loader.load();
+                Parent root = null;
+                try {
+                    root = loader.load();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 //[whatever the help controller is] controller = ([whatever the help controller is]) loader.getController();
                 Scene scene = new Scene(root);
                 Stage stage = new Stage();

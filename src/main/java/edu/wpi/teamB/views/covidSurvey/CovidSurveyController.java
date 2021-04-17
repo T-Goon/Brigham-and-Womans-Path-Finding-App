@@ -85,12 +85,10 @@ public class CovidSurveyController implements Initializable {
                 break;
             case "btnSubmit":
                 if (btnCCNo.isSelected() && btnTestNo.isSelected() && !chkCough.isSelected() && !chkChills.isSelected() && !chkAches.isSelected() && !chkFever.isSelected()
-                        && !chkHeadache.isSelected() && !chkLostTaste.isSelected() && !chkNausea.isSelected() && !chkNose.isSelected() && !chkShortBreath.isSelected() && !chkSoreTht.isSelected()) {
-                    SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/covidSurvey/covidFormSubmittedNoSymp.fxml");
-                } else {
-                    SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/CovidSurvey/covidFormSubmittedWithSymp.fxml");
-                }
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/covidSurvey/covidSurvey.fxml", "/edu/wpi/teamB/views/requestForms/formSubmitted.fxml");
+                        && !chkHeadache.isSelected() && !chkLostTaste.isSelected() && !chkNausea.isSelected() && !chkNose.isSelected() && !chkShortBreath.isSelected() && !chkSoreTht.isSelected())
+                    SceneSwitcher.switchToTemp(getClass(), "/edu/wpi/teamB/views/covidSurvey/covidFormSubmittedNoSymp.fxml");
+                else
+                    SceneSwitcher.switchToTemp(getClass(), "/edu/wpi/teamB/views/CovidSurvey/covidFormSubmittedWithSymp.fxml");
                 break;
             case "btnEmergency":
                 SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/covidSurvey/covidSurvey.fxml", "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");
