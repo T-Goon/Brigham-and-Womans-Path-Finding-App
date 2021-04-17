@@ -44,7 +44,7 @@
             </VBox>
          </children>
       </HBox>
-      <FlowPane columnHalignment="CENTER" hgap="20.0" vgap="20.0" VBox.vgrow="NEVER">
+      <FlowPane alignment="TOP_CENTER" columnHalignment="CENTER" hgap="20.0" prefHeight="364.0" prefWidth="1238.0" vgap="20.0" VBox.vgrow="NEVER">
          <children>
             <VBox alignment="TOP_CENTER" minWidth="200.0">
                <children>
@@ -266,6 +266,9 @@
          <padding>
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
          </padding>
+         <VBox.margin>
+            <Insets left="75.0" right="75.0" />
+         </VBox.margin>
       </FlowPane>
       <HBox alignment="BOTTOM_LEFT" VBox.vgrow="ALWAYS">
          <children>

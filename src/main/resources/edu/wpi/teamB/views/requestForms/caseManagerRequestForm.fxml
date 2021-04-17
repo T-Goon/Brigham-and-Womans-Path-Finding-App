@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextArea?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import com.jfoenix.controls.JFXTimePicker?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<VBox style="-fx-background-color: #012d5a;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamB.views.requestForms.FloralDeliveryRequestFormController">
+   <children>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #FFFFFF;">
+         <children>
+            <ImageView fitHeight="114.0" fitWidth="314.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../images/general/hospitalLogo.png" />
+               </image>
+               <HBox.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </HBox.margin>
+            </ImageView>
+            <HBox prefHeight="125.0" prefWidth="708.0">
+               <children>
+                  <VBox alignment="BOTTOM_CENTER" prefHeight="125.0" prefWidth="420.0">
+                     <children>
+                        <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Case Manager Request Form">
+                           <font>
+                              <Font name="MS Reference Sans Serif" size="25.0" />
+                           </font>
+                        </Text>
+                     </children>
+                     <padding>
+                        <Insets bottom="40.0" />
+                     </padding>
+                  </VBox>
+                  <VBox alignment="BOTTOM_RIGHT" prefHeight="125.0" prefWidth="147.0">
+                     <children>
+                        <JFXButton fx:id="btnEmergency" buttonType="RAISED" prefHeight="34.0" prefWidth="109.0" style="-fx-background-color: #CE2029;" text="EMERGENCY" textFill="WHITE">
+                           <font>
+                              <Font name="MS Reference Sans Serif" size="14.0" />
+                           </font>
+                        </JFXButton>
+                     </children>
+                     <HBox.margin>
+                        <Insets right="10.0" top="10.0" />
+                     </HBox.margin>
+                     <padding>
+                        <Insets bottom="10.0" />
+                     </padding>
+                  </VBox>
+               </children>
+            </HBox>
+         </children>
+      </HBox>
+      <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" prefWidth="900.0" style="-fx-background-color: #012d5a;" VBox.vgrow="ALWAYS">
+         <content>
+            <VBox style="-fx-background-color: #012d5a;">
+               <children>
+                  <VBox alignment="TOP_CENTER" prefHeight="472.0" prefWidth="898.0" style="-fx-background-color: #012d5a;">
+                     <children>
+                        <VBox alignment="TOP_CENTER" spacing="15.0" style="-fx-background-color: #FFFFFF;" VBox.vgrow="NEVER">
+                           <VBox.margin>
+                              <Insets bottom="10.0" left="50.0" right="50.0" top="10.0" />
+                           </VBox.margin>
+                           <children>
+                              <Text fill="#0067b1" strokeType="OUTSIDE" strokeWidth="0.0" text="Case Manager Request Form">
+                                 <font>
+                                    <Font name="MS Reference Sans Serif" size="24.0" />
+                                 </font>
+                              </Text>
+                              <VBox>
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Name:">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                    </Text>
+                                    <JFXTextField fx:id="patientName" promptText="   Ex. &quot;Jane Doe&quot;" style="-fx-background-color: #e5e5e5; -fx-background-radius: 7;" unFocusColor="#f0f0f000" />
+                                 </children>
+                                 <padding>
+                                    <Insets left="10.0" right="10.0" />
+                                 </padding>
+                              </VBox>
+                              <VBox>
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Room Number:">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                    </Text>
+                                    <JFXTextField fx:id="roomNumber" promptText="   Ex. &quot;201&quot;" style="-fx-background-color: #e5e5e5; -fx-background-radius: 7;" unFocusColor="#f0f0f000" />
+                                 </children>
+                                 <padding>
+                                    <Insets left="10.0" right="10.0" />
+                                 </padding>
+                              </VBox>
+                              <HBox>
+                                 <children>
+                                    <VBox>
+                                       <children>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Time for Arrival:">
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                          </Text>
+                                          <JFXTimePicker fx:id="startTime" defaultColor="#012d5a" editable="true" promptText="   Ex. &quot;2:30&quot;" style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" />
+                                       </children>
+                                       <padding>
+                                          <Insets left="10.0" right="10.0" />
+                                       </padding>
+                                    </VBox>
+                                 </children>
+                              </HBox>
+                              <VBox maxHeight="1.7976931348623157E308" prefWidth="673.0">
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Message for Social Worker:">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                    </Text>
+                                    <JFXTextArea maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="653.0" promptText="   Ex. &quot;I would like to discuss my potential discharge.&quot;" style="-fx-background-radius: 7; -fx-background-color: e5e5e5;" unFocusColor="#4d4d4d00" VBox.vgrow="NEVER">
+                                       <font>
+                                          <Font name="MS Reference Sans Serif" size="14.0" />
+                                       </font>
+                                    </JFXTextArea>
+                                 </children>
+                                 <padding>
+                                    <Insets left="10.0" right="10.0" />
+                                 </padding>
+                              </VBox>
+                              <HBox alignment="CENTER_LEFT" prefWidth="200.0">
+                                 <children>
+                                    <HBox alignment="CENTER_LEFT" fillHeight="false" HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <JFXButton fx:id="btnCancel" buttonType="RAISED" cancelButton="true" onAction="#handleButtonAction" style="-fx-background-color: #0067b1; -fx-background-radius: 7;" text="Cancel" textFill="WHITE">
+                                             <font>
+                                                <Font name="MS Reference Sans Serif" size="14.0" />
+                                             </font>
+                                          </JFXButton>
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER" fillHeight="false" spacing="10.0" HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <JFXButton fx:id="btnSubmit" buttonType="RAISED" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39; -fx-background-radius: 7;" text="Submit">
+                                             <font>
+                                                <Font name="MS Reference Sans Serif" size="20.0" />
+                                             </font>
+                                          </JFXButton>
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER_RIGHT" fillHeight="false" spacing="10.0" HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <JFXButton fx:id="btnHelp" buttonType="RAISED" style="-fx-background-color: #9A9999; -fx-background-radius: 50%;" text="?" textFill="WHITE">
+                                             <font>
+                                                <Font name="MS Reference Sans Serif" size="14.0" />
+                                             </font>
+                                          </JFXButton>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                                 <padding>
+                                    <Insets left="10.0" right="10.0" />
+                                 </padding>
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" />
+                                 </VBox.margin>
+                              </HBox>
+                           </children>
+                        </VBox>
+                     </children>
+                  </VBox>
+               </children>
+            </VBox>
+         </content>
+      </ScrollPane>
+   </children>
+</VBox>
