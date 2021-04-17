@@ -1,11 +1,10 @@
-package edu.wpi.teamB.views.mapEditor;
+package edu.wpi.teamB.views.mapEditor.graphical.nodePopup;
 
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.teamB.App;
 import edu.wpi.teamB.database.DatabaseHandler;
 import edu.wpi.teamB.pathfinding.Graph;
-import edu.wpi.teamB.util.EdgeWrapper;
-import edu.wpi.teamB.util.GraphicalEdgePopupData;
+import edu.wpi.teamB.util.GraphicalNodePopupData;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -13,35 +12,32 @@ import javafx.fxml.Initializable;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class DelEdgeAreYouSureController implements Initializable {
+public class delNodeAreYouSureController implements Initializable {
+
     @FXML
     private JFXButton btnYes;
 
     @FXML
     private JFXButton btnNo;
 
-    private GraphicalEdgePopupData data;
+    private GraphicalNodePopupData data;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        data = (GraphicalEdgePopupData) App.getPrimaryStage().getUserData();
+        data = (GraphicalNodePopupData) App.getPrimaryStage().getUserData();
     }
 
     @FXML
-    private void handleButtonAction(ActionEvent event){
-        JFXButton btn = (JFXButton) event.getSource();
+    private void handleButtonAction(ActionEvent e){
+        JFXButton btn = (JFXButton) e.getSource();
 
         switch (btn.getId()){
             case "btnYes":
-                DatabaseHandler.getDatabaseHandler("main.db").removeEdge(
-                        data.getData().getStart().getNodeID() + "_" +
-                                data.getData().getEnd().getNodeID()
-                );
+                DatabaseHandler.getDatabaseHandler("main.db").removeNode(data.getData().getNodeID());
                 Graph.getGraph().updateGraph();
+                data.getData().getPfmc().refreshEditor();
 
-                // Remove popup from map and refresh the nodes
                 data.getData().getNodeHolder().getChildren().remove(data.getParent().getRoot());
-                data.getData().getPmfc().refreshEditor();
                 break;
             case "btnNo":
                 data.getParent().areYouSureToMain();

@@ -1,8 +1,6 @@
 package edu.wpi.teamB.util;
 
-import edu.wpi.teamB.views.mapEditor.NodePopupWindowController;
-import edu.wpi.teamB.views.menus.PathfindingMenuController;
-import javafx.scene.layout.AnchorPane;
+import edu.wpi.teamB.views.mapEditor.graphical.nodePopup.NodePopupWindowController;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
