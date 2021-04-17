@@ -99,11 +99,11 @@
                               <Insets left="5.0" right="5.0" />
                            </GridPane.margin>
                                 </JFXButton>
-                        <JFXTextField fx:id="txtStartLocation" onAction="#validateFindPathButton" prefWidth="230.0" style="-fx-background-color: white; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" GridPane.columnIndex="1">
+                        <JFXTextField fx:id="txtStartLocation" editable="false" onAction="#validateFindPathButton" prefWidth="230.0" style="-fx-background-color: white; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" GridPane.columnIndex="1">
                            <GridPane.margin>
                               <Insets left="5.0" right="5.0" />
                            </GridPane.margin></JFXTextField>
-                        <JFXTextField fx:id="txtEndLocation" layoutX="96.0" layoutY="8.0" onAction="#validateFindPathButton" style="-fx-background-color: white; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                        <JFXTextField fx:id="txtEndLocation" editable="false" layoutX="96.0" layoutY="8.0" onAction="#validateFindPathButton" style="-fx-background-color: white; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" GridPane.columnIndex="1" GridPane.rowIndex="2">
                            <GridPane.margin>
                               <Insets left="5.0" right="5.0" />
                            </GridPane.margin></JFXTextField>
