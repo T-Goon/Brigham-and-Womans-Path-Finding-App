@@ -3,6 +3,7 @@ package edu.wpi.teamB.views.menus;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 
+import com.jfoenix.controls.JFXTreeView;
 import edu.wpi.teamB.entities.Node;
 import edu.wpi.teamB.pathfinding.AStar;
 import edu.wpi.teamB.pathfinding.Graph;
@@ -14,6 +15,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TreeItem;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -54,6 +56,9 @@ public class PathfindingMenuController implements Initializable {
     @FXML
     private Label lblError;
 
+    @FXML
+    private JFXTreeView<String> treeLocations;
+
     private static final double coordinateScale = 25/9.0;
     private List<Line> edgePlaced = new ArrayList<>();
     private VBox popup = null;
@@ -61,6 +66,8 @@ public class PathfindingMenuController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        HashMap<String, List<TreeItem<String>>> catNameMap = new HashMap<>();
+
         Map<String, Node> locations = Graph.getGraph().getNodes();
         List<String> locationNames = new ArrayList<>();
 
@@ -70,6 +77,15 @@ public class PathfindingMenuController implements Initializable {
         for (Node n : locations.values()) {
             if (!(n.getNodeType().equals("WALK") || n.getNodeType().equals("HALL"))) {
                 locationNames.add(n.getLongName());
+
+                if(!catNameMap.containsKey(n.getNodeType())){
+                    ArrayList<TreeItem<String>> tempList = new ArrayList<>();
+                    tempList.add(new TreeItem<>(n.getLongName()));
+                    catNameMap.put(n.getNodeType(), tempList);
+                }else{
+                    catNameMap.get(n.getNodeType()).add(new TreeItem<>(n.getLongName()));
+                }
+
             }
 
             if (floorNodes.containsKey(n.getFloor())) {
@@ -79,7 +95,21 @@ public class PathfindingMenuController implements Initializable {
                 tempList.add(n);
                 floorNodes.put(n.getFloor(), tempList);
             }
+
         }
+
+        TreeItem<String> rootNode = new TreeItem<>("Locations");
+        rootNode.setExpanded(true);
+        treeLocations.setRoot(rootNode);
+
+        for(String category : catNameMap.keySet()){
+            rootNode.getChildren().add(new TreeItem<>(category));
+        }
+
+        for(TreeItem<String> cat : rootNode.getChildren()){
+            cat.getChildren().addAll(catNameMap.get(cat.getValue()));
+        }
+
 
         //Populate the Combo Boxes with valid locations (Sorted)
         Collections.sort(locationNames);
