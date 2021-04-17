@@ -144,7 +144,7 @@
                         </HBox>
                   <HBox alignment="CENTER" layoutX="15.0" layoutY="197.0">
                      <children>
-                        <JFXTreeView fx:id="treeLocations" onMouseClicked="#handleLocationSelected" style="-fx-background-radius: 7;">
+                        <JFXTreeView fx:id="treeLocations" onMouseClicked="#handleLocationSelected" style="-fx-background-radius: 7;" stylesheets="@../../css/treeView.css">
                            <HBox.margin>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </HBox.margin>
