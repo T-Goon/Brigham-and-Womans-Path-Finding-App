@@ -554,13 +554,12 @@ public class DatabaseHandler {
 
     // REQUESTS ARE BELOW
 
-
     /**
-     * Preps request by adding it to the main request table
+     * Adds a request to Requests and the table specific to the given request
      *
-     * @param request the request being added
+     * @param request the request to add
      */
-    public void prepRequest(Request request) {
+    public void addRequest(Request request) {
         Statement statement = this.getStatement();
         String query = "INSERT INTO Requests VALUES " +
                 "('" + request.getRequestID()
@@ -576,16 +575,7 @@ public class DatabaseHandler {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
 
-    /**
-     * Adds a request to Requests and the table specific to the given request
-     *
-     * @param request the request to add
-     */
-    public void addRequest(Request request) {
-        Statement statement = this.getStatement();
-        String query = null;
         switch (request.getRequestType()) {
             case "Sanitation":
                 SanitationRequest sanitationRequest = (SanitationRequest) request;
