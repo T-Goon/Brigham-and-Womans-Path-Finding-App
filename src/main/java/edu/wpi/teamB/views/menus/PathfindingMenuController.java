@@ -1,8 +1,9 @@
 package edu.wpi.teamB.views.menus;
 
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXComboBox;
 
+import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.JFXTreeView;
 import edu.wpi.teamB.entities.Node;
 import edu.wpi.teamB.pathfinding.AStar;
 import edu.wpi.teamB.pathfinding.Graph;
@@ -11,9 +12,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -28,10 +27,10 @@ import java.util.*;
 public class PathfindingMenuController implements Initializable {
 
     @FXML
-    private JFXComboBox<String> startLocComboBox;
+    private JFXTextField txtStartLocation;
 
     @FXML
-    private JFXComboBox<String> endLocComboBox;
+    private JFXTextField txtEndLocation;
 
     @FXML
     private AnchorPane nodeHolder;
@@ -54,24 +53,61 @@ public class PathfindingMenuController implements Initializable {
     @FXML
     private Label lblError;
 
+    @FXML
+    private JFXTreeView<String> treeLocations;
+
     private static final double coordinateScale = 25/9.0;
     private List<Line> edgePlaced = new ArrayList<>();
     private VBox popup = null;
+
     private final HashMap<String, List<Node>> floorNodes = new HashMap<>();
+    private Map<String, Node> locations = new HashMap<>();
+    private Map<String, String> mapLongToID = new HashMap<>();
+
+    private TreeItem<String> selectedLocation;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Map<String, Node> locations = Graph.getGraph().getNodes();
-        List<String> locationNames = new ArrayList<>();
+
+        Map<String, String> categoryNameMap = new HashMap<>();
+
+        //Add better category names to a hash map
+        categoryNameMap.put("SERV", "Services");
+        categoryNameMap.put("REST", "Restrooms");
+        categoryNameMap.put("LABS", "Lab Rooms");
+        categoryNameMap.put("ELEV", "Elevators");
+        categoryNameMap.put("DEPT", "Departments");
+        categoryNameMap.put("CONF", "Conference Rooms");
+        categoryNameMap.put("INFO", "Information Locations");
+        categoryNameMap.put("RETL", "Retail Locations");
+        categoryNameMap.put("BATH", "Bathroom");
+        categoryNameMap.put("EXIT", "Entrances");
+        categoryNameMap.put("STAI", "Stairs");
+        categoryNameMap.put("PARK", "Parking Spots");
+
+        HashMap<String, List<TreeItem<String>>> catNameMap = new HashMap<>();
+        locations = Graph.getGraph().getNodes();
+        mapLongToID = makeLongToIDMap();
+
 
         validateFindPathButton();
 
         //Adds all the destination names to locationNames and sort the nodes by floor
         for (Node n : locations.values()) {
             if (!(n.getNodeType().equals("WALK") || n.getNodeType().equals("HALL"))) {
-                locationNames.add(n.getLongName());
+                //Populate Category map for TreeView
+                if(!catNameMap.containsKey(n.getNodeType())){
+                    ArrayList<TreeItem<String>> tempList = new ArrayList<>();
+                    TreeItem<String>  tempItem = new TreeItem<>(n.getLongName());
+                    tempList.add(tempItem);
+                    catNameMap.put(n.getNodeType(), tempList);
+                }else{
+                    catNameMap.get(n.getNodeType()).add(new TreeItem<>(n.getLongName()));
+                }
+
             }
 
+            //Populate the floorNodes Map to know which nodes belong to each floor
             if (floorNodes.containsKey(n.getFloor())) {
                 floorNodes.get(n.getFloor()).add(n);
             } else {
@@ -79,12 +115,21 @@ public class PathfindingMenuController implements Initializable {
                 tempList.add(n);
                 floorNodes.put(n.getFloor(), tempList);
             }
+
         }
 
-        //Populate the Combo Boxes with valid locations (Sorted)
-        Collections.sort(locationNames);
-        startLocComboBox.getItems().addAll(locationNames);
-        endLocComboBox.getItems().addAll(locationNames);
+
+        //Populating TreeView
+        TreeItem<String> rootNode = new TreeItem<>("Locations");
+        rootNode.setExpanded(true);
+        treeLocations.setRoot(rootNode);
+
+        //Adding Categories
+        for(String category : catNameMap.keySet()){
+            TreeItem<String> categoryTreeItem = new TreeItem<>(categoryNameMap.get(category));
+            categoryTreeItem.getChildren().addAll(catNameMap.get(category));
+            rootNode.getChildren().add(categoryTreeItem);
+        }
 
         try{
             drawNodesOnFloor("1");
@@ -111,10 +156,9 @@ public class PathfindingMenuController implements Initializable {
      * @return a map of long names to node IDs
      */
     private Map<String, String> makeLongToIDMap() {
-        Map<String, Node> nodesId = Graph.getGraph().getNodes();
         Map<String, String> longName = new HashMap<>();
 
-        for (Node node : nodesId.values()) {
+        for (Node node : locations.values()) {
             longName.put(node.getLongName(), node.getNodeID());
         }
         return longName;
@@ -125,8 +169,7 @@ public class PathfindingMenuController implements Initializable {
      */
     private void drawPath() {
         Map<String, Node> nodesId = Graph.getGraph().getNodes();
-        Map<String, String> hmLongName = makeLongToIDMap();
-        List<String> AstarPath = AStar.findPath(hmLongName.get(getStartLocation()), hmLongName.get(getEndLocation()));
+        List<String> AstarPath = AStar.findPath(mapLongToID.get(getStartLocation()), mapLongToID.get(getEndLocation()));
 
         if (AstarPath.isEmpty()) {
             lblError.setVisible(true);
@@ -142,11 +185,46 @@ public class PathfindingMenuController implements Initializable {
         }
     }
 
+    /**
+     * Event handler for when the tree view is clicked. When clicked it checks the selected location on the tree view
+     * and if its a location not a category it finds the node and used the graphical input popup on that node
+     * @param mouseEvent
+     */
     @FXML
-    private void validateFindPathButton() throws NumberFormatException {
-        btnFindPath.setDisable(startLocComboBox.getValue() == null || endLocComboBox.getValue() == null || startLocComboBox.getValue().equals(endLocComboBox.getValue()));
+    public void handleLocationSelected(MouseEvent mouseEvent) {
+        TreeItem<String> selectedItem = treeLocations.getSelectionModel().getSelectedItem();
+        if(selectedItem == null){
+            return;
+        }
+        if(!selectedItem.equals(selectedLocation) && selectedItem.isLeaf()){
+            //Selected item is a valid location
+
+            //For now only work on nodes that are on the first floor until multi-floor pathfinding is added
+            Node tempLocation = locations.get(mapLongToID.get(selectedItem.getValue()));
+            if(tempLocation.getFloor().equals("1")){
+                createGraphicalInputPopup(tempLocation);
+            }
+        }
+        selectedLocation = selectedItem;
+        validateFindPathButton();
     }
 
+    /**
+     * Input validation for the pathfinding button. Button only enables when both input fields are populated and they
+     * are not equal to each other.
+     * @throws NumberFormatException
+     */
+    @FXML
+    private void validateFindPathButton() throws NumberFormatException {
+        btnFindPath.setDisable(txtStartLocation.getText().isEmpty()|| txtEndLocation.getText().isEmpty() || txtStartLocation.getText().equals(txtEndLocation.getText()));
+    }
+
+
+    /**
+     * Button handler for the scene
+     * @param e
+     * @throws IOException
+     */
     @FXML
     private void handleButtonAction(ActionEvent e) throws IOException {
         JFXButton b = (JFXButton) e.getSource();
@@ -214,7 +292,7 @@ public class PathfindingMenuController implements Initializable {
      *
      * @param n Node to create the popup for
      */
-    private void createGraphicalInputPopup(Node n) {
+    public void createGraphicalInputPopup(Node n) {
 
         try {
             // Load fxml
@@ -229,10 +307,10 @@ public class PathfindingMenuController implements Initializable {
             for (javafx.scene.Node node : locInput.getChildren()) {
                 switch (node.getId()) {
                     case "BtnStart":
-                        showGraphicalSelection(startLocComboBox, node, n);
+                        showGraphicalSelection(txtStartLocation, node, n);
                         break;
                     case "BtnEnd":
-                        showGraphicalSelection(endLocComboBox, node, n);
+                        showGraphicalSelection(txtEndLocation, node, n);
                         break;
                     case "BtnCancel":
                         Button cancelButton = (Button) node;
@@ -257,27 +335,21 @@ public class PathfindingMenuController implements Initializable {
     /**
      * Shows the popup for the graphical input.
      *
-     * @param comboBox Combobox to select items from
+     * @param textField TextField to select items from
      * @param node     javafx node that will show popup when clicked
      * @param n        map node the popup is for
      */
-    private void showGraphicalSelection(ComboBox comboBox, javafx.scene.Node node, Node n) {
+    private void showGraphicalSelection(JFXTextField textField, javafx.scene.Node node, Node n) {
         Button tempButton = (Button) node;
 
         tempButton.setOnAction(event -> {
             //loop through combo box if string == name of node
             //keep track of index and pass it in
-
-            for (int i = 0; i < comboBox.getItems().size(); i++) {
-
-                if (n.getLongName().equals(comboBox.getItems().get(i))) {
-                    comboBox.getSelectionModel().select(i);
-
-                }
-            }
-
+            textField.setText(n.getLongName());
             deleteBox();
+            validateFindPathButton();
         });
+
     }
 
     /**
@@ -320,7 +392,7 @@ public class PathfindingMenuController implements Initializable {
      * @return The long name of the node selected in the combobox.
      */
     public String getStartLocation() {
-        return startLocComboBox.getValue();
+        return txtStartLocation.getText();
     }
 
     /**
@@ -329,6 +401,7 @@ public class PathfindingMenuController implements Initializable {
      * @return The long name of the node selected in the combobox.
      */
     public String getEndLocation() {
-        return endLocComboBox.getValue();
+        return txtEndLocation.getText();
     }
+
 }
