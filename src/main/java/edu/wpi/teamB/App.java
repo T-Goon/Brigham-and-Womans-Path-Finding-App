@@ -5,9 +5,7 @@ import java.util.Objects;
 
 import edu.wpi.teamB.util.CSVHandler;
 import edu.wpi.teamB.database.DatabaseHandler;
-import edu.wpi.teamB.util.SceneSwitcher;
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;

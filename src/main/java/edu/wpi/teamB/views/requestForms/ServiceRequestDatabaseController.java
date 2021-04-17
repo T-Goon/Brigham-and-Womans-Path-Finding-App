@@ -5,8 +5,6 @@ import edu.wpi.teamB.util.SceneSwitcher;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
-import java.io.IOException;
-
 public class ServiceRequestDatabaseController {
     @FXML
     private JFXButton btnBack;

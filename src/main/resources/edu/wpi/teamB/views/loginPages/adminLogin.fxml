@@ -60,7 +60,7 @@
                               <Insets bottom="5.0" />
                            </VBox.margin>
                         </Text>
-                        <JFXTextField focusColor="WHITE" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="400.0" style="-fx-background-color: #0067B1; -fx-opacity: 30%;" stylesheets="@../../css/login.css">
+                        <JFXTextField fx:id="username" focusColor="WHITE" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#validateButton" onKeyReleased="#validateButton" prefHeight="50.0" prefWidth="400.0" style="-fx-background-color: #0067B1; -fx-opacity: 30%;" stylesheets="@../../css/login.css">
                            <font>
                               <Font size="20.0" />
                            </font>
@@ -86,7 +86,7 @@
                               <Insets bottom="5.0" />
                            </VBox.margin>
                         </Text>
-                        <JFXPasswordField focusColor="WHITE" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="400.0" style="-fx-background-color: #0067B1; -fx-opacity: 30%;" stylesheets="@../../css/login.css">
+                        <JFXPasswordField fx:id="password" focusColor="WHITE" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#validateButton" onKeyReleased="#validateButton" prefHeight="50.0" prefWidth="400.0" style="-fx-background-color: #0067B1; -fx-opacity: 30%;" stylesheets="@../../css/login.css">
                            <font>
                               <Font size="20.0" />
                            </font>
@@ -98,7 +98,7 @@
                   </VBox>
                   <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0">
                      <children>
-                        <JFXButton fx:id="btnLogin" buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#handleButtonAction" prefHeight="40.0" prefWidth="150.0" style="-fx-background-color: #F6BD39;" text="Login" textFill="#012d5a">
+                        <JFXButton fx:id="btnLogin" buttonType="RAISED" disable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#handleButtonAction" prefHeight="40.0" prefWidth="150.0" style="-fx-background-color: #F6BD39;" text="Login" textFill="#012d5a">
                            <font>
                               <Font size="20.0" />
                            </font>

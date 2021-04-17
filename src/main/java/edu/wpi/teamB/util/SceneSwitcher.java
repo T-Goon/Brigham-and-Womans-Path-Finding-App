@@ -32,11 +32,10 @@ public class SceneSwitcher {
 
     /**
      * Switches to a scene and removes it from the stack.
-     *
-     * @param newClass the class instance
+     *  @param newClass the class instance
      * @param path     the path to the FXML file to switch to
      */
-    public static Parent switchToTemp(Class newClass, String path) {
+    public static void switchToTemp(Class newClass, String path) {
         Parent root = null;
         try {
             root = FXMLLoader.load(Objects.requireNonNull(newClass.getResource(path)));
@@ -45,16 +44,14 @@ public class SceneSwitcher {
             System.err.println("Path \"" + path + "\" is malformed or nonexistent!");
             e.printStackTrace();
         }
-        return root;
     }
 
     /**
      * Switches to a scene and removes it from the stack.
-     *
-     * @param newClass the class instance
+     *  @param newClass the class instance
      * @param path     the path to the FXML file to switch to
      */
-    public static Parent switchScene(Class newClass, String oldPath, String path) {
+    public static void switchScene(Class newClass, String oldPath, String path) {
         stack.push(oldPath);
         Parent root = null;
         try {
@@ -64,6 +61,5 @@ public class SceneSwitcher {
             System.err.println("Path \"" + path + "\" is malformed or nonexistent!");
             e.printStackTrace();
         }
-        return root;
     }
 }
