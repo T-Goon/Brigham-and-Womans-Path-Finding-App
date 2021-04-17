@@ -63,13 +63,15 @@ public class PathfindingMenuController implements Initializable {
     private final HashMap<String, List<Node>> floorNodes = new HashMap<>();
     private Map<String, Node> locations = new HashMap<>();
     private Map<String, String> mapLongToID = new HashMap<>();
-    private Map<String, String> categoryNameMap = new HashMap<>();
 
     private TreeItem<String> selectedLocation;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+        Map<String, String> categoryNameMap = new HashMap<>();
+
+        //Add better category names to a hash map
         categoryNameMap.put("SERV", "Services");
         categoryNameMap.put("REST", "Restrooms");
         categoryNameMap.put("LABS", "Lab Rooms");
@@ -82,7 +84,6 @@ public class PathfindingMenuController implements Initializable {
         categoryNameMap.put("EXIT", "Entrances");
         categoryNameMap.put("STAI", "Stairs");
         categoryNameMap.put("PARK", "Parking Spots");
-
 
         HashMap<String, List<TreeItem<String>>> catNameMap = new HashMap<>();
         locations = Graph.getGraph().getNodes();
@@ -184,6 +185,11 @@ public class PathfindingMenuController implements Initializable {
         }
     }
 
+    /**
+     * Event handler for when the tree view is clicked. When clicked it checks the selected location on the tree view
+     * and if its a location not a category it finds the node and used the graphical input popup on that node
+     * @param mouseEvent
+     */
     @FXML
     public void handleLocationSelected(MouseEvent mouseEvent) {
         TreeItem<String> selectedItem = treeLocations.getSelectionModel().getSelectedItem();
@@ -198,11 +204,22 @@ public class PathfindingMenuController implements Initializable {
         validateFindPathButton();
     }
 
+    /**
+     * Input validation for the pathfinding button. Button only enables when both input fields are populated and they
+     * are not equal to each other.
+     * @throws NumberFormatException
+     */
     @FXML
     private void validateFindPathButton() throws NumberFormatException {
         btnFindPath.setDisable(txtStartLocation.getText().isEmpty()|| txtEndLocation.getText().isEmpty() || txtStartLocation.getText().equals(txtEndLocation.getText()));
     }
 
+
+    /**
+     * Button handler for the scene
+     * @param e
+     * @throws IOException
+     */
     @FXML
     private void handleButtonAction(ActionEvent e) throws IOException {
         JFXButton b = (JFXButton) e.getSource();
