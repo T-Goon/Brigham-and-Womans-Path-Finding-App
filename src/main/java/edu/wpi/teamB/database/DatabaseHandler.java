@@ -554,15 +554,15 @@ public class DatabaseHandler {
 
     // REQUESTS ARE BELOW
 
-    /**
-     * Adds a request to RequestsTable and the table specific to the given request
-     *
-     * @param request the request to add
-     */
-    public void addRequest(Request request) {
-        Statement statement = this.getStatement();
 
-        String query = "INSERT INTO RequestsTable VALUES " +
+    /**
+     * Preps request by adding it to the main request table
+     *
+     * @param request the request being added
+     */
+    public void prepRequest(Request request) {
+        Statement statement = this.getStatement();
+        String query = "INSERT INTO Requests VALUES " +
                 "('" + request.getRequestID()
                 + "', '" + request.getRequestType()
                 + "', '" + request.getEmployeeName()
@@ -576,11 +576,20 @@ public class DatabaseHandler {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
 
+    /**
+     * Adds a request to Requests and the table specific to the given request
+     *
+     * @param request the request to add
+     */
+    public void addRequest(Request request) {
+        Statement statement = this.getStatement();
+        String query = null;
         switch (request.getRequestType()) {
             case "Sanitation":
                 SanitationRequest sanitationRequest = (SanitationRequest) request;
-                query = "INSERT INTO SanitationRequestsTable VALUES " +
+                query = "INSERT INTO SanitationRequests VALUES " +
                         "('" + sanitationRequest.getRequestID()
                         + "', '" + sanitationRequest.getSanitationType()
                         + "', '" + sanitationRequest.getSanitationSize()
@@ -591,7 +600,7 @@ public class DatabaseHandler {
                 break;
             case "Medicine":
                 MedicineRequest medicineRequest = (MedicineRequest) request;
-                query = "INSERT INTO MedicineRequestsTable VALUES " +
+                query = "INSERT INTO MedicineRequests VALUES " +
                         "('" + medicineRequest.getRequestID()
                         + "', '" + medicineRequest.getPatientName()
                         + "', '" + medicineRequest.getMedicine()
@@ -599,7 +608,7 @@ public class DatabaseHandler {
                 break;
             case "InternalTransport":
                 InternalTransportRequest internalTransportRequest = (InternalTransportRequest) request;
-                query = "INSERT INTO InternalTransportRequestsTable VALUES " +
+                query = "INSERT INTO InternalTransportRequests VALUES " +
                         "('" + internalTransportRequest.getRequestID()
                         + "', '" + internalTransportRequest.getPatientName()
                         + "', '" + internalTransportRequest.getTransportType()
@@ -609,7 +618,7 @@ public class DatabaseHandler {
                 break;
             case "Religious":
                 ReligiousRequest religiousRequest = (ReligiousRequest) request;
-                query = "INSERT INTO ReligiousRequestsTable VALUES " +
+                query = "INSERT INTO ReligiousRequests VALUES " +
                         "('" + religiousRequest.getRequestID()
                         + "', '" + religiousRequest.getPatientName()
                         + "', '" + religiousRequest.getReligiousDate()
@@ -621,7 +630,7 @@ public class DatabaseHandler {
                 break;
             case "Food":
                 FoodRequest foodRequest = (FoodRequest) request;
-                query = "INSERT INTO FoodRequestsTable VALUES " +
+                query = "INSERT INTO FoodRequests VALUES " +
                         "('" + foodRequest.getRequestID()
                         + "', '" + foodRequest.getPatientName()
                         + "', '" + foodRequest.getArrivalTime()
@@ -630,7 +639,7 @@ public class DatabaseHandler {
                 break;
             case "Floral":
                 FloralRequest floralRequest = (FloralRequest) request;
-                query = "INSERT INTO FloralRequestsTable VALUES " +
+                query = "INSERT INTO FloralRequests VALUES " +
                         "('" + floralRequest.getRequestID()
                         + "', '" + floralRequest.getPatientName()
                         + "', '" + floralRequest.getDeliveryDate()
@@ -641,14 +650,14 @@ public class DatabaseHandler {
                 break;
             case "Security":
                 SecurityRequest securityRequest = (SecurityRequest) request;
-                query = "INSERT INTO SecurityRequestsTable VALUES " +
+                query = "INSERT INTO SecurityRequests VALUES " +
                         "('" + securityRequest.getRequestID()
                         + "', " + securityRequest.getUrgency()
                         + ")";
                 break;
             case "ExternalTransport":
                 ExternalTransportRequest externalTransportRequest = (ExternalTransportRequest) request;
-                query = "INSERT INTO ExternalTransportRequestsTable VALUES " +
+                query = "INSERT INTO ExternalTransportRequests VALUES " +
                         "('" + externalTransportRequest.getRequestID()
                         + "', '" + externalTransportRequest.getPatientName()
                         + "', '" + externalTransportRequest.getTransportType()
@@ -661,7 +670,7 @@ public class DatabaseHandler {
                 break;
             case "Laundry":
                 LaundryRequest laundryRequest = (LaundryRequest) request;
-                query = "INSERT INTO LaundryRequestsTable VALUES " +
+                query = "INSERT INTO LaundryRequests VALUES " +
                         "('" + laundryRequest.getRequestID()
                         + "', '" + laundryRequest.getServiceType()
                         + "', '" + laundryRequest.getServiceSize()
@@ -673,7 +682,6 @@ public class DatabaseHandler {
         }
 
         try {
-            assert statement != null;
             statement.execute(query);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -687,8 +695,8 @@ public class DatabaseHandler {
      */
     public void removeRequest(Request request) {
         Statement statement = this.getStatement();
-        String queryGeneralTable = "DELETE FROM RequestsTable WHERE requestID = '" + request.getRequestID() + "'";
-        String querySpecificTable = "DELETE FROM '" + request.getRequestType().replaceAll("\\s", "") + "RequestsTable" + "'WHERE requestID = '" + request.getRequestID() + "'";
+        String queryGeneralTable = "DELETE FROM Requests WHERE requestID = '" + request.getRequestID() + "'";
+        String querySpecificTable = "DELETE FROM '" + request.getRequestType().replaceAll("\\s", "") + "Requests" + "'WHERE requestID = '" + request.getRequestID() + "'";
 
         try {
             assert statement != null;
