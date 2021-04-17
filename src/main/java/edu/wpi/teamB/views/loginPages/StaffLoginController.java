@@ -18,19 +18,18 @@ public class StaffLoginController {
     private JFXButton btnEmergency;
 
     @FXML
-    public void handleButtonAction(ActionEvent actionEvent) throws IOException {
+    public void handleButtonAction(ActionEvent actionEvent) {
         JFXButton btn = (JFXButton) actionEvent.getSource();
-        SceneSwitcher.pushScene("/edu/wpi/teamB/views/loginPages/staffLogin.fxml");
 
         switch (btn.getId()) {
             case "btnLogin":
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/staffDirectoryMenu.fxml");
+                SceneSwitcher.switchToTemp(getClass(), "/edu/wpi/teamB/views/menus/staffDirectoryMenu.fxml");
                 break;
             case "btnBack":
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/loginPages/loginOptions.fxml");
+                SceneSwitcher.goBack(getClass());
                 break;
             case "btnEmergency":
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/loginPages/staffLogin.fxml", "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");
                 break;
         }
     }

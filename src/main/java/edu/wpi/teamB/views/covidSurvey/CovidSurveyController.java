@@ -8,7 +8,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ToggleGroup;
 import javafx.fxml.Initializable;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -46,19 +45,18 @@ public class CovidSurveyController implements Initializable {
     }
 
     @FXML
-    void handleButtonAction(ActionEvent e) throws IOException {
+    void handleButtonAction(ActionEvent e) {
         JFXButton btn = (JFXButton) e.getSource();
 
         switch (btn.getId()) {
             case "btnBack":
-                SceneSwitcher.switchScene(getClass(), SceneSwitcher.popScene());
-//                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/patientDirectoryMenu.fxml");
+                SceneSwitcher.goBack(getClass());
                 break;
             case "btnSubmit":
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/requestForms/formSubmitted.fxml");
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/covidSurvey/covidSurvey.fxml", "/edu/wpi/teamB/views/requestForms/formSubmitted.fxml");
                 break;
             case "btnEmergency":
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/covidSurvey/covidSurvey.fxml", "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");
                 break;
         }
     }

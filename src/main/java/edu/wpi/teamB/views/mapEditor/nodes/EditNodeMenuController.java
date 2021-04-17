@@ -91,12 +91,12 @@ public class EditNodeMenuController implements Initializable {
         }}
 
     @FXML
-    private void handleButtonAction(ActionEvent e) throws IOException {
+    private void handleButtonAction(ActionEvent e) {
         JFXButton btn = (JFXButton) e.getSource();
 
         switch (btn.getId()) {
             case "btnBack":
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapEditor/nodes/editNodesListMenu.fxml");
+                SceneSwitcher.goBack(getClass());
                 break;
             case "btnUpdate":
                 Stage stage = App.getPrimaryStage();
@@ -113,10 +113,10 @@ public class EditNodeMenuController implements Initializable {
                 node = new Node(node.getNodeID(), aXCoord, aYCoord, aFloor, aBuilding, aNodeType, aLongName, aShortName);
 
                 DatabaseHandler.getDatabaseHandler("main.db").updateNode(node);
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapEditor/nodes/editNodesListMenu.fxml");
+                SceneSwitcher.goBack(getClass());
                 break;
             case "btnEmergency":
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapEditor/nodes/editNodeMenu.fxml", "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");
                 break;
         }
     }

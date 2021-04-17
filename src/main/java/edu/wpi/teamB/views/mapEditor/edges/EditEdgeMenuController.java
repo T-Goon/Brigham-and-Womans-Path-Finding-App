@@ -71,12 +71,12 @@ public class EditEdgeMenuController implements Initializable {
         btnUpdateEdge.setDisable(edgeID.getText().isEmpty() || startNode.getSelectionModel().isEmpty() || endNode.getSelectionModel().isEmpty());
     }
 
-    public void handleButtonAction(ActionEvent e) throws IOException {
+    public void handleButtonAction(ActionEvent e) {
         JFXButton btn = (JFXButton) e.getSource();
 
         switch (btn.getId()) {
             case "btnCancel":
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapEditor/edges/editEdgesListMenu.fxml");
+                SceneSwitcher.goBack(getClass());
                 break;
             case "btnUpdateEdge":
                 String edgeIdentifier = edgeID.getText();
@@ -88,10 +88,10 @@ public class EditEdgeMenuController implements Initializable {
                 DatabaseHandler db = DatabaseHandler.getDatabaseHandler("main.db");
                 db.removeEdge(oldEdgeID);
                 db.addEdge(edge);
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapEditor/edges/editEdgesListMenu.fxml");
+                SceneSwitcher.goBack(getClass());
                 break;
             case "btnEmergency":
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapEditor/edges/editEdgeMenu.fxml", "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");
                 break;
         }
     }

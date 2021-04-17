@@ -13,16 +13,14 @@ public class FormSubmittedController {
     private JFXButton btnReturn;
 
     @FXML
-    private void handleButtonAction(ActionEvent e) throws IOException {
+    private void handleButtonAction(ActionEvent e) {
 
         JFXButton btn = (JFXButton) e.getSource();
-//        SceneSwitcher.pushScene("/edu/wpi/teamB/views/requestForms/formSubmitted.fxml");
 
         if (btn.getId().equals("btnReturn")) {
-//            SceneSwitcher.popScene();
-            SceneSwitcher.switchScene(getClass(), SceneSwitcher.popScene());
+            SceneSwitcher.goBack(getClass());
         } else if (btn.getId().equals("btnEmergency")) {
-            SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");
+            SceneSwitcher.switchToTemp(getClass(), "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");
         }
     }
 }

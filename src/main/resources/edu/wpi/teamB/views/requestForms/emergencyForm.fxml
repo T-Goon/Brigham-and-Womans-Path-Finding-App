@@ -58,7 +58,7 @@
                                     <Font size="14.0" />
                                 </font>
                             </Text>
-                        <JFXTextField fx:id="wing" promptText="The wing where the emgency is occurring" style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" />
+                        <JFXTextField fx:id="wing" promptText="The wing where the emergency is occurring" style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" />
                         </children>
                         <padding>
                             <Insets left="10.0" right="10.0" />
@@ -84,19 +84,22 @@
                                     <Font size="14.0" />
                                 </font>
                             </Text>
-                        <HBox alignment="TOP_CENTER">
+                        <HBox>
                            <children>
-                              <JFXCheckBox text="Medical Emegency">
+                              <JFXCheckBox fx:id="medicalEmergency" text="Medical Emergency">
                                  <HBox.margin>
                                     <Insets right="20.0" />
                                  </HBox.margin>
                               </JFXCheckBox>
-                              <JFXCheckBox text="Security Emergency">
+                              <JFXCheckBox fx:id="securityEmergency" text="Security Emergency">
                                  <HBox.margin>
                                     <Insets left="20.0" />
                                  </HBox.margin>
                               </JFXCheckBox>
                            </children>
+                           <padding>
+                              <Insets top="5.0" />
+                           </padding>
                         </HBox>
                         </children>
                         <padding>

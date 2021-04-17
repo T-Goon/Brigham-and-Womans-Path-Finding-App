@@ -12,13 +12,11 @@ public class ServiceRequestDatabaseController {
     private JFXButton btnBack;
 
     @FXML
-    public void handleButtonAction(ActionEvent actionEvent) throws IOException {
+    public void handleButtonAction(ActionEvent actionEvent) {
         JFXButton btn = (JFXButton) actionEvent.getSource();
-//        SceneSwitcher.pushScene("/edu/wpi/teamB/views/requestForms/serviceRequestDatabase.fxml");
-
-        switch(btn.getId()) {
+        switch (btn.getId()) {
             case "btnBack":
-                SceneSwitcher.switchScene(getClass(), SceneSwitcher.popScene());
+                SceneSwitcher.goBack(getClass());
                 break;
         }
     }

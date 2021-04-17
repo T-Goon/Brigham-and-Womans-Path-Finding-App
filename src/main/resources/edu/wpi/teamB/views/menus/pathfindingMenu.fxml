@@ -30,7 +30,7 @@
                 </ImageView>
                 <VBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
                     <children>
-                        <JFXButton buttonType="RAISED" style="-fx-background-color: #CE2029;" text="EMERGENCY" textFill="WHITE">
+                        <JFXButton fx:id="btnEmergency" buttonType="RAISED" onAction="#handleButtonAction" style="-fx-background-color: #CE2029;" text="EMERGENCY" textFill="WHITE">
                             <font>
                                 <Font name="MS Reference Sans Serif" size="16.0" />
                             </font>

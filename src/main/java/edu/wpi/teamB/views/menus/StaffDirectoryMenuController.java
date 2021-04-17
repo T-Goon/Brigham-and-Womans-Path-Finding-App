@@ -1,14 +1,10 @@
 package edu.wpi.teamB.views.menus;
 
 import com.jfoenix.controls.JFXButton;
-import edu.wpi.teamB.App;
-import edu.wpi.teamB.entities.Edge;
 import edu.wpi.teamB.util.SceneSwitcher;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 
@@ -27,34 +23,27 @@ public class StaffDirectoryMenuController {
 
 
     @FXML
-    public void handleButtonAction(ActionEvent actionEvent) throws IOException {
+    public void handleButtonAction(ActionEvent actionEvent) {
         JFXButton btn = (JFXButton) actionEvent.getSource();
-        SceneSwitcher.pushScene("/edu/wpi/teamB/views/menus/staffDirectoryMenu.fxml");
 
         switch (btn.getId()) {
             case "btnServiceRequests":
-                try {
-                    SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/serviceRequestMenu.fxml");
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                    break;
-                }
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/staffDirectoryMenu.fxml", "/edu/wpi/teamB/views/menus/serviceRequestMenu.fxml");
                 break;
             case "btnDirections":
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/pathfindingMenu.fxml");
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/staffDirectoryMenu.fxml",  "/edu/wpi/teamB/views/menus/pathfindingMenu.fxml");
                 break;
-
-            case "btnDatabase"://fix file path
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/requestForms/serviceRequestDatabase.fxml");
+            case "btnDatabase": //fix file path
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/staffDirectoryMenu.fxml", "/edu/wpi/teamB/views/requestForms/serviceRequestDatabase.fxml");
                 break;
             case "btnBack":
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/loginPages/loginOptions.fxml");
+                SceneSwitcher.goBack(getClass());
+                break;
+            case "btnEmergency":
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/staffDirectoryMenu.fxml", "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");
                 break;
             case "btnExit":
                 Platform.exit();
-                break;
-            case "btnEmergency":
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");
                 break;
         }
 

@@ -144,18 +144,18 @@ public class EditEdgesListMenuController implements Initializable {
     }
 
     @FXML
-    private void handleButtonAction(ActionEvent e) throws IOException {
+    private void handleButtonAction(ActionEvent e) {
         JFXButton btn = (JFXButton) e.getSource();
 
         switch (btn.getId()) {
             case "btnBack":
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapEditor/editorIntermediateMenu.fxml");
+                SceneSwitcher.goBack(getClass());
                 break;
             case "btnAddEdge":
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapEditor/edges/addEdgeMenu.fxml");
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapEditor/edges/editEdgesListMenu.fxml", "/edu/wpi/teamB/views/mapEditor/edges/addEdgeMenu.fxml");
                 break;
             case "btnEmergency":
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapEditor/edges/editEdgesListMenu.fxml", "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");
                 break;
         }
     }

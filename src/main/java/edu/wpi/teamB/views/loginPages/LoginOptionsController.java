@@ -22,25 +22,24 @@ public class LoginOptionsController {
     private JFXButton btnEmergency;
 
     @FXML
-    private JFXButton btnEXit;
+    private JFXButton btnExit;
 
     @FXML
-    public void handleButtonAction(ActionEvent actionEvent) throws IOException {
+    public void handleButtonAction(ActionEvent actionEvent) {
         JFXButton btn = (JFXButton) actionEvent.getSource();
-        SceneSwitcher.pushScene("/edu/wpi/teamB/views/loginPages/loginOptions.fxml");
 
         switch (btn.getId()) {
             case "btnAdmin":
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/loginPages/adminLogin.fxml");
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/loginPages/loginOptions.fxml", "/edu/wpi/teamB/views/loginPages/adminLogin.fxml");
                 break;
             case "btnStaff":
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/loginPages/staffLogin.fxml");
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/loginPages/loginOptions.fxml", "/edu/wpi/teamB/views/loginPages/staffLogin.fxml");
                 break;
             case "btnGuest":
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/patientDirectoryMenu.fxml");
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/loginPages/loginOptions.fxml", "/edu/wpi/teamB/views/menus/patientDirectoryMenu.fxml");
                 break;
             case "btnEmergency":
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/loginPages/loginOptions.fxml", "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");
                 break;
             case "btnExit":
                 Platform.exit();

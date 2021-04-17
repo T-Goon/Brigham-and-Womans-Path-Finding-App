@@ -80,12 +80,12 @@ public class AddNodeMenuController implements Initializable {
     }
 
     @FXML
-    private void handleButtonAction(ActionEvent e) throws IOException {
+    private void handleButtonAction(ActionEvent e) {
         JFXButton btn = (JFXButton) e.getSource();
 
         switch (btn.getId()) {
             case "btnCancel":
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapEditor/nodes/editNodesListMenu.fxml");
+                SceneSwitcher.goBack(getClass());
                 break;
             case "btnAddNode":
                 String aNodeId = nodeID.getText().trim();
@@ -98,10 +98,10 @@ public class AddNodeMenuController implements Initializable {
                 int aYCoord = Integer.parseInt(yCoord.getText().trim());
                 Node aNode = new Node(aNodeId, aXCoord, aYCoord, aFloor, aBuilding, aNodeType, aLongName, aShortName);
                 DatabaseHandler.getDatabaseHandler("main.db").addNode(aNode);
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapEditor/nodes/editNodesListMenu.fxml");
+                SceneSwitcher.goBack(getClass());
                 break;
             case "btnEmergency":
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapEditor/nodes/addNodeMenu.fxml", "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");
                 break;
         }
     }

@@ -4,15 +4,24 @@ import com.jfoenix.controls.*;
 import edu.wpi.teamB.util.SceneSwitcher;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
-
-import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
 
 
-public class EmergencyFormController extends DefaultServiceRequestFormController {
+public class EmergencyFormController {
+
+    @FXML
+    private JFXTextField wing;
+
+    @FXML
+    private JFXTextField roomNum;
+
+    @FXML
+    private JFXCheckBox medicalEmergency;
+
+    @FXML
+    private JFXCheckBox securityEmergency;
+
+    @FXML
+    private JFXTextArea description;
 
     @FXML
     private JFXButton btnSubmit;
@@ -23,29 +32,17 @@ public class EmergencyFormController extends DefaultServiceRequestFormController
     @FXML
     private JFXButton btnHelp;
 
-    @FXML
-    private JFXTextField wing;
-
-    @FXML
-    private JFXTextField roomNum;
-
-    @FXML
-    private JFXTextArea description;
-
-    public void handleButtonAction(ActionEvent actionEvent) throws IOException {
+    public void handleButtonAction(ActionEvent actionEvent) {
         JFXButton btn = (JFXButton) actionEvent.getSource();
-//        SceneSwitcher.pushScene("/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");
-
         switch (btn.getId()) {
             case "btnSubmit":
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/requestForms/formSubmitted.fxml");
+                SceneSwitcher.switchToTemp(getClass(),"/edu/wpi/teamB/views/requestForms/formSubmitted.fxml");
                 break;
             case "btnCancel":
-                SceneSwitcher.switchScene(getClass(), SceneSwitcher.popScene());
+                SceneSwitcher.goBack(getClass());
                 break;
             case "btnHelp":
                 break;
         }
     }
-
 }
