@@ -10,7 +10,7 @@ import lombok.Getter;
 public class GraphicalEditorData {
     private final double x;
     private final double y;
-    private final int floor;
+    private final String floor;
     private final AnchorPane nodeHolder;
     private final PathfindingMenuController pfmc;
 

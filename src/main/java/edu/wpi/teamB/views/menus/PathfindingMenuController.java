@@ -26,6 +26,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import net.kurobako.gesturefx.GesturePane;
 
 import java.io.IOException;
 import java.net.URL;
@@ -69,7 +70,7 @@ public class PathfindingMenuController implements Initializable {
     private List<javafx.scene.Node> intermediateNodePlaced = new ArrayList<>();
     private boolean editMap = false;
     private VBox popup = null;
-    private int currentFloor = 1;
+    private String currentFloor = "1";
     private VBox addNodePopup;
     private final HashMap<String, List<Node>> floorNodes = new HashMap<>();
 
@@ -104,7 +105,7 @@ public class PathfindingMenuController implements Initializable {
 
         // Draw the nodes on the map
         try{
-            drawNodesOnFloor(Integer.toString(currentFloor));
+            drawNodesOnFloor(currentFloor);
         } catch (NullPointerException ignored){}
 
         // Set up map to be edited
@@ -159,17 +160,17 @@ public class PathfindingMenuController implements Initializable {
 
     // Code for graphical map editor *********************************************************************
 
+    /**
+     * Shows the add node popup when double clicking on the map.
+     */
     private void initMapForEditing(){
+
         map.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                boolean dragged = false;
 
-                // Don't show menu when mouse dragged
-                if(event.getEventType() == MouseEvent.MOUSE_DRAGGED || event.getEventType() == MouseEvent.DRAG_DETECTED)
-                    dragged = true;
-
-                if(dragged) return;
+                // Show popup on double clicks
+                if(event.getClickCount() < 2) return;
 
                 // Coordinates on the map
                 double x = event.getX();
@@ -178,9 +179,8 @@ public class PathfindingMenuController implements Initializable {
                 // if in editing mode
                 if(editMap){
 
-                    if(addNodePopup != null){
+                    if(addNodePopup != null)
                         nodeHolder.getChildren().remove(addNodePopup);
-                    }
 
                     App.getPrimaryStage().setUserData(new GraphicalEditorData(x*PathfindingMenuController.coordinateScale,
                             y*PathfindingMenuController.coordinateScale,
@@ -191,9 +191,7 @@ public class PathfindingMenuController implements Initializable {
                     try{
                         addNodePopup = FXMLLoader.load(Objects.requireNonNull(
                                 getClass().getClassLoader().getResource("edu/wpi/teamB/views/mapEditor/addNodePopup.fxml")));
-                    } catch (IOException e){
-                        e.printStackTrace();
-                    }
+                    } catch (IOException e){ e.printStackTrace(); }
 
                     assert addNodePopup != null;
 
@@ -208,6 +206,14 @@ public class PathfindingMenuController implements Initializable {
 
             }
         });
+    }
+
+    /**
+     * Shows the edit node popup filled in with the information from n.
+     * @param n Node that is to be edited.
+     */
+    private void showEditNodePopup(Node n){
+        // TODO
     }
 
     // Code for graphical input to pathfinding ***********************************************************
@@ -269,7 +275,6 @@ public class PathfindingMenuController implements Initializable {
 
         tempButton.setOnAction(event -> {
             //loop through combo box if string == name of node
-            //keep track of index and pass it in
 
             for (int i = 0; i < comboBox.getItems().size(); i++) {
 
@@ -291,7 +296,7 @@ public class PathfindingMenuController implements Initializable {
         popup = null;
     }
 
-    // Code for displaying the path on the map ***********************************************************
+    // Code for displaying content on the map ***********************************************************
 
     /**
      * Draws all the nodes on a given floor with the default graphic
@@ -309,28 +314,37 @@ public class PathfindingMenuController implements Initializable {
         }
     }
 
+    /**
+     * Draws all the elements of the map base on direction or map edit mode.
+     */
     private void drawAllElements(){
         if(editMap){
             removeOldPaths();
             removeNodes();
-            drawEdgesOnFloor(Integer.toString(currentFloor));
-            drawAltNodesOnFloor(Integer.toString(currentFloor));
-            drawIntermediateNodesOnFloor(Integer.toString(currentFloor));
+            drawEdgesOnFloor(currentFloor);
+            drawAltNodesOnFloor(currentFloor);
+            drawIntermediateNodesOnFloor(currentFloor);
         } else{
             removeOldPaths();
             removeIntermediateNodes();
             removeNodes();
-            drawNodesOnFloor(Integer.toString(currentFloor));
+            drawNodesOnFloor(currentFloor);
         }
     }
 
+    /**
+     * Refresh the nodes on the map.
+     *
+     * FOR MAP EDITOR MODE ONLY!!!
+     *
+     */
     public void refreshEditor(){
         removeOldPaths();
         removeIntermediateNodes();
         removeNodes();
-        drawEdgesOnFloor(Integer.toString(currentFloor));
-        drawAltNodesOnFloor(Integer.toString(currentFloor));
-        drawIntermediateNodesOnFloor(Integer.toString(currentFloor));
+        drawEdgesOnFloor(currentFloor);
+        drawAltNodesOnFloor(currentFloor);
+        drawIntermediateNodesOnFloor(currentFloor);
     }
 
     /**
@@ -354,7 +368,7 @@ public class PathfindingMenuController implements Initializable {
 
     /**
      * Draws all the intermediate nodes on a floor
-     * @param floorID
+     * @param floorID the floor id for the nodes "L2", "L1", "1", "2", "3"
      */
     private void drawIntermediateNodesOnFloor(String floorID){
         Map<String, Node> nodes =  DatabaseHandler.getDatabaseHandler("main.db").getNodes();
@@ -453,6 +467,7 @@ public class PathfindingMenuController implements Initializable {
 
             i.setId(n.getNodeID()+"Icon");
 
+            // Show graphical input for pathfinding when clicked
             i.setOnMouseClicked((MouseEvent e) -> createGraphicalInputPopup(n));
 
             nodeHolder.getChildren().add(i);
@@ -472,7 +487,7 @@ public class PathfindingMenuController implements Initializable {
 
             c.setId(n.getNodeID()+"Icon");
 
-            c.setOnMouseClicked((MouseEvent e) -> createGraphicalInputPopup(n));
+            c.setOnMouseClicked((MouseEvent e) -> showEditNodePopup(n));
 
             nodeHolder.getChildren().add(c);
             nodePlaced.add(c);
