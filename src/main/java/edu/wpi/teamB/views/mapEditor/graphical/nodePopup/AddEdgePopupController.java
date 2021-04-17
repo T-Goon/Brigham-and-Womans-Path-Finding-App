@@ -12,6 +12,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -45,12 +46,26 @@ public class AddEdgePopupController implements Initializable {
 
         switch (btn.getId()){
             case "btnStart":
+                // Set current start back to black
+                String start = data.getData().getPfmc().getNewEdgeStart();
+                Circle startC = data.getData().getPfmc().getStartNode();
+                if(start != null && startC != null){
+                    startC.setStroke(Color.BLACK);
+                }
+
                 data.getData().getPfmc().setNewEdgeStart(data.getData().getNodeID());
                 data.getData().getPfmc().setStartNode(data.getData().getCircle());
 
                 data.getData().getCircle().setStroke(Color.RED);
                 break;
             case "btnEnd":
+                // Set current start back to black
+                String end = data.getData().getPfmc().getNewEdgeEnd();
+                Circle endC = data.getData().getPfmc().getEndNode();
+                if(end != null && endC != null){
+                    endC.setStroke(Color.BLACK);
+                }
+
                 data.getData().getPfmc().setNewEdgeEnd(data.getData().getNodeID());
                 data.getData().getPfmc().setEndNode(data.getData().getCircle());
 
@@ -59,6 +74,9 @@ public class AddEdgePopupController implements Initializable {
             case "btnDone":
                 String startNodeName = data.getData().getPfmc().getNewEdgeStart();
                 String endNodeName = data.getData().getPfmc().getNewEdgeEnd();
+
+                if(startNodeName == null || endNodeName == null) return;
+
                 String edgeIdentifier = startNodeName + "_" + endNodeName;
 
                 Edge edge = new Edge(edgeIdentifier, startNodeName, endNodeName);
@@ -76,6 +94,9 @@ public class AddEdgePopupController implements Initializable {
                 // Reset Node Colors
                 data.getData().getPfmc().getStartNode().setStroke(Color.BLACK);
                 data.getData().getPfmc().getEndNode().setStroke(Color.BLACK);
+
+                data.getData().getPfmc().setStartNode(null);
+                data.getData().getPfmc().setEndNode(null);
 
                 // Reset start and end nodes
                 data.getData().getPfmc().setNewEdgeStart(null);
