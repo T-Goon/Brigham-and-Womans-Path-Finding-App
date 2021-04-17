@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import com.jfoenix.controls.JFXTreeView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
@@ -52,7 +53,7 @@
         </HBox>
         <HBox alignment="TOP_RIGHT" prefHeight="9.999999999E9" prefWidth="9.99999999E8">
             <children>
-                <VBox minWidth="250.0" prefHeight="675.0" prefWidth="349.0" style="-fx-background-color: #0067B1;">
+                <VBox minWidth="300.0" prefHeight="675.0" prefWidth="300.0" style="-fx-background-color: #0067B1;">
                     <children>
                         <JFXButton fx:id="btnBack" alignment="TOP_LEFT" buttonType="RAISED" cancelButton="true" contentDisplay="TOP" onAction="#handleButtonAction" style="-fx-background-color: #012D5A; -fx-background-radius: 50%;" text="←" textAlignment="CENTER" textFill="WHITE">
                             <font>
@@ -69,8 +70,8 @@
                         <GridPane prefHeight="121.0" prefWidth="240.0">
                             <columnConstraints>
                                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="58.0" minWidth="10.0" prefWidth="58.0" />
-                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="170.0" minWidth="10.0" prefWidth="30.0" />
-                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="170.0" minWidth="10.0" prefWidth="154.0" />
+                                <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="258.0" minWidth="10.0" prefWidth="258.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="170.0" minWidth="0.0" prefWidth="0.0" />
                             </columnConstraints>
                             <rowConstraints>
                                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -85,45 +86,27 @@
                                         <Font size="18.0" />
                                     </font>
                                 </Text>
-                                <VBox alignment="CENTER" prefHeight="30.0" style="-fx-background-color: #F6BD39; -fx-background-radius: 5;" GridPane.columnIndex="1">
-                                    <children>
-                                        <ImageView fitHeight="24.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
-                                            <image>
-                                                <Image url="@../../images/maps/node.png" />
-                                            </image>
-                                        </ImageView>
-                                    </children>
-                                    <padding>
-                                        <Insets left="5.0" right="5.0" />
-                                    </padding>
-                                </VBox>
-                                <JFXComboBox fx:id="startLocComboBox" onAction="#validateFindPathButton" prefHeight="30.0" prefWidth="150.0" promptText="Start Location" style="-fx-background-color: #ffffff99; -fx-background-radius: 5;" GridPane.columnIndex="2" GridPane.halignment="RIGHT" />
                                 <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="To:" GridPane.rowIndex="2">
                                     <font>
                                         <Font size="18.0" />
                                     </font>
                                 </Text>
-                                <VBox alignment="CENTER" prefHeight="30.0" style="-fx-background-color: #F6BD39; -fx-background-radius: 5;" GridPane.columnIndex="1" GridPane.hgrow="NEVER" GridPane.rowIndex="2" GridPane.vgrow="NEVER">
-                                    <children>
-                                        <ImageView fitHeight="24.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
-                                            <image>
-                                                <Image url="@../../images/maps/node.png" />
-                                            </image>
-                                            <VBox.margin>
-                                                <Insets />
-                                            </VBox.margin>
-                                        </ImageView>
-                                    </children>
-                                    <padding>
-                                        <Insets left="5.0" right="5.0" />
-                                    </padding>
-                                </VBox>
-                                <JFXComboBox fx:id="endLocComboBox" onAction="#validateFindPathButton" prefHeight="30.0" prefWidth="150.0" promptText="End Location" style="-fx-background-color: #ffffff99; -fx-background-radius: 5;" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
-                                <JFXButton fx:id="btnFindPath" onAction="#handleButtonAction" prefHeight="30.0" prefWidth="84.0" style="-fx-background-color: #F6BD39; -fx-background-radius: 5;" text="Go" textFill="#012d5a" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER">
+                                <JFXButton fx:id="btnFindPath" onAction="#handleButtonAction" prefHeight="30.0" prefWidth="84.0" style="-fx-background-color: #F6BD39; -fx-background-radius: 5;" text="Go" textFill="#012d5a" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER">
                                     <font>
                                         <Font name="System Bold" size="12.0" />
                                     </font>
+                           <GridPane.margin>
+                              <Insets left="5.0" right="5.0" />
+                           </GridPane.margin>
                                 </JFXButton>
+                        <JFXTextField fx:id="txtStartLocation" editable="false" onAction="#validateFindPathButton" prefWidth="230.0" style="-fx-background-color: white; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" GridPane.columnIndex="1">
+                           <GridPane.margin>
+                              <Insets left="5.0" right="5.0" />
+                           </GridPane.margin></JFXTextField>
+                        <JFXTextField fx:id="txtEndLocation" editable="false" layoutX="96.0" layoutY="8.0" onAction="#validateFindPathButton" style="-fx-background-color: white; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                           <GridPane.margin>
+                              <Insets left="5.0" right="5.0" />
+                           </GridPane.margin></JFXTextField>
                             </children>
                             <VBox.margin>
                                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -141,11 +124,20 @@
                                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                             </VBox.margin>
                         </HBox>
+                  <HBox alignment="CENTER" layoutX="15.0" layoutY="197.0" VBox.vgrow="ALWAYS">
+                     <children>
+                        <JFXTreeView fx:id="treeLocations" onMouseClicked="#handleLocationSelected" style="-fx-background-radius: 7;" stylesheets="@../../css/treeView.css" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </HBox.margin>
+                        </JFXTreeView>
+                     </children>
+                  </HBox>
                         <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                             <children>
                                 <VBox alignment="BOTTOM_LEFT" HBox.hgrow="ALWAYS">
                                     <children>
-                                        <JFXButton contentDisplay="GRAPHIC_ONLY" style="-fx-background-color: #F6BD39; -fx-background-radius: 5;">
+                                        <JFXButton fx:id="btnEditMap" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" onAction="#handleButtonAction" prefHeight="34.0" prefWidth="34.0" style="-fx-background-color: #F6BD39; -fx-background-radius: 5;" text="Edit Map Toggle">
                                             <graphic>
                                                 <ImageView fitHeight="24.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                                     <image>
