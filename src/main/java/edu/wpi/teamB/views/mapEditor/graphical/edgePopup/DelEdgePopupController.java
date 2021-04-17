@@ -63,7 +63,7 @@ public class DelEdgePopupController implements Initializable {
                 // Load window
                 try{
                     areYouSureWindow = FXMLLoader.load(Objects.requireNonNull(
-                            getClass().getClassLoader().getResource("edu/wpi/teamB/views/mapEditor/delEdgeAreYouSure.fxml")));
+                            getClass().getClassLoader().getResource("edu/wpi/teamB/views/mapEditor/graphical/edgePopup/delEdgeAreYouSure.fxml")));
                 } catch (IOException e){
                     e.printStackTrace();
                 }

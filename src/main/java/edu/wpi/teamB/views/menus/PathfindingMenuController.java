@@ -220,7 +220,7 @@ public class PathfindingMenuController implements Initializable {
 
                     try{
                         addNodePopup = FXMLLoader.load(Objects.requireNonNull(
-                                getClass().getClassLoader().getResource("edu/wpi/teamB/views/mapEditor/addNodePopup.fxml")));
+                                getClass().getClassLoader().getResource("edu/wpi/teamB/views/mapEditor/graphical/addNodePopup.fxml")));
                     } catch (IOException e){ e.printStackTrace(); }
 
                     assert addNodePopup != null;
@@ -266,7 +266,7 @@ public class PathfindingMenuController implements Initializable {
         // Load popup
         try{
             editNodePopup = FXMLLoader.load(Objects.requireNonNull(
-                    getClass().getClassLoader().getResource("edu/wpi/teamB/views/mapEditor/nodePopupWindow.fxml")));
+                    getClass().getClassLoader().getResource("edu/wpi/teamB/views/mapEditor/graphical/nodePopup/nodePopupWindow.fxml")));
         } catch (IOException e){
             e.printStackTrace();
         }
@@ -291,7 +291,7 @@ public class PathfindingMenuController implements Initializable {
 
         try{
             delEdgePopup = FXMLLoader.load(Objects.requireNonNull(
-                    getClass().getClassLoader().getResource("edu/wpi/teamB/views/mapEditor/delEdgePopup.fxml")));
+                    getClass().getClassLoader().getResource("edu/wpi/teamB/views/mapEditor/graphical/edgePopup/delEdgePopup.fxml")));
         } catch (IOException e){
             e.printStackTrace();
         }
