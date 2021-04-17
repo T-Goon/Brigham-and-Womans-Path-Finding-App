@@ -63,11 +63,27 @@ public class PathfindingMenuController implements Initializable {
     private final HashMap<String, List<Node>> floorNodes = new HashMap<>();
     private Map<String, Node> locations = new HashMap<>();
     private Map<String, String> mapLongToID = new HashMap<>();
+    private Map<String, String> categoryNameMap = new HashMap<>();
 
     private TreeItem<String> selectedLocation;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+        categoryNameMap.put("SERV", "Services");
+        categoryNameMap.put("REST", "Restrooms");
+        categoryNameMap.put("LABS", "Lab Rooms");
+        categoryNameMap.put("ELEV", "Elevators");
+        categoryNameMap.put("DEPT", "Departments");
+        categoryNameMap.put("CONF", "Conference Rooms");
+        categoryNameMap.put("INFO", "Information Locations");
+        categoryNameMap.put("RETL", "Retail Locations");
+        categoryNameMap.put("BATH", "Bathroom");
+        categoryNameMap.put("EXIT", "Entrances");
+        categoryNameMap.put("STAI", "Stairs");
+        categoryNameMap.put("PARK", "Parking Spots");
+
+
         HashMap<String, List<TreeItem<String>>> catNameMap = new HashMap<>();
         locations = Graph.getGraph().getNodes();
         mapLongToID = makeLongToIDMap();
@@ -104,13 +120,12 @@ public class PathfindingMenuController implements Initializable {
 
         //Populating TreeView
         TreeItem<String> rootNode = new TreeItem<>("Locations");
-        rootNode.addEventHandler(MouseEvent.MOUSE_CLICKED, System.out::println);
         rootNode.setExpanded(true);
         treeLocations.setRoot(rootNode);
 
         //Adding Categories
         for(String category : catNameMap.keySet()){
-            TreeItem<String> categoryTreeItem = new TreeItem<>(category);
+            TreeItem<String> categoryTreeItem = new TreeItem<>(categoryNameMap.get(category));
             categoryTreeItem.getChildren().addAll(catNameMap.get(category));
             rootNode.getChildren().add(categoryTreeItem);
         }
