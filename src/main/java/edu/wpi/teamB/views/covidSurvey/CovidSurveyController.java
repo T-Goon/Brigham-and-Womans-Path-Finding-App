@@ -1,6 +1,7 @@
 package edu.wpi.teamB.views.covidSurvey;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXRadioButton;
 import edu.wpi.teamB.util.SceneSwitcher;
 import javafx.event.ActionEvent;
@@ -24,6 +25,36 @@ public class CovidSurveyController implements Initializable {
     private JFXButton btnBack;
 
     @FXML
+    private JFXCheckBox chkFever;
+
+    @FXML
+    private JFXCheckBox chkChills;
+
+    @FXML
+    private JFXCheckBox chkCough;
+
+    @FXML
+    private JFXCheckBox chkShortBreath;
+
+    @FXML
+    private JFXCheckBox chkSoreTht;
+
+    @FXML
+    private JFXCheckBox chkHeadache;
+
+    @FXML
+    private JFXCheckBox chkAches;
+
+    @FXML
+    private JFXCheckBox chkNose;
+
+    @FXML
+    private JFXCheckBox chkLostTaste;
+
+    @FXML
+    private JFXCheckBox chkNausea;
+
+    @FXML
     private JFXRadioButton btnCCYes;
 
     @FXML
@@ -41,12 +72,14 @@ public class CovidSurveyController implements Initializable {
     @FXML
     private ToggleGroup testGroup;
 
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         btnCCYes.setToggleGroup(ccGroup);
         btnCCNo.setToggleGroup(ccGroup);
         btnTestYes.setToggleGroup(testGroup);
         btnTestNo.setToggleGroup(testGroup);
+
     }
 
     @FXML
@@ -58,7 +91,8 @@ public class CovidSurveyController implements Initializable {
                 SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/patientDirectoryMenu.fxml");
                 break;
             case "btnSubmit":
-                if(btnCCNo.isSelected() && btnTestNo.isSelected()){
+                if(btnCCNo.isSelected() && btnTestNo.isSelected() && !chkCough.isSelected() && !chkChills.isSelected() &&!chkAches.isSelected() && !chkFever.isSelected()
+                        && !chkHeadache.isSelected() && !chkLostTaste.isSelected() &&!chkNausea.isSelected() && !chkNose.isSelected() &&!chkShortBreath.isSelected() && !chkSoreTht.isSelected()){
                     SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/covidSurvey/covidFormSubmittedNoSymp.fxml");
                 }
                 else {

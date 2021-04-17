@@ -2,7 +2,6 @@ package edu.wpi.teamB.views.requestForms;
 
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.teamB.util.SceneSwitcher;
-import edu.wpi.teamB.views.covidSurvey.CovidPopupWithSympController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
