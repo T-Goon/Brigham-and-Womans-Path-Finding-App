@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXButton;
 import edu.wpi.teamB.App;
 import edu.wpi.teamB.util.GraphicalEditorNodeData;
 import edu.wpi.teamB.util.GraphicalNodeDelData;
+import edu.wpi.teamB.util.GraphicalNodeEditData;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -45,6 +46,8 @@ public class NodePopupWindowController implements Initializable {
 
     private VBox areYouSureMenu;
 
+    private VBox nodeEditMenu;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         data = (GraphicalEditorNodeData) App.getPrimaryStage().getUserData();
@@ -59,6 +62,18 @@ public class NodePopupWindowController implements Initializable {
 
         switch (btn.getId()){
             case "btnEditNode":
+                root.getChildren().remove(mainMenu);
+
+                App.getPrimaryStage().setUserData(new GraphicalNodeEditData(data, this));
+
+                try{
+                    nodeEditMenu = FXMLLoader.load(Objects.requireNonNull(
+                            getClass().getClassLoader().getResource("edu/wpi/teamB/views/mapEditor/editNodePopup.fxml")));
+                } catch (IOException e){
+                    e.printStackTrace();
+                }
+
+                root.getChildren().add(nodeEditMenu);
                 break;
             case "btnAddEdge":
                 break;
@@ -98,6 +113,13 @@ public class NodePopupWindowController implements Initializable {
     void areYouSureToMain(){
         root.getChildren().remove(areYouSureMenu);
         areYouSureMenu = null;
+
+        root.getChildren().add(mainMenu);
+    }
+
+    void editToMain(){
+        root.getChildren().remove(nodeEditMenu);
+        nodeEditMenu = null;
 
         root.getChildren().add(mainMenu);
     }
