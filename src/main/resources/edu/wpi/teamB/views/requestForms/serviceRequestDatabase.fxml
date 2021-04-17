@@ -43,10 +43,17 @@
             </HBox>
             <HBox alignment="TOP_CENTER" prefHeight="1180.0">
                <children>
-                  <JFXButton alignment="CENTER" cancelButton="true" contentDisplay="CENTER" style="-fx-background-color: #0067B1; -fx-background-radius: 50%;" text="←" textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP">
+                  <JFXButton fx:id="btnBack" alignment="CENTER" buttonType="RAISED" cancelButton="true" contentDisplay="CENTER"
+                             onAction="#handleButtonAction" style="-fx-background-color: #0067B1; -fx-background-radius: 50%;"
+                             text="" textAlignment="CENTER" textFill="WHITE" prefWidth="56" prefHeight="56" maxWidth="56" maxHeight="56">
                      <font>
-                        <Font size="27.0" />
+                        <Font size="27.0"/>
                      </font>
+                     <graphic>
+                        <ImageView fitHeight="20" fitWidth="20" pickOnBounds="true" preserveRatio="true">
+                           <Image url="@../../images/menus/backButton.png"/>
+                        </ImageView>
+                     </graphic>
                   </JFXButton>
                   <ScrollPane hbarPolicy="NEVER" prefHeight="736.0" prefWidth="1200.0" style="-fx-background-color: #0067B1;" stylesheets="@../../css/serviceRequestDatabase.css" vbarPolicy="ALWAYS">
                      <HBox.margin>
