@@ -146,6 +146,12 @@ public class PathfindingMenuController implements Initializable {
                         addNodePopup = null;
                     }
 
+                    // Remove the edit node popup if it is on the map
+                    if(editNodePopup != null){
+                        nodeHolder.getChildren().remove(editNodePopup);
+                        editNodePopup = null;
+                    }
+
                     editMap = false;
                 }
 
@@ -185,7 +191,8 @@ public class PathfindingMenuController implements Initializable {
                     App.getPrimaryStage().setUserData(new GraphicalEditorNodeData(null,
                             x*PathfindingMenuController.coordinateScale,
                             y*PathfindingMenuController.coordinateScale,
-                            currentFloor, null,
+                            currentFloor,
+                            null,
                             null,
                             null,
                             null,
@@ -224,6 +231,19 @@ public class PathfindingMenuController implements Initializable {
             nodeHolder.getChildren().remove(editNodePopup);
             editNodePopup = null;
         }
+
+        // Data to pass to popup
+        App.getPrimaryStage().setUserData(new GraphicalEditorNodeData(null,
+                n.getXCoord(),
+                n.getYCoord(),
+                currentFloor,
+                n.getBuilding(),
+                n.getNodeType(),
+                n.getLongName(),
+                n.getShortName(),
+                null,
+                nodeHolder,
+                PathfindingMenuController.this));
 
         // Load popup
         try{

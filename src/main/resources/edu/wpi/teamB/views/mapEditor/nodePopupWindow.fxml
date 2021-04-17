@@ -13,7 +13,7 @@
    <children>
       <VBox alignment="TOP_CENTER" style="-fx-background-color: #f1f1f1; -fx-background-radius: 30;" VBox.vgrow="ALWAYS">
          <children>
-            <Text fill="#0067b1" strokeType="OUTSIDE" strokeWidth="0.0" text="&lt;Placeholder&gt;" textAlignment="CENTER" wrappingWidth="319.31207275390625">
+            <Text fx:id="nodeName" fill="#0067b1" strokeType="OUTSIDE" strokeWidth="0.0" text="&lt;Placeholder&gt;" textAlignment="CENTER" wrappingWidth="319.31207275390625">
                <font>
                   <Font name="MS Reference Sans Serif" size="20.0" />
                </font>
@@ -26,22 +26,22 @@
                   <Insets top="10.0" />
                </VBox.margin>
                <children>
-                  <JFXButton maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="999999.0" prefWidth="99999.0" style="-fx-background-color: #F6BD39; -fx-background-radius: 10;" text="Edit Node">
+                  <JFXButton fx:id="btnEditNode" maxHeight="-Infinity" maxWidth="-Infinity" onAction="#handleButtonAction" prefHeight="999999.0" prefWidth="99999.0" style="-fx-background-color: #F6BD39; -fx-background-radius: 10;" text="Edit Node">
                      <font>
                         <Font name="MS Reference Sans Serif" size="24.0" />
                      </font>
                   </JFXButton>
-                  <JFXButton maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="999999.0" prefWidth="999999.0" style="-fx-background-color: #F6BD39; -fx-background-radius: 10;" text="Add Edge">
+                  <JFXButton fx:id="btnAddEdge" maxHeight="-Infinity" maxWidth="-Infinity" onAction="#handleButtonAction" prefHeight="999999.0" prefWidth="999999.0" style="-fx-background-color: #F6BD39; -fx-background-radius: 10;" text="Add Edge">
                      <font>
                         <Font name="MS Reference Sans Serif" size="24.0" />
                      </font>
                   </JFXButton>
-                  <JFXButton maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="999999.0" prefWidth="999999.0" style="-fx-background-color: #CE2029; -fx-background-radius: 10;" text="Delete Node" textFill="WHITE">
+                  <JFXButton fx:id="btnDelete" maxHeight="-Infinity" maxWidth="-Infinity" onAction="#handleButtonAction" prefHeight="999999.0" prefWidth="999999.0" style="-fx-background-color: #CE2029; -fx-background-radius: 10;" text="Delete Node" textFill="WHITE">
                      <font>
                         <Font name="MS Reference Sans Serif" size="24.0" />
                      </font>
                   </JFXButton>
-                  <JFXButton maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="999999.0" prefWidth="999999.0" style="-fx-background-color: #0067B1; -fx-background-radius: 10;" text="Cancel" textFill="WHITE">
+                  <JFXButton fx:id="btnCancel" maxHeight="-Infinity" maxWidth="-Infinity" onAction="#handleButtonAction" prefHeight="999999.0" prefWidth="999999.0" style="-fx-background-color: #0067B1; -fx-background-radius: 10;" text="Cancel" textFill="WHITE">
                      <font>
                         <Font name="MS Reference Sans Serif" size="24.0" />
                      </font>
