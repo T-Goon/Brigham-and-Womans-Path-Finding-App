@@ -9,6 +9,7 @@ import edu.wpi.teamB.entities.Edge;
 import edu.wpi.teamB.entities.Node;
 import edu.wpi.teamB.pathfinding.AStar;
 import edu.wpi.teamB.pathfinding.Graph;
+import edu.wpi.teamB.util.GraphicalEditorEdgeData;
 import edu.wpi.teamB.util.GraphicalEditorNodeData;
 import edu.wpi.teamB.util.SceneSwitcher;
 import javafx.event.ActionEvent;
@@ -74,6 +75,7 @@ public class PathfindingMenuController implements Initializable {
     private String currentFloor = "1";
     private VBox addNodePopup;
     private VBox editNodePopup;
+    private VBox delEdgePopup;
     private final HashMap<String, List<Node>> floorNodes = new HashMap<>();
 
     @Setter
@@ -277,6 +279,36 @@ public class PathfindingMenuController implements Initializable {
         nodeHolder.getChildren().add(editNodePopup);
     }
 
+    private void showDelEdgePopup(Node start, Node end){
+        // Make sure there is only one editNodePopup at one time
+        if(delEdgePopup != null){
+            nodeHolder.getChildren().remove(delEdgePopup);
+            delEdgePopup = null;
+        }
+
+        // Pass window data
+        App.getPrimaryStage().setUserData(new GraphicalEditorEdgeData(start, end, nodeHolder, this));
+
+        try{
+            delEdgePopup = FXMLLoader.load(Objects.requireNonNull(
+                    getClass().getClassLoader().getResource("edu/wpi/teamB/views/mapEditor/delEdgePopup.fxml")));
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+
+        // Set popup location on map
+        double startX = (start.getXCoord() / PathfindingMenuController.coordinateScale);
+        double endX = (end.getXCoord() / PathfindingMenuController.coordinateScale);
+
+        double startY = (start.getYCoord() / PathfindingMenuController.coordinateScale);
+        double endY = (end.getYCoord() / PathfindingMenuController.coordinateScale);
+
+        delEdgePopup.setLayoutX((startX + endX) / 2);
+        delEdgePopup.setLayoutY((startY + endY) /2);
+
+        nodeHolder.getChildren().add(delEdgePopup);
+    }
+
     // Code for graphical input to pathfinding ***********************************************************
 
     /**
@@ -458,8 +490,8 @@ public class PathfindingMenuController implements Initializable {
 
             if(start.getFloor().equals(floor) && end.getFloor().equals(floor)){
                 placeEdge(
-                        start.getXCoord(), start.getYCoord(),
-                        end.getXCoord(), end.getYCoord());
+                        start,
+                        end);
             }
         }
     }
@@ -479,7 +511,7 @@ public class PathfindingMenuController implements Initializable {
             for (String loc : AstarPath) {
                 if ((prev != null) && (loc != null)) {
                     Node curr = nodesId.get(loc);
-                    placeEdge(prev.getXCoord(), prev.getYCoord(), curr.getXCoord(), curr.getYCoord());
+                    placeEdge(prev, curr);
                 }
                 prev = nodesId.get(loc);
             }
@@ -561,20 +593,20 @@ public class PathfindingMenuController implements Initializable {
     /**
      * Draws an edge between 2 points on the map.
      *
-     * @param xStart x start coordinate in pixels
-     * @param yStart y start coordinate in pixels
-     * @param xEnd   x end coordinate in pixels
-     * @param yEnd   y end coordinate in pixels
+     * @param start start node
+     * @param end end node
      */
-    public void placeEdge(int xStart, int yStart, int xEnd, int yEnd) {
+    public void placeEdge(Node start, Node end) {
         try {
             Line l = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/misc/edge.fxml")));
 
-            l.setStartX(xStart / PathfindingMenuController.coordinateScale);
-            l.setStartY(yStart / PathfindingMenuController.coordinateScale);
+            l.setStartX(start.getXCoord() / PathfindingMenuController.coordinateScale);
+            l.setStartY(start.getYCoord() / PathfindingMenuController.coordinateScale);
 
-            l.setEndX(xEnd / PathfindingMenuController.coordinateScale);
-            l.setEndY(yEnd / PathfindingMenuController.coordinateScale);
+            l.setEndX(end.getXCoord() / PathfindingMenuController.coordinateScale);
+            l.setEndY(end.getYCoord() / PathfindingMenuController.coordinateScale);
+
+            l.setOnMouseClicked(e -> showDelEdgePopup(start, end));
 
             mapHolder.getChildren().add(l);
             edgePlaced.add(l);
