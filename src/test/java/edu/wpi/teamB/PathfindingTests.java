@@ -73,4 +73,30 @@ public class PathfindingTests {
         assertEquals(expectedPath, path);
     }
 
+    @Test
+    public void testClosestPath() {
+        LinkedList<String> expectedPath = new LinkedList<>();
+        expectedPath.add("bPARK00101");
+        expectedPath.add("bWALK00101");
+        expectedPath.add("bWALK00201");
+        expectedPath.add("bWALK00301");
+        expectedPath.add("bWALK00401");
+        expectedPath.add("bWALK00501");
+        expectedPath.add("bWALK00601");
+        expectedPath.add("bWALK00701");
+        expectedPath.add("bWALK00801");
+        expectedPath.add("bWALK01001");
+        expectedPath.add("bWALK01101");
+        expectedPath.add("bWALK01201");
+        expectedPath.add("bWALK01301");
+        expectedPath.add("bWALK01401");
+        expectedPath.add("bWALK01501");
+        expectedPath.add("bWALK01601");
+        expectedPath.add("bPARK02501");
+
+        List<String> path = AStar.findPath("bPARK00101", "bPARK02501");
+        assertEquals(expectedPath, path);
+    }
+
+
 }

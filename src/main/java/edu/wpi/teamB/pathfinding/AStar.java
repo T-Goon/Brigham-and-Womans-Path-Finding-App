@@ -80,4 +80,41 @@ public class AStar {
 
         return ret;
     }
+
+    /**
+     *
+     * @param currLoc users current location
+     * @param nodes we take in nodes of the same category that the user
+     *              wants to go to
+     * @return the closest path from currLoc to which ever node is closest
+     * to it
+     */
+    public List<String> closestPath(Node currLoc, List<Node> nodes) {
+
+        Graph graph = Graph.getGraph();
+        int min = Integer.MAX_VALUE;
+        List<String> retPath = new ArrayList();
+
+        for(Node end: nodes){
+            List<String> path = findPath(currLoc.getNodeID(), end.getNodeID());
+            //calculate cost for each path and store the smallest one
+
+            int accumDist = 0;
+            Node prevNode = null;
+            for(String currID: path){
+                Node currNode = graph.getNodes().get(currID);
+
+                if(prevNode != null){
+                    accumDist += Graph.dist(prevNode, currNode);
+                    if(min<accumDist){
+                        min = accumDist;
+                        retPath = path;
+                    }
+                }
+                prevNode = currNode;
+            }
+        }
+        return retPath;
+    }
+
 }
