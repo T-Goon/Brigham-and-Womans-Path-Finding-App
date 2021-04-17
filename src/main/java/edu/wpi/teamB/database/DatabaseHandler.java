@@ -554,6 +554,11 @@ public class DatabaseHandler {
 
     // REQUESTS ARE BELOW
 
+    /**
+     * Adds a request to RequestsTable and the table specific to the given request
+     *
+     * @param request the request to add
+     */
     public void addRequest(Request request) {
         Statement statement = this.getStatement();
 
@@ -670,6 +675,25 @@ public class DatabaseHandler {
         try {
             assert statement != null;
             statement.execute(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Removes a request from RequestsTable and the table specific to the given request
+     *
+     * @param request the request to remove
+     */
+    public void removeRequest(Request request) {
+        Statement statement = this.getStatement();
+        String queryGeneralTable = "DELETE FROM RequestsTable WHERE requestID = '" + request.getRequestID() + "'";
+        String querySpecificTable = "DELETE FROM '" + request.getRequestType().replaceAll("\\s", "") + "RequestsTable" + "'WHERE requestID = '" + request.getRequestID() + "'";
+
+        try {
+            assert statement != null;
+            statement.execute(queryGeneralTable);
+            statement.execute(querySpecificTable);
         } catch (SQLException e) {
             e.printStackTrace();
         }
