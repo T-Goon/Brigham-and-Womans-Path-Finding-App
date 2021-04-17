@@ -89,7 +89,7 @@ public class AStar {
      * @return the closest path from currLoc to which ever node is closest
      * to it
      */
-    public List<String> closestPath(Node currLoc, List<Node> nodes) {
+    public static List<String> closestPath(Node currLoc, List<Node> nodes) {
 
         Graph graph = Graph.getGraph();
         int min = Integer.MAX_VALUE;
@@ -102,16 +102,16 @@ public class AStar {
             int accumDist = 0;
             Node prevNode = null;
             for(String currID: path){
-                Node currNode = graph.getNodes().get(currID);
 
+                Node currNode = graph.getNodes().get(currID);
                 if(prevNode != null){
                     accumDist += Graph.dist(prevNode, currNode);
-                    if(min<accumDist){
-                        min = accumDist;
-                        retPath = path;
-                    }
                 }
                 prevNode = currNode;
+            }
+            if(accumDist<min){
+                min = accumDist;
+                retPath = path;
             }
         }
         return retPath;
