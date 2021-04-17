@@ -225,8 +225,8 @@ public class PathfindingMenuController implements Initializable {
 
                     assert addNodePopup != null;
 
-                    addNodePopup.setLayoutX(x);
-                    addNodePopup.setLayoutY(y);
+                    // Keep popup on the map
+                    placePopupOnMap(addNodePopup, x, y);
 
                     nodeHolder.getChildren().add(addNodePopup);
                 }
@@ -268,8 +268,10 @@ public class PathfindingMenuController implements Initializable {
         }
 
         // Set location on map
-        editNodePopup.setLayoutX(n.getXCoord() / PathfindingMenuController.coordinateScale);
-        editNodePopup.setLayoutY(n.getYCoord() / PathfindingMenuController.coordinateScale);
+        double x = n.getXCoord() / PathfindingMenuController.coordinateScale;
+        double y = n.getYCoord() / PathfindingMenuController.coordinateScale;
+
+        placePopupOnMap(editNodePopup, x, y);
 
         // Add to map
         nodeHolder.getChildren().add(editNodePopup);
@@ -296,8 +298,7 @@ public class PathfindingMenuController implements Initializable {
         double startY = (start.getYCoord() / PathfindingMenuController.coordinateScale);
         double endY = (end.getYCoord() / PathfindingMenuController.coordinateScale);
 
-        delEdgePopup.setLayoutX((startX + endX) / 2);
-        delEdgePopup.setLayoutY((startY + endY) /2);
+        placePopupOnMap(delEdgePopup, (startX + endX) / 2, (startY + endY) /2);
 
         nodeHolder.getChildren().add(delEdgePopup);
     }
@@ -307,6 +308,21 @@ public class PathfindingMenuController implements Initializable {
             nodeHolder.getChildren().remove(editNodePopup); editNodePopup = null;
             nodeHolder.getChildren().remove(delEdgePopup); delEdgePopup = null;
             nodeHolder.getChildren().remove(addNodePopup); addNodePopup = null;
+        }
+    }
+
+    private void placePopupOnMap(VBox node, double x, double y){
+
+        if(nodeHolder.getWidth() < node.getPrefWidth() + x){
+            node.setLayoutX(nodeHolder.getWidth() - node.getPrefWidth());
+        } else{
+            node.setLayoutX(x);
+        }
+
+        if(nodeHolder.getHeight() < node.getPrefHeight() + y){
+            node.setLayoutY(nodeHolder.getHeight() - node.getPrefHeight());
+        } else{
+            node.setLayoutY(y);
         }
     }
 
