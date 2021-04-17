@@ -137,7 +137,7 @@
                             <children>
                                 <VBox alignment="BOTTOM_LEFT" HBox.hgrow="ALWAYS">
                                     <children>
-                                        <JFXButton contentDisplay="GRAPHIC_ONLY" style="-fx-background-color: #F6BD39; -fx-background-radius: 5;">
+                                        <JFXButton fx:id="btnEditMap" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" onAction="#handleButtonAction" prefHeight="34.0" prefWidth="34.0" style="-fx-background-color: #F6BD39; -fx-background-radius: 5;" text="Edit Map Toggle">
                                             <graphic>
                                                 <ImageView fitHeight="24.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                                     <image>
