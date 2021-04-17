@@ -26,6 +26,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.IOException;
 import java.net.URL;
@@ -73,6 +75,19 @@ public class PathfindingMenuController implements Initializable {
     private VBox addNodePopup;
     private VBox editNodePopup;
     private final HashMap<String, List<Node>> floorNodes = new HashMap<>();
+
+    @Setter
+    @Getter
+    String newEdgeStart;
+    @Setter
+    @Getter
+    Circle startNode;
+    @Setter
+    @Getter
+    String newEdgeEnd;
+    @Setter
+    @Getter
+    Circle endNode;
 
     // JavaFx code **************************************************************************************
 
@@ -198,7 +213,8 @@ public class PathfindingMenuController implements Initializable {
                             null,
                             null,
                             nodeHolder,
-                            PathfindingMenuController.this));
+                            PathfindingMenuController.this,
+                            null));
 
                     try{
                         addNodePopup = FXMLLoader.load(Objects.requireNonNull(
@@ -222,7 +238,7 @@ public class PathfindingMenuController implements Initializable {
      * Shows the edit node popup filled in with the information from n.
      * @param n Node that is to be edited.
      */
-    private void showEditNodePopup(Node n){
+    private void showEditNodePopup(Node n, MouseEvent event){
 
         // Make sure there is only one editNodePopup at one time
         if(editNodePopup != null){
@@ -242,7 +258,8 @@ public class PathfindingMenuController implements Initializable {
                 n.getShortName(),
                 null,
                 nodeHolder,
-                PathfindingMenuController.this));
+                PathfindingMenuController.this,
+                (Circle)event.getSource()));
 
         // Load popup
         try{
@@ -531,7 +548,7 @@ public class PathfindingMenuController implements Initializable {
 
             c.setId(n.getNodeID()+"Icon");
 
-            c.setOnMouseClicked((MouseEvent e) -> showEditNodePopup(n));
+            c.setOnMouseClicked((MouseEvent e) -> showEditNodePopup(n, e));
 
             nodeHolder.getChildren().add(c);
             nodePlaced.add(c);
@@ -579,7 +596,7 @@ public class PathfindingMenuController implements Initializable {
             c.setCenterX((n.getXCoord() / PathfindingMenuController.coordinateScale));
             c.setCenterY((n.getYCoord() / PathfindingMenuController.coordinateScale));
 
-            c.setOnMouseClicked(event -> showEditNodePopup(n));
+            c.setOnMouseClicked(event -> showEditNodePopup(n, event));
 
             intermediateNodeHolder.getChildren().add(c);
             intermediateNodePlaced.add(c);

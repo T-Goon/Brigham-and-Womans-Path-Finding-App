@@ -7,13 +7,11 @@ import edu.wpi.teamB.App;
 import edu.wpi.teamB.database.DatabaseHandler;
 import edu.wpi.teamB.entities.Node;
 import edu.wpi.teamB.pathfinding.Graph;
-import edu.wpi.teamB.util.GraphicalNodeEditData;
-import edu.wpi.teamB.util.SceneSwitcher;
+import edu.wpi.teamB.util.GraphicalNodePopupData;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ToggleGroup;
-import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -59,11 +57,11 @@ public class EditNodePopupController implements Initializable {
     @FXML
     private JFXTextField shortName;
 
-    private GraphicalNodeEditData data;
+    private GraphicalNodePopupData data;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        data = (GraphicalNodeEditData) App.getPrimaryStage().getUserData();
+        data = (GraphicalNodePopupData) App.getPrimaryStage().getUserData();
 
         // Fill in current node data
         nodeID.setText(data.getData().getNodeID());

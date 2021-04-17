@@ -3,8 +3,7 @@ package edu.wpi.teamB.views.mapEditor;
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.teamB.App;
 import edu.wpi.teamB.util.GraphicalEditorNodeData;
-import edu.wpi.teamB.util.GraphicalNodeDelData;
-import edu.wpi.teamB.util.GraphicalNodeEditData;
+import edu.wpi.teamB.util.GraphicalNodePopupData;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -48,6 +47,8 @@ public class NodePopupWindowController implements Initializable {
 
     private VBox nodeEditMenu;
 
+    private VBox addEdgeMenu;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         data = (GraphicalEditorNodeData) App.getPrimaryStage().getUserData();
@@ -65,7 +66,7 @@ public class NodePopupWindowController implements Initializable {
                 root.getChildren().remove(mainMenu);
 
                 // Pass data to new window
-                App.getPrimaryStage().setUserData(new GraphicalNodeEditData(data, this));
+                App.getPrimaryStage().setUserData(new GraphicalNodePopupData(data, this));
 
                 // Load window
                 try{
@@ -78,12 +79,26 @@ public class NodePopupWindowController implements Initializable {
                 root.getChildren().add(nodeEditMenu);
                 break;
             case "btnAddEdge":
+                root.getChildren().remove(mainMenu);
+
+                // Pass data to window
+                App.getPrimaryStage().setUserData(new GraphicalNodePopupData(data, this));
+
+                // Load window
+                try{
+                    addEdgeMenu = FXMLLoader.load(Objects.requireNonNull(
+                            getClass().getClassLoader().getResource("edu/wpi/teamB/views/mapEditor/addEdgePopup.fxml")));
+                } catch (IOException e){
+                    e.printStackTrace();
+                }
+
+                root.getChildren().add(addEdgeMenu);
                 break;
             case "btnDelete":
                 root.getChildren().remove(mainMenu);
 
                 // Pass data to new window
-                App.getPrimaryStage().setUserData(new GraphicalNodeDelData(
+                App.getPrimaryStage().setUserData(new GraphicalNodePopupData(
                         data,
                         this));
 
@@ -120,6 +135,16 @@ public class NodePopupWindowController implements Initializable {
     void editToMain(){
         root.getChildren().remove(nodeEditMenu);
         nodeEditMenu = null;
+
+        root.getChildren().add(mainMenu);
+    }
+
+    /**
+     * Swaps windows from the add edge window to the main menu.
+     */
+    void addEdgeToMain(){
+        root.getChildren().remove(addEdgeMenu);
+        addEdgeMenu = null;
 
         root.getChildren().add(mainMenu);
     }

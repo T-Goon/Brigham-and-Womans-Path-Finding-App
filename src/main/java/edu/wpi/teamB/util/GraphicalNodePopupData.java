@@ -8,7 +8,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class GraphicalNodeDelData{
+public class GraphicalNodePopupData {
     private final GraphicalEditorNodeData data;
     private final NodePopupWindowController parent;
 

@@ -2,9 +2,12 @@ package edu.wpi.teamB.util;
 
 import edu.wpi.teamB.views.menus.PathfindingMenuController;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.shape.Circle;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
+@AllArgsConstructor
 public class GraphicalEditorNodeData {
     private final String nodeID;
     private final double x;
@@ -17,18 +20,5 @@ public class GraphicalEditorNodeData {
     private final Boolean restricted;
     private final AnchorPane nodeHolder;
     private final PathfindingMenuController pfmc;
-
-    public GraphicalEditorNodeData(String nodeID, double x, double y, String floor, String building, String nodeType, String longName, String shortName, Boolean restricted, AnchorPane nodeHolder, PathfindingMenuController pfmc) {
-        this.nodeID = nodeID;
-        this.x = x;
-        this.y = y;
-        this.floor = floor;
-        this.building = building;
-        this.nodeType = nodeType;
-        this.longName = longName;
-        this.shortName = shortName;
-        this.restricted = restricted;
-        this.nodeHolder = nodeHolder;
-        this.pfmc = pfmc;
-    }
+    private final Circle circle;
 }
