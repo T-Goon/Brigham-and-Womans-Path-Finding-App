@@ -35,11 +35,11 @@ public class delNodeAreYouSureController implements Initializable {
 
         switch (btn.getId()){
             case "btnYes":
-                DatabaseHandler.getDatabaseHandler("main.db").removeNode(data.getNodeID());
+                DatabaseHandler.getDatabaseHandler("main.db").removeNode(data.getData().getNodeID());
                 Graph.getGraph().updateGraph();
-                data.getPfmc().refreshEditor();
+                data.getData().getPfmc().refreshEditor();
 
-                data.getNodeHolder().getChildren().remove(data.getParent().getRoot());
+                data.getData().getNodeHolder().getChildren().remove(data.getParent().getRoot());
                 break;
             case "btnNo":
                 data.getParent().areYouSureToMain();

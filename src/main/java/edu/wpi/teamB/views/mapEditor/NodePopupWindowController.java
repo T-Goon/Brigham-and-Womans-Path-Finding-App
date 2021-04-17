@@ -64,8 +64,10 @@ public class NodePopupWindowController implements Initializable {
             case "btnEditNode":
                 root.getChildren().remove(mainMenu);
 
+                // Pass data to new window
                 App.getPrimaryStage().setUserData(new GraphicalNodeEditData(data, this));
 
+                // Load window
                 try{
                     nodeEditMenu = FXMLLoader.load(Objects.requireNonNull(
                             getClass().getClassLoader().getResource("edu/wpi/teamB/views/mapEditor/editNodePopup.fxml")));
@@ -80,20 +82,12 @@ public class NodePopupWindowController implements Initializable {
             case "btnDelete":
                 root.getChildren().remove(mainMenu);
 
+                // Pass data to new window
                 App.getPrimaryStage().setUserData(new GraphicalNodeDelData(
-                        data.getNodeID(),
-                        data.getX(),
-                        data.getY(),
-                        data.getFloor(),
-                        data.getBuilding(),
-                        data.getNodeType(),
-                        data.getLongName(),
-                        data.getShortName(),
-                        null,
-                        data.getNodeHolder(),
-                        data.getPfmc(),
+                        data,
                         this));
 
+                // Load new window
                 try{
                     areYouSureMenu = FXMLLoader.load(Objects.requireNonNull(
                             getClass().getClassLoader().getResource("edu/wpi/teamB/views/mapEditor/delNodeAreYouSure.fxml")));
@@ -110,6 +104,9 @@ public class NodePopupWindowController implements Initializable {
         }
     }
 
+    /**
+     * Swaps windows from the areYouSure window to the main menu.
+     */
     void areYouSureToMain(){
         root.getChildren().remove(areYouSureMenu);
         areYouSureMenu = null;
@@ -117,6 +114,9 @@ public class NodePopupWindowController implements Initializable {
         root.getChildren().add(mainMenu);
     }
 
+    /**
+     * Swaps windows from the edit node window to the main menu.
+     */
     void editToMain(){
         root.getChildren().remove(nodeEditMenu);
         nodeEditMenu = null;

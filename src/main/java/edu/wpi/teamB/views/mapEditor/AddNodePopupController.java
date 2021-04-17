@@ -67,13 +67,19 @@ public class AddNodePopupController implements Initializable{
     public void initialize(URL location, ResourceBundle resources) {
         data = (GraphicalEditorNodeData) App.getPrimaryStage().getUserData();
 
+        // Fill in current coordinates
         xCoord.setText(Long.toString(Math.round(data.getX())));
         yCoord.setText(Long.toString(Math.round(data.getY())));
 
+        // Fill in current floor
         floor.setText(data.getFloor());
         floor.setDisable(true);
     }
 
+    /**
+     * Check if input is valid
+     * @throws NumberFormatException when floor, xCoord, or yCoord is not a number.
+     */
     @FXML
     private void validateButton() throws NumberFormatException {
         btnAddNode.setDisable(nodeID.getText().trim().isEmpty() || building.getText().trim().isEmpty() || nodeType.getText().trim().isEmpty()
@@ -108,8 +114,10 @@ public class AddNodePopupController implements Initializable{
                 Node aNode = new Node(aNodeId, aXCoord, aYCoord, aFloor, aBuilding, aNodeType, aLongName, aShortName);
                 DatabaseHandler.getDatabaseHandler("main.db").addNode(aNode);
 
+                // Refresh map editor
                 data.getPfmc().refreshEditor();
 
+                // Remove popup from map
                 data.getNodeHolder().getChildren().remove(root);
                 break;
         }

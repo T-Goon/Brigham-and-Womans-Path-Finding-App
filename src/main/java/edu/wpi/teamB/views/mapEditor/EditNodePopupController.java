@@ -65,6 +65,7 @@ public class EditNodePopupController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         data = (GraphicalNodeEditData) App.getPrimaryStage().getUserData();
 
+        // Fill in current node data
         nodeID.setText(data.getData().getNodeID());
         nodeID.setDisable(true);
         xCoord.setText(String.valueOf(Math.round(data.getData().getX())));
@@ -77,6 +78,10 @@ public class EditNodePopupController implements Initializable {
         shortName.setText(data.getData().getShortName());
     }
 
+    /**
+     * Make sure input is valid
+     * @throws NumberFormatException when floor, xCoord, or yCoord is not a number
+     */
     @FXML
     private void validateButton() throws NumberFormatException {
         btnUpdate.setDisable(nodeID.getText().trim().isEmpty() || building.getText().trim().isEmpty() || nodeType.getText().trim().isEmpty()

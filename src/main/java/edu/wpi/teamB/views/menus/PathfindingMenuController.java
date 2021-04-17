@@ -212,8 +212,6 @@ public class PathfindingMenuController implements Initializable {
 
                     nodeHolder.getChildren().add(addNodePopup);
                 }
-                // clicks on any nodes now show an editing popup
-                // clicks on the map show popup for creating new node
                 // popup also has items to add edges
 
             }
