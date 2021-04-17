@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXTextField?>
 <?import com.jfoenix.controls.JFXTreeView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
@@ -98,7 +98,6 @@
                                         <Insets left="5.0" right="5.0" />
                                     </padding>
                                 </VBox>
-                                <JFXComboBox fx:id="startLocComboBox" onAction="#validateFindPathButton" prefHeight="30.0" prefWidth="150.0" promptText="Start Location" style="-fx-background-color: #ffffff99; -fx-background-radius: 5;" GridPane.columnIndex="2" GridPane.halignment="RIGHT" />
                                 <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="To:" GridPane.rowIndex="2">
                                     <font>
                                         <Font size="18.0" />
@@ -119,12 +118,13 @@
                                         <Insets left="5.0" right="5.0" />
                                     </padding>
                                 </VBox>
-                                <JFXComboBox fx:id="endLocComboBox" onAction="#validateFindPathButton" prefHeight="30.0" prefWidth="150.0" promptText="End Location" style="-fx-background-color: #ffffff99; -fx-background-radius: 5;" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
                                 <JFXButton fx:id="btnFindPath" onAction="#handleButtonAction" prefHeight="30.0" prefWidth="84.0" style="-fx-background-color: #F6BD39; -fx-background-radius: 5;" text="Go" textFill="#012d5a" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER">
                                     <font>
                                         <Font name="System Bold" size="12.0" />
                                     </font>
                                 </JFXButton>
+                        <JFXTextField fx:id="txtStartLocation" onAction="#validateFindPathButton" GridPane.columnIndex="2" />
+                        <JFXTextField fx:id="txtEndLocation" layoutX="96.0" layoutY="8.0" onAction="#validateFindPathButton" GridPane.columnIndex="2" GridPane.rowIndex="2" />
                             </children>
                             <VBox.margin>
                                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -144,7 +144,7 @@
                         </HBox>
                   <HBox alignment="CENTER" layoutX="15.0" layoutY="197.0">
                      <children>
-                        <JFXTreeView fx:id="treeLocations" style="-fx-background-radius: 7;">
+                        <JFXTreeView fx:id="treeLocations" onMouseClicked="#handleLocationSelected" style="-fx-background-radius: 7;">
                            <HBox.margin>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </HBox.margin>
