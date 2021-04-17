@@ -202,8 +202,8 @@ public class PathfindingMenuController implements Initializable {
                 // if in editing mode
                 if(editMap){
 
-                    if(addNodePopup != null)
-                        nodeHolder.getChildren().remove(addNodePopup);
+                    // Only one window open at a time;
+                    removeAllPopups();
 
                     App.getPrimaryStage().setUserData(new GraphicalEditorNodeData(null,
                             x*PathfindingMenuController.coordinateScale,
@@ -230,7 +230,6 @@ public class PathfindingMenuController implements Initializable {
 
                     nodeHolder.getChildren().add(addNodePopup);
                 }
-                // popup also has items to add edges
 
             }
         });
@@ -243,10 +242,7 @@ public class PathfindingMenuController implements Initializable {
     private void showEditNodePopup(Node n, MouseEvent event){
 
         // Make sure there is only one editNodePopup at one time
-        if(editNodePopup != null){
-            nodeHolder.getChildren().remove(editNodePopup);
-            editNodePopup = null;
-        }
+        removeAllPopups();
 
         // Data to pass to popup
         App.getPrimaryStage().setUserData(new GraphicalEditorNodeData(
@@ -281,10 +277,7 @@ public class PathfindingMenuController implements Initializable {
 
     private void showDelEdgePopup(Node start, Node end){
         // Make sure there is only one editNodePopup at one time
-        if(delEdgePopup != null){
-            nodeHolder.getChildren().remove(delEdgePopup);
-            delEdgePopup = null;
-        }
+        removeAllPopups();
 
         // Pass window data
         App.getPrimaryStage().setUserData(new GraphicalEditorEdgeData(start, end, nodeHolder, this));
@@ -307,6 +300,14 @@ public class PathfindingMenuController implements Initializable {
         delEdgePopup.setLayoutY((startY + endY) /2);
 
         nodeHolder.getChildren().add(delEdgePopup);
+    }
+
+    private void removeAllPopups(){
+        if(addNodePopup != null || editNodePopup != null || delEdgePopup != null){
+            nodeHolder.getChildren().remove(editNodePopup); editNodePopup = null;
+            nodeHolder.getChildren().remove(delEdgePopup); delEdgePopup = null;
+            nodeHolder.getChildren().remove(addNodePopup); addNodePopup = null;
+        }
     }
 
     // Code for graphical input to pathfinding ***********************************************************
