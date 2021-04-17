@@ -69,15 +69,13 @@ public class PathfindingMenuController implements Initializable {
         HashMap<String, List<TreeItem<String>>> catNameMap = new HashMap<>();
 
         Map<String, Node> locations = Graph.getGraph().getNodes();
-        List<String> locationNames = new ArrayList<>();
 
         validateFindPathButton();
 
         //Adds all the destination names to locationNames and sort the nodes by floor
         for (Node n : locations.values()) {
             if (!(n.getNodeType().equals("WALK") || n.getNodeType().equals("HALL"))) {
-                locationNames.add(n.getLongName());
-
+                //Populate Category map for TreeView
                 if(!catNameMap.containsKey(n.getNodeType())){
                     ArrayList<TreeItem<String>> tempList = new ArrayList<>();
                     tempList.add(new TreeItem<>(n.getLongName()));
@@ -88,6 +86,7 @@ public class PathfindingMenuController implements Initializable {
 
             }
 
+            //Populate the floorNodes Map to know which nodes belong to each floor
             if (floorNodes.containsKey(n.getFloor())) {
                 floorNodes.get(n.getFloor()).add(n);
             } else {
@@ -98,23 +97,18 @@ public class PathfindingMenuController implements Initializable {
 
         }
 
+
+        //Populating TreeView
         TreeItem<String> rootNode = new TreeItem<>("Locations");
         rootNode.setExpanded(true);
         treeLocations.setRoot(rootNode);
 
+        //Adding Categories
         for(String category : catNameMap.keySet()){
-            rootNode.getChildren().add(new TreeItem<>(category));
+            TreeItem<String> categoryTreeItem = new TreeItem<>(category);
+            categoryTreeItem.getChildren().addAll(catNameMap.get(category));
+            rootNode.getChildren().add(categoryTreeItem);
         }
-
-        for(TreeItem<String> cat : rootNode.getChildren()){
-            cat.getChildren().addAll(catNameMap.get(cat.getValue()));
-        }
-
-
-        //Populate the Combo Boxes with valid locations (Sorted)
-        Collections.sort(locationNames);
-        startLocComboBox.getItems().addAll(locationNames);
-        endLocComboBox.getItems().addAll(locationNames);
 
         try{
             drawNodesOnFloor("1");
