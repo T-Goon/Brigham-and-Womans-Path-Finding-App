@@ -15,7 +15,6 @@ public class AStar {
      */
     public static List<String> findPath(String startID, String endID) {
 
-
         Graph graph = Graph.getGraph();
         Node startNode = graph.getNodes().get(startID);
         Node endNode = graph.getNodes().get(endID);

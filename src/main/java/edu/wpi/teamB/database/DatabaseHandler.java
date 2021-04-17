@@ -65,8 +65,54 @@ public class DatabaseHandler {
      * with that data.
      */
     public void loadDatabase(List<Node> nodes, List<Edge> edges) {
+        resetDatabase();
+        executeSchema();
         loadDatabaseNodes(nodes);
         loadDatabaseEdges(edges);
+    }
+
+    public void resetDatabase() {
+        Statement statement = this.getStatement();
+        String resetEdges = "DROP TABLE IF EXISTS Edges";
+        String resetNodes = "DROP TABLE IF EXISTS Nodes";
+        try {
+            assert statement != null;
+            statement.execute(resetEdges);
+            statement.execute(resetNodes);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void executeSchema() {
+        Statement statement = this.getStatement();
+        String configuration = "PRAGMA foreign_keys = ON";
+
+        String nodesTable = "CREATE TABLE IF NOT EXISTS Nodes("
+                + "nodeID CHAR(20) PRIMARY KEY, "
+                + "xcoord INT, "
+                + "ycoord INT, "
+                + "floor CHAR(20), "
+                + "building CHAR(20), "
+                + "nodeType CHAR(20), "
+                + "longName CHAR(50), "
+                + "shortName CHAR(20))";
+
+        String edgesTable = "CREATE TABLE IF NOT EXISTS Edges("
+                + "edgeID CHAR(30) PRIMARY KEY, "
+                + "startNode CHAR(20) NOT NULL, "
+                + "endNode CHAR(20) NOT NULL CHECK (startNode != endNode), "
+                + "FOREIGN KEY (startNode) REFERENCES Nodes(nodeID), "
+                + "FOREIGN KEY (endNode) REFERENCES Nodes(nodeID))";
+
+        try {
+            assert statement != null;
+            statement.execute(configuration);
+            statement.execute(nodesTable);
+            statement.execute(edgesTable);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -74,33 +120,13 @@ public class DatabaseHandler {
      * the database
      *
      * @param nodes the list of nodes
-     * @throws SQLException if the query is malformed
      */
     public void loadDatabaseNodes(List<Node> nodes) {
 
         Statement statement = this.getStatement();
-        // Drop tables if they exist already
         String query;
-        try {
-            query = "DROP TABLE Nodes";
-            assert statement != null;
-            statement.execute(query);
-        } catch (SQLException ignored) {
-        }
 
         try {
-            // Create the tables
-            query = "CREATE TABLE Nodes("
-                    + "nodeID CHAR(20) PRIMARY KEY, "
-                    + "xcoord INT, "
-                    + "ycoord INT, "
-                    + "floor CHAR(20), "
-                    + "building CHAR(20), "
-                    + "nodeType CHAR(20), "
-                    + "longName CHAR(50), "
-                    + "shortName CHAR(20))";
-            statement.execute(query);
-
             // If either list is empty, then nothing should be put in
             if (nodes == null) return;
             for (Node node : nodes) {
@@ -114,6 +140,7 @@ public class DatabaseHandler {
                         + node.getNodeType() + "', '"
                         + node.getLongName() + "', '"
                         + node.getShortName() + "')";
+                assert statement != null;
                 statement.execute(query);
             }
         } catch (SQLException e) {
@@ -126,28 +153,13 @@ public class DatabaseHandler {
      * the database
      *
      * @param edges the list of edges
-     * @throws SQLException if the query is malformed
      */
     public void loadDatabaseEdges(List<Edge> edges) {
 
         Statement statement = this.getStatement();
-        // Drop tables if they exist already
         String query;
-        try {
-            query = "DROP TABLE Edges";
-            statement.execute(query);
-        } catch (SQLException ignored) {
-        }
 
         try {
-            query = "CREATE TABLE Edges("
-                    + "edgeID CHAR(30) PRIMARY KEY, "
-                    + "startNode CHAR(20) NOT NULL, "
-                    + "endNode CHAR(20) NOT NULL CHECK (startNode != endNode), "
-                    + "FOREIGN KEY (startNode) REFERENCES Nodes(nodeID), "
-                    + "FOREIGN KEY (endNode) REFERENCES Nodes(nodeID))";
-            statement.execute(query);
-
             // If either list is empty, then nothing should be put in
             if (edges == null) return;
             for (Edge edge : edges) {
@@ -156,6 +168,7 @@ public class DatabaseHandler {
                         + edge.getEdgeID() + "', '"
                         + edge.getStartNodeID() + "', '"
                         + edge.getEndNodeID() + "')";
+                assert statement != null;
                 statement.execute(query);
             }
         } catch (SQLException e) {
@@ -194,6 +207,7 @@ public class DatabaseHandler {
 
     /**
      * Displays the list of nodes along with their attributes.
+     *
      * @return a map of node IDs to actual nodes
      */
     public Map<String, Node> getNodes() {
@@ -224,6 +238,7 @@ public class DatabaseHandler {
 
     /**
      * Displays the list of edges along with their attributes.
+     *
      * @return a map of edge IDs to actual edges
      */
     public Map<String, Edge> getEdges() {
@@ -416,16 +431,10 @@ public class DatabaseHandler {
     /**
      * @return whether the nodes table is initialized or not
      */
-    public boolean isNodesInitialized() {
-        return getNodes() != null;
+    public boolean isInitialized() {
+        return getNodes() != null && getEdges() != null;
     }
 
-    /**
-     * @return whether the edges table is initialized or not
-     */
-    public boolean isEdgesInitialized() {
-        return getEdges() != null;
-    }
 
     /**
      * Shutdown the database

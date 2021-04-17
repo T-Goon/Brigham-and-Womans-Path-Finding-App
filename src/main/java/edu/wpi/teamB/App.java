@@ -1,10 +1,6 @@
 package edu.wpi.teamB;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.sql.SQLException;
 import java.util.Objects;
 
 import edu.wpi.teamB.util.CSVHandler;
@@ -29,10 +25,9 @@ public class App extends Application {
         System.out.println("Starting Up");
         db = DatabaseHandler.getDatabaseHandler("main.db");
 
-
         // If the database is uninitialized, fill it with the csv files
-        if (!db.isNodesInitialized()) db.loadDatabaseNodes(CSVHandler.loadCSVNodes("/edu/wpi/teamB/csvFiles/bwBnodes.csv"));
-        if (!db.isEdgesInitialized()) db.loadDatabaseEdges(CSVHandler.loadCSVEdges("/edu/wpi/teamB/csvFiles/bwBedges.csv"));
+        if (!db.isInitialized())
+            db.loadDatabase(CSVHandler.loadCSVNodes("/edu/wpi/teamB/csvFiles/bwBnodes.csv"), CSVHandler.loadCSVEdges("/edu/wpi/teamB/csvFiles/bwBedges.csv"));
     }
 
     @Override
