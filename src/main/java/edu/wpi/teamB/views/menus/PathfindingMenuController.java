@@ -233,7 +233,8 @@ public class PathfindingMenuController implements Initializable {
         }
 
         // Data to pass to popup
-        App.getPrimaryStage().setUserData(new GraphicalEditorNodeData(null,
+        App.getPrimaryStage().setUserData(new GraphicalEditorNodeData(
+                n.getNodeID(),
                 n.getXCoord(),
                 n.getYCoord(),
                 currentFloor,
