@@ -103,4 +103,30 @@ public class AStar {
         return ret;
     }
 
+    public double eta(String start, String end){
+
+        Graph graph = Graph.getGraph();
+        Node startNode = graph.getNodes().get(start);
+        Node endNode = graph.getNodes().get(end);
+
+        Path path = findPath(start, end);
+
+
+        //3-4mph average human walking speed
+        //1 mph = 88 fpm
+
+        //bWALK00601,1738,1545,1,Parking,WALK,Francis Vining Intersection Top Left,FrancisViningIntTopLeft
+        //bWALK01201,3373,1554,1,Parking,WALK,Francis Top Sidewalk 3,FrancisSidewalk3
+        //According to google maps, path from one corner of Francis street to other is ~500 ft:
+        //using this to get pixles / minute
+        double pixDist = Math.sqrt((3373 - 1738)^2 +(1554-1545)^2);
+        double realDist = 500;
+        double feetPerMin = 88;
+
+        double timeConst = (pixDist / realDist) * feetPerMin;
+
+        return path.getTotalPathCost()*timeConst;
+
+    }
+
 }
