@@ -126,7 +126,7 @@ public class PathfindingMenuController implements Initializable {
     private void drawPath() {
         Map<String, Node> nodesId = Graph.getGraph().getNodes();
         Map<String, String> hmLongName = makeLongToIDMap();
-        List<String> AstarPath = AStar.findPath(hmLongName.get(getStartLocation()), hmLongName.get(getEndLocation()));
+        List<String> AstarPath = AStar.findPath(hmLongName.get(getStartLocation()), hmLongName.get(getEndLocation())).getPath();
 
         if (AstarPath.isEmpty()) {
             lblError.setVisible(true);

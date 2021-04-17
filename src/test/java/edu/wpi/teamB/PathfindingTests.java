@@ -3,6 +3,7 @@ package edu.wpi.teamB;
 import edu.wpi.teamB.database.DatabaseHandler;
 import edu.wpi.teamB.entities.Edge;
 import edu.wpi.teamB.entities.Node;
+import edu.wpi.teamB.entities.Path;
 import edu.wpi.teamB.pathfinding.AStar;
 import edu.wpi.teamB.pathfinding.Graph;
 import edu.wpi.teamB.util.CSVHandler;
@@ -69,8 +70,8 @@ public class PathfindingTests {
         expectedPath.add("bWALK01601");
         expectedPath.add("bPARK02501");
 
-        List<String> path = AStar.findPath("bPARK00101", "bPARK02501");
-        assertEquals(expectedPath, path);
+        Path path = AStar.findPath("bPARK00101", "bPARK02501");
+        assertEquals(expectedPath, path.getPath());
     }
 
     @Test
@@ -105,12 +106,15 @@ public class PathfindingTests {
         pathExp.add("bWALK01601");
         pathExp.add("bWALK02301");
 
+        //Change cost to the actual cost
+        Path expectedPath = new Path(pathExp, 100);
+
         /*
         * [bWALK00101, bWALK00201, bWALK00301, bWALK00401, bWALK00501, bWALK00601, bWALK00701, bWALK00801, bWALK01001, bWALK01101, bWALK01201, bWALK01301, bWALK01401, bWALK01501, bWALK01601, bPARK02301]
         * */
 
-        List<String> path = AStar.closestPath(bWALK00101, category);
-        assertEquals(pathExp, path);
+        Path path = AStar.closestPath("bWALK00101", category);
+        assertEquals(expectedPath, path);
 
 
     }

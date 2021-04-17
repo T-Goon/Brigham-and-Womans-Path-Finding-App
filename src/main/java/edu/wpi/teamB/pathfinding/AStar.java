@@ -1,6 +1,7 @@
 package edu.wpi.teamB.pathfinding;
 
 import edu.wpi.teamB.entities.Node;
+import edu.wpi.teamB.entities.Path;
 
 import java.util.*;
 
@@ -13,7 +14,7 @@ public class AStar {
      * @param endID   nodeID of the ending node
      * @return LinkedList of nodeIDs which dictates the order of nodes in the path
      */
-    public static List<String> findPath(String startID, String endID) {
+    public static Path findPath(String startID, String endID) {
 
         Graph graph = Graph.getGraph();
         Node startNode = graph.getNodes().get(startID);
@@ -65,7 +66,7 @@ public class AStar {
                     }
                 }
             } catch (NullPointerException e) {
-                return new LinkedList<>();
+                return new Path(new LinkedList<>(), 0);
             }
         }
 
@@ -78,43 +79,28 @@ public class AStar {
             currentID = cameFrom.get(currentID);
         }
 
-        return ret;
+        return new Path(ret, costSoFar.get(current.getNodeID()));
     }
 
     /**
      *
-     * @param currLoc users current location
-     * @param nodes we take in nodes of the same category that the user
+     * @param startID starting node
+     * @param destinations we take in nodes of the same category that the user
      *              wants to go to
      * @return the closest path from currLoc to which ever node is closest
      * to it
      */
-    public static List<String> closestPath(Node currLoc, List<Node> nodes) {
-
-        Graph graph = Graph.getGraph();
-        int min = Integer.MAX_VALUE;
-        List<String> retPath = new ArrayList();
-
-        for(Node end: nodes){
-            List<String> path = findPath(currLoc.getNodeID(), end.getNodeID());
-            //calculate cost for each path and store the smallest one
-
-            int accumDist = 0;
-            Node prevNode = null;
-            for(String currID: path){
-
-                Node currNode = graph.getNodes().get(currID);
-                if(prevNode != null){
-                    accumDist += Graph.dist(prevNode, currNode);
-                }
-                prevNode = currNode;
-            }
-            if(accumDist<min){
-                min = accumDist;
-                retPath = path;
+    public static Path closestPath(String startID, List<Node> destinations) {
+        double minCost = Double.MAX_VALUE;
+        Path ret = new Path();
+        for(Node end: destinations){
+            Path path = findPath(startID, end.getNodeID());
+            if(path.getTotalPathCost()<minCost){
+                minCost=path.getTotalPathCost();
+                ret = path;
             }
         }
-        return retPath;
+        return ret;
     }
 
 }
