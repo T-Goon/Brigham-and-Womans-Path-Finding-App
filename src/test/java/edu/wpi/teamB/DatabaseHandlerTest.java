@@ -112,7 +112,6 @@ public class DatabaseHandlerTest {
     void fillDatabase() {
         List<Edge> edges = new ArrayList<>();
 
-
         Edge targetEdge = new Edge("bPARK01201_bWALK00501", "bWALK00502", "bWALK00501");
         edges.add(targetEdge);
 
@@ -121,8 +120,6 @@ public class DatabaseHandlerTest {
         assert (outNodes.values().containsAll(testNodes));
         Map<String, Edge> outEdges = db.getEdges();
         assertEquals(outEdges.values().toArray()[0], targetEdge);
-
-
     }
 
     @Test
