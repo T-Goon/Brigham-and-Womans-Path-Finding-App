@@ -7,12 +7,12 @@ import edu.wpi.teamB.App;
 import edu.wpi.teamB.database.DatabaseHandler;
 import edu.wpi.teamB.entities.Edge;
 import edu.wpi.teamB.util.SceneSwitcher;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -21,6 +21,9 @@ public class EditEdgeMenuController implements Initializable {
 
     @FXML
     private JFXButton btnEmergency;
+
+    @FXML
+    private JFXButton btnExit;
 
     @FXML
     private JFXButton btnCancel;
@@ -71,12 +74,12 @@ public class EditEdgeMenuController implements Initializable {
         btnUpdateEdge.setDisable(edgeID.getText().isEmpty() || startNode.getSelectionModel().isEmpty() || endNode.getSelectionModel().isEmpty());
     }
 
-    public void handleButtonAction(ActionEvent e) throws IOException {
+    public void handleButtonAction(ActionEvent e) {
         JFXButton btn = (JFXButton) e.getSource();
 
         switch (btn.getId()) {
             case "btnCancel":
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapEditor/edges/editEdgesListMenu.fxml");
+                SceneSwitcher.goBack(getClass(), 1);
                 break;
             case "btnUpdateEdge":
                 String edgeIdentifier = edgeID.getText();
@@ -88,7 +91,13 @@ public class EditEdgeMenuController implements Initializable {
                 DatabaseHandler db = DatabaseHandler.getDatabaseHandler("main.db");
                 db.removeEdge(oldEdgeID);
                 db.addEdge(edge);
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapEditor/edges/editEdgesListMenu.fxml");
+                SceneSwitcher.goBack(getClass(), 1);
+                break;
+            case "btnEmergency":
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapEditor/edges/editEdgeMenu.fxml", "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");
+                break;
+            case "btnExit":
+                Platform.exit();
                 break;
         }
     }

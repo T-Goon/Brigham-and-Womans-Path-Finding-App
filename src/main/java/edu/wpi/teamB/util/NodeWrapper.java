@@ -54,11 +54,7 @@ public class NodeWrapper {
             public void handle(ActionEvent event) {
                 Stage stage = App.getPrimaryStage();
                 stage.setUserData(n);
-                try {
-                    SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapEditor/nodes/editNodeMenu.fxml");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapEditor/nodes/editNodesListMenu.fxml", "/edu/wpi/teamB/views/mapEditor/nodes/editNodeMenu.fxml");
             }
         });
 
@@ -68,9 +64,11 @@ public class NodeWrapper {
         JFXButton btnDel = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/misc/nodeEdgeDelBtn.fxml")));
         btnDel.setId(n.getNodeID() + "DelBtn");
 
-        btnDel.setOnAction(event -> {
+        btnDel.setOnAction(event ->
+
+        {
             DatabaseHandler.getDatabaseHandler("main.db").removeNode(n.getNodeID());
-            parentTable.getItems().removeIf( (Object o) -> ((NodeWrapper) o).id == id);
+            parentTable.getItems().removeIf((Object o) -> ((NodeWrapper) o).id == id);
         });
 
         this.btnDel = btnDel;
