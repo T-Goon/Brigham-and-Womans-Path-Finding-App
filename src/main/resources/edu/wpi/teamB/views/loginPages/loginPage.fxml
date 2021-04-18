@@ -48,7 +48,7 @@
                               <Font size="30.0" />
                            </font>
                         </JFXButton>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Admin Login">
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Login Page">
                            <font>
                               <Font size="40.0" />
                            </font>

@@ -2,9 +2,13 @@ package edu.wpi.teamB;
 
 import static org.testfx.api.FxAssert.verifyThat;
 
+import com.jfoenix.controls.JFXTextField;
 import javafx.geometry.VerticalDirection;
 import javafx.scene.Node;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
+import org.junit.After;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -30,6 +34,27 @@ public class AppTest extends FxRobot {
     public static void setup() throws Exception {
         FxToolkit.registerPrimaryStage();
         FxToolkit.setupApplication(App.class);
+    }
+
+
+    @Test
+    void testLoginPageTabAndEnter(){
+        clickOn("#btnStaff");
+        verifyThat("Login Page", Node::isVisible);
+        clickOn("#username");
+        write("Admin");
+        press(KeyCode.TAB);
+        write("password");
+        press(KeyCode.ENTER);
+        verifyThat("Admin Directory", Node::isVisible);
+        clickOn("#btnBack");
+    }
+
+    @Test
+    void testGuestLogin(){
+        clickOn("#btnGuest");
+        verifyThat("#btnCovid", Node::isVisible);
+        clickOn("#btnBack");
     }
 
     @Test
