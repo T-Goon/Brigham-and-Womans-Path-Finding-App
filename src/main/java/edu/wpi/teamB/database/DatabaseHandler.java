@@ -2,6 +2,7 @@ package edu.wpi.teamB.database;
 
 import edu.wpi.teamB.entities.Edge;
 import edu.wpi.teamB.entities.Node;
+import edu.wpi.teamB.entities.NodeType;
 import edu.wpi.teamB.pathfinding.Graph;
 
 import java.sql.*;
@@ -446,6 +447,37 @@ public class DatabaseHandler {
             System.out.println("Database is closed");
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+    }
+
+    /**
+     * Retrieves a list of nodes from the database based on the given nodeType
+     * @param rest NodeType
+     * @return List of nodes with the given node type
+     */
+    public List<Node> getNodesByCategory(NodeType rest) {
+        Statement statement = this.getStatement();
+        String query = "SELECT * FROM Nodes WHERE nodeType = '" + rest.toString() + "'";
+        assert statement != null;
+        try {
+            ResultSet rs = statement.executeQuery(query);
+            List<Node> nodes = new ArrayList<>();
+            while (rs.next()) {
+                Node outNode = new Node(
+                        rs.getString("NodeID").trim(),
+                        rs.getInt("xcoord"),
+                        rs.getInt("ycoord"),
+                        rs.getString("floor"),
+                        rs.getString("building").trim(),
+                        rs.getString("nodeType").trim(),
+                        rs.getString("longName").trim(),
+                        rs.getString("shortName").trim()
+                );
+                nodes.add(outNode);
+            }
+            return nodes;
+        } catch (SQLException ignored) {
+            return null;
         }
     }
 }
