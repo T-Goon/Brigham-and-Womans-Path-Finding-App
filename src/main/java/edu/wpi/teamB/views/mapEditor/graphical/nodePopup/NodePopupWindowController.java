@@ -57,11 +57,11 @@ public class NodePopupWindowController implements Initializable {
     }
 
     @FXML
-    private void handleButtonAction(ActionEvent event){
+    private void handleButtonAction(ActionEvent event) {
 
         JFXButton btn = (JFXButton) event.getSource();
 
-        switch (btn.getId()){
+        switch (btn.getId()) {
             case "btnEditNode":
                 root.getChildren().remove(mainMenu);
 
@@ -69,10 +69,10 @@ public class NodePopupWindowController implements Initializable {
                 App.getPrimaryStage().setUserData(new GraphicalNodePopupData(data, this));
 
                 // Load window
-                try{
+                try {
                     nodeEditMenu = FXMLLoader.load(Objects.requireNonNull(
                             getClass().getClassLoader().getResource("edu/wpi/teamB/views/mapEditor/graphical/nodePopup/editNodePopup.fxml")));
-                } catch (IOException e){
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
 
@@ -85,10 +85,10 @@ public class NodePopupWindowController implements Initializable {
                 App.getPrimaryStage().setUserData(new GraphicalNodePopupData(data, this));
 
                 // Load window
-                try{
+                try {
                     addEdgeMenu = FXMLLoader.load(Objects.requireNonNull(
                             getClass().getClassLoader().getResource("edu/wpi/teamB/views/mapEditor/graphical/nodePopup/addEdgePopup.fxml")));
-                } catch (IOException e){
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
 
@@ -103,10 +103,10 @@ public class NodePopupWindowController implements Initializable {
                         this));
 
                 // Load new window
-                try{
+                try {
                     areYouSureMenu = FXMLLoader.load(Objects.requireNonNull(
                             getClass().getClassLoader().getResource("edu/wpi/teamB/views/mapEditor/graphical/nodePopup/delNodeAreYouSure.fxml")));
-                } catch (IOException e){
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
 
@@ -122,7 +122,7 @@ public class NodePopupWindowController implements Initializable {
     /**
      * Swaps windows from the areYouSure window to the main menu.
      */
-    void areYouSureToMain(){
+    void areYouSureToMain() {
         root.getChildren().remove(areYouSureMenu);
         areYouSureMenu = null;
 
@@ -132,7 +132,7 @@ public class NodePopupWindowController implements Initializable {
     /**
      * Swaps windows from the edit node window to the main menu.
      */
-    void editToMain(){
+    void editToMain() {
         root.getChildren().remove(nodeEditMenu);
         nodeEditMenu = null;
 
@@ -142,7 +142,7 @@ public class NodePopupWindowController implements Initializable {
     /**
      * Swaps windows from the add edge window to the main menu.
      */
-    void addEdgeToMain(){
+    void addEdgeToMain() {
         root.getChildren().remove(addEdgeMenu);
         addEdgeMenu = null;
 

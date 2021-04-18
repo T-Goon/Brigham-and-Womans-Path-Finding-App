@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXRadioButton?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
@@ -144,7 +145,7 @@
                               <Insets bottom="5.0" top="5.0" />
                            </VBox.margin>
                         </HBox>
-                        <HBox prefWidth="200.0">
+                        <HBox>
                            <children>
                               <VBox HBox.hgrow="ALWAYS">
                                  <children>
@@ -196,11 +197,7 @@
                                           <Insets left="5.0" />
                                        </VBox.margin>
                                     </Text>
-                                    <JFXTextField fx:id="nodeType" onKeyReleased="#validateButton" prefColumnCount="20" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00">
-                                       <VBox.margin>
-                                          <Insets left="5.0" right="5.0" />
-                                       </VBox.margin>
-                                    </JFXTextField>
+                                    <JFXComboBox fx:id="nodeType" style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" />
                                  </children>
                                  <HBox.margin>
                                     <Insets />
@@ -297,15 +294,13 @@
                            <children>
                               <HBox alignment="CENTER_LEFT" fillHeight="false" HBox.hgrow="ALWAYS">
                                  <children>
-                                    <JFXButton fx:id="btnCancel" alignment="CENTER" buttonType="RAISED" cancelButton="true" contentDisplay="CENTER"
-                                               onAction="#handleButtonAction" style="-fx-background-color: #0067B1; -fx-background-radius: 50%;"
-                                               text="" textAlignment="CENTER" textFill="WHITE" prefWidth="56" prefHeight="56" maxWidth="56" maxHeight="56">
+                                    <JFXButton fx:id="btnCancel" alignment="CENTER" buttonType="RAISED" cancelButton="true" contentDisplay="CENTER" maxHeight="56" maxWidth="56" onAction="#handleButtonAction" prefHeight="56" prefWidth="56" style="-fx-background-color: #0067B1; -fx-background-radius: 50%;" text="" textAlignment="CENTER" textFill="WHITE">
                                        <font>
-                                          <Font size="27.0"/>
+                                          <Font size="27.0" />
                                        </font>
                                        <graphic>
                                           <ImageView fitHeight="20" fitWidth="20" pickOnBounds="true" preserveRatio="true">
-                                             <Image url="@../../../images/menus/backButton.png"/>
+                                             <Image url="@../../../images/menus/backButton.png" />
                                           </ImageView>
                                        </graphic>
                                     </JFXButton>

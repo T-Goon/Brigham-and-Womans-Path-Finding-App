@@ -28,13 +28,12 @@ public class delNodeAreYouSureController implements Initializable {
     }
 
     @FXML
-    private void handleButtonAction(ActionEvent e){
+    private void handleButtonAction(ActionEvent e) {
         JFXButton btn = (JFXButton) e.getSource();
 
-        switch (btn.getId()){
+        switch (btn.getId()) {
             case "btnYes":
                 DatabaseHandler.getDatabaseHandler("main.db").removeNode(data.getData().getNodeID());
-                Graph.getGraph().updateGraph();
                 data.getData().getPfmc().refreshEditor();
 
                 data.getData().getNodeHolder().getChildren().remove(data.getParent().getRoot());

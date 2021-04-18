@@ -1,6 +1,7 @@
 package edu.wpi.teamB.views.mapEditor.graphical.nodePopup;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXRadioButton;
 import com.jfoenix.controls.JFXTextField;
 import edu.wpi.teamB.App;
@@ -49,7 +50,7 @@ public class EditNodePopupController implements Initializable {
     private JFXTextField building;
 
     @FXML
-    private JFXTextField nodeType;
+    private JFXComboBox<String> nodeType;
 
     @FXML
     private JFXTextField longName;
@@ -87,7 +88,6 @@ public class EditNodePopupController implements Initializable {
                 || xCoord.getText().trim().isEmpty() || yCoord.getText().trim().isEmpty());
 
         try {
-            Integer.parseInt(floor.getText().trim());
             Integer.parseInt(xCoord.getText().trim());
             Integer.parseInt(yCoord.getText().trim());
         } catch (NumberFormatException notInt) {
@@ -121,7 +121,6 @@ public class EditNodePopupController implements Initializable {
 
                 // Update database and graph
                 DatabaseHandler.getDatabaseHandler("main.db").updateNode(node);
-                Graph.getGraph().updateGraph();
 
                 // Remove popup from map and refresh map nodes
                 data.getData().getPfmc().refreshEditor();

@@ -1,6 +1,7 @@
-package edu.wpi.teamB.views.mapEditor.graphical;
+package edu.wpi.teamB.views.mapEditor.graphical.nodePopup;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXRadioButton;
 import com.jfoenix.controls.JFXTextField;
 import edu.wpi.teamB.App;
@@ -50,7 +51,7 @@ public class AddNodePopupController implements Initializable{
     private JFXTextField building;
 
     @FXML
-    private JFXTextField nodeType;
+    private JFXComboBox<String> nodeType;
 
     @FXML
     private JFXTextField longName;
@@ -86,7 +87,6 @@ public class AddNodePopupController implements Initializable{
                 || longName.getText().trim().isEmpty() || shortName.getText().trim().isEmpty() || floor.getText().trim().isEmpty()
                 || xCoord.getText().trim().isEmpty() || yCoord.getText().trim().isEmpty());
         try {
-            Integer.parseInt(floor.getText().trim());
             Integer.parseInt(xCoord.getText().trim());
             Integer.parseInt(yCoord.getText().trim());
         } catch (NumberFormatException notInt) {

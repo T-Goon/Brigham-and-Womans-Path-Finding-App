@@ -1,11 +1,13 @@
 package edu.wpi.teamB.views.mapEditor.nodes;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXRadioButton;
 import com.jfoenix.controls.JFXTextField;
 import edu.wpi.teamB.database.DatabaseHandler;
 import edu.wpi.teamB.entities.Node;
 import edu.wpi.teamB.util.SceneSwitcher;
+import edu.wpi.teamB.views.menus.PathfindingMenuController;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,7 +15,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.ToggleGroup;
 
 import java.net.URL;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class AddNodeMenuController implements Initializable {
 
@@ -51,7 +53,7 @@ public class AddNodeMenuController implements Initializable {
     private JFXTextField building;
 
     @FXML
-    private JFXTextField nodeType;
+    private JFXComboBox<String> nodeType;
 
     @FXML
     private JFXTextField longName;
@@ -66,11 +68,31 @@ public class AddNodeMenuController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         notRestricted.setToggleGroup(areaGroup);
         restricted.setToggleGroup(areaGroup);
+
+        Map<String, String> categoryNameMap = new HashMap<>();
+
+        //Add better category names to a hash map
+        categoryNameMap.put("SERV", "Services");
+        categoryNameMap.put("REST", "Restrooms");
+        categoryNameMap.put("LABS", "Lab Rooms");
+        categoryNameMap.put("ELEV", "Elevators");
+        categoryNameMap.put("DEPT", "Departments");
+        categoryNameMap.put("CONF", "Conference Rooms");
+        categoryNameMap.put("INFO", "Information Locations");
+        categoryNameMap.put("RETL", "Retail Locations");
+        categoryNameMap.put("BATH", "Bathroom");
+        categoryNameMap.put("EXIT", "Entrances");
+        categoryNameMap.put("STAI", "Stairs");
+        categoryNameMap.put("PARK", "Parking Spots");
+
+        List<String> temp = new ArrayList<>(categoryNameMap.values());
+        Collections.sort(temp);
+        nodeType.getItems().addAll(temp);
     }
 
     @FXML
     private void validateButton() throws NumberFormatException {
-        btnAddNode.setDisable(nodeID.getText().trim().isEmpty() || building.getText().trim().isEmpty() || nodeType.getText().trim().isEmpty()
+        btnAddNode.setDisable(nodeID.getText().trim().isEmpty() || building.getText().trim().isEmpty() || nodeType.getSelectionModel().getSelectedItem().trim().isEmpty()
                 || longName.getText().trim().isEmpty() || shortName.getText().trim().isEmpty() || floor.getText().trim().isEmpty()
                 || xCoord.getText().trim().isEmpty() || yCoord.getText().trim().isEmpty());
         try {
@@ -93,7 +115,7 @@ public class AddNodeMenuController implements Initializable {
                 String aNodeId = nodeID.getText().trim();
                 String aFloor = floor.getText().trim();
                 String aBuilding = building.getText().trim();
-                String aNodeType = nodeType.getText().trim();
+                String aNodeType = nodeType.getSelectionModel().getSelectedItem().trim();
                 String aLongName = longName.getText().trim();
                 String aShortName = shortName.getText().trim();
                 int aXCoord = Integer.parseInt(xCoord.getText().trim());

@@ -41,15 +41,15 @@ public class AddEdgePopupController implements Initializable {
     }
 
     @FXML
-    private void handleButtonAction(ActionEvent event){
+    private void handleButtonAction(ActionEvent event) {
         JFXButton btn = (JFXButton) event.getSource();
 
-        switch (btn.getId()){
+        switch (btn.getId()) {
             case "btnStart":
                 // Set current start back to black
                 String start = data.getData().getPfmc().getNewEdgeStart();
                 Circle startC = data.getData().getPfmc().getStartNode();
-                if(start != null && startC != null){
+                if (start != null && startC != null) {
                     startC.setStroke(Color.BLACK);
                 }
 
@@ -62,7 +62,7 @@ public class AddEdgePopupController implements Initializable {
                 // Set current start back to black
                 String end = data.getData().getPfmc().getNewEdgeEnd();
                 Circle endC = data.getData().getPfmc().getEndNode();
-                if(end != null && endC != null){
+                if (end != null && endC != null) {
                     endC.setStroke(Color.BLACK);
                 }
 
@@ -75,7 +75,7 @@ public class AddEdgePopupController implements Initializable {
                 String startNodeName = data.getData().getPfmc().getNewEdgeStart();
                 String endNodeName = data.getData().getPfmc().getNewEdgeEnd();
 
-                if(startNodeName == null || endNodeName == null) return;
+                if (startNodeName == null || endNodeName == null) return;
 
                 String edgeIdentifier = startNodeName + "_" + endNodeName;
 
@@ -83,7 +83,6 @@ public class AddEdgePopupController implements Initializable {
 
                 // Update database and graph
                 DatabaseHandler.getDatabaseHandler("main.db").addEdge(edge);
-                Graph.getGraph().updateGraph();
 
                 // Remove popup from map and refresh map nodes
                 data.getData().getPfmc().refreshEditor();
