@@ -14,8 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class DatabaseHandlerTest {
     private static String resourcesPath;
@@ -230,7 +229,7 @@ public class DatabaseHandlerTest {
                 "N W M S");
 
         db.addNode(target);
-        assertTrue(!db.getNodes().isEmpty());
+        assertFalse(db.getNodes().isEmpty());
 
         db.removeNode(target.getNodeID());
         assertTrue(db.getNodes().isEmpty());
@@ -246,7 +245,7 @@ public class DatabaseHandlerTest {
         Edge target = new Edge("bPARK01201_bWALK00501", "test_start", "test_end");
 
         db.addEdge(target);
-        assertTrue(!db.getEdges().isEmpty());
+        assertFalse(db.getEdges().isEmpty());
 
         db.removeEdge(target.getEdgeID());
         assertTrue(db.getEdges().isEmpty());

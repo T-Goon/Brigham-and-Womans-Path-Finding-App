@@ -35,10 +35,9 @@ public class SecurityRequestFormController extends DefaultServiceRequestFormCont
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        for(int i=1; i<=10; i++){
+        for (int i = 1; i <= 10; i++) {
             comboUrgency.getItems().add(new Label(Integer.toString(i)));
         }
-
     }
 
     public void handleButtonAction(ActionEvent actionEvent) throws IOException {
