@@ -9,12 +9,12 @@ public class SanitationRequest extends Request {
 
     private String sanitationType;
     private String sanitationSize;
-    private boolean hazardous;
-    private boolean biologicalSubstance;
-    private boolean occupied;
+    private String hazardous;
+    private String biologicalSubstance;
+    private String occupied;
 
-    public SanitationRequest(String sanitationType, String sanitationSize, boolean hazardous, boolean biologicalSubstance, boolean occupied, String requestID, String employeeName, String location, String description) {
-        super(requestID, "Sanitation", employeeName, location, description);
+    public SanitationRequest(String sanitationType, String sanitationSize, String hazardous, String biologicalSubstance, String occupied, String requestID, String time, String date, String complete, String employeeName, String location, String description) {
+        super(requestID, "Sanitation", time, date, complete, employeeName, location, description);
         this.sanitationType = sanitationType;
         this.sanitationSize = sanitationSize;
         this.hazardous = hazardous;

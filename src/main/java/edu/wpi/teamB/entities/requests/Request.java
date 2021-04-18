@@ -13,6 +13,12 @@ public abstract class Request {
 
     private String requestType;
 
+    private String time;
+
+    private String date;
+
+    private String complete;
+
     private String employeeName;
 
     private String location;

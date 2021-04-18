@@ -3,12 +3,20 @@ package edu.wpi.teamB.views.requestForms;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
+import edu.wpi.teamB.database.DatabaseHandler;
+import edu.wpi.teamB.entities.requests.SecurityRequest;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 
+import java.io.IOException;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.ResourceBundle;
+import java.util.UUID;
 
 public class SecurityRequestFormController extends DefaultServiceRequestFormController implements Initializable {
 
@@ -30,6 +38,29 @@ public class SecurityRequestFormController extends DefaultServiceRequestFormCont
             comboUrgency.getItems().add(new Label(Integer.toString(i)));
         }
 
+    }
+
+    public void handleButtonAction(ActionEvent actionEvent) throws IOException {
+        super.handleButtonAction(actionEvent);
+
+        int givenUrgency = Integer.parseInt(comboUrgency.getValue().toString());
+
+        DateFormat timeFormat = new SimpleDateFormat("HH:mm");
+        DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd");
+        Date dateInfo = new Date();
+        String formattedTime = timeFormat.format(dateInfo);
+        String formattedDate = dateFormat.format(dateInfo);
+
+        String requestID = UUID.randomUUID().toString();
+        String time = formattedTime; // Stored as HH:MM (24 hour time)
+        String date = formattedDate; // Stored as YYYY-MM-DD
+        String complete = "F";
+        String employeeName = assignedTo.getText();
+        String location = loc.getText();
+        String givenDescription = description.getText();
+
+        SecurityRequest request = new SecurityRequest(givenUrgency, requestID, time, date, complete, employeeName, location, givenDescription);
+        DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
     }
 }
 

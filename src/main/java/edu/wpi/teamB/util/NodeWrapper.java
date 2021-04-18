@@ -46,7 +46,7 @@ public class NodeWrapper {
         edges = new Label(edgeString == null ? "None" : edgeString.toString());
 
         // Set up edit button
-        JFXButton btnEdit = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/misc/nodeEdgeEditBtn.fxml")));
+        JFXButton btnEdit = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/misc/tableEditBtn.fxml")));
         btnEdit.setId(n.getNodeID() + "EditBtn");
 
         btnEdit.setOnAction(new EventHandler<ActionEvent>() {
@@ -65,7 +65,7 @@ public class NodeWrapper {
         this.btnEdit = btnEdit;
 
         // Set up delete button
-        JFXButton btnDel = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/misc/nodeEdgeDelBtn.fxml")));
+        JFXButton btnDel = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/misc/tableDelBtn.fxml")));
         btnDel.setId(n.getNodeID() + "DelBtn");
 
         btnDel.setOnAction(event -> {

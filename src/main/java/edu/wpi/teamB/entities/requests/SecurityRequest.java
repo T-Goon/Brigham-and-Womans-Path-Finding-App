@@ -9,8 +9,8 @@ public class SecurityRequest extends Request {
 
     private int urgency;
 
-    public SecurityRequest(int urgency, String requestID, String employeeName, String location, String description) {
-        super(requestID, "Security", employeeName, location, description);
+    public SecurityRequest(int urgency, String requestID, String time, String date, String complete, String employeeName, String location, String description) {
+        super(requestID, "Security", time, date, complete, employeeName, location, description);
         this.urgency = urgency;
     }
 }

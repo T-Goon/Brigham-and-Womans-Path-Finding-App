@@ -146,7 +146,7 @@
                                                     <Font size="14.0" />
                                                 </font>
                                             </Text>
-                                            <JFXTextArea maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="653.0" style="-fx-background-radius: 7; -fx-background-color: e5e5e5;" unFocusColor="#4d4d4d00" VBox.vgrow="NEVER">
+                                            <JFXTextArea fx:id="message" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="653.0" style="-fx-background-radius: 7; -fx-background-color: e5e5e5;" unFocusColor="#4d4d4d00" VBox.vgrow="NEVER">
                                                 <font>
                                                     <Font name="MS Reference Sans Serif" size="14.0" />
                                                 </font>

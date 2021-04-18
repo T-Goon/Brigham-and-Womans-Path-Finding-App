@@ -23,6 +23,7 @@ public abstract class DefaultServiceRequestFormController {
 
     public void handleButtonAction(ActionEvent actionEvent) throws IOException {
         JFXButton btn = (JFXButton) actionEvent.getSource();
+
         switch (btn.getId()) {
             case "btnSubmit":
                 SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/requestForms/formSubmitted.fxml");

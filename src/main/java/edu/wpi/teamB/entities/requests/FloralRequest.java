@@ -13,14 +13,29 @@ public class FloralRequest extends Request {
     private String deliveryDate;
     private String startTime;
     private String endTime;
-    private List<String> flowerNames;
+    private String wantsRoses;
+    private String wantsTulips;
+    private String wantsDaisies;
+    private String wantsLilies;
+    private String wantsSunflowers;
+    private String wantsCarnations;
+    private String wantsOrchids;
 
-    public FloralRequest(String patientName, String deliveryDate, String startTime, String endTime, List<String> flowerNames, String requestID, String employeeName, String location, String description) {
-        super(requestID, "Floral", employeeName, location, description);
+    public FloralRequest(String patientName, String deliveryDate, String startTime, String endTime,
+                         String wantsRoses, String wantsTulips, String wantsDaisies, String wantsLilies,
+                         String wantsSunflowers, String wantsCarnations, String wantsOrchids, String requestID,
+                         String time, String date, String complete, String employeeName, String location, String description) {
+        super(requestID, "Floral", time, date, complete, employeeName, location, description);
         this.patientName = patientName;
         this.deliveryDate = deliveryDate;
         this.startTime = startTime;
         this.endTime = endTime;
-        this.flowerNames = flowerNames;
+        this.wantsRoses = wantsRoses;
+        this.wantsTulips = wantsTulips;
+        this.wantsDaisies = wantsDaisies;
+        this.wantsLilies = wantsLilies;
+        this.wantsSunflowers = wantsSunflowers;
+        this.wantsCarnations = wantsCarnations;
+        this.wantsOrchids = wantsOrchids;
     }
 }

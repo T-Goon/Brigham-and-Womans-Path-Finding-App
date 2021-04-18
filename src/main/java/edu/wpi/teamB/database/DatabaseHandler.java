@@ -583,9 +583,9 @@ public class DatabaseHandler {
                         "('" + sanitationRequest.getRequestID()
                         + "', '" + sanitationRequest.getSanitationType()
                         + "', '" + sanitationRequest.getSanitationSize()
-                        + "', " + (sanitationRequest.isHazardous() ? "'T'" : "'F'")
-                        + ", " + (sanitationRequest.isBiologicalSubstance() ? "'T'" : "'F'")
-                        + ", " + (sanitationRequest.isOccupied() ? "'T'" : "'F'")
+                        + "', " + (sanitationRequest.getHazardous())
+                        + ", " + (sanitationRequest.getBiologicalSubstance())
+                        + ", " + (sanitationRequest.getOccupied())
                         + ")";
                 break;
             case "Medicine":
@@ -602,8 +602,8 @@ public class DatabaseHandler {
                         "('" + internalTransportRequest.getRequestID()
                         + "', '" + internalTransportRequest.getPatientName()
                         + "', '" + internalTransportRequest.getTransportType()
-                        + "', " + (internalTransportRequest.isUnconscious() ? "'T'" : "'F'")
-                        + ", " + (internalTransportRequest.isInfectious() ? "'T'" : "'F'")
+                        + "', " + (internalTransportRequest.getUnconscious())
+                        + ", " + (internalTransportRequest.getInfectious())
                         + ")";
                 break;
             case "Religious":
@@ -615,7 +615,7 @@ public class DatabaseHandler {
                         + "', '" + religiousRequest.getStartTime()
                         + "', '" + religiousRequest.getEndTime()
                         + "', '" + religiousRequest.getFaith()
-                        + "', " + (religiousRequest.isInfectious() ? "'T'" : "'F'")
+                        + "', " + (religiousRequest.getInfectious())
                         + ")";
                 break;
             case "Food":
@@ -635,7 +635,13 @@ public class DatabaseHandler {
                         + "', '" + floralRequest.getDeliveryDate()
                         + "', '" + floralRequest.getStartTime()
                         + "', '" + floralRequest.getEndTime()
-                        + "', '" + floralRequest.getFlowerNames()
+                        + "', '" + floralRequest.getWantsRoses()
+                        + "', '" + floralRequest.getWantsTulips()
+                        + "', '" + floralRequest.getWantsDaisies()
+                        + "', '" + floralRequest.getWantsLilies()
+                        + "', '" + floralRequest.getWantsSunflowers()
+                        + "', '" + floralRequest.getWantsCarnations()
+                        + "', '" + floralRequest.getWantsOrchids()
                         + "')";
                 break;
             case "Security":
@@ -653,9 +659,9 @@ public class DatabaseHandler {
                         + "', '" + externalTransportRequest.getTransportType()
                         + "', '" + externalTransportRequest.getDestination()
                         + "', '" + externalTransportRequest.getPatientAllergies()
-                        + "', " + (externalTransportRequest.isOutNetwork() ? "'T'" : "'F'")
-                        + ", " + (externalTransportRequest.isInfectious() ? "'T'" : "'F'")
-                        + ", " + (externalTransportRequest.isUnconscious() ? "'T'" : "'F'")
+                        + "', " + (externalTransportRequest.getOutNetwork())
+                        + ", " + (externalTransportRequest.getInfectious())
+                        + ", " + (externalTransportRequest.getUnconscious())
                         + ")";
                 break;
             case "Laundry":
@@ -664,9 +670,9 @@ public class DatabaseHandler {
                         "('" + laundryRequest.getRequestID()
                         + "', '" + laundryRequest.getServiceType()
                         + "', '" + laundryRequest.getServiceSize()
-                        + "', " + (laundryRequest.isDark() ? "'T'" : "'F'")
-                        + ", " + (laundryRequest.isLight() ? "'T'" : "'F'")
-                        + ", " + (laundryRequest.isOccupied() ? "'T'" : "'F'")
+                        + "', " + (laundryRequest.getDark())
+                        + ", " + (laundryRequest.getLight())
+                        + ", " + (laundryRequest.getOccupied())
                         + ")";
                 break;
         }

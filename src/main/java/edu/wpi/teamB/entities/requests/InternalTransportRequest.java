@@ -9,11 +9,11 @@ public class InternalTransportRequest extends Request {
 
     private String patientName;
     private String transportType;
-    private boolean unconscious;
-    private boolean infectious;
+    private String unconscious;
+    private String infectious;
 
-    public InternalTransportRequest(String patientName, String transportType, boolean unconscious, boolean infectious, String requestID, String employeeName, String location, String description) {
-        super(requestID, "Internal Transport", employeeName, location, description);
+    public InternalTransportRequest(String patientName, String transportType, String unconscious, String infectious, String requestID, String time, String date, String complete, String employeeName, String location, String description) {
+        super(requestID, "Internal Transport", time, date, complete, employeeName, location, description);
         this.patientName = patientName;
         this.transportType = transportType;
         this.unconscious = unconscious;

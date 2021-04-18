@@ -10,8 +10,8 @@ public class MedicineRequest extends Request {
     private String patientName;
     private String medicine;
 
-    public MedicineRequest(String patientName, String medicine, String requestID, String employeeName, String location, String description) {
-        super(requestID, "Medicine", employeeName, location, description);
+    public MedicineRequest(String patientName, String medicine, String requestID, String time, String date, String complete, String employeeName, String location, String description) {
+        super(requestID, "Medicine", time, date, complete, employeeName, location, description);
         this.patientName = patientName;
         this.medicine = medicine;
     }

@@ -1,7 +1,16 @@
 package edu.wpi.teamB.views.requestForms;
 
 import com.jfoenix.controls.*;
+import edu.wpi.teamB.database.DatabaseHandler;
+import edu.wpi.teamB.entities.requests.ReligiousRequest;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.UUID;
 
 public class ReligiousRequestFormController extends DefaultServiceRequestFormController {
 
@@ -28,4 +37,33 @@ public class ReligiousRequestFormController extends DefaultServiceRequestFormCon
 
     @FXML
     private JFXCheckBox infectious;
+
+    public void handleButtonAction(ActionEvent actionEvent) throws IOException {
+        super.handleButtonAction(actionEvent);
+
+        String givenPatientName = name.getText();
+        String givenReligiousDate = date.getValue().toString();
+        String givenStartTime = startTime.getValue().toString();
+        String givenEndTime = endTime.getValue().toString();
+        String givenFaith = faith.getText();
+        String givenInfectious = infectious.isSelected() ? "T" : "F";
+
+        DateFormat timeFormat = new SimpleDateFormat("HH:mm");
+        DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd");
+        Date dateInfo = new Date();
+        String formattedTime = timeFormat.format(dateInfo);
+        String formattedDate = dateFormat.format(dateInfo);
+
+        String requestID = UUID.randomUUID().toString();
+        String time = formattedTime; // Stored as HH:MM (24 hour time)
+        String date = formattedDate; // Stored as YYYY-MM-DD
+        String complete = "F";
+        String employeeName = null; // fix
+        String location = roomNum.getText();
+        String givenDescription = description.getText();
+
+        ReligiousRequest request = new ReligiousRequest(givenPatientName, givenReligiousDate, givenStartTime, givenEndTime, givenFaith, givenInfectious,
+                requestID, time, date, complete, employeeName, location, givenDescription);
+        DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
+    }
 }
