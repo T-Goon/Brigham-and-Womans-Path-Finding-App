@@ -3,41 +3,60 @@ package edu.wpi.teamB;
 import edu.wpi.teamB.database.*;
 import edu.wpi.teamB.entities.Edge;
 import edu.wpi.teamB.entities.Node;
+import edu.wpi.teamB.entities.NodeType;
 import edu.wpi.teamB.pathfinding.Graph;
 import edu.wpi.teamB.util.CSVHandler;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class DatabaseHandlerTest {
-    private static Path resourcesPath;
+    private static String resourcesPath;
     private static DatabaseHandler db;
+    private static List<Node> testNodes;
 
     @BeforeAll
     static void initDB() {
         db = DatabaseHandler.getDatabaseHandler("test.db");
-        resourcesPath = Paths.get("src/test/resources/edu/wpi/teamB/database/load");
+        resourcesPath = "/edu/wpi/teamB/database/load";
         Graph.setGraph(db);
+
+        testNodes = new ArrayList<>();
+
+        Node targetNode0 = new Node("bWALK00501", 1872, 1965, "1", "Parking", "WALK", "Vining Street Walkway", "ViningWalk");
+        Node targetNode1 = new Node("bWALK00502", 1872, 1965, "1", "Parking", "WALK", "Vining Street Walkway", "ViningWalk");
+        Node targetNode2 = new Node("bWALK00503", 1872, 1965, "1", "Parking", "WALK", "Vining Street Walkway", "ViningWalk");
+        Node targetNode3 = new Node("bWALK00504", 1872, 1965, "1", "Parking", "WALK", "Vining Street Walkway", "ViningWalk");
+        Node targetNode4 = new Node("bWALK00505", 1872, 1965, "1", "Parking", "WALK", "Vining Street Walkway", "ViningWalk");
+        Node targetNode5 = new Node("bWALK00506", 1872, 1965, "1", "Parking", "WALK", "Vining Street Walkway", "ViningWalk");
+        Node targetNode6 = new Node("bWALK00507", 1872, 1965, "1", "Parking", "WALK", "Vining Street Walkway", "ViningWalk");
+        Node targetNode7 = new Node("bWALK00508", 1872, 1965, "1", "Parking", "WALK", "Vining Street Walkway", "ViningWalk");
+        Node targetNode8 = new Node("bWALK00509", 1872, 1965, "1", "Parking", "WALK", "Vining Street Walkway", "ViningWalk");
+        Node targetNode9 = new Node("bWALK00510", 1872, 1965, "1", "Parking", "WALK", "Vining Street Walkway", "ViningWalk");
+        Node targetNode10 = new Node("bPARK00101", 179, 1895, "1", "Parking", "PARK", "Left Parking Lot Spot 1", "LLot1");
+        testNodes.add(targetNode0);
+        testNodes.add(targetNode1);
+        testNodes.add(targetNode2);
+        testNodes.add(targetNode3);
+        testNodes.add(targetNode4);
+        testNodes.add(targetNode5);
+        testNodes.add(targetNode6);
+        testNodes.add(targetNode7);
+        testNodes.add(targetNode8);
+        testNodes.add(targetNode9);
+        testNodes.add(targetNode10);
     }
 
     @BeforeEach
     void resetDB() {
-        try {
-            db.loadDatabase(null, null);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        db.loadDatabase(null, null);
     }
 
     @Test
@@ -50,23 +69,20 @@ public class DatabaseHandlerTest {
                 "NODETYPE",
                 "Name With Many Spaces",
                 "N W M S");
-        Path nodes = Paths.get(resourcesPath + "/SimpleTestNodes.csv");
-        Node actual = CSVHandler.loadCSVNodes(nodes).get(0);
+        Node actual = CSVHandler.loadCSVNodes(resourcesPath + "/SimpleTestNodes.csv").get(0);
         assertEquals(target.toString(), actual.toString());
     }
 
     @Test
     public void complexParseNodesLength() {
-        Path nodePath = Paths.get(resourcesPath + "/ComplexTestNodes.csv");
-        List<Node> nodes = CSVHandler.loadCSVNodes(nodePath);
+        List<Node> nodes = CSVHandler.loadCSVNodes(resourcesPath + "/ComplexTestNodes.csv");
         assertEquals(32, nodes.size());
     }
 
     @Test
     public void complexParseNodesValues() {
         Node target = new Node("bWALK00501", 1872, 1965, "1", "Parking", "WALK", "Vining Street Walkway", "ViningWalk");
-        Path nodePath = Paths.get(resourcesPath + "/ComplexTestNodes.csv");
-        List<Node> nodes = CSVHandler.loadCSVNodes(nodePath);
+        List<Node> nodes = CSVHandler.loadCSVNodes(resourcesPath + "/ComplexTestNodes.csv");
         List<String> expanded = nodes.stream().map(Node::toString).collect(Collectors.toList());
         assertTrue(expanded.contains(target.toString()));
     }
@@ -74,70 +90,40 @@ public class DatabaseHandlerTest {
     @Test
     public void simpleParseEdges() {
         Edge target = new Edge("bPARK00101_bWALK00101", "bPARK00101", "bWALK00101");
-        Path edges = Paths.get(resourcesPath + "/SimpleTestEdges.csv");
-        Edge actual = CSVHandler.loadCSVEdges(edges).get(0);
+        Edge actual = CSVHandler.loadCSVEdges(resourcesPath + "/SimpleTestEdges.csv").get(0);
         assertEquals(target.toString(), actual.toString());
     }
 
     @Test
     public void complexParseEdgesLength() {
-        Path nodePath = Paths.get(resourcesPath + "/ComplexTestEdges.csv");
-        List<Edge> nodes = CSVHandler.loadCSVEdges(nodePath);
+        List<Edge> nodes = CSVHandler.loadCSVEdges(resourcesPath + "/ComplexTestEdges.csv");
         assertEquals(31, nodes.size());
     }
 
     @Test
     public void complexParseEdgesValues() {
         Edge target = new Edge("bPARK01201_bWALK00501", "bPARK01201", "bWALK00501");
-        Path nodePath = Paths.get(resourcesPath + "/ComplexTestEdges.csv");
-        List<Edge> nodes = CSVHandler.loadCSVEdges(nodePath);
+        List<Edge> nodes = CSVHandler.loadCSVEdges(resourcesPath + "/ComplexTestEdges.csv");
         List<String> expanded = nodes.stream().map(Edge::toString).collect(Collectors.toList());
         assertTrue(expanded.contains(target.toString()));
     }
 
     @Test
     void fillDatabase() {
-        List<Node> nodes = new ArrayList<>();
         List<Edge> edges = new ArrayList<>();
 
-        //Theres a less scuffed way to do this, but hey, it works and is easy to tweak.
-        Node targetNode0 = new Node("bWALK00501", 1872, 1965, "1", "Parking", "WALK", "Vining Street Walkway", "ViningWalk");
-        Node targetNode1 = new Node("bWALK00502", 1872, 1965, "1", "Parking", "WALK", "Vining Street Walkway", "ViningWalk");
-        Node targetNode2 = new Node("bWALK00503", 1872, 1965, "1", "Parking", "WALK", "Vining Street Walkway", "ViningWalk");
-        Node targetNode3 = new Node("bWALK00504", 1872, 1965, "1", "Parking", "WALK", "Vining Street Walkway", "ViningWalk");
-        Node targetNode4 = new Node("bWALK00505", 1872, 1965, "1", "Parking", "WALK", "Vining Street Walkway", "ViningWalk");
-        Node targetNode5 = new Node("bWALK00506", 1872, 1965, "1", "Parking", "WALK", "Vining Street Walkway", "ViningWalk");
-        Node targetNode6 = new Node("bWALK00507", 1872, 1965, "1", "Parking", "WALK", "Vining Street Walkway", "ViningWalk");
-        Node targetNode7 = new Node("bWALK00508", 1872, 1965, "1", "Parking", "WALK", "Vining Street Walkway", "ViningWalk");
-        Node targetNode8 = new Node("bWALK00509", 1872, 1965, "1", "Parking", "WALK", "Vining Street Walkway", "ViningWalk");
-        Node targetNode9 = new Node("bWALK00510", 1872, 1965, "1", "Parking", "WALK", "Vining Street Walkway", "ViningWalk");
-        nodes.add(targetNode0);
-        nodes.add(targetNode1);
-        nodes.add(targetNode2);
-        nodes.add(targetNode3);
-        nodes.add(targetNode4);
-        nodes.add(targetNode5);
-        nodes.add(targetNode6);
-        nodes.add(targetNode7);
-        nodes.add(targetNode8);
-        nodes.add(targetNode9);
-        Edge targetEdge = new Edge("bPARK01201_bWALK00501", "bPARK01201", "bWALK00501");
+        Edge targetEdge = new Edge("bPARK01201_bWALK00501", "bWALK00502", "bWALK00501");
         edges.add(targetEdge);
 
-        try {
-            db.loadDatabase(nodes, edges);
-            Map<String, Node> outNodes = db.getNodes();
-            assert (outNodes.values().containsAll(nodes));
-            Map<String, Edge> outEdges = db.getEdges();
-            assertEquals(outEdges.values().toArray()[0], targetEdge);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
+        db.loadDatabase(testNodes, edges);
+        Map<String, Node> outNodes = db.getNodes();
+        assert (outNodes.values().containsAll(testNodes));
+        Map<String, Edge> outEdges = db.getEdges();
+        assertEquals(outEdges.values().toArray()[0], targetEdge);
     }
 
     @Test
-    public void testUpdateNode() throws SQLException {
+    public void testUpdateNode() {
         List<Node> actual = new ArrayList<>();
         List<Edge> edges = new ArrayList<>();
         Node target = new Node("testNode",
@@ -172,25 +158,29 @@ public class DatabaseHandlerTest {
     }
 
     @Test
-    public void testUpdateEdge() throws SQLException {
+    public void testUpdateEdge() {
         List<Node> nodes = new ArrayList<>();
         List<Edge> actual = new ArrayList<>();
         Edge target = new Edge("bPARK01201_bWALK00501", "test_start", "test_end");
+        Node start = new Node("test_start", 0, 0, "0", "0", "0", "test", "t");
+        Node end = new Node("test_end", 0, 0, "0", "0", "0", "test", "t");
         actual.add(target);
+        nodes.add(start);
+        nodes.add(end);
         db.loadDatabase(nodes, actual);
 
         String edgeID = target.getEdgeID();
-        String startNode = "bPARK01201";
-        String endNode = "bWALK00501";
+        String startNode = "test_start";
+        String endNode = "test_end";
         db.updateEdge(new Edge(edgeID, startNode, endNode));
 
         Map<String, Edge> edges = db.getEdges();
-        assertEquals("bPARK01201", edges.get("bPARK01201_bWALK00501").getStartNodeName());
-        assertEquals("bWALK00501", edges.get("bPARK01201_bWALK00501").getEndNodeName());
+        assertEquals("test_start", edges.get("bPARK01201_bWALK00501").getStartNodeID());
+        assertEquals("test_end", edges.get("bPARK01201_bWALK00501").getEndNodeID());
     }
 
     @Test
-    public void testAddNode() throws SQLException {
+    public void testAddNode() {
         Node target = new Node("testNode",
                 0,
                 -992,
@@ -213,18 +203,25 @@ public class DatabaseHandlerTest {
     }
 
     @Test
-    public void testAddEdge() throws SQLException {
+    public void testAddEdge() {
+        Node start = new Node("test_start", 0, 0, "0", "0", "0", "test", "t");
+        Node end = new Node("test_end", 0, 0, "0", "0", "0", "test", "t");
+
+        db.addNode(start);
+        db.addNode(end);
+
         Edge target = new Edge("bPARK01201_bWALK00501", "test_start", "test_end");
+
 
         db.addEdge(target);
 
         Map<String, Edge> edges = db.getEdges();
-        assertEquals("test_start", edges.get("bPARK01201_bWALK00501").getStartNodeName());
-        assertEquals("test_end", edges.get("bPARK01201_bWALK00501").getEndNodeName());
+        assertEquals("test_start", edges.get("bPARK01201_bWALK00501").getStartNodeID());
+        assertEquals("test_end", edges.get("bPARK01201_bWALK00501").getEndNodeID());
     }
 
     @Test
-    public void testRemoveNode() throws SQLException {
+    public void testRemoveNode() {
         Node target = new Node("testNode",
                 0,
                 -992,
@@ -235,20 +232,38 @@ public class DatabaseHandlerTest {
                 "N W M S");
 
         db.addNode(target);
-        assertTrue(!db.getNodes().isEmpty());
+        assertFalse(db.getNodes().isEmpty());
 
         db.removeNode(target.getNodeID());
         assertTrue(db.getNodes().isEmpty());
     }
 
     @Test
-    public void testRemoveEdge() throws SQLException {
+    public void testRemoveEdge() {
+        Node start = new Node("test_start", 0, 0, "0", "0", "0", "test", "t");
+        Node end = new Node("test_end", 0, 0, "0", "0", "0", "test", "t");
+        db.addNode(start);
+        db.addNode(end);
+
         Edge target = new Edge("bPARK01201_bWALK00501", "test_start", "test_end");
 
         db.addEdge(target);
-        assertTrue(!db.getEdges().isEmpty());
+        assertFalse(db.getEdges().isEmpty());
 
         db.removeEdge(target.getEdgeID());
         assertTrue(db.getEdges().isEmpty());
+    }
+
+    @Test
+    public void testGetNodesByCategory() {
+        db.loadDatabaseNodes(testNodes);
+
+        List<Node> result = db.getNodesByCategory(NodeType.PARK);
+        List<Node> expected = new ArrayList<>();
+        expected.add(testNodes.get(10));
+
+        assertEquals(expected, result);
+
+
     }
 }

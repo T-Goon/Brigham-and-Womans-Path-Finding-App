@@ -2,9 +2,13 @@ package edu.wpi.teamB;
 
 import static org.testfx.api.FxAssert.verifyThat;
 
+import com.jfoenix.controls.JFXTextField;
 import javafx.geometry.VerticalDirection;
 import javafx.scene.Node;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
+import org.junit.After;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -32,8 +36,52 @@ public class AppTest extends FxRobot {
         FxToolkit.setupApplication(App.class);
     }
 
+
     @Test
-    void testMapMovement(){
+    void testLoginPageTabAndEnter(){
+        clickOn("#btnStaff");
+        verifyThat("Login Page", Node::isVisible);
+        clickOn("#username");
+        write("Admin");
+        press(KeyCode.TAB);
+        write("password");
+        press(KeyCode.ENTER);
+        verifyThat("Admin Directory", Node::isVisible);
+        clickOn("#btnBack");
+    }
+
+    @Test
+    void testGuestLogin(){
+        clickOn("#btnGuest");
+        verifyThat("#btnCovid", Node::isVisible);
+        clickOn("#btnBack");
+    }
+
+    @Test
+    void testMapGraphicalInput() {
+        clickOn("#btnGuest");
+        clickOn("#btnDirections");
+
+        // Select start node
+        clickOn("#bPARK01801Icon");
+        clickOn("#BtnStart");
+
+        // Select end node
+        clickOn("#bPARK00101Icon");
+        clickOn("#BtnEnd");
+
+        clickOn("#btnFindPath");
+
+        verifyThat(".edge", Node::isVisible);
+
+        clickOn("#btnBack");
+        clickOn("#btnBack");
+
+    }
+
+    @Test
+    void testMapMovement() {
+        clickOn("#btnGuest");
         clickOn("#btnDirections");
         moveTo("#map");
         scroll(25, VerticalDirection.UP);
@@ -42,17 +90,23 @@ public class AppTest extends FxRobot {
         drag(100, 0, MouseButton.PRIMARY);
         release(MouseButton.PRIMARY);
         clickOn("#btnBack");
+        clickOn("#btnBack");
     }
 
     @Test
-    void testMapPathDisplay(){
+    void testMapPathDisplay() {
+        clickOn("#btnGuest");
         clickOn("#btnDirections");
 
         // Select start and end locations
-        clickOn("#startLocComboBox");
-        clickOn("75 Francis Valet Drop-off");
-        clickOn("#endLocComboBox");
+        doubleClickOn("Information Locations");
+        clickOn("75 Lobby Information Desk");
+        clickOn("#BtnStart");
+        doubleClickOn("Information Locations");
+        doubleClickOn("Entrances");
         clickOn("75 Francis Lobby Entrance");
+        clickOn("#BtnEnd");
+        doubleClickOn("Entrances");
 
         clickOn("#btnFindPath");
 
@@ -60,18 +114,22 @@ public class AppTest extends FxRobot {
         verifyThat(".edge", Node::isVisible);
 
         clickOn("#btnBack");
+        clickOn("#btnBack");
     }
 
     @Test
-    void testMapBack(){
+    void testMapBack() {
+        clickOn("#btnGuest");
         clickOn("#btnDirections");
-        verifyThat("Hospital Map", Node::isVisible);
+        verifyThat("Directions", Node::isVisible);
+        clickOn("#btnBack");
         clickOn("#btnBack");
     }
 
     @ParameterizedTest
     @MethodSource("textProvider")
     void testBackButtons(String button, String title) {
+        clickOn("#btnGuest");
         clickOn("Service Requests");
         verifyThat("Service Request Directory", Node::isVisible);
         clickOn(button);
@@ -79,11 +137,13 @@ public class AppTest extends FxRobot {
         clickOn("Cancel");
         verifyThat("Service Request Directory", Node::isVisible);
         clickOn("#btnBack");
+        clickOn("#btnBack");
     }
 
     @ParameterizedTest
     @MethodSource("textProvider")
     void testSubmitForms(String button, String title) {
+        clickOn("#btnGuest");
         clickOn("Service Requests");
         verifyThat("Service Request Directory", Node::isVisible);
         clickOn(button);
@@ -92,6 +152,8 @@ public class AppTest extends FxRobot {
         verifyThat("Form Successfully Submitted!", Node::isVisible);
         clickOn("Return to Main Screen");
         verifyThat("Service Requests", Node::isVisible);
+        clickOn("#btnBack");
+        verifyThat("#btnGuest", Node::isVisible);
     }
 
     private static Stream<Arguments> textProvider() {

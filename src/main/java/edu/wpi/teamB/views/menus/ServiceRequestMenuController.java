@@ -2,11 +2,10 @@ package edu.wpi.teamB.views.menus;
 
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.teamB.util.SceneSwitcher;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-
-import java.io.IOException;
 
 public class ServiceRequestMenuController {
 
@@ -50,9 +49,16 @@ public class ServiceRequestMenuController {
     private JFXButton btnSocialWorker;
 
     @FXML
+    private JFXButton btnEmergency;
+
+    @FXML
+    private JFXButton btnExit;
+
+    @FXML
     private void handleButtonAction(ActionEvent e) {
         Button btn = (Button) e.getSource();
-        String path;
+
+        String path = null;
         switch (btn.getId()) {
             case "btnMedicine":
                 path = VIEWS_PATH + "medDeliveryRequestForm.fxml";
@@ -87,17 +93,19 @@ public class ServiceRequestMenuController {
             case "btnSocialWorker":
                 path = VIEWS_PATH + "socialWorkerRequestForm.fxml";
                 break;
+            case "btnEmergency":
+                path = VIEWS_PATH + "emergencyForm.fxml";
+                break;
             case "btnBack":
-                path = MENUS_PATH + "patientDirectoryMenu.fxml";
+                SceneSwitcher.goBack(getClass(), 1);
+                return;
+            case "btnExit":
+                Platform.exit();
                 break;
             default:
                 throw new IllegalStateException("WHAT BUTTON IS THIS AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
         }
 
-        try {
-            SceneSwitcher.switchScene(getClass(), path);
-        } catch (IOException err) {
-            err.printStackTrace();
-        }
+        SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/serviceRequestMenu.fxml", path);
     }
 }

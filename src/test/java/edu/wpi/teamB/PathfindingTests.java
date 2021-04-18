@@ -9,14 +9,11 @@ import edu.wpi.teamB.util.CSVHandler;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import java.nio.file.Paths;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 public class PathfindingTests {
@@ -26,13 +23,10 @@ public class PathfindingTests {
     @BeforeAll
     static void initDB() {
         db = DatabaseHandler.getDatabaseHandler("test.db");
-        List<Node> nodes = CSVHandler.loadCSVNodes(Paths.get("src/test/resources/edu/wpi/teamB/csvFiles/bwBnodes.csv"));
-        List<Edge> edges = CSVHandler.loadCSVEdges(Paths.get("src/test/resources/edu/wpi/teamB/csvFiles/bwBedges.csv"));
-        try {
-            db.loadDatabase(nodes, edges);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        List<Node> nodes = CSVHandler.loadCSVNodes("/edu/wpi/teamB/csvFiles/bwBnodes.csv");
+        List<Edge> edges = CSVHandler.loadCSVEdges("/edu/wpi/teamB/csvFiles/bwBedges.csv");
+
+        db.loadDatabase(nodes, edges);
 
         Graph.setGraph(db);
 
@@ -74,6 +68,7 @@ public class PathfindingTests {
         expectedPath.add("bWALK01501");
         expectedPath.add("bWALK01601");
         expectedPath.add("bPARK02501");
+
         List<String> path = AStar.findPath("bPARK00101", "bPARK02501");
         assertEquals(expectedPath, path);
     }

@@ -1,7 +1,6 @@
 package edu.wpi.teamB.views.requestForms;
 
-import com.jfoenix.controls.JFXTextArea;
-import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.*;
 import javafx.fxml.FXML;
 
 public class ReligiousRequestFormController extends DefaultServiceRequestFormController {
@@ -13,5 +12,20 @@ public class ReligiousRequestFormController extends DefaultServiceRequestFormCon
     private JFXTextField roomNum;
 
     @FXML
+    private JFXDatePicker date;
+
+    @FXML
+    private JFXTimePicker startTime;
+
+    @FXML
+    private JFXTimePicker endTime;
+
+    @FXML
+    private JFXTextField faith;
+
+    @FXML
     private JFXTextArea description;
+
+    @FXML
+    private JFXCheckBox infectious;
 }

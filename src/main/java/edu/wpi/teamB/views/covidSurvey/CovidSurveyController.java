@@ -1,14 +1,16 @@
 package edu.wpi.teamB.views.covidSurvey;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXRadioButton;
 import edu.wpi.teamB.util.SceneSwitcher;
+import javafx.application.Platform;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ToggleGroup;
 import javafx.fxml.Initializable;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -18,6 +20,39 @@ public class CovidSurveyController implements Initializable {
 
     @FXML
     private JFXButton btnBack;
+
+    @FXML
+    private JFXCheckBox chkFever;
+
+    @FXML
+    private JFXCheckBox chkChills;
+
+    @FXML
+    private JFXCheckBox chkCough;
+
+    @FXML
+    private JFXCheckBox chkShortBreath;
+
+    @FXML
+    private JFXCheckBox chkSoreTht;
+
+    @FXML
+    private JFXCheckBox chkHeadache;
+
+    @FXML
+    private JFXCheckBox chkAches;
+
+    @FXML
+    private JFXCheckBox chkNose;
+
+    @FXML
+    private JFXCheckBox chkLostTaste;
+
+    @FXML
+    private JFXCheckBox chkNausea;
+
+    @FXML
+    private JFXButton btnExit;
 
     @FXML
     private JFXRadioButton btnCCYes;
@@ -46,18 +81,25 @@ public class CovidSurveyController implements Initializable {
     }
 
     @FXML
-    void handleButtonAction(ActionEvent e) throws IOException {
+    void handleButtonAction(ActionEvent e) {
         JFXButton btn = (JFXButton) e.getSource();
 
         switch (btn.getId()) {
             case "btnBack":
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/patientDirectoryMenu.fxml");
+                SceneSwitcher.goBack(getClass(), 1);
                 break;
             case "btnSubmit":
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/requestForms/formSubmitted.fxml");
+                if (btnCCNo.isSelected() && btnTestNo.isSelected() && !chkCough.isSelected() && !chkChills.isSelected() && !chkAches.isSelected() && !chkFever.isSelected()
+                        && !chkHeadache.isSelected() && !chkLostTaste.isSelected() && !chkNausea.isSelected() && !chkNose.isSelected() && !chkShortBreath.isSelected() && !chkSoreTht.isSelected())
+                    SceneSwitcher.switchToTemp(getClass(), "/edu/wpi/teamB/views/covidSurvey/covidFormSubmittedNoSymp.fxml");
+                else
+                    SceneSwitcher.switchToTemp(getClass(), "/edu/wpi/teamB/views/CovidSurvey/covidFormSubmittedWithSymp.fxml");
+                break;
+            case "btnExit":
+                Platform.exit();
                 break;
             case "btnEmergency":
-                // Not implemented
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/covidSurvey/covidSurvey.fxml", "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");
                 break;
         }
     }

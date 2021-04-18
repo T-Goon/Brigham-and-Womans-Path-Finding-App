@@ -3,16 +3,15 @@ package edu.wpi.teamB.views.mapEditor.edges;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
-import edu.wpi.teamB.App;
 import edu.wpi.teamB.database.DatabaseHandler;
 import edu.wpi.teamB.entities.Edge;
+import edu.wpi.teamB.entities.Node;
 import edu.wpi.teamB.util.SceneSwitcher;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -21,6 +20,9 @@ public class AddEdgeMenuController implements Initializable {
 
     @FXML
     private JFXButton btnEmergency;
+
+    @FXML
+    private JFXButton btnExit;
 
     @FXML
     private JFXButton btnCancel;
@@ -40,10 +42,10 @@ public class AddEdgeMenuController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         // Give the combo boxes all the values
-        Map<String, Edge> edges = DatabaseHandler.getDatabaseHandler("main.db").getEdges();
-        for (Edge e : edges.values()) {
-            startNode.getItems().add(e.getStartNodeName());
-            endNode.getItems().add(e.getEndNodeName());
+        Map<String, Node> nodes = DatabaseHandler.getDatabaseHandler("main.db").getNodes();
+        for (Node n : nodes.values()) {
+            startNode.getItems().add(n.getNodeID());
+            endNode.getItems().add(n.getNodeID());
         }
     }
 
@@ -55,12 +57,13 @@ public class AddEdgeMenuController implements Initializable {
         }
     }
 
-    public void handleButtonAction(ActionEvent e) throws IOException {
+    @FXML
+    private void handleButtonAction(ActionEvent e) {
         JFXButton btn = (JFXButton) e.getSource();
 
         switch (btn.getId()) {
             case "btnCancel":
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapeditor/edges/editEdgesListMenu.fxml");
+                SceneSwitcher.goBack(getClass(), 1);
                 break;
             case "btnAddEdge":
                 String edgeIdentifier = edgeID.getText();
@@ -68,7 +71,13 @@ public class AddEdgeMenuController implements Initializable {
                 String endNodeName = endNode.getValue();
                 Edge edge = new Edge(edgeIdentifier, startNodeName, endNodeName);
                 DatabaseHandler.getDatabaseHandler("main.db").addEdge(edge);
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapeditor/edges/editEdgesListMenu.fxml");
+                SceneSwitcher.goBack(getClass(), 1);
+                break;
+            case "btnEmergency":
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapEditor/edges/addEdgeMenu.fxml", "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");
+                break;
+            case "btnExit":
+                Platform.exit();
                 break;
         }
     }

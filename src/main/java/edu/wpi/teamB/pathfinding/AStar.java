@@ -1,6 +1,5 @@
 package edu.wpi.teamB.pathfinding;
 
-import edu.wpi.teamB.database.DatabaseHandler;
 import edu.wpi.teamB.entities.Node;
 
 import java.util.*;
@@ -15,7 +14,6 @@ public class AStar {
      * @return LinkedList of nodeIDs which dictates the order of nodes in the path
      */
     public static List<String> findPath(String startID, String endID) {
-
 
         Graph graph = Graph.getGraph();
         Node startNode = graph.getNodes().get(startID);
@@ -66,7 +64,7 @@ public class AStar {
                         cameFrom.put(neighbor.getNodeID(), current.getNodeID());
                     }
                 }
-            } catch (NullPointerException e){
+            } catch (NullPointerException e) {
                 return new LinkedList<>();
             }
         }

@@ -8,14 +8,8 @@ import edu.wpi.teamB.entities.Node;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import lombok.Getter;
 
@@ -60,11 +54,7 @@ public class NodeWrapper {
             public void handle(ActionEvent event) {
                 Stage stage = App.getPrimaryStage();
                 stage.setUserData(n);
-                try {
-                    SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapeditor/nodes/editNodeMenu.fxml");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapEditor/nodes/editNodesListMenu.fxml", "/edu/wpi/teamB/views/mapEditor/nodes/editNodeMenu.fxml");
             }
         });
 
@@ -74,12 +64,11 @@ public class NodeWrapper {
         JFXButton btnDel = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/misc/nodeEdgeDelBtn.fxml")));
         btnDel.setId(n.getNodeID() + "DelBtn");
 
-        btnDel.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                DatabaseHandler.getDatabaseHandler("main.db").removeNode(n.getNodeID());
-                parentTable.getItems().removeIf( (Object o) -> ((NodeWrapper) o).id == id);
-            }
+        btnDel.setOnAction(event ->
+
+        {
+            DatabaseHandler.getDatabaseHandler("main.db").removeNode(n.getNodeID());
+            parentTable.getItems().removeIf((Object o) -> ((NodeWrapper) o).id == id);
         });
 
         this.btnDel = btnDel;
