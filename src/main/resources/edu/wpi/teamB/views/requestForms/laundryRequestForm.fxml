@@ -67,7 +67,7 @@
                                         <Font name="MS Reference Sans Serif" size="14.0" />
                                     </font>
                                 </Text>
-                                <JFXTextField fx:id="loc" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f0f0f000" />
+                                <JFXTextField fx:id="loc" promptText="Location of the laundry to be picked up" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f0f0f000" />
                             </children>
                             <padding>
                                 <Insets left="10.0" right="10.0" />
@@ -106,7 +106,7 @@
                                         <Font size="14.0" />
                                     </font>
                                 </Text>
-                                <JFXTextArea fx:id="description" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="653.0" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f0f0f000" VBox.vgrow="NEVER">
+                                <JFXTextArea fx:id="description" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="653.0" promptText="Please include any additional relevant information" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f0f0f000" VBox.vgrow="NEVER">
                                     <font>
                                         <Font name="MS Reference Sans Serif" size="14.0" />
                                     </font>

@@ -60,7 +60,7 @@
                         <Font size="14.0" />
                      </font>
                   </Text>
-                  <JFXTextField fx:id="assignedTo" style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" />
+                  <JFXTextField fx:id="assignedTo" promptText="Employee to be assigned to this request" style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" />
                </children>
             </VBox>
             <VBox>
@@ -70,7 +70,7 @@
                         <Font size="14.0" />
                      </font>
                   </Text>
-                  <JFXTextField fx:id="loc" style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" />
+                  <JFXTextField fx:id="loc" promptText="Location of the request" style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" />
                </children>
                <VBox.margin>
                   <Insets top="10.0" />
@@ -96,7 +96,7 @@
                         <Font size="14.0" />
                      </font>
                   </Text>
-                  <JFXTextArea fx:id="description" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f0f0f000" />
+                  <JFXTextArea fx:id="description" promptText="Please provide any additional relevant information" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f0f0f000" />
                </children>
             </VBox>
             <HBox alignment="CENTER_LEFT" prefWidth="200.0">

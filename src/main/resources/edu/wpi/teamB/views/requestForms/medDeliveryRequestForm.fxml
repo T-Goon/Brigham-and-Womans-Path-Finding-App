@@ -62,7 +62,7 @@
                         <Font name="MS Reference Sans Serif" size="14.0" />
                      </font>
                   </Text>
-                  <JFXTextField fx:id="name" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f0f0f000" />
+                  <JFXTextField fx:id="name" promptText="Name of patient receiving medicine" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f0f0f000" />
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Room Number:">
                      <VBox.margin>
                         <Insets top="10.0" />
@@ -71,7 +71,7 @@
                         <Font name="MS Reference Sans Serif" size="14.0" />
                      </font>
                   </Text>
-                  <JFXTextField fx:id="roomNum" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f0f0f000" />
+                  <JFXTextField fx:id="roomNum" promptText="Room number of patient receiving medicine" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f0f0f000" />
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Medicine Name:">
                      <VBox.margin>
                         <Insets top="10.0" />
@@ -80,7 +80,7 @@
                         <Font name="MS Reference Sans Serif" size="14.0" />
                      </font>
                   </Text>
-                  <JFXTextField fx:id="medName" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f0f0f000" />
+                  <JFXTextField fx:id="medName" promptText="Name of medicine to be delivered" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f0f0f000" />
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Reason for Request:">
                      <VBox.margin>
                         <Insets top="10.0" />
@@ -89,7 +89,7 @@
                         <Font name="MS Reference Sans Serif" size="14.0" />
                      </font>
                   </Text>
-                  <JFXTextArea fx:id="reason" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f0f0f000">
+                  <JFXTextArea fx:id="reason" promptText="Please include any additional relevant information" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f0f0f000">
                      <VBox.margin>
                         <Insets bottom="10.0" />
                      </VBox.margin>

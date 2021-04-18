@@ -84,7 +84,7 @@
                                           <Font size="14.0" />
                                       </font>
                                   </Text>
-                                  <JFXTextField fx:id="roomNum" style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" />
+                                  <JFXTextField fx:id="roomNum" promptText="Room of the patient in need of transport" style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" />
                               </children>
                               <padding>
                                   <Insets left="10.0" right="10.0" />
@@ -97,7 +97,7 @@
                                           <Font size="14.0" />
                                       </font>
                                   </Text>
-                              <JFXTextField fx:id="name" prefHeight="25.0" style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" />
+                              <JFXTextField fx:id="name" prefHeight="25.0" promptText="Name of the patient in need of transport" style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" />
                               </children>
                               <padding>
                                   <Insets left="10.0" right="10.0" />
@@ -113,7 +113,7 @@
                                     <Insets top="10.0" />
                                  </VBox.margin>
                               </Text>
-                              <JFXTextField style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" />
+                              <JFXTextField promptText="Desired transport destination for patient" style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" />
                            </children>
                            <padding>
                               <Insets left="10.0" right="10.0" />
