@@ -69,10 +69,14 @@ public class AppTest extends FxRobot {
         clickOn("#btnDirections");
 
         // Select start and end locations
-        clickOn("#startLocComboBox");
-        clickOn("75 Francis Valet Drop-off");
-        clickOn("#endLocComboBox");
+        doubleClickOn("Information Locations");
+        clickOn("75 Lobby Information Desk");
+        clickOn("#BtnStart");
+        doubleClickOn("Information Locations");
+        doubleClickOn("Entrances");
         clickOn("75 Francis Lobby Entrance");
+        clickOn("#BtnEnd");
+        doubleClickOn("Entrances");
 
         clickOn("#btnFindPath");
 
