@@ -7,6 +7,7 @@ import edu.wpi.teamB.entities.Node;
 import edu.wpi.teamB.pathfinding.AStar;
 import edu.wpi.teamB.pathfinding.Graph;
 import edu.wpi.teamB.util.SceneSwitcher;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -50,6 +51,12 @@ public class PathfindingMenuController implements Initializable {
 
     @FXML
     private JFXButton btnBack;
+
+    @FXML
+    private JFXButton btnExit;
+
+    @FXML
+    private JFXButton btnEmergency;
 
     @FXML
     private Label lblError;
@@ -164,6 +171,12 @@ public class PathfindingMenuController implements Initializable {
             case "btnBack":
                 SceneSwitcher.switchScene(getClass(), SceneSwitcher.popScene());
 //                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/patientDirectoryMenu.fxml");
+                break;
+            case "btnExit":
+                Platform.exit();
+                break;
+            case "btnEmergency":
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");
                 break;
         }
     }

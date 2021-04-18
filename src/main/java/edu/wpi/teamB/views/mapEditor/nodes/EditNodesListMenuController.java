@@ -7,6 +7,7 @@ import edu.wpi.teamB.entities.Node;
 import edu.wpi.teamB.util.CSVHandler;
 import edu.wpi.teamB.util.NodeWrapper;
 import edu.wpi.teamB.util.SceneSwitcher;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -31,6 +32,9 @@ public class EditNodesListMenuController implements Initializable {
 
     @FXML
     private JFXButton btnEmergency;
+
+    @FXML
+    private JFXButton btnExit;
 
     @FXML
     private JFXButton btnLoad;
@@ -155,6 +159,12 @@ public class EditNodesListMenuController implements Initializable {
                 break;
             case "btnAddNode":
                 SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapEditor/nodes/addNodeMenu.fxml");
+                break;
+            case "btnExit":
+                Platform.exit();
+                break;
+            case "btnEmergency":
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");
                 break;
         }
     }

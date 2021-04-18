@@ -234,21 +234,7 @@
                   </VBox>
                   <HBox alignment="CENTER">
                      <children>
-                        <HBox alignment="TOP_CENTER" HBox.hgrow="ALWAYS">
-                           <children>
-                              <HBox alignment="BOTTOM_LEFT" prefHeight="77.0" prefWidth="0.0" HBox.hgrow="ALWAYS">
-                                 <children>
-                                    <JFXButton fx:id="btnBack" alignment="CENTER" buttonType="RAISED" cancelButton="true" contentDisplay="CENTER" onAction="#handleButtonAction" style="-fx-background-color: #0067B1; -fx-background-radius: 50%;" text="←" textAlignment="CENTER" textFill="WHITE">
-                                       <font>
-                                          <Font size="27.0" />
-                                       </font>
-                                    </JFXButton>
-                                 </children>
-                                 <padding>
-                                    <Insets left="20.0" top="10.0" />
-                                 </padding>
-                              </HBox>
-                           </children></HBox>
+                        <HBox alignment="TOP_CENTER" HBox.hgrow="ALWAYS" />
                         <HBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
                            <children>
                               <JFXButton fx:id="btnSubmit" buttonType="RAISED" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39; -fx-background-radius: 7;" text="Submit">
@@ -277,5 +263,20 @@
             </VBox>
          </children>
       </JFXScrollPane>
+      <HBox alignment="BOTTOM_LEFT" prefHeight="77.0" prefWidth="0.0" VBox.vgrow="ALWAYS">
+         <children>
+            <JFXButton fx:id="btnBack" alignment="CENTER" buttonType="RAISED" cancelButton="true" contentDisplay="CENTER" onAction="#handleButtonAction" style="-fx-background-color: #0067B1; -fx-background-radius: 50%;" text="←" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font size="27.0" />
+               </font>
+            </JFXButton>
+         </children>
+         <padding>
+            <Insets top="10.0" />
+         </padding>
+         <VBox.margin>
+            <Insets bottom="15.0" left="15.0" />
+         </VBox.margin>
+      </HBox>
    </children>
 </VBox>

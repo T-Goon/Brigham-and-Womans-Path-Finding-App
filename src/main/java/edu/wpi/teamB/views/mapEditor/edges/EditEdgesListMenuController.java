@@ -8,6 +8,7 @@ import edu.wpi.teamB.pathfinding.Graph;
 import edu.wpi.teamB.util.CSVHandler;
 import edu.wpi.teamB.util.EdgeWrapper;
 import edu.wpi.teamB.util.SceneSwitcher;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -32,6 +33,9 @@ public class EditEdgesListMenuController implements Initializable {
 
     @FXML
     private JFXButton btnEmergency;
+
+    @FXML
+    private JFXButton btnExit;
 
     @FXML
     private JFXButton btnLoad;
@@ -153,6 +157,12 @@ public class EditEdgesListMenuController implements Initializable {
                 break;
             case "btnAddEdge":
                 SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapEditor/edges/addEdgeMenu.fxml");
+                break;
+            case "btnExit":
+                Platform.exit();
+                break;
+            case "btnEmergency":
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");
                 break;
         }
     }

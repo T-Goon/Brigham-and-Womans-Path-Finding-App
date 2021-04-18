@@ -7,6 +7,7 @@ import edu.wpi.teamB.database.DatabaseHandler;
 import edu.wpi.teamB.entities.Edge;
 import edu.wpi.teamB.entities.Node;
 import edu.wpi.teamB.util.SceneSwitcher;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -20,6 +21,9 @@ public class AddEdgeMenuController implements Initializable {
 
     @FXML
     private JFXButton btnEmergency;
+
+    @FXML
+    private JFXButton btnExit;
 
     @FXML
     private JFXButton btnCancel;
@@ -69,6 +73,12 @@ public class AddEdgeMenuController implements Initializable {
                 Edge edge = new Edge(edgeIdentifier, startNodeName, endNodeName);
                 DatabaseHandler.getDatabaseHandler("main.db").addEdge(edge);
                 SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapEditor/edges/editEdgesListMenu.fxml");
+                break;
+            case "btnExit":
+                Platform.exit();
+                break;
+            case "btnEmergency":
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");
                 break;
         }
     }

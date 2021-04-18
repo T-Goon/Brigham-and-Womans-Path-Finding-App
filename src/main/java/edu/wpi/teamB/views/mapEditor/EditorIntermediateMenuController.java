@@ -2,6 +2,7 @@ package edu.wpi.teamB.views.mapEditor;
 
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.teamB.util.SceneSwitcher;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
@@ -18,6 +19,10 @@ public class EditorIntermediateMenuController {
 
     @FXML
     private JFXButton btnEdges;
+    @FXML
+    private JFXButton btnEmergency;
+    @FXML
+    private JFXButton btnExit;
 
     @FXML
     private void handleButtonAction(ActionEvent event) {
@@ -33,6 +38,12 @@ public class EditorIntermediateMenuController {
                     break;
                 case "btnBack":
                     SceneSwitcher.switchScene(getClass(), SceneSwitcher.popScene());
+                    break;
+                case "btnExit":
+                    Platform.exit();
+                    break;
+                case "btnEmergency":
+                    SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");
                     break;
             }
 

@@ -63,11 +63,6 @@
             </HBox>
             <HBox alignment="TOP_CENTER" prefHeight="1180.0">
                <children>
-                  <JFXButton fx:id="btnBack" alignment="CENTER" cancelButton="true" contentDisplay="CENTER" onAction="#handleButtonAction" style="-fx-background-color: #0067B1; -fx-background-radius: 50%;" text="←" textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP">
-                     <font>
-                        <Font size="27.0" />
-                     </font>
-                  </JFXButton>
                   <ScrollPane hbarPolicy="NEVER" prefHeight="736.0" prefWidth="1200.0" style="-fx-background-color: #0067B1;" stylesheets="@../../css/serviceRequestDatabase.css" vbarPolicy="ALWAYS">
                      <HBox.margin>
                         <Insets bottom="20.0" left="20.0" right="40.0" />
@@ -88,6 +83,18 @@
                   <Insets left="15.0" />
                </VBox.margin>
             </HBox>
+            <VBox alignment="BOTTOM_LEFT" VBox.vgrow="ALWAYS">
+               <children>
+                  <JFXButton fx:id="btnBack" alignment="CENTER" cancelButton="true" contentDisplay="CENTER" onAction="#handleButtonAction" style="-fx-background-color: #0067B1; -fx-background-radius: 50%;" text="←" textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP">
+                     <font>
+                        <Font size="27.0" />
+                     </font>
+                  </JFXButton>
+               </children>
+               <VBox.margin>
+                  <Insets bottom="15.0" left="15.0" />
+               </VBox.margin>
+            </VBox>
          </children>
       </VBox>
    </children>
