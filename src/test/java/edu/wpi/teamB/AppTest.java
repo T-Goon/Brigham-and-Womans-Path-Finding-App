@@ -96,7 +96,7 @@ public class AppTest extends FxRobot {
     void testMapBack() {
         clickOn("#btnGuest");
         clickOn("#btnDirections");
-        verifyThat("Hospital Map", Node::isVisible);
+        verifyThat("Directions", Node::isVisible);
         clickOn("#btnBack");
         clickOn("#btnBack");
     }
