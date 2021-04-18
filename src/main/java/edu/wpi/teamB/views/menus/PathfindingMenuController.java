@@ -14,6 +14,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -146,6 +147,20 @@ public class PathfindingMenuController implements Initializable {
     private void validateFindPathButton() throws NumberFormatException {
         btnFindPath.setDisable(startLocComboBox.getValue() == null || endLocComboBox.getValue() == null || startLocComboBox.getValue().equals(endLocComboBox.getValue()));
     }
+
+    private void setETA(String startLong, String endLong) throws IOException {
+
+        Map<String, String> longName = makeLongToIDMap();
+        Double etaTime = AStar.eta(longName.get(startLong), longName.get(endLong));
+
+        final VBox etaVbox = FXMLLoader.load(
+                Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/misc/showETA.fxml")));
+
+        List<javafx.scene.Node> child = etaVbox.getChildren();
+        TextField textBox = (TextField) child.get(0);
+        textBox.setText(etaTime.toString());
+    }
+
 
     @FXML
     private void handleButtonAction(ActionEvent e) throws IOException {

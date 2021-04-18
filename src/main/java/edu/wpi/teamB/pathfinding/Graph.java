@@ -89,7 +89,7 @@ public class Graph {
      * @return the distance between the two nodes
      */
     public static double dist(Node start, Node end) {
-        double dist = Math.sqrt(Math.pow((start.getXCoord() - end.getXCoord()), 2) + Math.pow((start.getYCoord() + end.getYCoord()), 2));
+        double dist = Math.sqrt(Math.pow((start.getXCoord() - end.getXCoord()), 2) + Math.pow((start.getYCoord() - end.getYCoord()), 2));
         dist += Math.abs(end.getFloorAsInt() - start.getFloorAsInt()) * 5000;
         return dist;
     }
