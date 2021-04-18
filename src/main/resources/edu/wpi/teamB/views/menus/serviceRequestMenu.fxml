@@ -44,7 +44,7 @@
             </VBox>
          </children>
       </HBox>
-      <FlowPane alignment="TOP_CENTER" columnHalignment="CENTER" hgap="20.0" prefHeight="364.0" prefWidth="1238.0" vgap="20.0" VBox.vgrow="NEVER">
+      <FlowPane alignment="TOP_CENTER" columnHalignment="CENTER" hgap="20.0" vgap="20.0" VBox.vgrow="NEVER">
          <children>
             <VBox alignment="TOP_CENTER" minWidth="200.0">
                <children>
@@ -214,7 +214,7 @@
                   </Text>
                </children>
             </VBox>
-            <VBox alignment="TOP_CENTER" minWidth="-Infinity" prefHeight="153.0" prefWidth="200.0">
+            <VBox alignment="TOP_CENTER" minWidth="200.0">
                <children>
                   <JFXButton fx:id="btnFoodDelivery" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="70.0" minWidth="70.0" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39;" text="Food Delivery">
                      <font>
@@ -262,7 +262,7 @@
                   </Text>
                </children>
             </VBox>
-            <VBox alignment="TOP_CENTER" minWidth="200.0" prefHeight="200.0">
+            <VBox alignment="TOP_CENTER" minWidth="200.0">
                <children>
                   <JFXButton fx:id="btnLaundryRequest" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="70.0" minWidth="70.0" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39;" text="Laundry">
                      <font>
@@ -286,7 +286,7 @@
                   </Text>
                </children>
             </VBox>
-            <VBox alignment="TOP_CENTER" minWidth="200.0" prefWidth="207.0">
+            <VBox alignment="TOP_CENTER" minWidth="200.0">
                <children>
                   <JFXButton fx:id="btnCaseManager" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="70.0" minWidth="70.0" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39;" text="Religious Service">
                      <font>

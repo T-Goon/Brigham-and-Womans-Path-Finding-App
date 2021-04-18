@@ -104,7 +104,9 @@ public class AppTest extends FxRobot {
                 Arguments.of("External Patient Transport", "External Transportation Request Form"),
                 Arguments.of("Religious Service", "Religious Request Form"),
                 Arguments.of("Food Delivery", "Food Delivery Request Form"),
-                Arguments.of("Laundry", "Laundry Services Request Form")
+                Arguments.of("Laundry", "Laundry Services Request Form"),
+                Arguments.of("Social Worker", "Social Worker Request Form"),
+                Arguments.of("Case Manager", "Case Manager Request Form")
         );
     }
 }
