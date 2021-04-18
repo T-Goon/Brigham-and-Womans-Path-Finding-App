@@ -1,5 +1,6 @@
 package edu.wpi.teamB.views.requestForms;
 
+import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 import javafx.fxml.FXML;
 
@@ -13,4 +14,10 @@ public class FoodDeliveryRequestFormController extends DefaultServiceRequestForm
 
     @FXML
     private JFXTextField mealChoice;
+
+    @FXML
+    private JFXTextField arrivalTime;
+
+    @FXML
+    private JFXTextArea extraInformation;
 }
