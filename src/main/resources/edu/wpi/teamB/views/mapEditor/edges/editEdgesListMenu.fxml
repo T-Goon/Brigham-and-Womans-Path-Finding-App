@@ -51,12 +51,19 @@
                 </HBox>
                 <HBox alignment="TOP_CENTER">
                     <children>
-                        <JFXButton fx:id="btnBack" alignment="CENTER" buttonType="RAISED" cancelButton="true" contentDisplay="CENTER" onAction="#handleButtonAction" style="-fx-background-color: #0067B1; -fx-background-radius: 50%;" text="←" textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP">
+                        <JFXButton fx:id="btnBack" alignment="CENTER" buttonType="RAISED" cancelButton="true" contentDisplay="CENTER"
+                                   onAction="#handleButtonAction" style="-fx-background-color: #0067B1; -fx-background-radius: 50%;"
+                                   text="" textAlignment="CENTER" textFill="WHITE" prefWidth="56" prefHeight="56" maxWidth="56" maxHeight="56">
                             <font>
-                                <Font size="27.0" />
+                                <Font size="27.0"/>
                             </font>
+                            <graphic>
+                                <ImageView fitHeight="20" fitWidth="20" pickOnBounds="true" preserveRatio="true">
+                                    <Image url="@../../../images/menus/backButton.png"/>
+                                </ImageView>
+                            </graphic>
                             <HBox.margin>
-                                <Insets right="10.0" />
+                                <Insets right="10.0"/>
                             </HBox.margin>
                         </JFXButton>
                   <VBox>
