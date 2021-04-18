@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import edu.wpi.teamB.util.SceneSwitcher;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
@@ -26,6 +27,9 @@ public class StaffLoginController {
     private JFXButton btnEmergency;
 
     @FXML
+    private JFXButton btnExit;
+
+    @FXML
     public void handleButtonAction(ActionEvent actionEvent) {
         JFXButton btn = (JFXButton) actionEvent.getSource();
 
@@ -35,6 +39,9 @@ public class StaffLoginController {
                 break;
             case "btnBack":
                 SceneSwitcher.goBack(getClass(), 1);
+                break;
+            case "btnExit":
+                Platform.exit();
                 break;
             case "btnEmergency":
                 SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/loginPages/staffLogin.fxml", "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");

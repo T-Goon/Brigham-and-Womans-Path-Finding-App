@@ -13,6 +13,7 @@ import edu.wpi.teamB.pathfinding.Graph;
 import edu.wpi.teamB.util.GraphicalEditorEdgeData;
 import edu.wpi.teamB.util.GraphicalEditorNodeData;
 import edu.wpi.teamB.util.SceneSwitcher;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -64,6 +65,9 @@ public class PathfindingMenuController implements Initializable {
 
     @FXML
     private JFXButton btnEmergency;
+
+    @FXML
+    private JFXButton btnExit;
 
     @FXML
     private Label lblError;
@@ -259,6 +263,9 @@ public class PathfindingMenuController implements Initializable {
                 break;
             case "btnBack":
                 SceneSwitcher.goBack(getClass(), 1);
+                break;
+            case "btnExit":
+                Platform.exit();
                 break;
             case "btnEmergency":
                 SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/pathfindingMenu.fxml", "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");

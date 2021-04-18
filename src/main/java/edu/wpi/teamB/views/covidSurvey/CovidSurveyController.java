@@ -4,6 +4,8 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXRadioButton;
 import edu.wpi.teamB.util.SceneSwitcher;
+import javafx.application.Platform;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ToggleGroup;
@@ -50,6 +52,9 @@ public class CovidSurveyController implements Initializable {
     private JFXCheckBox chkNausea;
 
     @FXML
+    private JFXButton btnExit;
+
+    @FXML
     private JFXRadioButton btnCCYes;
 
     @FXML
@@ -89,6 +94,9 @@ public class CovidSurveyController implements Initializable {
                     SceneSwitcher.switchToTemp(getClass(), "/edu/wpi/teamB/views/covidSurvey/covidFormSubmittedNoSymp.fxml");
                 else
                     SceneSwitcher.switchToTemp(getClass(), "/edu/wpi/teamB/views/CovidSurvey/covidFormSubmittedWithSymp.fxml");
+                break;
+            case "btnExit":
+                Platform.exit();
                 break;
             case "btnEmergency":
                 SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/covidSurvey/covidSurvey.fxml", "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");

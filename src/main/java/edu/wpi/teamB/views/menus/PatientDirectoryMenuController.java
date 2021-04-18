@@ -12,6 +12,9 @@ public class PatientDirectoryMenuController {
     private JFXButton btnCovid;
 
     @FXML
+    private JFXButton btnBack;
+
+    @FXML
     private JFXButton btnEmergency;
 
     @FXML
@@ -52,7 +55,6 @@ public class PatientDirectoryMenuController {
             case "btnExit":
                 Platform.exit();
                 break;
-
         }
 
     }

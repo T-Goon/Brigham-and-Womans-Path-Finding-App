@@ -6,6 +6,7 @@ import com.jfoenix.controls.JFXTextField;
 import edu.wpi.teamB.database.DatabaseHandler;
 import edu.wpi.teamB.entities.Node;
 import edu.wpi.teamB.util.SceneSwitcher;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -18,6 +19,9 @@ public class AddNodeMenuController implements Initializable {
 
     @FXML
     private JFXButton btnEmergency;
+
+    @FXML
+    private JFXButton btnExit;
 
     @FXML
     private JFXButton btnCancel;
@@ -101,6 +105,9 @@ public class AddNodeMenuController implements Initializable {
                 break;
             case "btnEmergency":
                 SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapEditor/nodes/addNodeMenu.fxml", "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");
+                break;
+            case "btnExit":
+                Platform.exit();
                 break;
         }
     }

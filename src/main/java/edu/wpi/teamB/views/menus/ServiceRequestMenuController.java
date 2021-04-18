@@ -2,6 +2,7 @@ package edu.wpi.teamB.views.menus;
 
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.teamB.util.SceneSwitcher;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -45,10 +46,13 @@ public class ServiceRequestMenuController {
     private JFXButton btnEmergency;
 
     @FXML
+    private JFXButton btnExit;
+
+    @FXML
     private void handleButtonAction(ActionEvent e) {
         Button btn = (Button) e.getSource();
 
-        String path;
+        String path = null;
         switch (btn.getId()) {
             case "btnMedicine":
                 path = VIEWS_PATH + "medDeliveryRequestForm.fxml";
@@ -83,6 +87,9 @@ public class ServiceRequestMenuController {
             case "btnBack":
                 SceneSwitcher.goBack(getClass(), 1);
                 return;
+            case "btnExit":
+                Platform.exit();
+                break;
             default:
                 throw new IllegalStateException("WHAT BUTTON IS THIS AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
         }

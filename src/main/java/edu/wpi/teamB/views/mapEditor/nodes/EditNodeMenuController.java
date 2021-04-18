@@ -7,6 +7,7 @@ import edu.wpi.teamB.App;
 import edu.wpi.teamB.database.DatabaseHandler;
 import edu.wpi.teamB.entities.Node;
 import edu.wpi.teamB.util.SceneSwitcher;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -20,6 +21,9 @@ public class EditNodeMenuController implements Initializable {
 
     @FXML
     private JFXButton btnEmergency;
+
+    @FXML
+    private JFXButton btnExit;
 
     @FXML
     private JFXButton btnBack;
@@ -97,6 +101,12 @@ public class EditNodeMenuController implements Initializable {
             case "btnBack":
                 SceneSwitcher.goBack(getClass(), 1);
                 break;
+            case "btnExit":
+                Platform.exit();
+                break;
+            case "btnEmergency":
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapEditor/nodes/editNodeMenu.fxml", "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");
+                break;
             case "btnUpdate":
                 Stage stage = App.getPrimaryStage();
                 Node node = (Node) stage.getUserData();
@@ -113,9 +123,6 @@ public class EditNodeMenuController implements Initializable {
 
                 DatabaseHandler.getDatabaseHandler("main.db").updateNode(node);
                 SceneSwitcher.goBack(getClass(), 1);
-                break;
-            case "btnEmergency":
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapEditor/nodes/editNodeMenu.fxml", "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");
                 break;
         }
     }

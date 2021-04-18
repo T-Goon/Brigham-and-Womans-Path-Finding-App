@@ -8,8 +8,6 @@ import javafx.fxml.FXML;
 
 public class AdminDirectoryMenuController {
 
-    @FXML
-    private JFXButton btnDatabase;
 
     @FXML
     private JFXButton btnEmergency;
@@ -18,13 +16,31 @@ public class AdminDirectoryMenuController {
     private JFXButton btnExit;
 
     @FXML
+    private JFXButton btnBack;
+
+    @FXML
+    private JFXButton btnDirections;
+
+    @FXML
+    private JFXButton btnServiceRequests;
+
+    @FXML
+    private JFXButton btnDatabase;
+
+    @FXML
     private JFXButton btnMapEditor;
 
     @FXML
-    public void handleButtonAction(ActionEvent actionEvent) {
-        JFXButton btn = (JFXButton) actionEvent.getSource();
+    public void handleButtonAction(ActionEvent e) {
+        JFXButton btn = (JFXButton) e.getSource();
 
         switch (btn.getId()) {
+            case "btnDirections":
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/adminDirectoryMenu.fxml", "/edu/wpi/teamB/views/menus/pathfindingMenu.fxml");
+                break;
+            case "btnServiceRequests":
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/adminDirectoryMenu.fxml", "/edu/wpi/teamB/views/menus/serviceRequestMenu.fxml");
+                break;
             case "btnMapEditor":
                 SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/adminDirectoryMenu.fxml", "/edu/wpi/teamB/views/mapEditor/editorIntermediateMenu.fxml");
                 break;

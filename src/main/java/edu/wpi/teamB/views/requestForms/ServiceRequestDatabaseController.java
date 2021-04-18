@@ -1,5 +1,7 @@
 package edu.wpi.teamB.views.requestForms;
 
+import javafx.application.Platform;
+
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.teamB.util.SceneSwitcher;
 import javafx.event.ActionEvent;
@@ -10,11 +12,24 @@ public class ServiceRequestDatabaseController {
     private JFXButton btnBack;
 
     @FXML
-    public void handleButtonAction(ActionEvent actionEvent) {
-        JFXButton btn = (JFXButton) actionEvent.getSource();
+    private JFXButton btnExit;
+
+    @FXML
+    private JFXButton btnEmergency;
+
+    @FXML
+    private void handleButtonAction(ActionEvent e) {
+        JFXButton btn = (JFXButton) e.getSource();
+
         switch (btn.getId()) {
             case "btnBack":
                 SceneSwitcher.goBack(getClass(), 1);
+                break;
+            case "btnExit":
+                Platform.exit();
+                break;
+            case "btnEmergency":
+                SceneSwitcher.switchToTemp(getClass(), "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");
                 break;
         }
     }
