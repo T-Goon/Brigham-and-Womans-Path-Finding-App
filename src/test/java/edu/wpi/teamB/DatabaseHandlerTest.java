@@ -110,17 +110,15 @@ public class DatabaseHandlerTest {
 
     @Test
     void fillDatabase() {
-        List<Node> nodes = new ArrayList<>();
         List<Edge> edges = new ArrayList<>();
 
-        //Theres a less scuffed way to do this, but hey, it works and is easy to tweak.
 
         Edge targetEdge = new Edge("bPARK01201_bWALK00501", "bWALK00502", "bWALK00501");
         edges.add(targetEdge);
 
-        db.loadDatabase(nodes, edges);
+        db.loadDatabase(testNodes, edges);
         Map<String, Node> outNodes = db.getNodes();
-        assert (outNodes.values().containsAll(nodes));
+        assert (outNodes.values().containsAll(testNodes));
         Map<String, Edge> outEdges = db.getEdges();
         assertEquals(outEdges.values().toArray()[0], targetEdge);
 
