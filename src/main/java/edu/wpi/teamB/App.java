@@ -6,7 +6,6 @@ import java.util.Objects;
 import edu.wpi.teamB.util.CSVHandler;
 import edu.wpi.teamB.database.DatabaseHandler;
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -36,8 +35,7 @@ public class App extends Application {
 
         // Open first view
         try {
-            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("views/menus/patientDirectoryMenu.fxml")));
-
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("views/loginPages/loginOptions.fxml")));
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);
             primaryStage.show();
@@ -53,7 +51,6 @@ public class App extends Application {
             primaryStage.setFullScreen(true);
         } catch (IOException e) {
             e.printStackTrace();
-            Platform.exit();
         }
     }
 
