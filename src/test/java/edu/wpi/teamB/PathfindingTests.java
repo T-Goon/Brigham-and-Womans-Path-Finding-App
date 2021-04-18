@@ -113,7 +113,7 @@ public class PathfindingTests {
         * [bWALK00101, bWALK00201, bWALK00301, bWALK00401, bWALK00501, bWALK00601, bWALK00701, bWALK00801, bWALK01001, bWALK01101, bWALK01201, bWALK01301, bWALK01401, bWALK01501, bWALK01601, bPARK02301]
         * */
 
-        Path path = AStar.closestPath("bWALK00101", category);
+        List<String> path = AStar.closestPath("bWALK00101", category);
         assertEquals(expectedPath, path);
 
 
