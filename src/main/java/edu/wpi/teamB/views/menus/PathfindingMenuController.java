@@ -258,7 +258,7 @@ public class PathfindingMenuController implements Initializable {
 
                 break;
             case "btnBack":
-                SceneSwitcher.goBack(getClass());
+                SceneSwitcher.goBack(getClass(), 1);
                 break;
             case "btnEmergency":
                 SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/pathfindingMenu.fxml", "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");

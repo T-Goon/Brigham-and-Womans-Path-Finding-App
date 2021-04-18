@@ -32,7 +32,7 @@ public class EditorIntermediateMenuController {
                 SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapEditor/editorIntermediateMenu.fxml","/edu/wpi/teamB/views/mapEditor/edges/editEdgesListMenu.fxml");
                 break;
             case "btnBack":
-                SceneSwitcher.goBack(getClass());
+                SceneSwitcher.goBack(getClass(), 1);
                 break;
             case "btnEmergency":
                 SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapEditor/editorIntermediateMenu.fxml", "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");

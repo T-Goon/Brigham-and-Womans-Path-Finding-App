@@ -77,12 +77,12 @@ public class ServiceRequestMenuController {
             case "btnLaundryRequest":
                 path = VIEWS_PATH + "laundryRequestForm.fxml";
                 break;
-            case "btnBack":
-                SceneSwitcher.goBack(getClass());
-                return;
             case "btnEmergency":
                 path = VIEWS_PATH + "emergencyForm.fxml";
                 break;
+            case "btnBack":
+                SceneSwitcher.goBack(getClass(), 1);
+                return;
             default:
                 throw new IllegalStateException("WHAT BUTTON IS THIS AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
         }

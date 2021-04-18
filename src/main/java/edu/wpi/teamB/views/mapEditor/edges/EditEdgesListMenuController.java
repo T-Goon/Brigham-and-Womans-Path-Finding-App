@@ -149,7 +149,7 @@ public class EditEdgesListMenuController implements Initializable {
 
         switch (btn.getId()) {
             case "btnBack":
-                SceneSwitcher.goBack(getClass());
+                SceneSwitcher.goBack(getClass(), 1);
                 break;
             case "btnAddEdge":
                 SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapEditor/edges/editEdgesListMenu.fxml", "/edu/wpi/teamB/views/mapEditor/edges/addEdgeMenu.fxml");

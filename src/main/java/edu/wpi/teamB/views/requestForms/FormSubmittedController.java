@@ -16,7 +16,7 @@ public class FormSubmittedController {
         JFXButton btn = (JFXButton) e.getSource();
 
         if (btn.getId().equals("btnReturn")) {
-            SceneSwitcher.goBack(getClass());
+            SceneSwitcher.goBack(getClass(), 2);
         } else if (btn.getId().equals("btnEmergency")) {
             SceneSwitcher.switchToTemp(getClass(), "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");
         }

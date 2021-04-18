@@ -47,7 +47,7 @@ public class PatientDirectoryMenuController {
                 SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/patientDirectoryMenu.fxml", "/edu/wpi/teamB/views/covidSurvey/covidSurvey.fxml");
                 break;
             case "btnBack":
-                SceneSwitcher.goBack(getClass());
+                SceneSwitcher.goBack(getClass(), 1);
                 break;
             case "btnExit":
                 Platform.exit();

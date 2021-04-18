@@ -24,7 +24,7 @@ public class CovidSubmittedWithSympController {
 
         switch (btn.getId()) {
             case "btnBack":
-                SceneSwitcher.goBack(getClass());
+                SceneSwitcher.goBack(getClass(), 1);
                 break;
             case "btnDirections":
                 //SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapEditor/editorIntermediateMenu.fxml");

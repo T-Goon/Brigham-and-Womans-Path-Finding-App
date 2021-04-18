@@ -33,7 +33,7 @@ public class AdminLoginController {
                 SceneSwitcher.switchToTemp(getClass(), "/edu/wpi/teamB/views/menus/adminDirectoryMenu.fxml");
                 break;
             case "btnBack":
-                SceneSwitcher.goBack(getClass());
+                SceneSwitcher.goBack(getClass(), 1);
                 break;
             case "btnEmergency":
                 SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/loginPages/adminLogin.fxml", "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");

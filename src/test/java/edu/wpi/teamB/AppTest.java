@@ -126,7 +126,6 @@ public class AppTest extends FxRobot {
         clickOn("Submit");
         verifyThat("Form Successfully Submitted!", Node::isVisible);
         clickOn("Return to Main Screen");
-        clickOn("#btnBack");
         verifyThat("Service Requests", Node::isVisible);
         clickOn("#btnBack");
         verifyThat("#btnGuest", Node::isVisible);

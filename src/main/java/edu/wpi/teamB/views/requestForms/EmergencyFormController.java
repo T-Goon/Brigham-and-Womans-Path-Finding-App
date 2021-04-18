@@ -39,7 +39,7 @@ public class EmergencyFormController {
                 SceneSwitcher.switchToTemp(getClass(),"/edu/wpi/teamB/views/requestForms/formSubmitted.fxml");
                 break;
             case "btnCancel":
-                SceneSwitcher.goBack(getClass());
+                SceneSwitcher.goBack(getClass(), 1);
                 break;
             case "btnHelp":
                 break;

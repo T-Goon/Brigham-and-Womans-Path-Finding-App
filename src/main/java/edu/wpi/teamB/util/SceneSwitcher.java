@@ -14,13 +14,17 @@ public class SceneSwitcher {
     private static final Stack<String> stack = new Stack<>();
 
     /**
-     * Goes back to the previous page
+     * Goes back to a previous page by popping from the stack
+     * however many times it is requested to
      *
      * @param newClass the class instance
+     * @param pagesBack the number of pages to go back
      */
-    public static void goBack(Class newClass) {
+    public static void goBack(Class newClass, int pagesBack) {
         if (stack.isEmpty()) return;
-        String path = stack.pop();
+        String path = "";
+        for (int i = 0; i < pagesBack; i++)
+            if (!stack.isEmpty()) path = stack.pop();
         try {
             Pane root = FXMLLoader.load(Objects.requireNonNull(newClass.getResource(path)));
             App.getPrimaryStage().getScene().setRoot(root);
@@ -30,9 +34,11 @@ public class SceneSwitcher {
         }
     }
 
+
     /**
-     * Switches to a scene and removes it from the stack.
-     *  @param newClass the class instance
+     * Switches to a scene, but doesn't add it to the stack
+     *
+     * @param newClass the class instance
      * @param path     the path to the FXML file to switch to
      */
     public static void switchToTemp(Class newClass, String path) {
@@ -47,12 +53,13 @@ public class SceneSwitcher {
 
     /**
      * Switches to a scene and removes it from the stack.
-     *  @param newClass the class instance
+     *
+     * @param newClass the class instance
      * @param path     the path to the FXML file to switch to
      */
     public static void switchScene(Class newClass, String oldPath, String path) {
         stack.push(oldPath);
-        Parent root = null;
+        Parent root;
         try {
             root = FXMLLoader.load(Objects.requireNonNull(newClass.getResource(path)));
             App.getPrimaryStage().getScene().setRoot(root);

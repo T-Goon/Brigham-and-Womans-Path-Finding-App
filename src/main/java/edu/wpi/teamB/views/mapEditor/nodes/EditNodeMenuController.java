@@ -95,7 +95,7 @@ public class EditNodeMenuController implements Initializable {
 
         switch (btn.getId()) {
             case "btnBack":
-                SceneSwitcher.goBack(getClass());
+                SceneSwitcher.goBack(getClass(), 1);
                 break;
             case "btnUpdate":
                 Stage stage = App.getPrimaryStage();
@@ -112,7 +112,7 @@ public class EditNodeMenuController implements Initializable {
                 node = new Node(node.getNodeID(), aXCoord, aYCoord, aFloor, aBuilding, aNodeType, aLongName, aShortName);
 
                 DatabaseHandler.getDatabaseHandler("main.db").updateNode(node);
-                SceneSwitcher.goBack(getClass());
+                SceneSwitcher.goBack(getClass(), 1);
                 break;
             case "btnEmergency":
                 SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapEditor/nodes/editNodeMenu.fxml", "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");
