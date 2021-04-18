@@ -1,5 +1,6 @@
 package edu.wpi.teamB.views.requestForms;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 import edu.wpi.teamB.database.DatabaseHandler;
@@ -28,20 +29,16 @@ public class MedDeliveryRequestFormController extends DefaultServiceRequestFormC
     private JFXTextArea reason;
 
     public void handleButtonAction(ActionEvent actionEvent) throws IOException {
-        super.handleButtonAction(actionEvent);
-
         String givenPatientName = name.getText();
         String givenMedicine = medName.getText();
 
         DateFormat timeFormat = new SimpleDateFormat("HH:mm");
         DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd");
         Date dateInfo = new Date();
-        String formattedTime = timeFormat.format(dateInfo);
-        String formattedDate = dateFormat.format(dateInfo);
 
         String requestID = UUID.randomUUID().toString();
-        String time = formattedTime; // Stored as HH:MM (24 hour time)
-        String date = formattedDate; // Stored as YYYY-MM-DD
+        String time = timeFormat.format(dateInfo); // Stored as HH:MM (24 hour time)
+        String date = dateFormat.format(dateInfo); // Stored as YYYY-MM-DD
         String complete = "F";
         String employeeName = null; // fix
         String location = roomNum.getText();
@@ -49,6 +46,11 @@ public class MedDeliveryRequestFormController extends DefaultServiceRequestFormC
 
         MedicineRequest request = new MedicineRequest(givenPatientName, givenMedicine,
                 requestID, time, date, complete, employeeName, location, givenDescription);
-        DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
+
+        JFXButton btn = (JFXButton) actionEvent.getSource();
+        if (btn.getId().equals("btnSubmit")) {
+            DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
+        }
+        super.handleButtonAction(actionEvent);
     }
 }

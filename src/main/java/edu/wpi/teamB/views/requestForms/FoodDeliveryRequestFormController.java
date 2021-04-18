@@ -1,5 +1,6 @@
 package edu.wpi.teamB.views.requestForms;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 import edu.wpi.teamB.database.DatabaseHandler;
@@ -31,8 +32,6 @@ public class FoodDeliveryRequestFormController extends DefaultServiceRequestForm
     private JFXTextArea description;
 
     public void handleButtonAction(ActionEvent actionEvent) throws IOException {
-        super.handleButtonAction(actionEvent);
-
         String givenPatientName = name.getText();
         String givenArrivalTime = arrivalTime.getText();
         String givenMealChoice = mealChoice.getText();
@@ -40,12 +39,10 @@ public class FoodDeliveryRequestFormController extends DefaultServiceRequestForm
         DateFormat timeFormat = new SimpleDateFormat("HH:mm");
         DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd");
         Date dateInfo = new Date();
-        String formattedTime = timeFormat.format(dateInfo);
-        String formattedDate = dateFormat.format(dateInfo);
 
         String requestID = UUID.randomUUID().toString();
-        String time = formattedTime; // Stored as HH:MM (24 hour time)
-        String date = formattedDate; // Stored as YYYY-MM-DD
+        String time = timeFormat.format(dateInfo); // Stored as HH:MM (24 hour time)
+        String date = dateFormat.format(dateInfo); // Stored as YYYY-MM-DD
         String complete = "F";
         String employeeName = null; // fix
         String location = roomNum.getText();
@@ -53,6 +50,11 @@ public class FoodDeliveryRequestFormController extends DefaultServiceRequestForm
 
         FoodRequest request = new FoodRequest(givenPatientName, givenArrivalTime, givenMealChoice,
                 requestID, time, date, complete, employeeName, location, givenDescription);
-        DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
+
+        JFXButton btn = (JFXButton) actionEvent.getSource();
+        if (btn.getId().equals("btnSubmit")) {
+            DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
+        }
+        super.handleButtonAction(actionEvent);
     }
 }

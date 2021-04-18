@@ -53,8 +53,6 @@ public class ExternalTransportationRequestFormController extends DefaultServiceR
     }
 
     public void handleButtonAction(ActionEvent actionEvent) throws IOException {
-        super.handleButtonAction(actionEvent);
-
         String givenPatientName = name.getText();
         String givenTransportType = comboTranspType.getValue().toString();
         String givenDestination = destination.getText();
@@ -66,12 +64,10 @@ public class ExternalTransportationRequestFormController extends DefaultServiceR
         DateFormat timeFormat = new SimpleDateFormat("HH:mm");
         DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd");
         Date dateInfo = new Date();
-        String formattedTime = timeFormat.format(dateInfo);
-        String formattedDate = dateFormat.format(dateInfo);
 
         String requestID = UUID.randomUUID().toString();
-        String time = formattedTime; // Stored as HH:MM (24 hour time)
-        String date = formattedDate; // Stored as YYYY-MM-DD
+        String time = timeFormat.format(dateInfo); // Stored as HH:MM (24 hour time)
+        String date = dateFormat.format(dateInfo); // Stored as YYYY-MM-DD
         String complete = "F";
         String employeeName = null; // fix
         String location = roomNum.getText();
@@ -79,6 +75,11 @@ public class ExternalTransportationRequestFormController extends DefaultServiceR
 
         ExternalTransportRequest request = new ExternalTransportRequest(givenPatientName, givenTransportType, givenDestination, givenPatientAllergies, givenOutNetwork, givenInfectious, givenUnconscious,
                 requestID, time, date, complete, employeeName, location, givenDescription);
-        DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
+
+        JFXButton btn = (JFXButton) actionEvent.getSource();
+        if (btn.getId().equals("btnSubmit")) {
+            DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
+        }
+        super.handleButtonAction(actionEvent);
     }
 }

@@ -1,5 +1,6 @@
 package edu.wpi.teamB.views.requestForms;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
@@ -41,26 +42,27 @@ public class SecurityRequestFormController extends DefaultServiceRequestFormCont
     }
 
     public void handleButtonAction(ActionEvent actionEvent) throws IOException {
-        super.handleButtonAction(actionEvent);
-
         int givenUrgency = Integer.parseInt(comboUrgency.getValue().toString());
 
         DateFormat timeFormat = new SimpleDateFormat("HH:mm");
         DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd");
         Date dateInfo = new Date();
-        String formattedTime = timeFormat.format(dateInfo);
-        String formattedDate = dateFormat.format(dateInfo);
 
         String requestID = UUID.randomUUID().toString();
-        String time = formattedTime; // Stored as HH:MM (24 hour time)
-        String date = formattedDate; // Stored as YYYY-MM-DD
+        String time = timeFormat.format(dateInfo); // Stored as HH:MM (24 hour time)
+        String date = dateFormat.format(dateInfo); // Stored as YYYY-MM-DD
         String complete = "F";
         String employeeName = assignedTo.getText();
         String location = loc.getText();
         String givenDescription = description.getText();
 
         SecurityRequest request = new SecurityRequest(givenUrgency, requestID, time, date, complete, employeeName, location, givenDescription);
-        DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
+
+        JFXButton btn = (JFXButton) actionEvent.getSource();
+        if (btn.getId().equals("btnSubmit")) {
+            DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
+        }
+        super.handleButtonAction(actionEvent);
     }
 }
 
