@@ -131,10 +131,17 @@
             </HBox>
             <HBox alignment="BOTTOM_LEFT" VBox.vgrow="ALWAYS">
                <children>
-                  <JFXButton fx:id="btnBack" alignment="CENTER" buttonType="RAISED" cancelButton="true" contentDisplay="CENTER" onAction="#handleButtonAction" style="-fx-background-color: #0067B1; -fx-background-radius: 50%;" text="←" textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP">
+                  <JFXButton fx:id="btnBack" alignment="CENTER" buttonType="RAISED" cancelButton="true" contentDisplay="CENTER" maxHeight="56" maxWidth="56" onAction="#handleButtonAction" prefHeight="56" prefWidth="56" style="-fx-background-color: #0067B1; -fx-background-radius: 50%;" text="" textAlignment="CENTER" textFill="WHITE">
                      <font>
                         <Font size="27.0" />
                      </font>
+                     <graphic>
+                        <ImageView fitHeight="20" fitWidth="20" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../images/menus/backButton.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
                   </JFXButton>
                </children>
                <padding>

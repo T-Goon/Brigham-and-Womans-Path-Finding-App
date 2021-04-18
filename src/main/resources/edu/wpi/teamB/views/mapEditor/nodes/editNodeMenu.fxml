@@ -295,7 +295,22 @@
                         </HBox>
                         <HBox alignment="CENTER_LEFT" prefWidth="200.0">
                            <children>
-                              <HBox alignment="CENTER_LEFT" fillHeight="false" HBox.hgrow="ALWAYS" />
+                              <HBox alignment="CENTER_LEFT" fillHeight="false" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <JFXButton fx:id="btnBack" alignment="CENTER" buttonType="RAISED" cancelButton="true" contentDisplay="CENTER"
+                                               onAction="#handleButtonAction" style="-fx-background-color: #0067B1; -fx-background-radius: 50%;"
+                                               text="" textAlignment="CENTER" textFill="WHITE" prefWidth="56" prefHeight="56" maxWidth="56" maxHeight="56">
+                                       <font>
+                                          <Font size="27.0"/>
+                                       </font>
+                                       <graphic>
+                                          <ImageView fitHeight="20" fitWidth="20" pickOnBounds="true" preserveRatio="true">
+                                             <Image url="@../../../images/menus/backButton.png"/>
+                                          </ImageView>
+                                       </graphic>
+                                    </JFXButton>
+                                 </children>
+                              </HBox>
                               <HBox alignment="CENTER" fillHeight="false" spacing="10.0" HBox.hgrow="ALWAYS">
                                  <children>
                                     <JFXButton fx:id="btnUpdate" buttonType="RAISED" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39; -fx-background-radius: 7;" text="Update Node">

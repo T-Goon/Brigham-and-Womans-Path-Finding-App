@@ -29,7 +29,7 @@ public class StaffDirectoryMenuController {
     @FXML
     public void handleButtonAction(ActionEvent actionEvent) throws IOException {
         JFXButton btn = (JFXButton) actionEvent.getSource();
-        SceneSwitcher.pushScene("/edu/wpi/teamB/views/menus/staffDirectoryMenu.fxml");
+
 
         switch (btn.getId()) {
             case "btnServiceRequests":

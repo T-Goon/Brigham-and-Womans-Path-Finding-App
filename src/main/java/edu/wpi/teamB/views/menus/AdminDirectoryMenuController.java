@@ -28,7 +28,6 @@ public class AdminDirectoryMenuController {
     @FXML
     public void handleButtonAction(ActionEvent actionEvent) throws IOException {
         JFXButton btn = (JFXButton) actionEvent.getSource();
-        SceneSwitcher.pushScene("/edu/wpi/teamB/views/menus/adminDirectoryMenu.fxml");
 
         switch (btn.getId()) {
             case "btnMapEditor":

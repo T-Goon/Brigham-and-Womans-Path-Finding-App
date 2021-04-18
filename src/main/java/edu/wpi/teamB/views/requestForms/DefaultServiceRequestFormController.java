@@ -5,6 +5,10 @@ import edu.wpi.teamB.util.SceneSwitcher;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 
@@ -35,12 +39,22 @@ public abstract class DefaultServiceRequestFormController {
                 SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/serviceRequestMenu.fxml");
                 break;
             case "btnHelp":
+                //fix the path for the actual help screens
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/edu/wpi/teamB/views/requestForms/formSubmitted.fxml"));
+                Parent root = (Parent) loader.load();
+                //[whatever the help controller is] controller = ([whatever the help controller is]) loader.getController();
+                Scene scene = new Scene(root);
+                Stage stage = new Stage();
+                stage.setScene(scene);
+                stage.setTitle("Help");
+                stage.show();
             case "btnEmergency":
                 SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");
                 break;
             case "btnExit":
                 Platform.exit();
                 break;
+
         }
     }
 }

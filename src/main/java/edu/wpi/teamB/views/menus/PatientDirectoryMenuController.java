@@ -28,7 +28,7 @@ public class PatientDirectoryMenuController {
     @FXML
     public void handleButtonAction(ActionEvent actionEvent) throws IOException {
         JFXButton btn = (JFXButton) actionEvent.getSource();
-        SceneSwitcher.pushScene("/edu/wpi/teamB/views/menus/patientDirectoryMenu.fxml");
+
 
         switch (btn.getId()) {
             case "btnServiceRequests":
