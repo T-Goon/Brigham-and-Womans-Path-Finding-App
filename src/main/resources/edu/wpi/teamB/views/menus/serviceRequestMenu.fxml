@@ -10,7 +10,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" spacing="20.0" style="-fx-background-color: #012d5a;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamB.views.menus.ServiceRequestMenuController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" spacing="20.0" style="-fx-background-color: #012d5a;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamB.views.menus.ServiceRequestMenuController">
    <children>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #FFFFFF;">
          <children>
@@ -214,7 +214,7 @@
                   </Text>
                </children>
             </VBox>
-            <VBox alignment="TOP_CENTER" minWidth="200.0">
+            <VBox alignment="TOP_CENTER" minWidth="-Infinity" prefHeight="153.0" prefWidth="200.0">
                <children>
                   <JFXButton fx:id="btnFoodDelivery" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="70.0" minWidth="70.0" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39;" text="Food Delivery">
                      <font>
@@ -229,6 +229,30 @@
                      </graphic>
                   </JFXButton>
                   <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Food Delivery">
+                     <font>
+                        <Font name="MS Reference Sans Serif" size="18.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </Text>
+               </children>
+            </VBox>
+            <VBox alignment="TOP_CENTER" minWidth="200.0">
+               <children>
+                  <JFXButton fx:id="btnSocialWorker" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="70.0" minWidth="70.0" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39;" text="Religious Service">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <graphic>
+                        <ImageView fitHeight="80.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../../../../../../../Downloads/socialWorkerIcon.PNG" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </JFXButton>
+                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Social Worker Request">
                      <font>
                         <Font name="MS Reference Sans Serif" size="18.0" />
                      </font>
@@ -261,6 +285,36 @@
                      </VBox.margin>
                   </Text>
                </children>
+            </VBox>
+            <VBox alignment="TOP_CENTER" minWidth="200.0" prefWidth="207.0">
+               <children>
+                  <JFXButton fx:id="btnCaseManager" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="70.0" minWidth="70.0" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39;" text="Religious Service">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <graphic>
+                        <ImageView fitHeight="60.0" fitWidth="66.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../../../../../../../Downloads/caseManagerIcon.PNG" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </JFXButton>
+                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Case Manager Request">
+                     <font>
+                        <Font name="MS Reference Sans Serif" size="18.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </Text>
+               </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <FlowPane.margin>
+                  <Insets />
+               </FlowPane.margin>
             </VBox>
          </children>
          <padding>
