@@ -90,28 +90,26 @@ public class AStar {
      * @return the closest path from currLoc to which ever node is closest
      * to it
      */
-    public static Path closestPath(String startID, List<Node> destinations) {
-        double minCost = Double.MAX_VALUE;
-        Path ret = new Path();
-        for(Node end: destinations){
-            Path path = findPath(startID, end.getNodeID());
-            if(path.getTotalPathCost()<minCost){
-                minCost=path.getTotalPathCost();
-                ret = path;
+    public static List<String> closestPath(String startID, List<Node> destinations) {
+
+        Graph graph = Graph.getGraph();
+        double min = Integer.MAX_VALUE;
+
+        List<String> shortestPath = new LinkedList<>();
+
+        for(Node dest: destinations){
+            Path p = findPath(startID, dest.getNodeID());
+            double cost = p.getTotalPathCost();
+            if(cost!=0 && cost<min){
+                shortestPath = p.getPath();
+                min = cost;
             }
         }
-        return ret;
+        return shortestPath;
     }
 
     public double eta(String start, String end){
-
-        Graph graph = Graph.getGraph();
-        Node startNode = graph.getNodes().get(start);
-        Node endNode = graph.getNodes().get(end);
-
         Path path = findPath(start, end);
-
-
         //3-4mph average human walking speed
         //1 mph = 88 fpm
 
@@ -119,7 +117,8 @@ public class AStar {
         //bWALK01201,3373,1554,1,Parking,WALK,Francis Top Sidewalk 3,FrancisSidewalk3
         //According to google maps, path from one corner of Francis street to other is ~500 ft:
         //using this to get pixles / minute
-        double pixDist = Math.sqrt((3373 - 1738)^2 +(1554-1545)^2);
+        //double pixDist = Math.sqrt((3373 - 1738)^2 +(1554-1545)^2);
+        double pixDist = 1635.025;
         double realDist = 500;
         double feetPerMin = 88;
 
