@@ -122,7 +122,7 @@ public class AStar {
 //        double realDist = 500;
 //        double feetPerMin = 88;
 
-        double timeConst = (pixDist / 2);
+        double timeConst = (2/pixDist);
 
         return path.getTotalPathCost()*timeConst;
 

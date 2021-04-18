@@ -116,7 +116,6 @@ public class PathfindingTests {
         List<String> path = AStar.closestPath("bWALK00101", category);
         assertEquals(expectedPath, path);
 
-
     }
 
 }

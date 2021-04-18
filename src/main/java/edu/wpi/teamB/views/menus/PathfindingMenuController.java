@@ -8,6 +8,7 @@ import edu.wpi.teamB.App;
 import edu.wpi.teamB.database.DatabaseHandler;
 import edu.wpi.teamB.entities.Edge;
 import edu.wpi.teamB.entities.Node;
+import edu.wpi.teamB.entities.Path;
 import edu.wpi.teamB.pathfinding.AStar;
 import edu.wpi.teamB.pathfinding.Graph;
 import edu.wpi.teamB.util.GraphicalEditorEdgeData;
@@ -29,6 +30,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.scene.text.Text;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -212,15 +214,22 @@ public class PathfindingMenuController implements Initializable {
 
     private void setETA(String startLong, String endLong) throws IOException {
 
-//        Map<String, String> longName = makeLongToIDMap();
-//        Double etaTime = AStar.eta(longName.get(startLong), longName.get(endLong));
-//
-//        final VBox etaVbox = FXMLLoader.load(
-//                Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/misc/showETA.fxml")));
-//
-//        List<javafx.scene.Node> child = etaVbox.getChildren();
-//        TextField textBox = (TextField) child.get(0);
-//        textBox.setText(etaTime.toString());
+        Map<String, String> longName = makeLongToIDMap();
+
+        String startID = longName.get(startLong);
+        String endID = longName.get(endLong);
+        Double etaTime = AStar.eta(startID, endID);
+        System.out.println(etaTime);
+        final VBox etaVbox = FXMLLoader.load(
+                Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/misc/showETA.fxml")));
+
+        List<javafx.scene.Node> child = etaVbox.getChildren();
+        Text textBox = (Text) child.get(0);
+        textBox.setText(etaTime.toString());
+
+        Graph graph = Graph.getGraph();
+        Node endNode = graph.getNodes().get(longName.get(endLong));
+        placePopupOnMap(etaVbox, endNode.getXCoord(), endNode.getYCoord());
     }
 
 
@@ -239,6 +248,7 @@ public class PathfindingMenuController implements Initializable {
 
                 removeOldPaths();
                 drawPath();
+                setETA(txtStartLocation.getText(), txtEndLocation.getText());
 
                 break;
             case "btnEditMap":
@@ -607,7 +617,8 @@ public class PathfindingMenuController implements Initializable {
     private void drawPath() {
         Map<String, Node> nodesId = Graph.getGraph().getNodes();
         Map<String, String> hmLongName = makeLongToIDMap();
-        List<String> AstarPath = AStar.findPath(hmLongName.get(getStartLocation()), hmLongName.get(getEndLocation()));
+        Path AstarPathInfo = AStar.findPath(hmLongName.get(getStartLocation()), hmLongName.get(getEndLocation()));
+        List<String> AstarPath = AstarPathInfo.getPath();
 
         if (AstarPath.isEmpty()) {
             lblError.setVisible(true);
