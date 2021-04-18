@@ -55,7 +55,7 @@
             <children>
                 <VBox minWidth="300.0" prefHeight="675.0" prefWidth="300.0" style="-fx-background-color: #0067B1;">
                     <children>
-                  <JFXButton fx:id="btnBack1" alignment="CENTER" buttonType="RAISED" cancelButton="true" contentDisplay="CENTER" maxHeight="56" maxWidth="56" onAction="#handleButtonAction" prefHeight="56" prefWidth="56" style="-fx-background-color: #0067B1; -fx-background-radius: 50%;" text="" textAlignment="CENTER" textFill="WHITE">
+                  <JFXButton fx:id="btnBack" alignment="CENTER" buttonType="RAISED" cancelButton="true" contentDisplay="CENTER" maxHeight="56" maxWidth="56" onAction="#handleButtonAction" prefHeight="56" prefWidth="56" style="-fx-background-color: #0067B1; -fx-background-radius: 50%;" text="" textAlignment="CENTER" textFill="WHITE">
                      <font>
                         <Font size="27.0" />
                      </font>
