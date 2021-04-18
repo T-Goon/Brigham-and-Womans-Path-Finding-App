@@ -81,14 +81,14 @@ public class ServiceRequestMenuController {
             case "btnLaundryRequest":
                 path = VIEWS_PATH + "laundryRequestForm.fxml";
                 break;
-            case "btnBack":
-                path = MENUS_PATH + "patientDirectoryMenu.fxml";
-                break;
             case "btnCaseManager":
                 path = VIEWS_PATH + "caseManagerRequestForm.fxml";
                 break;
             case "btnSocialWorker":
                 path = VIEWS_PATH + "socialWorkerRequestForm.fxml";
+                break;
+            case "btnBack":
+                path = MENUS_PATH + "patientDirectoryMenu.fxml";
                 break;
             default:
                 throw new IllegalStateException("WHAT BUTTON IS THIS AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");

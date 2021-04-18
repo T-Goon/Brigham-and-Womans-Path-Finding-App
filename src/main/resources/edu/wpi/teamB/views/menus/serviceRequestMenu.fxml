@@ -247,12 +247,12 @@
                      <graphic>
                         <ImageView fitHeight="80.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../../../../../../../../Downloads/socialWorkerIcon.PNG" />
+                              <Image url="@../../images/requestForms/socialWorkerIcon.png" />
                            </image>
                         </ImageView>
                      </graphic>
                   </JFXButton>
-                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Social Worker Request">
+                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Social Worker">
                      <font>
                         <Font name="MS Reference Sans Serif" size="18.0" />
                      </font>
@@ -295,12 +295,12 @@
                      <graphic>
                         <ImageView fitHeight="60.0" fitWidth="66.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../../../../../../../../Downloads/caseManagerIcon.PNG" />
+                              <Image url="@../../images/requestForms/caseManagerIcon.png" />
                            </image>
                         </ImageView>
                      </graphic>
                   </JFXButton>
-                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Case Manager Request">
+                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Case Manager">
                      <font>
                         <Font name="MS Reference Sans Serif" size="18.0" />
                      </font>
