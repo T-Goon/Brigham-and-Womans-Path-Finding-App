@@ -33,7 +33,8 @@ public class AppTest extends FxRobot {
     }
 
     @Test
-    void testMapGraphicalInput(){
+    void testMapGraphicalInput() {
+        clickOn("#btnGuest");
         clickOn("#btnDirections");
 
         // Select start node
@@ -49,11 +50,13 @@ public class AppTest extends FxRobot {
         verifyThat(".edge", Node::isVisible);
 
         clickOn("#btnBack");
+        clickOn("#btnBack");
 
     }
 
     @Test
-    void testMapMovement(){
+    void testMapMovement() {
+        clickOn("#btnGuest");
         clickOn("#btnDirections");
         moveTo("#map");
         scroll(25, VerticalDirection.UP);
@@ -62,10 +65,12 @@ public class AppTest extends FxRobot {
         drag(100, 0, MouseButton.PRIMARY);
         release(MouseButton.PRIMARY);
         clickOn("#btnBack");
+        clickOn("#btnBack");
     }
 
     @Test
-    void testMapPathDisplay(){
+    void testMapPathDisplay() {
+        clickOn("#btnGuest");
         clickOn("#btnDirections");
 
         // Select start and end locations
@@ -84,18 +89,22 @@ public class AppTest extends FxRobot {
         verifyThat(".edge", Node::isVisible);
 
         clickOn("#btnBack");
+        clickOn("#btnBack");
     }
 
     @Test
-    void testMapBack(){
+    void testMapBack() {
+        clickOn("#btnGuest");
         clickOn("#btnDirections");
         verifyThat("Hospital Map", Node::isVisible);
+        clickOn("#btnBack");
         clickOn("#btnBack");
     }
 
     @ParameterizedTest
     @MethodSource("textProvider")
     void testBackButtons(String button, String title) {
+        clickOn("#btnGuest");
         clickOn("Service Requests");
         verifyThat("Service Request Directory", Node::isVisible);
         clickOn(button);
@@ -103,11 +112,13 @@ public class AppTest extends FxRobot {
         clickOn("Cancel");
         verifyThat("Service Request Directory", Node::isVisible);
         clickOn("#btnBack");
+        clickOn("#btnBack");
     }
 
     @ParameterizedTest
     @MethodSource("textProvider")
     void testSubmitForms(String button, String title) {
+        clickOn("#btnGuest");
         clickOn("Service Requests");
         verifyThat("Service Request Directory", Node::isVisible);
         clickOn(button);
@@ -115,7 +126,10 @@ public class AppTest extends FxRobot {
         clickOn("Submit");
         verifyThat("Form Successfully Submitted!", Node::isVisible);
         clickOn("Return to Main Screen");
+        clickOn("#btnBack");
         verifyThat("Service Requests", Node::isVisible);
+        clickOn("#btnBack");
+        verifyThat("#btnGuest", Node::isVisible);
     }
 
     private static Stream<Arguments> textProvider() {

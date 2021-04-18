@@ -29,7 +29,7 @@ public abstract class DefaultServiceRequestFormController {
         JFXButton btn = (JFXButton) actionEvent.getSource();
         switch (btn.getId()) {
             case "btnSubmit":
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/serviceRequestMenu.fxml","/edu/wpi/teamB/views/requestForms/formSubmitted.fxml");
+                SceneSwitcher.switchToTemp(getClass(), "/edu/wpi/teamB/views/requestForms/formSubmitted.fxml");
                 break;
             case "btnCancel":
                 SceneSwitcher.goBack(getClass());
