@@ -61,24 +61,8 @@
             <HBox alignment="CENTER" scaleX="2.0" scaleY="2.0">
                 <children>
                     <VBox prefHeight="200.0" prefWidth="100.0">
-                        <HBox.margin>
-                            <Insets right="20.0" />
-                        </HBox.margin>
                         <children>
-                            <JFXButton fx:id="btnAdmin" buttonType="RAISED" onAction="#handleButtonAction" ripplerFill="#007fff" text="Admin Login" textOverrun="CLIP">
-                                <graphic>
-                                    <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                                        <image>
-                                            <Image url="@../../images/login/adminLogin.png" />
-                                        </image>
-                                    </ImageView>
-                                </graphic>
-                            </JFXButton>
-                        </children>
-                    </VBox>
-                    <VBox prefHeight="200.0" prefWidth="100.0">
-                        <children>
-                            <JFXButton fx:id="btnStaff" buttonType="RAISED" onAction="#handleButtonAction" ripplerFill="#007fff" text="Staff Login" textOverrun="CLIP">
+                            <JFXButton fx:id="btnStaff" onAction="#handleButtonAction" ripplerFill="#007fff" text="Staff Login" textOverrun="CLIP">
                                 <graphic>
                                     <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                                         <image>
@@ -97,7 +81,7 @@
                             <Insets left="20.0" />
                         </HBox.margin>
                         <children>
-                            <JFXButton fx:id="btnGuest" buttonType="RAISED" onAction="#handleButtonAction" ripplerFill="#0080ff" text="Guest" textOverrun="CLIP">
+                            <JFXButton fx:id="btnGuest" onAction="#handleButtonAction" ripplerFill="#0080ff" text="Guest" textOverrun="CLIP">
                                 <graphic>
                                     <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                                         <image>

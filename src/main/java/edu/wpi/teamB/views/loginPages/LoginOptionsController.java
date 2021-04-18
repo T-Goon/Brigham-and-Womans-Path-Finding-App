@@ -8,9 +8,6 @@ import javafx.fxml.FXML;
 
 public class LoginOptionsController {
     @FXML
-    private JFXButton btnAdmin;
-
-    @FXML
     private JFXButton btnStaff;
 
     @FXML
@@ -27,11 +24,8 @@ public class LoginOptionsController {
         JFXButton btn = (JFXButton) actionEvent.getSource();
 
         switch (btn.getId()) {
-            case "btnAdmin":
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/loginPages/loginOptions.fxml", "/edu/wpi/teamB/views/loginPages/adminLogin.fxml");
-                break;
             case "btnStaff":
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/loginPages/loginOptions.fxml", "/edu/wpi/teamB/views/loginPages/staffLogin.fxml");
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/loginPages/loginOptions.fxml", "/edu/wpi/teamB/views/loginPages/loginPage.fxml");
                 break;
             case "btnGuest":
                 SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/loginPages/loginOptions.fxml", "/edu/wpi/teamB/views/menus/patientDirectoryMenu.fxml");
