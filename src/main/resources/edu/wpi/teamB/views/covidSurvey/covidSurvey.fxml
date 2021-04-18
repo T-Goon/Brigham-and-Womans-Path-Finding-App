@@ -70,70 +70,70 @@
                            </font></Text>
                         <VBox spacing="5.0" stylesheets="@../../css/covidSurvey.css">
                            <children>
-                              <JFXCheckBox checkedColor="#f6bd39" text="Fever">
+                              <JFXCheckBox fx:id="chkFever" checkedColor="#f6bd39" text="Fever">
                                  <VBox.margin>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </VBox.margin>
                                  <font>
                                     <Font name="MS Reference Sans Serif" size="14.0" />
                                  </font></JFXCheckBox>
-                              <JFXCheckBox checkedColor="#f6bd39" text="Chills">
+                              <JFXCheckBox fx:id="chkChills" checkedColor="#f6bd39" text="Chills">
                                  <VBox.margin>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </VBox.margin>
                                  <font>
                                     <Font name="MS Reference Sans Serif" size="14.0" />
                                  </font></JFXCheckBox>
-                              <JFXCheckBox checkedColor="#f6bd39" text="Cough">
+                              <JFXCheckBox fx:id="chkCough" checkedColor="#f6bd39" text="Cough">
                                  <VBox.margin>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </VBox.margin>
                                  <font>
                                     <Font name="MS Reference Sans Serif" size="14.0" />
                                  </font></JFXCheckBox>
-                              <JFXCheckBox checkedColor="#f6bd39" text="Shortness of Breath">
+                              <JFXCheckBox fx:id="chkShortBreath" checkedColor="#f6bd39" text="Shortness of Breath">
                                  <VBox.margin>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </VBox.margin>
                                  <font>
                                     <Font name="MS Reference Sans Serif" size="14.0" />
                                  </font></JFXCheckBox>
-                              <JFXCheckBox checkedColor="#f6bd39" text="Sore Throat">
+                              <JFXCheckBox fx:id="chkSoreTht" checkedColor="#f6bd39" text="Sore Throat">
                                  <VBox.margin>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </VBox.margin>
                                  <font>
                                     <Font name="MS Reference Sans Serif" size="14.0" />
                                  </font></JFXCheckBox>
-                              <JFXCheckBox checkedColor="#f6bd39" text="Headache">
+                              <JFXCheckBox fx:id="chkHeadache" checkedColor="#f6bd39" text="Headache">
                                  <VBox.margin>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </VBox.margin>
                                  <font>
                                     <Font name="MS Reference Sans Serif" size="14.0" />
                                  </font></JFXCheckBox>
-                              <JFXCheckBox checkedColor="#f6bd39" text="Muscle/Body Ache">
+                              <JFXCheckBox fx:id="chkAches" checkedColor="#f6bd39" text="Muscle/Body Ache">
                                  <VBox.margin>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </VBox.margin>
                                  <font>
                                     <Font name="MS Reference Sans Serif" size="14.0" />
                                  </font></JFXCheckBox>
-                              <JFXCheckBox checkedColor="#f6bd39" text="Runny Nose/Congestion">
+                              <JFXCheckBox fx:id="chkNose" checkedColor="#f6bd39" text="Runny Nose/Congestion">
                                  <VBox.margin>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </VBox.margin>
                                  <font>
                                     <Font name="MS Reference Sans Serif" size="14.0" />
                                  </font></JFXCheckBox>
-                              <JFXCheckBox checkedColor="#f6bd39" text="Loss of Taste/Smell">
+                              <JFXCheckBox fx:id="chkLostTaste" checkedColor="#f6bd39" text="Loss of Taste/Smell">
                                  <VBox.margin>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </VBox.margin>
                                  <font>
                                     <Font name="MS Reference Sans Serif" size="14.0" />
                                  </font></JFXCheckBox>
-                              <JFXCheckBox checkedColor="#f6bd39" text="Nausea/Vomiting">
+                              <JFXCheckBox fx:id="chkNausea" checkedColor="#f6bd39" text="Nausea/Vomiting">
                                  <VBox.margin>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </VBox.margin>
@@ -226,10 +226,17 @@
                            <children>
                               <HBox alignment="BOTTOM_LEFT" prefHeight="77.0" prefWidth="0.0" HBox.hgrow="ALWAYS">
                                  <children>
-                                    <JFXButton fx:id="btnBack" alignment="CENTER" buttonType="RAISED" cancelButton="true" contentDisplay="CENTER" onAction="#handleButtonAction" style="-fx-background-color: #0067B1; -fx-background-radius: 50%;" text="←" textAlignment="CENTER" textFill="WHITE">
+                                    <JFXButton fx:id="btnBack" alignment="CENTER" buttonType="RAISED" cancelButton="true" contentDisplay="CENTER"
+                                               onAction="#handleButtonAction" style="-fx-background-color: #0067B1; -fx-background-radius: 50%;"
+                                               text="" textAlignment="CENTER" textFill="WHITE" prefWidth="56" prefHeight="56" maxWidth="56" maxHeight="56">
                                        <font>
-                                          <Font size="27.0" />
+                                          <Font size="27.0"/>
                                        </font>
+                                       <graphic>
+                                          <ImageView fitHeight="20" fitWidth="20" pickOnBounds="true" preserveRatio="true">
+                                             <Image url="@../../images/menus/backButton.png"/>
+                                          </ImageView>
+                                       </graphic>
                                     </JFXButton>
                                  </children>
                                  <padding>
