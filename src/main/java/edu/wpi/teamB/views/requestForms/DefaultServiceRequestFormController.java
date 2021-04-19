@@ -30,7 +30,7 @@ import java.util.ResourceBundle;
 public abstract class DefaultServiceRequestFormController implements Initializable {
 
     @FXML
-    private JFXButton btnSubmit;
+    protected JFXButton btnSubmit;
 
     @FXML
     private JFXButton btnExit;
