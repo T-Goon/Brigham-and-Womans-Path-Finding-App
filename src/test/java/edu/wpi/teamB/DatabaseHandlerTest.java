@@ -1,7 +1,7 @@
 package edu.wpi.teamB;
 
 import edu.wpi.teamB.database.*;
-import edu.wpi.teamB.entities.NodeType;
+import edu.wpi.teamB.entities.requests.NodeType;
 import edu.wpi.teamB.entities.map.Edge;
 import edu.wpi.teamB.entities.map.Node;
 import edu.wpi.teamB.entities.requests.FoodRequest;

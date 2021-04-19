@@ -7,7 +7,7 @@ import com.jfoenix.controls.JFXTextField;
 import edu.wpi.teamB.App;
 import edu.wpi.teamB.database.DatabaseHandler;
 import edu.wpi.teamB.entities.map.Node;
-import edu.wpi.teamB.util.GraphicalNodePopupData;
+import edu.wpi.teamB.entities.map.GraphicalNodePopupData;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
