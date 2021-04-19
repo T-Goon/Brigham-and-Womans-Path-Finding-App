@@ -66,7 +66,7 @@ public class ExternalTransportationRequestFormController extends DefaultServiceR
         String givenUnconscious = unconscious.isSelected() ? "T" : "F";
 
         DateFormat timeFormat = new SimpleDateFormat("HH:mm");
-        DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date dateInfo = new Date();
 
         String requestID = UUID.randomUUID().toString();

@@ -38,7 +38,7 @@ public class FoodDeliveryRequestFormController extends DefaultServiceRequestForm
         String givenMealChoice = mealChoice.getText();
 
         DateFormat timeFormat = new SimpleDateFormat("HH:mm");
-        DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date dateInfo = new Date();
 
         String requestID = UUID.randomUUID().toString();
