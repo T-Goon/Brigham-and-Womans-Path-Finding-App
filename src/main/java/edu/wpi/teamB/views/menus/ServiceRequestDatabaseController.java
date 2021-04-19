@@ -1,4 +1,4 @@
-package edu.wpi.teamB.views.requestForms;
+package edu.wpi.teamB.views.menus;
 
 import edu.wpi.teamB.database.DatabaseHandler;
 import edu.wpi.teamB.entities.requests.Request;

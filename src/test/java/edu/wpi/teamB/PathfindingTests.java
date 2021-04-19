@@ -1,7 +1,7 @@
 package edu.wpi.teamB;
 
 import edu.wpi.teamB.database.DatabaseHandler;
-import edu.wpi.teamB.entities.Path;
+import edu.wpi.teamB.entities.map.Path;
 import edu.wpi.teamB.entities.map.Edge;
 import edu.wpi.teamB.entities.map.Node;
 import edu.wpi.teamB.pathfinding.AStar;
