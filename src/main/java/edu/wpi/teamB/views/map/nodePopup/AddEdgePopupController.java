@@ -3,7 +3,8 @@ package edu.wpi.teamB.views.map.nodePopup;
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.teamB.App;
 import edu.wpi.teamB.database.DatabaseHandler;
-import edu.wpi.teamB.entities.Edge;
+
+import edu.wpi.teamB.entities.map.Edge;
 import edu.wpi.teamB.util.GraphicalNodePopupData;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

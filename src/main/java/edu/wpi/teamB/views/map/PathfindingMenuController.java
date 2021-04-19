@@ -184,7 +184,7 @@ public class PathfindingMenuController implements Initializable {
                     List<Edge> newEdges = CSVHandler.loadCSVEdgesFromExternalPath(file.toPath());
 
                     // Update the database
-                    db.loadDatabase(newNodes, newEdges);
+                    db.loadNodesEdges(newNodes, newEdges);
                     Graph.getGraph().updateGraph();
 
                     // Now delete and refresh the nodes

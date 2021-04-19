@@ -125,7 +125,7 @@
                                     <Insets top="10.0" />
                                  </VBox.margin>
                               </Text>
-                              <JFXTextField promptText="Ex. &quot;123 Hospital St&quot;" style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" />
+                              <JFXTextField fx:id="destination" promptText="Ex. &quot;123 Hospital St&quot;" style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" />
                            </children>
                            <padding>
                               <Insets left="10.0" right="10.0" />

@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.Objects;
 
+@SuppressWarnings("unchecked")
 public class RequestWrapper {
 
     private final Request r;
@@ -26,7 +27,7 @@ public class RequestWrapper {
     private final JFXButton btnEdit;
     private final JFXButton btnDel;
 
-    public RequestWrapper(Request r,TableView parentTable) throws IOException {
+    public RequestWrapper(Request r, TableView parentTable) throws IOException {
         this.r = r;
         this.type = new Label(r.getRequestType());
         this.time = new Label();
@@ -56,7 +57,7 @@ public class RequestWrapper {
 
         btnDel.setOnAction(event -> {
             DatabaseHandler.getDatabaseHandler("main.db").removeEdge(r.getRequestID());
-            parentTable.getItems().removeIf( (Object o) -> ((RequestWrapper) o).r.getRequestID().equals(r.getRequestID()));
+            parentTable.getItems().removeIf((Object o) -> ((RequestWrapper) o).r.getRequestID().equals(r.getRequestID()));
         });
 
         this.btnDel = btnDel;
