@@ -15,6 +15,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
@@ -46,9 +47,13 @@ public abstract class DefaultServiceRequestFormController implements Initializab
     @FXML
     private AnchorPane basePane;
 
+    @FXML
+    private HBox helpHolder;
+
     private VBox helpPopup;
     private double x=0;
     private double y=0;
+    private boolean justClicked = false;
 
 
     @Override
@@ -57,11 +62,13 @@ public abstract class DefaultServiceRequestFormController implements Initializab
             @Override
             public void handle(MouseEvent event) {
                 Bounds helpButtonBounds = btnHelp.localToScene(btnHelp.getBoundsInLocal());
-                if (!(helpButtonBounds.getMinX()<event.getX() && event.getX()<helpButtonBounds.getMaxX() &&
-                        helpButtonBounds.getMinY()<event.getY() && event.getY()<helpButtonBounds.getMaxY())) {
-                    basePane.getChildren().remove(helpPopup);
+                if (helpPopup != null && !justClicked) {
+                    helpHolder.getChildren().remove(helpPopup);
                     helpPopup = null;
                 }
+                System.out.println("2");
+
+                justClicked = false;
             }
         });
     }
@@ -77,19 +84,20 @@ public abstract class DefaultServiceRequestFormController implements Initializab
                 SceneSwitcher.goBack(getClass(), 1);
                 break;
             case "btnHelp":
-                basePane.getChildren().remove(helpPopup);
-                helpPopup = null;
+
+                if(helpHolder != null) {
+                    helpHolder.getChildren().remove(helpPopup);
+                    helpPopup = null;
+                }
+
                 try{
                     helpPopup = FXMLLoader.load(Objects.requireNonNull(
                             getClass().getClassLoader().getResource("edu/wpi/teamB/views/requestForms/helpPopup.fxml")));
                 } catch (IOException e){ e.printStackTrace(); }
 
-                Bounds boundsInScene = btn.localToScene(btn.getBoundsInLocal());
-                x= boundsInScene.getMinX()-375;
-                y= boundsInScene.getMinY()+65;
-                helpPopup.setLayoutX(x);
-                helpPopup.setLayoutY(y);
-                basePane.getChildren().add(helpPopup);
+                helpHolder.getChildren().add(helpPopup);
+                justClicked = true;
+                System.out.println("1");
                 break;
 
             case "btnExit":

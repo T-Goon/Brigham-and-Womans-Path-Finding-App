@@ -62,7 +62,7 @@
                   </VBox>
                </children>
             </HBox>
-            <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" prefWidth="900.0" style="-fx-background-color: #012d5a;" VBox.vgrow="ALWAYS">
+            <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" prefWidth="900.0" style="-fx-background-color: #012d5a;">
                <content>
                   <VBox style="-fx-background-color: #012d5a;">
                      <children>
@@ -183,6 +183,11 @@
                   </VBox>
                </content>
             </ScrollPane>
+            <HBox fx:id="helpHolder" alignment="CENTER_RIGHT">
+               <padding>
+                  <Insets left="50.0" right="50.0" top="10.0" />
+               </padding>
+            </HBox>
          </children>
       </VBox>
    </children>

@@ -186,6 +186,10 @@
                   </HBox>
                </children>
             </VBox>
+            <HBox fx:id="helpHolder" alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
+               <VBox.margin>
+                  <Insets left="50.0" right="50.0" top="10.0" />
+               </VBox.margin></HBox>
          </children>
       </VBox>
    </children>
