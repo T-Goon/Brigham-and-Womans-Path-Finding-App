@@ -468,8 +468,8 @@ public class DatabaseHandler {
             if (!rs.next()) {
                 throw new Exception("user not found");
             }
-            String test = (rs.getString("passwordHash"));
-            if (this.passwordHash(password).equals(rs.getString("passwordHash"))) {
+            String storedHash = (rs.getString("passwordHash"));
+            if (this.passwordHash(password).equals(storedHash)) {
                 outUser = this.getUserByUsername(username);
             } else {
                 throw new Exception("password does not match");

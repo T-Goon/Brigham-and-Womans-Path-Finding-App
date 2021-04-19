@@ -454,5 +454,6 @@ public class DatabaseHandlerTest {
             e.printStackTrace();
         }
         assertEquals(authentication,user);
+        assertThrows(Exception.class,() -> db.authenticate("testuser","pasword"));
     }
 }
