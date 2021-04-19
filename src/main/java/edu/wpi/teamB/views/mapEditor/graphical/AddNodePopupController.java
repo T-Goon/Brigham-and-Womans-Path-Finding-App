@@ -92,6 +92,8 @@ public class AddNodePopupController implements Initializable{
         nodeType.getItems().add(new Label("STAI"));
         nodeType.getItems().add(new Label("SERV"));
 
+        nodeType.getSelectionModel().select(0);
+
     }
 
     /**

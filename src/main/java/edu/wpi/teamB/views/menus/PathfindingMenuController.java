@@ -782,6 +782,8 @@ public class PathfindingMenuController implements Initializable {
 
             c.setOnMouseClicked(event -> showEditNodePopup(n, event));
 
+            c.setId(n.getNodeID()+"IntIcon");
+
             intermediateNodeHolder.getChildren().add(c);
             intermediateNodePlaced.add(c);
 

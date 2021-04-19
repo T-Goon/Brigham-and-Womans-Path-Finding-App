@@ -2,6 +2,9 @@ package edu.wpi.teamB;
 
 import static org.testfx.api.FxAssert.verifyThat;
 
+import edu.wpi.teamB.database.DatabaseHandler;
+import edu.wpi.teamB.pathfinding.Graph;
+import edu.wpi.teamB.util.CSVHandler;
 import javafx.geometry.VerticalDirection;
 import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
@@ -24,6 +27,9 @@ import java.util.stream.Stream;
 @ExtendWith(ApplicationExtension.class)
 public class AppTest extends FxRobot {
 
+    private static String resourcesPath;
+    private static DatabaseHandler db;
+
     /**
      * Setup test suite.
      */
@@ -31,6 +37,65 @@ public class AppTest extends FxRobot {
     public static void setup() throws Exception {
         FxToolkit.registerPrimaryStage();
         FxToolkit.setupApplication(App.class);
+    }
+
+    @Test
+    void testAddEditRemoveNode(){
+        // Get to edit map menu
+        clickOn("#btnStaff");
+        verifyThat("Login Page", Node::isVisible);
+        clickOn("#username");
+        write("Admin");
+        press(KeyCode.TAB);
+        write("password");
+        press(KeyCode.ENTER);
+        verifyThat("Admin Directory", Node::isVisible);
+        clickOn("#btnDirections");
+        clickOn("#btnEditMap");
+
+        // Open add node popup
+        moveTo(400, 400);
+        doubleClickOn(MouseButton.PRIMARY);
+
+        // Fill in node info
+        clickOn("#nodeID");
+        write("nodeabcd12345");
+        clickOn("#building");
+        write("building123");
+        clickOn("#nodeType");
+        clickOn("BATH");
+        clickOn("#longName");
+        write("some node");
+        clickOn("#shortName");
+        write("sn");
+        clickOn("#btnAddNode");
+
+        // Edit Node
+        verifyThat("#nodeabcd12345Icon", Node::isVisible);
+        clickOn("#nodeabcd12345Icon");
+        clickOn("#btnEditNode");
+        clickOn("#nodeType");
+        clickOn("HALL");
+        clickOn("#btnUpdate");
+
+        // Remove node
+        verifyThat("#nodeabcd12345IntIcon", Node::isVisible);
+        clickOn("#nodeabcd12345IntIcon");
+        clickOn("#btnDelete");
+        clickOn("#btnYes");
+
+        clickOn("#btnBack");
+        clickOn("#btnBack");
+    }
+
+    @Test
+    void addEdge(){
+
+    }
+
+    @Test
+    void deleteEdge(){
+
     }
 
     @Test
