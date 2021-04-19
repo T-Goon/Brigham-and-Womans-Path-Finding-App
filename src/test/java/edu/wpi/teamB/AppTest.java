@@ -109,6 +109,9 @@ public class AppTest extends FxRobot {
         // Check that an edge is drawn
         verifyThat(".edge", Node::isVisible);
 
+        //Check that the estimated time box is drawn
+        verifyThat("#estimatedTimeDialog", Node::isVisible);
+
         clickOn("#btnBack");
         clickOn("#btnBack");
     }
@@ -132,33 +135,6 @@ public class AppTest extends FxRobot {
         verifyThat(title, Node::isVisible);
         clickOn("Cancel");
         verifyThat("Service Request Directory", Node::isVisible);
-        clickOn("#btnBack");
-        clickOn("#btnBack");
-    }
-
-    @Test
-    void testEstimatedTimeDialog(){
-        clickOn("#btnGuest");
-        clickOn("#btnDirections");
-
-        // Select start and end locations
-        doubleClickOn("Information Locations");
-        clickOn("75 Lobby Information Desk");
-        clickOn("#BtnStart");
-        doubleClickOn("Information Locations");
-        doubleClickOn("Entrances");
-        clickOn("75 Francis Lobby Entrance");
-        clickOn("#BtnEnd");
-        doubleClickOn("Entrances");
-
-        clickOn("#btnFindPath");
-
-        // Check that an edge is drawn
-        verifyThat(".edge", Node::isVisible);
-
-        //Check that the estimated time box is drawn
-        verifyThat("#estimatedTimeDialog", Node::isVisible);
-
         clickOn("#btnBack");
         clickOn("#btnBack");
     }
