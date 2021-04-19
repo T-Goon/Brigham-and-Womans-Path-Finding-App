@@ -34,6 +34,7 @@ public class InternalTransportationRequestFormController extends DefaultServiceR
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        super.initialize(location,resources);
         comboTranspType.getItems().add(new Label("Wheelchair"));
         comboTranspType.getItems().add(new Label("Stretcher"));
         comboTranspType.getItems().add(new Label("Gurney"));

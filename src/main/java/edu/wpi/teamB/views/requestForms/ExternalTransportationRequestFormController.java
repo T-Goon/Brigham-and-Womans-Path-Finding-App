@@ -39,6 +39,7 @@ public class ExternalTransportationRequestFormController extends DefaultServiceR
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        super.initialize(location,resources);
         comboTranspType.getItems().add(new Label("Bus"));
         comboTranspType.getItems().add(new Label("Ambulance"));
         comboTranspType.getItems().add(new Label("Helicopter"));

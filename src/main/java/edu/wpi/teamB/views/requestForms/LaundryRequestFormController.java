@@ -36,6 +36,8 @@ public class LaundryRequestFormController extends DefaultServiceRequestFormContr
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        super.initialize(location,resources);
+
         comboTypeService.getItems().add(new Label("Regular Cycle"));
         comboTypeService.getItems().add(new Label("Delicate Cycle"));
         comboTypeService.getItems().add(new Label("Permanent Press"));
