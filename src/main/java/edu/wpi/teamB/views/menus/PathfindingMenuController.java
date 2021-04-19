@@ -21,7 +21,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -181,8 +180,9 @@ public class PathfindingMenuController implements Initializable {
         } catch (NullPointerException ignored){}
 
         //test if we came from a failed covid survey
-        if(SceneSwitcher.popLastScene().equals("/edu/wpi/teamB/views/covidSurvey/covidFormSubmittedWithSymp.fxml")){
+        if(SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/covidSurvey/covidFormSubmittedWithSymp.fxml")){
             txtEndLocation.setText("Emergency Department Entrance");
+            SceneSwitcher.popLastScene();
         }
 
         initMapForEditing();

@@ -13,6 +13,10 @@ public class SceneSwitcher {
 
     private static final Stack<String> stack = new Stack<>();
 
+    public static String peekLastScene(){
+        return stack.peek();
+    }
+
     public static String popLastScene(){
         return stack.pop();
     }
