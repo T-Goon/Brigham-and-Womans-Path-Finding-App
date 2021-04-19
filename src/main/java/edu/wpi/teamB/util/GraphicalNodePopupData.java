@@ -1,6 +1,6 @@
 package edu.wpi.teamB.util;
 
-import edu.wpi.teamB.views.mapEditor.graphical.nodePopup.NodePopupWindowController;
+import edu.wpi.teamB.views.mapEditor.nodePopup.NodePopupWindowController;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

@@ -1,29 +1,27 @@
-package edu.wpi.teamB.views.mapEditor.nodes;
+package edu.wpi.teamB.views.mapEditor.nodePopup;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXRadioButton;
 import com.jfoenix.controls.JFXTextField;
+import edu.wpi.teamB.App;
 import edu.wpi.teamB.database.DatabaseHandler;
 import edu.wpi.teamB.entities.Node;
-import edu.wpi.teamB.util.SceneSwitcher;
-import edu.wpi.teamB.views.menus.PathfindingMenuController;
-import javafx.application.Platform;
+import edu.wpi.teamB.util.GraphicalEditorNodeData;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.VBox;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
-public class AddNodeMenuController implements Initializable {
+public class AddNodePopupController implements Initializable{
 
     @FXML
-    private JFXButton btnEmergency;
-
-    @FXML
-    private JFXButton btnExit;
+    private VBox root;
 
     @FXML
     private JFXButton btnCancel;
@@ -64,12 +62,15 @@ public class AddNodeMenuController implements Initializable {
     @FXML
     private JFXButton btnAddNode;
 
+    private GraphicalEditorNodeData data;
+
+    private Map<String, String> categoryNameMap;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        notRestricted.setToggleGroup(areaGroup);
-        restricted.setToggleGroup(areaGroup);
+        data = (GraphicalEditorNodeData) App.getPrimaryStage().getUserData();
 
-        Map<String, String> categoryNameMap = new HashMap<>();
+        categoryNameMap = new HashMap<>();
 
         //Add better category names to a hash map
         categoryNameMap.put("SERV", "Services");
@@ -88,8 +89,20 @@ public class AddNodeMenuController implements Initializable {
         List<String> temp = new ArrayList<>(categoryNameMap.values());
         Collections.sort(temp);
         nodeType.getItems().addAll(temp);
+
+        // Fill in current coordinates
+        xCoord.setText(Long.toString(Math.round(data.getX())));
+        yCoord.setText(Long.toString(Math.round(data.getY())));
+
+        // Fill in current floor
+        floor.setText(data.getFloor());
+        floor.setDisable(true);
     }
 
+    /**
+     * Check if input is valid
+     * @throws NumberFormatException when floor, xCoord, or yCoord is not a number.
+     */
     @FXML
     private void validateButton() throws NumberFormatException {
         btnAddNode.setDisable(nodeID.getText().trim().isEmpty() || building.getText().trim().isEmpty() || nodeType.getSelectionModel().getSelectedItem().trim().isEmpty()
@@ -104,31 +117,37 @@ public class AddNodeMenuController implements Initializable {
     }
 
     @FXML
-    private void handleButtonAction(ActionEvent e) {
+    private void handleButtonAction(ActionEvent e) throws IOException {
         JFXButton btn = (JFXButton) e.getSource();
 
         switch (btn.getId()) {
             case "btnCancel":
-                SceneSwitcher.goBack(getClass(), 1);
+                data.getNodeHolder().getChildren().remove(root);
                 break;
             case "btnAddNode":
                 String aNodeId = nodeID.getText().trim();
                 String aFloor = floor.getText().trim();
                 String aBuilding = building.getText().trim();
                 String aNodeType = nodeType.getSelectionModel().getSelectedItem().trim();
+                String actualNodeName = "ERROR!";
+                for (String s : categoryNameMap.keySet()) {
+                    if (categoryNameMap.get(s).equals(aNodeType)) {
+                        actualNodeName = s;
+                        break;
+                    }
+                }
                 String aLongName = longName.getText().trim();
                 String aShortName = shortName.getText().trim();
                 int aXCoord = Integer.parseInt(xCoord.getText().trim());
                 int aYCoord = Integer.parseInt(yCoord.getText().trim());
-                Node aNode = new Node(aNodeId, aXCoord, aYCoord, aFloor, aBuilding, aNodeType, aLongName, aShortName);
+                Node aNode = new Node(aNodeId, aXCoord, aYCoord, aFloor, aBuilding, actualNodeName, aLongName, aShortName);
                 DatabaseHandler.getDatabaseHandler("main.db").addNode(aNode);
-                SceneSwitcher.goBack(getClass(), 1);
-                break;
-            case "btnEmergency":
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapEditor/nodes/addNodeMenu.fxml", "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");
-                break;
-            case "btnExit":
-                Platform.exit();
+
+                // Refresh map editor
+                data.getPfmc().refreshEditor();
+
+                // Remove popup from map
+                data.getNodeHolder().getChildren().remove(root);
                 break;
         }
     }

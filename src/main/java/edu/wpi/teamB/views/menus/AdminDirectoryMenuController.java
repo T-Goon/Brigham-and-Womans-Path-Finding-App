@@ -36,7 +36,7 @@ public class AdminDirectoryMenuController {
 
         switch (btn.getId()) {
             case "btnDirections":
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/adminDirectoryMenu.fxml", "/edu/wpi/teamB/views/menus/pathfindingMenu.fxml");
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/adminDirectoryMenu.fxml", "/edu/wpi/teamB/views/mapEditor/pathfindingMenu.fxml");
                 break;
             case "btnServiceRequests":
                 SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/adminDirectoryMenu.fxml", "/edu/wpi/teamB/views/menus/serviceRequestMenu.fxml");

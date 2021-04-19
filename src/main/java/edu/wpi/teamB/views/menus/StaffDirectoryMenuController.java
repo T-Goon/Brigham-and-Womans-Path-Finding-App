@@ -33,7 +33,7 @@ public class StaffDirectoryMenuController {
                 SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/staffDirectoryMenu.fxml", "/edu/wpi/teamB/views/menus/serviceRequestMenu.fxml");
                 break;
             case "btnDirections":
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/staffDirectoryMenu.fxml",  "/edu/wpi/teamB/views/menus/pathfindingMenu.fxml");
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/staffDirectoryMenu.fxml", "/edu/wpi/teamB/views/mapEditor/pathfindingMenu.fxml");
                 break;
             case "btnDatabase":
                 SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/staffDirectoryMenu.fxml", "/edu/wpi/teamB/views/requestForms/serviceRequestDatabase.fxml");

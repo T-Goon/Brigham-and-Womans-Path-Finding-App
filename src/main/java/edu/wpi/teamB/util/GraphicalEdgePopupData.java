@@ -1,6 +1,6 @@
 package edu.wpi.teamB.util;
 
-import edu.wpi.teamB.views.mapEditor.graphical.edgePopup.DelEdgePopupController;
+import edu.wpi.teamB.views.mapEditor.edgePopup.DelEdgePopupController;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

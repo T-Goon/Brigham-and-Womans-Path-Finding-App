@@ -1,4 +1,4 @@
-package edu.wpi.teamB.views.mapEditor.graphical.nodePopup;
+package edu.wpi.teamB.views.mapEditor.nodePopup;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
@@ -7,24 +7,22 @@ import com.jfoenix.controls.JFXTextField;
 import edu.wpi.teamB.App;
 import edu.wpi.teamB.database.DatabaseHandler;
 import edu.wpi.teamB.entities.Node;
-import edu.wpi.teamB.util.GraphicalEditorNodeData;
+import edu.wpi.teamB.util.GraphicalNodePopupData;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.layout.VBox;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
-public class AddNodePopupController implements Initializable{
-
-    @FXML
-    private VBox root;
+public class EditNodePopupController implements Initializable {
 
     @FXML
     private JFXButton btnCancel;
+
+    @FXML
+    private JFXButton btnUpdate;
 
     @FXML
     private JFXRadioButton notRestricted;
@@ -59,16 +57,13 @@ public class AddNodePopupController implements Initializable{
     @FXML
     private JFXTextField shortName;
 
-    @FXML
-    private JFXButton btnAddNode;
-
-    private GraphicalEditorNodeData data;
+    private GraphicalNodePopupData data;
 
     private Map<String, String> categoryNameMap;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        data = (GraphicalEditorNodeData) App.getPrimaryStage().getUserData();
+        data = (GraphicalNodePopupData) App.getPrimaryStage().getUserData();
 
         categoryNameMap = new HashMap<>();
 
@@ -90,42 +85,45 @@ public class AddNodePopupController implements Initializable{
         Collections.sort(temp);
         nodeType.getItems().addAll(temp);
 
-        // Fill in current coordinates
-        xCoord.setText(Long.toString(Math.round(data.getX())));
-        yCoord.setText(Long.toString(Math.round(data.getY())));
-
-        // Fill in current floor
-        floor.setText(data.getFloor());
+        // Fill in current node data
+        nodeID.setText(data.getData().getNodeID());
+        nodeID.setDisable(true);
+        xCoord.setText(String.valueOf(Math.round(data.getData().getX())));
+        yCoord.setText(String.valueOf(Math.round(data.getData().getY())));
+        floor.setText(data.getData().getFloor());
         floor.setDisable(true);
+        building.setText(data.getData().getBuilding());
+        nodeType.getSelectionModel().select(categoryNameMap.get(data.getData().getNodeType()));
+        longName.setText(data.getData().getLongName());
+        shortName.setText(data.getData().getShortName());
     }
 
     /**
-     * Check if input is valid
-     * @throws NumberFormatException when floor, xCoord, or yCoord is not a number.
+     * Make sure input is valid
+     * @throws NumberFormatException when floor, xCoord, or yCoord is not a number
      */
     @FXML
     private void validateButton() throws NumberFormatException {
-        btnAddNode.setDisable(nodeID.getText().trim().isEmpty() || building.getText().trim().isEmpty() || nodeType.getSelectionModel().getSelectedItem().trim().isEmpty()
+        btnUpdate.setDisable(nodeID.getText().trim().isEmpty() || building.getText().trim().isEmpty() || nodeType.getSelectionModel().getSelectedItem().trim().isEmpty()
                 || longName.getText().trim().isEmpty() || shortName.getText().trim().isEmpty() || floor.getText().trim().isEmpty()
                 || xCoord.getText().trim().isEmpty() || yCoord.getText().trim().isEmpty());
+
         try {
             Integer.parseInt(xCoord.getText().trim());
             Integer.parseInt(yCoord.getText().trim());
         } catch (NumberFormatException notInt) {
-            btnAddNode.setDisable(true);
-        }
-    }
+            btnUpdate.setDisable(true);
+        }}
 
     @FXML
-    private void handleButtonAction(ActionEvent e) throws IOException {
-        JFXButton btn = (JFXButton) e.getSource();
+    private void handleButtonAction(ActionEvent event){
+        JFXButton btn = (JFXButton) event.getSource();
 
-        switch (btn.getId()) {
-            case "btnCancel":
-                data.getNodeHolder().getChildren().remove(root);
-                break;
-            case "btnAddNode":
-                String aNodeId = nodeID.getText().trim();
+        switch (btn.getId()){
+            case "btnUpdate":
+
+                int aXCoord = Integer.parseInt(xCoord.getText().trim());
+                int aYCoord = Integer.parseInt(yCoord.getText().trim());
                 String aFloor = floor.getText().trim();
                 String aBuilding = building.getText().trim();
                 String aNodeType = nodeType.getSelectionModel().getSelectedItem().trim();
@@ -138,16 +136,27 @@ public class AddNodePopupController implements Initializable{
                 }
                 String aLongName = longName.getText().trim();
                 String aShortName = shortName.getText().trim();
-                int aXCoord = Integer.parseInt(xCoord.getText().trim());
-                int aYCoord = Integer.parseInt(yCoord.getText().trim());
-                Node aNode = new Node(aNodeId, aXCoord, aYCoord, aFloor, aBuilding, actualNodeName, aLongName, aShortName);
-                DatabaseHandler.getDatabaseHandler("main.db").addNode(aNode);
 
-                // Refresh map editor
-                data.getPfmc().refreshEditor();
+                Node node = new Node(
+                        data.getData().getNodeID(),
+                        aXCoord,
+                        aYCoord,
+                        aFloor,
+                        aBuilding,
+                        actualNodeName,
+                        aLongName,
+                        aShortName);
 
-                // Remove popup from map
-                data.getNodeHolder().getChildren().remove(root);
+                // Update database and graph
+                DatabaseHandler.getDatabaseHandler("main.db").updateNode(node);
+
+                // Remove popup from map and refresh map nodes
+                data.getData().getPfmc().refreshEditor();
+
+                data.getData().getNodeHolder().getChildren().remove(data.getParent().getRoot());
+                break;
+            case "btnCancel":
+                data.getParent().editToMain();
                 break;
         }
     }

@@ -1,12 +1,10 @@
 package edu.wpi.teamB.views.menus;
 
 import com.jfoenix.controls.JFXButton;
-import edu.wpi.teamB.pathfinding.AStar;
 import edu.wpi.teamB.util.SceneSwitcher;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import org.junit.Test;
 
 public class PatientDirectoryMenuController {
 
@@ -43,7 +41,7 @@ public class PatientDirectoryMenuController {
                 SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/patientDirectoryMenu.fxml", "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");
                 break;
             case "btnDirections":
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/patientDirectoryMenu.fxml", "/edu/wpi/teamB/views/menus/pathfindingMenu.fxml");
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/patientDirectoryMenu.fxml", "/edu/wpi/teamB/views/mapEditor/pathfindingMenu.fxml");
                 break;
             case "btnMapEditor":
                 SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/patientDirectoryMenu.fxml", "/edu/wpi/teamB/views/mapEditor/editorIntermediateMenu.fxml");

@@ -254,7 +254,7 @@ public class PathfindingMenuController implements Initializable {
         estimatedTimeBox = new VBox();
         try {
             estimatedTimeBox = FXMLLoader.load(
-                    Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/misc/showEstimatedTime.fxml")));
+                    Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/map/misc/showEstimatedTime.fxml")));
         } catch (IOException e) {
             System.err.println("[drawEstimatedTimeBox] FXMLLoader load failed");
         }
@@ -322,7 +322,7 @@ public class PathfindingMenuController implements Initializable {
                 Platform.exit();
                 break;
             case "btnEmergency":
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/pathfindingMenu.fxml", "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapEditor/pathfindingMenu.fxml", "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");
                 break;
         }
     }
@@ -490,7 +490,7 @@ public class PathfindingMenuController implements Initializable {
         try {
             // Load fxml
             final VBox locInput = FXMLLoader.load(
-                    Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/misc/graphicalInput.fxml")));
+                    Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/map/misc/graphicalInput.fxml")));
 
             // Set coordinates of popup
             locInput.setLayoutX((n.getXCoord() / PathfindingMenuController.coordinateScale));
@@ -726,7 +726,7 @@ public class PathfindingMenuController implements Initializable {
      */
     private void placeNode(Node n) {
         try {
-            ImageView i = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/misc/node.fxml")));
+            ImageView i = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/map/misc/node.fxml")));
 
             i.setLayoutX((n.getXCoord() / PathfindingMenuController.coordinateScale) - (i.getFitWidth() / 4));
             i.setLayoutY((n.getYCoord() / PathfindingMenuController.coordinateScale) - (i.getFitHeight()));
@@ -746,7 +746,7 @@ public class PathfindingMenuController implements Initializable {
 
     private void placeAltNode(Node n) {
         try {
-            Circle c = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/misc/nodeAlt.fxml")));
+            Circle c = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/map/misc/nodeAlt.fxml")));
 
             c.setLayoutX((n.getXCoord() / PathfindingMenuController.coordinateScale));
             c.setLayoutY((n.getYCoord() / PathfindingMenuController.coordinateScale));
@@ -771,7 +771,7 @@ public class PathfindingMenuController implements Initializable {
      */
     public void placeEdge(Node start, Node end) {
         try {
-            Line l = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/misc/edge.fxml")));
+            Line l = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/map/misc/edge.fxml")));
 
             l.setStartX(start.getXCoord() / PathfindingMenuController.coordinateScale);
             l.setStartY(start.getYCoord() / PathfindingMenuController.coordinateScale);
@@ -796,7 +796,7 @@ public class PathfindingMenuController implements Initializable {
      */
     public void placeIntermediateNode(Node n) {
         try {
-            Circle c = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/misc/intermediateNode.fxml")));
+            Circle c = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/map/misc/intermediateNode.fxml")));
 
             c.setCenterX((n.getXCoord() / PathfindingMenuController.coordinateScale));
             c.setCenterY((n.getYCoord() / PathfindingMenuController.coordinateScale));

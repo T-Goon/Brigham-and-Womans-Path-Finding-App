@@ -1,9 +1,8 @@
-package edu.wpi.teamB.views.mapEditor.graphical.nodePopup;
+package edu.wpi.teamB.views.mapEditor.nodePopup;
 
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.teamB.App;
 import edu.wpi.teamB.database.DatabaseHandler;
-import edu.wpi.teamB.pathfinding.Graph;
 import edu.wpi.teamB.util.GraphicalNodePopupData;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
