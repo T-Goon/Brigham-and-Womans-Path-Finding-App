@@ -233,6 +233,9 @@ public class PathfindingMenuController implements Initializable {
      */
     private void drawEstimatedTimeBox(Path path) {
 
+        // No path
+        if(path.getPath().size() == 0) return;
+
         String estimatedTime = AStar.getEstimatedTime(path);
         estimatedTimeBox = new VBox();
         try {
