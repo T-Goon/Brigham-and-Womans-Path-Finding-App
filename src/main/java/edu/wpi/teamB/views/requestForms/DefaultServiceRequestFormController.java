@@ -1,6 +1,7 @@
 package edu.wpi.teamB.views.requestForms;
 
 import com.jfoenix.controls.JFXButton;
+import edu.wpi.teamB.util.HelpPopupController;
 import edu.wpi.teamB.util.SceneSwitcher;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -8,9 +9,15 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
+import javafx.stage.Popup;
 import javafx.stage.Stage;
-
+import javafx.fxml.Initializable;
 import java.io.IOException;
+import java.net.URL;
+import java.util.Objects;
+import java.util.ResourceBundle;
 
 public abstract class DefaultServiceRequestFormController {
 
@@ -29,6 +36,17 @@ public abstract class DefaultServiceRequestFormController {
     @FXML
     private JFXButton btnEmergency;
 
+    @FXML
+    private AnchorPane basePane;
+
+    private VBox helpPopup;
+
+    public void clearPopup(ActionEvent actionEvent2) {
+        basePane.getChildren().remove(helpPopup);
+        helpPopup = null;
+    }
+
+
     public void handleButtonAction(ActionEvent actionEvent) {
         JFXButton btn = (JFXButton) actionEvent.getSource();
         switch (btn.getId()) {
@@ -39,20 +57,29 @@ public abstract class DefaultServiceRequestFormController {
                 SceneSwitcher.goBack(getClass(), 1);
                 break;
             case "btnHelp":
+                try{
+                    helpPopup = FXMLLoader.load(Objects.requireNonNull(
+                            getClass().getClassLoader().getResource("edu/wpi/teamB/views/requestForms/helpPopup.fxml")));
+                } catch (IOException e){ e.printStackTrace(); }
+
+                helpPopup.setLayoutX(1400);
+                helpPopup.setLayoutY(500);
+                basePane.getChildren().add(helpPopup);/*
                 //fix the path for the actual help screens
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/edu/wpi/teamB/views/requestForms/formSubmitted.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/edu/wpi/teamB/views/requestForms/helpPopup.fxml"));
                 Parent root = null;
                 try {
                     root = loader.load();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                //[whatever the help controller is] controller = ([whatever the help controller is]) loader.getController();
+                HelpPopupController controller = (HelpPopupController) loader.getController();
                 Scene scene = new Scene(root);
                 Stage stage = new Stage();
                 stage.setScene(scene);
                 stage.setTitle("Help");
-                stage.show();
+                stage.show();*/
+
                 break;
             case "btnExit":
                 Platform.exit();
