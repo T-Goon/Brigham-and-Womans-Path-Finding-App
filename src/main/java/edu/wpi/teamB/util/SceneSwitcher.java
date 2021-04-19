@@ -13,6 +13,10 @@ public class SceneSwitcher {
 
     private static final Stack<String> stack = new Stack<>();
 
+    public static String popLastScene(){
+        return stack.pop();
+    }
+
     /**
      * Goes back to a previous page by popping from the stack
      * however many times it is requested to

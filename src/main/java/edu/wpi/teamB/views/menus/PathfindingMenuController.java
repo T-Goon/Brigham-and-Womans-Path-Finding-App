@@ -180,6 +180,11 @@ public class PathfindingMenuController implements Initializable {
             drawNodesOnFloor(currentFloor);
         } catch (NullPointerException ignored){}
 
+        //test if we came from a failed covid survey
+        if(SceneSwitcher.popLastScene().equals("/edu/wpi/teamB/views/covidSurvey/covidFormSubmittedWithSymp.fxml")){
+            txtEndLocation.setText("Emergency Department Entrance");
+        }
+
         initMapForEditing();
     }
 
