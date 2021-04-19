@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class User {
-    public static enum AuthenticationLevel {
+    public enum AuthenticationLevel {
         ADMIN,
         STAFF,
         PATIENT,

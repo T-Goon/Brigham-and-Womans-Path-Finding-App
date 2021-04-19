@@ -58,7 +58,7 @@ public class ServiceRequestMenuController {
     private void handleButtonAction(ActionEvent e) {
         Button btn = (Button) e.getSource();
 
-        String path = null;
+        String path;
         switch (btn.getId()) {
             case "btnMedicine":
                 path = VIEWS_PATH + "medDeliveryRequestForm.fxml";

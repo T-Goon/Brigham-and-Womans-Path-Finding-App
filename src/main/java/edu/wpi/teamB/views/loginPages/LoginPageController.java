@@ -39,21 +39,15 @@ public class LoginPageController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
         //Add event listeners to the text boxes so user can submit by pressing enter
-        username.setOnKeyPressed(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent event) {
-                if(event.getCode().equals(KeyCode.ENTER) && !areFormsEmpty()){
-                    handleLoginSubmit();
-                }
+        username.setOnKeyPressed(event -> {
+            if(event.getCode().equals(KeyCode.ENTER) && !areFormsEmpty()){
+                handleLoginSubmit();
             }
         });
 
-        password.setOnKeyPressed(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent event) {
-                if(event.getCode().equals(KeyCode.ENTER) && !areFormsEmpty()){
-                    handleLoginSubmit();
-                }
+        password.setOnKeyPressed(event -> {
+            if(event.getCode().equals(KeyCode.ENTER) && !areFormsEmpty()){
+                handleLoginSubmit();
             }
         });
     }

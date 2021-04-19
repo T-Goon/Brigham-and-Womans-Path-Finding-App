@@ -14,10 +14,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -61,7 +58,7 @@ public class DatabaseHandlerTest {
 
     @BeforeEach
     void resetDB() {
-        db.resetDatabase(new ArrayList<String>());
+        db.resetDatabase(new ArrayList<>());
         db.executeSchema();
     }
 
@@ -436,7 +433,7 @@ public class DatabaseHandlerTest {
 
     @Test
     public void testAdduser() {
-        User user = new User("testuser","Testing","User", User.AuthenticationLevel.STAFF, Arrays.asList("Gamer"));
+        User user = new User("testuser","Testing","User", User.AuthenticationLevel.STAFF, Collections.singletonList("Gamer"));
         db.addUser(user,"password");
         User out = db.getUserByUsername("testuser");
         assertEquals(out,user);
@@ -445,7 +442,7 @@ public class DatabaseHandlerTest {
 
     @Test
     public void testAuthentication() {
-        User user = new User("testuser","Testing","User", User.AuthenticationLevel.STAFF, Arrays.asList("Gamer"));
+        User user = new User("testuser","Testing","User", User.AuthenticationLevel.STAFF, Collections.singletonList("Gamer"));
         db.addUser(user,"password");
         User authentication = null;
         try {

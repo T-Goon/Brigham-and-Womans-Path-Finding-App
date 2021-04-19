@@ -6,7 +6,6 @@ import edu.wpi.teamB.entities.requests.ReligiousRequest;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
-import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;

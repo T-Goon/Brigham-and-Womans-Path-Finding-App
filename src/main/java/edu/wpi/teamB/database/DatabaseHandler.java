@@ -1,6 +1,5 @@
 package edu.wpi.teamB.database;
 
-import edu.wpi.teamB.entities.requests.NodeType;
 import edu.wpi.teamB.entities.User;
 import edu.wpi.teamB.entities.map.Edge;
 import edu.wpi.teamB.entities.map.Node;
@@ -877,13 +876,14 @@ public class DatabaseHandler {
      */
     public void removeRequest(Request request) {
         Statement statement = this.getStatement();
-        String queryGeneralTable = "DELETE FROM Requests WHERE requestID = '" + request.getRequestID() + "'";
         String querySpecificTable = "DELETE FROM '" + request.getRequestType().replaceAll("\\s", "") + "Requests" + "'WHERE requestID = '" + request.getRequestID() + "'";
+        String queryGeneralTable = "DELETE FROM Requests WHERE requestID = '" + request.getRequestID() + "'";
 
         try {
             assert statement != null;
-            statement.execute(queryGeneralTable);
             statement.execute(querySpecificTable);
+            statement.execute(queryGeneralTable);
+            statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -998,6 +998,7 @@ public class DatabaseHandler {
 
         try {
             statement.execute(query);
+            statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -1019,7 +1020,7 @@ public class DatabaseHandler {
             ResultSet rs = statement.executeQuery(query);
             Map<String, Request> requests = new HashMap<>();
 
-            Request outRequest = null;
+            Request outRequest;
             while (rs.next()) {
                 outRequest = new Request(
                         rs.getString("requestID"),

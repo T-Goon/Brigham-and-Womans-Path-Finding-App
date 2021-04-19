@@ -3,8 +3,6 @@ package edu.wpi.teamB.entities.requests;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
-
 @Getter
 @Setter
 public class ExternalTransportRequest extends Request {

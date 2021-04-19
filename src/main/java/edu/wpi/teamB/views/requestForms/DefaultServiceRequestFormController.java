@@ -45,24 +45,21 @@ public abstract class DefaultServiceRequestFormController implements Initializab
     private HBox helpHolder;
 
     private VBox helpPopup;
-    private double x=0;
-    private double y=0;
+    private double x = 0;
+    private double y = 0;
     private boolean justClicked = false;
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        App.getPrimaryStage().getScene().addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                Bounds helpButtonBounds = btnHelp.localToScene(btnHelp.getBoundsInLocal());
-                if (helpPopup != null && !justClicked) {
-                    helpHolder.getChildren().remove(helpPopup);
-                    helpPopup = null;
-                }
-
-                justClicked = false;
+        App.getPrimaryStage().getScene().addEventFilter(MouseEvent.MOUSE_CLICKED, event -> {
+            Bounds helpButtonBounds = btnHelp.localToScene(btnHelp.getBoundsInLocal());
+            if (helpPopup != null && !justClicked) {
+                helpHolder.getChildren().remove(helpPopup);
+                helpPopup = null;
             }
+
+            justClicked = false;
         });
     }
 
@@ -78,15 +75,17 @@ public abstract class DefaultServiceRequestFormController implements Initializab
                 break;
             case "btnHelp":
 
-                if(helpHolder != null) {
+                if (helpHolder != null) {
                     helpHolder.getChildren().remove(helpPopup);
                     helpPopup = null;
                 }
 
-                try{
+                try {
                     helpPopup = FXMLLoader.load(Objects.requireNonNull(
                             getClass().getClassLoader().getResource("edu/wpi/teamB/views/requestForms/helpPopup.fxml")));
-                } catch (IOException e){ e.printStackTrace(); }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
 
                 helpHolder.getChildren().add(helpPopup);
                 justClicked = true;
