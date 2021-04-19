@@ -1,6 +1,5 @@
 package edu.wpi.teamB.database;
 
-import edu.wpi.teamB.entities.requests.NodeType;
 import edu.wpi.teamB.entities.User;
 import edu.wpi.teamB.entities.map.Edge;
 import edu.wpi.teamB.entities.map.Node;
@@ -1019,7 +1018,7 @@ public class DatabaseHandler {
             ResultSet rs = statement.executeQuery(query);
             Map<String, Request> requests = new HashMap<>();
 
-            Request outRequest = null;
+            Request outRequest;
             while (rs.next()) {
                 outRequest = new Request(
                         rs.getString("requestID"),

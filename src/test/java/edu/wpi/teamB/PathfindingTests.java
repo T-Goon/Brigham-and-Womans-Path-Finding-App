@@ -76,7 +76,7 @@ public class PathfindingTests {
     @Test
     public void testClosestPath() {
 
-        List<String> pathExp = new LinkedList();
+        List<String> pathExp = new LinkedList<>();
 
         List<Node> category = new ArrayList<>();
 
