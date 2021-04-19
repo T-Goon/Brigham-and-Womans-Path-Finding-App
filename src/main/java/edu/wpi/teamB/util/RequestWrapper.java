@@ -36,6 +36,7 @@ public class RequestWrapper {
         this.date = new Label();
         this.complete = new Label();
         this.employeeName = new Label(r.getEmployeeName());
+        if (employeeName.getText().equals("null")) employeeName.setText("Nobody");
         this.parentTable = parentTable;
 
         // Set up edit button
@@ -58,7 +59,7 @@ public class RequestWrapper {
         btnDel.setId(r.getRequestID() + "DelBtn");
 
         btnDel.setOnAction(event -> {
-            DatabaseHandler.getDatabaseHandler("main.db").removeEdge(r.getRequestID());
+            DatabaseHandler.getDatabaseHandler("main.db").removeRequest(r);
             parentTable.getItems().removeIf((Object o) -> ((RequestWrapper) o).r.getRequestID().equals(r.getRequestID()));
         });
 
