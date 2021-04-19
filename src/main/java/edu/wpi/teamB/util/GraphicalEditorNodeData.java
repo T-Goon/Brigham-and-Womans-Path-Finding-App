@@ -1,6 +1,6 @@
 package edu.wpi.teamB.util;
 
-import edu.wpi.teamB.views.menus.PathfindingMenuController;
+import edu.wpi.teamB.views.map.PathfindingMenuController;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Circle;
 import lombok.AllArgsConstructor;

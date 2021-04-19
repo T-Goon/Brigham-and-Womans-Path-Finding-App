@@ -41,6 +41,8 @@ public class SanitationRequestFormController extends DefaultServiceRequestFormCo
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        super.initialize(location,resources);
+
         comboTypeService.getItems().add(new Label("Wet"));
         comboTypeService.getItems().add(new Label("Dry"));
         comboTypeService.getItems().add(new Label("Glass"));

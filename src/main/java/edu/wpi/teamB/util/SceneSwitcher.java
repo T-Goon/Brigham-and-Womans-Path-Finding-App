@@ -67,9 +67,8 @@ public class SceneSwitcher {
      */
     public static void switchScene(Class newClass, String oldPath, String path) {
         stack.push(oldPath);
-        Parent root;
         try {
-            root = FXMLLoader.load(Objects.requireNonNull(newClass.getResource(path)));
+            Parent root = FXMLLoader.load(Objects.requireNonNull(newClass.getResource(path)));
             App.getPrimaryStage().getScene().setRoot(root);
         } catch (IOException e) {
             System.err.println("Path \"" + path + "\" is malformed or nonexistent!");
