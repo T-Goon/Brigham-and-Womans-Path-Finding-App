@@ -153,11 +153,11 @@ public class AppTest extends FxRobot {
 
         // Select start node
         clickOn("#bPARK01801Icon");
-        clickOn("#BtnStart");
+        clickOn("#btnStart");
 
         // Select end node
         clickOn("#bPARK00101Icon");
-        clickOn("#BtnEnd");
+        clickOn("#btnEnd");
 
         clickOn("#btnFindPath");
 
@@ -190,11 +190,11 @@ public class AppTest extends FxRobot {
         // Select start and end locations
         doubleClickOn("Information Locations");
         clickOn("75 Lobby Information Desk");
-        clickOn("#BtnStart");
+        clickOn("#btnStart");
         doubleClickOn("Information Locations");
         doubleClickOn("Entrances");
         clickOn("75 Francis Lobby Entrance");
-        clickOn("#BtnEnd");
+        clickOn("#btnEnd");
         doubleClickOn("Entrances");
 
         clickOn("#btnFindPath");
@@ -204,6 +204,7 @@ public class AppTest extends FxRobot {
 
         //Check that the estimated time box is drawn
         verifyThat("#estimatedTimeDialog", Node::isVisible);
+        verifyThat("15 sec", Node::isVisible);
 
         clickOn("#btnBack");
         clickOn("#btnBack");
