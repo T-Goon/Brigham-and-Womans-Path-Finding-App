@@ -27,6 +27,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
@@ -259,8 +260,8 @@ public class PathfindingMenuController implements Initializable {
 
     /**
      * Button handler for the scene
-     * @param event
-     * @throws IOException
+     * @param event ActionEvent from UI
+     * @throws IOException when file cannot be found
      */
     @FXML
     private void handleButtonAction(ActionEvent event) {
@@ -468,6 +469,9 @@ public class PathfindingMenuController implements Initializable {
     public void createGraphicalInputPopup(Node n) {
 
         try {
+
+            App.getPrimaryStage().setUserData(this);
+
             // Load fxml
             final VBox locInput = FXMLLoader.load(
                     Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/misc/graphicalInput.fxml")));
@@ -477,17 +481,17 @@ public class PathfindingMenuController implements Initializable {
             locInput.setLayoutY((n.getYCoord() / PathfindingMenuController.coordinateScale) - (locInput.getHeight()));
 
             // Set up popup buttons
-            for (javafx.scene.Node node : locInput.getChildren()) {
-                switch (node.getId()) {
-                    case "BtnStart":
-                        showGraphicalSelection(txtStartLocation, node, n);
+            for (javafx.scene.Node node : ((VBox)locInput.getChildren().get(0)).getChildren()) {
+                JFXButton btn = (JFXButton) ((HBox)node).getChildren().get(0);
+                switch (btn.getId()) {
+                    case "btnStart":
+                        showGraphicalSelection(txtStartLocation, btn, n);
                         break;
-                    case "BtnEnd":
-                        showGraphicalSelection(txtEndLocation, node, n);
+                    case "btnEnd":
+                        showGraphicalSelection(txtEndLocation, btn, n);
                         break;
-                    case "BtnCancel":
-                        Button cancelButton = (Button) node;
-                        cancelButton.setOnAction(event -> deleteBox(selectionBox));
+                    case "btnCancel":
+                        btn.setOnAction(event -> deleteBox(selectionBox));
                         break;
                 }
             }
@@ -508,16 +512,14 @@ public class PathfindingMenuController implements Initializable {
     /**
      * Shows the popup for the graphical input.
      *
-     * @param textField TextField to select items from
+     * @param textField TextField to set text for
      * @param node     javafx node that will show popup when clicked
      * @param n        map node the popup is for
      */
     private void showGraphicalSelection(JFXTextField textField, javafx.scene.Node node, Node n) {
-        Button tempButton = (Button) node;
+        JFXButton tempButton = (JFXButton) node;
 
         tempButton.setOnAction(event -> {
-            //loop through combo box if string == name of node
-            //keep track of index and pass it in
             textField.setText(n.getLongName());
             deleteBox(selectionBox);
             validateFindPathButton();
