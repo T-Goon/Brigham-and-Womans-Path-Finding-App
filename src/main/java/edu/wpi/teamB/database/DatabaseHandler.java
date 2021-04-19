@@ -70,7 +70,7 @@ public class DatabaseHandler {
      * with that data.
      */
     public void loadNodesEdges(List<Node> nodes, List<Edge> edges) {
-        resetDatabase(new ArrayList<>(Arrays.asList("nodes", "edges")));
+        resetDatabase(new ArrayList<>(Arrays.asList("Nodes", "Edges")));
         executeSchema();
         loadDatabaseNodes(nodes);
         loadDatabaseEdges(edges);
@@ -104,19 +104,18 @@ public class DatabaseHandler {
         String disableForeignKeys = "PRAGMA foreign_keys = OFF";
         String enableForeignKeys = "PRAGMA foreign_keys = ON";
 
+        String actualQuery = null;
         try {
             assert statement != null;
             statement.execute(disableForeignKeys);
-            for (String query : queries)
+            for (String query : queries) {
+                actualQuery = query;
                 statement.execute(query);
+            }
             statement.execute(enableForeignKeys);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        try {
             statement.close();
         } catch (SQLException e) {
+            System.out.println("PROBLEM HERE: " + actualQuery);
             e.printStackTrace();
         }
     }
@@ -883,6 +882,7 @@ public class DatabaseHandler {
 
         try {
             statement.execute(query);
+            statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -1053,6 +1053,8 @@ public class DatabaseHandler {
                 );
                 requests.put(rs.getString("requestID"), outRequest);
             }
+            rs.close();
+            statement.close();
             return requests;
         } catch (SQLException ignored) {
             return null;
@@ -1223,6 +1225,8 @@ public class DatabaseHandler {
                         break;
                 }
             }
+            rs.close();
+            statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
@@ -1231,18 +1235,6 @@ public class DatabaseHandler {
         return outRequest;
     }
 
-    /**
-     * Shutdown the database
-     */
-    public void shutdown() {
-        // Shutdown the database
-        try {
-            this.getConnection().close();
-            System.out.println("Database is closed");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
 
     /**
      * Retrieves a list of nodes from the database based on the given nodeType
@@ -1270,10 +1262,24 @@ public class DatabaseHandler {
                 );
                 nodes.add(outNode);
             }
+            rs.close();
             statement.close();
             return nodes;
         } catch (SQLException ignored) {
             return null;
+        }
+    }
+
+    /**
+     * Shutdown the database
+     */
+    public void shutdown() {
+        // Shutdown the database
+        try {
+            this.getConnection().close();
+            System.out.println("Database is closed");
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 }
