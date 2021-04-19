@@ -492,6 +492,7 @@ public class PathfindingMenuController implements Initializable {
     }
 
     private void removeAllPopups() {
+        deleteBox(selectionBox);
         if (addNodePopup != null || editNodePopup != null || delEdgePopup != null) {
             nodeHolder.getChildren().remove(editNodePopup);
             editNodePopup = null;
@@ -615,6 +616,7 @@ public class PathfindingMenuController implements Initializable {
      * Draws all the elements of the map base on direction or map edit mode.
      */
     private void drawAllElements() {
+        removeAllPopups();
         if (editMap) {
             removeOldPaths();
             removeNodes();
