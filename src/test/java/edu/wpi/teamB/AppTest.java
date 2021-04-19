@@ -34,7 +34,8 @@ public class AppTest extends FxRobot {
     }
 
     @Test
-    void testLoginPageTabAndEnter(){
+    void testGraphicalMapEditor() {
+        // Get to edit map menu
         clickOn("#btnStaff");
         verifyThat("Login Page", Node::isVisible);
         clickOn("#username");
@@ -42,12 +43,98 @@ public class AppTest extends FxRobot {
         press(KeyCode.TAB);
         write("password");
         press(KeyCode.ENTER);
-        verifyThat("Admin Directory", Node::isVisible);
+        verifyThat("Staff Directory", Node::isVisible);
+        clickOn("#btnDirections");
+        clickOn("#btnEditMap");
+
+        // Open add node popup
+        moveTo(400, 400);
+        doubleClickOn(MouseButton.PRIMARY);
+
+        // Fill in node info
+        clickOn("#nodeID");
+        write("nodeabcd12345");
+        clickOn("#building");
+        write("building123");
+        clickOn("#nodeType");
+        clickOn("Bathrooms");
+        clickOn("#longName");
+        write("some node");
+        clickOn("#shortName");
+        write("sn");
+        clickOn("#btnAddNode");
+
+        // Open add node popup
+        moveTo(400, 500);
+        doubleClickOn(MouseButton.PRIMARY);
+
+        // Fill in node info
+        clickOn("#nodeID");
+        write("nodeabcd123452");
+        clickOn("#building");
+        write("building123");
+        clickOn("#nodeType");
+        clickOn("Bathrooms");
+        clickOn("#longName");
+        write("some node2");
+        clickOn("#shortName");
+        write("sn2");
+        clickOn("#btnAddNode");
+
+        // Edit Node
+        verifyThat("#nodeabcd12345Icon", Node::isVisible);
+        clickOn("#nodeabcd12345Icon");
+        clickOn("#btnEditNode");
+        clickOn("#nodeType");
+        clickOn("Lab Rooms");
+        clickOn("#btnUpdate");
+
+        // Set start node for edge
+        clickOn("#nodeabcd12345Icon");
+        clickOn("#btnAddEdge");
+        clickOn("#btnStart");
+        clickOn("#btnCancel");
+        clickOn("#btnCancel");
+
+        // Set end node for edge
+        clickOn("#nodeabcd123452Icon");
+        clickOn("#btnAddEdge");
+        clickOn("#btnEnd");
+        clickOn("#btnDone");
+
+        // Delete Edge
+        clickOn("#nodeabcd12345_nodeabcd123452Icon");
+        clickOn("#btnDelete");
+        clickOn("#btnYes");
+
+        // Delete nodes
+        clickOn("#nodeabcd12345Icon");
+        clickOn("#btnDelete");
+        clickOn("#btnYes");
+
+        clickOn("#nodeabcd123452Icon");
+        clickOn("#btnDelete");
+        clickOn("#btnYes");
+
+        clickOn("#btnBack");
         clickOn("#btnBack");
     }
 
     @Test
-    void testGuestLogin(){
+    void testLoginPageTabAndEnter() {
+        clickOn("#btnStaff");
+        verifyThat("Login Page", Node::isVisible);
+        clickOn("#username");
+        write("Admin");
+        press(KeyCode.TAB);
+        write("password");
+        press(KeyCode.ENTER);
+        verifyThat("Staff Directory", Node::isVisible);
+        clickOn("#btnBack");
+    }
+
+    @Test
+    void testGuestLogin() {
         clickOn("#btnGuest");
         verifyThat("#btnCovid", Node::isVisible);
         clickOn("#btnBack");
@@ -60,11 +147,11 @@ public class AppTest extends FxRobot {
 
         // Select start node
         clickOn("#bPARK01801Icon");
-        clickOn("#BtnStart");
+        clickOn("#btnStart");
 
         // Select end node
         clickOn("#bPARK00101Icon");
-        clickOn("#BtnEnd");
+        clickOn("#btnEnd");
 
         clickOn("#btnFindPath");
 
@@ -97,11 +184,11 @@ public class AppTest extends FxRobot {
         // Select start and end locations
         doubleClickOn("Information Locations");
         clickOn("75 Lobby Information Desk");
-        clickOn("#BtnStart");
+        clickOn("#btnStart");
         doubleClickOn("Information Locations");
         doubleClickOn("Entrances");
         clickOn("75 Francis Lobby Entrance");
-        clickOn("#BtnEnd");
+        clickOn("#btnEnd");
         doubleClickOn("Entrances");
 
         clickOn("#btnFindPath");
@@ -111,6 +198,7 @@ public class AppTest extends FxRobot {
 
         //Check that the estimated time box is drawn
         verifyThat("#estimatedTimeDialog", Node::isVisible);
+        verifyThat("15 sec", Node::isVisible);
 
         clickOn("#btnBack");
         clickOn("#btnBack");
