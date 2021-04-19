@@ -218,18 +218,21 @@ public class PathfindingMenuController implements Initializable {
 
         String startID = longName.get(startLong);
         String endID = longName.get(endLong);
-        Double etaTime = AStar.eta(startID, endID);
-        System.out.println(etaTime);
+        String etaTime = AStar.eta(startID, endID);
+        //System.out.println(etaTime);
         final VBox etaVbox = FXMLLoader.load(
                 Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/misc/showETA.fxml")));
 
         List<javafx.scene.Node> child = etaVbox.getChildren();
         Text textBox = (Text) child.get(0);
-        textBox.setText(etaTime.toString());
+        textBox.setText(etaTime);
 
         Graph graph = Graph.getGraph();
         Node endNode = graph.getNodes().get(longName.get(endLong));
-        placePopupOnMap(etaVbox, endNode.getXCoord(), endNode.getYCoord());
+
+        etaVbox.setLayoutX((endNode.getXCoord() / PathfindingMenuController.coordinateScale));
+        etaVbox.setLayoutY((endNode.getYCoord() / PathfindingMenuController.coordinateScale) - (etaVbox.getHeight()));
+        nodeHolder.getChildren().add(etaVbox);
     }
 
 

@@ -81,13 +81,14 @@ public class PathfindingTests {
         List<String> pathExp = new LinkedList();
 
         List<Node> category = new ArrayList<>();
-        Node bPARK02301 = new Node("bPARK02301",3362,1254,"1","Parking","PARK","Right Parking Lot Spot 13","RLot13");
-        Node bPARK02401 = new Node("bPARK02401",3365,1280,"1","Parking","PARK","Right Parking Lot Spot 14","RLot14");
-        Node bPARK02501 = new Node("bPARK02501",3364,1307,"1","Parking","PARK","Right Parking Lot Spot 15","RLot15");
 
-        category.add(bPARK02301);
-        category.add(bPARK02401);
-        category.add(bPARK02501);
+        Node bPARK01501 = new Node("bPARK01501",3159,1228,"1","Parking","PARK","Right Parking Lot Spot 5","RLot5");
+        Node bPARK01601 = new Node("bPARK01601",3161,1251,"1","Parking","PARK","Right Parking Lot Spot 6","RLot6");
+        Node bPARK01701 = new Node("bPARK01701",3160,1278,"1","Parking","PARK","Right Parking Lot Spot 7","RLot7");
+
+        category.add(bPARK01501);
+        category.add(bPARK01601);
+        category.add(bPARK01701);
 
         pathExp.add("bWALK00101");
         pathExp.add("bWALK00201");
@@ -103,19 +104,25 @@ public class PathfindingTests {
         pathExp.add("bWALK01301");
         pathExp.add("bWALK01401");
         pathExp.add("bWALK01501");
-        pathExp.add("bWALK01601");
-        pathExp.add("bWALK02301");
+        pathExp.add("bPARK01701");
 
-        //Change cost to the actual cost
-        Path expectedPath = new Path(pathExp, 100);
-
-        /*
-        * [bWALK00101, bWALK00201, bWALK00301, bWALK00401, bWALK00501, bWALK00601, bWALK00701, bWALK00801, bWALK01001, bWALK01101, bWALK01201, bWALK01301, bWALK01401, bWALK01501, bWALK01601, bPARK02301]
-        * */
 
         List<String> path = AStar.closestPath("bWALK00101", category);
-        assertEquals(expectedPath, path);
 
+        System.out.println(path);
+        assertEquals(pathExp, path);
+
+    }
+
+    @Test
+    public void testETA(){
+        String act = AStar.eta("bPARK01801", "bPARK00601");
+        String exp = "ETA: 5:22";
+        assertEquals(act, exp);
+
+        String act1 = AStar.eta("FSERV00201", "GEXIT00101");
+        String exp1 = "ETA: 14:11";
+        assertEquals(act1, exp1);
     }
 
 }

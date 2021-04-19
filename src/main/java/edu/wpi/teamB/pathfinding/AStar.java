@@ -108,7 +108,7 @@ public class AStar {
         return shortestPath;
     }
 
-    public static double eta(String start, String end){
+    public static String eta(String start, String end){
         Path path = findPath(start, end);
         //3-4mph average human walking speed
         //1 mph = 88 fpm
@@ -118,13 +118,16 @@ public class AStar {
         //According to google maps, path from one corner of Francis street to other is ~500 ft:
         //using this to get pixles / minute
         //double pixDist = Math.sqrt((3373 - 1738)^2 +(1554-1545)^2);
-        double pixDist = 1635.025;
-//        double realDist = 500;
-//        double feetPerMin = 88;
+        //double pixDist = 1635.025;
+        double timeConst = (2/1635.025);
+        double timeDec =  path.getTotalPathCost()*timeConst;
 
-        double timeConst = (2/pixDist);
+        double secondsTime = timeDec*60;
 
-        return path.getTotalPathCost()*timeConst;
+        int min = (int) Math.floor(timeDec);
+        int sec = (int)secondsTime - min*60;
+
+        return "ETA: " + min +":"+ String.format("%02d", sec);
 
     }
 
