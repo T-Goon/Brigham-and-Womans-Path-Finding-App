@@ -603,6 +603,7 @@ public class PathfindingMenuController implements Initializable {
      * <p>
      */
     public void refreshEditor() {
+        updateLocations();
         removeOldPaths();
         removeIntermediateNodes();
         removeNodes();
