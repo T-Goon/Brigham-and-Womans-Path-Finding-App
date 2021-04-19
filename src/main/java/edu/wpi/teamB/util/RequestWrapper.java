@@ -10,10 +10,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
+import lombok.Getter;
 
 import java.io.IOException;
 import java.util.Objects;
 
+@Getter
 @SuppressWarnings("unchecked")
 public class RequestWrapper {
 

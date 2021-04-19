@@ -72,7 +72,7 @@ public class ServiceRequestDatabaseController implements Initializable {
                     c.setCellValueFactory(new PropertyValueFactory<>("complete"));
                     break;
                 case "employeeCol":
-                    c.setCellValueFactory(new PropertyValueFactory<>("employee"));
+                    c.setCellValueFactory(new PropertyValueFactory<>("employeeName"));
                     break;
                 case "delCol":
                     c.setCellValueFactory(new PropertyValueFactory<>("btnDel"));

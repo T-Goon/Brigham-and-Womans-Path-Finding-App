@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+
+<JFXButton contentDisplay="GRAPHIC_ONLY" style="-fx-background-color: #F6BD39; -fx-background-radius: 50%;"
+           xmlns="http://javafx.com/javafx/8.0.171">
+    <graphic>
+        <ImageView fitHeight="52.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../../images/menus/pencil.png" />
+            </image>
+        </ImageView>
+    </graphic>
+</JFXButton>
