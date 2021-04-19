@@ -744,6 +744,10 @@ public class PathfindingMenuController implements Initializable {
         }
     }
 
+    /**
+     * Place alternate node type on the map
+     * @param n the Node object to place
+     */
     private void placeAltNode(Node n) {
         try {
             Circle c = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/map/misc/nodeAlt.fxml")));
@@ -815,6 +819,11 @@ public class PathfindingMenuController implements Initializable {
         }
     }
 
+    /**
+     * Function that updates everything involved with the different locations on the map
+     * - Tree View
+     * - Floor Nodes
+     */
     private void updateLocations() {
         mapLongToID = makeLongToIDMap();
         Map<String, List<TreeItem<String>>> catNameMap = new HashMap<>();
