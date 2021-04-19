@@ -723,7 +723,6 @@ public class DatabaseHandler {
                         + "')";
                 break;
         }
-        System.out.println(query);
 
         try {
             statement.execute(query);

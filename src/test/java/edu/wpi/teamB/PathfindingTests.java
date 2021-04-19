@@ -107,7 +107,6 @@ public class PathfindingTests {
 
         Path path = AStar.shortestPathToNodeInList("bWALK00101", category);
 
-        System.out.println(path);
         assertEquals(pathExp, path.getPath());
 
     }
