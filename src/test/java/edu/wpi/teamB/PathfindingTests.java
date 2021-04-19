@@ -30,7 +30,6 @@ public class PathfindingTests {
         db.loadDatabase(nodes, edges);
 
         Graph.setGraph(db);
-
     }
 
     @Test
@@ -126,7 +125,7 @@ public class PathfindingTests {
         expected = "14:11 min";
         assertEquals(expected, result);
 
-        tempPath = AStar.findPath("bWALK00401", "bWALK00501");
+        tempPath = AStar.findPath("bEXIT00401", "bEXIT00501");
         result = AStar.getEstimatedTime(tempPath);
         expected = "22 sec";
         assertEquals(expected, result);
