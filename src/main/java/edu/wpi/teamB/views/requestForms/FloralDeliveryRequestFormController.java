@@ -1,16 +1,16 @@
 package edu.wpi.teamB.views.requestForms;
 
-import com.jfoenix.controls.JFXCheckBox;
-import com.jfoenix.controls.JFXDatePicker;
-import com.jfoenix.controls.JFXTextField;
-import com.jfoenix.controls.JFXTimePicker;
+import com.jfoenix.controls.*;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 
 import java.math.RoundingMode;
+import java.net.URL;
 import java.text.NumberFormat;
+import java.util.ResourceBundle;
 
-public class FloralDeliveryRequestFormController extends DefaultServiceRequestFormController {
+public class FloralDeliveryRequestFormController extends DefaultServiceRequestFormController  {
 
     @FXML
     private JFXTextField patientName;
@@ -26,6 +26,9 @@ public class FloralDeliveryRequestFormController extends DefaultServiceRequestFo
 
     @FXML
     private JFXTimePicker endTime;
+
+    @FXML
+    private JFXTextArea message;
 
     @FXML
     private Label totalPrice;
@@ -51,6 +54,12 @@ public class FloralDeliveryRequestFormController extends DefaultServiceRequestFo
     @FXML
     private JFXCheckBox orchids;
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        super.initialize(location, resources);
+        btnSubmit.setDisable(true);
+    }
+
     @FXML
     private void updatePrice() {
         double currentPrice = 0;
@@ -67,5 +76,14 @@ public class FloralDeliveryRequestFormController extends DefaultServiceRequestFo
         nf.setMinimumFractionDigits(2);
         nf.setRoundingMode(RoundingMode.HALF_UP);
         totalPrice.setText("Total Price: $" + nf.format(currentPrice));
+    }
+
+    @FXML
+    private void validateButton(){
+        btnSubmit.setDisable(
+                patientName.getText().isEmpty() || roomNumber.getText().isEmpty() ||
+                deliveryDate.getValue() == null || startTime.getValue() == null ||
+                endTime.getValue() == null || message.getText().isEmpty()
+        );
     }
 }
