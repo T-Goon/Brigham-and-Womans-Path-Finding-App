@@ -50,7 +50,7 @@ public class SanitationRequestFormController extends DefaultServiceRequestFormCo
         comboSizeService.getItems().add(new Label("Large"));
     }
 
-    public void handleButtonAction(ActionEvent actionEvent) throws IOException {
+    public void handleButtonAction(ActionEvent actionEvent) {
         String givenSanitationType = comboTypeService.getValue().toString();
         String givenSanitationSize = comboSizeService.getValue().toString();
         String givenHazardous = safetyHazard.isSelected() ? "T" : "F";

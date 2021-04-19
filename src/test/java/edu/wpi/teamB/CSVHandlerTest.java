@@ -30,7 +30,7 @@ public class CSVHandlerTest {
 
     @BeforeEach
     void resetDB() {
-        db.loadDatabase(null, null);
+        db.loadNodesEdges(null, null);
     }
 
     @Test

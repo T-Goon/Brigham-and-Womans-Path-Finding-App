@@ -3,6 +3,8 @@ package edu.wpi.teamB;
 import edu.wpi.teamB.database.*;
 import edu.wpi.teamB.entities.map.Edge;
 import edu.wpi.teamB.entities.map.Node;
+import edu.wpi.teamB.entities.requests.Request;
+import edu.wpi.teamB.entities.requests.SanitationRequest;
 import edu.wpi.teamB.pathfinding.Graph;
 import edu.wpi.teamB.util.CSVHandler;
 import org.junit.jupiter.api.BeforeAll;
@@ -29,7 +31,8 @@ public class DatabaseHandlerTest {
 
     @BeforeEach
     void resetDB() {
-        db.loadDatabase(null,null);
+        db.resetDatabase(new ArrayList<String>());
+        db.executeSchema();
     }
 
     @Test
@@ -110,7 +113,7 @@ public class DatabaseHandlerTest {
         Edge targetEdge = new Edge("bPARK01201_bWALK00501", "bWALK00502", "bWALK00501");
         edges.add(targetEdge);
 
-        db.loadDatabase(nodes, edges);
+        db.loadNodesEdges(nodes, edges);
         Map<String, Node> outNodes = db.getNodes();
         assert (outNodes.values().containsAll(nodes));
         Map<String, Edge> outEdges = db.getEdges();
@@ -132,7 +135,7 @@ public class DatabaseHandlerTest {
                 "Name With Many Spaces",
                 "N W M S");
         actual.add(target);
-        db.loadDatabase(actual, edges);
+        db.loadNodesEdges(actual, edges);
 
         String nodeID = target.getNodeID();
         int xcoord = 1;
@@ -164,7 +167,7 @@ public class DatabaseHandlerTest {
         actual.add(target);
         nodes.add(start);
         nodes.add(end);
-        db.loadDatabase(nodes, actual);
+        db.loadNodesEdges(nodes, actual);
 
         String edgeID = target.getEdgeID();
         String startNode = "test_start";
@@ -249,5 +252,52 @@ public class DatabaseHandlerTest {
 
         db.removeEdge(target.getEdgeID());
         assertTrue(db.getEdges().isEmpty());
+    }
+
+    @Test
+    public void testUpdateRequest() { // still working on
+        // populate nodes table with nodes
+        Node node1 = new Node("node1",0,0,"0","0","0","test","t");
+        Node node2 = new Node("node2",0,0,"0","0","0","test","t");
+        db.addNode(node1);
+        db.addNode(node2);
+
+        List<Request> actual = new ArrayList<>();
+        SanitationRequest request = new SanitationRequest("Glass",
+                "Small",
+                "T",
+                "F",
+                "F",
+                "testRequest",
+                "12:24",
+                "2021-04-02",
+                "F",
+                "Bob",
+                "node1",
+                "None");
+        actual.add(request);
+        db.loadDatabaseRequests(actual);
+
+        String sanitationType = "Dry";
+        String sanitationSize = "Medium";
+        String hazardous = "F";
+        String biologicalSubstance = "T";
+        String occupied = "T";
+        String requestID = request.getRequestID();
+        String time = "13:30";
+        String date = "2021-04-18";
+        String complete = "T";
+        String employeeName = "Mike";
+        String location = "node2";
+        String description = "test";
+        db.updateRequest(new SanitationRequest(sanitationType, sanitationSize, hazardous, biologicalSubstance, occupied, requestID, time, date, complete, employeeName, location, description));
+
+        Map<String, Request> requests = db.getRequests();
+        assertEquals("13:30", requests.get("testRequest").getTime());
+        assertEquals("2021-04-18", requests.get("testRequest").getDate());
+        assertEquals("T", requests.get("testRequest").getComplete());
+        assertEquals("Mike", requests.get("testRequest").getEmployeeName());
+        assertEquals("node2", requests.get("testRequest").getLocation());
+        assertEquals("test", requests.get("testRequest").getDescription());
     }
 }

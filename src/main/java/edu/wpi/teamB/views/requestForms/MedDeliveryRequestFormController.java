@@ -28,7 +28,7 @@ public class MedDeliveryRequestFormController extends DefaultServiceRequestFormC
     @FXML
     private JFXTextArea reason;
 
-    public void handleButtonAction(ActionEvent actionEvent) throws IOException {
+    public void handleButtonAction(ActionEvent actionEvent) {
         String givenPatientName = name.getText();
         String givenMedicine = medName.getText();
 

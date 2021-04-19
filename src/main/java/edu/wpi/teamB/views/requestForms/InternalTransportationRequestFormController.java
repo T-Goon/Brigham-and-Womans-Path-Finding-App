@@ -44,7 +44,7 @@ public class InternalTransportationRequestFormController extends DefaultServiceR
         comboTranspType.getItems().add(new Label("Gurney"));
     }
 
-    public void handleButtonAction(ActionEvent actionEvent) throws IOException {
+    public void handleButtonAction(ActionEvent actionEvent) {
         String givenPatientName = name.getText();
         String givenTransportType = comboTranspType.getValue().toString();
         String givenUnconscious = unconscious.isSelected() ? "T" : "F";

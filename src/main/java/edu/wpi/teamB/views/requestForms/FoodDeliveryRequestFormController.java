@@ -31,7 +31,7 @@ public class FoodDeliveryRequestFormController extends DefaultServiceRequestForm
     @FXML
     private JFXTextArea description;
 
-    public void handleButtonAction(ActionEvent actionEvent) throws IOException {
+    public void handleButtonAction(ActionEvent actionEvent) {
         String givenPatientName = name.getText();
         String givenArrivalTime = arrivalTime.getText();
         String givenMealChoice = mealChoice.getText();

@@ -26,7 +26,7 @@ public class App extends Application {
 
         // If the database is uninitialized, fill it with the csv files
         if (!db.isInitialized())
-            db.loadDatabase(CSVHandler.loadCSVNodes("/edu/wpi/teamB/csvFiles/bwBnodes.csv"), CSVHandler.loadCSVEdges("/edu/wpi/teamB/csvFiles/bwBedges.csv"));
+            db.loadNodesEdges(CSVHandler.loadCSVNodes("/edu/wpi/teamB/csvFiles/bwBnodes.csv"), CSVHandler.loadCSVEdges("/edu/wpi/teamB/csvFiles/bwBedges.csv"));
     }
 
     @Override

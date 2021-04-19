@@ -79,7 +79,7 @@ public class FloralDeliveryRequestFormController extends DefaultServiceRequestFo
         totalPrice.setText("Total Price: $" + nf.format(currentPrice));
     }
 
-    public void handleButtonAction(ActionEvent actionEvent) throws IOException {
+    public void handleButtonAction(ActionEvent actionEvent) {
         String givenPatientName = patientName.getText();
         String givenDeliveryDate = deliveryDate.getValue().toString();
         String givenStartTime = startTime.getValue().toString();

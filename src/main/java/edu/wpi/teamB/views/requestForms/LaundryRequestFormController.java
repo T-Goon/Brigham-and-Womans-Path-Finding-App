@@ -50,7 +50,7 @@ public class LaundryRequestFormController extends DefaultServiceRequestFormContr
         comboSizeService.getItems().add(new Label("Large"));
     }
 
-    public void handleButtonAction(ActionEvent actionEvent) throws IOException {
+    public void handleButtonAction(ActionEvent actionEvent) {
         String givenServiceType = comboTypeService.getValue().toString();
         String givenServiceSize = comboSizeService.getValue().toString();
         String givenDark = darks.isSelected() ? "T" : "F";

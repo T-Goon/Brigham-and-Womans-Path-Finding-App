@@ -26,7 +26,7 @@ public class PathfindingTests {
         List<Node> nodes = CSVHandler.loadCSVNodes("/edu/wpi/teamB/csvFiles/bwBnodes.csv");
         List<Edge> edges = CSVHandler.loadCSVEdges("/edu/wpi/teamB/csvFiles/bwBedges.csv");
 
-        db.loadDatabase(nodes, edges);
+        db.loadNodesEdges(nodes, edges);
 
         Graph.setGraph(db);
 

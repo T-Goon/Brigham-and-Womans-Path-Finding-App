@@ -65,47 +65,46 @@ public class DatabaseHandler {
      * Given the list of edges and nodes, clear and fill the database
      * with that data.
      */
-    public void loadDatabase(List<Node> nodes, List<Edge> edges) {
-        resetDatabase();
+    public void loadNodesEdges(List<Node> nodes, List<Edge> edges) {
+        resetDatabase(new ArrayList<String>(Arrays.asList("nodes", "edges")));
         executeSchema();
         loadDatabaseNodes(nodes);
         loadDatabaseEdges(edges);
     }
 
-    public void resetDatabase() {
+    public void resetDatabase(List<String> tables) {
         Statement statement = this.getStatement();
-        String resetEdges = "DROP TABLE IF EXISTS Edges";
-        String resetNodes = "DROP TABLE IF EXISTS Nodes";
-        String resetRequests = "DROP TABLE IF EXISTS Requests";
-        String resetSanitation = "DROP TABLE IF EXISTS SanitationRequests";
-        String resetMedicine = "DROP TABLE IF EXISTS MedicineRequests";
-        String resetInternalTransport = "DROP TABLE IF EXISTS InternalTransportRequests";
-        String resetReligious = "DROP TABLE IF EXISTS ReligiousRequests";
-        String resetFood = "DROP TABLE IF EXISTS FoodRequests";
-        String resetFloral = "DROP TABLE IF EXISTS FloralRequests";
-        String resetSecurity = "DROP TABLE IF EXISTS SecurityRequests";
-        String resetExternalTransport = "DROP TABLE IF EXISTS ExternalTransportRequests";
-        String resetLaundry = "DROP TABLE IF EXISTS LaundryRequests";
-        try {
-            assert statement != null;
-            statement.execute(resetEdges);
-            statement.execute(resetNodes);
-            statement.execute(resetRequests);
-            statement.execute(resetSanitation);
-            statement.execute(resetMedicine);
-            statement.execute(resetInternalTransport);
-            statement.execute(resetReligious);
-            statement.execute(resetFood);
-            statement.execute(resetFloral);
-            statement.execute(resetSecurity);
-            statement.execute(resetExternalTransport);
-            statement.execute(resetLaundry);
-        } catch (SQLException e) {
-            e.printStackTrace();
+
+        if (tables.isEmpty()) {
+            tables.add("Edges");
+            tables.add("Nodes");
+            tables.add("Requests");
+            tables.add("SanitationRequests");
+            tables.add("MedicineRequests");
+            tables.add("InternalTransportRequests");
+            tables.add("ReligiousRequests");
+            tables.add("FoodRequests");
+            tables.add("FloralRequests");
+            tables.add("SecurityRequests");
+            tables.add("ExternalTransportRequests");
+            tables.add("LaundryRequests");
+        }
+
+        List<String> queries = new LinkedList<String>();
+        for (String table : tables) {
+            queries.add("DROP TABLE IF EXISTS " + table);
+        }
+
+        for (String query : queries) {
+            try {
+                statement.execute(query);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
-    private void executeSchema() {
+    public void executeSchema() {
         Statement statement = this.getStatement();
         String configuration = "PRAGMA foreign_keys = ON";
 
@@ -288,6 +287,20 @@ public class DatabaseHandler {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+    }
+
+    /**
+     * Refreshes the requests tables and loads the requests given into
+     * the database
+     *
+     * @param requests the list of requests
+     */
+    public void loadDatabaseRequests(List<Request> requests) {
+
+        if (requests == null) return;
+        for (Request request : requests) {
+            this.addRequest(request);
         }
     }
 
@@ -817,6 +830,179 @@ public class DatabaseHandler {
             statement.execute(query);
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+
+        Graph.getGraph().updateGraph();
+    }
+
+    /**
+     * Displays the list of requests along with their attributes.
+     *
+     * @return a map of request IDs to actual requests
+     */
+    public Map<String, Request> getRequests() {
+        Statement statement = this.getStatement();
+        String queryGeneralTable = "SELECT * FROM Requests";
+
+        assert statement != null;
+        try {
+            ResultSet rsGeneralTable = statement.executeQuery(queryGeneralTable);
+            String querySpecificTable = "SELECT * FROM '" + rsGeneralTable.getString("requestType") + "'";
+            ResultSet rsSpecificTable = statement.executeQuery(querySpecificTable);
+            Map<String, Request> requests = new HashMap<>();
+
+            Request outRequest = null;
+            while (rsGeneralTable.next() && rsSpecificTable.next()) {
+                switch (rsGeneralTable.getString("requestType")) {
+                    case "Sanitation":
+                        outRequest = new SanitationRequest(
+                                rsSpecificTable.getString("sanitationType"),
+                                rsSpecificTable.getString("sanitationSize"),
+                                rsSpecificTable.getString("hazardous"),
+                                rsSpecificTable.getString("biologicalSubstance"),
+                                rsSpecificTable.getString("occupied"),
+                                rsGeneralTable.getString("requestID"),
+                                rsGeneralTable.getString("requestTime"),
+                                rsGeneralTable.getString("requestDate"),
+                                rsGeneralTable.getString("complete"),
+                                rsGeneralTable.getString("employeeName"),
+                                rsGeneralTable.getString("location"),
+                                rsGeneralTable.getString("description")
+                        );
+                        break;
+                    case "Medicine":
+                        outRequest = new MedicineRequest(
+                                rsSpecificTable.getString("patientName"),
+                                rsSpecificTable.getString("medicine"),
+                                rsGeneralTable.getString("requestID"),
+                                rsGeneralTable.getString("requestTime"),
+                                rsGeneralTable.getString("requestDate"),
+                                rsGeneralTable.getString("complete"),
+                                rsGeneralTable.getString("employeeName"),
+                                rsGeneralTable.getString("location"),
+                                rsGeneralTable.getString("description")
+                        );
+                        break;
+                    case "InternalTransport":
+                        outRequest = new InternalTransportRequest(
+                                rsSpecificTable.getString("patientName"),
+                                rsSpecificTable.getString("transportType"),
+                                rsSpecificTable.getString("unconscious"),
+                                rsSpecificTable.getString("infectious"),
+                                rsGeneralTable.getString("requestID"),
+                                rsGeneralTable.getString("requestTime"),
+                                rsGeneralTable.getString("requestDate"),
+                                rsGeneralTable.getString("complete"),
+                                rsGeneralTable.getString("employeeName"),
+                                rsGeneralTable.getString("location"),
+                                rsGeneralTable.getString("description")
+                        );
+                        break;
+                    case "Religious":
+                        outRequest = new ReligiousRequest(
+                                rsSpecificTable.getString("patientName"),
+                                rsSpecificTable.getString("startTime"),
+                                rsSpecificTable.getString("endTime"),
+                                rsSpecificTable.getString("religiousDate"),
+                                rsSpecificTable.getString("faith"),
+                                rsSpecificTable.getString("infectious"),
+                                rsGeneralTable.getString("requestID"),
+                                rsGeneralTable.getString("requestTime"),
+                                rsGeneralTable.getString("requestDate"),
+                                rsGeneralTable.getString("complete"),
+                                rsGeneralTable.getString("employeeName"),
+                                rsGeneralTable.getString("location"),
+                                rsGeneralTable.getString("description")
+                        );
+                        break;
+                    case "Food":
+                        outRequest = new FoodRequest(
+                                rsSpecificTable.getString("patientName"),
+                                rsSpecificTable.getString("arrivalTime"),
+                                rsSpecificTable.getString("mealChoice"),
+                                rsGeneralTable.getString("requestID"),
+                                rsGeneralTable.getString("requestTime"),
+                                rsGeneralTable.getString("requestDate"),
+                                rsGeneralTable.getString("complete"),
+                                rsGeneralTable.getString("employeeName"),
+                                rsGeneralTable.getString("location"),
+                                rsGeneralTable.getString("description")
+                        );
+                        break;
+                    case "Floral":
+                        outRequest = new FloralRequest(
+                                rsSpecificTable.getString("patientName"),
+                                rsSpecificTable.getString("deliveryDate"),
+                                rsSpecificTable.getString("startTime"),
+                                rsSpecificTable.getString("endTime"),
+                                rsSpecificTable.getString("wantsRoses"),
+                                rsSpecificTable.getString("wantsTulips"),
+                                rsSpecificTable.getString("wantsDaisies"),
+                                rsSpecificTable.getString("wantsLilies"),
+                                rsSpecificTable.getString("wantsSunflowers"),
+                                rsSpecificTable.getString("wantsCarnations"),
+                                rsSpecificTable.getString("wantsOrchids"),
+                                rsGeneralTable.getString("requestID"),
+                                rsGeneralTable.getString("requestTime"),
+                                rsGeneralTable.getString("requestDate"),
+                                rsGeneralTable.getString("complete"),
+                                rsGeneralTable.getString("employeeName"),
+                                rsGeneralTable.getString("location"),
+                                rsGeneralTable.getString("description")
+                        );
+                        break;
+                    case "Security":
+                        outRequest = new SecurityRequest(
+                                rsSpecificTable.getInt("urgency"),
+                                rsGeneralTable.getString("requestID"),
+                                rsGeneralTable.getString("requestTime"),
+                                rsGeneralTable.getString("requestDate"),
+                                rsGeneralTable.getString("complete"),
+                                rsGeneralTable.getString("employeeName"),
+                                rsGeneralTable.getString("location"),
+                                rsGeneralTable.getString("description")
+                        );
+                        break;
+                    case "ExternalTransport":
+                        outRequest = new ExternalTransportRequest(
+                                rsSpecificTable.getString("patientName"),
+                                rsSpecificTable.getString("transportType"),
+                                rsSpecificTable.getString("destination"),
+                                rsSpecificTable.getString("patientAllergies"),
+                                rsSpecificTable.getString("outNetwork"),
+                                rsSpecificTable.getString("infectious"),
+                                rsSpecificTable.getString("unconscious"),
+                                rsGeneralTable.getString("requestID"),
+                                rsGeneralTable.getString("requestTime"),
+                                rsGeneralTable.getString("requestDate"),
+                                rsGeneralTable.getString("complete"),
+                                rsGeneralTable.getString("employeeName"),
+                                rsGeneralTable.getString("location"),
+                                rsGeneralTable.getString("description")
+                        );
+                        break;
+                    case "Laundry":
+                        outRequest = new LaundryRequest(
+                                rsSpecificTable.getString("serviceType"),
+                                rsSpecificTable.getString("serviceSize"),
+                                rsSpecificTable.getString("dark"),
+                                rsSpecificTable.getString("light"),
+                                rsSpecificTable.getString("occupied"),
+                                rsGeneralTable.getString("requestID"),
+                                rsGeneralTable.getString("requestTime"),
+                                rsGeneralTable.getString("requestDate"),
+                                rsGeneralTable.getString("complete"),
+                                rsGeneralTable.getString("employeeName"),
+                                rsGeneralTable.getString("location"),
+                                rsGeneralTable.getString("description")
+                        );
+                        break;
+                }
+                requests.put(rsGeneralTable.getString("requestID"), outRequest);
+            }
+            return requests;
+        } catch (SQLException ignored) {
+            return null;
         }
     }
 

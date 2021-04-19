@@ -40,7 +40,7 @@ public class SecurityRequestFormController extends DefaultServiceRequestFormCont
         }
     }
 
-    public void handleButtonAction(ActionEvent actionEvent) throws IOException {
+    public void handleButtonAction(ActionEvent actionEvent) {
         int givenUrgency = Integer.parseInt(comboUrgency.getValue().toString());
 
         DateFormat timeFormat = new SimpleDateFormat("HH:mm");

@@ -52,7 +52,7 @@ public class ExternalTransportationRequestFormController extends DefaultServiceR
         comboTranspType.getItems().add(new Label("Helicopter"));
     }
 
-    public void handleButtonAction(ActionEvent actionEvent) throws IOException {
+    public void handleButtonAction(ActionEvent actionEvent) {
         String givenPatientName = name.getText();
         String givenTransportType = comboTranspType.getValue().toString();
         String givenDestination = destination.getText();

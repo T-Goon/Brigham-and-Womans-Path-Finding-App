@@ -38,7 +38,7 @@ public class ReligiousRequestFormController extends DefaultServiceRequestFormCon
     @FXML
     private JFXCheckBox infectious;
 
-    public void handleButtonAction(ActionEvent actionEvent) throws IOException {
+    public void handleButtonAction(ActionEvent actionEvent) {
         String givenPatientName = name.getText();
         String givenReligiousDate = date.getValue().toString();
         String givenStartTime = startTime.getValue().toString();

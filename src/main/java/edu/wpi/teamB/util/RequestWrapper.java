@@ -44,11 +44,7 @@ public class RequestWrapper {
             public void handle(ActionEvent event) {
                 Stage stage = App.getPrimaryStage();
                 stage.setUserData(r);
-                try {
-                    SceneSwitcher.switchScene(getClass(), "this is broken");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                SceneSwitcher.switchScene(getClass(), "this is broken", "this is broken");
             }
         });
 
