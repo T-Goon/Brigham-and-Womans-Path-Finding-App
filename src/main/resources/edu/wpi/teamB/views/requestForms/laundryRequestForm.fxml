@@ -79,7 +79,7 @@
                                         <Font name="MS Reference Sans Serif" size="14.0" />
                                     </font>
                                 </Text>
-                                <JFXTextField fx:id="loc" promptText="   Ex. &quot;Room 201&quot;" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f0f0f000" />
+                                <JFXTextField fx:id="loc" promptText="Ex. &quot;Room 201&quot;" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f0f0f000" />
                             </children>
                             <padding>
                                 <Insets left="10.0" right="10.0" />
