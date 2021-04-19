@@ -36,6 +36,9 @@ public class ServiceRequestDatabaseController implements Initializable {
     private TableView tblRequests;
 
     @FXML
+    private TableColumn<String, JFXButton> editCol;
+
+    @FXML
     private TableColumn<String, JFXButton> typeCol;
 
     @FXML
@@ -59,6 +62,9 @@ public class ServiceRequestDatabaseController implements Initializable {
         ObservableList<TableColumn<String, Label>> cols = tblRequests.getColumns();
         for (TableColumn<String, Label> c : cols) {
             switch (c.getId()) {
+                case "editCol":
+                    c.setCellValueFactory(new PropertyValueFactory<>("btnEdit"));
+                    break;
                 case "typeCol":
                     c.setCellValueFactory(new PropertyValueFactory<>("type"));
                     break;

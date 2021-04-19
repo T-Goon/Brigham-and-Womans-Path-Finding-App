@@ -67,7 +67,7 @@ public class DatabaseHandler {
      * with that data.
      */
     public void loadNodesEdges(List<Node> nodes, List<Edge> edges) {
-        resetDatabase(new ArrayList<String>(Arrays.asList("nodes", "edges")));
+        resetDatabase(new ArrayList<>(Arrays.asList("nodes", "edges")));
         executeSchema();
         loadDatabaseNodes(nodes);
         loadDatabaseEdges(edges);
@@ -91,17 +91,25 @@ public class DatabaseHandler {
             tables.add("LaundryRequests");
         }
 
-        List<String> queries = new LinkedList<String>();
+        List<String> queries = new LinkedList<>();
         for (String table : tables) {
             queries.add("DROP TABLE IF EXISTS " + table);
         }
 
         for (String query : queries) {
             try {
+                assert statement != null;
                 statement.execute(query);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+        }
+
+        try {
+            assert statement != null;
+            statement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
