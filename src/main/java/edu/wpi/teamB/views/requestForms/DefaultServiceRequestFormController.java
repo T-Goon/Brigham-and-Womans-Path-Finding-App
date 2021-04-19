@@ -66,7 +66,6 @@ public abstract class DefaultServiceRequestFormController implements Initializab
                     helpHolder.getChildren().remove(helpPopup);
                     helpPopup = null;
                 }
-                System.out.println("2");
 
                 justClicked = false;
             }
@@ -97,7 +96,6 @@ public abstract class DefaultServiceRequestFormController implements Initializab
 
                 helpHolder.getChildren().add(helpPopup);
                 justClicked = true;
-                System.out.println("1");
                 break;
 
             case "btnExit":
