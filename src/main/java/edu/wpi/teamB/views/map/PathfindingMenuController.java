@@ -503,16 +503,19 @@ public class PathfindingMenuController implements Initializable {
 
             // Set up popup buttons
             for (javafx.scene.Node node : ((VBox) locInput.getChildren().get(0)).getChildren()) {
-                JFXButton btn = (JFXButton) ((HBox) node).getChildren().get(0);
-                switch (btn.getId()) {
+                javafx.scene.Node child = ((HBox) node).getChildren().get(0);
+                switch (child.getId()) {
+                    case "nodeName":
+                        ((Text)child).setText(n.getLongName());
+                        break;
                     case "btnStart":
-                        showGraphicalSelection(txtStartLocation, btn, n);
+                        showGraphicalSelection(txtStartLocation, (JFXButton)child, n);
                         break;
                     case "btnEnd":
-                        showGraphicalSelection(txtEndLocation, btn, n);
+                        showGraphicalSelection(txtEndLocation, (JFXButton)child, n);
                         break;
                     case "btnCancel":
-                        btn.setOnAction(event -> deleteBox(selectionBox));
+                        ((JFXButton)child).setOnAction(event -> deleteBox(selectionBox));
                         break;
                 }
             }
