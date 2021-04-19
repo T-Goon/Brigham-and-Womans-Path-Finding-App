@@ -43,6 +43,12 @@ public class ServiceRequestMenuController {
     private JFXButton btnBack;
 
     @FXML
+    private JFXButton btnCaseManager;
+
+    @FXML
+    private JFXButton btnSocialWorker;
+
+    @FXML
     private JFXButton btnEmergency;
 
     @FXML
@@ -80,6 +86,12 @@ public class ServiceRequestMenuController {
                 break;
             case "btnLaundryRequest":
                 path = VIEWS_PATH + "laundryRequestForm.fxml";
+                break;
+            case "btnCaseManager":
+                path = VIEWS_PATH + "caseManagerRequestForm.fxml";
+                break;
+            case "btnSocialWorker":
+                path = VIEWS_PATH + "socialWorkerRequestForm.fxml";
                 break;
             case "btnEmergency":
                 path = VIEWS_PATH + "emergencyForm.fxml";
