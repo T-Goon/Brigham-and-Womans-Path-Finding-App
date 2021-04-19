@@ -75,7 +75,7 @@
                               <Font size="14.0" />
                            </font>
                         </Text>
-                        <JFXTextField fx:id="assignedTo" promptText="Employee to be assigned to this request" style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" />
+                        <JFXTextField fx:id="assignedTo" promptText="   Ex. &quot;Jane Doe&quot;" style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" />
                      </children>
                   </VBox>
                   <VBox>
@@ -85,7 +85,7 @@
                               <Font size="14.0" />
                            </font>
                         </Text>
-                        <JFXTextField fx:id="loc" promptText="Location of the request" style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" />
+                        <JFXTextField fx:id="loc" promptText="   Ex. &quot;Room 201&quot;" style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" />
                      </children>
                      <VBox.margin>
                         <Insets top="10.0" />
@@ -101,7 +101,7 @@
                               <Font size="14.0" />
                            </font>
                         </Text>
-                        <JFXComboBox fx:id="comboUrgency" maxWidth="1.7976931348623157E308" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f0f0f000" />
+                        <JFXComboBox fx:id="comboUrgency" maxWidth="1.7976931348623157E308" promptText="Choose One" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f0f0f000" />
                      </children>
                   </VBox>
                   <VBox>

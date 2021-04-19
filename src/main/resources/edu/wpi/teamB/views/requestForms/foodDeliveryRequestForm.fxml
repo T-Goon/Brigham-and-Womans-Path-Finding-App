@@ -90,7 +90,7 @@
                                                 <Insets left="5.0" />
                                              </VBox.margin>
                                           </Text>
-                                          <JFXTextField fx:id="name" prefHeight="37.0" prefWidth="391.0" promptText="Name of patient ordering food" style="-fx-background-color: #e5e5e5; -fx-background-radius: 7;" unFocusColor="#f0f0f0" />
+                                          <JFXTextField fx:id="name" prefHeight="37.0" prefWidth="391.0" promptText="   Ex. &quot;Jane Doe&quot;" style="-fx-background-color: #e5e5e5; -fx-background-radius: 7;" unFocusColor="#f0f0f0" />
                                        </children>
                                     </VBox>
                                  </children>
@@ -107,7 +107,7 @@
                                                 <Insets left="5.0" />
                                              </VBox.margin>
                                           </Text>
-                                          <JFXTextField fx:id="roomNum" prefHeight="37.0" prefWidth="381.0" promptText="Room number of patient ordering food" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f0f0f0">
+                                          <JFXTextField fx:id="roomNum" prefHeight="37.0" prefWidth="381.0" promptText="   Ex. &quot;201&quot;" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f0f0f0">
                                              <VBox.margin>
                                                 <Insets left="5.0" right="5.0" />
                                              </VBox.margin>
@@ -130,7 +130,7 @@
                                           <Insets left="5.0" />
                                        </VBox.margin>
                                     </Text>
-                                    <JFXTextField fx:id="mealChoice" prefHeight="37.0" prefWidth="381.0" promptText="Specific food item being ordered" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f0f0f0">
+                                    <JFXTextField fx:id="mealChoice" prefHeight="37.0" prefWidth="381.0" promptText="   Ex. &quot;Chicken Sandiwch" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f0f0f0">
                                        <VBox.margin>
                                           <Insets left="5.0" right="5.0" />
                                        </VBox.margin>
@@ -162,7 +162,7 @@
                                     <Insets left="5.0" />
                                  </VBox.margin>
                               </Text>
-                              <JFXTextArea fx:id="extraInformation" promptText="Please include any other relevant information" style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" />
+                              <JFXTextArea fx:id="extraInformation" promptText="   Please include any other relevant information" style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" />
                            </children>
                         </VBox>
                         <HBox alignment="CENTER_LEFT" prefWidth="200.0">
