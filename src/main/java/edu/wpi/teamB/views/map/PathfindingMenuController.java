@@ -818,6 +818,7 @@ public class PathfindingMenuController implements Initializable {
     }
 
     private void updateLocations() {
+        mapLongToID = makeLongToIDMap();
         Map<String, List<TreeItem<String>>> catNameMap = new HashMap<>();
         floorNodes.remove(currentFloor);
         for (Node n : Graph.getGraph().getNodes().values()) {
