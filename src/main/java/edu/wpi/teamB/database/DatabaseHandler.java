@@ -1,10 +1,14 @@
 package edu.wpi.teamB.database;
 
+import edu.wpi.teamB.entities.NodeType;
+import edu.wpi.teamB.entities.User;
 import edu.wpi.teamB.entities.map.Edge;
 import edu.wpi.teamB.entities.map.Node;
 import edu.wpi.teamB.entities.requests.*;
 import edu.wpi.teamB.pathfinding.Graph;
+import jdk.nashorn.internal.runtime.ECMAException;
 
+import javax.swing.plaf.nimbus.State;
 import java.sql.*;
 import java.util.*;
 
@@ -17,6 +21,9 @@ public class DatabaseHandler {
 
     // Singleton
     private static DatabaseHandler handler;
+
+    //State
+    private static User AuthenticationUser;
 
     private DatabaseHandler() {
     }
@@ -88,6 +95,8 @@ public class DatabaseHandler {
             tables.add("SecurityRequests");
             tables.add("ExternalTransportRequests");
             tables.add("LaundryRequests");
+            tables.add("Jobs");
+            tables.add("Users");
         }
 
         List<String> queries = new LinkedList<String>();
@@ -95,12 +104,18 @@ public class DatabaseHandler {
             queries.add("DROP TABLE IF EXISTS " + table);
         }
 
-        for (String query : queries) {
-            try {
+        String disableForeignKeys = "PRAGMA foreign_keys = OFF";
+        String enableForeignKeys = "PRAGMA foreign_keys = ON";
+
+
+        try {
+            statement.execute(disableForeignKeys);
+            for (String query : queries) {
                 statement.execute(query);
-            } catch (SQLException e) {
-                e.printStackTrace();
             }
+            statement.execute(enableForeignKeys);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
@@ -209,6 +224,18 @@ public class DatabaseHandler {
                 + "light CHAR(1), " // Stored as T/F (no boolean data type in SQL)
                 + "occupied CHAR(1))"; // Stored as T/F (no boolean data type in SQL)
 
+        String users = "CREATE TABLE IF NOT EXISTS Users("
+                + "username CHAR(30) PRIMARY KEY, "
+                + "firstName CHAR(30), "
+                + "lastName CHAR(30), "
+                + "authenticationLevel CHAR(30) CHECK (authenticationLevel in ('ADMIN','STAFF','PATIENT')), "
+                + "passwordHash CHAR(30))";
+
+        String jobs = "CREATE TABLE IF NOT EXISTS Jobs("
+                + "username CHAR(30), "
+                + "job CHAR(30), "
+                + "FOREIGN KEY (username) REFERENCES Users(username))";
+
         try {
             assert statement != null;
             statement.execute(configuration);
@@ -224,6 +251,8 @@ public class DatabaseHandler {
             statement.execute(securityRequestsTable);
             statement.execute(externalTransportTable);
             statement.execute(laundryTable);
+            statement.execute(users);
+            statement.execute(jobs);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -332,6 +361,118 @@ public class DatabaseHandler {
             return null;
         }
     }
+
+    /**
+     * @param user     User to add
+     * @param password Plaintext password for user
+     * @return Whether user has been successfully added
+     */
+    public boolean addUser(User user, String password) {
+        Statement statement = this.getStatement();
+        String hash = this.passwordHash(password);
+
+        String query = "INSERT INTO Users VALUES " +
+                "('" + user.getUsername()
+                + "', '" + user.getFirstName()
+                + "', '" + user.getLastName()
+                + "', '" + user.getAuthenticationLevel().toString()
+                + "', '" + hash
+                + "')";
+
+        try {
+            statement.execute(query);
+            for (String job : user.getJobs()) {
+                query = "INSERT INTO Jobs VALUES " +
+                        "('" + user.getUsername()
+                        + "', '" + job
+                        + "')";
+                statement.execute(query);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return true;
+    }
+
+    /**
+     * @param username username to query by
+     * @return User object with that username
+     */
+    public User getUserByUsername(String username) throws IllegalArgumentException {
+        Statement statement = this.getStatement();
+        String query = "SELECT job FROM Jobs WHERE (username = " + "username)";
+        ResultSet rs = null;
+        List<String> jobs = new ArrayList<>();
+        User outUser = null;
+        try {
+            rs = statement.executeQuery(query);
+            while (rs.next()) {
+                jobs.add(rs.getString("job"));
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        query = "SELECT * FROM Users WHERE (username = '" + username + "')";
+        try {
+            rs = statement.executeQuery(query);
+            outUser = new User(
+                    rs.getString("username"),
+                    rs.getString("firstName"),
+                    rs.getString("lastName"),
+                    User.AuthenticationLevel.valueOf(rs.getString("authenticationLevel")),
+                    jobs
+            );
+        } catch (SQLException throwables) {
+            throw new IllegalArgumentException(String.format("Username %s not found in users", username));
+        }
+        return outUser;
+    }
+
+    public boolean modifyUser(String name, User newUser) {
+        return false;
+    }
+
+    public boolean deleteUser(String name) {
+        return false;
+    }
+
+    public User authenticate(String username, String password) throws Exception {
+        Statement statement = this.getStatement();
+        String query = "SELECT passwordHash FROM Users WHERE (username = '" + username + "')";
+        User outUser = null;
+        try {
+            ResultSet rs = statement.executeQuery(query);
+            if (!rs.next()) {
+                throw new Exception("user not found");
+            }
+            String test = (rs.getString("passwordHash"));
+            if (this.passwordHash(password) == rs.getString("passwordHash")) {
+                outUser = this.getUserByUsername(username);
+            } else {
+                throw new Exception("password does not match");
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        String hash = this.passwordHash(password);
+
+        return outUser;
+    }
+
+    private String passwordHash(String plaintext) {
+        return plaintext + "123"; //TODO this is not a hash
+    }
+
+    public boolean deauthenticate() {
+        return false;
+    }
+
+    public boolean isValidAuthentication(int authToken, User.AuthenticationLevel claim) {
+        return false;
+    }
+
 
     /**
      * Displays the list of nodes along with their attributes.
@@ -1055,6 +1196,7 @@ public class DatabaseHandler {
 
     /**
      * Retrieves a list of nodes from the database based on the given nodeType
+     *
      * @param rest NodeType
      * @return List of nodes with the given node type
      */

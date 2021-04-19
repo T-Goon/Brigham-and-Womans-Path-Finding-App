@@ -1,6 +1,8 @@
 package edu.wpi.teamB;
 
 import edu.wpi.teamB.database.*;
+import edu.wpi.teamB.entities.NodeType;
+import edu.wpi.teamB.entities.User;
 import edu.wpi.teamB.entities.map.Edge;
 import edu.wpi.teamB.entities.map.Node;
 import edu.wpi.teamB.entities.requests.FoodRequest;
@@ -13,6 +15,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -118,8 +121,7 @@ public class DatabaseHandlerTest {
         Edge targetEdge = new Edge("bPARK01201_bWALK00501", "bWALK00502", "bWALK00501");
         edges.add(targetEdge);
 
-        db.loadDatabase(testNodes, edges);
-        db.loadNodesEdges(nodes, edges);
+        db.loadNodesEdges(testNodes, edges);
         Map<String, Node> outNodes = db.getNodes();
         assert (outNodes.values().containsAll(testNodes));
         Map<String, Edge> outEdges = db.getEdges();
@@ -429,6 +431,28 @@ public class DatabaseHandlerTest {
 
         assertEquals(expected, result);
 
+
+    }
+    @Test
+    public void testAdduser() {
+        User user = new User("testuser","Testing","User", User.AuthenticationLevel.STAFF, Arrays.asList("Gamer"));
+        db.addUser(user,"password");
+        User out = db.getUserByUsername("testuser");
+        assertEquals(out,user);
+
+    }
+
+    @Test
+    public void testAuthentication() {
+        User user = new User("testuser","Testing","User", User.AuthenticationLevel.STAFF, Arrays.asList("Gamer"));
+        db.addUser(user,"password");
+        User authentication = null;
+        try {
+            authentication = db.authenticate("testuser", "password");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        assertEquals(authentication,user);
 
     }
 }
