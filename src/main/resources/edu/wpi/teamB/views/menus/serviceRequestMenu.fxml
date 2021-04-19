@@ -10,21 +10,21 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" spacing="20.0" style="-fx-background-color: #012d5a;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamB.views.menus.ServiceRequestMenuController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" spacing="20.0" style="-fx-background-color: #012d5a;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamB.views.menus.ServiceRequestMenuController">
    <children>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #FFFFFF;">
          <children>
-            <ImageView fitHeight="114.0" fitWidth="314.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../images/general/hospitalLogo.png" />
-               </image>
+            <VBox>
                <HBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </HBox.margin>
-            </ImageView>
-            <VBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
                <children>
-                  <JFXButton buttonType="RAISED" style="-fx-background-color: #CE2029;" text="EMERGENCY" textFill="WHITE">
+                  <ImageView fitHeight="114.0" fitWidth="314.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../images/general/hospitalLogo.png" />
+                     </image>
+                  </ImageView>
+                  <JFXButton fx:id="btnEmergency" buttonType="RAISED" onAction="#handleButtonAction" style="-fx-background-color: #CE2029;" text="EMERGENCY" textFill="WHITE">
                      <font>
                         <Font name="MS Reference Sans Serif" size="16.0" />
                      </font>
@@ -32,9 +32,21 @@
                         <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
                      </VBox.margin>
                   </JFXButton>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Service Request Directory">
+               </children>
+            </VBox>
+            <VBox alignment="TOP_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <JFXButton fx:id="btnExit" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" onAction="#handleButtonAction" prefHeight="40.0" prefWidth="40.0" rotate="45.0" style="-fx-background-color: transparent; -fx-background-radius: 50%;" text="+" textAlignment="CENTER">
+                     <padding>
+                        <Insets bottom="-10.0" left="-10.0" right="-10.0" top="-10.0" />
+                     </padding>
                      <font>
                         <Font size="30.0" />
+                     </font>
+                  </JFXButton>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Service Request Directory">
+                     <font>
+                        <Font size="40.0" />
                      </font>
                      <VBox.margin>
                         <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
@@ -44,7 +56,7 @@
             </VBox>
          </children>
       </HBox>
-      <FlowPane columnHalignment="CENTER" hgap="20.0" vgap="20.0" VBox.vgrow="NEVER">
+      <FlowPane alignment="TOP_CENTER" columnHalignment="CENTER" hgap="20.0" vgap="20.0" VBox.vgrow="NEVER">
          <children>
             <VBox alignment="TOP_CENTER" minWidth="200.0">
                <children>
@@ -238,7 +250,7 @@
                   </Text>
                </children>
             </VBox>
-            <VBox alignment="TOP_CENTER" minWidth="200.0" prefHeight="200.0">
+            <VBox alignment="TOP_CENTER" minWidth="200.0">
                <children>
                   <JFXButton fx:id="btnLaundryRequest" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="70.0" minWidth="70.0" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39;" text="Laundry">
                      <font>
@@ -262,24 +274,79 @@
                   </Text>
                </children>
             </VBox>
+            <VBox alignment="TOP_CENTER" minWidth="200.0">
+               <children>
+                  <JFXButton fx:id="btnSocialWorker" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="70.0" minWidth="70.0" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39;" text="Social Worker">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <graphic>
+                        <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../images/requestForms/socialWorkerIcon.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </JFXButton>
+                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Social Worker">
+                     <font>
+                        <Font name="MS Reference Sans Serif" size="18.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </Text>
+               </children>
+            </VBox>
+            <VBox alignment="TOP_CENTER" minWidth="200.0">
+               <children>
+                  <JFXButton fx:id="btnCaseManager" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="70.0" minWidth="70.0" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39;" text="Case Manager">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <graphic>
+                        <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../images/requestForms/caseManagerIcon.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </JFXButton>
+                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Case Manager">
+                     <font>
+                        <Font name="MS Reference Sans Serif" size="18.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </Text>
+               </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <FlowPane.margin>
+                  <Insets />
+               </FlowPane.margin>
+            </VBox>
          </children>
          <padding>
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
          </padding>
+         <VBox.margin>
+            <Insets left="75.0" right="75.0" />
+         </VBox.margin>
       </FlowPane>
       <HBox alignment="BOTTOM_LEFT" VBox.vgrow="ALWAYS">
          <VBox.margin>
-            <Insets bottom="15.0" left="15.0"/>
+            <Insets bottom="15.0" left="15.0" />
          </VBox.margin>
-         <JFXButton fx:id="btnBack" alignment="CENTER" buttonType="RAISED" cancelButton="true" contentDisplay="CENTER"
-                    onAction="#handleButtonAction" style="-fx-background-color: #0067B1; -fx-background-radius: 50%;"
-                    text="" textAlignment="CENTER" textFill="WHITE" prefWidth="56" prefHeight="56" maxWidth="56" maxHeight="56">
+         <JFXButton fx:id="btnBack" alignment="CENTER" buttonType="RAISED" cancelButton="true" contentDisplay="CENTER" maxHeight="56" maxWidth="56" onAction="#handleButtonAction" prefHeight="56" prefWidth="56" style="-fx-background-color: #0067B1; -fx-background-radius: 50%;" text="" textAlignment="CENTER" textFill="WHITE">
             <font>
-               <Font size="27.0"/>
+               <Font size="27.0" />
             </font>
             <graphic>
                <ImageView fitHeight="20" fitWidth="20" pickOnBounds="true" preserveRatio="true">
-                  <Image url="@../../images/menus/backButton.png"/>
+                  <Image url="@../../images/menus/backButton.png" />
                </ImageView>
             </graphic>
          </JFXButton>

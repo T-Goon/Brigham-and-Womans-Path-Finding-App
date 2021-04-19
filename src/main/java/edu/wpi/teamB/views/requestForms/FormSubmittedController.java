@@ -5,23 +5,20 @@ import edu.wpi.teamB.util.SceneSwitcher;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
-import java.io.IOException;
-
 public class FormSubmittedController {
 
     @FXML
     private JFXButton btnReturn;
 
     @FXML
-    private void handleButtonAction(ActionEvent e) throws IOException {
+    private void handleButtonAction(ActionEvent e) {
 
         JFXButton btn = (JFXButton) e.getSource();
 
-        if (btn.getId().equals("btnReturn"))
-            SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/patientDirectoryMenu.fxml");
-        else if (btn.getId().equals("btnEmergency")) {
-            // not implemented
-            System.err.println("Emergency not implemented yet!");
+        if (btn.getId().equals("btnReturn")) {
+            SceneSwitcher.goBack(getClass(), 2);
+        } else if (btn.getId().equals("btnEmergency")) {
+            SceneSwitcher.switchToTemp(getClass(), "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");
         }
     }
 }

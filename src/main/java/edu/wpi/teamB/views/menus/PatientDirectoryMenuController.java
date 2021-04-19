@@ -8,52 +8,55 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import org.junit.Test;
 
-import java.io.IOException;
-
 public class PatientDirectoryMenuController {
 
     @FXML
     private JFXButton btnCovid;
+
+    @FXML
+    private JFXButton btnBack;
+
     @FXML
     private JFXButton btnEmergency;
+
     @FXML
     private JFXButton btnDirections;
+
     @FXML
     private JFXButton btnExit;
+
     @FXML
     private JFXButton btnServiceRequests;
+
     @FXML
     private JFXButton btnMapEditor;
 
     @FXML
-    public void handleButtonAction(ActionEvent actionEvent) throws IOException {
+    public void handleButtonAction(ActionEvent actionEvent) {
         JFXButton btn = (JFXButton) actionEvent.getSource();
 
         switch (btn.getId()) {
             case "btnServiceRequests":
-                try {
-                    SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/serviceRequestMenu.fxml");
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                    break;
-                }
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/patientDirectoryMenu.fxml", "/edu/wpi/teamB/views/menus/serviceRequestMenu.fxml");
+                break;
+            case "btnEmergency":
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/patientDirectoryMenu.fxml", "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");
                 break;
             case "btnDirections":
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/pathfindingMenu.fxml");
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/patientDirectoryMenu.fxml", "/edu/wpi/teamB/views/menus/pathfindingMenu.fxml");
                 break;
             case "btnMapEditor":
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapEditor/editorIntermediateMenu.fxml");
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/patientDirectoryMenu.fxml", "/edu/wpi/teamB/views/mapEditor/editorIntermediateMenu.fxml");
+                break;
+            case "btnCovid":
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/patientDirectoryMenu.fxml", "/edu/wpi/teamB/views/covidSurvey/covidSurvey.fxml");
+                break;
+            case "btnBack":
+                SceneSwitcher.goBack(getClass(), 1);
                 break;
             case "btnExit":
                 Platform.exit();
                 break;
-            case "btnCovid":
-                try {
-                    SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/covidSurvey/covidSurvey.fxml");
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                    break;
-                }
         }
 
     }

@@ -14,6 +14,7 @@ import edu.wpi.teamB.pathfinding.Graph;
 import edu.wpi.teamB.util.GraphicalEditorEdgeData;
 import edu.wpi.teamB.util.GraphicalEditorNodeData;
 import edu.wpi.teamB.util.SceneSwitcher;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -21,7 +22,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -63,6 +63,12 @@ public class PathfindingMenuController implements Initializable {
 
     @FXML
     private JFXButton btnBack;
+
+    @FXML
+    private JFXButton btnEmergency;
+
+    @FXML
+    private JFXButton btnExit;
 
     @FXML
     private Label lblError;
@@ -175,6 +181,12 @@ public class PathfindingMenuController implements Initializable {
             drawNodesOnFloor(currentFloor);
         } catch (NullPointerException ignored){}
 
+        //test if we came from a failed covid survey
+        if(SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/covidSurvey/covidFormSubmittedWithSymp.fxml")){
+            txtEndLocation.setText("Emergency Department Entrance");
+            SceneSwitcher.popLastScene();
+        }
+
         initMapForEditing();
     }
 
@@ -243,7 +255,7 @@ public class PathfindingMenuController implements Initializable {
      * @throws IOException
      */
     @FXML
-    private void handleButtonAction(ActionEvent e) throws IOException {
+    private void handleButtonAction(ActionEvent e) {
         JFXButton b = (JFXButton) e.getSource();
 
         switch (b.getId()) {
@@ -282,7 +294,13 @@ public class PathfindingMenuController implements Initializable {
 
                 break;
             case "btnBack":
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/patientDirectoryMenu.fxml");
+                SceneSwitcher.goBack(getClass(), 1);
+                break;
+            case "btnExit":
+                Platform.exit();
+                break;
+            case "btnEmergency":
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/pathfindingMenu.fxml", "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");
                 break;
         }
     }
