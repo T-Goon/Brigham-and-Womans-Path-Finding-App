@@ -21,7 +21,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -30,6 +29,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.scene.text.Text;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -83,7 +83,8 @@ public class PathfindingMenuController implements Initializable {
     private List<javafx.scene.Node> nodePlaced = new ArrayList<>();
     private List<javafx.scene.Node> intermediateNodePlaced = new ArrayList<>();
     private boolean editMap = false;
-    private VBox popup = null;
+    private VBox selectionBox= null;
+    private VBox estimatedTimeBox = null;
 
     private String currentFloor = "1";
     private VBox addNodePopup;
@@ -180,6 +181,12 @@ public class PathfindingMenuController implements Initializable {
             drawNodesOnFloor(currentFloor);
         } catch (NullPointerException ignored){}
 
+        //test if we came from a failed covid survey
+        if(SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/covidSurvey/covidFormSubmittedWithSymp.fxml")){
+            txtEndLocation.setText("Emergency Department Entrance");
+            SceneSwitcher.popLastScene();
+        }
+
         initMapForEditing();
     }
 
@@ -217,21 +224,53 @@ public class PathfindingMenuController implements Initializable {
         btnFindPath.setDisable(txtStartLocation.getText().isEmpty()|| txtEndLocation.getText().isEmpty() || txtStartLocation.getText().equals(txtEndLocation.getText()));
     }
 
+    /**
+     * Draw the estimated time dialog box
+     * @param path the path to draw the box on
+     * @throws IOException
+     */
+    private void drawEstimatedTimeBox(Path path) {
+
+        String estimatedTime = AStar.getEstimatedTime(path);
+        estimatedTimeBox = new VBox();
+        try {
+            estimatedTimeBox = FXMLLoader.load(
+                    Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/misc/showEstimatedTime.fxml")));
+        } catch (IOException e) {
+            System.err.println("[drawEstimatedTimeBox] FXMLLoader load failed");
+        }
+
+        estimatedTimeBox.setId("estimatedTimeDialog");
+
+        List<javafx.scene.Node> child = estimatedTimeBox.getChildren();
+        Text textBox = (Text) child.get(0);
+        textBox.setText(estimatedTime);
+
+        Graph graph = Graph.getGraph();
+        Node endNode = graph.getNodes().get(path.getPath().get(path.getPath().size()-1));
+
+        estimatedTimeBox.setLayoutX((endNode.getXCoord() / PathfindingMenuController.coordinateScale));
+        estimatedTimeBox.setLayoutY((endNode.getYCoord() / PathfindingMenuController.coordinateScale) - (estimatedTimeBox.getHeight()));
+        nodeHolder.getChildren().add(estimatedTimeBox);
+    }
+
+
 
     /**
      * Button handler for the scene
-     * @param e
+     * @param event
      * @throws IOException
      */
     @FXML
-    private void handleButtonAction(ActionEvent e) {
-        JFXButton b = (JFXButton) e.getSource();
+    private void handleButtonAction(ActionEvent event) {
+        JFXButton b = (JFXButton) event.getSource();
 
         switch (b.getId()) {
             case "btnFindPath":
 
                 removeOldPaths();
                 drawPath();
+
 
                 break;
             case "btnEditMap":
@@ -447,16 +486,16 @@ public class PathfindingMenuController implements Initializable {
                         break;
                     case "BtnCancel":
                         Button cancelButton = (Button) node;
-                        cancelButton.setOnAction(event -> deleteBox());
+                        cancelButton.setOnAction(event -> deleteBox(selectionBox));
                         break;
                 }
             }
 
-            if (popup != null) {
-                deleteBox();
+            if (selectionBox != null) {
+                deleteBox(selectionBox);
             }
 
-            popup = locInput;
+            selectionBox = locInput;
             nodeHolder.getChildren().add(locInput);
 
         } catch (IOException ioException) {
@@ -479,7 +518,7 @@ public class PathfindingMenuController implements Initializable {
             //loop through combo box if string == name of node
             //keep track of index and pass it in
             textField.setText(n.getLongName());
-            deleteBox();
+            deleteBox(selectionBox);
             validateFindPathButton();
         });
 
@@ -487,10 +526,11 @@ public class PathfindingMenuController implements Initializable {
 
     /**
      * Removes the graphical input popup from the map.
+     * @param box the VBox to be deleted
      */
-    private void deleteBox() {
-        nodeHolder.getChildren().remove(popup);
-        popup = null;
+    private void deleteBox(VBox box) {
+        nodeHolder.getChildren().remove(box);
+        selectionBox = null;
     }
 
     // Code for displaying content on the map ***********************************************************
@@ -604,22 +644,29 @@ public class PathfindingMenuController implements Initializable {
      * Draws the path on the map
      */
     private void drawPath() {
+        if(estimatedTimeBox != null)
+            deleteBox(estimatedTimeBox);
+
         Map<String, Node> nodesId = Graph.getGraph().getNodes();
         Map<String, String> hmLongName = makeLongToIDMap();
-        List<String> AstarPath = AStar.findPath(hmLongName.get(getStartLocation()), hmLongName.get(getEndLocation()));
+        Path aStarPath = AStar.findPath(hmLongName.get(getStartLocation()), hmLongName.get(getEndLocation()));
+
+        List<String> AstarPath = aStarPath.getPath();
 
         if (AstarPath.isEmpty()) {
             lblError.setVisible(true);
         } else {
             Node prev = null;
             for (String loc : AstarPath) {
-                if ((prev != null) && (loc != null)) {
+                if ((prev != null) && (loc != null)) {;
                     Node curr = nodesId.get(loc);
                     placeEdge(prev, curr);
                 }
                 prev = nodesId.get(loc);
             }
         }
+
+        drawEstimatedTimeBox(aStarPath);
     }
 
     /**
