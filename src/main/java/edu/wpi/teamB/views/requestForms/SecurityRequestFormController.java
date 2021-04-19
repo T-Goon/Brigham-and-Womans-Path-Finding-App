@@ -26,6 +26,8 @@ public class SecurityRequestFormController extends DefaultServiceRequestFormCont
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        super.initialize(location,resources);
+
         for (int i = 1; i <= 10; i++) {
             comboUrgency.getItems().add(new Label(Integer.toString(i)));
         }

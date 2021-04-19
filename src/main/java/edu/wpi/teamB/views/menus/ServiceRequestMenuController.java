@@ -101,7 +101,7 @@ public class ServiceRequestMenuController {
                 return;
             case "btnExit":
                 Platform.exit();
-                break;
+                return;
             default:
                 throw new IllegalStateException("WHAT BUTTON IS THIS AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
         }
