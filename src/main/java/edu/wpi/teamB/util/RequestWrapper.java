@@ -32,9 +32,9 @@ public class RequestWrapper {
     public RequestWrapper(Request r, TableView parentTable) throws IOException {
         this.r = r;
         this.type = new Label(r.getRequestType());
-        this.time = new Label();
-        this.date = new Label();
-        this.complete = new Label();
+        this.time = new Label(r.getTime());
+        this.date = new Label(r.getDate());
+        this.complete = new Label(r.getComplete());
         this.employeeName = new Label(r.getEmployeeName());
         this.parentTable = parentTable;
 
