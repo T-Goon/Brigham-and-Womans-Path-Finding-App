@@ -224,23 +224,28 @@ public class PathfindingMenuController implements Initializable {
         btnFindPath.setDisable(txtStartLocation.getText().isEmpty()|| txtEndLocation.getText().isEmpty() || txtStartLocation.getText().equals(txtEndLocation.getText()));
     }
 
-    private void setETA(String startLong, String endLong) throws IOException {
+    /**
+     * Draw the estimated time dialog box
+     * @param path the path to draw the box on
+     * @throws IOException
+     */
+    private void drawEstimatedTimeBox(Path path) {
 
-        Map<String, String> longName = makeLongToIDMap();
-
-        String startID = longName.get(startLong);
-        String endID = longName.get(endLong);
-        String etaTime = AStar.eta(startID, endID);
-        //System.out.println(etaTime);
-        final VBox etaVbox = FXMLLoader.load(
-                Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/misc/showETA.fxml")));
+        String etaTime = AStar.getEstimatedTime(path);
+        VBox etaVbox = new VBox();
+        try {
+            etaVbox = FXMLLoader.load(
+                    Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/misc/showEstimatedTime.fxml")));
+        } catch (IOException e) {
+            System.err.println("[drawEstimatedTimeBox] FXMLLoader load failed");
+        }
 
         List<javafx.scene.Node> child = etaVbox.getChildren();
         Text textBox = (Text) child.get(0);
         textBox.setText(etaTime);
 
         Graph graph = Graph.getGraph();
-        Node endNode = graph.getNodes().get(longName.get(endLong));
+        Node endNode = graph.getNodes().get(path.getPath().get(path.getPath().size()-1));
 
         etaVbox.setLayoutX((endNode.getXCoord() / PathfindingMenuController.coordinateScale));
         etaVbox.setLayoutY((endNode.getYCoord() / PathfindingMenuController.coordinateScale) - (etaVbox.getHeight()));
@@ -251,19 +256,19 @@ public class PathfindingMenuController implements Initializable {
 
     /**
      * Button handler for the scene
-     * @param e
+     * @param event
      * @throws IOException
      */
     @FXML
-    private void handleButtonAction(ActionEvent e) {
-        JFXButton b = (JFXButton) e.getSource();
+    private void handleButtonAction(ActionEvent event) {
+        JFXButton b = (JFXButton) event.getSource();
 
         switch (b.getId()) {
             case "btnFindPath":
 
                 removeOldPaths();
                 drawPath();
-                setETA(txtStartLocation.getText(), txtEndLocation.getText());
+
 
                 break;
             case "btnEditMap":
@@ -638,8 +643,9 @@ public class PathfindingMenuController implements Initializable {
     private void drawPath() {
         Map<String, Node> nodesId = Graph.getGraph().getNodes();
         Map<String, String> hmLongName = makeLongToIDMap();
-        Path AstarPathInfo = AStar.findPath(hmLongName.get(getStartLocation()), hmLongName.get(getEndLocation()));
-        List<String> AstarPath = AstarPathInfo.getPath();
+        Path aStarPath = AStar.findPath(hmLongName.get(getStartLocation()), hmLongName.get(getEndLocation()));
+
+        List<String> AstarPath = aStarPath.getPath();
 
         if (AstarPath.isEmpty()) {
             lblError.setVisible(true);
@@ -653,6 +659,8 @@ public class PathfindingMenuController implements Initializable {
                 prev = nodesId.get(loc);
             }
         }
+
+        drawEstimatedTimeBox(aStarPath);
     }
 
     /**

@@ -83,24 +83,22 @@ public class AStar {
     }
 
     /**
-     *
-     * @param startID starting node
+     * @param startID      starting node
      * @param destinations we take in nodes of the same category that the user
-     *              wants to go to
+     *                     wants to go to
      * @return the closest path from currLoc to which ever node is closest
      * to it
      */
     public static List<String> closestPath(String startID, List<Node> destinations) {
 
-        Graph graph = Graph.getGraph();
-        double min = Integer.MAX_VALUE;
+        double min = Double.MAX_VALUE;
 
         List<String> shortestPath = new LinkedList<>();
 
-        for(Node dest: destinations){
+        for (Node dest : destinations) {
             Path p = findPath(startID, dest.getNodeID());
             double cost = p.getTotalPathCost();
-            if(cost!=0 && cost<min){
+            if (cost != 0 && cost < min) {
                 shortestPath = p.getPath();
                 min = cost;
             }
@@ -108,8 +106,13 @@ public class AStar {
         return shortestPath;
     }
 
-    public static String eta(String start, String end){
-        Path path = findPath(start, end);
+    /**
+     * Calculates the estimated time it would take to walk a certan path
+     *
+     * @param path the given Path
+     * @return the estimated time string to put in the box
+     */
+    public static String getEstimatedTime(Path path) {
         //3-4mph average human walking speed
         //1 mph = 88 fpm
 
@@ -119,15 +122,20 @@ public class AStar {
         //using this to get pixles / minute
         //double pixDist = Math.sqrt((3373 - 1738)^2 +(1554-1545)^2);
         //double pixDist = 1635.025;
-        double timeConst = (2/1635.025);
-        double timeDec =  path.getTotalPathCost()*timeConst;
+        double timeConst = (2 / 1635.025);
+        double timeDec = path.getTotalPathCost() * timeConst;
 
-        double secondsTime = timeDec*60;
+        double secondsTime = timeDec * 60;
 
         int min = (int) Math.floor(timeDec);
-        int sec = (int)secondsTime - min*60;
+        int sec = (int) secondsTime - min * 60;
 
-        return "ETA: " + min +":"+ String.format("%02d", sec);
+        if (min == 0) {
+            return String.format("%02d", sec) + " sec";
+        } else {
+
+            return min + ":" + String.format("%02d", sec) + " min";
+        }
 
     }
 

@@ -116,13 +116,20 @@ public class PathfindingTests {
 
     @Test
     public void testETA(){
-        String act = AStar.eta("bPARK01801", "bPARK00601");
-        String exp = "ETA: 5:22";
-        assertEquals(act, exp);
+        Path tempPath = AStar.findPath("bPARK01801", "bPARK00601");
+        String result = AStar.getEstimatedTime(tempPath);
+        String expected = "5:22 min";
+        assertEquals(expected, result);
 
-        String act1 = AStar.eta("FSERV00201", "GEXIT00101");
-        String exp1 = "ETA: 14:11";
-        assertEquals(act1, exp1);
+        tempPath = AStar.findPath("FSERV00201", "GEXIT00101");
+        result = AStar.getEstimatedTime(tempPath);
+        expected = "14:11 min";
+        assertEquals(expected, result);
+
+        tempPath = AStar.findPath("bWALK00401", "bWALK00501");
+        result = AStar.getEstimatedTime(tempPath);
+        expected = "22 sec";
+        assertEquals(expected, result);
     }
 
 }
