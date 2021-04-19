@@ -41,7 +41,7 @@ public class EdgeWrapper {
             public void handle(ActionEvent event) {
                 Stage stage = App.getPrimaryStage();
                 stage.setUserData(e);
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapEditor/edges/editEdgesListMenu.fxml", "/edu/wpi/teamB/views/mapEditor/edges/editEdgeMenu.fxml");
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/map/edges/editEdgesListMenu.fxml", "/edu/wpi/teamB/views/map/edges/editEdgeMenu.fxml");
             }
         });
 

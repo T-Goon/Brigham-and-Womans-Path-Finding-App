@@ -1,4 +1,4 @@
-package edu.wpi.teamB.views.menus;
+package edu.wpi.teamB.views.map;
 
 import com.jfoenix.controls.JFXButton;
 
@@ -19,12 +19,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
@@ -143,7 +143,6 @@ public class PathfindingMenuController implements Initializable {
 
         mapLongToID = makeLongToIDMap();
 
-
         validateFindPathButton();
 
         //Adds all the destination names to locationNames and sort the nodes by floor
@@ -250,6 +249,9 @@ public class PathfindingMenuController implements Initializable {
      */
     private void drawEstimatedTimeBox(Path path) {
 
+        // No path
+        if (path.getPath().size() == 0) return;
+
         String estimatedTime = AStar.getEstimatedTime(path);
         estimatedTimeBox = new VBox();
         try {
@@ -322,7 +324,7 @@ public class PathfindingMenuController implements Initializable {
                 Platform.exit();
                 break;
             case "btnEmergency":
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapEditor/pathfindingMenu.fxml", "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/map/pathfindingMenu.fxml", "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");
                 break;
         }
     }
@@ -366,7 +368,7 @@ public class PathfindingMenuController implements Initializable {
 
                     try {
                         addNodePopup = FXMLLoader.load(Objects.requireNonNull(
-                                getClass().getClassLoader().getResource("edu/wpi/teamB/views/mapEditor/graphical/nodePopup/addNodePopup.fxml")));
+                                getClass().getClassLoader().getResource("edu/wpi/teamB/views/map/nodePopup/addNodePopup.fxml")));
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -378,12 +380,14 @@ public class PathfindingMenuController implements Initializable {
 
                     nodeHolder.getChildren().add(addNodePopup);
                 }
+
             }
         });
     }
 
     /**
      * Shows the edit node popup filled in with the information from n.
+     *
      *
      * @param n Node that is to be edited.
      */
@@ -410,7 +414,7 @@ public class PathfindingMenuController implements Initializable {
         // Load popup
         try {
             editNodePopup = FXMLLoader.load(Objects.requireNonNull(
-                    getClass().getClassLoader().getResource("edu/wpi/teamB/views/mapEditor/graphical/nodePopup/nodePopupWindow.fxml")));
+                    getClass().getClassLoader().getResource("edu/wpi/teamB/views/map/nodePopup/nodePopupWindow.fxml")));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -434,7 +438,7 @@ public class PathfindingMenuController implements Initializable {
 
         try {
             delEdgePopup = FXMLLoader.load(Objects.requireNonNull(
-                    getClass().getClassLoader().getResource("edu/wpi/teamB/views/mapEditor/graphical/edgePopup/delEdgePopup.fxml")));
+                    getClass().getClassLoader().getResource("edu/wpi/teamB/views/map/edgePopup/delEdgePopup.fxml")));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -497,17 +501,17 @@ public class PathfindingMenuController implements Initializable {
             locInput.setLayoutY((n.getYCoord() / PathfindingMenuController.coordinateScale) - (locInput.getHeight()));
 
             // Set up popup buttons
-            for (javafx.scene.Node node : locInput.getChildren()) {
-                switch (node.getId()) {
+            for (javafx.scene.Node node : ((VBox)locInput.getChildren().get(0)).getChildren()) {
+                JFXButton btn = (JFXButton) ((HBox)node).getChildren().get(0);
+                switch (btn.getId()) {
                     case "btnStart":
-                        showGraphicalSelection(txtStartLocation, node, n);
+                        showGraphicalSelection(txtStartLocation, btn, n);
                         break;
                     case "btnEnd":
-                        showGraphicalSelection(txtEndLocation, node, n);
+                        showGraphicalSelection(txtEndLocation, btn, n);
                         break;
                     case "btnCancel":
-                        Button cancelButton = (Button) node;
-                        cancelButton.setOnAction(event -> deleteBox(selectionBox));
+                        btn.setOnAction(event -> deleteBox(selectionBox));
                         break;
                 }
             }
@@ -528,16 +532,14 @@ public class PathfindingMenuController implements Initializable {
     /**
      * Shows the popup for the graphical input.
      *
-     * @param textField TextField to select items from
-     * @param node      javafx node that will show popup when clicked
-     * @param n         map node the popup is for
+     * @param textField TextField to set text for
+     * @param node     javafx node that will show popup when clicked
+     * @param n        map node the popup is for
      */
     private void showGraphicalSelection(JFXTextField textField, javafx.scene.Node node, Node n) {
-        Button tempButton = (Button) node;
+        JFXButton tempButton = (JFXButton) node;
 
         tempButton.setOnAction(event -> {
-            //loop through combo box if string == name of node
-            //keep track of index and pass it in
             textField.setText(n.getLongName());
             deleteBox(selectionBox);
             validateFindPathButton();
@@ -597,6 +599,7 @@ public class PathfindingMenuController implements Initializable {
      * Refresh the nodes on the map.
      * <p>
      * FOR MAP EDITOR MODE ONLY!!!
+     * <p>
      */
     public void refreshEditor() {
         removeOldPaths();
@@ -680,7 +683,6 @@ public class PathfindingMenuController implements Initializable {
             Node prev = null;
             for (String loc : AstarPath) {
                 if ((prev != null) && (loc != null)) {
-                    ;
                     Node curr = nodesId.get(loc);
                     placeEdge(prev, curr);
                 }
@@ -781,6 +783,8 @@ public class PathfindingMenuController implements Initializable {
 
             l.setOnMouseClicked(e -> showDelEdgePopup(start, end));
 
+            l.setId(start.getNodeID()+"_"+end.getNodeID()+"Icon");
+
             mapHolder.getChildren().add(l);
             edgePlaced.add(l);
 
@@ -802,6 +806,8 @@ public class PathfindingMenuController implements Initializable {
             c.setCenterY((n.getYCoord() / PathfindingMenuController.coordinateScale));
 
             c.setOnMouseClicked(event -> showEditNodePopup(n, event));
+
+            c.setId(n.getNodeID()+"IntIcon");
 
             intermediateNodeHolder.getChildren().add(c);
             intermediateNodePlaced.add(c);

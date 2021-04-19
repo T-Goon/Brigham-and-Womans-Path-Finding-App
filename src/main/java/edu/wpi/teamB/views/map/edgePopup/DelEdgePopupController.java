@@ -1,4 +1,4 @@
-package edu.wpi.teamB.views.mapEditor.edgePopup;
+package edu.wpi.teamB.views.map.edgePopup;
 
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.teamB.App;
@@ -63,7 +63,7 @@ public class DelEdgePopupController implements Initializable {
                 // Load window
                 try{
                     areYouSureWindow = FXMLLoader.load(Objects.requireNonNull(
-                            getClass().getClassLoader().getResource("edu/wpi/teamB/views/mapEditor/graphical/edgePopup/delEdgeAreYouSure.fxml")));
+                            getClass().getClassLoader().getResource("edu/wpi/teamB/views/map/edgePopup/delEdgeAreYouSure.fxml")));
                 } catch (IOException e){
                     e.printStackTrace();
                 }

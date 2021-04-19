@@ -1,4 +1,4 @@
-package edu.wpi.teamB.views.mapEditor.nodePopup;
+package edu.wpi.teamB.views.map.nodePopup;
 
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.teamB.App;

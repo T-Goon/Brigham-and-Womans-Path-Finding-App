@@ -54,7 +54,7 @@ public class NodeWrapper {
             public void handle(ActionEvent event) {
                 Stage stage = App.getPrimaryStage();
                 stage.setUserData(n);
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/mapEditor/nodes/editNodesListMenu.fxml", "/edu/wpi/teamB/views/mapEditor/nodes/editNodeMenu.fxml");
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/map/nodes/editNodesListMenu.fxml", "/edu/wpi/teamB/views/map/nodes/editNodeMenu.fxml");
             }
         });
 

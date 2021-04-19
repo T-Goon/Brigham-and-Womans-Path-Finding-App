@@ -1,19 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-
-<VBox fx:id="SelectionPopUp" alignment="CENTER" spacing="10.0" style="-fx-background-color: #0067B1; -fx-background-radius: 5;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<VBox fx:id="SelectionPopUp" alignment="CENTER" prefHeight="300.0" prefWidth="330.0" spacing="10.0" style="-fx-background-color: #0067B1; -fx-background-radius: 33; -fx-border-width: 3; -fx-border-color: black; -fx-border-radius: 30;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Button fx:id="btnStart" alignment="CENTER" mnemonicParsing="false" prefHeight="31.0" prefWidth="276.0" text="Start Loc">
-         <VBox.margin>
-            <Insets />
-         </VBox.margin>
-      </Button>
-      <Button fx:id="btnEnd" mnemonicParsing="false" prefHeight="31.0" prefWidth="276.0" text="End Loc" />
-      <Button fx:id="btnCancel" alignment="CENTER" mnemonicParsing="false" text="Cancel" />
+      <VBox alignment="TOP_CENTER" spacing="10.0" style="-fx-background-color: white; -fx-background-radius: 30;" VBox.vgrow="ALWAYS">
+         <children>
+            <HBox VBox.vgrow="ALWAYS">
+               <children>
+                  <JFXButton fx:id="btnStart" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #F6BD39; -fx-background-radius: 10;" text="Set Start Location" HBox.hgrow="ALWAYS">
+                     <font>
+                        <Font name="MS Reference Sans Serif" size="24.0" />
+                     </font>
+                  </JFXButton>
+               </children>
+            </HBox>
+            <HBox VBox.vgrow="ALWAYS">
+               <children>
+                  <JFXButton fx:id="btnEnd" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #F6BD39; -fx-background-radius: 10;" text="Set End Location" HBox.hgrow="ALWAYS">
+                     <font>
+                        <Font name="MS Reference Sans Serif" size="24.0" />
+                     </font>
+                  </JFXButton>
+               </children>
+            </HBox>
+            <HBox VBox.vgrow="ALWAYS">
+               <children>
+                  <JFXButton fx:id="btnCancel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #0067B1; -fx-background-radius: 10;" text="Cancel" textFill="WHITE" HBox.hgrow="ALWAYS">
+                     <font>
+                        <Font name="MS Reference Sans Serif" size="24.0" />
+                     </font>
+                  </JFXButton>
+               </children>
+            </HBox>
+         </children>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </VBox>
    </children>
    <padding>
       <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

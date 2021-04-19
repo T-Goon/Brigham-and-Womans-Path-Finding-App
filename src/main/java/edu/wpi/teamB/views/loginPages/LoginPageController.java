@@ -83,7 +83,7 @@ public class LoginPageController implements Initializable {
      */
     private void handleLoginSubmit(){
         //Will contain some authentication code and other logic once implemented
-        SceneSwitcher.switchToTemp(getClass(), "/edu/wpi/teamB/views/menus/adminDirectoryMenu.fxml");
+        SceneSwitcher.switchToTemp(getClass(), "/edu/wpi/teamB/views/menus/staffDirectoryMenu.fxml");
     }
 
     @FXML

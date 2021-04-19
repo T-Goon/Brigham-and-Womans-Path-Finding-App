@@ -1,4 +1,4 @@
-package edu.wpi.teamB.views.mapEditor.nodePopup;
+package edu.wpi.teamB.views.map.nodePopup;
 
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.teamB.App;
@@ -71,7 +71,7 @@ public class NodePopupWindowController implements Initializable {
                 // Load window
                 try {
                     nodeEditMenu = FXMLLoader.load(Objects.requireNonNull(
-                            getClass().getClassLoader().getResource("edu/wpi/teamB/views/mapEditor/graphical/nodePopup/editNodePopup.fxml")));
+                            getClass().getClassLoader().getResource("edu/wpi/teamB/views/map/nodePopup/editNodePopup.fxml")));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -87,7 +87,7 @@ public class NodePopupWindowController implements Initializable {
                 // Load window
                 try {
                     addEdgeMenu = FXMLLoader.load(Objects.requireNonNull(
-                            getClass().getClassLoader().getResource("edu/wpi/teamB/views/mapEditor/graphical/nodePopup/addEdgePopup.fxml")));
+                            getClass().getClassLoader().getResource("edu/wpi/teamB/views/map/nodePopup/addEdgePopup.fxml")));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -105,7 +105,7 @@ public class NodePopupWindowController implements Initializable {
                 // Load new window
                 try {
                     areYouSureMenu = FXMLLoader.load(Objects.requireNonNull(
-                            getClass().getClassLoader().getResource("edu/wpi/teamB/views/mapEditor/graphical/nodePopup/delNodeAreYouSure.fxml")));
+                            getClass().getClassLoader().getResource("edu/wpi/teamB/views/map/nodePopup/delNodeAreYouSure.fxml")));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

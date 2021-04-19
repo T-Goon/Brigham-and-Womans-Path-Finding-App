@@ -195,16 +195,18 @@ public class DatabaseHandler {
         assert statement != null;
         try {
             ResultSet rs = statement.executeQuery(query);
+            rs.next();
             Node n = new Node(
                     rs.getString("nodeID").trim(),
                     rs.getInt("xcoord"),
                     rs.getInt("ycoord"),
-                    rs.getString("floor"),
+                    rs.getString("floor").trim(),
                     rs.getString("building").trim(),
                     rs.getString("nodeType").trim(),
                     rs.getString("longName").trim(),
                     rs.getString("shortName").trim()
             );
+            rs.close();
             statement.close();
             return n;
         } catch (SQLException e) {
