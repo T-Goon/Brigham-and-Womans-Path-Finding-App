@@ -7,7 +7,6 @@ import com.jfoenix.controls.JFXTextField;
 import edu.wpi.teamB.App;
 import edu.wpi.teamB.database.DatabaseHandler;
 import edu.wpi.teamB.entities.Node;
-import edu.wpi.teamB.pathfinding.Graph;
 import edu.wpi.teamB.util.GraphicalNodePopupData;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,7 +14,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.ToggleGroup;
 
 import java.net.URL;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class EditNodePopupController implements Initializable {
 
@@ -60,9 +59,31 @@ public class EditNodePopupController implements Initializable {
 
     private GraphicalNodePopupData data;
 
+    private Map<String, String> categoryNameMap;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         data = (GraphicalNodePopupData) App.getPrimaryStage().getUserData();
+
+        categoryNameMap = new HashMap<>();
+
+        //Add better category names to a hash map
+        categoryNameMap.put("SERV", "Services");
+        categoryNameMap.put("REST", "Restrooms");
+        categoryNameMap.put("LABS", "Lab Rooms");
+        categoryNameMap.put("ELEV", "Elevators");
+        categoryNameMap.put("DEPT", "Departments");
+        categoryNameMap.put("CONF", "Conference Rooms");
+        categoryNameMap.put("INFO", "Information Locations");
+        categoryNameMap.put("RETL", "Retail Locations");
+        categoryNameMap.put("BATH", "Bathroom");
+        categoryNameMap.put("EXIT", "Entrances");
+        categoryNameMap.put("STAI", "Stairs");
+        categoryNameMap.put("PARK", "Parking Spots");
+
+        List<String> temp = new ArrayList<>(categoryNameMap.values());
+        Collections.sort(temp);
+        nodeType.getItems().addAll(temp);
 
         // Fill in current node data
         nodeID.setText(data.getData().getNodeID());
@@ -72,7 +93,7 @@ public class EditNodePopupController implements Initializable {
         floor.setText(data.getData().getFloor());
         floor.setDisable(true);
         building.setText(data.getData().getBuilding());
-        nodeType.setText(data.getData().getNodeType());
+        nodeType.getSelectionModel().select(data.getData().getNodeType());
         longName.setText(data.getData().getLongName());
         shortName.setText(data.getData().getShortName());
     }
@@ -83,7 +104,7 @@ public class EditNodePopupController implements Initializable {
      */
     @FXML
     private void validateButton() throws NumberFormatException {
-        btnUpdate.setDisable(nodeID.getText().trim().isEmpty() || building.getText().trim().isEmpty() || nodeType.getText().trim().isEmpty()
+        btnUpdate.setDisable(nodeID.getText().trim().isEmpty() || building.getText().trim().isEmpty() || nodeType.getSelectionModel().getSelectedItem().trim().isEmpty()
                 || longName.getText().trim().isEmpty() || shortName.getText().trim().isEmpty() || floor.getText().trim().isEmpty()
                 || xCoord.getText().trim().isEmpty() || yCoord.getText().trim().isEmpty());
 
@@ -105,7 +126,14 @@ public class EditNodePopupController implements Initializable {
                 int aYCoord = Integer.parseInt(yCoord.getText().trim());
                 String aFloor = floor.getText().trim();
                 String aBuilding = building.getText().trim();
-                String aNodeType = nodeType.getText().trim();
+                String aNodeType = nodeType.getSelectionModel().getSelectedItem().trim();
+                String actualNodeName = "ERROR!";
+                for (String s : categoryNameMap.keySet()) {
+                    if (categoryNameMap.get(s).equals(aNodeType)) {
+                        actualNodeName = s;
+                        break;
+                    }
+                }
                 String aLongName = longName.getText().trim();
                 String aShortName = shortName.getText().trim();
 
@@ -115,7 +143,7 @@ public class EditNodePopupController implements Initializable {
                         aYCoord,
                         aFloor,
                         aBuilding,
-                        aNodeType,
+                        actualNodeName,
                         aLongName,
                         aShortName);
 

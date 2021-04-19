@@ -75,7 +75,7 @@ public class AddEdgePopupController implements Initializable {
                 String startNodeName = data.getData().getPfmc().getNewEdgeStart();
                 String endNodeName = data.getData().getPfmc().getNewEdgeEnd();
 
-                if (startNodeName == null || endNodeName == null) return;
+                if (startNodeName == null || endNodeName == null || startNodeName.equals(endNodeName)) return;
 
                 String edgeIdentifier = startNodeName + "_" + endNodeName;
 

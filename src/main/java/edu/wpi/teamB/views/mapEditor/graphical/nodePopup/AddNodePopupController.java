@@ -16,7 +16,7 @@ import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class AddNodePopupController implements Initializable{
 
@@ -64,9 +64,31 @@ public class AddNodePopupController implements Initializable{
 
     private GraphicalEditorNodeData data;
 
+    private Map<String, String> categoryNameMap;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         data = (GraphicalEditorNodeData) App.getPrimaryStage().getUserData();
+
+        categoryNameMap = new HashMap<>();
+
+        //Add better category names to a hash map
+        categoryNameMap.put("SERV", "Services");
+        categoryNameMap.put("REST", "Restrooms");
+        categoryNameMap.put("LABS", "Lab Rooms");
+        categoryNameMap.put("ELEV", "Elevators");
+        categoryNameMap.put("DEPT", "Departments");
+        categoryNameMap.put("CONF", "Conference Rooms");
+        categoryNameMap.put("INFO", "Information Locations");
+        categoryNameMap.put("RETL", "Retail Locations");
+        categoryNameMap.put("BATH", "Bathroom");
+        categoryNameMap.put("EXIT", "Entrances");
+        categoryNameMap.put("STAI", "Stairs");
+        categoryNameMap.put("PARK", "Parking Spots");
+
+        List<String> temp = new ArrayList<>(categoryNameMap.values());
+        Collections.sort(temp);
+        nodeType.getItems().addAll(temp);
 
         // Fill in current coordinates
         xCoord.setText(Long.toString(Math.round(data.getX())));
@@ -83,7 +105,7 @@ public class AddNodePopupController implements Initializable{
      */
     @FXML
     private void validateButton() throws NumberFormatException {
-        btnAddNode.setDisable(nodeID.getText().trim().isEmpty() || building.getText().trim().isEmpty() || nodeType.getText().trim().isEmpty()
+        btnAddNode.setDisable(nodeID.getText().trim().isEmpty() || building.getText().trim().isEmpty() || nodeType.getSelectionModel().getSelectedItem().trim().isEmpty()
                 || longName.getText().trim().isEmpty() || shortName.getText().trim().isEmpty() || floor.getText().trim().isEmpty()
                 || xCoord.getText().trim().isEmpty() || yCoord.getText().trim().isEmpty());
         try {
@@ -106,12 +128,19 @@ public class AddNodePopupController implements Initializable{
                 String aNodeId = nodeID.getText().trim();
                 String aFloor = floor.getText().trim();
                 String aBuilding = building.getText().trim();
-                String aNodeType = nodeType.getText().trim();
+                String aNodeType = nodeType.getSelectionModel().getSelectedItem().trim();
+                String actualNodeName = "ERROR!";
+                for (String s : categoryNameMap.keySet()) {
+                    if (categoryNameMap.get(s).equals(aNodeType)) {
+                        actualNodeName = s;
+                        break;
+                    }
+                }
                 String aLongName = longName.getText().trim();
                 String aShortName = shortName.getText().trim();
                 int aXCoord = Integer.parseInt(xCoord.getText().trim());
                 int aYCoord = Integer.parseInt(yCoord.getText().trim());
-                Node aNode = new Node(aNodeId, aXCoord, aYCoord, aFloor, aBuilding, aNodeType, aLongName, aShortName);
+                Node aNode = new Node(aNodeId, aXCoord, aYCoord, aFloor, aBuilding, actualNodeName, aLongName, aShortName);
                 DatabaseHandler.getDatabaseHandler("main.db").addNode(aNode);
 
                 // Refresh map editor

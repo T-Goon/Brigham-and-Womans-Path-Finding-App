@@ -21,7 +21,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -313,7 +312,7 @@ public class PathfindingMenuController implements Initializable {
 
                     try {
                         addNodePopup = FXMLLoader.load(Objects.requireNonNull(
-                                getClass().getClassLoader().getResource("edu/wpi/teamB/views/mapEditor/graphical/addNodePopup.fxml")));
+                                getClass().getClassLoader().getResource("edu/wpi/teamB/views/mapEditor/graphical/nodePopup/addNodePopup.fxml")));
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
