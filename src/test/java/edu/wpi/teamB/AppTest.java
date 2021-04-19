@@ -109,6 +109,9 @@ public class AppTest extends FxRobot {
         // Check that an edge is drawn
         verifyThat(".edge", Node::isVisible);
 
+        //Check that the estimated time box is drawn
+        verifyThat("#estimatedTimeDialog", Node::isVisible);
+
         clickOn("#btnBack");
         clickOn("#btnBack");
     }
