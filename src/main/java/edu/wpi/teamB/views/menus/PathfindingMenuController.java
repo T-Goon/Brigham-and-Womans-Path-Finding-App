@@ -92,15 +92,15 @@ public class PathfindingMenuController implements Initializable {
     private List<javafx.scene.Node> nodePlaced = new ArrayList<>();
     private List<javafx.scene.Node> intermediateNodePlaced = new ArrayList<>();
     private boolean editMap = false;
-    private VBox selectionBox= null;
+    private VBox selectionBox = null;
     private VBox estimatedTimeBox = null;
 
     private String currentFloor = "1";
     private VBox addNodePopup;
     private VBox editNodePopup;
     private VBox delEdgePopup;
-    private final HashMap<String, List<Node>> floorNodes = new HashMap<>();
-    private Map<String, Node> locations = new HashMap<>();
+    private Map<String, List<Node>> floorNodes = new HashMap<>();
+    private Map<String, String> categoryNameMap = new HashMap<>();
     private Map<String, String> mapLongToID = new HashMap<>();
 
     private TreeItem<String> selectedLocation;
@@ -126,8 +126,6 @@ public class PathfindingMenuController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        Map<String, String> categoryNameMap = new HashMap<>();
-
         //Add better category names to a hash map
         categoryNameMap.put("SERV", "Services");
         categoryNameMap.put("REST", "Restrooms");
@@ -142,51 +140,13 @@ public class PathfindingMenuController implements Initializable {
         categoryNameMap.put("STAI", "Stairs");
         categoryNameMap.put("PARK", "Parking Spots");
 
-        HashMap<String, List<TreeItem<String>>> catNameMap = new HashMap<>();
-        locations = Graph.getGraph().getNodes();
         mapLongToID = makeLongToIDMap();
 
 
         validateFindPathButton();
 
         //Adds all the destination names to locationNames and sort the nodes by floor
-        for (Node n : locations.values()) {
-            if (!(n.getNodeType().equals("WALK") || n.getNodeType().equals("HALL"))) {
-                //Populate Category map for TreeView
-                if (!catNameMap.containsKey(n.getNodeType())) {
-                    ArrayList<TreeItem<String>> tempList = new ArrayList<>();
-                    TreeItem<String> tempItem = new TreeItem<>(n.getLongName());
-                    tempList.add(tempItem);
-                    catNameMap.put(n.getNodeType(), tempList);
-                } else {
-                    catNameMap.get(n.getNodeType()).add(new TreeItem<>(n.getLongName()));
-                }
-
-            }
-
-            //Populate the floorNodes Map to know which nodes belong to each floor
-            if (floorNodes.containsKey(n.getFloor())) {
-                floorNodes.get(n.getFloor()).add(n);
-            } else {
-                ArrayList<Node> tempList = new ArrayList<>();
-                tempList.add(n);
-                floorNodes.put(n.getFloor(), tempList);
-            }
-
-        }
-
-
-        //Populating TreeView
-        TreeItem<String> rootNode = new TreeItem<>("Locations");
-        rootNode.setExpanded(true);
-        treeLocations.setRoot(rootNode);
-
-        //Adding Categories
-        for (String category : catNameMap.keySet()) {
-            TreeItem<String> categoryTreeItem = new TreeItem<>(categoryNameMap.get(category));
-            categoryTreeItem.getChildren().addAll(catNameMap.get(category));
-            rootNode.getChildren().add(categoryTreeItem);
-        }
+        updateLocations();
 
         // Draw the nodes on the map
         try {
@@ -195,7 +155,7 @@ public class PathfindingMenuController implements Initializable {
         }
 
         //test if we came from a failed covid survey
-        if(SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/covidSurvey/covidFormSubmittedWithSymp.fxml")){
+        if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/covidSurvey/covidFormSubmittedWithSymp.fxml")) {
             txtEndLocation.setText("Emergency Department Entrance");
             SceneSwitcher.popLastScene();
         }
@@ -264,7 +224,7 @@ public class PathfindingMenuController implements Initializable {
             //Selected item is a valid location
 
             //For now only work on nodes that are on the first floor until multi-floor pathfinding is added
-            Node tempLocation = locations.get(mapLongToID.get(selectedItem.getValue()));
+            Node tempLocation = Graph.getGraph().getNodes().get(mapLongToID.get(selectedItem.getValue()));
             if (tempLocation.getFloor().equals("1")) {
                 createGraphicalInputPopup(tempLocation);
             }
@@ -284,6 +244,7 @@ public class PathfindingMenuController implements Initializable {
 
     /**
      * Draw the estimated time dialog box
+     *
      * @param path the path to draw the box on
      * @throws IOException
      */
@@ -305,13 +266,12 @@ public class PathfindingMenuController implements Initializable {
         textBox.setText(estimatedTime);
 
         Graph graph = Graph.getGraph();
-        Node endNode = graph.getNodes().get(path.getPath().get(path.getPath().size()-1));
+        Node endNode = graph.getNodes().get(path.getPath().get(path.getPath().size() - 1));
 
         estimatedTimeBox.setLayoutX((endNode.getXCoord() / PathfindingMenuController.coordinateScale));
         estimatedTimeBox.setLayoutY((endNode.getYCoord() / PathfindingMenuController.coordinateScale) - (estimatedTimeBox.getHeight()));
         nodeHolder.getChildren().add(estimatedTimeBox);
     }
-
 
 
     /**
@@ -587,6 +547,7 @@ public class PathfindingMenuController implements Initializable {
 
     /**
      * Removes the graphical input popup from the map.
+     *
      * @param box the VBox to be deleted
      */
     private void deleteBox(VBox box) {
@@ -624,6 +585,7 @@ public class PathfindingMenuController implements Initializable {
             drawAltNodesOnFloor(currentFloor);
             drawIntermediateNodesOnFloor(currentFloor);
         } else {
+            updateLocations();
             removeOldPaths();
             removeIntermediateNodes();
             removeNodes();
@@ -696,9 +658,7 @@ public class PathfindingMenuController implements Initializable {
             Node end = db.getNodeById(e.getEndNodeID());
 
             if (start.getFloor().equals(floor) && end.getFloor().equals(floor)) {
-                placeEdge(
-                        start,
-                        end);
+                placeEdge(start, end);
             }
         }
     }
@@ -707,7 +667,7 @@ public class PathfindingMenuController implements Initializable {
      * Draws the path on the map
      */
     private void drawPath() {
-        if(estimatedTimeBox != null)
+        if (estimatedTimeBox != null)
             deleteBox(estimatedTimeBox);
 
         Map<String, Node> nodesId = Graph.getGraph().getNodes();
@@ -721,7 +681,8 @@ public class PathfindingMenuController implements Initializable {
         } else {
             Node prev = null;
             for (String loc : AstarPath) {
-                if ((prev != null) && (loc != null)) {;
+                if ((prev != null) && (loc != null)) {
+                    ;
                     Node curr = nodesId.get(loc);
                     placeEdge(prev, curr);
                 }
@@ -850,6 +811,48 @@ public class PathfindingMenuController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void updateLocations() {
+        Map<String, List<TreeItem<String>>> catNameMap = new HashMap<>();
+        floorNodes.remove(currentFloor);
+        for (Node n : Graph.getGraph().getNodes().values()) {
+            if (!(n.getNodeType().equals("WALK") || n.getNodeType().equals("HALL"))) {
+                //Populate Category map for TreeView
+                if (!catNameMap.containsKey(n.getNodeType())) {
+                    ArrayList<TreeItem<String>> tempList = new ArrayList<>();
+                    TreeItem<String> tempItem = new TreeItem<>(n.getLongName());
+                    tempList.add(tempItem);
+                    catNameMap.put(n.getNodeType(), tempList);
+                } else {
+                    catNameMap.get(n.getNodeType()).add(new TreeItem<>(n.getLongName()));
+                }
+
+            }
+
+            //Populate the floorNodes Map to know which nodes belong to each floor
+            if (floorNodes.containsKey(n.getFloor())) {
+                floorNodes.get(n.getFloor()).add(n);
+            } else {
+                ArrayList<Node> tempList = new ArrayList<>();
+                tempList.add(n);
+                floorNodes.put(n.getFloor(), tempList);
+            }
+        }
+
+
+        //Populating TreeView
+        TreeItem<String> rootNode = new TreeItem<>("Locations");
+        rootNode.setExpanded(true);
+        treeLocations.setRoot(rootNode);
+
+        //Adding Categories
+        for (String category : catNameMap.keySet()) {
+            TreeItem<String> categoryTreeItem = new TreeItem<>(categoryNameMap.get(category));
+            categoryTreeItem.getChildren().addAll(catNameMap.get(category));
+            rootNode.getChildren().add(categoryTreeItem);
+        }
+
     }
 
     // Misc utility methods ****************************************************************************
