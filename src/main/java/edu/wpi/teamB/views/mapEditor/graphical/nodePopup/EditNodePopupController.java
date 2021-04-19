@@ -93,7 +93,7 @@ public class EditNodePopupController implements Initializable {
         floor.setText(data.getData().getFloor());
         floor.setDisable(true);
         building.setText(data.getData().getBuilding());
-        nodeType.getSelectionModel().select(data.getData().getNodeType());
+        nodeType.getSelectionModel().select(categoryNameMap.get(data.getData().getNodeType()));
         longName.setText(data.getData().getLongName());
         shortName.setText(data.getData().getShortName());
     }

@@ -10,9 +10,7 @@ import edu.wpi.teamB.entities.Edge;
 import edu.wpi.teamB.entities.Node;
 import edu.wpi.teamB.pathfinding.AStar;
 import edu.wpi.teamB.pathfinding.Graph;
-import edu.wpi.teamB.util.GraphicalEditorEdgeData;
-import edu.wpi.teamB.util.GraphicalEditorNodeData;
-import edu.wpi.teamB.util.SceneSwitcher;
+import edu.wpi.teamB.util.*;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -29,9 +27,13 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
@@ -75,6 +77,12 @@ public class PathfindingMenuController implements Initializable {
     private JFXButton btnEditMap;
 
     @FXML
+    private JFXButton btnLoad;
+
+    @FXML
+    private JFXButton btnSave;
+
+    @FXML
     private JFXTreeView<String> treeLocations;
 
     private static final double coordinateScale = 25 / 9.0;
@@ -106,6 +114,9 @@ public class PathfindingMenuController implements Initializable {
     @Setter
     @Getter
     Circle endNode;
+
+    final FileChooser fileChooser = new FileChooser();
+    final DirectoryChooser directoryChooser = new DirectoryChooser();
 
     // JavaFX code **************************************************************************************
 
@@ -181,6 +192,51 @@ public class PathfindingMenuController implements Initializable {
         }
 
         initMapForEditing();
+
+
+        // Set up Load and Save buttons
+        btnLoad.setOnAction(
+                event -> {
+                    // Get the nodes CSV file and load it
+                    Stage stage = App.getPrimaryStage();
+                    fileChooser.setTitle("Select Nodes CSV file:");
+                    fileChooser.setInitialDirectory(new File(new File("").getAbsolutePath()));
+                    fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV files", "*.csv"));
+                    File file = fileChooser.showOpenDialog(stage);
+                    if (file == null) return;
+                    List<Node> newNodes = CSVHandler.loadCSVNodesFromExternalPath(file.toPath());
+
+                    // Get the edges CSV file and load it
+                    fileChooser.setTitle("Select Edges CSV file:");
+                    fileChooser.setInitialDirectory(new File(new File("").getAbsolutePath()));
+                    fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV files", "*.csv"));
+                    file = fileChooser.showOpenDialog(stage);
+                    if (file == null) return;
+                    List<Edge> newEdges = CSVHandler.loadCSVEdgesFromExternalPath(file.toPath());
+
+                    // Update the database
+                    DatabaseHandler.getDatabaseHandler("main.db").loadDatabase(newNodes, newEdges);
+                    Graph.getGraph().updateGraph();
+
+                    // Now delete and refresh the nodes
+                    drawAllElements();
+                }
+        );
+
+        btnSave.setOnAction(
+                event -> {
+                    // Get the CSV directory location
+                    Stage stage = App.getPrimaryStage();
+                    directoryChooser.setTitle("Select directory to save CSV files to:");
+                    directoryChooser.setInitialDirectory(new File(new File("").getAbsolutePath()));
+                    File file = directoryChooser.showDialog(stage);
+                    if (file == null) return;
+
+                    // Save the current database into that folder in CSV files
+                    CSVHandler.saveCSVNodes(file.toPath(), false);
+                    CSVHandler.saveCSVEdges(file.toPath(), false);
+                }
+        );
     }
 
     /**
@@ -240,7 +296,7 @@ public class PathfindingMenuController implements Initializable {
                 if (!editMap) {
                     graphic.setImage(new Image("edu/wpi/teamB/images/menus/directionsIcon.png"));
                     editMap = true;
-                } else if (editMap) {
+                } else {
                     graphic.setImage(new Image("edu/wpi/teamB/images/menus/wrench.png"));
 
                     // Remove the add node popup if it is on the map
@@ -324,7 +380,6 @@ public class PathfindingMenuController implements Initializable {
 
                     nodeHolder.getChildren().add(addNodePopup);
                 }
-
             }
         });
     }
@@ -445,13 +500,13 @@ public class PathfindingMenuController implements Initializable {
             // Set up popup buttons
             for (javafx.scene.Node node : locInput.getChildren()) {
                 switch (node.getId()) {
-                    case "BtnStart":
+                    case "btnStart":
                         showGraphicalSelection(txtStartLocation, node, n);
                         break;
-                    case "BtnEnd":
+                    case "btnEnd":
                         showGraphicalSelection(txtEndLocation, node, n);
                         break;
-                    case "BtnCancel":
+                    case "btnCancel":
                         Button cancelButton = (Button) node;
                         cancelButton.setOnAction(event -> deleteBox());
                         break;
