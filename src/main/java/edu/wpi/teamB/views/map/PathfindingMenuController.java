@@ -456,14 +456,12 @@ public class PathfindingMenuController implements Initializable {
     }
 
     private void removeAllPopups() {
-        deleteBox(selectionBox);
-        if (addNodePopup != null || editNodePopup != null || delEdgePopup != null) {
-            nodeHolder.getChildren().remove(editNodePopup);
-            editNodePopup = null;
-            nodeHolder.getChildren().remove(delEdgePopup);
-            delEdgePopup = null;
-            nodeHolder.getChildren().remove(addNodePopup);
-            addNodePopup = null;
+        if (addNodePopup != null || editNodePopup != null || delEdgePopup != null ||selectionBox!=null || estimatedTimeBox!=null){
+            deleteBox(selectionBox);
+            deleteBox(estimatedTimeBox);
+            deleteBox(editNodePopup);
+            deleteBox(delEdgePopup);
+            deleteBox(addNodePopup);
         }
     }
 
@@ -554,7 +552,7 @@ public class PathfindingMenuController implements Initializable {
      */
     private void deleteBox(VBox box) {
         nodeHolder.getChildren().remove(box);
-        selectionBox = null;
+        box = null;
     }
 
     // Code for displaying content on the map ***********************************************************
