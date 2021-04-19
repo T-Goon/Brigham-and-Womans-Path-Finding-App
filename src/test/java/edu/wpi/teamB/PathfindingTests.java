@@ -1,6 +1,7 @@
 package edu.wpi.teamB;
 
 import edu.wpi.teamB.database.DatabaseHandler;
+import edu.wpi.teamB.entities.map.Path;
 import edu.wpi.teamB.entities.map.Edge;
 import edu.wpi.teamB.entities.map.Node;
 import edu.wpi.teamB.pathfinding.AStar;
@@ -106,7 +107,6 @@ public class PathfindingTests {
 
         Path path = AStar.shortestPathToNodeInList("bWALK00101", category);
 
-        System.out.println(path);
         assertEquals(pathExp, path.getPath());
 
     }

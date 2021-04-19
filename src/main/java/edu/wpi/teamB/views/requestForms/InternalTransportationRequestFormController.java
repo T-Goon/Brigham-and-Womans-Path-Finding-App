@@ -39,6 +39,7 @@ public class InternalTransportationRequestFormController extends DefaultServiceR
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        super.initialize(location,resources);
         comboTranspType.getItems().add(new Label("Wheelchair"));
         comboTranspType.getItems().add(new Label("Stretcher"));
         comboTranspType.getItems().add(new Label("Gurney"));
@@ -46,12 +47,12 @@ public class InternalTransportationRequestFormController extends DefaultServiceR
 
     public void handleButtonAction(ActionEvent actionEvent) {
         String givenPatientName = name.getText();
-        String givenTransportType = comboTranspType.getValue().toString();
+        String givenTransportType = comboTranspType.getValue().getText();
         String givenUnconscious = unconscious.isSelected() ? "T" : "F";
         String givenInfectious = infectious.isSelected() ? "T" : "F";
 
         DateFormat timeFormat = new SimpleDateFormat("HH:mm");
-        DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date dateInfo = new Date();
 
         String requestID = UUID.randomUUID().toString();

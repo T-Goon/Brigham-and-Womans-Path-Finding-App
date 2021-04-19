@@ -27,7 +27,7 @@ public class CovidSubmittedWithSympController {
                 SceneSwitcher.goBack(getClass(), 1);
                 break;
             case "btnDirections":
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/covidSurvey/covidFormSubmittedWithSymp.fxml","/edu/wpi/teamB/views/menus/pathfindingMenu.fxml");
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/covidSurvey/covidFormSubmittedWithSymp.fxml", "/edu/wpi/teamB/views/map/pathfindingMenu.fxml");
                 break;
             case "btnEmergency":
                 SceneSwitcher.switchToTemp(getClass(), "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");

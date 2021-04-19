@@ -1,12 +1,15 @@
 package edu.wpi.teamB.views.requestForms;
 
 import com.jfoenix.controls.*;
+import javafx.event.ActionEvent;
 import edu.wpi.teamB.database.DatabaseHandler;
 import edu.wpi.teamB.entities.requests.ExternalTransportRequest;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 import java.net.URL;
@@ -47,6 +50,7 @@ public class ExternalTransportationRequestFormController extends DefaultServiceR
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        super.initialize(location,resources);
         comboTranspType.getItems().add(new Label("Bus"));
         comboTranspType.getItems().add(new Label("Ambulance"));
         comboTranspType.getItems().add(new Label("Helicopter"));
@@ -54,7 +58,7 @@ public class ExternalTransportationRequestFormController extends DefaultServiceR
 
     public void handleButtonAction(ActionEvent actionEvent) {
         String givenPatientName = name.getText();
-        String givenTransportType = comboTranspType.getValue().toString();
+        String givenTransportType = comboTranspType.getValue().getText();
         String givenDestination = destination.getText();
         String givenPatientAllergies = allergies.getText();
         String givenOutNetwork = outNetwork.isSelected() ? "T" : "F";
@@ -62,7 +66,7 @@ public class ExternalTransportationRequestFormController extends DefaultServiceR
         String givenUnconscious = unconscious.isSelected() ? "T" : "F";
 
         DateFormat timeFormat = new SimpleDateFormat("HH:mm");
-        DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date dateInfo = new Date();
 
         String requestID = UUID.randomUUID().toString();

@@ -41,6 +41,8 @@ public class SanitationRequestFormController extends DefaultServiceRequestFormCo
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        super.initialize(location,resources);
+
         comboTypeService.getItems().add(new Label("Wet"));
         comboTypeService.getItems().add(new Label("Dry"));
         comboTypeService.getItems().add(new Label("Glass"));
@@ -51,14 +53,14 @@ public class SanitationRequestFormController extends DefaultServiceRequestFormCo
     }
 
     public void handleButtonAction(ActionEvent actionEvent) {
-        String givenSanitationType = comboTypeService.getValue().toString();
-        String givenSanitationSize = comboSizeService.getValue().toString();
+        String givenSanitationType = comboTypeService.getValue().getText();
+        String givenSanitationSize = comboSizeService.getValue().getText();
         String givenHazardous = safetyHazard.isSelected() ? "T" : "F";
         String givenBiologicalSubstance = biologicalSubstance.isSelected() ? "T" : "F";
         String givenOccupied = roomOccupied.isSelected() ? "T" : "F";
 
         DateFormat timeFormat = new SimpleDateFormat("HH:mm");
-        DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date dateInfo = new Date();
 
         String requestID = UUID.randomUUID().toString();

@@ -3,6 +3,7 @@ package edu.wpi.teamB;
 import edu.wpi.teamB.database.*;
 import edu.wpi.teamB.entities.NodeType;
 import edu.wpi.teamB.entities.User;
+import edu.wpi.teamB.entities.requests.NodeType;
 import edu.wpi.teamB.entities.map.Edge;
 import edu.wpi.teamB.entities.map.Node;
 import edu.wpi.teamB.entities.requests.FoodRequest;
@@ -433,6 +434,7 @@ public class DatabaseHandlerTest {
 
 
     }
+
     @Test
     public void testAdduser() {
         User user = new User("testuser","Testing","User", User.AuthenticationLevel.STAFF, Arrays.asList("Gamer"));
@@ -453,6 +455,5 @@ public class DatabaseHandlerTest {
             e.printStackTrace();
         }
         assertEquals(authentication,user);
-
     }
 }

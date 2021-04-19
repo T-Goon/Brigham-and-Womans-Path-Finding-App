@@ -35,16 +35,18 @@ public class SecurityRequestFormController extends DefaultServiceRequestFormCont
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        super.initialize(location,resources);
+
         for (int i = 1; i <= 10; i++) {
             comboUrgency.getItems().add(new Label(Integer.toString(i)));
         }
     }
 
     public void handleButtonAction(ActionEvent actionEvent) {
-        int givenUrgency = Integer.parseInt(comboUrgency.getValue().toString());
+        int givenUrgency = Integer.parseInt(comboUrgency.getValue().getText());
 
         DateFormat timeFormat = new SimpleDateFormat("HH:mm");
-        DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date dateInfo = new Date();
 
         String requestID = UUID.randomUUID().toString();

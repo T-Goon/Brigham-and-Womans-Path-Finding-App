@@ -1,14 +1,12 @@
 package edu.wpi.teamB.database;
 
-import edu.wpi.teamB.entities.NodeType;
+import edu.wpi.teamB.entities.requests.NodeType;
 import edu.wpi.teamB.entities.User;
 import edu.wpi.teamB.entities.map.Edge;
 import edu.wpi.teamB.entities.map.Node;
 import edu.wpi.teamB.entities.requests.*;
 import edu.wpi.teamB.pathfinding.Graph;
-import jdk.nashorn.internal.runtime.ECMAException;
 
-import javax.swing.plaf.nimbus.State;
 import java.sql.*;
 import java.util.*;
 
@@ -73,7 +71,7 @@ public class DatabaseHandler {
      * with that data.
      */
     public void loadNodesEdges(List<Node> nodes, List<Edge> edges) {
-        resetDatabase(new ArrayList<String>(Arrays.asList("nodes", "edges")));
+        resetDatabase(new ArrayList<>(Arrays.asList("nodes", "edges")));
         executeSchema();
         loadDatabaseNodes(nodes);
         loadDatabaseEdges(edges);
@@ -99,7 +97,7 @@ public class DatabaseHandler {
             tables.add("Users");
         }
 
-        List<String> queries = new LinkedList<String>();
+        List<String> queries = new LinkedList<>();
         for (String table : tables) {
             queries.add("DROP TABLE IF EXISTS " + table);
         }
@@ -107,13 +105,18 @@ public class DatabaseHandler {
         String disableForeignKeys = "PRAGMA foreign_keys = OFF";
         String enableForeignKeys = "PRAGMA foreign_keys = ON";
 
+        try {
+            assert statement != null;
+            statement.execute(disableForeignKeys);
+            for (String query : queries)
+                statement.execute(query);
+            statement.execute(enableForeignKeys);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
         try {
-            statement.execute(disableForeignKeys);
-            for (String query : queries) {
-                statement.execute(query);
-            }
-            statement.execute(enableForeignKeys);
+            statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -157,19 +160,22 @@ public class DatabaseHandler {
                 + "sanitationSize CHAR(20), "
                 + "hazardous CHAR(1), " // Stored as T/F (no boolean data type in SQL)
                 + "biologicalSubstance CHAR(1), " // Stored as T/F (no boolean data type in SQL)
-                + "occupied CHAR(1))"; // Stored as T/F (no boolean data type in SQL)
+                + "occupied CHAR(1)," // Stored as T/F (no boolean data type in SQL)
+                + "FOREIGN KEY (requestID) REFERENCES Requests(requestID))";
 
         String medicineRequestsTable = "CREATE TABLE IF NOT EXISTS MedicineRequests("
                 + "requestID CHAR(20) PRIMARY KEY, "
                 + "patientName CHAR(30), "
-                + "medicine CHAR(20))";
+                + "medicine CHAR(20),"
+                + "FOREIGN KEY (requestID) REFERENCES Requests(requestID))";
 
         String internalTransportRequestsTable = "CREATE TABLE IF NOT EXISTS InternalTransportRequests("
                 + "requestID CHAR(20) PRIMARY KEY, "
                 + "patientName CHAR(30), "
                 + "transportType CHAR(20), "
                 + "unconscious CHAR(1), " // Stored as T/F (no boolean data type in SQL)
-                + "infectious CHAR(1))"; // Stored as T/F (no boolean data type in SQL)
+                + "infectious CHAR(1)," // Stored as T/F (no boolean data type in SQL)
+                + "FOREIGN KEY (requestID) REFERENCES Requests(requestID))";
 
         String religiousRequestsTable = "CREATE TABLE IF NOT EXISTS ReligiousRequests("
                 + "requestID CHAR(20) PRIMARY KEY, "
@@ -178,13 +184,15 @@ public class DatabaseHandler {
                 + "endTime CHAR(5), " // Stored as HH:MM (24 hour time)
                 + "religiousDate CHAR(10), " // Stored as YYYY-MM-DD
                 + "faith CHAR(20), "
-                + "infectious CHAR(1))"; // Stored as T/F (no boolean data type in SQL)
+                + "infectious CHAR(1)," // Stored as T/F (no boolean data type in SQL)
+                + "FOREIGN KEY (requestID) REFERENCES Requests(requestID))";
 
         String foodRequestsTable = "CREATE TABLE IF NOT EXISTS FoodRequests("
                 + "requestID CHAR(20) PRIMARY KEY, "
                 + "patientName CHAR(30), "
                 + "arrivalTime CHAR(5), " // Stored as HH:MM (24 hour time)
-                + "mealChoice CHAR(20))";
+                + "mealChoice CHAR(20),"
+                + "FOREIGN KEY (requestID) REFERENCES Requests(requestID))";
 
         String floralRequestsTable = "CREATE TABLE IF NOT EXISTS FloralRequests("
                 + "requestID CHAR(20) PRIMARY KEY, "
@@ -214,7 +222,8 @@ public class DatabaseHandler {
                 + "patientAllergies CHAR(200), "
                 + "outNetwork CHAR(1), " // Stored as T/F (no boolean data type in SQL)
                 + "infectious CHAR(1), " // Stored as T/F (no boolean data type in SQL)
-                + "unconscious CHAR(1))"; // Stored as T/F (no boolean data type in SQL)
+                + "unconscious CHAR(1)," // Stored as T/F (no boolean data type in SQL)
+                + "FOREIGN KEY (requestID) REFERENCES Requests(requestID))";
 
         String laundryTable = "CREATE TABLE IF NOT EXISTS LaundryRequests("
                 + "requestID CHAR(20) PRIMARY KEY, "
@@ -222,7 +231,8 @@ public class DatabaseHandler {
                 + "serviceSize CHAR(20), "
                 + "dark CHAR(1), " // Stored as T/F (no boolean data type in SQL)
                 + "light CHAR(1), " // Stored as T/F (no boolean data type in SQL)
-                + "occupied CHAR(1))"; // Stored as T/F (no boolean data type in SQL)
+                + "occupied CHAR(1)," // Stored as T/F (no boolean data type in SQL)
+                + "FOREIGN KEY (requestID) REFERENCES Requests(requestID))";
 
         String users = "CREATE TABLE IF NOT EXISTS Users("
                 + "username CHAR(30) PRIMARY KEY, "
@@ -253,6 +263,7 @@ public class DatabaseHandler {
             statement.execute(laundryTable);
             statement.execute(users);
             statement.execute(jobs);
+            statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -285,6 +296,7 @@ public class DatabaseHandler {
                         + node.getShortName() + "')";
                 assert statement != null;
                 statement.execute(query);
+                statement.close();
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -313,6 +325,7 @@ public class DatabaseHandler {
                         + edge.getEndNodeID() + "')";
                 assert statement != null;
                 statement.execute(query);
+                statement.close();
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -346,16 +359,20 @@ public class DatabaseHandler {
         assert statement != null;
         try {
             ResultSet rs = statement.executeQuery(query);
-            return new Node(
+            rs.next();
+            Node n = new Node(
                     rs.getString("nodeID").trim(),
                     rs.getInt("xcoord"),
                     rs.getInt("ycoord"),
-                    rs.getString("floor"),
+                    rs.getString("floor").trim(),
                     rs.getString("building").trim(),
                     rs.getString("nodeType").trim(),
                     rs.getString("longName").trim(),
                     rs.getString("shortName").trim()
             );
+            rs.close();
+            statement.close();
+            return n;
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
@@ -388,8 +405,9 @@ public class DatabaseHandler {
                         + "')";
                 statement.execute(query);
             }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            statement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return true;
     }
@@ -401,16 +419,17 @@ public class DatabaseHandler {
     public User getUserByUsername(String username) throws IllegalArgumentException {
         Statement statement = this.getStatement();
         String query = "SELECT job FROM Jobs WHERE (username = " + "username)";
-        ResultSet rs = null;
+        ResultSet rs;
         List<String> jobs = new ArrayList<>();
-        User outUser = null;
+        User outUser;
         try {
+            assert statement != null;
             rs = statement.executeQuery(query);
             while (rs.next()) {
                 jobs.add(rs.getString("job"));
             }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
         query = "SELECT * FROM Users WHERE (username = '" + username + "')";
@@ -423,7 +442,9 @@ public class DatabaseHandler {
                     User.AuthenticationLevel.valueOf(rs.getString("authenticationLevel")),
                     jobs
             );
-        } catch (SQLException throwables) {
+            rs.close();
+            statement.close();
+        } catch (SQLException e) {
             throw new IllegalArgumentException(String.format("Username %s not found in users", username));
         }
         return outUser;
@@ -442,22 +463,22 @@ public class DatabaseHandler {
         String query = "SELECT passwordHash FROM Users WHERE (username = '" + username + "')";
         User outUser = null;
         try {
+            assert statement != null;
             ResultSet rs = statement.executeQuery(query);
             if (!rs.next()) {
                 throw new Exception("user not found");
             }
             String test = (rs.getString("passwordHash"));
-            if (this.passwordHash(password) == rs.getString("passwordHash")) {
+            if (this.passwordHash(password).equals(rs.getString("passwordHash"))) {
                 outUser = this.getUserByUsername(username);
             } else {
                 throw new Exception("password does not match");
             }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            rs.close();
+            statement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-
-        String hash = this.passwordHash(password);
-
         return outUser;
     }
 
@@ -499,6 +520,7 @@ public class DatabaseHandler {
                 );
                 nodes.put(rs.getString("NodeID").trim(), outNode);
             }
+            statement.close();
             return nodes;
         } catch (SQLException ignored) {
             return null;
@@ -526,6 +548,7 @@ public class DatabaseHandler {
                 );
                 edges.put(rs.getString("edgeID").trim(), outEdge);
             }
+            statement.close();
             return edges;
         } catch (SQLException ignored) {
             return null;
@@ -554,6 +577,7 @@ public class DatabaseHandler {
         try {
             assert statement != null;
             statement.execute(query);
+            statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -574,6 +598,7 @@ public class DatabaseHandler {
         try {
             assert statement != null;
             statement.execute(query);
+            statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -602,6 +627,7 @@ public class DatabaseHandler {
             assert statement != null;
             if (statement.executeUpdate(query) == 0)
                 System.err.println("Node ID does not exist in the table!");
+            statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -623,6 +649,7 @@ public class DatabaseHandler {
             assert statement != null;
             if (statement.executeUpdate(query) == 0)
                 System.err.println("Edge ID does not exist in the table!");
+            statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -637,13 +664,14 @@ public class DatabaseHandler {
      */
     public void removeNode(String nodeID) {
         Statement statement = this.getStatement();
-        String nodeQuery = "DELETE FROM Nodes WHERE nodeID = '" + nodeID + "'";
         String edgesQuery = "DELETE FROM Edges WHERE startNode = '" + nodeID + "' OR endNode = '" + nodeID + "'";
+        String nodeQuery = "DELETE FROM Nodes WHERE nodeID = '" + nodeID + "'";
 
         try {
             assert statement != null;
-            statement.execute(nodeQuery);
             statement.execute(edgesQuery);
+            statement.execute(nodeQuery);
+            statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -662,6 +690,7 @@ public class DatabaseHandler {
         try {
             assert statement != null;
             statement.execute(query);
+            statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -689,6 +718,7 @@ public class DatabaseHandler {
                         set.getString("endNode").trim()
                 );
                 edges.add(outEdge);
+                statement.close();
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -1220,6 +1250,7 @@ public class DatabaseHandler {
                 );
                 nodes.add(outNode);
             }
+            statement.close();
             return nodes;
         } catch (SQLException ignored) {
             return null;

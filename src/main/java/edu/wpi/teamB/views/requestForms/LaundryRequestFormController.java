@@ -41,6 +41,8 @@ public class LaundryRequestFormController extends DefaultServiceRequestFormContr
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        super.initialize(location,resources);
+
         comboTypeService.getItems().add(new Label("Regular Cycle"));
         comboTypeService.getItems().add(new Label("Delicate Cycle"));
         comboTypeService.getItems().add(new Label("Permanent Press"));
@@ -51,14 +53,14 @@ public class LaundryRequestFormController extends DefaultServiceRequestFormContr
     }
 
     public void handleButtonAction(ActionEvent actionEvent) {
-        String givenServiceType = comboTypeService.getValue().toString();
-        String givenServiceSize = comboSizeService.getValue().toString();
+        String givenServiceType = comboTypeService.getValue().getText();
+        String givenServiceSize = comboSizeService.getValue().getText();
         String givenDark = darks.isSelected() ? "T" : "F";
         String givenLight = lights.isSelected() ? "T" : "F";
         String givenOccupied = roomOccupied.isSelected() ? "T" : "F";
 
         DateFormat timeFormat = new SimpleDateFormat("HH:mm");
-        DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date dateInfo = new Date();
 
         String requestID = UUID.randomUUID().toString();
