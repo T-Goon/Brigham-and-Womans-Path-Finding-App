@@ -77,7 +77,7 @@
                               <Font name="MS Reference Sans Serif" size="14.0" />
                            </font>
                         </Text>
-                        <JFXTextField fx:id="name" promptText="Ex. &quot;Jane Doe&quot;" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f0f0f000" />
+                        <JFXTextField fx:id="name" onKeyReleased="#validateButton" promptText="Ex. &quot;Jane Doe&quot;" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f0f0f000" />
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Room Number:">
                            <VBox.margin>
                               <Insets top="10.0" />
@@ -86,7 +86,7 @@
                               <Font name="MS Reference Sans Serif" size="14.0" />
                            </font>
                         </Text>
-                        <JFXTextField fx:id="roomNum" promptText="Ex. &quot;201&quot;" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f0f0f000" />
+                        <JFXTextField fx:id="roomNum" onKeyReleased="#validateButton" promptText="Ex. &quot;201&quot;" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f0f0f000" />
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Medicine Name:">
                            <VBox.margin>
                               <Insets top="10.0" />
@@ -95,7 +95,7 @@
                               <Font name="MS Reference Sans Serif" size="14.0" />
                            </font>
                         </Text>
-                        <JFXTextField fx:id="medName" promptText="Ex. &quot;Diazepam&quot;" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f0f0f000" />
+                        <JFXTextField fx:id="medName" onKeyReleased="#validateButton" promptText="Ex. &quot;Diazepam&quot;" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f0f0f000" />
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Reason for Request:">
                            <VBox.margin>
                               <Insets top="10.0" />
@@ -104,7 +104,7 @@
                               <Font name="MS Reference Sans Serif" size="14.0" />
                            </font>
                         </Text>
-                        <JFXTextArea fx:id="reason" promptText="Please include any additional relevant information" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f0f0f000">
+                        <JFXTextArea fx:id="reason" onKeyReleased="#validateButton" promptText="Please include any additional relevant information" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f0f0f000">
                            <VBox.margin>
                               <Insets bottom="10.0" />
                            </VBox.margin>
