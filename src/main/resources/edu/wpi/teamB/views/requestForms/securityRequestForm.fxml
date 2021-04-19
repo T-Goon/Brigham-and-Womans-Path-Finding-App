@@ -75,7 +75,7 @@
                               <Font size="14.0" />
                            </font>
                         </Text>
-                        <JFXTextField fx:id="assignedTo" promptText="Ex. &quot;Jane Doe&quot;" style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" />
+                        <JFXTextField fx:id="assignedTo" onKeyReleased="#validateButton" promptText="Ex. &quot;Jane Doe&quot;" style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" />
                      </children>
                   </VBox>
                   <VBox>
@@ -85,7 +85,7 @@
                               <Font size="14.0" />
                            </font>
                         </Text>
-                        <JFXTextField fx:id="loc" promptText="Ex. &quot;Room 201&quot;" style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" />
+                        <JFXTextField fx:id="loc" onKeyReleased="#validateButton" promptText="Ex. &quot;Room 201&quot;" style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" />
                      </children>
                      <VBox.margin>
                         <Insets top="10.0" />
@@ -101,7 +101,7 @@
                               <Font size="14.0" />
                            </font>
                         </Text>
-                        <JFXComboBox fx:id="comboUrgency" maxWidth="1.7976931348623157E308" promptText="Choose one" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f0f0f000" />
+                        <JFXComboBox fx:id="comboUrgency" maxWidth="1.7976931348623157E308" onAction="#validateButton" promptText="Choose one" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f0f0f000" />
                      </children>
                   </VBox>
                   <VBox>
@@ -111,7 +111,7 @@
                               <Font size="14.0" />
                            </font>
                         </Text>
-                        <JFXTextArea fx:id="description" promptText="Please provide any additional relevant information" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f0f0f000" />
+                        <JFXTextArea fx:id="description" onKeyReleased="#validateButton" promptText="Please provide any additional relevant information" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f0f0f000" />
                      </children>
                   </VBox>
                   <HBox alignment="CENTER_LEFT" prefWidth="200.0">

@@ -31,6 +31,16 @@ public class SecurityRequestFormController extends DefaultServiceRequestFormCont
         for (int i = 1; i <= 10; i++) {
             comboUrgency.getItems().add(new Label(Integer.toString(i)));
         }
+
+        btnSubmit.setDisable(true);
+    }
+
+    @FXML
+    private void validateButton(){
+        btnSubmit.setDisable(
+                assignedTo.getText().isEmpty() || loc.getText().isEmpty() ||
+                comboUrgency.getValue() == null || description.getText().isEmpty()
+        );
     }
 }
 
