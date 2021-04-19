@@ -34,7 +34,7 @@ public class FoodDeliveryRequestFormController extends DefaultServiceRequestForm
 
     public void handleButtonAction(ActionEvent actionEvent) {
         String givenPatientName = name.getText();
-        String givenArrivalTime = arrivalTime.getText();
+        String givenArrivalTime = arrivalTime.getValue().toString();
         String givenMealChoice = mealChoice.getText();
 
         DateFormat timeFormat = new SimpleDateFormat("HH:mm");
