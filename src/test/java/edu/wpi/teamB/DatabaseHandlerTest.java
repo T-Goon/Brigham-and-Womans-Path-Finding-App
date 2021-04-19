@@ -3,6 +3,7 @@ package edu.wpi.teamB;
 import edu.wpi.teamB.database.*;
 import edu.wpi.teamB.entities.map.Edge;
 import edu.wpi.teamB.entities.map.Node;
+import edu.wpi.teamB.entities.requests.FoodRequest;
 import edu.wpi.teamB.entities.requests.Request;
 import edu.wpi.teamB.entities.requests.SanitationRequest;
 import edu.wpi.teamB.pathfinding.Graph;
@@ -255,7 +256,105 @@ public class DatabaseHandlerTest {
     }
 
     @Test
-    public void testUpdateRequest() { // still working on
+    public void testAddRequest() {
+        // populate nodes table with nodes
+        Node node1 = new Node("node1",0,0,"0","0","0","test","t");
+        Node node2 = new Node("node2",0,0,"0","0","0","test","t");
+        db.addNode(node1);
+        db.addNode(node2);
+
+        SanitationRequest request1 = new SanitationRequest("Glass",
+                "Small",
+                "T",
+                "F",
+                "F",
+                "testRequest1",
+                "12:24",
+                "2021-04-02",
+                "F",
+                "Bob",
+                "node1",
+                "None");
+        FoodRequest request2 = new FoodRequest("Jane",
+                "11:30",
+                "salad",
+                "testRequest2",
+                "10:00",
+                "2021-05-10",
+                "F",
+                "Bob",
+                "node2",
+                "test");
+        db.addRequest(request1);
+        db.addRequest(request2);
+
+        SanitationRequest test1 = (SanitationRequest) db.getSpecificRequestById(request1.getRequestID(), "Sanitation");
+        assertEquals("Glass", test1.getSanitationType());
+        assertEquals("Small", test1.getSanitationSize());
+        assertEquals("T", test1.getHazardous());
+        assertEquals("F", test1.getBiologicalSubstance());
+        assertEquals("F", test1.getOccupied());
+        assertEquals("12:24", test1.getTime());
+        assertEquals("2021-04-02", test1.getDate());
+        assertEquals("F", test1.getComplete());
+        assertEquals("Bob", test1.getEmployeeName());
+        assertEquals("node1", test1.getLocation());
+        assertEquals("None", test1.getDescription());
+
+        FoodRequest test2 = (FoodRequest) db.getSpecificRequestById(request2.getRequestID(), "Food");
+        assertEquals("Jane", test2.getPatientName());
+        assertEquals("11:30", test2.getArrivalTime());
+        assertEquals("salad", test2.getMealChoice());
+        assertEquals("10:00", test2.getTime());
+        assertEquals("2021-05-10", test2.getDate());
+        assertEquals("F", test2.getComplete());
+        assertEquals("Bob", test2.getEmployeeName());
+        assertEquals("node2", test2.getLocation());
+        assertEquals("test", test2.getDescription());
+    }
+
+    @Test
+    public void testRemoveRequest() {
+        // populate nodes table with nodes
+        Node node1 = new Node("node1",0,0,"0","0","0","test","t");
+        Node node2 = new Node("node2",0,0,"0","0","0","test","t");
+        db.addNode(node1);
+        db.addNode(node2);
+
+        SanitationRequest request1 = new SanitationRequest("Glass",
+                "Small",
+                "T",
+                "F",
+                "F",
+                "testRequest1",
+                "12:24",
+                "2021-04-02",
+                "F",
+                "Bob",
+                "node1",
+                "None");
+        FoodRequest request2 = new FoodRequest("Jane",
+                "11:30",
+                "salad",
+                "testRequest2",
+                "10:00",
+                "2021-05-10",
+                "F",
+                "Bob",
+                "node2",
+                "test");
+
+        db.addRequest(request1);
+        db.addRequest(request2);
+        assertFalse(db.getRequests().isEmpty());
+
+        db.removeRequest(request1);
+        db.removeRequest(request2);
+        assertTrue(db.getRequests().isEmpty());
+    }
+
+    @Test
+    public void testUpdateRequest() {
         // populate nodes table with nodes
         Node node1 = new Node("node1",0,0,"0","0","0","test","t");
         Node node2 = new Node("node2",0,0,"0","0","0","test","t");
@@ -263,41 +362,57 @@ public class DatabaseHandlerTest {
         db.addNode(node2);
 
         List<Request> actual = new ArrayList<>();
-        SanitationRequest request = new SanitationRequest("Glass",
+        SanitationRequest request1 = new SanitationRequest("Glass",
                 "Small",
                 "T",
                 "F",
                 "F",
-                "testRequest",
+                "testRequest1",
                 "12:24",
                 "2021-04-02",
                 "F",
                 "Bob",
                 "node1",
                 "None");
-        actual.add(request);
+        FoodRequest request2 = new FoodRequest("Jane",
+                "11:30",
+                "salad",
+                "testRequest2",
+                "10:00",
+                "2021-05-10",
+                "F",
+                "Bob",
+                "node2",
+                "test");
+        actual.add(request1);
+        actual.add(request2);
         db.loadDatabaseRequests(actual);
 
-        String sanitationType = "Dry";
-        String sanitationSize = "Medium";
-        String hazardous = "F";
-        String biologicalSubstance = "T";
-        String occupied = "T";
-        String requestID = request.getRequestID();
-        String time = "13:30";
-        String date = "2021-04-18";
-        String complete = "T";
-        String employeeName = "Mike";
-        String location = "node2";
-        String description = "test";
-        db.updateRequest(new SanitationRequest(sanitationType, sanitationSize, hazardous, biologicalSubstance, occupied, requestID, time, date, complete, employeeName, location, description));
+        db.updateRequest(new SanitationRequest("Dry", "Medium", "F", "T", "T", request1.getRequestID(), "13:30", "2021-04-18", "T", "Mike", "node2", "test"));
+        db.updateRequest(new FoodRequest("Alice", "12:00", "chicken", request2.getRequestID(), "10:05", "2021-05-30", "T", "Mike", "node1", "None"));
 
-        Map<String, Request> requests = db.getRequests();
-        assertEquals("13:30", requests.get("testRequest").getTime());
-        assertEquals("2021-04-18", requests.get("testRequest").getDate());
-        assertEquals("T", requests.get("testRequest").getComplete());
-        assertEquals("Mike", requests.get("testRequest").getEmployeeName());
-        assertEquals("node2", requests.get("testRequest").getLocation());
-        assertEquals("test", requests.get("testRequest").getDescription());
+        SanitationRequest test1 = (SanitationRequest) db.getSpecificRequestById(request1.getRequestID(), "Sanitation");
+        assertEquals("Dry", test1.getSanitationType());
+        assertEquals("Medium", test1.getSanitationSize());
+        assertEquals("F", test1.getHazardous());
+        assertEquals("T", test1.getBiologicalSubstance());
+        assertEquals("T", test1.getOccupied());
+        assertEquals("13:30", test1.getTime());
+        assertEquals("2021-04-18", test1.getDate());
+        assertEquals("T", test1.getComplete());
+        assertEquals("Mike", test1.getEmployeeName());
+        assertEquals("node2", test1.getLocation());
+        assertEquals("test", test1.getDescription());
+
+        FoodRequest test2 = (FoodRequest) db.getSpecificRequestById(request2.getRequestID(), "Food");
+        assertEquals("Alice", test2.getPatientName());
+        assertEquals("12:00", test2.getArrivalTime());
+        assertEquals("chicken", test2.getMealChoice());
+        assertEquals("10:05", test2.getTime());
+        assertEquals("2021-05-30", test2.getDate());
+        assertEquals("T", test2.getComplete());
+        assertEquals("Mike", test2.getEmployeeName());
+        assertEquals("node1", test2.getLocation());
+        assertEquals("None", test2.getDescription());
     }
 }
