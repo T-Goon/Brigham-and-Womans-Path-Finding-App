@@ -54,6 +54,25 @@ public class NodePopupWindowController implements Initializable {
         data = (GraphicalEditorNodeData) App.getPrimaryStage().getUserData();
 
         nodeName.setText(data.getLongName());
+
+        // If coming from the tree view, go
+        if (data.getCircle() == null) {
+            root.getChildren().remove(mainMenu);
+
+            // Pass data to new window
+            App.getPrimaryStage().setUserData(new GraphicalNodePopupData(data, this));
+
+            // Load window
+            try {
+                nodeEditMenu = FXMLLoader.load(Objects.requireNonNull(
+                        getClass().getClassLoader().getResource("edu/wpi/teamB/views/map/nodePopup/editNodePopup.fxml")));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            root.getChildren().add(nodeEditMenu);
+        }
+
     }
 
     @FXML

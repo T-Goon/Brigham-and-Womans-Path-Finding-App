@@ -158,6 +158,8 @@ public class EditNodePopupController implements Initializable {
                 data.getData().getNodeHolder().getChildren().remove(data.getParent().getRoot());
                 break;
             case "btnCancel":
+                if (data.getData().getCircle() == null)
+                    data.getData().getNodeHolder().getChildren().remove(data.getParent().getRoot());
                 data.getParent().editToMain();
                 break;
         }

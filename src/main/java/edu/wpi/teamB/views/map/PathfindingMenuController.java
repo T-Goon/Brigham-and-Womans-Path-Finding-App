@@ -217,16 +217,16 @@ public class PathfindingMenuController implements Initializable {
     @FXML
     public void handleLocationSelected(MouseEvent mouseEvent) {
         TreeItem<String> selectedItem = treeLocations.getSelectionModel().getSelectedItem();
-        if (selectedItem == null) {
-            return;
-        }
+        if (selectedItem == null) return;
+
         if (!selectedItem.equals(selectedLocation) && selectedItem.isLeaf()) {
             //Selected item is a valid location
 
             //For now only work on nodes that are on the first floor until multi-floor pathfinding is added
             Node tempLocation = Graph.getGraph().getNodes().get(mapLongToID.get(selectedItem.getValue()));
-            if (tempLocation.getFloor().equals("1")) {
-                createGraphicalInputPopup(tempLocation);
+            if (tempLocation.getFloor().equals(currentFloor)) {
+                if (editMap) showEditNodePopup(tempLocation, mouseEvent, true);
+                else createGraphicalInputPopup(tempLocation);
             }
         }
         selectedLocation = selectedItem;
@@ -313,7 +313,7 @@ public class PathfindingMenuController implements Initializable {
 
                     editMap = false;
                 }
-
+                selectedLocation = null;
                 drawAllElements();
 
                 break;
@@ -388,10 +388,13 @@ public class PathfindingMenuController implements Initializable {
     /**
      * Shows the edit node popup filled in with the information from n.
      *
-     *
      * @param n Node that is to be edited.
      */
-    private void showEditNodePopup(Node n, MouseEvent event) {
+    private void showEditNodePopup(Node n, MouseEvent event, boolean fromTreeView) {
+
+        Circle c;
+        if (fromTreeView) c = null;
+        else c = (Circle) event.getSource();
 
         // Make sure there is only one editNodePopup at one time
         removeAllPopups();
@@ -409,7 +412,7 @@ public class PathfindingMenuController implements Initializable {
                 null,
                 nodeHolder,
                 PathfindingMenuController.this,
-                (Circle) event.getSource()));
+                c));
 
         // Load popup
         try {
@@ -456,7 +459,7 @@ public class PathfindingMenuController implements Initializable {
     }
 
     private void removeAllPopups() {
-        if (addNodePopup != null || editNodePopup != null || delEdgePopup != null ||selectionBox!=null || estimatedTimeBox!=null){
+        if (addNodePopup != null || editNodePopup != null || delEdgePopup != null || selectionBox != null || estimatedTimeBox != null) {
             deleteBox(selectionBox);
             deleteBox(estimatedTimeBox);
             deleteBox(editNodePopup);
@@ -499,8 +502,8 @@ public class PathfindingMenuController implements Initializable {
             locInput.setLayoutY((n.getYCoord() / PathfindingMenuController.coordinateScale) - (locInput.getHeight()));
 
             // Set up popup buttons
-            for (javafx.scene.Node node : ((VBox)locInput.getChildren().get(0)).getChildren()) {
-                JFXButton btn = (JFXButton) ((HBox)node).getChildren().get(0);
+            for (javafx.scene.Node node : ((VBox) locInput.getChildren().get(0)).getChildren()) {
+                JFXButton btn = (JFXButton) ((HBox) node).getChildren().get(0);
                 switch (btn.getId()) {
                     case "btnStart":
                         showGraphicalSelection(txtStartLocation, btn, n);
@@ -531,8 +534,8 @@ public class PathfindingMenuController implements Initializable {
      * Shows the popup for the graphical input.
      *
      * @param textField TextField to set text for
-     * @param node     javafx node that will show popup when clicked
-     * @param n        map node the popup is for
+     * @param node      javafx node that will show popup when clicked
+     * @param n         map node the popup is for
      */
     private void showGraphicalSelection(JFXTextField textField, javafx.scene.Node node, Node n) {
         JFXButton tempButton = (JFXButton) node;
@@ -746,6 +749,7 @@ public class PathfindingMenuController implements Initializable {
 
     /**
      * Place alternate node type on the map
+     *
      * @param n the Node object to place
      */
     private void placeAltNode(Node n) {
@@ -757,7 +761,7 @@ public class PathfindingMenuController implements Initializable {
 
             c.setId(n.getNodeID() + "Icon");
 
-            c.setOnMouseClicked((MouseEvent e) -> showEditNodePopup(n, e));
+            c.setOnMouseClicked((MouseEvent e) -> showEditNodePopup(n, e, false));
 
             nodeHolder.getChildren().add(c);
             nodePlaced.add(c);
@@ -785,7 +789,7 @@ public class PathfindingMenuController implements Initializable {
 
             l.setOnMouseClicked(e -> showDelEdgePopup(start, end));
 
-            l.setId(start.getNodeID()+"_"+end.getNodeID()+"Icon");
+            l.setId(start.getNodeID() + "_" + end.getNodeID() + "Icon");
 
             mapHolder.getChildren().add(l);
             edgePlaced.add(l);
@@ -807,9 +811,9 @@ public class PathfindingMenuController implements Initializable {
             c.setCenterX((n.getXCoord() / PathfindingMenuController.coordinateScale));
             c.setCenterY((n.getYCoord() / PathfindingMenuController.coordinateScale));
 
-            c.setOnMouseClicked(event -> showEditNodePopup(n, event));
+            c.setOnMouseClicked(event -> showEditNodePopup(n, event, false));
 
-            c.setId(n.getNodeID()+"IntIcon");
+            c.setId(n.getNodeID() + "IntIcon");
 
             intermediateNodeHolder.getChildren().add(c);
             intermediateNodePlaced.add(c);
