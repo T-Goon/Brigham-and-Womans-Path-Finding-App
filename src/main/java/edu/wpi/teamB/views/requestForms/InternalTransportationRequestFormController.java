@@ -46,7 +46,7 @@ public class InternalTransportationRequestFormController extends DefaultServiceR
 
     public void handleButtonAction(ActionEvent actionEvent) {
         String givenPatientName = name.getText();
-        String givenTransportType = comboTranspType.getValue().toString();
+        String givenTransportType = comboTranspType.getValue().getText();
         String givenUnconscious = unconscious.isSelected() ? "T" : "F";
         String givenInfectious = infectious.isSelected() ? "T" : "F";
 

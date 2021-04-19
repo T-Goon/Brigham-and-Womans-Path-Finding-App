@@ -1,6 +1,7 @@
 package edu.wpi.teamB;
 
 import edu.wpi.teamB.database.*;
+import edu.wpi.teamB.entities.NodeType;
 import edu.wpi.teamB.entities.map.Edge;
 import edu.wpi.teamB.entities.map.Node;
 import edu.wpi.teamB.entities.requests.FoodRequest;
@@ -118,8 +119,7 @@ public class DatabaseHandlerTest {
         Edge targetEdge = new Edge("bPARK01201_bWALK00501", "bWALK00502", "bWALK00501");
         edges.add(targetEdge);
 
-        db.loadDatabase(testNodes, edges);
-        db.loadNodesEdges(nodes, edges);
+        db.loadNodesEdges(testNodes, edges);
         Map<String, Node> outNodes = db.getNodes();
         assert (outNodes.values().containsAll(testNodes));
         Map<String, Edge> outEdges = db.getEdges();

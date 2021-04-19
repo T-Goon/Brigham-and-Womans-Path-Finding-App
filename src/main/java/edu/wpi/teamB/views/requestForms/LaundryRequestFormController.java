@@ -51,8 +51,8 @@ public class LaundryRequestFormController extends DefaultServiceRequestFormContr
     }
 
     public void handleButtonAction(ActionEvent actionEvent) {
-        String givenServiceType = comboTypeService.getValue().toString();
-        String givenServiceSize = comboSizeService.getValue().toString();
+        String givenServiceType = comboTypeService.getValue().getText();
+        String givenServiceSize = comboSizeService.getValue().getText();
         String givenDark = darks.isSelected() ? "T" : "F";
         String givenLight = lights.isSelected() ? "T" : "F";
         String givenOccupied = roomOccupied.isSelected() ? "T" : "F";

@@ -54,7 +54,7 @@ public class ExternalTransportationRequestFormController extends DefaultServiceR
 
     public void handleButtonAction(ActionEvent actionEvent) {
         String givenPatientName = name.getText();
-        String givenTransportType = comboTranspType.getValue().toString();
+        String givenTransportType = comboTranspType.getValue().getText();
         String givenDestination = destination.getText();
         String givenPatientAllergies = allergies.getText();
         String givenOutNetwork = outNetwork.isSelected() ? "T" : "F";

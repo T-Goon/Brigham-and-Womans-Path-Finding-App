@@ -6,6 +6,7 @@ import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXTreeView;
 import edu.wpi.teamB.App;
 import edu.wpi.teamB.database.DatabaseHandler;
+import edu.wpi.teamB.entities.Path;
 import edu.wpi.teamB.entities.map.Edge;
 import edu.wpi.teamB.entities.map.Node;
 import edu.wpi.teamB.pathfinding.AStar;

@@ -51,8 +51,8 @@ public class SanitationRequestFormController extends DefaultServiceRequestFormCo
     }
 
     public void handleButtonAction(ActionEvent actionEvent) {
-        String givenSanitationType = comboTypeService.getValue().toString();
-        String givenSanitationSize = comboSizeService.getValue().toString();
+        String givenSanitationType = comboTypeService.getValue().getText();
+        String givenSanitationSize = comboSizeService.getValue().getText();
         String givenHazardous = safetyHazard.isSelected() ? "T" : "F";
         String givenBiologicalSubstance = biologicalSubstance.isSelected() ? "T" : "F";
         String givenOccupied = roomOccupied.isSelected() ? "T" : "F";

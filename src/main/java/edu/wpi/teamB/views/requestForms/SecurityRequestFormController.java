@@ -41,7 +41,7 @@ public class SecurityRequestFormController extends DefaultServiceRequestFormCont
     }
 
     public void handleButtonAction(ActionEvent actionEvent) {
-        int givenUrgency = Integer.parseInt(comboUrgency.getValue().toString());
+        int givenUrgency = Integer.parseInt(comboUrgency.getValue().getText());
 
         DateFormat timeFormat = new SimpleDateFormat("HH:mm");
         DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd");

@@ -1,5 +1,6 @@
 package edu.wpi.teamB.database;
 
+import edu.wpi.teamB.entities.NodeType;
 import edu.wpi.teamB.entities.map.Edge;
 import edu.wpi.teamB.entities.map.Node;
 import edu.wpi.teamB.entities.requests.*;
@@ -142,19 +143,22 @@ public class DatabaseHandler {
                 + "sanitationSize CHAR(20), "
                 + "hazardous CHAR(1), " // Stored as T/F (no boolean data type in SQL)
                 + "biologicalSubstance CHAR(1), " // Stored as T/F (no boolean data type in SQL)
-                + "occupied CHAR(1))"; // Stored as T/F (no boolean data type in SQL)
+                + "occupied CHAR(1)," // Stored as T/F (no boolean data type in SQL)
+                + "FOREIGN KEY (requestID) REFERENCES Requests(requestID))";
 
         String medicineRequestsTable = "CREATE TABLE IF NOT EXISTS MedicineRequests("
                 + "requestID CHAR(20) PRIMARY KEY, "
                 + "patientName CHAR(30), "
-                + "medicine CHAR(20))";
+                + "medicine CHAR(20),"
+                + "FOREIGN KEY (requestID) REFERENCES Requests(requestID))";
 
         String internalTransportRequestsTable = "CREATE TABLE IF NOT EXISTS InternalTransportRequests("
                 + "requestID CHAR(20) PRIMARY KEY, "
                 + "patientName CHAR(30), "
                 + "transportType CHAR(20), "
                 + "unconscious CHAR(1), " // Stored as T/F (no boolean data type in SQL)
-                + "infectious CHAR(1))"; // Stored as T/F (no boolean data type in SQL)
+                + "infectious CHAR(1)," // Stored as T/F (no boolean data type in SQL)
+                + "FOREIGN KEY (requestID) REFERENCES Requests(requestID))";
 
         String religiousRequestsTable = "CREATE TABLE IF NOT EXISTS ReligiousRequests("
                 + "requestID CHAR(20) PRIMARY KEY, "
@@ -163,13 +167,15 @@ public class DatabaseHandler {
                 + "endTime CHAR(5), " // Stored as HH:MM (24 hour time)
                 + "religiousDate CHAR(10), " // Stored as YYYY-MM-DD
                 + "faith CHAR(20), "
-                + "infectious CHAR(1))"; // Stored as T/F (no boolean data type in SQL)
+                + "infectious CHAR(1)," // Stored as T/F (no boolean data type in SQL)
+                + "FOREIGN KEY (requestID) REFERENCES Requests(requestID))";
 
         String foodRequestsTable = "CREATE TABLE IF NOT EXISTS FoodRequests("
                 + "requestID CHAR(20) PRIMARY KEY, "
                 + "patientName CHAR(30), "
                 + "arrivalTime CHAR(5), " // Stored as HH:MM (24 hour time)
-                + "mealChoice CHAR(20))";
+                + "mealChoice CHAR(20),"
+                + "FOREIGN KEY (requestID) REFERENCES Requests(requestID))";
 
         String floralRequestsTable = "CREATE TABLE IF NOT EXISTS FloralRequests("
                 + "requestID CHAR(20) PRIMARY KEY, "
@@ -199,7 +205,8 @@ public class DatabaseHandler {
                 + "patientAllergies CHAR(200), "
                 + "outNetwork CHAR(1), " // Stored as T/F (no boolean data type in SQL)
                 + "infectious CHAR(1), " // Stored as T/F (no boolean data type in SQL)
-                + "unconscious CHAR(1))"; // Stored as T/F (no boolean data type in SQL)
+                + "unconscious CHAR(1)," // Stored as T/F (no boolean data type in SQL)
+                + "FOREIGN KEY (requestID) REFERENCES Requests(requestID))";
 
         String laundryTable = "CREATE TABLE IF NOT EXISTS LaundryRequests("
                 + "requestID CHAR(20) PRIMARY KEY, "
@@ -207,7 +214,8 @@ public class DatabaseHandler {
                 + "serviceSize CHAR(20), "
                 + "dark CHAR(1), " // Stored as T/F (no boolean data type in SQL)
                 + "light CHAR(1), " // Stored as T/F (no boolean data type in SQL)
-                + "occupied CHAR(1))"; // Stored as T/F (no boolean data type in SQL)
+                + "occupied CHAR(1)," // Stored as T/F (no boolean data type in SQL)
+                + "FOREIGN KEY (requestID) REFERENCES Requests(requestID))";
 
         try {
             assert statement != null;
@@ -691,6 +699,7 @@ public class DatabaseHandler {
                         + "')";
                 break;
         }
+        System.out.println(query);
 
         try {
             statement.execute(query);
