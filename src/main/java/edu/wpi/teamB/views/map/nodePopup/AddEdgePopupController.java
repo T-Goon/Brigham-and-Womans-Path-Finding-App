@@ -88,8 +88,10 @@ public class AddEdgePopupController implements Initializable {
 
             case "btnReset":
                 // Reset Node Colors
-                data.getData().getPfmc().getStartNode().setStroke(Color.BLACK);
-                data.getData().getPfmc().getEndNode().setStroke(Color.BLACK);
+                if(data.getData().getPfmc().getStartNode() != null)
+                    data.getData().getPfmc().getStartNode().setStroke(Color.BLACK);
+                if(data.getData().getPfmc().getEndNode() != null)
+                    data.getData().getPfmc().getEndNode().setStroke(Color.BLACK);
 
                 data.getData().getPfmc().setStartNode(null);
                 data.getData().getPfmc().setEndNode(null);
