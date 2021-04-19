@@ -86,7 +86,6 @@ public class EditNodeMenuController implements Initializable {
                 || longName.getText().trim().isEmpty() || shortName.getText().trim().isEmpty() || floor.getText().trim().isEmpty()
                 || xCoord.getText().trim().isEmpty() || yCoord.getText().trim().isEmpty());
         try {
-            Integer.parseInt(floor.getText().trim());
             Integer.parseInt(xCoord.getText().trim());
             Integer.parseInt(yCoord.getText().trim());
         } catch (NumberFormatException notInt) {

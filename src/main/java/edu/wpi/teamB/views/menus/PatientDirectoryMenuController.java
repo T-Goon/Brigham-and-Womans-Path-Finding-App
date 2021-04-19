@@ -1,10 +1,12 @@
 package edu.wpi.teamB.views.menus;
 
 import com.jfoenix.controls.JFXButton;
+import edu.wpi.teamB.pathfinding.AStar;
 import edu.wpi.teamB.util.SceneSwitcher;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import org.junit.Test;
 
 public class PatientDirectoryMenuController {
 
