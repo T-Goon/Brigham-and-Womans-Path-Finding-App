@@ -102,6 +102,7 @@ public class PathfindingMenuController implements Initializable {
     private Map<String, List<Node>> floorNodes = new HashMap<>();
     private Map<String, String> categoryNameMap = new HashMap<>();
     private Map<String, String> mapLongToID = new HashMap<>();
+    private final DatabaseHandler db = DatabaseHandler.getDatabaseHandler("main.db");
 
     private TreeItem<String> selectedLocation;
 
@@ -184,7 +185,7 @@ public class PathfindingMenuController implements Initializable {
                     List<Edge> newEdges = CSVHandler.loadCSVEdgesFromExternalPath(file.toPath());
 
                     // Update the database
-                    DatabaseHandler.getDatabaseHandler("main.db").loadDatabase(newNodes, newEdges);
+                    db.loadDatabase(newNodes, newEdges);
                     Graph.getGraph().updateGraph();
 
                     // Now delete and refresh the nodes
@@ -246,7 +247,6 @@ public class PathfindingMenuController implements Initializable {
      * Draw the estimated time dialog box
      *
      * @param path the path to draw the box on
-     * @throws IOException
      */
     private void drawEstimatedTimeBox(Path path) {
 
@@ -614,7 +614,7 @@ public class PathfindingMenuController implements Initializable {
      */
     private void drawAltNodesOnFloor(String floorID) {
 
-        Map<String, Node> nodes = DatabaseHandler.getDatabaseHandler("main.db").getNodes();
+        Map<String, Node> nodes = db.getNodes();
 
         if (nodes.isEmpty()) return;
 
@@ -632,7 +632,7 @@ public class PathfindingMenuController implements Initializable {
      * @param floorID the floor id for the nodes "L2", "L1", "1", "2", "3"
      */
     private void drawIntermediateNodesOnFloor(String floorID) {
-        Map<String, Node> nodes = DatabaseHandler.getDatabaseHandler("main.db").getNodes();
+        Map<String, Node> nodes = db.getNodes();
 
         if (nodes.isEmpty()) return;
 
@@ -651,8 +651,6 @@ public class PathfindingMenuController implements Initializable {
      */
     private void drawEdgesOnFloor(String floor) {
         Map<String, Edge> edges = Graph.getGraph().getEdges();
-        DatabaseHandler db = DatabaseHandler.getDatabaseHandler("main.db");
-
         for (Edge e : edges.values()) {
             Node start = db.getNodeById(e.getStartNodeID());
             Node end = db.getNodeById(e.getEndNodeID());
