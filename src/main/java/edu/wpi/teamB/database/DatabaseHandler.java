@@ -232,6 +232,7 @@ public class DatabaseHandler {
             statement.execute(securityRequestsTable);
             statement.execute(externalTransportTable);
             statement.execute(laundryTable);
+            statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -264,6 +265,7 @@ public class DatabaseHandler {
                         + node.getShortName() + "')";
                 assert statement != null;
                 statement.execute(query);
+                statement.close();
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -292,6 +294,7 @@ public class DatabaseHandler {
                         + edge.getEndNodeID() + "')";
                 assert statement != null;
                 statement.execute(query);
+                statement.close();
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -325,16 +328,20 @@ public class DatabaseHandler {
         assert statement != null;
         try {
             ResultSet rs = statement.executeQuery(query);
-            return new Node(
+            rs.next();
+            Node n = new Node(
                     rs.getString("nodeID").trim(),
                     rs.getInt("xcoord"),
                     rs.getInt("ycoord"),
-                    rs.getString("floor"),
+                    rs.getString("floor").trim(),
                     rs.getString("building").trim(),
                     rs.getString("nodeType").trim(),
                     rs.getString("longName").trim(),
                     rs.getString("shortName").trim()
             );
+            rs.close();
+            statement.close();
+            return n;
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
@@ -366,6 +373,7 @@ public class DatabaseHandler {
                 );
                 nodes.put(rs.getString("NodeID").trim(), outNode);
             }
+            statement.close();
             return nodes;
         } catch (SQLException ignored) {
             return null;
@@ -393,6 +401,7 @@ public class DatabaseHandler {
                 );
                 edges.put(rs.getString("edgeID").trim(), outEdge);
             }
+            statement.close();
             return edges;
         } catch (SQLException ignored) {
             return null;
@@ -421,6 +430,7 @@ public class DatabaseHandler {
         try {
             assert statement != null;
             statement.execute(query);
+            statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -441,6 +451,7 @@ public class DatabaseHandler {
         try {
             assert statement != null;
             statement.execute(query);
+            statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -469,6 +480,7 @@ public class DatabaseHandler {
             assert statement != null;
             if (statement.executeUpdate(query) == 0)
                 System.err.println("Node ID does not exist in the table!");
+            statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -490,6 +502,7 @@ public class DatabaseHandler {
             assert statement != null;
             if (statement.executeUpdate(query) == 0)
                 System.err.println("Edge ID does not exist in the table!");
+            statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -504,13 +517,14 @@ public class DatabaseHandler {
      */
     public void removeNode(String nodeID) {
         Statement statement = this.getStatement();
-        String nodeQuery = "DELETE FROM Nodes WHERE nodeID = '" + nodeID + "'";
         String edgesQuery = "DELETE FROM Edges WHERE startNode = '" + nodeID + "' OR endNode = '" + nodeID + "'";
+        String nodeQuery = "DELETE FROM Nodes WHERE nodeID = '" + nodeID + "'";
 
         try {
             assert statement != null;
-            statement.execute(nodeQuery);
             statement.execute(edgesQuery);
+            statement.execute(nodeQuery);
+            statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -529,6 +543,7 @@ public class DatabaseHandler {
         try {
             assert statement != null;
             statement.execute(query);
+            statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -556,6 +571,7 @@ public class DatabaseHandler {
                         set.getString("endNode").trim()
                 );
                 edges.add(outEdge);
+                statement.close();
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -1087,6 +1103,7 @@ public class DatabaseHandler {
                 );
                 nodes.add(outNode);
             }
+            statement.close();
             return nodes;
         } catch (SQLException ignored) {
             return null;

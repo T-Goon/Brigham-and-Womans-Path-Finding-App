@@ -3,6 +3,7 @@ package edu.wpi.teamB.views.requestForms;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.JFXTimePicker;
 import edu.wpi.teamB.database.DatabaseHandler;
 import edu.wpi.teamB.entities.requests.FoodRequest;
 import javafx.event.ActionEvent;
@@ -26,7 +27,7 @@ public class FoodDeliveryRequestFormController extends DefaultServiceRequestForm
     private JFXTextField mealChoice;
 
     @FXML
-    private JFXTextField arrivalTime;
+    private JFXTimePicker arrivalTime;
 
     @FXML
     private JFXTextArea description;
