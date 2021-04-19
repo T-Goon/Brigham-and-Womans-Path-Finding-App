@@ -76,7 +76,6 @@ public class PathfindingTests {
     @Test
     public void testClosestPath() {
 
-        Node bWALK00101 = new Node("bWALK00101", 568, 1894, "1", "Parking", "WALK", "Left Parking Lot Walkway", "Llot Walk");
         List<String> pathExp = new LinkedList();
 
         List<Node> category = new ArrayList<>();
@@ -106,10 +105,10 @@ public class PathfindingTests {
         pathExp.add("bPARK01701");
 
 
-        List<String> path = AStar.closestPath("bWALK00101", category);
+        Path path = AStar.shortestPathToNodeInList("bWALK00101", category);
 
         System.out.println(path);
-        assertEquals(pathExp, path);
+        assertEquals(pathExp, path.getPath());
 
     }
 

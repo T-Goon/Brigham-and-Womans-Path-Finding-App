@@ -86,20 +86,19 @@ public class AStar {
      * @param startID      starting node
      * @param destinations we take in nodes of the same category that the user
      *                     wants to go to
-     * @return the closest path from currLoc to which ever node is closest
+     * @return The shortest path from the starting node to any of the nodes in the destinations list
      * to it
      */
-    public static List<String> closestPath(String startID, List<Node> destinations) {
+    public static Path shortestPathToNodeInList(String startID, List<Node> destinations) {
 
         double min = Double.MAX_VALUE;
-
-        List<String> shortestPath = new LinkedList<>();
+        Path shortestPath = new Path();
 
         for (Node dest : destinations) {
-            Path p = findPath(startID, dest.getNodeID());
-            double cost = p.getTotalPathCost();
+            Path tempPath = findPath(startID, dest.getNodeID());
+            double cost = tempPath.getTotalPathCost();
             if (cost != 0 && cost < min) {
-                shortestPath = p.getPath();
+                shortestPath = tempPath;
                 min = cost;
             }
         }
