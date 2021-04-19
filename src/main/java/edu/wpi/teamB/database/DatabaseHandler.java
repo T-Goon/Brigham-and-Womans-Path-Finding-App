@@ -20,7 +20,7 @@ public class DatabaseHandler {
     private static DatabaseHandler handler;
 
     //State
-    private static User AuthenticationUser;
+    private static User AuthenticationUser = new User(null,null,null, User.AuthenticationLevel.GUEST,null);
 
     private DatabaseHandler() {
     }
@@ -457,6 +457,12 @@ public class DatabaseHandler {
         return false;
     }
 
+    /**
+     * @param username Claimed username of authenticator
+     * @param password Claimed plaintext password of authenticator
+     * @return If authentication is successful, return the User object representing the authenticated user
+     * @throws Exception
+     */
     public User authenticate(String username, String password) throws Exception {
         Statement statement = this.getStatement();
         String query = "SELECT passwordHash FROM Users WHERE (username = '" + username + "')";
@@ -478,21 +484,34 @@ public class DatabaseHandler {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        DatabaseHandler.AuthenticationUser = outUser;
         return outUser;
     }
 
+    /**
+     * @param plaintext plaintext password to hash
+     * @return hashed password
+     */
     private String passwordHash(String plaintext) {
-        return plaintext + "123"; //TODO this is not a hash
+        return String.valueOf(plaintext.hashCode());
     }
 
+    /**
+     * Sets authentication level to guest
+     * @return if the user successfully lowered their authentication level (false if already guest)
+     */
     public boolean deauthenticate() {
-        return false;
+        if (DatabaseHandler.AuthenticationUser.getAuthenticationLevel() != User.AuthenticationLevel.GUEST){
+            DatabaseHandler.AuthenticationUser = new User(null,null,null, User.AuthenticationLevel.GUEST,null);
+            return true;
+        }else{
+            return false;
+        }
     }
 
-    public boolean isValidAuthentication(int authToken, User.AuthenticationLevel claim) {
-        return false;
+    public User getAuthenticationUser() {
+        return DatabaseHandler.AuthenticationUser;
     }
-
 
     /**
      * Displays the list of nodes along with their attributes.
