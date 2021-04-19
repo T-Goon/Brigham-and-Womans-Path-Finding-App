@@ -84,7 +84,8 @@ public class PathfindingMenuController implements Initializable {
     private List<javafx.scene.Node> nodePlaced = new ArrayList<>();
     private List<javafx.scene.Node> intermediateNodePlaced = new ArrayList<>();
     private boolean editMap = false;
-    private VBox popup = null;
+    private VBox selectionBox= null;
+    private VBox estimatedTimeBox = null;
 
     private String currentFloor = "1";
     private VBox addNodePopup;
@@ -232,7 +233,7 @@ public class PathfindingMenuController implements Initializable {
     private void drawEstimatedTimeBox(Path path) {
 
         String estimatedTime = AStar.getEstimatedTime(path);
-        VBox estimatedTimeBox = new VBox();
+        estimatedTimeBox = new VBox();
         try {
             estimatedTimeBox = FXMLLoader.load(
                     Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/misc/showEstimatedTime.fxml")));
@@ -486,16 +487,16 @@ public class PathfindingMenuController implements Initializable {
                         break;
                     case "BtnCancel":
                         Button cancelButton = (Button) node;
-                        cancelButton.setOnAction(event -> deleteBox());
+                        cancelButton.setOnAction(event -> deleteBox(selectionBox));
                         break;
                 }
             }
 
-            if (popup != null) {
-                deleteBox();
+            if (selectionBox != null) {
+                deleteBox(selectionBox);
             }
 
-            popup = locInput;
+            selectionBox = locInput;
             nodeHolder.getChildren().add(locInput);
 
         } catch (IOException ioException) {
@@ -518,7 +519,7 @@ public class PathfindingMenuController implements Initializable {
             //loop through combo box if string == name of node
             //keep track of index and pass it in
             textField.setText(n.getLongName());
-            deleteBox();
+            deleteBox(selectionBox);
             validateFindPathButton();
         });
 
@@ -526,10 +527,11 @@ public class PathfindingMenuController implements Initializable {
 
     /**
      * Removes the graphical input popup from the map.
+     * @param box the VBox to be deleted
      */
-    private void deleteBox() {
-        nodeHolder.getChildren().remove(popup);
-        popup = null;
+    private void deleteBox(VBox box) {
+        nodeHolder.getChildren().remove(box);
+        selectionBox = null;
     }
 
     // Code for displaying content on the map ***********************************************************
@@ -643,6 +645,9 @@ public class PathfindingMenuController implements Initializable {
      * Draws the path on the map
      */
     private void drawPath() {
+        if(estimatedTimeBox != null)
+            deleteBox(estimatedTimeBox);
+
         Map<String, Node> nodesId = Graph.getGraph().getNodes();
         Map<String, String> hmLongName = makeLongToIDMap();
         Path aStarPath = AStar.findPath(hmLongName.get(getStartLocation()), hmLongName.get(getEndLocation()));
@@ -654,7 +659,7 @@ public class PathfindingMenuController implements Initializable {
         } else {
             Node prev = null;
             for (String loc : AstarPath) {
-                if ((prev != null) && (loc != null)) {
+                if ((prev != null) && (loc != null)) {;
                     Node curr = nodesId.get(loc);
                     placeEdge(prev, curr);
                 }
