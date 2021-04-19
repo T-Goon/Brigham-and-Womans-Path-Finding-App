@@ -145,7 +145,7 @@
                                     <Insets left="5.0" />
                                  </VBox.margin>
                               </Text>
-                              <JFXComboBox fx:id="nodeType" focusColor="WHITE" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="WHITE" />
+                              <JFXComboBox fx:id="nodeType" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="WHITE" />
                            </children>
                            <HBox.margin>
                               <Insets />

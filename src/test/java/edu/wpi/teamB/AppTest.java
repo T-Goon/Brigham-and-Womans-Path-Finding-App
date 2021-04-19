@@ -40,7 +40,7 @@ public class AppTest extends FxRobot {
     }
 
     @Test
-    void testAddEditRemoveNode(){
+    void testGraphicalMapEditor(){
         // Get to edit map menu
         clickOn("#btnStaff");
         verifyThat("Login Page", Node::isVisible);
@@ -70,6 +70,23 @@ public class AppTest extends FxRobot {
         write("sn");
         clickOn("#btnAddNode");
 
+        // Open add node popup
+        moveTo(400, 500);
+        doubleClickOn(MouseButton.PRIMARY);
+
+        // Fill in node info
+        clickOn("#nodeID");
+        write("nodeabcd123452");
+        clickOn("#building");
+        write("building123");
+        clickOn("#nodeType");
+        clickOn("BATH");
+        clickOn("#longName");
+        write("some node2");
+        clickOn("#shortName");
+        write("sn2");
+        clickOn("#btnAddNode");
+
         // Edit Node
         verifyThat("#nodeabcd12345Icon", Node::isVisible);
         clickOn("#nodeabcd12345Icon");
@@ -78,24 +95,35 @@ public class AppTest extends FxRobot {
         clickOn("HALL");
         clickOn("#btnUpdate");
 
-        // Remove node
-        verifyThat("#nodeabcd12345IntIcon", Node::isVisible);
+        // Set start node for edge
         clickOn("#nodeabcd12345IntIcon");
+        clickOn("#btnAddEdge");
+        clickOn("#btnStart");
+        clickOn("#btnCancel");
+        clickOn("#btnCancel");
+
+        // Set end node for edge
+        clickOn("#nodeabcd123452Icon");
+        clickOn("#btnAddEdge");
+        clickOn("#btnEnd");
+        clickOn("#btnDone");
+
+        // Delete Edge
+        clickOn("#nodeabcd12345_nodeabcd123452Icon");
+        clickOn("#btnDelete");
+        clickOn("#btnYes");
+
+        // Delete nodes
+        clickOn("#nodeabcd12345IntIcon");
+        clickOn("#btnDelete");
+        clickOn("#btnYes");
+
+        clickOn("#nodeabcd123452Icon");
         clickOn("#btnDelete");
         clickOn("#btnYes");
 
         clickOn("#btnBack");
         clickOn("#btnBack");
-    }
-
-    @Test
-    void addEdge(){
-
-    }
-
-    @Test
-    void deleteEdge(){
-
     }
 
     @Test

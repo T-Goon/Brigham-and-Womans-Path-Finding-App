@@ -760,6 +760,8 @@ public class PathfindingMenuController implements Initializable {
 
             l.setOnMouseClicked(e -> showDelEdgePopup(start, end));
 
+            l.setId(start.getNodeID()+"_"+end.getNodeID()+"Icon");
+
             mapHolder.getChildren().add(l);
             edgePlaced.add(l);
 
