@@ -231,25 +231,27 @@ public class PathfindingMenuController implements Initializable {
      */
     private void drawEstimatedTimeBox(Path path) {
 
-        String etaTime = AStar.getEstimatedTime(path);
-        VBox etaVbox = new VBox();
+        String estimatedTime = AStar.getEstimatedTime(path);
+        VBox estimatedTimeBox = new VBox();
         try {
-            etaVbox = FXMLLoader.load(
+            estimatedTimeBox = FXMLLoader.load(
                     Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/misc/showEstimatedTime.fxml")));
         } catch (IOException e) {
             System.err.println("[drawEstimatedTimeBox] FXMLLoader load failed");
         }
 
-        List<javafx.scene.Node> child = etaVbox.getChildren();
+        estimatedTimeBox.setId("estimatedTimeDialog");
+
+        List<javafx.scene.Node> child = estimatedTimeBox.getChildren();
         Text textBox = (Text) child.get(0);
-        textBox.setText(etaTime);
+        textBox.setText(estimatedTime);
 
         Graph graph = Graph.getGraph();
         Node endNode = graph.getNodes().get(path.getPath().get(path.getPath().size()-1));
 
-        etaVbox.setLayoutX((endNode.getXCoord() / PathfindingMenuController.coordinateScale));
-        etaVbox.setLayoutY((endNode.getYCoord() / PathfindingMenuController.coordinateScale) - (etaVbox.getHeight()));
-        nodeHolder.getChildren().add(etaVbox);
+        estimatedTimeBox.setLayoutX((endNode.getXCoord() / PathfindingMenuController.coordinateScale));
+        estimatedTimeBox.setLayoutY((endNode.getYCoord() / PathfindingMenuController.coordinateScale) - (estimatedTimeBox.getHeight()));
+        nodeHolder.getChildren().add(estimatedTimeBox);
     }
 
 

@@ -113,7 +113,7 @@ public class PathfindingTests {
     }
 
     @Test
-    public void testETA(){
+    public void testGetEstimatedTime(){
         Path tempPath = AStar.findPath("bPARK01801", "bPARK00601");
         String result = AStar.getEstimatedTime(tempPath);
         String expected = "5:22 min";
