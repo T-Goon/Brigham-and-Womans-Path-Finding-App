@@ -1,6 +1,7 @@
 package edu.wpi.teamB.views.mapEditor.graphical.nodePopup;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXRadioButton;
 import com.jfoenix.controls.JFXTextField;
 import edu.wpi.teamB.App;
@@ -11,6 +12,7 @@ import edu.wpi.teamB.util.GraphicalNodePopupData;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.control.ToggleGroup;
 
 import java.net.URL;
@@ -49,7 +51,7 @@ public class EditNodePopupController implements Initializable {
     private JFXTextField building;
 
     @FXML
-    private JFXTextField nodeType;
+    private JFXComboBox<Label> nodeType;
 
     @FXML
     private JFXTextField longName;
@@ -63,6 +65,22 @@ public class EditNodePopupController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         data = (GraphicalNodePopupData) App.getPrimaryStage().getUserData();
 
+        // Populate the combobox
+        nodeType.getItems().add(new Label("CONF"));
+        nodeType.getItems().add(new Label("BATH"));
+        nodeType.getItems().add(new Label("DEPT"));
+        nodeType.getItems().add(new Label("ELEV"));
+        nodeType.getItems().add(new Label("EXIT"));
+        nodeType.getItems().add(new Label("HALL"));
+        nodeType.getItems().add(new Label("INFO"));
+        nodeType.getItems().add(new Label("LABS"));
+        nodeType.getItems().add(new Label("PARK"));
+        nodeType.getItems().add(new Label("REST"));
+        nodeType.getItems().add(new Label("RETL"));
+        nodeType.getItems().add(new Label("WALK"));
+        nodeType.getItems().add(new Label("STAI"));
+        nodeType.getItems().add(new Label("SERV"));
+
         // Fill in current node data
         nodeID.setText(data.getData().getNodeID());
         nodeID.setDisable(true);
@@ -71,7 +89,10 @@ public class EditNodePopupController implements Initializable {
         floor.setText(data.getData().getFloor());
         floor.setDisable(true);
         building.setText(data.getData().getBuilding());
-        nodeType.setText(data.getData().getNodeType());
+        for(int i=0; i<nodeType.getItems().size(); i++){
+            if(nodeType.getItems().get(i).getText().equals(data.getData().getNodeType()))
+                nodeType.getSelectionModel().select(i);
+        }
         longName.setText(data.getData().getLongName());
         shortName.setText(data.getData().getShortName());
     }
@@ -82,7 +103,7 @@ public class EditNodePopupController implements Initializable {
      */
     @FXML
     private void validateButton() throws NumberFormatException {
-        btnUpdate.setDisable(nodeID.getText().trim().isEmpty() || building.getText().trim().isEmpty() || nodeType.getText().trim().isEmpty()
+        btnUpdate.setDisable(nodeID.getText().trim().isEmpty() || building.getText().trim().isEmpty() || nodeType.getValue().getText().isEmpty()
                 || longName.getText().trim().isEmpty() || shortName.getText().trim().isEmpty() || floor.getText().trim().isEmpty()
                 || xCoord.getText().trim().isEmpty() || yCoord.getText().trim().isEmpty());
 
@@ -105,7 +126,7 @@ public class EditNodePopupController implements Initializable {
                 int aYCoord = Integer.parseInt(yCoord.getText().trim());
                 String aFloor = floor.getText().trim();
                 String aBuilding = building.getText().trim();
-                String aNodeType = nodeType.getText().trim();
+                String aNodeType = nodeType.getValue().getText();
                 String aLongName = longName.getText().trim();
                 String aShortName = shortName.getText().trim();
 

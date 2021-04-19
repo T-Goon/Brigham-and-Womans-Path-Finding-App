@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXRadioButton?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
@@ -142,11 +143,7 @@
                               <Insets left="5.0" />
                            </VBox.margin>
                         </Text>
-                        <JFXTextField fx:id="nodeType" onKeyReleased="#validateButton" prefColumnCount="20" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00">
-                           <VBox.margin>
-                              <Insets left="5.0" right="5.0" />
-                           </VBox.margin>
-                        </JFXTextField>
+                        <JFXComboBox fx:id="nodeType" focusColor="WHITE" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="WHITE" />
                      </children>
                      <HBox.margin>
                         <Insets />

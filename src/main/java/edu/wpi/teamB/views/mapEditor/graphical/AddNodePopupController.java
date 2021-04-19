@@ -1,6 +1,7 @@
 package edu.wpi.teamB.views.mapEditor.graphical;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXRadioButton;
 import com.jfoenix.controls.JFXTextField;
 import edu.wpi.teamB.App;
@@ -10,6 +11,7 @@ import edu.wpi.teamB.util.GraphicalEditorNodeData;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.VBox;
 
@@ -50,7 +52,7 @@ public class AddNodePopupController implements Initializable{
     private JFXTextField building;
 
     @FXML
-    private JFXTextField nodeType;
+    private JFXComboBox<Label> nodeType;
 
     @FXML
     private JFXTextField longName;
@@ -74,6 +76,22 @@ public class AddNodePopupController implements Initializable{
         // Fill in current floor
         floor.setText(data.getFloor());
         floor.setDisable(true);
+
+        nodeType.getItems().add(new Label("CONF"));
+        nodeType.getItems().add(new Label("BATH"));
+        nodeType.getItems().add(new Label("DEPT"));
+        nodeType.getItems().add(new Label("ELEV"));
+        nodeType.getItems().add(new Label("EXIT"));
+        nodeType.getItems().add(new Label("HALL"));
+        nodeType.getItems().add(new Label("INFO"));
+        nodeType.getItems().add(new Label("LABS"));
+        nodeType.getItems().add(new Label("PARK"));
+        nodeType.getItems().add(new Label("REST"));
+        nodeType.getItems().add(new Label("RETL"));
+        nodeType.getItems().add(new Label("WALK"));
+        nodeType.getItems().add(new Label("STAI"));
+        nodeType.getItems().add(new Label("SERV"));
+
     }
 
     /**
@@ -82,7 +100,7 @@ public class AddNodePopupController implements Initializable{
      */
     @FXML
     private void validateButton() throws NumberFormatException {
-        btnAddNode.setDisable(nodeID.getText().trim().isEmpty() || building.getText().trim().isEmpty() || nodeType.getText().trim().isEmpty()
+        btnAddNode.setDisable(nodeID.getText().trim().isEmpty() || building.getText().trim().isEmpty() || nodeType.getValue().getText().isEmpty()
                 || longName.getText().trim().isEmpty() || shortName.getText().trim().isEmpty() || floor.getText().trim().isEmpty()
                 || xCoord.getText().trim().isEmpty() || yCoord.getText().trim().isEmpty());
         try {
@@ -106,7 +124,7 @@ public class AddNodePopupController implements Initializable{
                 String aNodeId = nodeID.getText().trim();
                 String aFloor = floor.getText().trim();
                 String aBuilding = building.getText().trim();
-                String aNodeType = nodeType.getText().trim();
+                String aNodeType = nodeType.getValue().getText();
                 String aLongName = longName.getText().trim();
                 String aShortName = shortName.getText().trim();
                 int aXCoord = Integer.parseInt(xCoord.getText().trim());
