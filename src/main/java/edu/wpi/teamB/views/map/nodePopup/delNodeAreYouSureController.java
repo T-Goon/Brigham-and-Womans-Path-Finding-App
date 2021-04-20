@@ -35,7 +35,7 @@ public class delNodeAreYouSureController implements Initializable {
                 DatabaseHandler.getDatabaseHandler("main.db").removeNode(data.getData().getNodeID());
                 data.getData().getPfmc().refreshEditor();
 
-                data.getData().getNodeHolder().getChildren().remove(data.getParent().getRoot());
+                data.getData().getMapStack().getChildren().remove(data.getParent().getRoot());
                 break;
             case "btnNo":
                 data.getParent().areYouSureToMain();

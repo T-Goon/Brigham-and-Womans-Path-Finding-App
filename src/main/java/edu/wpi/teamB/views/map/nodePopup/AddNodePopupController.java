@@ -124,7 +124,7 @@ public class AddNodePopupController implements Initializable {
 
         switch (btn.getId()) {
             case "btnCancel":
-                data.getNodeHolder().getChildren().remove(root);
+                data.getMapStack().getChildren().remove(root);
                 break;
             case "btnAddNode":
                 String aNodeId = nodeID.getText().trim();
@@ -149,7 +149,7 @@ public class AddNodePopupController implements Initializable {
                 data.getPfmc().refreshEditor();
 
                 // Remove popup from map
-                data.getNodeHolder().getChildren().remove(root);
+                data.getMapStack().getChildren().remove(root);
                 break;
         }
     }

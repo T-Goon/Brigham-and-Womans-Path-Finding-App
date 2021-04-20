@@ -155,11 +155,11 @@ public class EditNodePopupController implements Initializable {
                 // Remove popup from map and refresh map nodes
                 data.getData().getPfmc().refreshEditor();
 
-                data.getData().getNodeHolder().getChildren().remove(data.getParent().getRoot());
+                data.getData().getMapStack().getChildren().remove(data.getParent().getRoot());
                 break;
             case "btnCancel":
                 if (data.getData().getCircle() == null)
-                    data.getData().getNodeHolder().getChildren().remove(data.getParent().getRoot());
+                    data.getData().getMapStack().getChildren().remove(data.getParent().getRoot());
                 data.getParent().editToMain();
                 break;
         }

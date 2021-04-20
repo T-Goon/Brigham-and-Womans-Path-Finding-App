@@ -85,7 +85,7 @@ public class AddEdgePopupController implements Initializable {
                 // Remove popup from map and refresh map nodes
                 data.getData().getPfmc().refreshEditor();
 
-                data.getData().getNodeHolder().getChildren().remove(data.getParent().getRoot());
+                data.getData().getMapStack().getChildren().remove(data.getParent().getRoot());
 
             case "btnReset":
                 // Reset Node Colors

@@ -39,7 +39,7 @@ public class DelEdgeAreYouSureController implements Initializable {
                 Graph.getGraph().updateGraph();
 
                 // Remove popup from map and refresh the nodes
-                data.getData().getNodeHolder().getChildren().remove(data.getParent().getRoot());
+                data.getData().getMapStack().getChildren().remove(data.getParent().getRoot());
                 data.getData().getPmfc().refreshEditor();
                 break;
             case "btnNo":

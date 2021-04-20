@@ -72,7 +72,7 @@ public class DelEdgePopupController implements Initializable {
 
                 break;
             case "btnCancel":
-                data.getNodeHolder().getChildren().remove(root);
+                data.getMapStack().getChildren().remove(root);
                 break;
         }
     }
