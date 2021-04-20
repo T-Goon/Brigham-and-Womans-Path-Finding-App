@@ -19,6 +19,7 @@ import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
+@SuppressWarnings("deprecation")
 public class App extends Application {
 
     private static Stage primaryStage;
