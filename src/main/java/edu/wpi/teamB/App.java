@@ -23,6 +23,7 @@ public class App extends Application {
 
     private static Stage primaryStage;
     private DatabaseHandler db;
+    private Thread dbThread;
 
     @Override
     public void init() {
@@ -57,7 +58,7 @@ public class App extends Application {
                 SceneSwitcher.switchToTemp(getClass(), "/edu/wpi/teamB/views/login/databaseInit.fxml");
                 primaryStage.show();
 
-                Thread dbThread = new Thread(() -> {
+                dbThread = new Thread(() -> {
                     db.loadNodesEdges(CSVHandler.loadCSVNodes("/edu/wpi/teamB/csvFiles/bwBnodes.csv"), CSVHandler.loadCSVEdges("/edu/wpi/teamB/csvFiles/bwBedges.csv"));
                     Platform.runLater(() -> SceneSwitcher.switchToTemp(getClass(), "/edu/wpi/teamB/views/login/loginOptions.fxml"));
                 });
@@ -79,6 +80,8 @@ public class App extends Application {
 
     @Override
     public void stop() {
+        if (dbThread != null)
+            dbThread.stop();
         DatabaseHandler.getDatabaseHandler("main.db").shutdown();
         System.out.println("Shutting Down");
     }
