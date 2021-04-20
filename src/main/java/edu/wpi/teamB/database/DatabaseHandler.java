@@ -104,18 +104,15 @@ public class DatabaseHandler {
         String disableForeignKeys = "PRAGMA foreign_keys = OFF";
         String enableForeignKeys = "PRAGMA foreign_keys = ON";
 
-        String actualQuery = null;
         try {
             assert statement != null;
             statement.execute(disableForeignKeys);
             for (String query : queries) {
-                actualQuery = query;
                 statement.execute(query);
             }
             statement.execute(enableForeignKeys);
             statement.close();
         } catch (SQLException e) {
-            System.out.println("PROBLEM HERE: " + actualQuery);
             e.printStackTrace();
         }
     }
