@@ -6,6 +6,7 @@ import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXTreeView;
 import edu.wpi.teamB.App;
 import edu.wpi.teamB.database.DatabaseHandler;
+import edu.wpi.teamB.entities.User;
 import edu.wpi.teamB.entities.map.*;
 import edu.wpi.teamB.pathfinding.AStar;
 import edu.wpi.teamB.pathfinding.Graph;
@@ -203,6 +204,15 @@ public class PathfindingMenuController implements Initializable {
                     CSVHandler.saveCSVEdges(file.toPath(), false);
                 }
         );
+
+        // Disable editing if the user is not an admin
+        checkPermissions();
+    }
+
+    private void checkPermissions() {
+        btnEditMap.setVisible(!db.getAuthenticationUser().isAtLeast(User.AuthenticationLevel.ADMIN));
+        btnLoad.setVisible(!db.getAuthenticationUser().isAtLeast(User.AuthenticationLevel.ADMIN));
+        btnSave.setVisible(!db.getAuthenticationUser().isAtLeast(User.AuthenticationLevel.ADMIN));
     }
 
     /**
