@@ -27,6 +27,9 @@ public class MapTests extends FxRobot{
     public static void setup() throws Exception {
         FxToolkit.registerPrimaryStage();
         FxToolkit.setupApplication(App.class);
+        while (App.getPrimaryStage().getScene().lookup("#gif") != null) {
+            // Wait for the database to finish initializing
+        }
     }
 
     @Test
