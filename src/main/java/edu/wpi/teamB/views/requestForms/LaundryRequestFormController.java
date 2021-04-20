@@ -18,9 +18,6 @@ import java.util.UUID;
 public class LaundryRequestFormController extends DefaultServiceRequestFormController implements Initializable {
 
     @FXML
-    private JFXTextField loc;
-
-    @FXML
     private JFXComboBox<Label> comboTypeService;
 
     @FXML
@@ -72,11 +69,10 @@ public class LaundryRequestFormController extends DefaultServiceRequestFormContr
             String date = dateFormat.format(dateInfo); // Stored as YYYY-MM-DD
             String complete = "F";
             String employeeName = null; // fix
-            String location = loc.getText();
             String givenDescription = description.getText();
 
             LaundryRequest request = new LaundryRequest(givenServiceType, givenServiceSize, givenDark, givenLight, givenOccupied,
-                    requestID, time, date, complete, employeeName, location, givenDescription);
+                    requestID, time, date, complete, employeeName, getLocation(), givenDescription);
 
             DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
         }
@@ -85,7 +81,7 @@ public class LaundryRequestFormController extends DefaultServiceRequestFormContr
     @FXML
     private void validateButton(){
         btnSubmit.setDisable(
-            loc.getText().isEmpty() || comboSizeService.getValue() == null || comboTypeService.getValue() == null ||
+            loc.getValue() == null || comboSizeService.getValue() == null || comboTypeService.getValue() == null ||
             description.getText().isEmpty()
         );
     }

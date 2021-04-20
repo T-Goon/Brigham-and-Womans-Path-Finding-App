@@ -20,9 +20,6 @@ public class CaseManagerRequestFormController extends DefaultServiceRequestFormC
     private JFXTextField patientName;
 
     @FXML
-    private JFXTextField roomNumber;
-
-    @FXML
     private JFXTimePicker timeForArrival;
 
     @FXML
@@ -45,11 +42,10 @@ public class CaseManagerRequestFormController extends DefaultServiceRequestFormC
             String date = dateFormat.format(dateInfo); // Stored as YYYY-MM-DD
             String complete = "F";
             String employeeName = null; // fix
-            String location = roomNumber.getText();
             String givenDescription = messageForCaseManager.getText();
 
             CaseManagerRequest request = new CaseManagerRequest(givenPatientName, givenTimeForArrival,
-                    requestID, time, date, complete, employeeName, location, givenDescription);
+                    requestID, time, date, complete, employeeName, getLocation(), givenDescription);
 
             DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
         }
@@ -58,7 +54,7 @@ public class CaseManagerRequestFormController extends DefaultServiceRequestFormC
     @FXML
     private void validateButton(){
         btnSubmit.setDisable(
-            patientName.getText().isEmpty() || roomNumber.getText().isEmpty() || timeForArrival.getValue() == null ||
+            patientName.getText().isEmpty() || loc.getValue() == null || timeForArrival.getValue() == null ||
             messageForCaseManager.getText().isEmpty()
         );
     }

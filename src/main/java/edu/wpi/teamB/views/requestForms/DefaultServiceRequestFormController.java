@@ -1,9 +1,12 @@
 package edu.wpi.teamB.views.requestForms;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXDialogLayout;
 import edu.wpi.teamB.App;
+import edu.wpi.teamB.database.DatabaseHandler;
+import edu.wpi.teamB.entities.map.Node;
 import edu.wpi.teamB.util.SceneSwitcher;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -19,7 +22,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 import java.net.URL;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public abstract class DefaultServiceRequestFormController implements Initializable {
 
@@ -47,10 +50,15 @@ public abstract class DefaultServiceRequestFormController implements Initializab
     @FXML
     private StackPane stackContainer;
 
+    @FXML
+    protected JFXComboBox<Label> loc;
+
     private VBox helpPopup;
     private double x = 0;
     private double y = 0;
     private boolean justClicked = false;
+    protected ArrayList<Node> nodesList = new ArrayList<>();
+    private String location;
 
 
     @Override
@@ -63,7 +71,19 @@ public abstract class DefaultServiceRequestFormController implements Initializab
             justClicked = false;
         });
 
+        Map<String, Node> nodes = DatabaseHandler.getDatabaseHandler("main.db").getNodes();
+
+        // TODO should probably sort
+        for(Node n : nodes.values()){
+            loc.getItems().add(new Label(n.getLongName()));
+            nodesList.add(n);
+        }
+
         btnSubmit.setDisable(true);
+    }
+
+    protected String getLocation(){
+        return nodesList.get(loc.getSelectionModel().getSelectedIndex()).getNodeID();
     }
 
     public void handleButtonAction(ActionEvent actionEvent) {

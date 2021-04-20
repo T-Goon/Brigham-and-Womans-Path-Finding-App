@@ -12,9 +12,6 @@ public class EmergencyFormController {
     private JFXTextField wing;
 
     @FXML
-    private JFXTextField roomNum;
-
-    @FXML
     private JFXCheckBox medicalEmergency;
 
     @FXML

@@ -227,14 +227,15 @@ public class AppTest extends FxRobot {
         clickOn("#btnBack");
     }
 
-    @ParameterizedTest
-    @MethodSource("textProvider")
-    void testSubmitForms(String button, String title) {
+    @Test
+    void testSanitationForm() {
         clickOn("#btnGuest");
         clickOn("Service Requests");
         verifyThat("Service Request Directory", Node::isVisible);
-        clickOn(button);
-        verifyThat(title, Node::isVisible);
+        clickOn("#btnSanitation");
+        verifyThat("Sanitation Services Request", Node::isVisible);
+
+
         clickOn("Submit");
         verifyThat("Form Successfully Submitted!", Node::isVisible);
         clickOn("Return to Main Screen");
