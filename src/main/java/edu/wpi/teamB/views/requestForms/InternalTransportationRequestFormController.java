@@ -39,4 +39,12 @@ public class InternalTransportationRequestFormController extends DefaultServiceR
         comboTranspType.getItems().add(new Label("Stretcher"));
         comboTranspType.getItems().add(new Label("Gurney"));
     }
+
+    @FXML
+    private void validateButton(){
+        btnSubmit.setDisable(
+                name.getText().isEmpty() || roomNum.getText().isEmpty() ||
+                comboTranspType.getValue() == null || description.getText().isEmpty()
+        );
+    }
 }

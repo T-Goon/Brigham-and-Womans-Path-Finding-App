@@ -54,11 +54,6 @@ public class FloralDeliveryRequestFormController extends DefaultServiceRequestFo
     @FXML
     private JFXCheckBox orchids;
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        super.initialize(location, resources);
-        btnSubmit.setDisable(true);
-    }
 
     @FXML
     private void updatePrice() {

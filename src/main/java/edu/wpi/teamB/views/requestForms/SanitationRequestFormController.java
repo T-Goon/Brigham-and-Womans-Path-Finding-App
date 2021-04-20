@@ -46,7 +46,6 @@ public class SanitationRequestFormController extends DefaultServiceRequestFormCo
         comboSizeService.getItems().add(new Label("Medium"));
         comboSizeService.getItems().add(new Label("Large"));
 
-        btnSubmit.setDisable(true);
     }
 
     @FXML

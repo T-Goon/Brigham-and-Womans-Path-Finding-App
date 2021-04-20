@@ -21,11 +21,6 @@ public class MedDeliveryRequestFormController extends DefaultServiceRequestFormC
     @FXML
     private JFXTextArea reason;
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        super.initialize(location, resources);
-        btnSubmit.setDisable(true);
-    }
 
     @FXML
     private void validateButton(){

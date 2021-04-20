@@ -70,6 +70,8 @@ public abstract class DefaultServiceRequestFormController implements Initializab
                 justClicked = false;
             }
         });
+
+        btnSubmit.setDisable(true);
     }
 
     public void handleButtonAction(ActionEvent actionEvent) {
