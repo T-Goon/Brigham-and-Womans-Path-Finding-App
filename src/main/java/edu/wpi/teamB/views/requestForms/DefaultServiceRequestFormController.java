@@ -60,7 +60,6 @@ public abstract class DefaultServiceRequestFormController implements Initializab
     protected ArrayList<Node> nodesList = new ArrayList<>();
     private String location;
 
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         App.getPrimaryStage().getScene().addEventFilter(MouseEvent.MOUSE_CLICKED, event -> {
@@ -107,7 +106,6 @@ public abstract class DefaultServiceRequestFormController implements Initializab
             case "btnHelp":
                 loadHelpDialog();
                 break;
-
             case "btnExit":
                 Platform.exit();
                 break;
