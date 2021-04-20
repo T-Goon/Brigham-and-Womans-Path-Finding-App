@@ -86,12 +86,12 @@
                                                         <VBox prefHeight="143.0" prefWidth="391.0">
                                                             <children>
                                                                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Name:">
-                                                                    <font>
-                                                                        <Font name="MS Reference Sans Serif" size="16.0" />
-                                                                    </font>
                                                                     <VBox.margin>
                                                                         <Insets left="5.0" />
                                                                     </VBox.margin>
+                                                   <font>
+                                                      <Font size="14.0" />
+                                                   </font>
                                                                 </Text>
                                                                 <JFXTextField fx:id="name" onKeyReleased="#validateButton" prefHeight="37.0" prefWidth="391.0" promptText="Ex. &quot;Jane Doe&quot;" style="-fx-background-color: #e5e5e5; -fx-background-radius: 7;" unFocusColor="#f0f0f0" />
                                                             </children>
@@ -104,7 +104,7 @@
                                                             <children>
                                                                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Room Number:">
                                                                     <font>
-                                                                        <Font name="MS Reference Sans Serif" size="16.0" />
+                                                                        <Font size="14.0" />
                                                                     </font>
                                                                     <VBox.margin>
                                                                         <Insets left="5.0" />
@@ -126,12 +126,12 @@
                                                 <VBox prefHeight="53.0" prefWidth="574.0">
                                                     <children>
                                                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Meal Choice (from menu):">
-                                                            <font>
-                                                                <Font name="MS Reference Sans Serif" size="16.0" />
-                                                            </font>
                                                             <VBox.margin>
                                                                 <Insets left="5.0" />
                                                             </VBox.margin>
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
                                                         </Text>
                                                         <JFXTextField fx:id="mealChoice" onKeyReleased="#validateButton"
                                                                       prefHeight="37.0" prefWidth="381.0"
@@ -148,7 +148,7 @@
                                                     <children>
                                                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Desired Arrival Time:">
                                                             <font>
-                                                                <Font name="MS Reference Sans Serif" size="16.0" />
+                                                                <Font size="14.0" />
                                                             </font>
                                                             <VBox.margin>
                                                                 <Insets left="5.0" />
@@ -162,12 +162,12 @@
                                         <VBox prefHeight="171.0" prefWidth="800.0">
                                             <children>
                                                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Extra Information (Allergies, Preferences, etc.):">
-                                                    <font>
-                                                        <Font name="MS Reference Sans Serif" size="16.0" />
-                                                    </font>
                                                     <VBox.margin>
                                                         <Insets left="5.0" />
                                                     </VBox.margin>
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
                                                 </Text>
                                                 <JFXTextArea fx:id="description" onKeyReleased="#validateButton" promptText="Please include any other relevant information" style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" />
                                             </children>
@@ -176,9 +176,9 @@
                                             <children>
                                                 <VBox alignment="CENTER_LEFT" prefHeight="110.0" prefWidth="418.0">
                                                     <children>
-                                                        <JFXButton fx:id="btnCancel" buttonType="RAISED" onAction="#handleButtonAction" prefHeight="31.0" prefWidth="92.0" style="-fx-background-color: #0067b1;" text="Cancel" textFill="WHITE">
+                                                        <JFXButton fx:id="btnCancel" buttonType="RAISED" onAction="#handleButtonAction" prefHeight="31.0" prefWidth="92.0" style="-fx-background-color: #0067b1; -fx-background-radius: 7;" text="Cancel" textFill="WHITE">
                                                             <font>
-                                                                <Font name="MS Reference Sans Serif" size="16.0" />
+                                                                <Font name="MS Reference Sans Serif" size="14.0" />
                                                             </font>
                                                             <VBox.margin>
                                                                 <Insets left="20.0" />
@@ -191,9 +191,9 @@
                                                 </VBox>
                                                 <VBox alignment="CENTER" prefHeight="110.0" prefWidth="400.0">
                                                     <children>
-                                                        <JFXButton fx:id="btnSubmit" buttonType="RAISED" onAction="#handleButtonAction" prefHeight="42.0" prefWidth="137.0" style="-fx-background-color: #F6BD39;" text="Submit" textFill="#012d5a">
+                                                        <JFXButton fx:id="btnSubmit" buttonType="RAISED" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39; -fx-background-radius: 7;" text="Submit" textFill="#012d5a">
                                                             <font>
-                                                                <Font size="20.0" />
+                                                                <Font name="MS Reference Sans Serif" size="20.0" />
                                                             </font>
                                                         </JFXButton>
                                                     </children>
@@ -213,6 +213,9 @@
                                             </children>
                                         </HBox>
                                     </children>
+                           <padding>
+                              <Insets left="10.0" right="10.0" />
+                           </padding>
                                 </VBox>
                             </children>
                             <VBox.margin>
