@@ -20,9 +20,6 @@ public class FloralDeliveryRequestFormController extends DefaultServiceRequestFo
     private JFXTextField patientName;
 
     @FXML
-    private JFXTextField roomNumber;
-
-    @FXML
     private JFXDatePicker deliveryDate;
 
     @FXML
@@ -104,12 +101,11 @@ public class FloralDeliveryRequestFormController extends DefaultServiceRequestFo
             String date = dateFormat.format(dateInfo); // Stored as YYYY-MM-DD
             String complete = "F";
             String employeeName = null; // fix
-            String location = roomNumber.getText();
             String givenDescription = message.getText();
 
             FloralRequest request = new FloralRequest(givenPatientName, givenDeliveryDate, givenStartTime, givenEndTime,
                     wantsRoses, wantsTulips, wantsDaisies, wantsLilies, wantsSunflowers, wantsCarnations, wantsOrchids,
-                    requestID, time, date, complete, employeeName, location, givenDescription);
+                    requestID, time, date, complete, employeeName, getLocation(), givenDescription);
             DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
         }
     }
@@ -117,7 +113,7 @@ public class FloralDeliveryRequestFormController extends DefaultServiceRequestFo
     @FXML
     private void validateButton() {
         btnSubmit.setDisable(
-                patientName.getText().isEmpty() || roomNumber.getText().isEmpty() ||
+                patientName.getText().isEmpty() || loc.getValue() == null ||
                         deliveryDate.getValue() == null || startTime.getValue() == null ||
                         endTime.getValue() == null || message.getText().isEmpty() ||
                         !(roses.isSelected() || tulips.isSelected() || daisies.isSelected() || lilies.isSelected() || sunflowers.isSelected() || carnations.isSelected() || orchids.isSelected())

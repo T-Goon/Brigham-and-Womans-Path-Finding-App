@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXTextArea?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import com.jfoenix.controls.JFXTimePicker?>
@@ -93,7 +94,7 @@
                                                       <Font size="14.0" />
                                                    </font>
                                                                 </Text>
-                                                                <JFXTextField fx:id="name" onKeyReleased="#validateButton" prefHeight="37.0" prefWidth="391.0" promptText="Ex. &quot;Jane Doe&quot;" style="-fx-background-color: #e5e5e5; -fx-background-radius: 7;" unFocusColor="#f0f0f0" />
+                                                                <JFXTextField fx:id="name" onKeyReleased="#validateButton" promptText="Ex. &quot;Jane Doe&quot;" style="-fx-background-color: #e5e5e5; -fx-background-radius: 7;" unFocusColor="#f0f0f0" />
                                                             </children>
                                                         </VBox>
                                                     </children>
@@ -102,7 +103,7 @@
                                                     <children>
                                                         <VBox prefHeight="68.0" prefWidth="409.0">
                                                             <children>
-                                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Room Number:">
+                                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Location:">
                                                                     <font>
                                                                         <Font size="14.0" />
                                                                     </font>
@@ -110,11 +111,7 @@
                                                                         <Insets left="5.0" />
                                                                     </VBox.margin>
                                                                 </Text>
-                                                                <JFXTextField fx:id="roomNum" onKeyReleased="#validateButton" prefHeight="37.0" prefWidth="381.0" promptText="Ex. &quot;201&quot;" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f0f0f0">
-                                                                    <VBox.margin>
-                                                                        <Insets left="5.0" right="5.0" />
-                                                                    </VBox.margin>
-                                                                </JFXTextField>
+                                                <JFXComboBox fx:id="loc" maxWidth="1.7976931348623157E308" style="-fx-background-color: #e5e5e5; -fx-background-radius: 7;" unFocusColor="WHITE" />
                                                             </children>
                                                         </VBox>
                                                     </children>
