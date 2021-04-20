@@ -92,7 +92,7 @@ public class CovidSurveyController implements Initializable {
                         && !chkHeadache.isSelected() && !chkLostTaste.isSelected() && !chkNausea.isSelected() && !chkNose.isSelected() && !chkShortBreath.isSelected() && !chkSoreTht.isSelected())
                     SceneSwitcher.switchToTemp(getClass(), "/edu/wpi/teamB/views/covidSurvey/covidFormSubmittedNoSymp.fxml");
                 else
-                    SceneSwitcher.switchToTemp(getClass(), "/edu/wpi/teamB/views/CovidSurvey/covidFormSubmittedWithSymp.fxml");
+                    SceneSwitcher.switchToTemp(getClass(), "/edu/wpi/teamB/views/covidSurvey/covidFormSubmittedWithSymp.fxml");
                 break;
             case "btnExit":
                 Platform.exit();
