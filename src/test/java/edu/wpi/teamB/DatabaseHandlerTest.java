@@ -480,4 +480,28 @@ public class DatabaseHandlerTest {
         assert(set1.contains(user3));
 
     }
+
+    @Test
+    public void testDeleteUser(){
+        User user = new User("testuser","Testing","User", User.AuthenticationLevel.STAFF, Collections.singletonList(Request.RequestType.CASE_MANAGER));
+        db.addUser(user,"password");
+        assertEquals(db.getUserByUsername("testuser"),user);
+        db.deleteUser("testuser");
+        assertNull(db.getUserByUsername("testuser"));
+    }
+
+    @Test
+    public void testUpdateUser(){
+        User user = new User("testuser","Testing","User", User.AuthenticationLevel.STAFF, Collections.singletonList(Request.RequestType.CASE_MANAGER));
+        User altuser = new User("testuser","Alternate","User", User.AuthenticationLevel.ADMIN, Collections.singletonList(Request.RequestType.FOOD));
+        db.addUser(user,"password");
+        assertEquals(db.getUserByUsername("testuser"),user);
+        assert(db.getUsersByJob(Request.RequestType.CASE_MANAGER).contains(user));
+        assertNotNull(db.authenticate("testuser", "password"));
+        db.updateUser(altuser);
+        assertEquals(db.getUserByUsername("testuser"),altuser);
+        assert(!db.getUsersByJob(Request.RequestType.CASE_MANAGER).contains(user));
+        assert(db.getUsersByJob(Request.RequestType.FOOD).contains(altuser));
+        assertNotNull(db.authenticate("testuser", "password"));
+    }
 }

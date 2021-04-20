@@ -6,6 +6,7 @@ import edu.wpi.teamB.entities.map.Node;
 import edu.wpi.teamB.entities.requests.*;
 import edu.wpi.teamB.pathfinding.Graph;
 
+import javax.swing.plaf.nimbus.State;
 import java.sql.*;
 import java.util.*;
 
@@ -423,9 +424,9 @@ public class DatabaseHandler {
 
     /**
      * @param username username to query by
-     * @return User object with that username
+     * @return User object with that username, null if no user exists
      */
-    public User getUserByUsername(String username) throws IllegalArgumentException {
+    public User getUserByUsername(String username){
         Statement statement = this.getStatement();
         String query = "SELECT job FROM Jobs WHERE (username = '" + username + "')";
         ResultSet rs;
@@ -454,7 +455,7 @@ public class DatabaseHandler {
             rs.close();
             statement.close();
         } catch (SQLException e) {
-            throw new IllegalArgumentException(String.format("Username %s not found in users", username));
+            return null;
         }
         return outUser;
     }
@@ -473,6 +474,8 @@ public class DatabaseHandler {
                 String username = rs.getString("username");
                 outusers.add(this.getUserByUsername(username));
             }
+            rs.close();
+            statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -480,11 +483,53 @@ public class DatabaseHandler {
         return outusers;
     }
 
-    public boolean modifyUser(String name, User newUser) {
+    public boolean updateUser(User newUser) {
+        Statement statement = this.getStatement();
+        String updateUser = "UPDATE Users " +
+                "SET username = '" + newUser.getUsername() + "'," +
+                "firstName = '" + newUser.getFirstName() + "'," +
+                "lastName = '" + newUser.getLastName() + "'," +
+                "authenticationLevel = '" + newUser.getAuthenticationLevel().toString() + "'" +
+                "WHERE (username = '" + newUser.getUsername() + "')";
+        String deleteJobs = "DELETE FROM Jobs WHERE (username = '" + newUser.getUsername() + "')";
+        try{
+            if(this.getUserByUsername(newUser.getUsername()) == null){
+                return false;
+            }else{
+                statement.execute(updateUser);
+                statement.execute(deleteJobs);
+                for(Request.RequestType job : newUser.getJobs()){
+                    String query = "INSERT INTO Jobs VALUES " +
+                            "('" + newUser.getUsername()
+                            + "', '" + job.toString()
+                            + "')";
+                    statement.execute(query);
+                }
+
+                return true;
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
         return false;
     }
 
-    public boolean deleteUser(String name) {
+    public boolean deleteUser(String username) {
+        Statement statement = this.getStatement();
+        String deleteJobs = "DELETE FROM Jobs WHERE (username = '" + username + "')";
+        String deleteUser = "DELETE FROM Users WHERE (username = '" + username + "')";
+        try{
+            statement.executeUpdate(deleteJobs);
+            int update = statement.executeUpdate(deleteUser);
+            statement.close();
+            if(update == 1){
+                return true;
+            }else{
+                return false;
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
         return false;
     }
 
