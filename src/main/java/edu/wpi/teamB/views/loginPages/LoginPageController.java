@@ -86,12 +86,10 @@ public class LoginPageController implements Initializable {
         if (user == null) {
             error.setText("Username or password does not exist!");
             error.setVisible(true);
-            System.out.println("Username or password does not exist!");
             return;
         } else if (user.isAtLeast(User.AuthenticationLevel.STAFF)) {
             error.setText("This user does not have access to this area!");
             error.setVisible(true);
-            System.out.println("This user does not have access to this area!");
             return;
         }
         SceneSwitcher.switchToTemp(getClass(), "/edu/wpi/teamB/views/menus/staffDirectoryMenu.fxml");
