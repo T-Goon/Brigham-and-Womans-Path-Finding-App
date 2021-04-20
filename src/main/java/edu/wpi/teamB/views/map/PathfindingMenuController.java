@@ -580,7 +580,7 @@ public class PathfindingMenuController implements Initializable {
         if (!floorNodes.containsKey(floorID)) return;
 
         for (Node n : floorNodes.get(floorID)) {
-            if (!(n.getNodeType().equals("WALK") || n.getNodeType().equals("HALL"))) {
+            if (!(n.getNodeType().equals("WALK") || n.getNodeType().equals("HALL") || n.getBuilding().equals("BTM") || n.getBuilding().equals("Shapiro"))) {
                 placeNode(n);
             }
         }
@@ -634,7 +634,7 @@ public class PathfindingMenuController implements Initializable {
         if (nodes.isEmpty()) return;
 
         for (Node n : nodes.values()) {
-            if ((!(n.getNodeType().equals("WALK") || n.getNodeType().equals("HALL"))) &&
+            if ((!(n.getNodeType().equals("WALK") || n.getNodeType().equals("HALL")) || n.getBuilding().equals("BTM") || n.getBuilding().equals("Shapiro")) &&
                     n.getFloor().equals(floorID)) {
                 placeAltNode(n);
             }
@@ -652,7 +652,7 @@ public class PathfindingMenuController implements Initializable {
         if (nodes.isEmpty()) return;
 
         for (Node n : nodes.values()) {
-            if (((n.getNodeType().equals("WALK") || n.getNodeType().equals("HALL"))) &&
+            if (((n.getNodeType().equals("WALK") || n.getNodeType().equals("HALL")|| n.getBuilding().equals("BTM") || n.getBuilding().equals("Shapiro")))  &&
                     n.getFloor().equals(floorID)) {
                 placeIntermediateNode(n);
             }
@@ -844,15 +844,19 @@ public class PathfindingMenuController implements Initializable {
         Map<String, List<TreeItem<String>>> catNameMap = new HashMap<>();
         floorNodes.remove(currentFloor);
         for (Node n : Graph.getGraph().getNodes().values()) {
-            if (!(n.getNodeType().equals("WALK") || n.getNodeType().equals("HALL"))) {
+            if (!(n.getNodeType().equals("WALK") || n.getNodeType().equals("HALL")|| n.getBuilding().equals("BTM") || n.getBuilding().equals("Shapiro"))) {
                 //Populate Category map for TreeView
-                if (!catNameMap.containsKey(n.getNodeType())) {
-                    ArrayList<TreeItem<String>> tempList = new ArrayList<>();
-                    TreeItem<String> tempItem = new TreeItem<>(n.getLongName());
-                    tempList.add(tempItem);
-                    catNameMap.put(n.getNodeType(), tempList);
-                } else {
-                    catNameMap.get(n.getNodeType()).add(new TreeItem<>(n.getLongName()));
+
+                //This if statement is temporary for iteration 1 where pathfinding is only needed for the first floor
+                if(n.getFloor().equals(currentFloor)) {
+                    if (!catNameMap.containsKey(n.getNodeType())) {
+                        ArrayList<TreeItem<String>> tempList = new ArrayList<>();
+                        TreeItem<String> tempItem = new TreeItem<>(n.getLongName());
+                        tempList.add(tempItem);
+                        catNameMap.put(n.getNodeType(), tempList);
+                    } else {
+                        catNameMap.get(n.getNodeType()).add(new TreeItem<>(n.getLongName()));
+                    }
                 }
 
             }
