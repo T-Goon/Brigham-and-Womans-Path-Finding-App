@@ -252,26 +252,136 @@ public class AppTest extends FxRobot {
 
         switch (button) {
             case "Sanitation Services":
+                clickOn("#loc");
+                write("ACONF00102");
+                clickOn("#comboTypeService");
+                clickOn("Wet");
+                clickOn("#comboSizeService");
+                clickOn("Large");
+                clickOn("#description");
+                write("There's blood everywhere");
+                clickOn("#safetyHazard");
+                clickOn("#biologicalSubstance");
                 break;
             case "Floral Delivery":
+                clickOn("#patientName");
+                write("Alex Bolduc");
+                clickOn("#roomNumber");
+                write("ACONF00102");
+                clickOn("#deliveryDate");
+                write("4/2/2021");
+                clickOn("#startTime");
+                write("4:20 PM");
+                clickOn("#endTime");
+                write("4:22 PM");
+                clickOn("#message");
+                write("I still love you, please take me back");
+                clickOn("#roses");
                 break;
             case "Medicine Delivery":
+                clickOn("#name");
+                write("Suela Miloshi");
+                clickOn("#roomNum");
+                write("ACONF00102");
+                clickOn("#medName");
+                write("500 mg of black tar heroin");
+                clickOn("#reason");
+                write("She's a heroin addict");
                 break;
             case "Security Services":
+                clickOn("#assignedTo");
+                write("Tim Goon");
+                clickOn("#loc");
+                write("ACONF00102");
+                clickOn("#comboUrgency");
+                clickOn("10");
+                clickOn("#description");
+                write("Timmy Goon, we need you to go save the day again!");
                 break;
             case "Internal Transportation":
+                clickOn("#name");
+                write("Smera Gora");
+                clickOn("#roomNum");
+                write("ACONF00102");
+                clickOn("#comboTranspType");
+                clickOn("Wheelchair");
+                clickOn("#description");
+                write("AHHHHHHHHHHHHHHHH");
                 break;
             case "External Transportation":
+                clickOn("#name");
+                write("Jonathan Metcalf");
+                clickOn("#roomNum");
+                write("ACONF00102");
+                clickOn("#destination");
+                write("123 Hospital St");
+                clickOn("#comboTranspType");
+                clickOn("Helicopter");
+                clickOn("#description");
+                write("He just wants a helicopter ride");
+                clickOn("#allergies");
+                write("none");
+                clickOn("#infectious");
                 break;
             case "Religious Service":
+                clickOn("#name");
+                write("Molly Sunray");
+                clickOn("#roomNum");
+                write("ACONF00102");
+                clickOn("#date");
+                write("4/20/2021");
+                clickOn("#startTime");
+                write("4:20 PM");
+                clickOn("#endTime");
+                write("4:22 PM");
+                clickOn("#faith");
+                write("Church of Satan");
+                clickOn("#description");
+                write("Her eyes are glowing red");
+                clickOn("#infectious");
                 break;
             case "Food Delivery":
+                clickOn("#name");
+                write("John Doe");
+                clickOn("#roomNum");
+                write("ACONF00102");
+                clickOn("#mealChoice");
+                write("Bread and water");
+                clickOn("#arrivalTime");
+                write("6:30 PM");
+                clickOn("#description");
+                write("He just likes bread, that's all");
                 break;
             case "Laundry":
+                clickOn("#loc");
+                write("ACONF00102");
+                clickOn("#comboTypeService");
+                clickOn("Regular Cycle");
+                clickOn("#comboSizeService");
+                clickOn("Large");
+                clickOn("#description");
+                write("Enormous and everywhere");
+                clickOn("#roomOccupied");
                 break;
             case "Social Worker":
+                clickOn("#patientName");
+                write("Mike Bedard");
+                clickOn("#roomNumber");
+                write("ACONF00102");
+                clickOn("#timeForArrival");
+                write("6:30 PM");
+                clickOn("#messageForSocialWorker");
+                write("MIKE BEDARD!!!!!!!!");
                 break;
             case "Case Manager":
+                clickOn("#patientName");
+                write("Professor X");
+                clickOn("#roomNumber");
+                write("ACONF00102");
+                clickOn("#timeForArrival");
+                write("6:30 PM");
+                clickOn("#messageForCaseManager");
+                write("AHHHHHHHHHHHHHHHHHHHHHHHHHH");
                 break;
         }
 
@@ -290,7 +400,7 @@ public class AppTest extends FxRobot {
                 Arguments.of("Medicine Delivery", "Medicine Delivery Request Form"),
                 Arguments.of("Security Services", "Security Services Request Form"),
                 Arguments.of("Internal Transportation", "Internal Transportation Request Form"),
-                Arguments.of("External Patient Transport", "External Transportation Request Form"),
+                Arguments.of("External Transportation", "External Transportation Request Form"),
                 Arguments.of("Religious Service", "Religious Request Form"),
                 Arguments.of("Food Delivery", "Food Delivery Request Form"),
                 Arguments.of("Laundry", "Laundry Services Request Form"),

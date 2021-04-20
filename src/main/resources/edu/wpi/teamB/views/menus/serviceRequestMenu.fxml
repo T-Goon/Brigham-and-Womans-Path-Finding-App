@@ -58,23 +58,23 @@
       </HBox>
       <FlowPane fx:id="flowpane" alignment="TOP_CENTER" columnHalignment="CENTER" hgap="20.0" vgap="20.0"
                 VBox.vgrow="NEVER">
-         <children>
-            <VBox alignment="TOP_CENTER" minWidth="200.0">
-               <children>
-                  <JFXButton fx:id="btnSanitation" alignment="CENTER" contentDisplay="GRAPHIC_ONLY"
-                             maxHeight="-Infinity" maxWidth="-Infinity" minHeight="70.0" minWidth="70.0"
-                             onAction="#handleButtonAction" ripplerFill="WHITE" style="-fx-background-color: #F6BD39;"
-                             text="Sanitation Services">
-                     <font>
-                        <Font size="14.0"/>
-                     </font>
-                     <graphic>
-                        <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../images/requestForms/sanitationIcon.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
+          <children>
+              <VBox alignment="TOP_CENTER" minWidth="200.0">
+                  <children>
+                      <JFXButton fx:id="btnSanitation" alignment="CENTER" contentDisplay="GRAPHIC_ONLY"
+                                 maxHeight="-Infinity" maxWidth="-Infinity" minHeight="70.0" minWidth="70.0"
+                                 onAction="#handleButtonAction" ripplerFill="WHITE"
+                                 style="-fx-background-color: #F6BD39;" text="Sanitation Services">
+                          <font>
+                              <Font size="14.0"/>
+                          </font>
+                          <graphic>
+                              <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                  <image>
+                                      <Image url="@../../images/requestForms/sanitationIcon.png"/>
+                                  </image>
+                              </ImageView>
+                          </graphic>
                      </JFXButton>
                   <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Sanitation">
                      <font>
@@ -112,29 +112,29 @@
             </VBox>
             <VBox fx:id="medicineDelivery" alignment="TOP_CENTER" minWidth="200.0">
                <children>
-                  <JFXButton fx:id="btnMedicine" contentDisplay="GRAPHIC_ONLY" minHeight="70.0" minWidth="70.0"
-                             onAction="#handleButtonAction" style="-fx-background-color: #F6BD39;"
-                             text="Medicine Delivery">
-                     <font>
-                        <Font size="14.0"/>
-                     </font>
-                     <graphic>
-                        <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../images/requestForms/medsIcon.png"/>
-                           </image>
-                        </ImageView>
-                     </graphic>
+                   <JFXButton fx:id="btnMedicine" contentDisplay="GRAPHIC_ONLY" minHeight="70.0" minWidth="70.0"
+                              onAction="#handleButtonAction" style="-fx-background-color: #F6BD39;"
+                              text="Medicine Delivery">
+                       <font>
+                           <Font size="14.0"/>
+                       </font>
+                       <graphic>
+                           <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                               <image>
+                                   <Image url="@../../images/requestForms/medsIcon.png"/>
+                               </image>
+                           </ImageView>
+                       </graphic>
                   </JFXButton>
-                  <Text fx:id="medicineText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0"
-                        text="Medicine Delivery">
-                     <font>
-                        <Font name="MS Reference Sans Serif" size="18.0"/>
-                     </font>
-                     <VBox.margin>
-                        <Insets top="10.0"/>
-                     </VBox.margin>
-                  </Text>
+                   <Text fx:id="medicineText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0"
+                         text="Medicine Delivery">
+                       <font>
+                           <Font name="MS Reference Sans Serif" size="18.0"/>
+                       </font>
+                       <VBox.margin>
+                           <Insets top="10.0"/>
+                       </VBox.margin>
+                   </Text>
                </children>
             </VBox>
             <VBox alignment="TOP_CENTER" minWidth="200.0">
@@ -163,57 +163,57 @@
             </VBox>
             <VBox fx:id="internalTransport" alignment="TOP_CENTER" minWidth="200.0">
                <children>
-                  <JFXButton fx:id="btnIntTransp" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity"
-                             maxWidth="-Infinity" minHeight="70.0" minWidth="70.0" onAction="#handleButtonAction"
-                             style="-fx-background-color: #F6BD39;" text="Internal Transportation" VBox.vgrow="NEVER">
-                     <font>
-                        <Font size="14.0"/>
-                     </font>
-                     <graphic>
-                        <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../images/requestForms/wheelChairIcon.png"/>
-                           </image>
-                        </ImageView>
-                     </graphic>
+                   <JFXButton fx:id="btnIntTransp" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity"
+                              maxWidth="-Infinity" minHeight="70.0" minWidth="70.0" onAction="#handleButtonAction"
+                              style="-fx-background-color: #F6BD39;" text="Internal Transportation" VBox.vgrow="NEVER">
+                       <font>
+                           <Font size="14.0"/>
+                       </font>
+                       <graphic>
+                           <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                               <image>
+                                   <Image url="@../../images/requestForms/wheelChairIcon.png"/>
+                               </image>
+                           </ImageView>
+                       </graphic>
                   </JFXButton>
-                  <Text fx:id="intTranspText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0"
-                        text="Internal Patient Transport" textAlignment="CENTER" wrappingWidth="200.0"
-                        VBox.vgrow="NEVER">
-                     <font>
-                        <Font name="MS Reference Sans Serif" size="18.0"/>
-                     </font>
-                     <VBox.margin>
-                        <Insets top="10.0"/>
-                     </VBox.margin>
-                  </Text>
+                   <Text fx:id="intTranspText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0"
+                         text="Internal Patient Transport" textAlignment="CENTER" wrappingWidth="200.0"
+                         VBox.vgrow="NEVER">
+                       <font>
+                           <Font name="MS Reference Sans Serif" size="18.0"/>
+                       </font>
+                       <VBox.margin>
+                           <Insets top="10.0"/>
+                       </VBox.margin>
+                   </Text>
                </children>
             </VBox>
             <VBox fx:id="externalTransport" alignment="TOP_CENTER" minWidth="200.0">
                <children>
-                  <JFXButton fx:id="btnExtTransp" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity"
-                             maxWidth="-Infinity" minHeight="70.0" minWidth="70.0" onAction="#handleButtonAction"
-                             style="-fx-background-color: #F6BD39;" text="External Patient Transport">
-                     <font>
-                        <Font size="14.0"/>
-                     </font>
-                     <graphic>
-                        <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../images/requestForms/ambulance.png"/>
-                           </image>
-                        </ImageView>
-                     </graphic>
+                   <JFXButton fx:id="btnExtTransp" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity"
+                              maxWidth="-Infinity" minHeight="70.0" minWidth="70.0" onAction="#handleButtonAction"
+                              style="-fx-background-color: #F6BD39;" text="External Transportation">
+                       <font>
+                           <Font size="14.0"/>
+                       </font>
+                       <graphic>
+                           <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                               <image>
+                                   <Image url="@../../images/requestForms/ambulance.png"/>
+                               </image>
+                           </ImageView>
+                       </graphic>
                   </JFXButton>
-                  <Text fx:id="extTranspText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0"
-                        text="External Patient Transport" textAlignment="CENTER" wrappingWidth="200.0">
-                     <font>
-                        <Font name="MS Reference Sans Serif" size="18.0"/>
-                     </font>
-                     <VBox.margin>
-                        <Insets top="10.0"/>
-                     </VBox.margin>
-                  </Text>
+                   <Text fx:id="extTranspText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0"
+                         text="External Patient Transport" textAlignment="CENTER" wrappingWidth="200.0">
+                       <font>
+                           <Font name="MS Reference Sans Serif" size="18.0"/>
+                       </font>
+                       <VBox.margin>
+                           <Insets top="10.0"/>
+                       </VBox.margin>
+                   </Text>
                </children>
             </VBox>
             <VBox alignment="TOP_CENTER" minWidth="200.0">

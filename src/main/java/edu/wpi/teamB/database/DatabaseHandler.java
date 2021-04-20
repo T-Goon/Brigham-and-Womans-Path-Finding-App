@@ -845,13 +845,16 @@ public class DatabaseHandler {
                 + "', '" + request.getComplete()
                 + "', '" + request.getEmployeeName()
                 + "', '" + request.getLocation()
-                + "', '" + request.getDescription()
+                + "', '" + request.getDescription().replace("'", "''")
                 + "')";
 
+        String current = null;
         try {
             assert statement != null;
+            current = query;
             statement.execute(query);
         } catch (SQLException e) {
+            System.out.println(current);
             e.printStackTrace();
         }
 
@@ -871,15 +874,15 @@ public class DatabaseHandler {
                 MedicineRequest medicineRequest = (MedicineRequest) request;
                 query = "INSERT INTO MedicineRequests VALUES " +
                         "('" + medicineRequest.getRequestID()
-                        + "', '" + medicineRequest.getPatientName()
-                        + "', '" + medicineRequest.getMedicine()
+                        + "', '" + medicineRequest.getPatientName().replace("'", "''")
+                        + "', '" + medicineRequest.getMedicine().replace("'", "''")
                         + "')";
                 break;
             case INTERNAL_TRANSPORT:
                 InternalTransportRequest internalTransportRequest = (InternalTransportRequest) request;
                 query = "INSERT INTO InternalTransportRequests VALUES " +
                         "('" + internalTransportRequest.getRequestID()
-                        + "', '" + internalTransportRequest.getPatientName()
+                        + "', '" + internalTransportRequest.getPatientName().replace("'", "''")
                         + "', '" + internalTransportRequest.getTransportType()
                         + "', '" + (internalTransportRequest.getUnconscious())
                         + "', '" + (internalTransportRequest.getInfectious())
@@ -889,11 +892,11 @@ public class DatabaseHandler {
                 ReligiousRequest religiousRequest = (ReligiousRequest) request;
                 query = "INSERT INTO ReligiousRequests VALUES " +
                         "('" + religiousRequest.getRequestID()
-                        + "', '" + religiousRequest.getPatientName()
+                        + "', '" + religiousRequest.getPatientName().replace("'", "''")
                         + "', '" + religiousRequest.getReligiousDate()
                         + "', '" + religiousRequest.getStartTime()
                         + "', '" + religiousRequest.getEndTime()
-                        + "', '" + religiousRequest.getFaith()
+                        + "', '" + religiousRequest.getFaith().replace("'", "''")
                         + "', '" + (religiousRequest.getInfectious())
                         + "')";
                 break;
@@ -901,16 +904,16 @@ public class DatabaseHandler {
                 FoodRequest foodRequest = (FoodRequest) request;
                 query = "INSERT INTO FoodRequests VALUES " +
                         "('" + foodRequest.getRequestID()
-                        + "', '" + foodRequest.getPatientName()
+                        + "', '" + foodRequest.getPatientName().replace("'", "''")
                         + "', '" + foodRequest.getArrivalTime()
-                        + "', '" + foodRequest.getMealChoice()
+                        + "', '" + foodRequest.getMealChoice().replace("'", "''")
                         + "')";
                 break;
             case FLORAL:
                 FloralRequest floralRequest = (FloralRequest) request;
                 query = "INSERT INTO FloralRequests VALUES " +
                         "('" + floralRequest.getRequestID()
-                        + "', '" + floralRequest.getPatientName()
+                        + "', '" + floralRequest.getPatientName().replace("'", "''")
                         + "', '" + floralRequest.getDeliveryDate()
                         + "', '" + floralRequest.getStartTime()
                         + "', '" + floralRequest.getEndTime()
@@ -934,10 +937,10 @@ public class DatabaseHandler {
                 ExternalTransportRequest externalTransportRequest = (ExternalTransportRequest) request;
                 query = "INSERT INTO ExternalTransportRequests VALUES " +
                         "('" + externalTransportRequest.getRequestID()
-                        + "', '" + externalTransportRequest.getPatientName()
+                        + "', '" + externalTransportRequest.getPatientName().replace("'", "''")
                         + "', '" + externalTransportRequest.getTransportType()
-                        + "', '" + externalTransportRequest.getDestination()
-                        + "', '" + externalTransportRequest.getPatientAllergies()
+                        + "', '" + externalTransportRequest.getDestination().replace("'", "''")
+                        + "', '" + externalTransportRequest.getPatientAllergies().replace("'", "''")
                         + "', '" + (externalTransportRequest.getOutNetwork())
                         + "', '" + (externalTransportRequest.getInfectious())
                         + "', '" + (externalTransportRequest.getUnconscious())
@@ -958,7 +961,7 @@ public class DatabaseHandler {
                 CaseManagerRequest caseManagerRequest = (CaseManagerRequest) request;
                 query = "INSERT INTO CaseManagerRequests VALUES " +
                         "('" + caseManagerRequest.getRequestID()
-                        + "', '" + caseManagerRequest.getPatientName()
+                        + "', '" + caseManagerRequest.getPatientName().replace("'", "''")
                         + "', '" + caseManagerRequest.getTimeForArrival()
                         + "')";
                 break;
@@ -966,7 +969,7 @@ public class DatabaseHandler {
                 SocialWorkerRequest socialWorkerRequest = (SocialWorkerRequest) request;
                 query = "INSERT INTO SocialWorkerRequests VALUES " +
                         "('" + socialWorkerRequest.getRequestID()
-                        + "', '" + socialWorkerRequest.getPatientName()
+                        + "', '" + socialWorkerRequest.getPatientName().replace("'", "''")
                         + "', '" + socialWorkerRequest.getTimeForArrival()
                         + "')";
                 break;
@@ -1013,8 +1016,8 @@ public class DatabaseHandler {
                 + "', requestTime = '" + request.getTime()
                 + "', complete = '" + request.getComplete()
                 + "', employeeName = '" + request.getEmployeeName()
-                + "', location = '" + request.getLocation()
-                + "', description = '" + request.getDescription()
+                + "', location = '" + request.getLocation().replace("'", "''")
+                + "', description = '" + request.getDescription().replace("'", "''")
                 + "' WHERE requestID = '" + request.getRequestID() + "'";
 
         try {
@@ -1036,13 +1039,13 @@ public class DatabaseHandler {
                 break;
             case MEDICINE:
                 MedicineRequest medicineRequest = (MedicineRequest) request;
-                query = "UPDATE MedicineRequests SET patientName = '" + medicineRequest.getPatientName()
-                        + "', medicine = '" + medicineRequest.getMedicine()
+                query = "UPDATE MedicineRequests SET patientName = '" + medicineRequest.getPatientName().replace("'", "''")
+                        + "', medicine = '" + medicineRequest.getMedicine().replace("'", "''")
                         + "' WHERE requestID = '" + medicineRequest.getRequestID() + "'";
                 break;
             case INTERNAL_TRANSPORT:
                 InternalTransportRequest internalTransportRequest = (InternalTransportRequest) request;
-                query = "UPDATE InternalTransportRequests SET patientName = '" + internalTransportRequest.getPatientName()
+                query = "UPDATE InternalTransportRequests SET patientName = '" + internalTransportRequest.getPatientName().replace("'", "''")
                         + "', transportType = '" + internalTransportRequest.getTransportType()
                         + "', unconscious = '" + internalTransportRequest.getUnconscious()
                         + "', infectious = '" + internalTransportRequest.getInfectious()
@@ -1050,24 +1053,24 @@ public class DatabaseHandler {
                 break;
             case RELIGIOUS:
                 ReligiousRequest religiousRequest = (ReligiousRequest) request;
-                query = "UPDATE ReligiousRequests SET patientName = '" + religiousRequest.getPatientName()
+                query = "UPDATE ReligiousRequests SET patientName = '" + religiousRequest.getPatientName().replace("'", "''")
                         + "', startTime = '" + religiousRequest.getStartTime()
                         + "', endTime = '" + religiousRequest.getEndTime()
                         + "', religiousDate = '" + religiousRequest.getReligiousDate()
-                        + "', faith = '" + religiousRequest.getFaith()
+                        + "', faith = '" + religiousRequest.getFaith().replace("'", "''")
                         + "', infectious = '" + religiousRequest.getInfectious()
                         + "' WHERE requestID = '" + religiousRequest.getRequestID() + "'";
                 break;
             case FOOD:
                 FoodRequest foodRequest = (FoodRequest) request;
-                query = "UPDATE FoodRequests SET patientName = '" + foodRequest.getPatientName()
+                query = "UPDATE FoodRequests SET patientName = '" + foodRequest.getPatientName().replace("'", "''")
                         + "', arrivalTime = '" + foodRequest.getArrivalTime()
-                        + "', mealChoice = '" + foodRequest.getMealChoice()
+                        + "', mealChoice = '" + foodRequest.getMealChoice().replace("'", "''")
                         + "' WHERE requestID = '" + foodRequest.getRequestID() + "'";
                 break;
             case FLORAL:
                 FloralRequest floralRequest = (FloralRequest) request;
-                query = "UPDATE FloralRequests SET patientName = '" + floralRequest.getPatientName()
+                query = "UPDATE FloralRequests SET patientName = '" + floralRequest.getPatientName().replace("'", "''")
                         + "', deliveryDate = '" + floralRequest.getDeliveryDate()
                         + "', startTime = '" + floralRequest.getStartTime()
                         + "', endTime = '" + floralRequest.getEndTime()
@@ -1087,10 +1090,10 @@ public class DatabaseHandler {
                 break;
             case EXTERNAL_TRANSPORT:
                 ExternalTransportRequest externalTransportRequest = (ExternalTransportRequest) request;
-                query = "UPDATE ExternalTransportRequests SET patientName = '" + externalTransportRequest.getPatientName()
+                query = "UPDATE ExternalTransportRequests SET patientName = '" + externalTransportRequest.getPatientName().replace("'", "''")
                         + "', transportType = '" + externalTransportRequest.getTransportType()
-                        + "', destination = '" + externalTransportRequest.getDestination()
-                        + "', patientAllergies = '" + externalTransportRequest.getPatientAllergies()
+                        + "', destination = '" + externalTransportRequest.getDestination().replace("'", "''")
+                        + "', patientAllergies = '" + externalTransportRequest.getPatientAllergies().replace("'", "''")
                         + "', outNetwork = '" + (externalTransportRequest.getOutNetwork())
                         + "', infectious = '" + (externalTransportRequest.getInfectious())
                         + "', unconscious = '" + (externalTransportRequest.getUnconscious())
@@ -1107,13 +1110,13 @@ public class DatabaseHandler {
                 break;
             case CASE_MANAGER:
                 CaseManagerRequest caseManagerRequest = (CaseManagerRequest) request;
-                query = "UPDATE CaseManagerRequests SET patientName = '" + caseManagerRequest.getPatientName()
+                query = "UPDATE CaseManagerRequests SET patientName = '" + caseManagerRequest.getPatientName().replace("'", "''")
                         + "', timeForArrival = '" + caseManagerRequest.getTimeForArrival()
                         + "' WHERE requestID = '" + caseManagerRequest.getRequestID() + "'";
                 break;
             case SOCIAL_WORKER:
                 SocialWorkerRequest socialWorkerRequest = (SocialWorkerRequest) request;
-                query = "UPDATE SocialWorkerRequest SET patientName = '" + socialWorkerRequest.getPatientName()
+                query = "UPDATE SocialWorkerRequest SET patientName = '" + socialWorkerRequest.getPatientName().replace("'", "''")
                         + "', timeForArrival = '" + socialWorkerRequest.getTimeForArrival()
                         + "' WHERE requestID = '" + socialWorkerRequest.getRequestID() + "'";
                 break;
