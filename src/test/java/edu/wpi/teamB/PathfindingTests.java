@@ -19,11 +19,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PathfindingTests {
 
-    private static DatabaseHandler db;
-
     @BeforeAll
     static void initDB() {
-        db = DatabaseHandler.getDatabaseHandler("test.db");
+        DatabaseHandler db = DatabaseHandler.getDatabaseHandler("test.db");
         List<Node> nodes = CSVHandler.loadCSVNodes("/edu/wpi/teamB/csvFiles/bwBnodes.csv");
         List<Edge> edges = CSVHandler.loadCSVEdges("/edu/wpi/teamB/csvFiles/bwBedges.csv");
 

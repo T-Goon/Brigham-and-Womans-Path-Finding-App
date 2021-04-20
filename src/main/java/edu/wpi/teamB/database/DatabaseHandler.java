@@ -6,7 +6,6 @@ import edu.wpi.teamB.entities.map.Node;
 import edu.wpi.teamB.entities.requests.*;
 import edu.wpi.teamB.pathfinding.Graph;
 
-import javax.swing.plaf.nimbus.State;
 import java.sql.*;
 import java.util.*;
 
@@ -462,17 +461,17 @@ public class DatabaseHandler {
 
     /**
      * Gets a list of users who are assigned to handle jobs of certain type
+     *
      * @param job RequestType enum of the type of job you want the users for
      * @return a list of users who are assigned to jos of the given type
-     * @throws IllegalArgumentException
      */
-    public List<User> getUsersByJob(Request.RequestType job) throws IllegalArgumentException {
+    public List<User> getUsersByJob(Request.RequestType job) {
         Statement statement = this.getStatement();
         String query = "SELECT username FROM " +
                 "Users NATURAL JOIN Jobs " +
                 "WHERE (job = '" + job.toString() + "')";
         ResultSet rs;
-        List<User> outusers = new ArrayList<User>();
+        List<User> outusers = new ArrayList<>();
         try {
             assert statement != null;
             rs = statement.executeQuery(query);
@@ -499,7 +498,7 @@ public class DatabaseHandler {
         String query = "SELECT username, authenticationLevel FROM " +
                 "Users WHERE authenticationLevel='" + authenticationLevel.toString() + "'";
         ResultSet rs;
-        List<User> outUsers = new ArrayList<User>();
+        List<User> outUsers = new ArrayList<>();
         try {
             assert statement != null;
             rs = statement.executeQuery(query);
@@ -516,6 +515,12 @@ public class DatabaseHandler {
         return outUsers;
     }
 
+    /**
+     * Updates the information for a given user
+     *
+     * @param newUser the updated user
+     * @return whether the attempt to update the user was successful
+     */
     public boolean updateUser(User newUser) {
         Statement statement = this.getStatement();
         String updateUser = "UPDATE Users " +
@@ -529,6 +534,7 @@ public class DatabaseHandler {
             if (this.getUserByUsername(newUser.getUsername()) == null) {
                 return false;
             } else {
+                assert statement != null;
                 statement.execute(updateUser);
                 statement.execute(deleteJobs);
                 for (Request.RequestType job : newUser.getJobs()) {
@@ -547,6 +553,12 @@ public class DatabaseHandler {
         return false;
     }
 
+    /**
+     * Given the username of a user, delete them from the database
+     *
+     * @param username the username of the user to delete
+     * @return true if success
+     */
     public boolean deleteUser(String username) {
         Statement statement = this.getStatement();
         String deleteJobs = "DELETE FROM Jobs WHERE (username = '" + username + "')";
