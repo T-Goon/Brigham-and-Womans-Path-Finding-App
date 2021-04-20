@@ -1,6 +1,8 @@
 package edu.wpi.teamB.views.requestForms;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXDialog;
+import com.jfoenix.controls.JFXDialogLayout;
 import edu.wpi.teamB.App;
 import edu.wpi.teamB.util.SceneSwitcher;
 import javafx.application.Platform;
@@ -9,11 +11,15 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Bounds;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.fxml.Initializable;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 
 
 import java.io.IOException;
@@ -44,6 +50,9 @@ public abstract class DefaultServiceRequestFormController implements Initializab
     @FXML
     private HBox helpHolder;
 
+    @FXML
+    private StackPane stackContainer;
+
     private VBox helpPopup;
     private double x = 0;
     private double y = 0;
@@ -67,7 +76,6 @@ public abstract class DefaultServiceRequestFormController implements Initializab
 
     public void handleButtonAction(ActionEvent actionEvent) {
         JFXButton btn = (JFXButton) actionEvent.getSource();
-
         switch (btn.getId()) {
             case "btnSubmit":
                 SceneSwitcher.switchToTemp(getClass(), "/edu/wpi/teamB/views/requestForms/formSubmitted.fxml");
@@ -76,21 +84,7 @@ public abstract class DefaultServiceRequestFormController implements Initializab
                 SceneSwitcher.goBack(getClass(), 1);
                 break;
             case "btnHelp":
-
-                if (helpHolder != null) {
-                    helpHolder.getChildren().remove(helpPopup);
-                    helpPopup = null;
-                }
-
-                try {
-                    helpPopup = FXMLLoader.load(Objects.requireNonNull(
-                            getClass().getClassLoader().getResource("edu/wpi/teamB/views/requestForms/helpPopup.fxml")));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                helpHolder.getChildren().add(helpPopup);
-                justClicked = true;
+                loadHelpDialog();
                 break;
 
             case "btnExit":
@@ -100,5 +94,31 @@ public abstract class DefaultServiceRequestFormController implements Initializab
                 SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/serviceRequestMenu.fxml", "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");
                 break;
         }
+    }
+
+    private void loadHelpDialog(){
+        JFXDialogLayout helpLayout = new JFXDialogLayout();
+
+        Text helpText = new Text("Please fill out this form completely. Once each field is full, you can submit the form and an employee will be assigned.\nIf you wish to end your request early click 'Cancel'. If your request is an emergency please click 'Emergency'");
+        helpText.setFont(new Font("MS Reference Sans Serif", 14));
+
+        Label headerLabel = new Label("Help");
+        headerLabel.setFont(new Font("MS Reference Sans Serif", 18));
+
+        helpLayout.setHeading(headerLabel);
+        helpLayout.setBody(helpText);
+        JFXDialog helpWindow = new JFXDialog(stackContainer, helpLayout, JFXDialog.DialogTransition.CENTER);
+
+        JFXButton button = new JFXButton("Close");
+        button.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                helpWindow.close();
+            }
+        });
+        helpLayout.setActions(button);
+
+        helpWindow.show();
+
     }
 }
