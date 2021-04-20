@@ -26,9 +26,6 @@ public class InternalTransportationRequestFormController extends DefaultServiceR
     private JFXTextField name;
 
     @FXML
-    private JFXTextField roomNum;
-
-    @FXML
     private JFXComboBox<Label> comboTranspType;
 
     @FXML
@@ -86,11 +83,10 @@ public class InternalTransportationRequestFormController extends DefaultServiceR
             String date = dateFormat.format(dateInfo); // Stored as YYYY-MM-DD
             String complete = "F";
             String employeeName = null; // fix
-            String location = roomNum.getText();
             String givenDescription = description.getText();
 
             InternalTransportRequest request = new InternalTransportRequest(givenPatientName, givenTransportType, givenUnconscious, givenInfectious,
-                    requestID, time, date, complete, employeeName, location, givenDescription);
+                    requestID, time, date, complete, employeeName, getLocation(), givenDescription);
 
             DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
         }
@@ -99,7 +95,7 @@ public class InternalTransportationRequestFormController extends DefaultServiceR
     @FXML
     private void validateButton(){
         btnSubmit.setDisable(
-                name.getText().isEmpty() || roomNum.getText().isEmpty() ||
+                name.getText().isEmpty() || loc.getValue() == null ||
                 comboTranspType.getValue() == null || description.getText().isEmpty()
         );
     }

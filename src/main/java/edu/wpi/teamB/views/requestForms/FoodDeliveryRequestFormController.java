@@ -27,9 +27,6 @@ public class FoodDeliveryRequestFormController extends DefaultServiceRequestForm
     private JFXTextField name;
 
     @FXML
-    private JFXTextField roomNum;
-
-    @FXML
     private JFXTextField mealChoice;
 
     @FXML
@@ -72,11 +69,10 @@ public class FoodDeliveryRequestFormController extends DefaultServiceRequestForm
             String date = dateFormat.format(dateInfo); // Stored as YYYY-MM-DD
             String complete = "F";
             String employeeName = null; // fix
-            String location = roomNum.getText();
             String givenDescription = description.getText();
 
             FoodRequest request = new FoodRequest(givenPatientName, givenArrivalTime, givenMealChoice,
-                    requestID, time, date, complete, employeeName, location, givenDescription);
+                    requestID, time, date, complete, employeeName, getLocation(), givenDescription);
 
             DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
         }
@@ -85,7 +81,7 @@ public class FoodDeliveryRequestFormController extends DefaultServiceRequestForm
     @FXML
     private void validateButton(){
         btnSubmit.setDisable(
-            name.getText().isEmpty() || roomNum.getText().isEmpty() || mealChoice.getText().isEmpty() ||
+            name.getText().isEmpty() || loc.getValue() == null || mealChoice.getText().isEmpty() ||
             arrivalTime.getValue() == null || description.getText().isEmpty()
         );
     }

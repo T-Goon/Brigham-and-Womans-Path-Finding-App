@@ -34,6 +34,8 @@ public class App extends Application {
             db.loadNodesEdges(CSVHandler.loadCSVNodes("/edu/wpi/teamB/csvFiles/bwBnodes.csv"), CSVHandler.loadCSVEdges("/edu/wpi/teamB/csvFiles/bwBedges.csv"));
         db.addUser(new User("admin", "Professor", "X", User.AuthenticationLevel.ADMIN, null), "password");
         db.addUser(new User("staff", "Mike", "Bedard", User.AuthenticationLevel.STAFF, null), "password");
+        db.addUser(new User("d", "Dan", "Druff", User.AuthenticationLevel.STAFF, null), "d");
+        db.addUser(new User("j", "Joe", "Mama", User.AuthenticationLevel.STAFF, null), "j");
         db.addUser(new User("guest", "T", "Goon", User.AuthenticationLevel.GUEST, null), "password");
     }
 

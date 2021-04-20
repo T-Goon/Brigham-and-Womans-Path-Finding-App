@@ -21,8 +21,6 @@ import java.util.UUID;
 
 public class SanitationRequestFormController extends DefaultServiceRequestFormController implements Initializable {
 
-    @FXML
-    private JFXTextField loc;
 
     @FXML
     private JFXComboBox<Label> comboTypeService;
@@ -86,7 +84,7 @@ public class SanitationRequestFormController extends DefaultServiceRequestFormCo
     @FXML
     private void validateButton(){
         btnSubmit.setDisable(
-            loc.getText().isEmpty() || comboTypeService.getValue() == null || comboSizeService.getValue() == null ||
+                loc.getValue() == null || comboTypeService.getValue() == null || comboSizeService.getValue() == null ||
             description.getText().isEmpty()
         );
     }
@@ -111,11 +109,10 @@ public class SanitationRequestFormController extends DefaultServiceRequestFormCo
             String date = dateFormat.format(dateInfo); // Stored as YYYY-MM-DD
             String complete = "F";
             String employeeName = null; // fix
-            String location = loc.getText();
             String givenDescription = description.getText();
 
             SanitationRequest request = new SanitationRequest(givenSanitationType, givenSanitationSize, givenHazardous, givenBiologicalSubstance, givenOccupied,
-                    requestID, time, date, complete, employeeName, location, givenDescription);
+                    requestID, time, date, complete, employeeName, getLocation(), givenDescription);
             DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
         }
     }

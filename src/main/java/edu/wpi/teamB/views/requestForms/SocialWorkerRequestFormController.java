@@ -27,9 +27,6 @@ public class SocialWorkerRequestFormController extends DefaultServiceRequestForm
     private JFXTextField patientName;
 
     @FXML
-    private JFXTextField roomNumber;
-
-    @FXML
     private JFXTimePicker timeForArrival;
 
     @FXML
@@ -66,11 +63,10 @@ public class SocialWorkerRequestFormController extends DefaultServiceRequestForm
             String date = dateFormat.format(dateInfo); // Stored as YYYY-MM-DD
             String complete = "F";
             String employeeName = null; // fix
-            String location = roomNumber.getText();
             String givenDescription = messageForSocialWorker.getText();
 
             SocialWorkerRequest request = new SocialWorkerRequest(givenPatientName, givenTimeForArrival,
-                    requestID, time, date, complete, employeeName, location, givenDescription);
+                    requestID, time, date, complete, employeeName, getLocation(), givenDescription);
             DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
         }
     }
@@ -78,7 +74,7 @@ public class SocialWorkerRequestFormController extends DefaultServiceRequestForm
     @FXML
     private void validateButton(){
         btnSubmit.setDisable(
-                patientName.getText().isEmpty() || roomNumber.getText().isEmpty() || timeForArrival.getValue() == null ||
+                patientName.getText().isEmpty() || loc.getValue() == null || timeForArrival.getValue() == null ||
                 messageForSocialWorker.getText().isEmpty()
         );
     }

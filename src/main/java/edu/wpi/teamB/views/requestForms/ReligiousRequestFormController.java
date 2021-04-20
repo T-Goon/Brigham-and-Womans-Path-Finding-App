@@ -25,9 +25,6 @@ public class ReligiousRequestFormController extends DefaultServiceRequestFormCon
     private JFXTextField name;
 
     @FXML
-    private JFXTextField roomNum;
-
-    @FXML
     private JFXDatePicker date;
 
     @FXML
@@ -89,11 +86,10 @@ public class ReligiousRequestFormController extends DefaultServiceRequestFormCon
             String date = dateFormat.format(dateInfo); // Stored as YYYY-MM-DD
             String complete = "F";
             String employeeName = null; // fix
-            String location = roomNum.getText();
             String givenDescription = description.getText();
 
             ReligiousRequest request = new ReligiousRequest(givenPatientName, givenReligiousDate, givenStartTime, givenEndTime, givenFaith, givenInfectious,
-                    requestID, time, date, complete, employeeName, location, givenDescription);
+                    requestID, time, date, complete, employeeName, getLocation(), givenDescription);
 
             DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
         }
@@ -102,7 +98,7 @@ public class ReligiousRequestFormController extends DefaultServiceRequestFormCon
     @FXML
     private void validateButton(){
         btnSubmit.setDisable(
-            name.getText().isEmpty() || roomNum.getText().isEmpty() || date.getValue() == null ||
+            name.getText().isEmpty() || loc.getValue() == null || date.getValue() == null ||
             startTime.getValue() == null || endTime.getValue() == null || faith.getText().isEmpty() ||
             description.getText().isEmpty()
         );

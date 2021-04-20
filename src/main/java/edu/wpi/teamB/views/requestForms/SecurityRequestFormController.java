@@ -28,9 +28,6 @@ public class SecurityRequestFormController extends DefaultServiceRequestFormCont
     private JFXTextField assignedTo;
 
     @FXML
-    private JFXTextField loc;
-
-    @FXML
     private JFXComboBox<Label> comboUrgency;
 
     @FXML
@@ -58,7 +55,7 @@ public class SecurityRequestFormController extends DefaultServiceRequestFormCont
     @FXML
     private void validateButton(){
         btnSubmit.setDisable(
-                assignedTo.getText().isEmpty() || loc.getText().isEmpty() ||
+                assignedTo.getText().isEmpty() || loc.getValue() == null ||
                 comboUrgency.getValue() == null || description.getText().isEmpty()
         );
     }
@@ -79,10 +76,9 @@ public class SecurityRequestFormController extends DefaultServiceRequestFormCont
             String date = dateFormat.format(dateInfo); // Stored as YYYY-MM-DD
             String complete = "F";
             String employeeName = assignedTo.getText();
-            String location = loc.getText();
             String givenDescription = description.getText();
 
-            SecurityRequest request = new SecurityRequest(givenUrgency, requestID, time, date, complete, employeeName, location, givenDescription);
+            SecurityRequest request = new SecurityRequest(givenUrgency, requestID, time, date, complete, employeeName, getLocation(), givenDescription);
             DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
         }
 
