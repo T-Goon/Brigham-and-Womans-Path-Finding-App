@@ -20,7 +20,7 @@ public class DatabaseHandler {
     private static DatabaseHandler handler;
 
     //State
-    private static User AuthenticationUser = new User(null,null,null, User.AuthenticationLevel.GUEST,null);
+    private static User AuthenticationUser = new User(null, null, null, User.AuthenticationLevel.GUEST, null);
 
     private DatabaseHandler() {
     }
@@ -233,7 +233,7 @@ public class DatabaseHandler {
                 + "username CHAR(30) PRIMARY KEY, "
                 + "firstName CHAR(30), "
                 + "lastName CHAR(30), "
-                + "authenticationLevel CHAR(30) CHECK (authenticationLevel in ('ADMIN','STAFF','PATIENT')), "
+                + "authenticationLevel CHAR(30) CHECK (authenticationLevel in ('ADMIN','STAFF','PATIENT', 'GUEST')), "
                 + "passwordHash CHAR(30))";
 
         String jobs = "CREATE TABLE IF NOT EXISTS Jobs("
@@ -392,13 +392,16 @@ public class DatabaseHandler {
                 + "')";
 
         try {
+            assert statement != null;
             statement.execute(query);
-            for (String job : user.getJobs()) {
-                query = "INSERT INTO Jobs VALUES " +
-                        "('" + user.getUsername()
-                        + "', '" + job
-                        + "')";
-                statement.execute(query);
+            if (user.getJobs() != null) {
+                for (String job : user.getJobs()) {
+                    query = "INSERT INTO Jobs VALUES " +
+                            "('" + user.getUsername()
+                            + "', '" + job
+                            + "')";
+                    statement.execute(query);
+                }
             }
             statement.close();
         } catch (SQLException e) {
@@ -457,26 +460,25 @@ public class DatabaseHandler {
      * @param username Claimed username of authenticator
      * @param password Claimed plaintext password of authenticator
      * @return If authentication is successful, return the User object representing the authenticated user
-     * @throws Exception
      */
-    public User authenticate(String username, String password) throws Exception {
+    public User authenticate(String username, String password) {
         Statement statement = this.getStatement();
         String query = "SELECT passwordHash FROM Users WHERE (username = '" + username + "')";
         User outUser = null;
         try {
             assert statement != null;
             ResultSet rs = statement.executeQuery(query);
-            if (!rs.next()) {
-                throw new Exception("user not found");
-            }
+            if (!rs.next()) return null;
             String storedHash = (rs.getString("passwordHash"));
             if (this.passwordHash(password).equals(storedHash)) {
                 outUser = this.getUserByUsername(username);
+                rs.close();
+                statement.close();
             } else {
-                throw new Exception("password does not match");
+                rs.close();
+                statement.close();
+                return null;
             }
-            rs.close();
-            statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -494,13 +496,14 @@ public class DatabaseHandler {
 
     /**
      * Sets authentication level to guest
+     *
      * @return if the user successfully lowered their authentication level (false if already guest)
      */
     public boolean deauthenticate() {
-        if (DatabaseHandler.AuthenticationUser.getAuthenticationLevel() != User.AuthenticationLevel.GUEST){
-            DatabaseHandler.AuthenticationUser = new User(null,null,null, User.AuthenticationLevel.GUEST,null);
+        if (DatabaseHandler.AuthenticationUser.getAuthenticationLevel() != User.AuthenticationLevel.GUEST) {
+            DatabaseHandler.AuthenticationUser = new User(null, null, null, User.AuthenticationLevel.GUEST, null);
             return true;
-        }else{
+        } else {
             return false;
         }
     }
