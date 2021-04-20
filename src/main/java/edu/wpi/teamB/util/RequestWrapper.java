@@ -107,7 +107,7 @@ public class RequestWrapper {
                         SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml", "/edu/wpi/teamB/views/requestForms/sanitationRequestForm.fxml");
                         break;
                     case MEDICINE:
-                        SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml", "/edu/wpi/teamB/views/requestForms/medicineRequestForm.fxml");
+                        SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml", "/edu/wpi/teamB/views/requestForms/medDeliveryRequestForm.fxml");
                         break;
                     case INTERNAL_TRANSPORT:
                         SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml", "/edu/wpi/teamB/views/requestForms/internalTransportationRequestForm.fxml");

@@ -9,6 +9,7 @@ import edu.wpi.teamB.entities.requests.Request;
 import edu.wpi.teamB.util.SceneSwitcher;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 
 import java.net.URL;
 import java.text.DateFormat;
@@ -19,7 +20,7 @@ import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.UUID;
 
-public class ReligiousRequestFormController extends DefaultServiceRequestFormController {
+public class ReligiousRequestFormController extends DefaultServiceRequestFormController implements Initializable {
 
     @FXML
     private JFXTextField name;
@@ -44,11 +45,13 @@ public class ReligiousRequestFormController extends DefaultServiceRequestFormCon
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        super.initialize(location,resources);
+
         if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml")) {
             String id = (String) App.getPrimaryStage().getUserData();
             ReligiousRequest religiousRequest = (ReligiousRequest) DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(id, Request.RequestType.RELIGIOUS);
             name.setText(religiousRequest.getPatientName());
-            roomNum.setText(religiousRequest.getLocation());
+            getLocationIndex(religiousRequest.getLocation());
             String d = religiousRequest.getReligiousDate();
             LocalDate ld = LocalDate.of(Integer.parseInt(d.substring(0, 4)), Integer.parseInt(d.substring(5, 7)), Integer.parseInt(d.substring(8, 10)));
             date.setValue(ld);

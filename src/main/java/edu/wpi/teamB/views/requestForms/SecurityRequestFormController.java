@@ -45,7 +45,7 @@ public class SecurityRequestFormController extends DefaultServiceRequestFormCont
             String id = (String) App.getPrimaryStage().getUserData();
             SecurityRequest securityRequest = (SecurityRequest) DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(id, Request.RequestType.SECURITY);
             assignedTo.setText(securityRequest.getEmployeeName());
-            loc.setText(securityRequest.getLocation());
+            getLocationIndex(securityRequest.getLocation());
             int index = securityRequest.getUrgency() - 1;
             comboUrgency.getSelectionModel().select(index);
             description.setText(securityRequest.getDescription());

@@ -48,7 +48,7 @@ public class InternalTransportationRequestFormController extends DefaultServiceR
             String id = (String) App.getPrimaryStage().getUserData();
             InternalTransportRequest internalTransportRequest = (InternalTransportRequest) DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(id, Request.RequestType.INTERNAL_TRANSPORT);
             name.setText(internalTransportRequest.getPatientName());
-            roomNum.setText(internalTransportRequest.getLocation());
+            getLocationIndex(internalTransportRequest.getLocation());
             int index = -1;
             if (internalTransportRequest.getTransportType().equals("Wheelchair")) {
                 index = 0;

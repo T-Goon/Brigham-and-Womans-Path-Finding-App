@@ -9,6 +9,7 @@ import edu.wpi.teamB.entities.requests.Request;
 import edu.wpi.teamB.util.SceneSwitcher;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 
 import java.math.RoundingMode;
@@ -23,7 +24,7 @@ import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.UUID;
 
-public class FloralDeliveryRequestFormController extends DefaultServiceRequestFormController {
+public class FloralDeliveryRequestFormController extends DefaultServiceRequestFormController implements Initializable {
 
     @FXML
     private JFXTextField patientName;
@@ -66,11 +67,13 @@ public class FloralDeliveryRequestFormController extends DefaultServiceRequestFo
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        super.initialize(location,resources);
+
         if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml")) {
             String id = (String) App.getPrimaryStage().getUserData();
             FloralRequest floralRequest = (FloralRequest) DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(id, Request.RequestType.FLORAL);
             patientName.setText(floralRequest.getPatientName());
-            roomNumber.setText(floralRequest.getLocation());
+            getLocationIndex(floralRequest.getLocation());
             String date = floralRequest.getDeliveryDate();
             LocalDate ld = LocalDate.of(Integer.parseInt(date.substring(0, 4)), Integer.parseInt(date.substring(5, 7)), Integer.parseInt(date.substring(8, 10)));
             deliveryDate.setValue(ld);

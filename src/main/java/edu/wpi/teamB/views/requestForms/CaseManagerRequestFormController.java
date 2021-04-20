@@ -28,9 +28,6 @@ public class CaseManagerRequestFormController extends DefaultServiceRequestFormC
     private JFXTextField patientName;
 
     @FXML
-    private JFXTextField roomNumber;
-
-    @FXML
     private JFXTimePicker timeForArrival;
 
     @FXML
@@ -38,11 +35,13 @@ public class CaseManagerRequestFormController extends DefaultServiceRequestFormC
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        super.initialize(location,resources);
+
         if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml")) {
             String id = (String) App.getPrimaryStage().getUserData();
             CaseManagerRequest caseManagerRequest = (CaseManagerRequest) DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(id, Request.RequestType.CASE_MANAGER);
             patientName.setText(caseManagerRequest.getPatientName());
-            roomNumber.setText(caseManagerRequest.getLocation());
+            getLocationIndex(caseManagerRequest.getLocation());
             String time = caseManagerRequest.getTimeForArrival();
             LocalTime lt = LocalTime.of(Integer.parseInt(time.substring(0, 2)), Integer.parseInt(time.substring(3, 5)));
             timeForArrival.setValue(lt);
@@ -67,11 +66,10 @@ public class CaseManagerRequestFormController extends DefaultServiceRequestFormC
             String date = dateFormat.format(dateInfo); // Stored as YYYY-MM-DD
             String complete = "F";
             String employeeName = null; // fix
-            String location = roomNumber.getText();
             String givenDescription = messageForCaseManager.getText();
 
             CaseManagerRequest request = new CaseManagerRequest(givenPatientName, givenTimeForArrival,
-                    requestID, time, date, complete, employeeName, location, givenDescription);
+                    requestID, time, date, complete, employeeName, getLocation(), givenDescription);
 
             if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml")) {
                 DatabaseHandler.getDatabaseHandler("main.db").updateRequest(request);
@@ -84,7 +82,7 @@ public class CaseManagerRequestFormController extends DefaultServiceRequestFormC
     @FXML
     private void validateButton() {
         btnSubmit.setDisable(
-                patientName.getText().isEmpty() || roomNumber.getText().isEmpty() || timeForArrival.getValue() == null ||
+                patientName.getText().isEmpty() || loc.getValue() == null || timeForArrival.getValue() == null ||
                         messageForCaseManager.getText().isEmpty()
         );
     }

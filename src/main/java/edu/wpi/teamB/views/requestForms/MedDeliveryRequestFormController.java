@@ -10,6 +10,7 @@ import edu.wpi.teamB.entities.requests.Request;
 import edu.wpi.teamB.util.SceneSwitcher;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 
 import java.net.URL;
 import java.text.DateFormat;
@@ -18,7 +19,7 @@ import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.UUID;
 
-public class MedDeliveryRequestFormController extends DefaultServiceRequestFormController {
+public class MedDeliveryRequestFormController extends DefaultServiceRequestFormController implements Initializable {
 
     @FXML
     private JFXTextField name;
@@ -31,11 +32,13 @@ public class MedDeliveryRequestFormController extends DefaultServiceRequestFormC
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        super.initialize(location,resources);
+
         if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml")) {
             String id = (String) App.getPrimaryStage().getUserData();
             MedicineRequest medicineRequest = (MedicineRequest) DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(id, Request.RequestType.MEDICINE);
             name.setText(medicineRequest.getPatientName());
-            roomNum.setText(medicineRequest.getLocation());
+            getLocationIndex(medicineRequest.getLocation());
             medName.setText(medicineRequest.getMedicine());
             reason.setText(medicineRequest.getDescription());
         }

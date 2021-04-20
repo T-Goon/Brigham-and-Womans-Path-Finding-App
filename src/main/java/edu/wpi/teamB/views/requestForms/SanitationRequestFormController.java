@@ -55,7 +55,7 @@ public class SanitationRequestFormController extends DefaultServiceRequestFormCo
         if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml")) {
             String id = (String) App.getPrimaryStage().getUserData();
             SanitationRequest sanitationRequest = (SanitationRequest) DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(id, Request.RequestType.SANITATION);
-            loc.setText(sanitationRequest.getLocation());
+            getLocationIndex(sanitationRequest.getLocation());
             int indexType = -1;
             if (sanitationRequest.getSanitationType().equals("Wet")) {
                 indexType = 0;

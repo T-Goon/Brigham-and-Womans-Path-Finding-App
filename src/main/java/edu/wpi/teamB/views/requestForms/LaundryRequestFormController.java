@@ -55,7 +55,7 @@ public class LaundryRequestFormController extends DefaultServiceRequestFormContr
         if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml")) {
             String id = (String) App.getPrimaryStage().getUserData();
             LaundryRequest laundryRequest = (LaundryRequest) DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(id, Request.RequestType.LAUNDRY);
-            loc.setText(laundryRequest.getLocation());
+            getLocationIndex(laundryRequest.getLocation());
             int indexType = -1;
             if (laundryRequest.getServiceType().equals("Regular Cycle")) {
                 indexType = 0;

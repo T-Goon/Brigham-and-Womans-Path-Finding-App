@@ -34,8 +34,6 @@ public class Request {
                     return "Food";
                 case INTERNAL_TRANSPORT:
                     return "Internal Transport";
-                case EXTERNAL_TRANSPORT:
-                    return "External Transport";
                 case LAUNDRY:
                     return "Laundry";
                 case MEDICINE:

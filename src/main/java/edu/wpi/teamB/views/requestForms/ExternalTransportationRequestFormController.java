@@ -26,9 +26,6 @@ public class ExternalTransportationRequestFormController extends DefaultServiceR
     private JFXTextField name;
 
     @FXML
-    private JFXTextField roomNum;
-
-    @FXML
     private JFXComboBox<Label> comboTranspType;
 
     @FXML
@@ -60,7 +57,7 @@ public class ExternalTransportationRequestFormController extends DefaultServiceR
             String id = (String) App.getPrimaryStage().getUserData();
             ExternalTransportRequest externalTransportRequest = (ExternalTransportRequest) DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(id, Request.RequestType.EXTERNAL_TRANSPORT);
             name.setText(externalTransportRequest.getPatientName());
-            roomNum.setText(externalTransportRequest.getLocation());
+            getLocationIndex(externalTransportRequest.getLocation());
             int index = -1;
             if (externalTransportRequest.getTransportType().equals("Bus")) {
                 index = 0;
@@ -101,11 +98,10 @@ public class ExternalTransportationRequestFormController extends DefaultServiceR
             String date = dateFormat.format(dateInfo); // Stored as YYYY-MM-DD
             String complete = "F";
             String employeeName = null; // fix
-            String location = roomNum.getText();
             String givenDescription = description.getText();
 
             ExternalTransportRequest request = new ExternalTransportRequest(givenPatientName, givenTransportType, givenDestination, givenPatientAllergies, givenOutNetwork, givenInfectious, givenUnconscious,
-                    requestID, time, date, complete, employeeName, location, givenDescription);
+                    requestID, time, date, complete, employeeName, getLocation(), givenDescription);
 
             DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
         }
@@ -114,7 +110,7 @@ public class ExternalTransportationRequestFormController extends DefaultServiceR
     @FXML
     private void validateButton() {
         btnSubmit.setDisable(
-                name.getText().isEmpty() || roomNum.getText().isEmpty() || comboTranspType.getValue() == null ||
+                name.getText().isEmpty() || loc.getValue() == null || comboTranspType.getValue() == null ||
                         description.getText().isEmpty() || allergies.getText().isEmpty() || destination.getText().isEmpty()
         );
     }

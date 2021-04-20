@@ -12,6 +12,7 @@ import edu.wpi.teamB.entities.requests.SocialWorkerRequest;
 import edu.wpi.teamB.util.SceneSwitcher;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 
 import java.net.URL;
 import java.text.DateFormat;
@@ -21,7 +22,7 @@ import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.UUID;
 
-public class SocialWorkerRequestFormController extends DefaultServiceRequestFormController {
+public class SocialWorkerRequestFormController extends DefaultServiceRequestFormController implements Initializable {
 
     @FXML
     private JFXTextField patientName;
@@ -34,11 +35,13 @@ public class SocialWorkerRequestFormController extends DefaultServiceRequestForm
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        super.initialize(location,resources);
+
         if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml")) {
             String id = (String) App.getPrimaryStage().getUserData();
             SocialWorkerRequest socialWorkerRequest = (SocialWorkerRequest) DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(id, Request.RequestType.SOCIAL_WORKER);
             patientName.setText(socialWorkerRequest.getPatientName());
-            roomNumber.setText(socialWorkerRequest.getLocation());
+            getLocationIndex(socialWorkerRequest.getLocation());
             String time = socialWorkerRequest.getTimeForArrival();
             LocalTime lt = LocalTime.of(Integer.parseInt(time.substring(0, 2)), Integer.parseInt(time.substring(3, 5)));
             timeForArrival.setValue(lt);
