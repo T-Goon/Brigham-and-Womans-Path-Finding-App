@@ -46,4 +46,12 @@ public class LaundryRequestFormController extends DefaultServiceRequestFormContr
         comboSizeService.getItems().add(new Label("Medium"));
         comboSizeService.getItems().add(new Label("Large"));
     }
+
+    @FXML
+    private void validateButton(){
+        btnSubmit.setDisable(
+            loc.getText().isEmpty() || comboSizeService.getValue() == null || comboTypeService.getValue() == null ||
+            description.getText().isEmpty()
+        );
+    }
 }
