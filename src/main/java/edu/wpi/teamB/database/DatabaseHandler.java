@@ -92,6 +92,8 @@ public class DatabaseHandler {
             tables.add("SecurityRequests");
             tables.add("ExternalTransportRequests");
             tables.add("LaundryRequests");
+            tables.add("CaseManagerRequests");
+            tables.add("SocialWorkerRequests");
             tables.add("Jobs");
             tables.add("Users");
         }
@@ -106,11 +108,11 @@ public class DatabaseHandler {
 
         try {
             assert statement != null;
-            statement.execute(disableForeignKeys);
+//            statement.execute(disableForeignKeys);
             for (String query : queries) {
                 statement.execute(query);
             }
-            statement.execute(enableForeignKeys);
+//            statement.execute(enableForeignKeys);
             statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -229,6 +231,18 @@ public class DatabaseHandler {
                 + "occupied CHAR(1)," // Stored as T/F (no boolean data type in SQL)
                 + "FOREIGN KEY (requestID) REFERENCES Requests(requestID))";
 
+        String caseManagerRequestsTable = "CREATE TABLE IF NOT EXISTS CaseManagerRequests("
+                + "requestID CHAR(20) PRIMARY KEY, "
+                + "patientName CHAR(30), "
+                + "timeForArrival CHAR(20)," // Stored as HH:MM (24 hour time)
+                + "FOREIGN KEY (requestID) REFERENCES Requests(requestID))";
+
+        String socialWorkerRequestsTable = "CREATE TABLE IF NOT EXISTS SocialWorkerRequests("
+                + "requestID CHAR(20) PRIMARY KEY, "
+                + "patientName CHAR(30), "
+                + "timeForArrival CHAR(20)," // Stored as HH:MM (24 hour time)
+                + "FOREIGN KEY (requestID) REFERENCES Requests(requestID))";
+
         String users = "CREATE TABLE IF NOT EXISTS Users("
                 + "username CHAR(30) PRIMARY KEY, "
                 + "firstName CHAR(30), "
@@ -256,6 +270,8 @@ public class DatabaseHandler {
             statement.execute(securityRequestsTable);
             statement.execute(externalTransportTable);
             statement.execute(laundryTable);
+            statement.execute(caseManagerRequestsTable);
+            statement.execute(socialWorkerRequestsTable);
             statement.execute(users);
             statement.execute(jobs);
             statement.close();
@@ -875,6 +891,22 @@ public class DatabaseHandler {
                         + "', '" + (laundryRequest.getOccupied())
                         + "')";
                 break;
+            case "CaseManager":
+                CaseManagerRequest caseManagerRequest = (CaseManagerRequest) request;
+                query = "INSERT INTO CaseManagerRequests VALUES " +
+                        "('" + caseManagerRequest.getRequestID()
+                        + "', '" + caseManagerRequest.getPatientName()
+                        + "', '" + caseManagerRequest.getTimeForArrival()
+                        + "')";
+                break;
+            case "SocialWorker":
+                SocialWorkerRequest socialWorkerRequest = (SocialWorkerRequest) request;
+                query = "INSERT INTO SocialWorkerRequests VALUES " +
+                        "('" + socialWorkerRequest.getRequestID()
+                        + "', '" + socialWorkerRequest.getPatientName()
+                        + "', '" + socialWorkerRequest.getTimeForArrival()
+                        + "')";
+                break;
         }
 
         try {
@@ -1009,6 +1041,18 @@ public class DatabaseHandler {
                         + "', light = '" + (laundryRequest.getLight())
                         + "', occupied = '" + (laundryRequest.getOccupied())
                         + "' WHERE requestID = '" + laundryRequest.getRequestID() + "'";
+                break;
+            case "CaseManager":
+                CaseManagerRequest caseManagerRequest = (CaseManagerRequest) request;
+                query = "UPDATE CaseManagerRequests SET patientName = '" + caseManagerRequest.getPatientName()
+                        + "', timeForArrival = '" + caseManagerRequest.getTimeForArrival()
+                        + "' WHERE requestID = '" + caseManagerRequest.getRequestID() + "'";
+                break;
+            case "SocialWorker":
+                SocialWorkerRequest socialWorkerRequest = (SocialWorkerRequest) request;
+                query = "UPDATE SocialWorkerRequest SET patientName = '" + socialWorkerRequest.getPatientName()
+                        + "', timeForArrival = '" + socialWorkerRequest.getTimeForArrival()
+                        + "' WHERE requestID = '" + socialWorkerRequest.getRequestID() + "'";
                 break;
         }
 
@@ -1211,6 +1255,19 @@ public class DatabaseHandler {
                                 rs.getString("dark"),
                                 rs.getString("light"),
                                 rs.getString("occupied"),
+                                rs.getString("requestID"),
+                                rs.getString("requestTime"),
+                                rs.getString("requestDate"),
+                                rs.getString("complete"),
+                                rs.getString("employeeName"),
+                                rs.getString("location"),
+                                rs.getString("description")
+                        );
+                        break;
+                    case "CaseManager":
+                        outRequest = new CaseManagerRequest(
+                                rs.getString("patientName"),
+                                rs.getString("timeForArrival"),
                                 rs.getString("requestID"),
                                 rs.getString("requestTime"),
                                 rs.getString("requestDate"),
