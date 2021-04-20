@@ -108,8 +108,14 @@ public class LaundryRequestFormController extends DefaultServiceRequestFormContr
             String time = timeFormat.format(dateInfo); // Stored as HH:MM (24 hour time)
             String date = dateFormat.format(dateInfo); // Stored as YYYY-MM-DD
             String complete = "F";
-            String employeeName = null; // fix
             String givenDescription = description.getText();
+
+            String employeeName;
+            if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml")) {
+                employeeName = DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(this.id, Request.RequestType.LAUNDRY).getEmployeeName();
+            } else {
+                employeeName = null;
+            }
 
             LaundryRequest request = new LaundryRequest(givenServiceType, givenServiceSize, givenDark, givenLight, givenOccupied,
                     requestID, time, date, complete, employeeName, getLocation(), givenDescription);

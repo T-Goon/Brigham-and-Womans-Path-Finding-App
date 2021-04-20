@@ -90,8 +90,14 @@ public class InternalTransportationRequestFormController extends DefaultServiceR
             String time = timeFormat.format(dateInfo); // Stored as HH:MM (24 hour time)
             String date = dateFormat.format(dateInfo); // Stored as YYYY-MM-DD
             String complete = "F";
-            String employeeName = null; // fix
             String givenDescription = description.getText();
+
+            String employeeName;
+            if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml")) {
+                employeeName = DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(this.id, Request.RequestType.INTERNAL_TRANSPORT).getEmployeeName();
+            } else {
+                employeeName = null;
+            }
 
             InternalTransportRequest request = new InternalTransportRequest(givenPatientName, givenTransportType, givenUnconscious, givenInfectious,
                     requestID, time, date, complete, employeeName, getLocation(), givenDescription);

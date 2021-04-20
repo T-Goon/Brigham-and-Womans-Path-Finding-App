@@ -70,8 +70,14 @@ public class MedDeliveryRequestFormController extends DefaultServiceRequestFormC
             String time = timeFormat.format(dateInfo); // Stored as HH:MM (24 hour time)
             String date = dateFormat.format(dateInfo); // Stored as YYYY-MM-DD
             String complete = "F";
-            String employeeName = null; // fix
             String givenDescription = reason.getText();
+
+            String employeeName;
+            if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml")) {
+                employeeName = DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(this.id, Request.RequestType.MEDICINE).getEmployeeName();
+            } else {
+                employeeName = null;
+            }
 
             MedicineRequest request = new MedicineRequest(givenPatientName, givenMedicine,
                     requestID, time, date, complete, employeeName, getLocation(), givenDescription);

@@ -1154,7 +1154,7 @@ public class DatabaseHandler {
                 break;
             case SOCIAL_WORKER:
                 SocialWorkerRequest socialWorkerRequest = (SocialWorkerRequest) request;
-                query = "UPDATE SocialWorkerRequest SET patientName = '" + socialWorkerRequest.getPatientName().replace("'", "''")
+                query = "UPDATE SocialWorkerRequests SET patientName = '" + socialWorkerRequest.getPatientName().replace("'", "''")
                         + "', timeForArrival = '" + socialWorkerRequest.getTimeForArrival()
                         + "' WHERE requestID = '" + socialWorkerRequest.getRequestID() + "'";
                 break;
