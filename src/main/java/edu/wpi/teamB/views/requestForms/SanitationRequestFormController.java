@@ -49,6 +49,15 @@ public class SanitationRequestFormController extends DefaultServiceRequestFormCo
         comboSizeService.getItems().add(new Label("Small"));
         comboSizeService.getItems().add(new Label("Medium"));
         comboSizeService.getItems().add(new Label("Large"));
+
+    }
+
+    @FXML
+    private void validateButton(){
+        btnSubmit.setDisable(
+            loc.getText().isEmpty() || comboTypeService.getValue() == null || comboSizeService.getValue() == null ||
+            description.getText().isEmpty()
+        );
     }
 
     public void handleButtonAction(ActionEvent actionEvent) {

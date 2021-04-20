@@ -72,4 +72,12 @@ public class InternalTransportationRequestFormController extends DefaultServiceR
             DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
         }
     }
+
+    @FXML
+    private void validateButton(){
+        btnSubmit.setDisable(
+                name.getText().isEmpty() || roomNum.getText().isEmpty() ||
+                comboTranspType.getValue() == null || description.getText().isEmpty()
+        );
+    }
 }

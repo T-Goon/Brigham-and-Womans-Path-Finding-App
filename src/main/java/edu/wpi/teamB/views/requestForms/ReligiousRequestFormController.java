@@ -68,4 +68,13 @@ public class ReligiousRequestFormController extends DefaultServiceRequestFormCon
             DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
         }
     }
+
+    @FXML
+    private void validateButton(){
+        btnSubmit.setDisable(
+            name.getText().isEmpty() || roomNum.getText().isEmpty() || date.getValue() == null ||
+            startTime.getValue() == null || endTime.getValue() == null || faith.getText().isEmpty() ||
+            description.getText().isEmpty()
+        );
+    }
 }
