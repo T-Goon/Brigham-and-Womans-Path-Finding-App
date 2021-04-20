@@ -1,6 +1,7 @@
 package edu.wpi.teamB.views.loginPages;
 
 import com.jfoenix.controls.JFXButton;
+import edu.wpi.teamB.database.DatabaseHandler;
 import edu.wpi.teamB.util.SceneSwitcher;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -28,6 +29,7 @@ public class LoginOptionsController {
                 SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/loginPages/loginOptions.fxml", "/edu/wpi/teamB/views/loginPages/loginPage.fxml");
                 break;
             case "btnGuest":
+                DatabaseHandler.getDatabaseHandler("main.db").deauthenticate();
                 SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/loginPages/loginOptions.fxml", "/edu/wpi/teamB/views/menus/patientDirectoryMenu.fxml");
                 break;
             case "btnEmergency":
