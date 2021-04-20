@@ -1,8 +1,11 @@
 package edu.wpi.teamB;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Objects;
 
+import edu.wpi.teamB.entities.User;
 import edu.wpi.teamB.util.CSVHandler;
 import edu.wpi.teamB.database.DatabaseHandler;
 import javafx.application.Application;
@@ -25,8 +28,13 @@ public class App extends Application {
         db = DatabaseHandler.getDatabaseHandler("main.db");
 
         // If the database is uninitialized, fill it with the csv files
+        db.resetDatabase(new ArrayList<>(Collections.singleton("Users")));
+        db.executeSchema();
         if (!db.isInitialized())
             db.loadNodesEdges(CSVHandler.loadCSVNodes("/edu/wpi/teamB/csvFiles/bwBnodes.csv"), CSVHandler.loadCSVEdges("/edu/wpi/teamB/csvFiles/bwBedges.csv"));
+        db.addUser(new User("admin", "Professor", "X", User.AuthenticationLevel.ADMIN, null), "password");
+        db.addUser(new User("staff", "Mike", "Bedard", User.AuthenticationLevel.STAFF, null), "password");
+        db.addUser(new User("guest", "T", "Goon", User.AuthenticationLevel.GUEST, null), "password");
     }
 
     @Override

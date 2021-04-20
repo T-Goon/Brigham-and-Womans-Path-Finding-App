@@ -72,6 +72,7 @@ public class SecurityRequestFormController extends DefaultServiceRequestFormCont
             SecurityRequest request = new SecurityRequest(givenUrgency, requestID, time, date, complete, employeeName, location, givenDescription);
             DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
         }
+
     }
 }
 

@@ -432,7 +432,7 @@ public class DatabaseHandlerTest {
     }
 
     @Test
-    public void testAdduser() {
+    public void testAddUser() {
         User user = new User("testuser","Testing","User", User.AuthenticationLevel.STAFF, Collections.singletonList("Gamer"));
         db.addUser(user,"password");
         User out = db.getUserByUsername("testuser");
@@ -444,13 +444,8 @@ public class DatabaseHandlerTest {
     public void testAuthentication() {
         User user = new User("testuser","Testing","User", User.AuthenticationLevel.STAFF, Collections.singletonList("Gamer"));
         db.addUser(user,"password");
-        User authentication = null;
-        try {
-            authentication = db.authenticate("testuser", "password");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        assertEquals(authentication,user);
-        assertThrows(Exception.class,() -> db.authenticate("testuser","pasword"));
+        User authentication = db.authenticate("testuser", "password");
+        assertNotNull(authentication);
+        assertNull(db.authenticate("testuser","pasword"));
     }
 }
