@@ -249,6 +249,32 @@ public class AppTest extends FxRobot {
         verifyThat("Service Request Directory", Node::isVisible);
         clickOn(button);
         verifyThat(title, Node::isVisible);
+
+        switch (button) {
+            case "Sanitation Services":
+                break;
+            case "Floral Delivery":
+                break;
+            case "Medicine Delivery":
+                break;
+            case "Security Services":
+                break;
+            case "Internal Transportation":
+                break;
+            case "External Transportation":
+                break;
+            case "Religious Service":
+                break;
+            case "Food Delivery":
+                break;
+            case "Laundry":
+                break;
+            case "Social Worker":
+                break;
+            case "Case Manager":
+                break;
+        }
+
         clickOn("Submit");
         verifyThat("Form Successfully Submitted!", Node::isVisible);
         clickOn("Return to Main Screen");
