@@ -1,15 +1,26 @@
 package edu.wpi.teamB.views.menus;
 
 import com.jfoenix.controls.JFXButton;
+import edu.wpi.teamB.database.DatabaseHandler;
+import edu.wpi.teamB.entities.User;
 import edu.wpi.teamB.util.SceneSwitcher;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.VBox;
 
-public class ServiceRequestMenuController {
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class ServiceRequestMenuController implements Initializable {
 
     private static final String VIEWS_PATH = "/edu/wpi/teamB/views/requestForms/";
+
+    @FXML
+    private FlowPane flowpane;
 
     @FXML
     private JFXButton btnMedicine;
@@ -52,6 +63,24 @@ public class ServiceRequestMenuController {
 
     @FXML
     private JFXButton btnExit;
+
+    @FXML
+    private VBox medicineDelivery;
+
+    @FXML
+    private VBox internalTransport;
+
+    @FXML
+    private VBox externalTransport;
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        if (!DatabaseHandler.getDatabaseHandler("main.db").getAuthenticationUser().isAtLeast(User.AuthenticationLevel.STAFF)) {
+            flowpane.getChildren().remove(medicineDelivery);
+            flowpane.getChildren().remove(internalTransport);
+            flowpane.getChildren().remove(externalTransport);
+        }
+    }
 
     @FXML
     private void handleButtonAction(ActionEvent e) {

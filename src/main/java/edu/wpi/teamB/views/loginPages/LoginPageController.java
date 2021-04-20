@@ -87,7 +87,7 @@ public class LoginPageController implements Initializable {
             error.setText("Username or password does not exist!");
             error.setVisible(true);
             return;
-        } else if (user.isAtLeast(User.AuthenticationLevel.STAFF)) {
+        } else if (!user.isAtLeast(User.AuthenticationLevel.STAFF)) {
             error.setText("This user does not have access to this area!");
             error.setVisible(true);
             return;

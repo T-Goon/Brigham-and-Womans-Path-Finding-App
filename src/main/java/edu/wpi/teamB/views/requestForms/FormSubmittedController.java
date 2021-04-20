@@ -16,12 +16,16 @@ public class FormSubmittedController {
 
         JFXButton btn = (JFXButton) e.getSource();
 
-        if (btn.getId().equals("btnReturn")) {
-            SceneSwitcher.goBack(getClass(), 2);
-        } else if (btn.getId().equals("btnEmergency")) {
-            SceneSwitcher.switchToTemp(getClass(), "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");
-        } else if(btn.getId().equals("btnExit")){
-            Platform.exit();
+        switch (btn.getId()) {
+            case "btnReturn":
+                SceneSwitcher.goBack(getClass(), 2);
+                break;
+            case "btnEmergency":
+                SceneSwitcher.switchToTemp(getClass(), "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");
+                break;
+            case "btnExit":
+                Platform.exit();
+                break;
         }
     }
 }
