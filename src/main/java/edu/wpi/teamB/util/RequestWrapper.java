@@ -47,6 +47,7 @@ public class RequestWrapper {
         //Setup context menu
         this.contextMenu = new ContextMenu();
         Menu assignMenu = new Menu("Assign");
+        MenuItem unassignItem = new MenuItem("Unassign");
 
         List<MenuItem> staff = new ArrayList<>();
         for(User employee: DatabaseHandler.getDatabaseHandler("main.db").getUsersByAuthenticationLevel(User.AuthenticationLevel.STAFF)){
@@ -67,7 +68,20 @@ public class RequestWrapper {
         }
         assignMenu.getItems().addAll(staff);
 
+        unassignItem.setOnAction(event -> {
+            parentTable.getItems().removeIf((Object o) -> ((RequestWrapper) o).r.getRequestID().equals(r.getRequestID()));
+            r.setEmployeeName("null");
+            DatabaseHandler.getDatabaseHandler("main.db").updateRequest(r);
+
+            try {
+                parentTable.getItems().add(0, new RequestWrapper(r, parentTable));
+            } catch (IOException e){
+                e.printStackTrace();
+            }
+        });
+
         this.contextMenu.getItems().add(assignMenu);
+        this.contextMenu.getItems().add(unassignItem);
 
         //set context menu to the employee name label
         employeeName.setContextMenu(this.contextMenu);
