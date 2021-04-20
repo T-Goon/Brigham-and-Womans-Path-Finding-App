@@ -216,7 +216,14 @@ public class AppTest extends FxRobot {
     @ParameterizedTest
     @MethodSource("textProvider")
     void testBackButtons(String button, String title) {
-        clickOn("#btnGuest");
+        clickOn("#btnStaff");
+        verifyThat("Login Page", Node::isVisible);
+        clickOn("#username");
+        write("admin");
+        press(KeyCode.TAB);
+        write("password");
+        press(KeyCode.ENTER);
+        verifyThat("Staff Directory", Node::isVisible);
         clickOn("Service Requests");
         verifyThat("Service Request Directory", Node::isVisible);
         clickOn(button);
@@ -230,7 +237,14 @@ public class AppTest extends FxRobot {
     @ParameterizedTest
     @MethodSource("textProvider")
     void testSubmitForms(String button, String title) {
-        clickOn("#btnGuest");
+        clickOn("#btnStaff");
+        verifyThat("Login Page", Node::isVisible);
+        clickOn("#username");
+        write("admin");
+        press(KeyCode.TAB);
+        write("password");
+        press(KeyCode.ENTER);
+        verifyThat("Staff Directory", Node::isVisible);
         clickOn("Service Requests");
         verifyThat("Service Request Directory", Node::isVisible);
         clickOn(button);
