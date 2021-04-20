@@ -30,28 +30,28 @@ public class SocialWorkerRequestFormController extends DefaultServiceRequestForm
     private JFXTextArea messageForSocialWorker;
 
     public void handleButtonAction(ActionEvent actionEvent) {
-        String givenPatientName = patientName.getText();
-        String givenTimeForArrival = timeForArrival.getValue().toString();
-
-        DateFormat timeFormat = new SimpleDateFormat("HH:mm");
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Date dateInfo = new Date();
-
-        String requestID = UUID.randomUUID().toString();
-        String time = timeFormat.format(dateInfo); // Stored as HH:MM (24 hour time)
-        String date = dateFormat.format(dateInfo); // Stored as YYYY-MM-DD
-        String complete = "F";
-        String employeeName = null; // fix
-        String location = roomNumber.getText();
-        String givenDescription = messageForSocialWorker.getText();
-
-        SocialWorkerRequest request = new SocialWorkerRequest(givenPatientName, givenTimeForArrival,
-                requestID, time, date, complete, employeeName, location, givenDescription);
+        super.handleButtonAction(actionEvent);
 
         JFXButton btn = (JFXButton) actionEvent.getSource();
         if (btn.getId().equals("btnSubmit")) {
+            String givenPatientName = patientName.getText();
+            String givenTimeForArrival = timeForArrival.getValue().toString();
+
+            DateFormat timeFormat = new SimpleDateFormat("HH:mm");
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date dateInfo = new Date();
+
+            String requestID = UUID.randomUUID().toString();
+            String time = timeFormat.format(dateInfo); // Stored as HH:MM (24 hour time)
+            String date = dateFormat.format(dateInfo); // Stored as YYYY-MM-DD
+            String complete = "F";
+            String employeeName = null; // fix
+            String location = roomNumber.getText();
+            String givenDescription = messageForSocialWorker.getText();
+
+            SocialWorkerRequest request = new SocialWorkerRequest(givenPatientName, givenTimeForArrival,
+                    requestID, time, date, complete, employeeName, location, givenDescription);
             DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
         }
-        super.handleButtonAction(actionEvent);
     }
 }

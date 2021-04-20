@@ -11,7 +11,7 @@ public class SocialWorkerRequest extends Request {
     private String timeForArrival;
 
     public SocialWorkerRequest(String patientName, String timeForArrival, String requestID, String time, String date, String complete, String employeeName, String location, String description) {
-        super(requestID, "Social Worker", time, date, complete, employeeName, location, description);
+        super(requestID, RequestType.SOCIAL_WORKER, time, date, complete, employeeName, location, description);
         this.patientName = patientName;
         this.timeForArrival = timeForArrival;
     }

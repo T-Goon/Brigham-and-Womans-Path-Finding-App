@@ -53,33 +53,34 @@ public class ExternalTransportationRequestFormController extends DefaultServiceR
     }
 
     public void handleButtonAction(ActionEvent actionEvent) {
-        String givenPatientName = name.getText();
-        String givenTransportType = comboTranspType.getValue().getText();
-        String givenDestination = destination.getText();
-        String givenPatientAllergies = allergies.getText();
-        String givenOutNetwork = outNetwork.isSelected() ? "T" : "F";
-        String givenInfectious = infectious.isSelected() ? "T" : "F";
-        String givenUnconscious = unconscious.isSelected() ? "T" : "F";
-
-        DateFormat timeFormat = new SimpleDateFormat("HH:mm");
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Date dateInfo = new Date();
-
-        String requestID = UUID.randomUUID().toString();
-        String time = timeFormat.format(dateInfo); // Stored as HH:MM (24 hour time)
-        String date = dateFormat.format(dateInfo); // Stored as YYYY-MM-DD
-        String complete = "F";
-        String employeeName = null; // fix
-        String location = roomNum.getText();
-        String givenDescription = description.getText();
-
-        ExternalTransportRequest request = new ExternalTransportRequest(givenPatientName, givenTransportType, givenDestination, givenPatientAllergies, givenOutNetwork, givenInfectious, givenUnconscious,
-                requestID, time, date, complete, employeeName, location, givenDescription);
+        super.handleButtonAction(actionEvent);
 
         JFXButton btn = (JFXButton) actionEvent.getSource();
         if (btn.getId().equals("btnSubmit")) {
+            String givenPatientName = name.getText();
+            String givenTransportType = comboTranspType.getValue().getText();
+            String givenDestination = destination.getText();
+            String givenPatientAllergies = allergies.getText();
+            String givenOutNetwork = outNetwork.isSelected() ? "T" : "F";
+            String givenInfectious = infectious.isSelected() ? "T" : "F";
+            String givenUnconscious = unconscious.isSelected() ? "T" : "F";
+
+            DateFormat timeFormat = new SimpleDateFormat("HH:mm");
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date dateInfo = new Date();
+
+            String requestID = UUID.randomUUID().toString();
+            String time = timeFormat.format(dateInfo); // Stored as HH:MM (24 hour time)
+            String date = dateFormat.format(dateInfo); // Stored as YYYY-MM-DD
+            String complete = "F";
+            String employeeName = null; // fix
+            String location = roomNum.getText();
+            String givenDescription = description.getText();
+
+            ExternalTransportRequest request = new ExternalTransportRequest(givenPatientName, givenTransportType, givenDestination, givenPatientAllergies, givenOutNetwork, givenInfectious, givenUnconscious,
+                    requestID, time, date, complete, employeeName, location, givenDescription);
+
             DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
         }
-        super.handleButtonAction(actionEvent);
     }
 }

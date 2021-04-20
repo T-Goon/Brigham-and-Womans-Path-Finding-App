@@ -52,31 +52,33 @@ public class LaundryRequestFormController extends DefaultServiceRequestFormContr
     }
 
     public void handleButtonAction(ActionEvent actionEvent) {
-        String givenServiceType = comboTypeService.getValue().getText();
-        String givenServiceSize = comboSizeService.getValue().getText();
-        String givenDark = darks.isSelected() ? "T" : "F";
-        String givenLight = lights.isSelected() ? "T" : "F";
-        String givenOccupied = roomOccupied.isSelected() ? "T" : "F";
-
-        DateFormat timeFormat = new SimpleDateFormat("HH:mm");
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Date dateInfo = new Date();
-
-        String requestID = UUID.randomUUID().toString();
-        String time = timeFormat.format(dateInfo); // Stored as HH:MM (24 hour time)
-        String date = dateFormat.format(dateInfo); // Stored as YYYY-MM-DD
-        String complete = "F";
-        String employeeName = null; // fix
-        String location = loc.getText();
-        String givenDescription = description.getText();
-
-        LaundryRequest request = new LaundryRequest(givenServiceType, givenServiceSize, givenDark, givenLight, givenOccupied,
-                requestID, time, date, complete, employeeName, location, givenDescription);
+        super.handleButtonAction(actionEvent);
 
         JFXButton btn = (JFXButton) actionEvent.getSource();
         if (btn.getId().equals("btnSubmit")) {
+
+            String givenServiceType = comboTypeService.getValue().getText();
+            String givenServiceSize = comboSizeService.getValue().getText();
+            String givenDark = darks.isSelected() ? "T" : "F";
+            String givenLight = lights.isSelected() ? "T" : "F";
+            String givenOccupied = roomOccupied.isSelected() ? "T" : "F";
+
+            DateFormat timeFormat = new SimpleDateFormat("HH:mm");
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date dateInfo = new Date();
+
+            String requestID = UUID.randomUUID().toString();
+            String time = timeFormat.format(dateInfo); // Stored as HH:MM (24 hour time)
+            String date = dateFormat.format(dateInfo); // Stored as YYYY-MM-DD
+            String complete = "F";
+            String employeeName = null; // fix
+            String location = loc.getText();
+            String givenDescription = description.getText();
+
+            LaundryRequest request = new LaundryRequest(givenServiceType, givenServiceSize, givenDark, givenLight, givenOccupied,
+                    requestID, time, date, complete, employeeName, location, givenDescription);
+
             DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
         }
-        super.handleButtonAction(actionEvent);
     }
 }
