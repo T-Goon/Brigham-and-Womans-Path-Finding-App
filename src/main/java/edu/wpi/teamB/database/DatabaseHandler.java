@@ -6,7 +6,6 @@ import edu.wpi.teamB.entities.map.Node;
 import edu.wpi.teamB.entities.requests.*;
 import edu.wpi.teamB.pathfinding.Graph;
 
-import javax.swing.plaf.nimbus.State;
 import java.sql.*;
 import java.util.*;
 
@@ -71,13 +70,21 @@ public class DatabaseHandler {
      * with that data.
      */
     public void loadNodesEdges(List<Node> nodes, List<Edge> edges) {
-        resetDatabase(new ArrayList<>(Arrays.asList("Nodes", "Edges")));
-        executeSchema();
-        loadDatabaseNodes(nodes);
+        if (!resetDatabase(new ArrayList<>(Arrays.asList("SanitationRequests", "MedicineRequests", "InternalTransportRequests",
+                "ReligiousRequests", "FoodRequests", "FloralRequests", "SecurityRequests", "ExternalTransportRequests", "LaundryRequests",
+                "CaseManagerRequests", "SocialWorkerRequests", "Requests", "Edges", "Nodes")))) return;
+        if (!executeSchema()) return;
+        if (!loadDatabaseNodes(nodes)) return;
         loadDatabaseEdges(edges);
     }
 
-    public void resetDatabase(List<String> tables) {
+    /**
+     * Drops every table indicated in the list
+     *
+     * @param tables the list of table names to drop
+     * @return true if success, false otherwise
+     */
+    public boolean resetDatabase(List<String> tables) {
         Statement statement = this.getStatement();
 
         if (tables.isEmpty()) {
@@ -112,10 +119,15 @@ public class DatabaseHandler {
             statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
+        return true;
     }
 
-    public void executeSchema() {
+    /**
+     * @return true if the schema is successfully executed
+     */
+    public boolean executeSchema() {
         Statement statement = this.getStatement();
         String configuration = "PRAGMA foreign_keys = ON";
 
@@ -273,7 +285,9 @@ public class DatabaseHandler {
             statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
+        return true;
     }
 
     /**
@@ -281,15 +295,16 @@ public class DatabaseHandler {
      * the database
      *
      * @param nodes the list of nodes
+     * @return true if the nodes are successfully loaded
      */
-    public void loadDatabaseNodes(List<Node> nodes) {
+    public boolean loadDatabaseNodes(List<Node> nodes) {
 
         Statement statement = this.getStatement();
         String query;
 
         try {
             // If either list is empty, then nothing should be put in
-            if (nodes == null) return;
+            if (nodes == null) return false;
             for (Node node : nodes) {
                 query = "INSERT INTO Nodes(nodeID, xcoord, ycoord, floor, building, nodeType, longName, shortName) " +
                         "VALUES('"
@@ -307,7 +322,9 @@ public class DatabaseHandler {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
+        return true;
     }
 
     /**
@@ -315,15 +332,16 @@ public class DatabaseHandler {
      * the database
      *
      * @param edges the list of edges
+     * @return true if the edges are succesfully loaded
      */
-    public void loadDatabaseEdges(List<Edge> edges) {
+    public boolean loadDatabaseEdges(List<Edge> edges) {
 
         Statement statement = this.getStatement();
         String query;
 
         try {
             // If either list is empty, then nothing should be put in
-            if (edges == null) return;
+            if (edges == null) return false;
             for (Edge edge : edges) {
                 query = "INSERT INTO Edges(edgeID, startNode, endNode) "
                         + "VALUES('"
@@ -336,7 +354,9 @@ public class DatabaseHandler {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
+        return true;
     }
 
     /**
