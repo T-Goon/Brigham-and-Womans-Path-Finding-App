@@ -133,9 +133,13 @@
                                                                 <Insets left="5.0" />
                                                             </VBox.margin>
                                                         </Text>
-                                                        <JFXTextField fx:id="mealChoice" onKeyReleased="#validateButton" prefHeight="37.0" prefWidth="381.0" promptText="Ex. &quot;Chicken Sandiwch" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f0f0f0">
+                                                        <JFXTextField fx:id="mealChoice" onKeyReleased="#validateButton"
+                                                                      prefHeight="37.0" prefWidth="381.0"
+                                                                      promptText="Ex. &quot;Chicken Sandwich&quot;"
+                                                                      style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;"
+                                                                      unFocusColor="#f0f0f0">
                                                             <VBox.margin>
-                                                                <Insets left="5.0" right="5.0" />
+                                                                <Insets left="5.0" right="5.0"/>
                                                             </VBox.margin>
                                                         </JFXTextField>
                                                     </children>
