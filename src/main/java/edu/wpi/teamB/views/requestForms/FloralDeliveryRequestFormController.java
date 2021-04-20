@@ -18,7 +18,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
 
-public class FloralDeliveryRequestFormController extends DefaultServiceRequestFormController  {
+public class FloralDeliveryRequestFormController extends DefaultServiceRequestFormController {
 
     @FXML
     private JFXTextField patientName;
@@ -64,6 +64,7 @@ public class FloralDeliveryRequestFormController extends DefaultServiceRequestFo
 
     @FXML
     private void updatePrice() {
+        validateButton();
         double currentPrice = 0;
         if (roses.isSelected()) currentPrice += 2.99;
         if (tulips.isSelected()) currentPrice += 2.99;
@@ -73,7 +74,7 @@ public class FloralDeliveryRequestFormController extends DefaultServiceRequestFo
         if (carnations.isSelected()) currentPrice += 2.99;
         if (orchids.isSelected()) currentPrice += 2.99;
 
-        NumberFormat nf= NumberFormat.getInstance();
+        NumberFormat nf = NumberFormat.getInstance();
         nf.setMaximumFractionDigits(2);
         nf.setMinimumFractionDigits(2);
         nf.setRoundingMode(RoundingMode.HALF_UP);
@@ -118,11 +119,12 @@ public class FloralDeliveryRequestFormController extends DefaultServiceRequestFo
     }
 
     @FXML
-    private void validateButton(){
+    private void validateButton() {
         btnSubmit.setDisable(
                 patientName.getText().isEmpty() || roomNumber.getText().isEmpty() ||
-                deliveryDate.getValue() == null || startTime.getValue() == null ||
-                endTime.getValue() == null || message.getText().isEmpty()
+                        deliveryDate.getValue() == null || startTime.getValue() == null ||
+                        endTime.getValue() == null || message.getText().isEmpty() ||
+                        !(roses.isSelected() || tulips.isSelected() || daisies.isSelected() || lilies.isSelected() || sunflowers.isSelected() || carnations.isSelected() || orchids.isSelected())
         );
     }
 }
