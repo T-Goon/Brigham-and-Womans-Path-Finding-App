@@ -70,13 +70,19 @@ public class DatabaseHandler {
      * with that data.
      */
     public void loadNodesEdges(List<Node> nodes, List<Edge> edges) {
-        resetDatabase(new ArrayList<>(Arrays.asList("Nodes", "Edges")));
-        executeSchema();
-        loadDatabaseNodes(nodes);
+        if (!resetDatabase(new ArrayList<>(Arrays.asList("Edges", "Nodes")))) return;
+        if (!executeSchema()) return;
+        if (!loadDatabaseNodes(nodes)) return;
         loadDatabaseEdges(edges);
     }
 
-    public void resetDatabase(List<String> tables) {
+    /**
+     * Resets the inputted tables
+     *
+     * @param tables the list of tables to reset
+     * @return true if it succeeds
+     */
+    public boolean resetDatabase(List<String> tables) {
         Statement statement = this.getStatement();
 
         if (tables.isEmpty()) {
@@ -111,10 +117,17 @@ public class DatabaseHandler {
             statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
+        return true;
     }
 
-    public void executeSchema() {
+    /**
+     * Executes the schema and creates the tables
+     *
+     * @return true upon successful creation
+     */
+    public boolean executeSchema() {
         Statement statement = this.getStatement();
         String configuration = "PRAGMA foreign_keys = ON";
 
@@ -272,7 +285,9 @@ public class DatabaseHandler {
             statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
+        return true;
     }
 
     /**
@@ -280,15 +295,16 @@ public class DatabaseHandler {
      * the database
      *
      * @param nodes the list of nodes
+     * @return true upon successful loading
      */
-    public void loadDatabaseNodes(List<Node> nodes) {
+    public boolean loadDatabaseNodes(List<Node> nodes) {
 
         Statement statement = this.getStatement();
         String query;
 
         try {
             // If either list is empty, then nothing should be put in
-            if (nodes == null) return;
+            if (nodes == null) return false;
             for (Node node : nodes) {
                 query = "INSERT INTO Nodes(nodeID, xcoord, ycoord, floor, building, nodeType, longName, shortName) " +
                         "VALUES('"
@@ -306,7 +322,9 @@ public class DatabaseHandler {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
+        return true;
     }
 
     /**
@@ -314,15 +332,16 @@ public class DatabaseHandler {
      * the database
      *
      * @param edges the list of edges
+     * @return true upon successful loading
      */
-    public void loadDatabaseEdges(List<Edge> edges) {
+    public boolean loadDatabaseEdges(List<Edge> edges) {
 
         Statement statement = this.getStatement();
         String query;
 
         try {
             // If either list is empty, then nothing should be put in
-            if (edges == null) return;
+            if (edges == null) return false;
             for (Edge edge : edges) {
                 query = "INSERT INTO Edges(edgeID, startNode, endNode) "
                         + "VALUES('"
@@ -335,7 +354,9 @@ public class DatabaseHandler {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
+        return true;
     }
 
     /**
