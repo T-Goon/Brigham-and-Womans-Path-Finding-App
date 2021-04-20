@@ -44,4 +44,12 @@ public class ExternalTransportationRequestFormController extends DefaultServiceR
         comboTranspType.getItems().add(new Label("Ambulance"));
         comboTranspType.getItems().add(new Label("Helicopter"));
     }
+
+    @FXML
+    private void validateButton(){
+        btnSubmit.setDisable(
+            name.getText().isEmpty() || roomNum.getText().isEmpty() || comboTranspType.getValue() == null ||
+            description.getText().isEmpty() || allergies.getText().isEmpty()
+        );
+    }
 }
