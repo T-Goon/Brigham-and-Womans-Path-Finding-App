@@ -1,14 +1,22 @@
 package edu.wpi.teamB.views.requestForms;
 
 import com.jfoenix.controls.*;
+import edu.wpi.teamB.App;
 import edu.wpi.teamB.database.DatabaseHandler;
+import edu.wpi.teamB.entities.requests.CaseManagerRequest;
 import edu.wpi.teamB.entities.requests.ReligiousRequest;
+import edu.wpi.teamB.entities.requests.Request;
+import edu.wpi.teamB.util.SceneSwitcher;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
+import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Date;
+import java.util.ResourceBundle;
 import java.util.UUID;
 
 public class ReligiousRequestFormController extends DefaultServiceRequestFormController {
@@ -36,6 +44,28 @@ public class ReligiousRequestFormController extends DefaultServiceRequestFormCon
 
     @FXML
     private JFXCheckBox infectious;
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml")) {
+            String id = (String) App.getPrimaryStage().getUserData();
+            ReligiousRequest religiousRequest = (ReligiousRequest) DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(id, Request.RequestType.RELIGIOUS);
+            name.setText(religiousRequest.getPatientName());
+            roomNum.setText(religiousRequest.getLocation());
+            String d = religiousRequest.getReligiousDate();
+            LocalDate ld = LocalDate.of(Integer.parseInt(d.substring(0, 4)), Integer.parseInt(d.substring(5, 7)), Integer.parseInt(d.substring(8, 10)));
+            date.setValue(ld);
+            String sTime = religiousRequest.getStartTime();
+            LocalTime slt = LocalTime.of(Integer.parseInt(sTime.substring(0, 2)), Integer.parseInt(sTime.substring(3, 5)));
+            startTime.setValue(slt);
+            String eTime = religiousRequest.getEndTime();
+            LocalTime elt = LocalTime.of(Integer.parseInt(eTime.substring(0, 2)), Integer.parseInt(eTime.substring(3, 5)));
+            endTime.setValue(elt);
+            faith.setText(religiousRequest.getFaith());
+            description.setText(religiousRequest.getDescription());
+            infectious.setSelected(religiousRequest.getInfectious().equals("T"));
+        }
+    }
 
     public void handleButtonAction(ActionEvent actionEvent) {
         super.handleButtonAction(actionEvent);

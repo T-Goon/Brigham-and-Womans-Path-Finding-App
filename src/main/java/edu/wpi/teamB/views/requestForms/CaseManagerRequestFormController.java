@@ -42,10 +42,10 @@ public class CaseManagerRequestFormController extends DefaultServiceRequestFormC
             String id = (String) App.getPrimaryStage().getUserData();
             CaseManagerRequest caseManagerRequest = (CaseManagerRequest) DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(id, Request.RequestType.CASE_MANAGER);
             patientName.setText(caseManagerRequest.getPatientName());
-            String time = caseManagerRequest.getTime();
-            LocalTime lt = LocalTime.of(Integer.parseInt(time.substring(0, 1)), Integer.parseInt(time.substring(3, 4)));
-            timeForArrival.setValue(lt);
             roomNumber.setText(caseManagerRequest.getLocation());
+            String time = caseManagerRequest.getTimeForArrival();
+            LocalTime lt = LocalTime.of(Integer.parseInt(time.substring(0, 2)), Integer.parseInt(time.substring(3, 5)));
+            timeForArrival.setValue(lt);
             messageForCaseManager.setText(caseManagerRequest.getDescription());
         }
     }
@@ -73,7 +73,11 @@ public class CaseManagerRequestFormController extends DefaultServiceRequestFormC
             CaseManagerRequest request = new CaseManagerRequest(givenPatientName, givenTimeForArrival,
                     requestID, time, date, complete, employeeName, location, givenDescription);
 
-            DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
+            if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml")) {
+                DatabaseHandler.getDatabaseHandler("main.db").updateRequest(request);
+            } else {
+                DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
+            }
         }
     }
 

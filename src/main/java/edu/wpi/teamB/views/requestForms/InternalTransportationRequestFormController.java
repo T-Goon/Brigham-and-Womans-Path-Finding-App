@@ -1,8 +1,12 @@
 package edu.wpi.teamB.views.requestForms;
 
 import com.jfoenix.controls.*;
+import edu.wpi.teamB.App;
 import edu.wpi.teamB.database.DatabaseHandler;
+import edu.wpi.teamB.entities.requests.ExternalTransportRequest;
 import edu.wpi.teamB.entities.requests.InternalTransportRequest;
+import edu.wpi.teamB.entities.requests.Request;
+import edu.wpi.teamB.util.SceneSwitcher;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -42,6 +46,25 @@ public class InternalTransportationRequestFormController extends DefaultServiceR
         comboTranspType.getItems().add(new Label("Wheelchair"));
         comboTranspType.getItems().add(new Label("Stretcher"));
         comboTranspType.getItems().add(new Label("Gurney"));
+
+        if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml")) {
+            String id = (String) App.getPrimaryStage().getUserData();
+            InternalTransportRequest internalTransportRequest = (InternalTransportRequest) DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(id, Request.RequestType.INTERNAL_TRANSPORT);
+            name.setText(internalTransportRequest.getPatientName());
+            roomNum.setText(internalTransportRequest.getLocation());
+            int index = -1;
+            if (internalTransportRequest.getTransportType().equals("Wheelchair")) {
+                index = 0;
+            } else if (internalTransportRequest.getTransportType().equals("Stretcher")) {
+                index = 1;
+            } else if (internalTransportRequest.getTransportType().equals("Gurney")) {
+                index = 2;
+            }
+            comboTranspType.getSelectionModel().select(index);
+            description.setText(internalTransportRequest.getDescription());
+            unconscious.setSelected(internalTransportRequest.getUnconscious().equals("T"));
+            infectious.setSelected(internalTransportRequest.getInfectious().equals("T"));
+        }
     }
 
     public void handleButtonAction(ActionEvent actionEvent) {

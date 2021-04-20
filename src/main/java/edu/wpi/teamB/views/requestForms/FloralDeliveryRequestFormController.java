@@ -1,17 +1,26 @@
 package edu.wpi.teamB.views.requestForms;
 
 import com.jfoenix.controls.*;
+import edu.wpi.teamB.App;
 import edu.wpi.teamB.database.DatabaseHandler;
+import edu.wpi.teamB.entities.requests.CaseManagerRequest;
 import edu.wpi.teamB.entities.requests.FloralRequest;
+import edu.wpi.teamB.entities.requests.Request;
+import edu.wpi.teamB.util.SceneSwitcher;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
 import java.math.RoundingMode;
+import java.net.URL;
 import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.ResourceBundle;
 import java.util.UUID;
 
 public class FloralDeliveryRequestFormController extends DefaultServiceRequestFormController {
@@ -57,6 +66,50 @@ public class FloralDeliveryRequestFormController extends DefaultServiceRequestFo
 
     @FXML
     private JFXCheckBox orchids;
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml")) {
+            String id = (String) App.getPrimaryStage().getUserData();
+            FloralRequest floralRequest = (FloralRequest) DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(id, Request.RequestType.FLORAL);
+            patientName.setText(floralRequest.getPatientName());
+            roomNumber.setText(floralRequest.getLocation());
+            String date = floralRequest.getDeliveryDate();
+            LocalDate ld = LocalDate.of(Integer.parseInt(date.substring(0, 4)), Integer.parseInt(date.substring(5, 7)), Integer.parseInt(date.substring(8, 10)));
+            deliveryDate.setValue(ld);
+            String sTime = floralRequest.getStartTime();
+            LocalTime slt = LocalTime.of(Integer.parseInt(sTime.substring(0, 2)), Integer.parseInt(sTime.substring(3, 5)));
+            startTime.setValue(slt);
+            String eTime = floralRequest.getEndTime();
+            LocalTime elt = LocalTime.of(Integer.parseInt(eTime.substring(0, 2)), Integer.parseInt(eTime.substring(3, 5)));
+            endTime.setValue(elt);
+            message.setText(floralRequest.getDescription());
+            roses.setSelected(floralRequest.getWantsRoses().equals("T"));
+            tulips.setSelected(floralRequest.getWantsTulips().equals("T"));
+            daisies.setSelected(floralRequest.getWantsDaisies().equals("T"));
+            lilies.setSelected(floralRequest.getWantsLilies().equals("T"));
+            sunflowers.setSelected(floralRequest.getWantsSunflowers().equals("T"));
+            carnations.setSelected(floralRequest.getWantsCarnations().equals("T"));
+            orchids.setSelected(floralRequest.getWantsOrchids().equals("T"));
+
+            ArrayList<JFXCheckBox> checkBoxes = new ArrayList<JFXCheckBox>();
+            checkBoxes.add(roses);
+            checkBoxes.add(tulips);
+            checkBoxes.add(daisies);
+            checkBoxes.add(lilies);
+            checkBoxes.add(sunflowers);
+            checkBoxes.add(carnations);
+            checkBoxes.add(orchids);
+
+            double price = 0;
+            for (JFXCheckBox checkBox : checkBoxes) {
+                if (checkBox.isSelected()) {
+                    price += 2.99;
+                }
+            }
+            totalPrice.setText("Total Price: $" + Double.toString(price));
+        }
+    }
 
     @FXML
     private void updatePrice() {

@@ -3,14 +3,19 @@ package edu.wpi.teamB.views.requestForms;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
+import edu.wpi.teamB.App;
 import edu.wpi.teamB.database.DatabaseHandler;
 import edu.wpi.teamB.entities.requests.MedicineRequest;
+import edu.wpi.teamB.entities.requests.Request;
+import edu.wpi.teamB.util.SceneSwitcher;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
+import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.ResourceBundle;
 import java.util.UUID;
 
 public class MedDeliveryRequestFormController extends DefaultServiceRequestFormController {
@@ -26,6 +31,18 @@ public class MedDeliveryRequestFormController extends DefaultServiceRequestFormC
 
     @FXML
     private JFXTextArea reason;
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml")) {
+            String id = (String) App.getPrimaryStage().getUserData();
+            MedicineRequest medicineRequest = (MedicineRequest) DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(id, Request.RequestType.MEDICINE);
+            name.setText(medicineRequest.getPatientName());
+            roomNum.setText(medicineRequest.getLocation());
+            medName.setText(medicineRequest.getMedicine());
+            reason.setText(medicineRequest.getDescription());
+        }
+    }
 
     public void handleButtonAction(ActionEvent actionEvent) {
         super.handleButtonAction(actionEvent);

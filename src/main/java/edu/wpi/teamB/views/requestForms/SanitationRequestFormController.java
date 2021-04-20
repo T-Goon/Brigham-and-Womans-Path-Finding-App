@@ -1,8 +1,12 @@
 package edu.wpi.teamB.views.requestForms;
 
 import com.jfoenix.controls.*;
+import edu.wpi.teamB.App;
 import edu.wpi.teamB.database.DatabaseHandler;
+import edu.wpi.teamB.entities.requests.ExternalTransportRequest;
+import edu.wpi.teamB.entities.requests.Request;
 import edu.wpi.teamB.entities.requests.SanitationRequest;
+import edu.wpi.teamB.util.SceneSwitcher;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -50,6 +54,33 @@ public class SanitationRequestFormController extends DefaultServiceRequestFormCo
         comboSizeService.getItems().add(new Label("Medium"));
         comboSizeService.getItems().add(new Label("Large"));
 
+        if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml")) {
+            String id = (String) App.getPrimaryStage().getUserData();
+            SanitationRequest sanitationRequest = (SanitationRequest) DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(id, Request.RequestType.SANITATION);
+            loc.setText(sanitationRequest.getLocation());
+            int indexType = -1;
+            if (sanitationRequest.getSanitationType().equals("Wet")) {
+                indexType = 0;
+            } else if (sanitationRequest.getSanitationType().equals("Dry")) {
+                indexType = 1;
+            } else if (sanitationRequest.getSanitationType().equals("Glass")) {
+                indexType = 2;
+            }
+            comboTypeService.getSelectionModel().select(indexType);
+            int indexSize = -1;
+            if (sanitationRequest.getSanitationSize().equals("Small")) {
+                indexSize = 0;
+            } else if (sanitationRequest.getSanitationSize().equals("Medium")) {
+                indexSize = 1;
+            } else if (sanitationRequest.getSanitationSize().equals("Large")) {
+                indexSize = 2;
+            }
+            comboSizeService.getSelectionModel().select(indexSize);
+            description.setText(sanitationRequest.getDescription());
+            safetyHazard.setSelected(sanitationRequest.getHazardous().equals("T"));
+            biologicalSubstance.setSelected(sanitationRequest.getBiologicalSubstance().equals("T"));
+            roomOccupied.setSelected(sanitationRequest.getOccupied().equals("T"));
+        }
     }
 
     @FXML

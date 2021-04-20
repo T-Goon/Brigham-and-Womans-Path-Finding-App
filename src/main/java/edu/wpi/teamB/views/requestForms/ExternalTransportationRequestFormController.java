@@ -55,6 +55,28 @@ public class ExternalTransportationRequestFormController extends DefaultServiceR
         comboTranspType.getItems().add(new Label("Bus"));
         comboTranspType.getItems().add(new Label("Ambulance"));
         comboTranspType.getItems().add(new Label("Helicopter"));
+
+        if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml")) {
+            String id = (String) App.getPrimaryStage().getUserData();
+            ExternalTransportRequest externalTransportRequest = (ExternalTransportRequest) DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(id, Request.RequestType.EXTERNAL_TRANSPORT);
+            name.setText(externalTransportRequest.getPatientName());
+            roomNum.setText(externalTransportRequest.getLocation());
+            int index = -1;
+            if (externalTransportRequest.getTransportType().equals("Bus")) {
+                index = 0;
+            } else if (externalTransportRequest.getTransportType().equals("Ambulance")) {
+                index = 1;
+            } else if (externalTransportRequest.getTransportType().equals("Helicopter")) {
+                index = 2;
+            }
+            comboTranspType.getSelectionModel().select(index);
+            destination.setText(externalTransportRequest.getDestination());
+            description.setText(externalTransportRequest.getDescription());
+            allergies.setText(externalTransportRequest.getPatientAllergies());
+            unconscious.setSelected(externalTransportRequest.getUnconscious().equals("T"));
+            infectious.setSelected(externalTransportRequest.getInfectious().equals("T"));
+            outNetwork.setSelected(externalTransportRequest.getOutNetwork().equals("T"));
+        }
     }
 
     public void handleButtonAction(ActionEvent actionEvent) {
