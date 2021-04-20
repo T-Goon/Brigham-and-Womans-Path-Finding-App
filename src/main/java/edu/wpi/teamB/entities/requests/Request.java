@@ -50,35 +50,6 @@ public class Request {
                     throw new IllegalStateException("How did we get here?");
             }
         }
-
-        public static RequestType deprettify(String requestType) {
-            switch (requestType) {
-                case "CASE_MANAGER":
-                    return CASE_MANAGER;
-                case "EXTERNAL_":
-                    return EXTERNAL_TRANSPORT;
-                case "Floral":
-                    return FLORAL;
-                case "Food":
-                    return FOOD;
-                case "Internal Transport":
-                    return INTERNAL_TRANSPORT;
-                case "Laundry":
-                    return LAUNDRY;
-                case "Medicine":
-                    return MEDICINE;
-                case "Religious":
-                    return  RELIGIOUS;
-                case "Sanitation":
-                    return SANITATION;
-                case "Security":
-                    return SECURITY;
-                case "Social Worker":
-                    return SOCIAL_WORKER;
-                default:
-                    throw new IllegalStateException("How did we get here?");
-            }
-        }
     }
 
     private String requestID;
