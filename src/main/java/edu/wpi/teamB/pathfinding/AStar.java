@@ -1,7 +1,7 @@
 package edu.wpi.teamB.pathfinding;
 
-import edu.wpi.teamB.database.DatabaseHandler;
-import edu.wpi.teamB.entities.Node;
+import edu.wpi.teamB.entities.map.Path;
+import edu.wpi.teamB.entities.map.Node;
 
 import java.util.*;
 
@@ -14,8 +14,7 @@ public class AStar {
      * @param endID   nodeID of the ending node
      * @return LinkedList of nodeIDs which dictates the order of nodes in the path
      */
-    public static List<String> findPath(String startID, String endID) {
-
+    public static Path findPath(String startID, String endID) {
 
         Graph graph = Graph.getGraph();
         Node startNode = graph.getNodes().get(startID);
@@ -66,8 +65,8 @@ public class AStar {
                         cameFrom.put(neighbor.getNodeID(), current.getNodeID());
                     }
                 }
-            } catch (NullPointerException e){
-                return new LinkedList<>();
+            } catch (NullPointerException e) {
+                return new Path(new LinkedList<>(), 0);
             }
         }
 
@@ -80,6 +79,63 @@ public class AStar {
             currentID = cameFrom.get(currentID);
         }
 
-        return ret;
+        return new Path(ret, costSoFar.get(current.getNodeID()));
     }
+
+    /**
+     * @param startID      starting node
+     * @param destinations we take in nodes of the same category that the user
+     *                     wants to go to
+     * @return The shortest path from the starting node to any of the nodes in the destinations list
+     * to it
+     */
+    public static Path shortestPathToNodeInList(String startID, List<Node> destinations) {
+
+        double min = Double.MAX_VALUE;
+        Path shortestPath = new Path();
+
+        for (Node dest : destinations) {
+            Path tempPath = findPath(startID, dest.getNodeID());
+            double cost = tempPath.getTotalPathCost();
+            if (cost != 0 && cost < min) {
+                shortestPath = tempPath;
+                min = cost;
+            }
+        }
+        return shortestPath;
+    }
+
+    /**
+     * Calculates the estimated time it would take to walk a certan path
+     *
+     * @param path the given Path
+     * @return the estimated time string to put in the box
+     */
+    public static String getEstimatedTime(Path path) {
+        //3-4mph average human walking speed
+        //1 mph = 88 fpm
+
+        //bWALK00601,1738,1545,1,Parking,WALK,Francis Vining Intersection Top Left,FrancisViningIntTopLeft
+        //bWALK01201,3373,1554,1,Parking,WALK,Francis Top Sidewalk 3,FrancisSidewalk3
+        //According to google maps, path from one corner of Francis street to other is ~500 ft:
+        //using this to get pixles / minute
+        //double pixDist = Math.sqrt((3373 - 1738)^2 +(1554-1545)^2);
+        //double pixDist = 1635.025;
+        double timeConst = (2 / 1635.025);
+        double timeDec = path.getTotalPathCost() * timeConst;
+
+        double secondsTime = timeDec * 60;
+
+        int min = (int) Math.floor(timeDec);
+        int sec = (int) secondsTime - min * 60;
+
+        if (min == 0) {
+            return String.format("%02d", sec) + " sec";
+        } else {
+
+            return min + ":" + String.format("%02d", sec) + " min";
+        }
+
+    }
+
 }

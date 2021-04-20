@@ -161,5 +161,8 @@ gradle-app.setting
 # End of https://www.gitignore.io/api/java,macos,gradle,intellij+all
 
 # Databases
-/src/main/resources/edu/wpi/teamB/database/main.db
-/src/main/resources/edu/wpi/teamB/database/test.db
+main.db
+test.db
+
+#The test csvs that the tests save we dont neet to keep track of
+/src/test/resources/edu/wpi/teamB/database/save/*.csv

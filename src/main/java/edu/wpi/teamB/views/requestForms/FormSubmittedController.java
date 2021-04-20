@@ -2,10 +2,9 @@ package edu.wpi.teamB.views.requestForms;
 
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.teamB.util.SceneSwitcher;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-
-import java.io.IOException;
 
 public class FormSubmittedController {
 
@@ -13,15 +12,20 @@ public class FormSubmittedController {
     private JFXButton btnReturn;
 
     @FXML
-    private void handleButtonAction(ActionEvent e) throws IOException {
+    private void handleButtonAction(ActionEvent e) {
 
         JFXButton btn = (JFXButton) e.getSource();
 
-        if (btn.getId().equals("btnReturn"))
-            SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/patientDirectoryMenu.fxml");
-        else if (btn.getId().equals("btnEmergency")) {
-            // not implemented
-            System.err.println("Emergency not implemented yet!");
+        switch (btn.getId()) {
+            case "btnReturn":
+                SceneSwitcher.goBack(getClass(), 2);
+                break;
+            case "btnEmergency":
+                SceneSwitcher.switchToTemp(getClass(), "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");
+                break;
+            case "btnExit":
+                Platform.exit();
+                break;
         }
     }
 }

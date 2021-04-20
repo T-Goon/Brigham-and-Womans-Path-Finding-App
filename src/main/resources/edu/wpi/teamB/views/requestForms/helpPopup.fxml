@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-radius: 10; -fx-background-color: #0067B1;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamB.views.requestForms.HelpPopupController">
+   <children>
+      <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Please fill out this form completely. Once each field is full, you can submit the form and an employee will be assigned. If you wish to end your request early click &quot;Cancel&quot;. If your request is an emergency please click &quot;Emergency&quot;.  " textAlignment="CENTER" wrappingWidth="410.0" VBox.vgrow="ALWAYS">
+         <VBox.margin>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </VBox.margin>
+         <font>
+            <Font name="MS Reference Sans Serif" size="15.0" />
+         </font>
+      </Text>
+   </children>
+</VBox>

@@ -1,13 +1,14 @@
 package edu.wpi.teamB;
 
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Objects;
 
+import edu.wpi.teamB.entities.User;
 import edu.wpi.teamB.util.CSVHandler;
 import edu.wpi.teamB.database.DatabaseHandler;
+import edu.wpi.teamB.util.SceneSwitcher;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -18,22 +19,17 @@ import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
+@SuppressWarnings("deprecation")
 public class App extends Application {
 
     private static Stage primaryStage;
     private DatabaseHandler db;
-
-    public static final Path NODES_PATH = Paths.get("src/main/resources/edu/wpi/teamB/csvfiles/bwBnodes.csv");
-    public static final Path EDGES_PATH = Paths.get("src/main/resources/edu/wpi/teamB/csvfiles/bwBedges.csv");
+    private Thread dbThread;
 
     @Override
-    public void init() throws SQLException {
+    public void init() {
         System.out.println("Starting Up");
         db = DatabaseHandler.getDatabaseHandler("main.db");
-
-        // If the database is uninitialized, fill it with the csv files
-        if (!db.isNodesInitialized()) db.loadDatabaseNodes(CSVHandler.loadCSVNodes(NODES_PATH));
-        if (!db.isEdgesInitialized()) db.loadDatabaseEdges(CSVHandler.loadCSVEdges(EDGES_PATH));
     }
 
     @Override
@@ -42,11 +38,9 @@ public class App extends Application {
 
         // Open first view
         try {
-            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("views/menus/patientDirectoryMenu.fxml")));
-
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("views/login/loginOptions.fxml")));
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);
-            primaryStage.show();
 
             //Press F11 to escape fullscreen. Allows users to use the ESC key to go back to the previous scene
             primaryStage.setFullScreenExitKeyCombination(new KeyCombination() {
@@ -57,9 +51,27 @@ public class App extends Application {
             });
 
             primaryStage.setFullScreen(true);
+
+            // If the database is uninitialized, fill it with the csv files
+            db.resetDatabase(new ArrayList<>(Collections.singleton("Users")));
+            db.executeSchema();
+            if (!db.isInitialized()) {
+                SceneSwitcher.switchToTemp(getClass(), "/edu/wpi/teamB/views/login/databaseInit.fxml");
+                primaryStage.show();
+
+                dbThread = new Thread(() -> {
+                    db.loadNodesEdges(CSVHandler.loadCSVNodes("/edu/wpi/teamB/csvFiles/bwBnodes.csv"), CSVHandler.loadCSVEdges("/edu/wpi/teamB/csvFiles/bwBedges.csv"));
+                    Platform.runLater(() -> SceneSwitcher.switchToTemp(getClass(), "/edu/wpi/teamB/views/login/loginOptions.fxml"));
+                });
+                dbThread.start();
+            } else primaryStage.show();
+            db.addUser(new User("admin", "Professor", "X", User.AuthenticationLevel.ADMIN, null), "password");
+            db.addUser(new User("staff", "Mike", "Bedard", User.AuthenticationLevel.STAFF, null), "password");
+            db.addUser(new User("d", "Dan", "Druff", User.AuthenticationLevel.STAFF, null), "d");
+            db.addUser(new User("j", "Joe", "Mama", User.AuthenticationLevel.STAFF, null), "j");
+            db.addUser(new User("guest", "T", "Goon", User.AuthenticationLevel.GUEST, null), "password");
         } catch (IOException e) {
             e.printStackTrace();
-            Platform.exit();
         }
     }
 
@@ -69,6 +81,8 @@ public class App extends Application {
 
     @Override
     public void stop() {
+        if (dbThread != null)
+            dbThread.stop();
         DatabaseHandler.getDatabaseHandler("main.db").shutdown();
         System.out.println("Shutting Down");
     }

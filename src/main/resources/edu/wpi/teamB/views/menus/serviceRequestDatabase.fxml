@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" style="-fx-background-color: #012d5a;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamB.views.menus.ServiceRequestDatabaseController">
+    <children>
+        <StackPane fx:id="stackContainer" layoutY="-28.083261489868164" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <children>
+                <VBox prefHeight="600.0" prefWidth="900.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <children>
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #FFFFFF;">
+                            <children>
+                                <VBox>
+                                    <HBox.margin>
+                                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                    </HBox.margin>
+                                    <children>
+                                        <ImageView fitHeight="114.0" fitWidth="314.0" pickOnBounds="true" preserveRatio="true">
+                                            <image>
+                                                <Image url="@../../images/general/hospitalLogo.png" />
+                                            </image>
+                                        </ImageView>
+                                        <JFXButton fx:id="btnEmergency" buttonType="RAISED" onAction="#handleButtonAction" style="-fx-background-color: #CE2029;" text="EMERGENCY" textFill="WHITE">
+                                            <font>
+                                                <Font name="MS Reference Sans Serif" size="16.0" />
+                                            </font>
+                                            <VBox.margin>
+                                                <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
+                                            </VBox.margin>
+                                        </JFXButton>
+                                    </children>
+                                </VBox>
+                                <VBox alignment="TOP_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+                                    <children>
+                                        <JFXButton fx:id="btnExit" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" onAction="#handleButtonAction" prefHeight="40.0" prefWidth="40.0" rotate="45.0" style="-fx-background-color: transparent; -fx-background-radius: 50%;" text="+" textAlignment="CENTER">
+                                            <padding>
+                                                <Insets bottom="-10.0" left="-10.0" right="-10.0" top="-10.0" />
+                                            </padding>
+                                            <font>
+                                                <Font size="30.0" />
+                                            </font>
+                                        </JFXButton>
+                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Service Request Database">
+                                            <font>
+                                                <Font size="40.0" />
+                                            </font>
+                                            <VBox.margin>
+                                                <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
+                                            </VBox.margin>
+                                        </Text>
+                                    </children>
+                                </VBox>
+                            </children>
+                        </HBox>
+                        <HBox alignment="TOP_CENTER" prefHeight="1180.0">
+                            <children>
+                                <ScrollPane hbarPolicy="NEVER" prefHeight="736.0" prefWidth="1200.0" style="-fx-background-color: #0067B1;" stylesheets="@../../css/serviceRequestDatabase.css" vbarPolicy="ALWAYS">
+                                    <HBox.margin>
+                                        <Insets bottom="20.0" left="20.0" right="40.0" />
+                                    </HBox.margin>
+                                    <content>
+                                        <TableView fx:id="tblRequests" prefHeight="634.0" prefWidth="1181.0" style="-fx-background-color: #0067B1;" stylesheets="@../../css/editorTable.css">
+                                            <columns>
+                                                <TableColumn fx:id="editCol" minWidth="80.0" prefWidth="-1.0" />
+                                                <TableColumn fx:id="typeCol" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="500.0" text="Service Request Type" />
+                                                <TableColumn fx:id="timeCol" prefWidth="100.0" text="Time" />
+                                                <TableColumn fx:id="dateCol" prefWidth="100.0" text="Date" />
+                                                <TableColumn fx:id="completeCol" minWidth="80.0" prefWidth="100.0" text="Complete" />
+                                                <TableColumn fx:id="employeeCol" minWidth="80.0" prefWidth="250.0" text="Assigned To" />
+                                                <TableColumn fx:id="delCol" minWidth="80.0" prefWidth="-1.0" />
+                                            </columns>
+                                        </TableView>
+                                    </content>
+                                </ScrollPane>
+                            </children>
+                            <VBox.margin>
+                                <Insets left="15.0" />
+                            </VBox.margin>
+                        </HBox>
+                        <HBox>
+                            <children>
+                                <HBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
+                                    <children>
+                                        <JFXButton fx:id="btnBack" alignment="CENTER" buttonType="RAISED" cancelButton="true" contentDisplay="CENTER" maxHeight="56" maxWidth="56" onAction="#handleButtonAction" prefHeight="56" prefWidth="56" style="-fx-background-color: #0067B1; -fx-background-radius: 50%;" text="" textAlignment="CENTER" textFill="WHITE">
+                                            <font>
+                                                <Font size="27.0" />
+                                            </font>
+                                            <graphic>
+                                                <ImageView fitHeight="20" fitWidth="20" pickOnBounds="true" preserveRatio="true">
+                                                    <image>
+                                                        <Image url="@../../images/menus/backButton.png" />
+                                                    </image>
+                                                </ImageView>
+                                            </graphic>
+                                        </JFXButton>
+                                    </children>
+                                    <HBox.margin>
+                                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                    </HBox.margin>
+                                </HBox>
+                                <HBox alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS">
+                                    <children>
+                                        <JFXButton fx:id="btnHelp" buttonType="RAISED" maxHeight="56.0" maxWidth="56.0" onAction="#handleButtonAction" prefHeight="56.0" prefWidth="56.0" style="-fx-background-color: #9A9999; -fx-background-radius: 50%;" text="?" textFill="WHITE">
+                                            <font>
+                                                <Font name="MS Reference Sans Serif" size="27.0" />
+                                            </font>
+                                        </JFXButton>
+                                    </children>
+                                    <HBox.margin>
+                                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                    </HBox.margin>
+                                </HBox>
+                            </children>
+                        </HBox>
+                    </children>
+                </VBox>
+            </children>
+        </StackPane>
+    </children>
+</AnchorPane>

@@ -1,17 +1,26 @@
 package edu.wpi.teamB.views.menus;
 
 import com.jfoenix.controls.JFXButton;
+import edu.wpi.teamB.database.DatabaseHandler;
+import edu.wpi.teamB.entities.User;
 import edu.wpi.teamB.util.SceneSwitcher;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.VBox;
 
-import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class ServiceRequestMenuController {
+public class ServiceRequestMenuController implements Initializable {
 
     private static final String VIEWS_PATH = "/edu/wpi/teamB/views/requestForms/";
-    private static final String MENUS_PATH = "/edu/wpi/teamB/views/menus/";
+
+    @FXML
+    private FlowPane flowpane;
 
     @FXML
     private JFXButton btnMedicine;
@@ -50,8 +59,33 @@ public class ServiceRequestMenuController {
     private JFXButton btnSocialWorker;
 
     @FXML
+    private JFXButton btnEmergency;
+
+    @FXML
+    private JFXButton btnExit;
+
+    @FXML
+    private VBox medicineDelivery;
+
+    @FXML
+    private VBox internalTransport;
+
+    @FXML
+    private VBox externalTransport;
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        if (!DatabaseHandler.getDatabaseHandler("main.db").getAuthenticationUser().isAtLeast(User.AuthenticationLevel.STAFF)) {
+            flowpane.getChildren().remove(medicineDelivery);
+            flowpane.getChildren().remove(internalTransport);
+            flowpane.getChildren().remove(externalTransport);
+        }
+    }
+
+    @FXML
     private void handleButtonAction(ActionEvent e) {
         Button btn = (Button) e.getSource();
+
         String path;
         switch (btn.getId()) {
             case "btnMedicine":
@@ -81,23 +115,25 @@ public class ServiceRequestMenuController {
             case "btnLaundryRequest":
                 path = VIEWS_PATH + "laundryRequestForm.fxml";
                 break;
-            case "btnBack":
-                path = MENUS_PATH + "patientDirectoryMenu.fxml";
-                break;
             case "btnCaseManager":
                 path = VIEWS_PATH + "caseManagerRequestForm.fxml";
                 break;
             case "btnSocialWorker":
                 path = VIEWS_PATH + "socialWorkerRequestForm.fxml";
                 break;
+            case "btnEmergency":
+                path = VIEWS_PATH + "emergencyForm.fxml";
+                break;
+            case "btnBack":
+                SceneSwitcher.goBack(getClass(), 1);
+                return;
+            case "btnExit":
+                Platform.exit();
+                return;
             default:
                 throw new IllegalStateException("WHAT BUTTON IS THIS AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
         }
 
-        try {
-            SceneSwitcher.switchScene(getClass(), path);
-        } catch (IOException err) {
-            err.printStackTrace();
-        }
+        SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/serviceRequestMenu.fxml", path);
     }
 }
