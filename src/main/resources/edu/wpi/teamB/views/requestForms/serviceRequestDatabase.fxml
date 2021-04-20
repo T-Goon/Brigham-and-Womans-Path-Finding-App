@@ -70,13 +70,13 @@
                      <content>
                         <TableView fx:id="tblRequests" prefHeight="634.0" prefWidth="1181.0" style="-fx-background-color: #0067B1;" stylesheets="@../../css/editorTable.css">
                           <columns>
-                              <TableColumn fx:id="editCol" minWidth="80.0" prefWidth="-1.0" style="-fx-background-color: #80B3D8;" />
-                            <TableColumn fx:id="typeCol" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="500.0" style="-fx-background-color: #80B3D8;" text="Service Request Type" />
-                            <TableColumn fx:id="timeCol" prefWidth="100.0" style="-fx-background-color: #80B3D8;" text="Time" />
-                              <TableColumn fx:id="dateCol" prefWidth="100.0" style="-fx-background-color: #80B3D8;" text="Date" />
-                              <TableColumn fx:id="completeCol" minWidth="80.0" prefWidth="100.0" style="-fx-background-color: #80B3D8;" text="Complete" />
-                              <TableColumn fx:id="employeeCol" minWidth="80.0" prefWidth="250.0" style="-fx-background-color: #80B3D8;" text="Assigned To" />
-                              <TableColumn fx:id="delCol" minWidth="80.0" prefWidth="-1.0" style="-fx-background-color: #80B3D8;" />
+                              <TableColumn fx:id="editCol" minWidth="80.0" prefWidth="-1.0" />
+                            <TableColumn fx:id="typeCol" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="500.0" text="Service Request Type" />
+                            <TableColumn fx:id="timeCol" prefWidth="100.0" text="Time" />
+                              <TableColumn fx:id="dateCol" prefWidth="100.0" text="Date" />
+                              <TableColumn fx:id="completeCol" minWidth="80.0" prefWidth="100.0" text="Complete" />
+                              <TableColumn fx:id="employeeCol" minWidth="80.0" prefWidth="250.0" text="Assigned To" />
+                              <TableColumn fx:id="delCol" minWidth="80.0" prefWidth="-1.0" />
                           </columns>
                         </TableView>
                      </content>
