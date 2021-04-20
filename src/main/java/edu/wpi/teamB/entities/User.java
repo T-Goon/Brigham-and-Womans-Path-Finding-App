@@ -30,6 +30,14 @@ public class User {
 
     private List<Request.RequestType> jobs;
 
+    public boolean addJob(Request.RequestType job){
+       if(jobs.contains(job)){
+           return false;
+       }
+       jobs.add(job);
+       return true;
+    }
+
     /**
      * @param auth the level of authorization required
      * @return whether the user is at least that level of authorization

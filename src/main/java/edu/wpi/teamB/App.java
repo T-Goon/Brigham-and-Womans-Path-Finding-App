@@ -2,10 +2,12 @@ package edu.wpi.teamB;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Objects;
 
 import edu.wpi.teamB.entities.User;
+import edu.wpi.teamB.entities.requests.Request;
 import edu.wpi.teamB.util.CSVHandler;
 import edu.wpi.teamB.database.DatabaseHandler;
 import javafx.application.Application;
@@ -36,7 +38,7 @@ public class App extends Application {
         db.addUser(new User("staff", "Mike", "Bedard", User.AuthenticationLevel.STAFF, null), "password");
         db.addUser(new User("d", "Dan", "Druff", User.AuthenticationLevel.STAFF, null), "d");
         db.addUser(new User("j", "Joe", "Mama", User.AuthenticationLevel.STAFF, null), "j");
-        db.addUser(new User("guest", "T", "Goon", User.AuthenticationLevel.GUEST, null), "password");
+        db.addUser(new User("tgoon", "Timothy", "Goon", User.AuthenticationLevel.STAFF, new ArrayList<>(Arrays.asList(Request.RequestType.SECURITY, Request.RequestType.MEDICINE))), "password");
     }
 
     @Override

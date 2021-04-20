@@ -460,6 +460,46 @@ public class DatabaseHandler {
         return outUser;
     }
 
+
+    /**
+     * @return Username:User hashmap with all  user objects, empty collection if no users exist
+     */
+    public HashMap<String,User> getUsers() {
+        Statement statement = this.getStatement();
+        ResultSet rs;
+        HashMap<String,User> outUsers = new HashMap<String,User>();
+        String query = "SELECT * FROM Users";
+        try {
+            rs = statement.executeQuery(query);
+            while(rs.next()) {
+                outUsers.put(rs.getString("username"),new User(
+                        rs.getString("username"),
+                        rs.getString("firstName"),
+                        rs.getString("lastName"),
+                        User.AuthenticationLevel.valueOf(rs.getString("authenticationLevel")),
+                        new ArrayList<Request.RequestType>())
+                );
+            }
+            rs.close();
+            statement.close();
+        } catch (SQLException e) {
+            return null;
+        }
+        query = "SELECT * FROM Jobs";
+        try {
+            assert statement != null;
+            rs = statement.executeQuery(query);
+            while (rs.next()) {
+                String username = rs.getString("username");
+                outUsers.get(username).addJob(Request.RequestType.valueOf(rs.getString("job")));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return outUsers;
+    }
+
     /**
      * Gets a list of users who are assigned to handle jobs of certain type
      * @param job RequestType enum of the type of job you want the users for

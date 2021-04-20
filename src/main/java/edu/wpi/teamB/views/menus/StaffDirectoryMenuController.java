@@ -18,6 +18,9 @@ public class StaffDirectoryMenuController {
     private JFXButton btnDirections;
 
     @FXML
+    private JFXButton btnUsers;
+
+    @FXML
     private JFXButton btnExit;
 
     @FXML
@@ -37,6 +40,9 @@ public class StaffDirectoryMenuController {
                 break;
             case "btnDatabase":
                 SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/staffDirectoryMenu.fxml", "/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml");
+                break;
+            case "btnUsers":
+                SceneSwitcher.switchScene(getClass(),"/edu/wpi/teamB/views/menus/staffDirectoryMenu.fxml","/edu/wpi/teamB/views/menus/userInformationDatabase.fxml");
                 break;
             case "btnBack":
                 SceneSwitcher.goBack(getClass(), 1);
