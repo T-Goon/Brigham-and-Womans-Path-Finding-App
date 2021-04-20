@@ -927,7 +927,7 @@ public class DatabaseHandler {
      */
     public void removeRequest(Request request) {
         Statement statement = this.getStatement();
-        String querySpecificTable = "DELETE FROM '" + request.getRequestType() + "Requests" + "'WHERE requestID = '" + request.getRequestID() + "'";
+        String querySpecificTable = "DELETE FROM '" + Request.RequestType.prettify(request.getRequestType()).replace(" ", "") + "Requests" + "'WHERE requestID = '" + request.getRequestID() + "'";
         String queryGeneralTable = "DELETE FROM Requests WHERE requestID = '" + request.getRequestID() + "'";
 
         try {
