@@ -14,7 +14,7 @@ public class LaundryRequest extends Request {
     private String occupied;
 
     public LaundryRequest(String serviceType, String serviceSize, String dark, String light, String occupied, String requestID, String time, String date, String complete, String employeeName, String location, String description) {
-        super(requestID, "Laundry", time, date, complete, employeeName, location, description);
+        super(requestID, RequestType.LAUNDRY, time, date, complete, employeeName, location, description);
         this.serviceType = serviceType;
         this.serviceSize = serviceSize;
         this.dark = dark;

@@ -14,7 +14,7 @@ public class SanitationRequest extends Request {
     private String occupied;
 
     public SanitationRequest(String sanitationType, String sanitationSize, String hazardous, String biologicalSubstance, String occupied, String requestID, String time, String date, String complete, String employeeName, String location, String description) {
-        super(requestID, "Sanitation", time, date, complete, employeeName, location, description);
+        super(requestID, RequestType.SANITATION, time, date, complete, employeeName, location, description);
         this.sanitationType = sanitationType;
         this.sanitationSize = sanitationSize;
         this.hazardous = hazardous;

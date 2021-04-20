@@ -32,7 +32,7 @@ public class RequestWrapper {
 
     public RequestWrapper(Request r, TableView parentTable) throws IOException {
         this.r = r;
-        this.type = new Label(r.getRequestType());
+        this.type = new Label(Request.RequestType.prettify(r.getRequestType()));
         this.time = new Label(r.getTime());
         this.date = new Label(r.getDate());
         this.complete = new JFXCheckBox();

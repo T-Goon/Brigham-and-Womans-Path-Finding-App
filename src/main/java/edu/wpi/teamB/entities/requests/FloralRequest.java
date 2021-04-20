@@ -23,7 +23,7 @@ public class FloralRequest extends Request {
                          String wantsRoses, String wantsTulips, String wantsDaisies, String wantsLilies,
                          String wantsSunflowers, String wantsCarnations, String wantsOrchids, String requestID,
                          String time, String date, String complete, String employeeName, String location, String description) {
-        super(requestID, "Floral", time, date, complete, employeeName, location, description);
+        super(requestID, RequestType.FLORAL, time, date, complete, employeeName, location, description);
         this.patientName = patientName;
         this.deliveryDate = deliveryDate;
         this.startTime = startTime;

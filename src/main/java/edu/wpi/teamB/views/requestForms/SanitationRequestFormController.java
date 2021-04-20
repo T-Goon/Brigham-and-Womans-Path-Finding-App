@@ -54,31 +54,29 @@ public class SanitationRequestFormController extends DefaultServiceRequestFormCo
     public void handleButtonAction(ActionEvent actionEvent) {
         super.handleButtonAction(actionEvent);
 
-        String givenSanitationType = comboTypeService.getValue().getText();
-        String givenSanitationSize = comboSizeService.getValue().getText();
-        String givenHazardous = safetyHazard.isSelected() ? "T" : "F";
-        String givenBiologicalSubstance = biologicalSubstance.isSelected() ? "T" : "F";
-        String givenOccupied = roomOccupied.isSelected() ? "T" : "F";
-
-        DateFormat timeFormat = new SimpleDateFormat("HH:mm");
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Date dateInfo = new Date();
-
-        String requestID = UUID.randomUUID().toString();
-        String time = timeFormat.format(dateInfo); // Stored as HH:MM (24 hour time)
-        String date = dateFormat.format(dateInfo); // Stored as YYYY-MM-DD
-        String complete = "F";
-        String employeeName = null; // fix
-        String location = loc.getText();
-        String givenDescription = description.getText();
-
-        SanitationRequest request = new SanitationRequest(givenSanitationType, givenSanitationSize, givenHazardous, givenBiologicalSubstance, givenOccupied,
-                requestID, time, date, complete, employeeName, location, givenDescription);
-
         JFXButton btn = (JFXButton) actionEvent.getSource();
         if (btn.getId().equals("btnSubmit")) {
+            String givenSanitationType = comboTypeService.getValue().getText();
+            String givenSanitationSize = comboSizeService.getValue().getText();
+            String givenHazardous = safetyHazard.isSelected() ? "T" : "F";
+            String givenBiologicalSubstance = biologicalSubstance.isSelected() ? "T" : "F";
+            String givenOccupied = roomOccupied.isSelected() ? "T" : "F";
+
+            DateFormat timeFormat = new SimpleDateFormat("HH:mm");
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date dateInfo = new Date();
+
+            String requestID = UUID.randomUUID().toString();
+            String time = timeFormat.format(dateInfo); // Stored as HH:MM (24 hour time)
+            String date = dateFormat.format(dateInfo); // Stored as YYYY-MM-DD
+            String complete = "F";
+            String employeeName = null; // fix
+            String location = loc.getText();
+            String givenDescription = description.getText();
+
+            SanitationRequest request = new SanitationRequest(givenSanitationType, givenSanitationSize, givenHazardous, givenBiologicalSubstance, givenOccupied,
+                    requestID, time, date, complete, employeeName, location, givenDescription);
             DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
         }
-
     }
 }
