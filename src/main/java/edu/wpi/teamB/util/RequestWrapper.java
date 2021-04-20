@@ -51,19 +51,16 @@ public class RequestWrapper {
         List<MenuItem> staff = new ArrayList<>();
         for(User employee: DatabaseHandler.getDatabaseHandler("main.db").getUsersByAuthenticationLevel(User.AuthenticationLevel.STAFF)){
             MenuItem tempItem = new MenuItem(employee.getFirstName() + " " + employee.getLastName());
-            tempItem.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                    parentTable.getItems().removeIf((Object o) -> ((RequestWrapper) o).r.getRequestID().equals(r.getRequestID()));
-                    r.setEmployeeName(employee.getFirstName() + " " + employee.getLastName());
+            tempItem.setOnAction(event -> {
+                parentTable.getItems().removeIf((Object o) -> ((RequestWrapper) o).r.getRequestID().equals(r.getRequestID()));
+                r.setEmployeeName(employee.getFirstName() + " " + employee.getLastName());
 
-                    DatabaseHandler.getDatabaseHandler("main.db").updateRequest(r);
+                DatabaseHandler.getDatabaseHandler("main.db").updateRequest(r);
 
-                    try {
-                        parentTable.getItems().add(0, new RequestWrapper(r, parentTable));
-                    } catch (IOException e){
-                        e.printStackTrace();
-                    }
+                try {
+                    parentTable.getItems().add(0, new RequestWrapper(r, parentTable));
+                } catch (IOException e){
+                    e.printStackTrace();
                 }
             });
             staff.add(tempItem);

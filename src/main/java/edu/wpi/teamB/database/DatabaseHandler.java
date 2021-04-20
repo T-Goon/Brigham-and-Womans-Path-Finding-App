@@ -460,6 +460,12 @@ public class DatabaseHandler {
         return outUser;
     }
 
+    /**
+     * Gets a list of users who are assigned to handle jobs of certain type
+     * @param job RequestType enum of the type of job you want the users for
+     * @return a list of users who are assigned to jos of the given type
+     * @throws IllegalArgumentException
+     */
     public List<User> getUsersByJob(Request.RequestType job) throws IllegalArgumentException {
         Statement statement = this.getStatement();
         String query = "SELECT username FROM " +
@@ -481,6 +487,33 @@ public class DatabaseHandler {
         }
 
         return outusers;
+    }
+
+    /**
+     * Returns a list of users with the given authentication level
+     * @param authenticationLevel the EXACT authentication level you want the users for
+     * @return list of users
+     */
+    public List<User> getUsersByAuthenticationLevel(User.AuthenticationLevel authenticationLevel){
+        Statement statement = this.getStatement();
+        String query = "SELECT username, authenticationLevel FROM " +
+                "Users WHERE authenticationLevel='" + authenticationLevel.toString() + "'";
+        ResultSet rs;
+        List<User> outUsers = new ArrayList<User>();
+        try {
+            assert statement != null;
+            rs = statement.executeQuery(query);
+            while (rs.next()) {
+                String username = rs.getString("username");
+                outUsers.add(this.getUserByUsername(username));
+            }
+            rs.close();
+            statement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return outUsers;
     }
 
     public boolean updateUser(User newUser) {
@@ -1022,6 +1055,11 @@ public class DatabaseHandler {
             statement.execute(query);
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+
+        //If the given request is an instance of the less specific "Request" then dont try and update the specific tables
+        if(request.getClass().equals(Request.class)){
+            return;
         }
 
         switch (request.getRequestType()) {
