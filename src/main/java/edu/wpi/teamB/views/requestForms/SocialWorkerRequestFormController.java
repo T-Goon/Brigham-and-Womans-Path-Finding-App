@@ -18,4 +18,12 @@ public class SocialWorkerRequestFormController extends DefaultServiceRequestForm
 
     @FXML
     private JFXTextArea messageForSocialWorker;
+
+    @FXML
+    private void validateButton(){
+        btnSubmit.setDisable(
+                patientName.getText().isEmpty() || roomNumber.getText().isEmpty() || timeForArrival.getValue() == null ||
+                messageForSocialWorker.getText().isEmpty()
+        );
+    }
 }
