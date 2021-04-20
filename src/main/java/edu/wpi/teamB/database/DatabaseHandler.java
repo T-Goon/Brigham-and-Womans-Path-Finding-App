@@ -764,7 +764,9 @@ public class DatabaseHandler {
      * @return whether the nodes table is initialized or not
      */
     public boolean isInitialized() {
-        return getNodes() != null && getEdges() != null;
+        Map<String, Edge> a = getEdges();
+        Map<String, Node> b = getNodes();
+        return !getNodes().isEmpty() && !getEdges().isEmpty();
     }
 
 
