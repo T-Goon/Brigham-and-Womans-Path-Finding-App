@@ -1,8 +1,12 @@
 package edu.wpi.teamB.views.requestForms;
 
 import com.jfoenix.controls.*;
+import edu.wpi.teamB.App;
 import edu.wpi.teamB.database.DatabaseHandler;
+import edu.wpi.teamB.entities.requests.CaseManagerRequest;
 import edu.wpi.teamB.entities.requests.ExternalTransportRequest;
+import edu.wpi.teamB.entities.requests.Request;
+import edu.wpi.teamB.util.SceneSwitcher;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -11,6 +15,7 @@ import javafx.scene.control.Label;
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalTime;
 import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.UUID;
@@ -46,7 +51,7 @@ public class ExternalTransportationRequestFormController extends DefaultServiceR
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        super.initialize(location,resources);
+        super.initialize(location, resources);
         comboTranspType.getItems().add(new Label("Bus"));
         comboTranspType.getItems().add(new Label("Ambulance"));
         comboTranspType.getItems().add(new Label("Helicopter"));
@@ -85,10 +90,10 @@ public class ExternalTransportationRequestFormController extends DefaultServiceR
     }
 
     @FXML
-    private void validateButton(){
+    private void validateButton() {
         btnSubmit.setDisable(
-            name.getText().isEmpty() || roomNum.getText().isEmpty() || comboTranspType.getValue() == null ||
-            description.getText().isEmpty() || allergies.getText().isEmpty() || destination.getText().isEmpty()
+                name.getText().isEmpty() || roomNum.getText().isEmpty() || comboTranspType.getValue() == null ||
+                        description.getText().isEmpty() || allergies.getText().isEmpty() || destination.getText().isEmpty()
         );
     }
 }

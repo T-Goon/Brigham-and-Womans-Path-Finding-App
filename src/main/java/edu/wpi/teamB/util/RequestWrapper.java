@@ -55,7 +55,7 @@ public class RequestWrapper {
             @Override
             public void handle(ActionEvent event) {
                 Stage stage = App.getPrimaryStage();
-                stage.setUserData(r);
+                stage.setUserData(r.getRequestID());
 
                 switch(r.getRequestType()) {
                     case SANITATION:

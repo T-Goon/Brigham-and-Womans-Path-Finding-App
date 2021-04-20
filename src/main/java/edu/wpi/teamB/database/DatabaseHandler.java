@@ -1112,10 +1112,10 @@ public class DatabaseHandler {
      * @param requestType the type of the request
      * @return the request
      */
-    public Request getSpecificRequestById(String requestID, String requestType) {
+    public Request getSpecificRequestById(String requestID, Request.RequestType requestType) {
         Statement statement = this.getStatement();
 
-        String tableName = requestType.replaceAll("\\s", "") + "Requests";
+        String tableName = Request.RequestType.prettify(requestType).replaceAll("\\s", "") + "Requests";
         String query = "SELECT * FROM Requests LEFT JOIN " + tableName + " ON Requests.requestID = " + tableName + ".requestID WHERE Requests.requestID = '" + requestID + "'";
 
         assert statement != null;
@@ -1124,7 +1124,7 @@ public class DatabaseHandler {
             ResultSet rs = statement.executeQuery(query);
             while (rs.next()) {
                 switch (requestType) {
-                    case "Sanitation":
+                    case SANITATION:
                         outRequest = new SanitationRequest(
                                 rs.getString("sanitationType"),
                                 rs.getString("sanitationSize"),
@@ -1140,7 +1140,7 @@ public class DatabaseHandler {
                                 rs.getString("description")
                         );
                         break;
-                    case "Medicine":
+                    case MEDICINE:
                         outRequest = new MedicineRequest(
                                 rs.getString("patientName"),
                                 rs.getString("medicine"),
@@ -1153,7 +1153,7 @@ public class DatabaseHandler {
                                 rs.getString("description")
                         );
                         break;
-                    case "InternalTransport":
+                    case INTERNAL_TRANSPORT:
                         outRequest = new InternalTransportRequest(
                                 rs.getString("patientName"),
                                 rs.getString("transportType"),
@@ -1168,7 +1168,7 @@ public class DatabaseHandler {
                                 rs.getString("description")
                         );
                         break;
-                    case "Religious":
+                    case RELIGIOUS:
                         outRequest = new ReligiousRequest(
                                 rs.getString("patientName"),
                                 rs.getString("startTime"),
@@ -1185,7 +1185,7 @@ public class DatabaseHandler {
                                 rs.getString("description")
                         );
                         break;
-                    case "Food":
+                    case FOOD:
                         outRequest = new FoodRequest(
                                 rs.getString("patientName"),
                                 rs.getString("arrivalTime"),
@@ -1199,7 +1199,7 @@ public class DatabaseHandler {
                                 rs.getString("description")
                         );
                         break;
-                    case "Floral":
+                    case FLORAL:
                         outRequest = new FloralRequest(
                                 rs.getString("patientName"),
                                 rs.getString("deliveryDate"),
@@ -1221,7 +1221,7 @@ public class DatabaseHandler {
                                 rs.getString("description")
                         );
                         break;
-                    case "Security":
+                    case SECURITY:
                         outRequest = new SecurityRequest(
                                 rs.getInt("urgency"),
                                 rs.getString("requestID"),
@@ -1233,7 +1233,7 @@ public class DatabaseHandler {
                                 rs.getString("description")
                         );
                         break;
-                    case "ExternalTransport":
+                    case EXTERNAL_TRANSPORT:
                         outRequest = new ExternalTransportRequest(
                                 rs.getString("patientName"),
                                 rs.getString("transportType"),
@@ -1251,7 +1251,7 @@ public class DatabaseHandler {
                                 rs.getString("description")
                         );
                         break;
-                    case "Laundry":
+                    case LAUNDRY:
                         outRequest = new LaundryRequest(
                                 rs.getString("serviceType"),
                                 rs.getString("serviceSize"),
@@ -1267,8 +1267,21 @@ public class DatabaseHandler {
                                 rs.getString("description")
                         );
                         break;
-                    case "CaseManager":
+                    case CASE_MANAGER:
                         outRequest = new CaseManagerRequest(
+                                rs.getString("patientName"),
+                                rs.getString("timeForArrival"),
+                                rs.getString("requestID"),
+                                rs.getString("requestTime"),
+                                rs.getString("requestDate"),
+                                rs.getString("complete"),
+                                rs.getString("employeeName"),
+                                rs.getString("location"),
+                                rs.getString("description")
+                        );
+                        break;
+                    case SOCIAL_WORKER:
+                        outRequest = new SocialWorkerRequest(
                                 rs.getString("patientName"),
                                 rs.getString("timeForArrival"),
                                 rs.getString("requestID"),
