@@ -3,4 +3,4 @@
 <?import javafx.scene.shape.Circle?>
 
 
-<Circle fill="#012d5a" radius="2.0" stroke="BLACK" strokeType="INSIDE" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" />
+<Circle fill="#012d5a" radius="2.0" stroke="BLACK" strokeType="INSIDE" xmlns="http://javafx.com/javafx/8.0.171"/>

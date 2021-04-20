@@ -8,8 +8,6 @@ import edu.wpi.teamB.util.SceneSwitcher;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.geometry.Bounds;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -20,10 +18,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
-
-import java.io.IOException;
 import java.net.URL;
-import java.util.Objects;
 import java.util.ResourceBundle;
 
 public abstract class DefaultServiceRequestFormController implements Initializable {
@@ -61,12 +56,10 @@ public abstract class DefaultServiceRequestFormController implements Initializab
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         App.getPrimaryStage().getScene().addEventFilter(MouseEvent.MOUSE_CLICKED, event -> {
-            Bounds helpButtonBounds = btnHelp.localToScene(btnHelp.getBoundsInLocal());
             if (helpPopup != null && !justClicked) {
                 helpHolder.getChildren().remove(helpPopup);
                 helpPopup = null;
             }
-
             justClicked = false;
         });
 
@@ -98,7 +91,7 @@ public abstract class DefaultServiceRequestFormController implements Initializab
     private void loadHelpDialog(){
         JFXDialogLayout helpLayout = new JFXDialogLayout();
 
-        Text helpText = new Text("Please fill out this form completely. Once each field is full, you can submit the form and an employee will be assigned.\nIf you wish to end your request early click 'Cancel'. If your request is an emergency please click 'Emergency'");
+        Text helpText = new Text("Please fill out this form completely. Once each field is full, you can submit the form and an employee will be assigned.\nIf you wish to end your request early, click 'Cancel'. If your request is an emergency please click 'Emergency'.");
         helpText.setFont(new Font("MS Reference Sans Serif", 14));
 
         Label headerLabel = new Label("Help");
@@ -109,12 +102,7 @@ public abstract class DefaultServiceRequestFormController implements Initializab
         JFXDialog helpWindow = new JFXDialog(stackContainer, helpLayout, JFXDialog.DialogTransition.CENTER);
 
         JFXButton button = new JFXButton("Close");
-        button.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                helpWindow.close();
-            }
-        });
+        button.setOnAction(event -> helpWindow.close());
         helpLayout.setActions(button);
 
         helpWindow.show();
