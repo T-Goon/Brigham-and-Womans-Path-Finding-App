@@ -55,4 +55,12 @@ public class CaseManagerRequestFormController extends DefaultServiceRequestFormC
             DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
         }
     }
+
+    @FXML
+    private void validateButton(){
+        btnSubmit.setDisable(
+            patientName.getText().isEmpty() || roomNumber.getText().isEmpty() || timeForArrival.getValue() == null ||
+            messageForCaseManager.getText().isEmpty()
+        );
+    }
 }

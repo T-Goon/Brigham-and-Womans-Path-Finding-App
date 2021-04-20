@@ -81,4 +81,12 @@ public class LaundryRequestFormController extends DefaultServiceRequestFormContr
             DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
         }
     }
+
+    @FXML
+    private void validateButton(){
+        btnSubmit.setDisable(
+            loc.getText().isEmpty() || comboSizeService.getValue() == null || comboTypeService.getValue() == null ||
+            description.getText().isEmpty()
+        );
+    }
 }

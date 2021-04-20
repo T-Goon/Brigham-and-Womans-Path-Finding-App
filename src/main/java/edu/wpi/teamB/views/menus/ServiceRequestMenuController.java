@@ -10,7 +10,6 @@ import javafx.scene.control.Button;
 public class ServiceRequestMenuController {
 
     private static final String VIEWS_PATH = "/edu/wpi/teamB/views/requestForms/";
-    private static final String MENUS_PATH = "/edu/wpi/teamB/views/menus/";
 
     @FXML
     private JFXButton btnMedicine;

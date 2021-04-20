@@ -39,7 +39,7 @@ public class AppTest extends FxRobot {
         clickOn("#btnStaff");
         verifyThat("Login Page", Node::isVisible);
         clickOn("#username");
-        write("Admin");
+        write("admin");
         press(KeyCode.TAB);
         write("password");
         press(KeyCode.ENTER);
@@ -125,7 +125,7 @@ public class AppTest extends FxRobot {
         clickOn("#btnStaff");
         verifyThat("Login Page", Node::isVisible);
         clickOn("#username");
-        write("Admin");
+        write("admin");
         press(KeyCode.TAB);
         write("password");
         press(KeyCode.ENTER);

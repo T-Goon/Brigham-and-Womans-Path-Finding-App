@@ -1,15 +1,19 @@
 package edu.wpi.teamB.views.requestForms;
 
 import com.jfoenix.controls.*;
+import com.jfoenix.controls.*;
 import edu.wpi.teamB.database.DatabaseHandler;
 import edu.wpi.teamB.entities.requests.FloralRequest;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 
 import java.math.RoundingMode;
+import java.net.URL;
 import java.text.DateFormat;
 import java.text.NumberFormat;
+import java.util.ResourceBundle;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
@@ -60,6 +64,7 @@ public class FloralDeliveryRequestFormController extends DefaultServiceRequestFo
 
     @FXML
     private void updatePrice() {
+        validateButton();
         double currentPrice = 0;
         if (roses.isSelected()) currentPrice += 2.99;
         if (tulips.isSelected()) currentPrice += 2.99;
@@ -69,7 +74,7 @@ public class FloralDeliveryRequestFormController extends DefaultServiceRequestFo
         if (carnations.isSelected()) currentPrice += 2.99;
         if (orchids.isSelected()) currentPrice += 2.99;
 
-        NumberFormat nf= NumberFormat.getInstance();
+        NumberFormat nf = NumberFormat.getInstance();
         nf.setMaximumFractionDigits(2);
         nf.setMinimumFractionDigits(2);
         nf.setRoundingMode(RoundingMode.HALF_UP);
@@ -111,5 +116,15 @@ public class FloralDeliveryRequestFormController extends DefaultServiceRequestFo
                     requestID, time, date, complete, employeeName, location, givenDescription);
             DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
         }
+    }
+
+    @FXML
+    private void validateButton() {
+        btnSubmit.setDisable(
+                patientName.getText().isEmpty() || roomNumber.getText().isEmpty() ||
+                        deliveryDate.getValue() == null || startTime.getValue() == null ||
+                        endTime.getValue() == null || message.getText().isEmpty() ||
+                        !(roses.isSelected() || tulips.isSelected() || daisies.isSelected() || lilies.isSelected() || sunflowers.isSelected() || carnations.isSelected() || orchids.isSelected())
+        );
     }
 }

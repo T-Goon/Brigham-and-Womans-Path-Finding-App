@@ -59,4 +59,12 @@ public class FoodDeliveryRequestFormController extends DefaultServiceRequestForm
             DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
         }
     }
+
+    @FXML
+    private void validateButton(){
+        btnSubmit.setDisable(
+            name.getText().isEmpty() || roomNum.getText().isEmpty() || mealChoice.getText().isEmpty() ||
+            arrivalTime.getValue() == null || description.getText().isEmpty()
+        );
+    }
 }

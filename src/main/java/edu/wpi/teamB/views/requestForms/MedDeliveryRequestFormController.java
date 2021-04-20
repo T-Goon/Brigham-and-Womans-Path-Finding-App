@@ -8,6 +8,9 @@ import edu.wpi.teamB.entities.requests.MedicineRequest;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
+import java.net.URL;
+import java.util.ResourceBundle;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -53,5 +56,14 @@ public class MedDeliveryRequestFormController extends DefaultServiceRequestFormC
 
             DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
         }
+    }
+
+
+    @FXML
+    private void validateButton(){
+        btnSubmit.setDisable(
+                name.getText().isEmpty() || roomNum.getText().isEmpty() || medName.getText().isEmpty() ||
+                    reason.getText().isEmpty()
+        );
     }
 }

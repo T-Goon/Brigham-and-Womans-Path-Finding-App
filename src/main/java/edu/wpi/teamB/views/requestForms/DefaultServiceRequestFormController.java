@@ -24,7 +24,7 @@ import java.util.ResourceBundle;
 public abstract class DefaultServiceRequestFormController implements Initializable {
 
     @FXML
-    private JFXButton btnSubmit;
+    protected JFXButton btnSubmit;
 
     @FXML
     private JFXButton btnExit;
@@ -61,6 +61,8 @@ public abstract class DefaultServiceRequestFormController implements Initializab
 
             justClicked = false;
         });
+
+        btnSubmit.setDisable(true);
     }
 
     public void handleButtonAction(ActionEvent actionEvent) {
