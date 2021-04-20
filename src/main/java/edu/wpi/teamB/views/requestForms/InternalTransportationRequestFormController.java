@@ -1,15 +1,19 @@
 package edu.wpi.teamB.views.requestForms;
 
-import com.jfoenix.controls.JFXCheckBox;
-import com.jfoenix.controls.JFXComboBox;
-import com.jfoenix.controls.JFXTextArea;
-import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.*;
+import edu.wpi.teamB.database.DatabaseHandler;
+import edu.wpi.teamB.entities.requests.InternalTransportRequest;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.fxml.Initializable;
 
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.ResourceBundle;
+import java.util.UUID;
 
 
 public class InternalTransportationRequestFormController extends DefaultServiceRequestFormController implements Initializable {
@@ -38,6 +42,34 @@ public class InternalTransportationRequestFormController extends DefaultServiceR
         comboTranspType.getItems().add(new Label("Wheelchair"));
         comboTranspType.getItems().add(new Label("Stretcher"));
         comboTranspType.getItems().add(new Label("Gurney"));
+    }
+
+    public void handleButtonAction(ActionEvent actionEvent) {
+        String givenPatientName = name.getText();
+        String givenTransportType = comboTranspType.getValue().getText();
+        String givenUnconscious = unconscious.isSelected() ? "T" : "F";
+        String givenInfectious = infectious.isSelected() ? "T" : "F";
+
+        DateFormat timeFormat = new SimpleDateFormat("HH:mm");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date dateInfo = new Date();
+
+        String requestID = UUID.randomUUID().toString();
+        String time = timeFormat.format(dateInfo); // Stored as HH:MM (24 hour time)
+        String date = dateFormat.format(dateInfo); // Stored as YYYY-MM-DD
+        String complete = "F";
+        String employeeName = null; // fix
+        String location = roomNum.getText();
+        String givenDescription = description.getText();
+
+        InternalTransportRequest request = new InternalTransportRequest(givenPatientName, givenTransportType, givenUnconscious, givenInfectious,
+                requestID, time, date, complete, employeeName, location, givenDescription);
+
+        JFXButton btn = (JFXButton) actionEvent.getSource();
+        if (btn.getId().equals("btnSubmit")) {
+            DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
+        }
+        super.handleButtonAction(actionEvent);
     }
 
     @FXML

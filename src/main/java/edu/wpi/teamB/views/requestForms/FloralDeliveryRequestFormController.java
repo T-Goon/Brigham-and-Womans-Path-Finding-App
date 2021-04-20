@@ -1,14 +1,22 @@
 package edu.wpi.teamB.views.requestForms;
 
 import com.jfoenix.controls.*;
+import com.jfoenix.controls.*;
+import edu.wpi.teamB.database.DatabaseHandler;
+import edu.wpi.teamB.entities.requests.FloralRequest;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 
 import java.math.RoundingMode;
 import java.net.URL;
+import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.util.ResourceBundle;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.UUID;
 
 public class FloralDeliveryRequestFormController extends DefaultServiceRequestFormController  {
 
@@ -54,7 +62,6 @@ public class FloralDeliveryRequestFormController extends DefaultServiceRequestFo
     @FXML
     private JFXCheckBox orchids;
 
-
     @FXML
     private void updatePrice() {
         double currentPrice = 0;
@@ -71,6 +78,42 @@ public class FloralDeliveryRequestFormController extends DefaultServiceRequestFo
         nf.setMinimumFractionDigits(2);
         nf.setRoundingMode(RoundingMode.HALF_UP);
         totalPrice.setText("Total Price: $" + nf.format(currentPrice));
+    }
+
+    public void handleButtonAction(ActionEvent actionEvent) {
+        String givenPatientName = patientName.getText();
+        String givenDeliveryDate = deliveryDate.getValue().toString();
+        String givenStartTime = startTime.getValue().toString();
+        String givenEndTime = endTime.getValue().toString();
+        String wantsRoses = roses.isSelected() ? "T" : "F";
+        String wantsTulips = tulips.isSelected() ? "T" : "F";
+        String wantsDaisies = daisies.isSelected() ? "T" : "F";
+        String wantsLilies = lilies.isSelected() ? "T" : "F";
+        String wantsSunflowers = sunflowers.isSelected() ? "T" : "F";
+        String wantsCarnations = carnations.isSelected() ? "T" : "F";
+        String wantsOrchids = orchids.isSelected() ? "T" : "F";
+
+        DateFormat timeFormat = new SimpleDateFormat("HH:mm");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date dateInfo = new Date();
+
+        String requestID = UUID.randomUUID().toString();
+        String time = timeFormat.format(dateInfo); // Stored as HH:MM (24 hour time)
+        String date = dateFormat.format(dateInfo); // Stored as YYYY-MM-DD
+        String complete = "F";
+        String employeeName = null; // fix
+        String location = roomNumber.getText();
+        String givenDescription = message.getText();
+
+        FloralRequest request = new FloralRequest(givenPatientName, givenDeliveryDate, givenStartTime, givenEndTime,
+                wantsRoses, wantsTulips, wantsDaisies, wantsLilies, wantsSunflowers, wantsCarnations, wantsOrchids,
+                requestID, time, date, complete, employeeName, location, givenDescription);
+
+        JFXButton btn = (JFXButton) actionEvent.getSource();
+        if (btn.getId().equals("btnSubmit")) {
+            DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
+        }
+        super.handleButtonAction(actionEvent);
     }
 
     @FXML

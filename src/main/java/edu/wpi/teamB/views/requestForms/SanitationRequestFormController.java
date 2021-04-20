@@ -1,15 +1,19 @@
 package edu.wpi.teamB.views.requestForms;
 
-import com.jfoenix.controls.JFXCheckBox;
-import com.jfoenix.controls.JFXComboBox;
-import com.jfoenix.controls.JFXTextArea;
-import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.*;
+import edu.wpi.teamB.database.DatabaseHandler;
+import edu.wpi.teamB.entities.requests.SanitationRequest;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.ResourceBundle;
+import java.util.UUID;
 
 public class SanitationRequestFormController extends DefaultServiceRequestFormController implements Initializable {
 
@@ -54,5 +58,34 @@ public class SanitationRequestFormController extends DefaultServiceRequestFormCo
             loc.getText().isEmpty() || comboTypeService.getValue() == null || comboSizeService.getValue() == null ||
             description.getText().isEmpty()
         );
+    }
+
+    public void handleButtonAction(ActionEvent actionEvent) {
+        String givenSanitationType = comboTypeService.getValue().getText();
+        String givenSanitationSize = comboSizeService.getValue().getText();
+        String givenHazardous = safetyHazard.isSelected() ? "T" : "F";
+        String givenBiologicalSubstance = biologicalSubstance.isSelected() ? "T" : "F";
+        String givenOccupied = roomOccupied.isSelected() ? "T" : "F";
+
+        DateFormat timeFormat = new SimpleDateFormat("HH:mm");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date dateInfo = new Date();
+
+        String requestID = UUID.randomUUID().toString();
+        String time = timeFormat.format(dateInfo); // Stored as HH:MM (24 hour time)
+        String date = dateFormat.format(dateInfo); // Stored as YYYY-MM-DD
+        String complete = "F";
+        String employeeName = null; // fix
+        String location = loc.getText();
+        String givenDescription = description.getText();
+
+        SanitationRequest request = new SanitationRequest(givenSanitationType, givenSanitationSize, givenHazardous, givenBiologicalSubstance, givenOccupied,
+                requestID, time, date, complete, employeeName, location, givenDescription);
+
+        JFXButton btn = (JFXButton) actionEvent.getSource();
+        if (btn.getId().equals("btnSubmit")) {
+            DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
+        }
+        super.handleButtonAction(actionEvent);
     }
 }
