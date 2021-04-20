@@ -42,6 +42,8 @@ public class SecurityRequestFormController extends DefaultServiceRequestFormCont
     }
 
     public void handleButtonAction(ActionEvent actionEvent) {
+        super.handleButtonAction(actionEvent);
+
         int givenUrgency = Integer.parseInt(comboUrgency.getValue().getText());
 
         DateFormat timeFormat = new SimpleDateFormat("HH:mm");
@@ -62,7 +64,7 @@ public class SecurityRequestFormController extends DefaultServiceRequestFormCont
         if (btn.getId().equals("btnSubmit")) {
             DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
         }
-        super.handleButtonAction(actionEvent);
+
     }
 }
 

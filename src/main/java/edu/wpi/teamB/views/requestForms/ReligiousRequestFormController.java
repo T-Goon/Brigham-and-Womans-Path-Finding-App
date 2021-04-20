@@ -38,6 +38,8 @@ public class ReligiousRequestFormController extends DefaultServiceRequestFormCon
     private JFXCheckBox infectious;
 
     public void handleButtonAction(ActionEvent actionEvent) {
+        super.handleButtonAction(actionEvent);
+
         String givenPatientName = name.getText();
         String givenReligiousDate = date.getValue().toString();
         String givenStartTime = startTime.getValue().toString();
@@ -64,6 +66,6 @@ public class ReligiousRequestFormController extends DefaultServiceRequestFormCon
         if (btn.getId().equals("btnSubmit")) {
             DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
         }
-        super.handleButtonAction(actionEvent);
+
     }
 }

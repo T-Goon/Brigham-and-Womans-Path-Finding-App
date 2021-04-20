@@ -52,6 +52,8 @@ public class SanitationRequestFormController extends DefaultServiceRequestFormCo
     }
 
     public void handleButtonAction(ActionEvent actionEvent) {
+        super.handleButtonAction(actionEvent);
+
         String givenSanitationType = comboTypeService.getValue().getText();
         String givenSanitationSize = comboSizeService.getValue().getText();
         String givenHazardous = safetyHazard.isSelected() ? "T" : "F";
@@ -77,6 +79,6 @@ public class SanitationRequestFormController extends DefaultServiceRequestFormCo
         if (btn.getId().equals("btnSubmit")) {
             DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
         }
-        super.handleButtonAction(actionEvent);
+
     }
 }

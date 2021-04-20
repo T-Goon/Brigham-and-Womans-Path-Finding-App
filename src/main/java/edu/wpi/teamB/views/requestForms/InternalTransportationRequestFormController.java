@@ -45,6 +45,8 @@ public class InternalTransportationRequestFormController extends DefaultServiceR
     }
 
     public void handleButtonAction(ActionEvent actionEvent) {
+        super.handleButtonAction(actionEvent);
+
         String givenPatientName = name.getText();
         String givenTransportType = comboTranspType.getValue().getText();
         String givenUnconscious = unconscious.isSelected() ? "T" : "F";
@@ -69,6 +71,6 @@ public class InternalTransportationRequestFormController extends DefaultServiceR
         if (btn.getId().equals("btnSubmit")) {
             DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
         }
-        super.handleButtonAction(actionEvent);
+
     }
 }

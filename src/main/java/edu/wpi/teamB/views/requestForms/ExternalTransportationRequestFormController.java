@@ -53,6 +53,8 @@ public class ExternalTransportationRequestFormController extends DefaultServiceR
     }
 
     public void handleButtonAction(ActionEvent actionEvent) {
+        super.handleButtonAction(actionEvent);
+
         String givenPatientName = name.getText();
         String givenTransportType = comboTranspType.getValue().getText();
         String givenDestination = destination.getText();
@@ -80,6 +82,6 @@ public class ExternalTransportationRequestFormController extends DefaultServiceR
         if (btn.getId().equals("btnSubmit")) {
             DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
         }
-        super.handleButtonAction(actionEvent);
+
     }
 }

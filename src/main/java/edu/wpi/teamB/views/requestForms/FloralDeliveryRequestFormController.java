@@ -77,6 +77,8 @@ public class FloralDeliveryRequestFormController extends DefaultServiceRequestFo
     }
 
     public void handleButtonAction(ActionEvent actionEvent) {
+        super.handleButtonAction(actionEvent);
+
         String givenPatientName = patientName.getText();
         String givenDeliveryDate = deliveryDate.getValue().toString();
         String givenStartTime = startTime.getValue().toString();
@@ -109,6 +111,5 @@ public class FloralDeliveryRequestFormController extends DefaultServiceRequestFo
         if (btn.getId().equals("btnSubmit")) {
             DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
         }
-        super.handleButtonAction(actionEvent);
     }
 }

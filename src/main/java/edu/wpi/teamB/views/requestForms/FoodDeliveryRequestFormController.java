@@ -32,6 +32,8 @@ public class FoodDeliveryRequestFormController extends DefaultServiceRequestForm
     private JFXTextArea description;
 
     public void handleButtonAction(ActionEvent actionEvent) {
+        super.handleButtonAction(actionEvent);
+
         String givenPatientName = name.getText();
         String givenArrivalTime = arrivalTime.getValue().toString();
         String givenMealChoice = mealChoice.getText();
@@ -55,6 +57,6 @@ public class FoodDeliveryRequestFormController extends DefaultServiceRequestForm
         if (btn.getId().equals("btnSubmit")) {
             DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
         }
-        super.handleButtonAction(actionEvent);
+
     }
 }

@@ -28,6 +28,8 @@ public class MedDeliveryRequestFormController extends DefaultServiceRequestFormC
     private JFXTextArea reason;
 
     public void handleButtonAction(ActionEvent actionEvent) {
+        super.handleButtonAction(actionEvent);
+
         String givenPatientName = name.getText();
         String givenMedicine = medName.getText();
 
@@ -50,6 +52,6 @@ public class MedDeliveryRequestFormController extends DefaultServiceRequestFormC
         if (btn.getId().equals("btnSubmit")) {
             DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
         }
-        super.handleButtonAction(actionEvent);
+
     }
 }

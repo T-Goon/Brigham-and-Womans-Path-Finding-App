@@ -52,6 +52,8 @@ public class LaundryRequestFormController extends DefaultServiceRequestFormContr
     }
 
     public void handleButtonAction(ActionEvent actionEvent) {
+        super.handleButtonAction(actionEvent);
+
         String givenServiceType = comboTypeService.getValue().getText();
         String givenServiceSize = comboSizeService.getValue().getText();
         String givenDark = darks.isSelected() ? "T" : "F";
@@ -77,6 +79,6 @@ public class LaundryRequestFormController extends DefaultServiceRequestFormContr
         if (btn.getId().equals("btnSubmit")) {
             DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
         }
-        super.handleButtonAction(actionEvent);
+
     }
 }
