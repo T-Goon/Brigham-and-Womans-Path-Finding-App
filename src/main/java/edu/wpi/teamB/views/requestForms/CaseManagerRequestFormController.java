@@ -18,4 +18,12 @@ public class CaseManagerRequestFormController extends DefaultServiceRequestFormC
 
     @FXML
     private JFXTextArea messageForCaseManager;
+
+    @FXML
+    private void validateButton(){
+        btnSubmit.setDisable(
+            patientName.getText().isEmpty() || roomNumber.getText().isEmpty() || timeForArrival.getValue() == null ||
+            messageForCaseManager.getText().isEmpty()
+        );
+    }
 }
