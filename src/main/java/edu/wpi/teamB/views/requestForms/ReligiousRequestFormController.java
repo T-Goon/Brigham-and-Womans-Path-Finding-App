@@ -28,4 +28,13 @@ public class ReligiousRequestFormController extends DefaultServiceRequestFormCon
 
     @FXML
     private JFXCheckBox infectious;
+
+    @FXML
+    private void validateButton(){
+        btnSubmit.setDisable(
+            name.getText().isEmpty() || roomNum.getText().isEmpty() || date.getValue() == null ||
+            startTime.getValue() == null || endTime.getValue() == null || faith.getText().isEmpty() ||
+            description.getText().isEmpty()
+        );
+    }
 }
