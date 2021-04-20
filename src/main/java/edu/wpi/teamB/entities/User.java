@@ -1,5 +1,6 @@
 package edu.wpi.teamB.entities;
 
+import edu.wpi.teamB.entities.requests.Request;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -27,7 +28,7 @@ public class User {
 
     private AuthenticationLevel authenticationLevel;
 
-    private List<String> jobs; //Should be List<...> from requests, TODO
+    private List<Request.RequestType> jobs;
 
     /**
      * @param auth the level of authorization required

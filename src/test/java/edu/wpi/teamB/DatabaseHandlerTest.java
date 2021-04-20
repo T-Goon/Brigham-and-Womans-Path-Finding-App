@@ -432,8 +432,14 @@ public class DatabaseHandlerTest {
     }
 
     @Test
-    public void testAddUser() {
-        User user = new User("testuser","Testing","User", User.AuthenticationLevel.STAFF, Collections.singletonList("Gamer"));
+    public void testPasswordHash() {
+        assertEquals(db.passwordHash("Sphinx"),db.passwordHash("Sphinx"));
+        assertNotEquals(db.passwordHash("Sphinx"),db.passwordHash("Quartz"));
+    }
+
+    @Test
+    public void testAddGetUser() {
+        User user = new User("testuser","Testing","User", User.AuthenticationLevel.STAFF, Collections.singletonList(Request.RequestType.LAUNDRY));
         db.addUser(user,"password");
         User out = db.getUserByUsername("testuser");
         assertEquals(out,user);
@@ -442,10 +448,60 @@ public class DatabaseHandlerTest {
 
     @Test
     public void testAuthentication() {
-        User user = new User("testuser","Testing","User", User.AuthenticationLevel.STAFF, Collections.singletonList("Gamer"));
+        User user = new User("testuser","Testing","User", User.AuthenticationLevel.STAFF, Collections.singletonList(Request.RequestType.CASE_MANAGER));
         db.addUser(user,"password");
         User authentication = db.authenticate("testuser", "password");
-        assertNotNull(authentication);
+        assertEquals(authentication,user);
+        assertEquals(db.getAuthenticationUser(),authentication);
         assertNull(db.authenticate("testuser","pasword"));
+        assertEquals(db.getAuthenticationUser(),new User(null,null,null, User.AuthenticationLevel.GUEST,null));
+    }
+
+    @Test
+    public void testGetUserByJob() {
+        List<Request.RequestType> jobs = new ArrayList<Request.RequestType>();
+        jobs.add(Request.RequestType.FOOD);
+        jobs.add(Request.RequestType.INTERNAL_TRANSPORT);
+        User user1 = new User("testuser1","Testing1","User1", User.AuthenticationLevel.STAFF, Collections.singletonList(Request.RequestType.FOOD));
+        User user2 = new User("testuser2","Testing2","User2", User.AuthenticationLevel.STAFF, Collections.singletonList(Request.RequestType.INTERNAL_TRANSPORT));
+        User user3 = new User("testuser3","Testing3","User3", User.AuthenticationLevel.STAFF, jobs);
+
+        db.addUser(user1, "p1");
+        db.addUser(user2, "p2");
+        db.addUser(user3, "p3");
+
+        List<User> set1 = db.getUsersByJob(Request.RequestType.FOOD);
+        List<User> set2 = db.getUsersByJob(Request.RequestType.INTERNAL_TRANSPORT);
+
+        assertEquals(2,set1.size());
+        assertEquals(2,set2.size());
+        assert(set1.contains(user1));
+        assert(set2.contains(user2));
+        assert(set1.contains(user3));
+
+    }
+
+    @Test
+    public void testDeleteUser(){
+        User user = new User("testuser","Testing","User", User.AuthenticationLevel.STAFF, Collections.singletonList(Request.RequestType.CASE_MANAGER));
+        db.addUser(user,"password");
+        assertEquals(db.getUserByUsername("testuser"),user);
+        db.deleteUser("testuser");
+        assertNull(db.getUserByUsername("testuser"));
+    }
+
+    @Test
+    public void testUpdateUser(){
+        User user = new User("testuser","Testing","User", User.AuthenticationLevel.STAFF, Collections.singletonList(Request.RequestType.CASE_MANAGER));
+        User altuser = new User("testuser","Alternate","User", User.AuthenticationLevel.ADMIN, Collections.singletonList(Request.RequestType.FOOD));
+        db.addUser(user,"password");
+        assertEquals(db.getUserByUsername("testuser"),user);
+        assert(db.getUsersByJob(Request.RequestType.CASE_MANAGER).contains(user));
+        assertNotNull(db.authenticate("testuser", "password"));
+        db.updateUser(altuser);
+        assertEquals(db.getUserByUsername("testuser"),altuser);
+        assert(!db.getUsersByJob(Request.RequestType.CASE_MANAGER).contains(user));
+        assert(db.getUsersByJob(Request.RequestType.FOOD).contains(altuser));
+        assertNotNull(db.authenticate("testuser", "password"));
     }
 }

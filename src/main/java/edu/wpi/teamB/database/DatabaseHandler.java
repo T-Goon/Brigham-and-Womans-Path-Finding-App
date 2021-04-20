@@ -6,6 +6,7 @@ import edu.wpi.teamB.entities.map.Node;
 import edu.wpi.teamB.entities.requests.*;
 import edu.wpi.teamB.pathfinding.Graph;
 
+import javax.swing.plaf.nimbus.State;
 import java.sql.*;
 import java.util.*;
 
@@ -80,9 +81,6 @@ public class DatabaseHandler {
         Statement statement = this.getStatement();
 
         if (tables.isEmpty()) {
-            tables.add("Edges");
-            tables.add("Nodes");
-            tables.add("Requests");
             tables.add("SanitationRequests");
             tables.add("MedicineRequests");
             tables.add("InternalTransportRequests");
@@ -94,6 +92,9 @@ public class DatabaseHandler {
             tables.add("LaundryRequests");
             tables.add("CaseManagerRequests");
             tables.add("SocialWorkerRequests");
+            tables.add("Requests");
+            tables.add("Edges");
+            tables.add("Nodes");
             tables.add("Jobs");
             tables.add("Users");
         }
@@ -103,16 +104,11 @@ public class DatabaseHandler {
             queries.add("DROP TABLE IF EXISTS " + table);
         }
 
-        String disableForeignKeys = "PRAGMA foreign_keys = OFF";
-        String enableForeignKeys = "PRAGMA foreign_keys = ON";
-
         try {
             assert statement != null;
-//            statement.execute(disableForeignKeys);
             for (String query : queries) {
                 statement.execute(query);
             }
-//            statement.execute(enableForeignKeys);
             statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -411,10 +407,10 @@ public class DatabaseHandler {
             assert statement != null;
             statement.execute(query);
             if (user.getJobs() != null) {
-                for (String job : user.getJobs()) {
+                for (Request.RequestType job : user.getJobs()) {
                     query = "INSERT INTO Jobs VALUES " +
                             "('" + user.getUsername()
-                            + "', '" + job
+                            + "', '" + job.toString()
                             + "')";
                     statement.execute(query);
                 }
@@ -428,19 +424,19 @@ public class DatabaseHandler {
 
     /**
      * @param username username to query by
-     * @return User object with that username
+     * @return User object with that username, null if no user exists
      */
-    public User getUserByUsername(String username) throws IllegalArgumentException {
+    public User getUserByUsername(String username){
         Statement statement = this.getStatement();
-        String query = "SELECT job FROM Jobs WHERE (username = " + "username)";
+        String query = "SELECT job FROM Jobs WHERE (username = '" + username + "')";
         ResultSet rs;
-        List<String> jobs = new ArrayList<>();
+        List<Request.RequestType> jobs = new ArrayList<>();
         User outUser;
         try {
             assert statement != null;
             rs = statement.executeQuery(query);
             while (rs.next()) {
-                jobs.add(rs.getString("job"));
+                jobs.add(Request.RequestType.valueOf(rs.getString("job")));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -459,16 +455,81 @@ public class DatabaseHandler {
             rs.close();
             statement.close();
         } catch (SQLException e) {
-            throw new IllegalArgumentException(String.format("Username %s not found in users", username));
+            return null;
         }
         return outUser;
     }
 
-    public boolean modifyUser(String name, User newUser) {
+    public List<User> getUsersByJob(Request.RequestType job) throws IllegalArgumentException {
+        Statement statement = this.getStatement();
+        String query = "SELECT username FROM " +
+                "Users NATURAL JOIN Jobs " +
+                "WHERE (job = '" + job.toString() + "')";
+        ResultSet rs;
+        List<User> outusers = new ArrayList<User>();
+        try {
+            assert statement != null;
+            rs = statement.executeQuery(query);
+            while (rs.next()) {
+                String username = rs.getString("username");
+                outusers.add(this.getUserByUsername(username));
+            }
+            rs.close();
+            statement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return outusers;
+    }
+
+    public boolean updateUser(User newUser) {
+        Statement statement = this.getStatement();
+        String updateUser = "UPDATE Users " +
+                "SET username = '" + newUser.getUsername() + "'," +
+                "firstName = '" + newUser.getFirstName() + "'," +
+                "lastName = '" + newUser.getLastName() + "'," +
+                "authenticationLevel = '" + newUser.getAuthenticationLevel().toString() + "'" +
+                "WHERE (username = '" + newUser.getUsername() + "')";
+        String deleteJobs = "DELETE FROM Jobs WHERE (username = '" + newUser.getUsername() + "')";
+        try{
+            if(this.getUserByUsername(newUser.getUsername()) == null){
+                return false;
+            }else{
+                statement.execute(updateUser);
+                statement.execute(deleteJobs);
+                for(Request.RequestType job : newUser.getJobs()){
+                    String query = "INSERT INTO Jobs VALUES " +
+                            "('" + newUser.getUsername()
+                            + "', '" + job.toString()
+                            + "')";
+                    statement.execute(query);
+                }
+
+                return true;
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
         return false;
     }
 
-    public boolean deleteUser(String name) {
+    public boolean deleteUser(String username) {
+        Statement statement = this.getStatement();
+        String deleteJobs = "DELETE FROM Jobs WHERE (username = '" + username + "')";
+        String deleteUser = "DELETE FROM Users WHERE (username = '" + username + "')";
+        try{
+            statement.executeUpdate(deleteJobs);
+            int update = statement.executeUpdate(deleteUser);
+            statement.close();
+            if(update == 1){
+                return true;
+            }else{
+                return false;
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
         return false;
     }
 
@@ -478,6 +539,7 @@ public class DatabaseHandler {
      * @return If authentication is successful, return the User object representing the authenticated user
      */
     public User authenticate(String username, String password) {
+        this.deauthenticate();
         Statement statement = this.getStatement();
         String query = "SELECT passwordHash FROM Users WHERE (username = '" + username + "')";
         User outUser = null;
@@ -506,7 +568,7 @@ public class DatabaseHandler {
      * @param plaintext plaintext password to hash
      * @return hashed password
      */
-    private String passwordHash(String plaintext) {
+    public String passwordHash(String plaintext) {
         return String.valueOf(plaintext.hashCode());
     }
 
