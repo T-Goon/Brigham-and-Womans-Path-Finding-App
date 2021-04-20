@@ -1,4 +1,4 @@
-package edu.wpi.teamB.util;
+package edu.wpi.teamB.entities.map;
 
 import edu.wpi.teamB.views.map.nodePopup.NodePopupWindowController;
 import lombok.AllArgsConstructor;

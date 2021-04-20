@@ -1,9 +1,9 @@
 package edu.wpi.teamB;
 
 import edu.wpi.teamB.database.DatabaseHandler;
-import edu.wpi.teamB.entities.Edge;
-import edu.wpi.teamB.entities.Node;
-import edu.wpi.teamB.entities.Path;
+import edu.wpi.teamB.entities.map.Path;
+import edu.wpi.teamB.entities.map.Edge;
+import edu.wpi.teamB.entities.map.Node;
 import edu.wpi.teamB.pathfinding.AStar;
 import edu.wpi.teamB.pathfinding.Graph;
 import edu.wpi.teamB.util.CSVHandler;
@@ -27,7 +27,7 @@ public class PathfindingTests {
         List<Node> nodes = CSVHandler.loadCSVNodes("/edu/wpi/teamB/csvFiles/bwBnodes.csv");
         List<Edge> edges = CSVHandler.loadCSVEdges("/edu/wpi/teamB/csvFiles/bwBedges.csv");
 
-        db.loadDatabase(nodes, edges);
+        db.loadNodesEdges(nodes, edges);
 
         Graph.setGraph(db);
     }
@@ -76,7 +76,7 @@ public class PathfindingTests {
     @Test
     public void testClosestPath() {
 
-        List<String> pathExp = new LinkedList();
+        List<String> pathExp = new LinkedList<>();
 
         List<Node> category = new ArrayList<>();
 
@@ -107,7 +107,6 @@ public class PathfindingTests {
 
         Path path = AStar.shortestPathToNodeInList("bWALK00101", category);
 
-        System.out.println(path);
         assertEquals(pathExp, path.getPath());
 
     }

@@ -6,9 +6,7 @@ import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXTreeView;
 import edu.wpi.teamB.App;
 import edu.wpi.teamB.database.DatabaseHandler;
-import edu.wpi.teamB.entities.Edge;
-import edu.wpi.teamB.entities.Node;
-import edu.wpi.teamB.entities.Path;
+import edu.wpi.teamB.entities.map.*;
 import edu.wpi.teamB.pathfinding.AStar;
 import edu.wpi.teamB.pathfinding.Graph;
 import edu.wpi.teamB.util.*;
@@ -19,7 +17,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -184,7 +181,7 @@ public class PathfindingMenuController implements Initializable {
                     List<Edge> newEdges = CSVHandler.loadCSVEdgesFromExternalPath(file.toPath());
 
                     // Update the database
-                    db.loadDatabase(newNodes, newEdges);
+                    db.loadNodesEdges(newNodes, newEdges);
                     Graph.getGraph().updateGraph();
 
                     // Now delete and refresh the nodes

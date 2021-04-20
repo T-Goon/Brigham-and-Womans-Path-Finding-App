@@ -1,7 +1,15 @@
 package edu.wpi.teamB.views.requestForms;
 
 import com.jfoenix.controls.*;
+import edu.wpi.teamB.database.DatabaseHandler;
+import edu.wpi.teamB.entities.requests.ReligiousRequest;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.UUID;
 
 public class ReligiousRequestFormController extends DefaultServiceRequestFormController {
 
@@ -28,4 +36,34 @@ public class ReligiousRequestFormController extends DefaultServiceRequestFormCon
 
     @FXML
     private JFXCheckBox infectious;
+
+    public void handleButtonAction(ActionEvent actionEvent) {
+        String givenPatientName = name.getText();
+        String givenReligiousDate = date.getValue().toString();
+        String givenStartTime = startTime.getValue().toString();
+        String givenEndTime = endTime.getValue().toString();
+        String givenFaith = faith.getText();
+        String givenInfectious = infectious.isSelected() ? "T" : "F";
+
+        DateFormat timeFormat = new SimpleDateFormat("HH:mm");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date dateInfo = new Date();
+
+        String requestID = UUID.randomUUID().toString();
+        String time = timeFormat.format(dateInfo); // Stored as HH:MM (24 hour time)
+        String date = dateFormat.format(dateInfo); // Stored as YYYY-MM-DD
+        String complete = "F";
+        String employeeName = null; // fix
+        String location = roomNum.getText();
+        String givenDescription = description.getText();
+
+        ReligiousRequest request = new ReligiousRequest(givenPatientName, givenReligiousDate, givenStartTime, givenEndTime, givenFaith, givenInfectious,
+                requestID, time, date, complete, employeeName, location, givenDescription);
+
+        JFXButton btn = (JFXButton) actionEvent.getSource();
+        if (btn.getId().equals("btnSubmit")) {
+            DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
+        }
+        super.handleButtonAction(actionEvent);
+    }
 }

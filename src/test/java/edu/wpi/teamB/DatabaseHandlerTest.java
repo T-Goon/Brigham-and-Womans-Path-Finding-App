@@ -1,18 +1,20 @@
 package edu.wpi.teamB;
 
 import edu.wpi.teamB.database.*;
-import edu.wpi.teamB.entities.Edge;
-import edu.wpi.teamB.entities.Node;
-import edu.wpi.teamB.entities.NodeType;
+import edu.wpi.teamB.entities.User;
+import edu.wpi.teamB.entities.requests.NodeType;
+import edu.wpi.teamB.entities.map.Edge;
+import edu.wpi.teamB.entities.map.Node;
+import edu.wpi.teamB.entities.requests.FoodRequest;
+import edu.wpi.teamB.entities.requests.Request;
+import edu.wpi.teamB.entities.requests.SanitationRequest;
 import edu.wpi.teamB.pathfinding.Graph;
 import edu.wpi.teamB.util.CSVHandler;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -56,7 +58,8 @@ public class DatabaseHandlerTest {
 
     @BeforeEach
     void resetDB() {
-        db.loadDatabase(null, null);
+        db.resetDatabase(new ArrayList<>());
+        db.executeSchema();
     }
 
     @Test
@@ -115,7 +118,7 @@ public class DatabaseHandlerTest {
         Edge targetEdge = new Edge("bPARK01201_bWALK00501", "bWALK00502", "bWALK00501");
         edges.add(targetEdge);
 
-        db.loadDatabase(testNodes, edges);
+        db.loadNodesEdges(testNodes, edges);
         Map<String, Node> outNodes = db.getNodes();
         assert (outNodes.values().containsAll(testNodes));
         Map<String, Edge> outEdges = db.getEdges();
@@ -135,7 +138,7 @@ public class DatabaseHandlerTest {
                 "Name With Many Spaces",
                 "N W M S");
         actual.add(target);
-        db.loadDatabase(actual, edges);
+        db.loadNodesEdges(actual, edges);
 
         String nodeID = target.getNodeID();
         int xcoord = 1;
@@ -167,7 +170,7 @@ public class DatabaseHandlerTest {
         actual.add(target);
         nodes.add(start);
         nodes.add(end);
-        db.loadDatabase(nodes, actual);
+        db.loadNodesEdges(nodes, actual);
 
         String edgeID = target.getEdgeID();
         String startNode = "test_start";
@@ -255,6 +258,167 @@ public class DatabaseHandlerTest {
     }
 
     @Test
+    public void testAddRequest() {
+        // populate nodes table with nodes
+        Node node1 = new Node("node1",0,0,"0","0","0","test","t");
+        Node node2 = new Node("node2",0,0,"0","0","0","test","t");
+        db.addNode(node1);
+        db.addNode(node2);
+
+        SanitationRequest request1 = new SanitationRequest("Glass",
+                "Small",
+                "T",
+                "F",
+                "F",
+                "testRequest1",
+                "12:24",
+                "2021-04-02",
+                "F",
+                "Bob",
+                "node1",
+                "None");
+        FoodRequest request2 = new FoodRequest("Jane",
+                "11:30",
+                "salad",
+                "testRequest2",
+                "10:00",
+                "2021-05-10",
+                "F",
+                "Bob",
+                "node2",
+                "test");
+        db.addRequest(request1);
+        db.addRequest(request2);
+
+        SanitationRequest test1 = (SanitationRequest) db.getSpecificRequestById(request1.getRequestID(), "Sanitation");
+        assertEquals("Glass", test1.getSanitationType());
+        assertEquals("Small", test1.getSanitationSize());
+        assertEquals("T", test1.getHazardous());
+        assertEquals("F", test1.getBiologicalSubstance());
+        assertEquals("F", test1.getOccupied());
+        assertEquals("12:24", test1.getTime());
+        assertEquals("2021-04-02", test1.getDate());
+        assertEquals("F", test1.getComplete());
+        assertEquals("Bob", test1.getEmployeeName());
+        assertEquals("node1", test1.getLocation());
+        assertEquals("None", test1.getDescription());
+
+        FoodRequest test2 = (FoodRequest) db.getSpecificRequestById(request2.getRequestID(), "Food");
+        assertEquals("Jane", test2.getPatientName());
+        assertEquals("11:30", test2.getArrivalTime());
+        assertEquals("salad", test2.getMealChoice());
+        assertEquals("10:00", test2.getTime());
+        assertEquals("2021-05-10", test2.getDate());
+        assertEquals("F", test2.getComplete());
+        assertEquals("Bob", test2.getEmployeeName());
+        assertEquals("node2", test2.getLocation());
+        assertEquals("test", test2.getDescription());
+    }
+
+    @Test
+    public void testRemoveRequest() {
+        // populate nodes table with nodes
+        Node node1 = new Node("node1",0,0,"0","0","0","test","t");
+        Node node2 = new Node("node2",0,0,"0","0","0","test","t");
+        db.addNode(node1);
+        db.addNode(node2);
+
+        SanitationRequest request1 = new SanitationRequest("Glass",
+                "Small",
+                "T",
+                "F",
+                "F",
+                "testRequest1",
+                "12:24",
+                "2021-04-02",
+                "F",
+                "Bob",
+                "node1",
+                "None");
+        FoodRequest request2 = new FoodRequest("Jane",
+                "11:30",
+                "salad",
+                "testRequest2",
+                "10:00",
+                "2021-05-10",
+                "F",
+                "Bob",
+                "node2",
+                "test");
+
+        db.addRequest(request1);
+        db.addRequest(request2);
+        assertFalse(db.getRequests().isEmpty());
+
+        db.removeRequest(request1);
+        db.removeRequest(request2);
+        assertTrue(db.getRequests().isEmpty());
+    }
+
+    @Test
+    public void testUpdateRequest() {
+        // populate nodes table with nodes
+        Node node1 = new Node("node1",0,0,"0","0","0","test","t");
+        Node node2 = new Node("node2",0,0,"0","0","0","test","t");
+        db.addNode(node1);
+        db.addNode(node2);
+
+        List<Request> actual = new ArrayList<>();
+        SanitationRequest request1 = new SanitationRequest("Glass",
+                "Small",
+                "T",
+                "F",
+                "F",
+                "testRequest1",
+                "12:24",
+                "2021-04-02",
+                "F",
+                "Bob",
+                "node1",
+                "None");
+        FoodRequest request2 = new FoodRequest("Jane",
+                "11:30",
+                "salad",
+                "testRequest2",
+                "10:00",
+                "2021-05-10",
+                "F",
+                "Bob",
+                "node2",
+                "test");
+        actual.add(request1);
+        actual.add(request2);
+        db.loadDatabaseRequests(actual);
+
+        db.updateRequest(new SanitationRequest("Dry", "Medium", "F", "T", "T", request1.getRequestID(), "13:30", "2021-04-18", "T", "Mike", "node2", "test"));
+        db.updateRequest(new FoodRequest("Alice", "12:00", "chicken", request2.getRequestID(), "10:05", "2021-05-30", "T", "Mike", "node1", "None"));
+
+        SanitationRequest test1 = (SanitationRequest) db.getSpecificRequestById(request1.getRequestID(), "Sanitation");
+        assertEquals("Dry", test1.getSanitationType());
+        assertEquals("Medium", test1.getSanitationSize());
+        assertEquals("F", test1.getHazardous());
+        assertEquals("T", test1.getBiologicalSubstance());
+        assertEquals("T", test1.getOccupied());
+        assertEquals("13:30", test1.getTime());
+        assertEquals("2021-04-18", test1.getDate());
+        assertEquals("T", test1.getComplete());
+        assertEquals("Mike", test1.getEmployeeName());
+        assertEquals("node2", test1.getLocation());
+        assertEquals("test", test1.getDescription());
+
+        FoodRequest test2 = (FoodRequest) db.getSpecificRequestById(request2.getRequestID(), "Food");
+        assertEquals("Alice", test2.getPatientName());
+        assertEquals("12:00", test2.getArrivalTime());
+        assertEquals("chicken", test2.getMealChoice());
+        assertEquals("10:05", test2.getTime());
+        assertEquals("2021-05-30", test2.getDate());
+        assertEquals("T", test2.getComplete());
+        assertEquals("Mike", test2.getEmployeeName());
+        assertEquals("node1", test2.getLocation());
+        assertEquals("None", test2.getDescription());
+    }
+
+    @Test
     public void testGetNodesByCategory() {
         db.loadDatabaseNodes(testNodes);
 
@@ -265,5 +429,28 @@ public class DatabaseHandlerTest {
         assertEquals(expected, result);
 
 
+    }
+
+    @Test
+    public void testAdduser() {
+        User user = new User("testuser","Testing","User", User.AuthenticationLevel.STAFF, Collections.singletonList("Gamer"));
+        db.addUser(user,"password");
+        User out = db.getUserByUsername("testuser");
+        assertEquals(out,user);
+
+    }
+
+    @Test
+    public void testAuthentication() {
+        User user = new User("testuser","Testing","User", User.AuthenticationLevel.STAFF, Collections.singletonList("Gamer"));
+        db.addUser(user,"password");
+        User authentication = null;
+        try {
+            authentication = db.authenticate("testuser", "password");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        assertEquals(authentication,user);
+        assertThrows(Exception.class,() -> db.authenticate("testuser","pasword"));
     }
 }
