@@ -4,16 +4,18 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 import edu.wpi.teamB.App;
 import edu.wpi.teamB.database.DatabaseHandler;
+import edu.wpi.teamB.entities.User;
 import edu.wpi.teamB.entities.requests.Request;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 import lombok.Getter;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Getter
@@ -25,10 +27,11 @@ public class RequestWrapper {
     private final Label time;
     private final Label date;
     private final JFXCheckBox complete;
-    private final Label employeeName;
+    private  Label employeeName;
     private final TableView parentTable;
     private final JFXButton btnEdit;
     private final JFXButton btnDel;
+    private ContextMenu contextMenu;
 
     public RequestWrapper(Request r, TableView parentTable) throws IOException {
         this.r = r;
@@ -39,8 +42,49 @@ public class RequestWrapper {
         this.employeeName = new Label(r.getEmployeeName());
         if (employeeName.getText().equals("null")) employeeName.setText("Nobody");
         this.parentTable = parentTable;
-
         this.complete.setSelected(r.getComplete().equals("T"));
+
+        //Setup context menu
+        this.contextMenu = new ContextMenu();
+        Menu assignMenu = new Menu("Assign");
+        MenuItem unassignItem = new MenuItem("Unassign");
+
+        List<MenuItem> staff = new ArrayList<>();
+        for(User employee: DatabaseHandler.getDatabaseHandler("main.db").getUsersByAuthenticationLevel(User.AuthenticationLevel.STAFF)){
+            MenuItem tempItem = new MenuItem(employee.getFirstName() + " " + employee.getLastName());
+            tempItem.setOnAction(event -> {
+                parentTable.getItems().removeIf((Object o) -> ((RequestWrapper) o).r.getRequestID().equals(r.getRequestID()));
+                r.setEmployeeName(employee.getFirstName() + " " + employee.getLastName());
+
+                DatabaseHandler.getDatabaseHandler("main.db").updateRequest(r);
+
+                try {
+                    parentTable.getItems().add(0, new RequestWrapper(r, parentTable));
+                } catch (IOException e){
+                    e.printStackTrace();
+                }
+            });
+            staff.add(tempItem);
+        }
+        assignMenu.getItems().addAll(staff);
+
+        unassignItem.setOnAction(event -> {
+            parentTable.getItems().removeIf((Object o) -> ((RequestWrapper) o).r.getRequestID().equals(r.getRequestID()));
+            r.setEmployeeName("null");
+            DatabaseHandler.getDatabaseHandler("main.db").updateRequest(r);
+
+            try {
+                parentTable.getItems().add(0, new RequestWrapper(r, parentTable));
+            } catch (IOException e){
+                e.printStackTrace();
+            }
+        });
+
+        this.contextMenu.getItems().add(assignMenu);
+        this.contextMenu.getItems().add(unassignItem);
+
+        //set context menu to the employee name label
+        employeeName.setContextMenu(this.contextMenu);
 
         complete.setOnAction(event -> {
             r.setComplete(complete.isSelected() ? "T" : "F");
@@ -59,6 +103,7 @@ public class RequestWrapper {
                 SceneSwitcher.switchScene(getClass(), "this is broken", "this is broken");
             }
         });
+
 
         this.btnEdit = btnEdit;
 

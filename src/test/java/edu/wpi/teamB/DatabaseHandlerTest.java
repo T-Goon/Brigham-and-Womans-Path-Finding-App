@@ -504,4 +504,17 @@ public class DatabaseHandlerTest {
         assert(db.getUsersByJob(Request.RequestType.FOOD).contains(altuser));
         assertNotNull(db.authenticate("testuser", "password"));
     }
+
+    @Test
+    public void testGetUsersByAuthenticationLevel(){
+        User user = new User("testUser","Testing","User", User.AuthenticationLevel.STAFF, Collections.singletonList(Request.RequestType.CASE_MANAGER));
+        User altuser = new User("altUser","Alternate","User", User.AuthenticationLevel.ADMIN, Collections.singletonList(Request.RequestType.FOOD));
+
+        db.addUser(user, "user");
+        db.addUser(altuser, "altuser");
+
+        assertEquals(db.getUsersByAuthenticationLevel(User.AuthenticationLevel.STAFF).get(0), user);;
+
+
+    }
 }

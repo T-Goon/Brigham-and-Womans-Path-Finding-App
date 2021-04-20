@@ -1,5 +1,7 @@
 package edu.wpi.teamB.views.menus;
 
+import com.jfoenix.controls.JFXDialog;
+import com.jfoenix.controls.JFXDialogLayout;
 import edu.wpi.teamB.database.DatabaseHandler;
 import edu.wpi.teamB.entities.requests.Request;
 import edu.wpi.teamB.util.RequestWrapper;
@@ -15,6 +17,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.StackPane;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 
 import java.io.IOException;
 import java.net.URL;
@@ -34,6 +39,9 @@ public class ServiceRequestDatabaseController implements Initializable {
 
     @FXML
     private TableView tblRequests;
+
+    @FXML
+    private StackPane stackContainer;
 
     @FXML
     private TableColumn<String, JFXButton> editCol;
@@ -111,6 +119,30 @@ public class ServiceRequestDatabaseController implements Initializable {
             case "btnEmergency":
                 SceneSwitcher.switchToTemp(getClass(), "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");
                 break;
+            case "btnHelp":
+                loadHelpDialog();
+                break;
         }
+    }
+
+    private void loadHelpDialog(){
+        JFXDialogLayout helpLayout = new JFXDialogLayout();
+
+        Text helpText = new Text("To assign an employee to a request right click on the text in the 'assigned to' column and select a staff member from the context menu");
+        helpText.setFont(new Font("MS Reference Sans Serif", 14));
+
+        Label headerLabel = new Label("Help");
+        headerLabel.setFont(new Font("MS Reference Sans Serif", 18));
+
+        helpLayout.setHeading(headerLabel);
+        helpLayout.setBody(helpText);
+        JFXDialog helpWindow = new JFXDialog(stackContainer, helpLayout, JFXDialog.DialogTransition.CENTER);
+
+        JFXButton button = new JFXButton("Close");
+        button.setOnAction(event -> helpWindow.close());
+        helpLayout.setActions(button);
+
+        helpWindow.show();
+
     }
 }
