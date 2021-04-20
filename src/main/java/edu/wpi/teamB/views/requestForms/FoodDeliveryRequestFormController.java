@@ -21,4 +21,12 @@ public class FoodDeliveryRequestFormController extends DefaultServiceRequestForm
 
     @FXML
     private JFXTextArea extraInformation;
+
+    @FXML
+    private void validateButton(){
+        btnSubmit.setDisable(
+            name.getText().isEmpty() || roomNum.getText().isEmpty() || mealChoice.getText().isEmpty() ||
+            arrivalTime.getValue() == null || extraInformation.getText().isEmpty()
+        );
+    }
 }
