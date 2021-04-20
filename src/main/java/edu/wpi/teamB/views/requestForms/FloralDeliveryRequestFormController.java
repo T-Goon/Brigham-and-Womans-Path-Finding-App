@@ -81,39 +81,40 @@ public class FloralDeliveryRequestFormController extends DefaultServiceRequestFo
     }
 
     public void handleButtonAction(ActionEvent actionEvent) {
-        String givenPatientName = patientName.getText();
-        String givenDeliveryDate = deliveryDate.getValue().toString();
-        String givenStartTime = startTime.getValue().toString();
-        String givenEndTime = endTime.getValue().toString();
-        String wantsRoses = roses.isSelected() ? "T" : "F";
-        String wantsTulips = tulips.isSelected() ? "T" : "F";
-        String wantsDaisies = daisies.isSelected() ? "T" : "F";
-        String wantsLilies = lilies.isSelected() ? "T" : "F";
-        String wantsSunflowers = sunflowers.isSelected() ? "T" : "F";
-        String wantsCarnations = carnations.isSelected() ? "T" : "F";
-        String wantsOrchids = orchids.isSelected() ? "T" : "F";
-
-        DateFormat timeFormat = new SimpleDateFormat("HH:mm");
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Date dateInfo = new Date();
-
-        String requestID = UUID.randomUUID().toString();
-        String time = timeFormat.format(dateInfo); // Stored as HH:MM (24 hour time)
-        String date = dateFormat.format(dateInfo); // Stored as YYYY-MM-DD
-        String complete = "F";
-        String employeeName = null; // fix
-        String location = roomNumber.getText();
-        String givenDescription = message.getText();
-
-        FloralRequest request = new FloralRequest(givenPatientName, givenDeliveryDate, givenStartTime, givenEndTime,
-                wantsRoses, wantsTulips, wantsDaisies, wantsLilies, wantsSunflowers, wantsCarnations, wantsOrchids,
-                requestID, time, date, complete, employeeName, location, givenDescription);
+        super.handleButtonAction(actionEvent);
 
         JFXButton btn = (JFXButton) actionEvent.getSource();
         if (btn.getId().equals("btnSubmit")) {
+
+            String givenPatientName = patientName.getText();
+            String givenDeliveryDate = deliveryDate.getValue().toString();
+            String givenStartTime = startTime.getValue().toString();
+            String givenEndTime = endTime.getValue().toString();
+            String wantsRoses = roses.isSelected() ? "T" : "F";
+            String wantsTulips = tulips.isSelected() ? "T" : "F";
+            String wantsDaisies = daisies.isSelected() ? "T" : "F";
+            String wantsLilies = lilies.isSelected() ? "T" : "F";
+            String wantsSunflowers = sunflowers.isSelected() ? "T" : "F";
+            String wantsCarnations = carnations.isSelected() ? "T" : "F";
+            String wantsOrchids = orchids.isSelected() ? "T" : "F";
+
+            DateFormat timeFormat = new SimpleDateFormat("HH:mm");
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date dateInfo = new Date();
+
+            String requestID = UUID.randomUUID().toString();
+            String time = timeFormat.format(dateInfo); // Stored as HH:MM (24 hour time)
+            String date = dateFormat.format(dateInfo); // Stored as YYYY-MM-DD
+            String complete = "F";
+            String employeeName = null; // fix
+            String location = roomNumber.getText();
+            String givenDescription = message.getText();
+
+            FloralRequest request = new FloralRequest(givenPatientName, givenDeliveryDate, givenStartTime, givenEndTime,
+                    wantsRoses, wantsTulips, wantsDaisies, wantsLilies, wantsSunflowers, wantsCarnations, wantsOrchids,
+                    requestID, time, date, complete, employeeName, location, givenDescription);
             DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
         }
-        super.handleButtonAction(actionEvent);
     }
 
     @FXML

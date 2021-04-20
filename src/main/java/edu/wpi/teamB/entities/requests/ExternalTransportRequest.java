@@ -16,7 +16,7 @@ public class ExternalTransportRequest extends Request {
     private String unconscious;
 
     public ExternalTransportRequest(String patientName, String transportType, String destination, String patientAllergies, String outNetwork, String infectious, String unconscious, String requestID, String time, String date, String complete, String employeeName, String location, String description) {
-        super(requestID, "External Transport", time, date, complete, employeeName, location, description);
+        super(requestID, RequestType.EXTERNAL_TRANSPORT, time, date, complete, employeeName, location, description);
         this.patientName = patientName;
         this.transportType = transportType;
         this.destination = destination;
