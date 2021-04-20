@@ -426,7 +426,7 @@ public class DatabaseHandler {
      * @param username username to query by
      * @return User object with that username, null if no user exists
      */
-    public User getUserByUsername(String username){
+    public User getUserByUsername(String username) {
         Statement statement = this.getStatement();
         String query = "SELECT job FROM Jobs WHERE (username = '" + username + "')";
         ResultSet rs;
@@ -492,13 +492,13 @@ public class DatabaseHandler {
                 "authenticationLevel = '" + newUser.getAuthenticationLevel().toString() + "'" +
                 "WHERE (username = '" + newUser.getUsername() + "')";
         String deleteJobs = "DELETE FROM Jobs WHERE (username = '" + newUser.getUsername() + "')";
-        try{
-            if(this.getUserByUsername(newUser.getUsername()) == null){
+        try {
+            if (this.getUserByUsername(newUser.getUsername()) == null) {
                 return false;
-            }else{
+            } else {
                 statement.execute(updateUser);
                 statement.execute(deleteJobs);
-                for(Request.RequestType job : newUser.getJobs()){
+                for (Request.RequestType job : newUser.getJobs()) {
                     String query = "INSERT INTO Jobs VALUES " +
                             "('" + newUser.getUsername()
                             + "', '" + job.toString()
@@ -508,8 +508,8 @@ public class DatabaseHandler {
 
                 return true;
             }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return false;
     }
@@ -518,17 +518,14 @@ public class DatabaseHandler {
         Statement statement = this.getStatement();
         String deleteJobs = "DELETE FROM Jobs WHERE (username = '" + username + "')";
         String deleteUser = "DELETE FROM Users WHERE (username = '" + username + "')";
-        try{
+        try {
+            assert statement != null;
             statement.executeUpdate(deleteJobs);
             int update = statement.executeUpdate(deleteUser);
             statement.close();
-            if(update == 1){
-                return true;
-            }else{
-                return false;
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            return update == 1;
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return false;
     }
@@ -581,11 +578,12 @@ public class DatabaseHandler {
         if (DatabaseHandler.AuthenticationUser.getAuthenticationLevel() != User.AuthenticationLevel.GUEST) {
             DatabaseHandler.AuthenticationUser = new User(null, null, null, User.AuthenticationLevel.GUEST, null);
             return true;
-        } else {
-            return false;
-        }
+        } else return false;
     }
 
+    /*
+     * @return the User that is currently logged in
+     */
     public User getAuthenticationUser() {
         return DatabaseHandler.AuthenticationUser;
     }
