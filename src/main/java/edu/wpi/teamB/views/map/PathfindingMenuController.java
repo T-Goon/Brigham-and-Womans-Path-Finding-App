@@ -210,9 +210,9 @@ public class PathfindingMenuController implements Initializable {
     }
 
     private void checkPermissions() {
-        btnEditMap.setVisible(!db.getAuthenticationUser().isAtLeast(User.AuthenticationLevel.ADMIN));
-        btnLoad.setVisible(!db.getAuthenticationUser().isAtLeast(User.AuthenticationLevel.ADMIN));
-        btnSave.setVisible(!db.getAuthenticationUser().isAtLeast(User.AuthenticationLevel.ADMIN));
+        btnEditMap.setVisible(db.getAuthenticationUser().isAtLeast(User.AuthenticationLevel.ADMIN));
+        btnLoad.setVisible(db.getAuthenticationUser().isAtLeast(User.AuthenticationLevel.ADMIN));
+        btnSave.setVisible(db.getAuthenticationUser().isAtLeast(User.AuthenticationLevel.ADMIN));
     }
 
     /**
@@ -516,10 +516,10 @@ public class PathfindingMenuController implements Initializable {
                         ((Text)child).setText(n.getLongName());
                         break;
                     case "btnStart":
-                        showGraphicalSelection(txtStartLocation, (JFXButton)child, n);
+                        showGraphicalSelection(txtStartLocation, child, n);
                         break;
                     case "btnEnd":
-                        showGraphicalSelection(txtEndLocation, (JFXButton)child, n);
+                        showGraphicalSelection(txtEndLocation, child, n);
                         break;
                     case "btnCancel":
                         ((JFXButton)child).setOnAction(event -> deleteBox(selectionBox));

@@ -5,7 +5,6 @@ import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXTimePicker;
 import edu.wpi.teamB.database.DatabaseHandler;
-import edu.wpi.teamB.entities.requests.MedicineRequest;
 import edu.wpi.teamB.entities.requests.SocialWorkerRequest;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
