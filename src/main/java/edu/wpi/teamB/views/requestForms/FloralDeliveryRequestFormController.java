@@ -3,7 +3,6 @@ package edu.wpi.teamB.views.requestForms;
 import com.jfoenix.controls.*;
 import edu.wpi.teamB.App;
 import edu.wpi.teamB.database.DatabaseHandler;
-import edu.wpi.teamB.entities.requests.CaseManagerRequest;
 import edu.wpi.teamB.entities.requests.FloralRequest;
 import edu.wpi.teamB.entities.requests.Request;
 import edu.wpi.teamB.util.SceneSwitcher;
@@ -65,12 +64,14 @@ public class FloralDeliveryRequestFormController extends DefaultServiceRequestFo
     @FXML
     private JFXCheckBox orchids;
 
+    private String id;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location,resources);
 
         if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml")) {
-            String id = (String) App.getPrimaryStage().getUserData();
+            this.id = (String) App.getPrimaryStage().getUserData();
             FloralRequest floralRequest = (FloralRequest) DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(id, Request.RequestType.FLORAL);
             patientName.setText(floralRequest.getPatientName());
             getLocationIndex(floralRequest.getLocation());
@@ -109,6 +110,7 @@ public class FloralDeliveryRequestFormController extends DefaultServiceRequestFo
             }
             totalPrice.setText("Total Price: $" + Double.toString(price));
         }
+        validateButton();
     }
 
     @FXML
@@ -152,7 +154,13 @@ public class FloralDeliveryRequestFormController extends DefaultServiceRequestFo
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             Date dateInfo = new Date();
 
-            String requestID = UUID.randomUUID().toString();
+            String requestID;
+            if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml")) {
+                requestID = this.id;
+            } else {
+                requestID = UUID.randomUUID().toString();
+            }
+
             String time = timeFormat.format(dateInfo); // Stored as HH:MM (24 hour time)
             String date = dateFormat.format(dateInfo); // Stored as YYYY-MM-DD
             String complete = "F";
@@ -162,7 +170,12 @@ public class FloralDeliveryRequestFormController extends DefaultServiceRequestFo
             FloralRequest request = new FloralRequest(givenPatientName, givenDeliveryDate, givenStartTime, givenEndTime,
                     wantsRoses, wantsTulips, wantsDaisies, wantsLilies, wantsSunflowers, wantsCarnations, wantsOrchids,
                     requestID, time, date, complete, employeeName, getLocation(), givenDescription);
-            DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
+
+            if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml")) {
+                DatabaseHandler.getDatabaseHandler("main.db").updateRequest(request);
+            } else {
+                DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
+            }
         }
     }
 

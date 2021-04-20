@@ -3,7 +3,6 @@ package edu.wpi.teamB.views.requestForms;
 import com.jfoenix.controls.*;
 import edu.wpi.teamB.App;
 import edu.wpi.teamB.database.DatabaseHandler;
-import edu.wpi.teamB.entities.requests.ExternalTransportRequest;
 import edu.wpi.teamB.entities.requests.InternalTransportRequest;
 import edu.wpi.teamB.entities.requests.Request;
 import edu.wpi.teamB.util.SceneSwitcher;
@@ -37,6 +36,8 @@ public class InternalTransportationRequestFormController extends DefaultServiceR
     @FXML
     private JFXCheckBox infectious;
 
+    private String id;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location,resources);
@@ -45,7 +46,7 @@ public class InternalTransportationRequestFormController extends DefaultServiceR
         comboTranspType.getItems().add(new Label("Gurney"));
 
         if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml")) {
-            String id = (String) App.getPrimaryStage().getUserData();
+            this.id = (String) App.getPrimaryStage().getUserData();
             InternalTransportRequest internalTransportRequest = (InternalTransportRequest) DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(id, Request.RequestType.INTERNAL_TRANSPORT);
             name.setText(internalTransportRequest.getPatientName());
             getLocationIndex(internalTransportRequest.getLocation());
@@ -62,6 +63,7 @@ public class InternalTransportationRequestFormController extends DefaultServiceR
             unconscious.setSelected(internalTransportRequest.getUnconscious().equals("T"));
             infectious.setSelected(internalTransportRequest.getInfectious().equals("T"));
         }
+        validateButton();
     }
 
     public void handleButtonAction(ActionEvent actionEvent) {
@@ -78,7 +80,13 @@ public class InternalTransportationRequestFormController extends DefaultServiceR
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             Date dateInfo = new Date();
 
-            String requestID = UUID.randomUUID().toString();
+            String requestID;
+            if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml")) {
+                requestID = this.id;
+            } else {
+                requestID = UUID.randomUUID().toString();
+            }
+
             String time = timeFormat.format(dateInfo); // Stored as HH:MM (24 hour time)
             String date = dateFormat.format(dateInfo); // Stored as YYYY-MM-DD
             String complete = "F";
@@ -88,7 +96,11 @@ public class InternalTransportationRequestFormController extends DefaultServiceR
             InternalTransportRequest request = new InternalTransportRequest(givenPatientName, givenTransportType, givenUnconscious, givenInfectious,
                     requestID, time, date, complete, employeeName, getLocation(), givenDescription);
 
-            DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
+            if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml")) {
+                DatabaseHandler.getDatabaseHandler("main.db").updateRequest(request);
+            } else {
+                DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
+            }
         }
     }
 

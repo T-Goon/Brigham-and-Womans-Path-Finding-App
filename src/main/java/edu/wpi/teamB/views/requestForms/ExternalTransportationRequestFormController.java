@@ -3,7 +3,6 @@ package edu.wpi.teamB.views.requestForms;
 import com.jfoenix.controls.*;
 import edu.wpi.teamB.App;
 import edu.wpi.teamB.database.DatabaseHandler;
-import edu.wpi.teamB.entities.requests.CaseManagerRequest;
 import edu.wpi.teamB.entities.requests.ExternalTransportRequest;
 import edu.wpi.teamB.entities.requests.Request;
 import edu.wpi.teamB.util.SceneSwitcher;
@@ -15,7 +14,6 @@ import javafx.scene.control.Label;
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.LocalTime;
 import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.UUID;
@@ -46,6 +44,8 @@ public class ExternalTransportationRequestFormController extends DefaultServiceR
     @FXML
     private JFXCheckBox outNetwork;
 
+    private String id;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location, resources);
@@ -54,7 +54,7 @@ public class ExternalTransportationRequestFormController extends DefaultServiceR
         comboTranspType.getItems().add(new Label("Helicopter"));
 
         if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml")) {
-            String id = (String) App.getPrimaryStage().getUserData();
+            this.id = (String) App.getPrimaryStage().getUserData();
             ExternalTransportRequest externalTransportRequest = (ExternalTransportRequest) DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(id, Request.RequestType.EXTERNAL_TRANSPORT);
             name.setText(externalTransportRequest.getPatientName());
             getLocationIndex(externalTransportRequest.getLocation());
@@ -74,6 +74,7 @@ public class ExternalTransportationRequestFormController extends DefaultServiceR
             infectious.setSelected(externalTransportRequest.getInfectious().equals("T"));
             outNetwork.setSelected(externalTransportRequest.getOutNetwork().equals("T"));
         }
+        validateButton();
     }
 
     public void handleButtonAction(ActionEvent actionEvent) {
@@ -93,7 +94,13 @@ public class ExternalTransportationRequestFormController extends DefaultServiceR
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             Date dateInfo = new Date();
 
-            String requestID = UUID.randomUUID().toString();
+            String requestID;
+            if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml")) {
+                requestID = this.id;
+            } else {
+                requestID = UUID.randomUUID().toString();
+            }
+
             String time = timeFormat.format(dateInfo); // Stored as HH:MM (24 hour time)
             String date = dateFormat.format(dateInfo); // Stored as YYYY-MM-DD
             String complete = "F";
@@ -103,7 +110,11 @@ public class ExternalTransportationRequestFormController extends DefaultServiceR
             ExternalTransportRequest request = new ExternalTransportRequest(givenPatientName, givenTransportType, givenDestination, givenPatientAllergies, givenOutNetwork, givenInfectious, givenUnconscious,
                     requestID, time, date, complete, employeeName, getLocation(), givenDescription);
 
-            DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
+            if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml")) {
+                DatabaseHandler.getDatabaseHandler("main.db").updateRequest(request);
+            } else {
+                DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
+            }
         }
     }
 

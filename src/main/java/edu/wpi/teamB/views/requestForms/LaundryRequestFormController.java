@@ -3,7 +3,6 @@ package edu.wpi.teamB.views.requestForms;
 import com.jfoenix.controls.*;
 import edu.wpi.teamB.App;
 import edu.wpi.teamB.database.DatabaseHandler;
-import edu.wpi.teamB.entities.requests.ExternalTransportRequest;
 import edu.wpi.teamB.entities.requests.LaundryRequest;
 import edu.wpi.teamB.entities.requests.Request;
 import edu.wpi.teamB.util.SceneSwitcher;
@@ -12,7 +11,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 
-import javax.swing.*;
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -40,6 +38,8 @@ public class LaundryRequestFormController extends DefaultServiceRequestFormContr
     @FXML
     private JFXCheckBox roomOccupied;
 
+    private String id;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location,resources);
@@ -53,7 +53,7 @@ public class LaundryRequestFormController extends DefaultServiceRequestFormContr
         comboSizeService.getItems().add(new Label("Large"));
 
         if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml")) {
-            String id = (String) App.getPrimaryStage().getUserData();
+            this.id = (String) App.getPrimaryStage().getUserData();
             LaundryRequest laundryRequest = (LaundryRequest) DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(id, Request.RequestType.LAUNDRY);
             getLocationIndex(laundryRequest.getLocation());
             int indexType = -1;
@@ -79,6 +79,7 @@ public class LaundryRequestFormController extends DefaultServiceRequestFormContr
             lights.setSelected(laundryRequest.getLight().equals("T"));
             roomOccupied.setSelected(laundryRequest.getOccupied().equals("T"));
         }
+        validateButton();
     }
 
     public void handleButtonAction(ActionEvent actionEvent) {
@@ -97,7 +98,13 @@ public class LaundryRequestFormController extends DefaultServiceRequestFormContr
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             Date dateInfo = new Date();
 
-            String requestID = UUID.randomUUID().toString();
+            String requestID;
+            if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml")) {
+                requestID = this.id;
+            } else {
+                requestID = UUID.randomUUID().toString();
+            }
+
             String time = timeFormat.format(dateInfo); // Stored as HH:MM (24 hour time)
             String date = dateFormat.format(dateInfo); // Stored as YYYY-MM-DD
             String complete = "F";
@@ -107,7 +114,11 @@ public class LaundryRequestFormController extends DefaultServiceRequestFormContr
             LaundryRequest request = new LaundryRequest(givenServiceType, givenServiceSize, givenDark, givenLight, givenOccupied,
                     requestID, time, date, complete, employeeName, getLocation(), givenDescription);
 
-            DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
+            if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml")) {
+                DatabaseHandler.getDatabaseHandler("main.db").updateRequest(request);
+            } else {
+                DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
+            }
         }
     }
 
