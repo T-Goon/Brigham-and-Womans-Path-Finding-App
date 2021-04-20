@@ -1,19 +1,15 @@
 package edu.wpi.teamB.views.requestForms;
 
 import com.jfoenix.controls.*;
-import com.jfoenix.controls.*;
 import edu.wpi.teamB.database.DatabaseHandler;
 import edu.wpi.teamB.entities.requests.FloralRequest;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 
 import java.math.RoundingMode;
-import java.net.URL;
 import java.text.DateFormat;
 import java.text.NumberFormat;
-import java.util.ResourceBundle;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;

@@ -34,6 +34,17 @@ public class User {
      * @return whether the user is at least that level of authorization
      */
     public boolean isAtLeast(AuthenticationLevel auth) {
-        return authenticationLevel.compareTo(auth) > 0;
+        switch (auth) {
+            case GUEST:
+                return true;
+            case PATIENT:
+                return authenticationLevel != AuthenticationLevel.GUEST;
+            case STAFF:
+                return authenticationLevel == AuthenticationLevel.STAFF || authenticationLevel == AuthenticationLevel.ADMIN;
+            case ADMIN:
+                return authenticationLevel == AuthenticationLevel.ADMIN;
+            default:
+                throw new IllegalStateException("Unknown authentication level!");
+        }
     }
 }
