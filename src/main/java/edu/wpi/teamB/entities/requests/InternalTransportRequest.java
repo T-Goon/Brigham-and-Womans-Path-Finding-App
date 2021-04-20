@@ -13,7 +13,7 @@ public class InternalTransportRequest extends Request {
     private String infectious;
 
     public InternalTransportRequest(String patientName, String transportType, String unconscious, String infectious, String requestID, String time, String date, String complete, String employeeName, String location, String description) {
-        super(requestID, "Internal Transport", time, date, complete, employeeName, location, description);
+        super(requestID, RequestType.INTERNAL_TRANSPORT, time, date, complete, employeeName, location, description);
         this.patientName = patientName;
         this.transportType = transportType;
         this.unconscious = unconscious;
