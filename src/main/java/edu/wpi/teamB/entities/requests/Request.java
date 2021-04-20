@@ -53,9 +53,9 @@ public class Request {
 
         public static RequestType deprettify(String requestType) {
             switch (requestType) {
-                case "Case Manager":
+                case "CASE_MANAGER":
                     return CASE_MANAGER;
-                case "External Transport":
+                case "EXTERNAL_":
                     return EXTERNAL_TRANSPORT;
                 case "Floral":
                     return FLORAL;

@@ -1085,10 +1085,9 @@ public class DatabaseHandler {
 
             Request outRequest;
             while (rs.next()) {
-                System.out.println(rs.getString("requestType"));
                 outRequest = new Request(
                         rs.getString("requestID"),
-                        Request.RequestType.deprettify(rs.getString("requestType")),
+                        Request.RequestType.valueOf(rs.getString("requestType")),
                         rs.getString("requestTime"),
                         rs.getString("requestDate"),
                         rs.getString("complete"),
