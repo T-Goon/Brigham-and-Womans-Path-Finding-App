@@ -1,4 +1,4 @@
-package edu.wpi.teamB.views.loginPages;
+package edu.wpi.teamB.views.login;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
@@ -72,7 +72,7 @@ public class LoginPageController implements Initializable {
                 Platform.exit();
                 break;
             case "btnEmergency":
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/loginPages/loginPage.fxml", "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/login/loginPage.fxml", "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");
                 break;
         }
     }
