@@ -10,6 +10,7 @@ import edu.wpi.teamB.util.CSVHandler;
 import edu.wpi.teamB.database.DatabaseHandler;
 import edu.wpi.teamB.util.SceneSwitcher;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -55,10 +56,13 @@ public class App extends Application {
             if (!db.isInitialized()) {
                 SceneSwitcher.switchToTemp(getClass(), "/edu/wpi/teamB/views/login/databaseInit.fxml");
                 primaryStage.show();
-                db.loadNodesEdges(CSVHandler.loadCSVNodes("/edu/wpi/teamB/csvFiles/bwBnodes.csv"), CSVHandler.loadCSVEdges("/edu/wpi/teamB/csvFiles/bwBedges.csv"));
-                SceneSwitcher.switchToTemp(getClass(), "/edu/wpi/teamB/views/login/loginOptions.fxml");
-            }
-            primaryStage.show();
+
+                Thread dbThread = new Thread(() -> {
+                    db.loadNodesEdges(CSVHandler.loadCSVNodes("/edu/wpi/teamB/csvFiles/bwBnodes.csv"), CSVHandler.loadCSVEdges("/edu/wpi/teamB/csvFiles/bwBedges.csv"));
+                    Platform.runLater(() -> SceneSwitcher.switchToTemp(getClass(), "/edu/wpi/teamB/views/login/loginOptions.fxml"));
+                });
+                dbThread.start();
+            } else primaryStage.show();
             db.addUser(new User("admin", "Professor", "X", User.AuthenticationLevel.ADMIN, null), "password");
             db.addUser(new User("staff", "Mike", "Bedard", User.AuthenticationLevel.STAFF, null), "password");
             db.addUser(new User("d", "Dan", "Druff", User.AuthenticationLevel.STAFF, null), "d");
