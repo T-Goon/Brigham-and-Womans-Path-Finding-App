@@ -94,7 +94,7 @@
                                                       <Font size="14.0" />
                                                    </font>
                                                                 </Text>
-                                                                <JFXTextField fx:id="name" onKeyReleased="#validateButton" promptText="Ex. &quot;Jane Doe&quot;" style="-fx-background-color: #e5e5e5; -fx-background-radius: 7;" unFocusColor="#f0f0f0" />
+                                                                <JFXTextField fx:id="name" onKeyReleased="#validateButton" prefHeight="28.0" prefWidth="381.0" promptText="Ex. &quot;Jane Doe&quot;" style="-fx-background-color: #e5e5e5; -fx-background-radius: 7;" unFocusColor="#f0f0f0" />
                                                             </children>
                                                         </VBox>
                                                     </children>
@@ -111,7 +111,10 @@
                                                                         <Insets left="5.0" />
                                                                     </VBox.margin>
                                                                 </Text>
-                                                <JFXComboBox fx:id="loc" maxWidth="1.7976931348623157E308" style="-fx-background-color: #e5e5e5; -fx-background-radius: 7;" unFocusColor="WHITE" />
+                                                <JFXComboBox fx:id="loc" maxWidth="1.7976931348623157E308" prefHeight="28.0" prefWidth="394.0" style="-fx-background-color: #e5e5e5; -fx-background-radius: 7;" unFocusColor="WHITE">
+                                                   <VBox.margin>
+                                                      <Insets left="5.0" />
+                                                   </VBox.margin></JFXComboBox>
                                                             </children>
                                                         </VBox>
                                                     </children>
@@ -130,13 +133,9 @@
                                                 <Font size="14.0" />
                                              </font>
                                                         </Text>
-                                                        <JFXTextField fx:id="mealChoice" onKeyReleased="#validateButton"
-                                                                      prefHeight="37.0" prefWidth="381.0"
-                                                                      promptText="Ex. &quot;Chicken Sandwich&quot;"
-                                                                      style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;"
-                                                                      unFocusColor="#f0f0f0">
+                                                        <JFXTextField fx:id="mealChoice" onKeyReleased="#validateButton" prefHeight="37.0" prefWidth="381.0" promptText="Ex. &quot;Chicken Sandwich&quot;" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f0f0f0">
                                                             <VBox.margin>
-                                                                <Insets left="5.0" right="5.0"/>
+                                                                <Insets left="5.0" right="5.0" />
                                                             </VBox.margin>
                                                         </JFXTextField>
                                                     </children>
@@ -151,7 +150,7 @@
                                                                 <Insets left="5.0" />
                                                             </VBox.margin>
                                                         </Text>
-                                                        <JFXTimePicker fx:id="arrivalTime" defaultColor="#012d5a" onAction="#validateButton" style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" stylesheets="@../../css/dateTimeFix.css" />
+                                                        <JFXTimePicker fx:id="arrivalTime" defaultColor="#012d5a" onAction="#validateButton" prefHeight="37.0" prefWidth="171.0" style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" stylesheets="@../../css/dateTimeFix.css" />
                                                     </children>
                                                 </VBox>
                                             </children>
