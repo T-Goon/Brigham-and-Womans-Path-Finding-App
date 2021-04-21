@@ -82,70 +82,70 @@
                            </font></Text>
                         <VBox spacing="5.0" stylesheets="@../../css/covidSurvey.css">
                            <children>
-                              <JFXCheckBox fx:id="chkFever" checkedColor="#f6bd39" text="Fever">
+                              <JFXCheckBox fx:id="chkFever" text="Fever">
                                  <VBox.margin>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </VBox.margin>
                                  <font>
                                     <Font name="MS Reference Sans Serif" size="14.0" />
                                  </font></JFXCheckBox>
-                              <JFXCheckBox fx:id="chkChills" checkedColor="#f6bd39" text="Chills">
+                              <JFXCheckBox fx:id="chkChills" text="Chills">
                                  <VBox.margin>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </VBox.margin>
                                  <font>
                                     <Font name="MS Reference Sans Serif" size="14.0" />
                                  </font></JFXCheckBox>
-                              <JFXCheckBox fx:id="chkCough" checkedColor="#f6bd39" text="Cough">
+                              <JFXCheckBox fx:id="chkCough" text="Cough">
                                  <VBox.margin>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </VBox.margin>
                                  <font>
                                     <Font name="MS Reference Sans Serif" size="14.0" />
                                  </font></JFXCheckBox>
-                              <JFXCheckBox fx:id="chkShortBreath" checkedColor="#f6bd39" text="Shortness of Breath">
+                              <JFXCheckBox fx:id="chkShortBreath" text="Shortness of Breath">
                                  <VBox.margin>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </VBox.margin>
                                  <font>
                                     <Font name="MS Reference Sans Serif" size="14.0" />
                                  </font></JFXCheckBox>
-                              <JFXCheckBox fx:id="chkSoreTht" checkedColor="#f6bd39" text="Sore Throat">
+                              <JFXCheckBox fx:id="chkSoreTht" text="Sore Throat">
                                  <VBox.margin>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </VBox.margin>
                                  <font>
                                     <Font name="MS Reference Sans Serif" size="14.0" />
                                  </font></JFXCheckBox>
-                              <JFXCheckBox fx:id="chkHeadache" checkedColor="#f6bd39" text="Headache">
+                              <JFXCheckBox fx:id="chkHeadache" text="Headache">
                                  <VBox.margin>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </VBox.margin>
                                  <font>
                                     <Font name="MS Reference Sans Serif" size="14.0" />
                                  </font></JFXCheckBox>
-                              <JFXCheckBox fx:id="chkAches" checkedColor="#f6bd39" text="Muscle/Body Ache">
+                              <JFXCheckBox fx:id="chkAches" text="Muscle/Body Ache">
                                  <VBox.margin>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </VBox.margin>
                                  <font>
                                     <Font name="MS Reference Sans Serif" size="14.0" />
                                  </font></JFXCheckBox>
-                              <JFXCheckBox fx:id="chkNose" checkedColor="#f6bd39" text="Runny Nose/Congestion">
+                              <JFXCheckBox fx:id="chkNose" text="Runny Nose/Congestion">
                                  <VBox.margin>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </VBox.margin>
                                  <font>
                                     <Font name="MS Reference Sans Serif" size="14.0" />
                                  </font></JFXCheckBox>
-                              <JFXCheckBox fx:id="chkLostTaste" checkedColor="#f6bd39" text="Loss of Taste/Smell">
+                              <JFXCheckBox fx:id="chkLostTaste" text="Loss of Taste/Smell">
                                  <VBox.margin>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </VBox.margin>
                                  <font>
                                     <Font name="MS Reference Sans Serif" size="14.0" />
                                  </font></JFXCheckBox>
-                              <JFXCheckBox fx:id="chkNausea" checkedColor="#f6bd39" text="Nausea/Vomiting">
+                              <JFXCheckBox fx:id="chkNausea" text="Nausea/Vomiting">
                                  <VBox.margin>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </VBox.margin>
