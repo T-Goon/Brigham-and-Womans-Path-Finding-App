@@ -119,16 +119,19 @@
                                 </VBox>
                                 <HBox alignment="CENTER_LEFT" prefWidth="200.0">
                                     <children>
-                                        <HBox alignment="CENTER_LEFT" fillHeight="false" HBox.hgrow="ALWAYS">
+                                        <HBox alignment="CENTER_LEFT" fillHeight="false" prefHeight="39.0" prefWidth="0.0" HBox.hgrow="ALWAYS">
                                             <children>
                                                 <JFXButton fx:id="btnCancel" buttonType="RAISED" cancelButton="true" onAction="#handleButtonAction" style="-fx-background-color: #0067b1; -fx-background-radius: 7;" text="Cancel" textFill="WHITE">
                                                     <font>
                                                         <Font name="MS Reference Sans Serif" size="14.0" />
                                                     </font>
+                                       <HBox.margin>
+                                          <Insets top="30.0" />
+                                       </HBox.margin>
                                                 </JFXButton>
                                             </children>
                                         </HBox>
-                                        <HBox alignment="CENTER" fillHeight="false" spacing="10.0" HBox.hgrow="ALWAYS">
+                                        <HBox alignment="CENTER" fillHeight="false" prefHeight="39.0" prefWidth="367.0" spacing="10.0" HBox.hgrow="ALWAYS">
                                             <children>
                                                 <JFXButton fx:id="btnSubmit" buttonType="RAISED" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39; -fx-background-radius: 7;" text="Submit">
                                                     <font>
@@ -143,6 +146,9 @@
                                                     <font>
                                                         <Font name="MS Reference Sans Serif" size="14.0" />
                                                     </font>
+                                       <HBox.margin>
+                                          <Insets top="30.0" />
+                                       </HBox.margin>
                                                 </JFXButton>
                                             </children>
                                         </HBox>
