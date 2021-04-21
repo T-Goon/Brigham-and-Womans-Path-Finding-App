@@ -91,6 +91,9 @@ public class PathfindingMenuController implements Initializable {
     @FXML
     private StackPane mapStack;
 
+    @FXML
+    private GesturePane gpane;
+
     private static final double coordinateScale = 25 / 9.0;
     private List<Line> edgePlaced = new ArrayList<>();
     private List<javafx.scene.Node> nodePlaced = new ArrayList<>();
@@ -404,7 +407,6 @@ public class PathfindingMenuController implements Initializable {
      * @param n Node that is to be edited.
      */
     private void showEditNodePopup(Node n, MouseEvent event, boolean fromTreeView) {
-
         Circle c;
         if (fromTreeView) c = null;
         else c = (Circle) event.getSource();
@@ -468,6 +470,9 @@ public class PathfindingMenuController implements Initializable {
             deleteBox(delEdgePopup);
             deleteBox(addNodePopup);
         }
+
+        gpane.setGestureEnabled(true);
+
     }
 
     /**
@@ -475,6 +480,7 @@ public class PathfindingMenuController implements Initializable {
      * @param node The popup
      */
     private void placePopupOnMap(VBox node) {
+        gpane.setGestureEnabled(false);
         mapStack.getChildren().add(node);
     }
 
@@ -507,13 +513,13 @@ public class PathfindingMenuController implements Initializable {
                         showGraphicalSelection(txtEndLocation, child, n);
                         break;
                     case "btnCancel":
-                        ((JFXButton)child).setOnAction(event -> deleteBox(selectionBox));
+                        ((JFXButton)child).setOnAction(event -> removeAllPopups());
                         break;
                 }
             }
 
             if (selectionBox != null) {
-                deleteBox(selectionBox);
+                removeAllPopups();
             }
 
             selectionBox = locInput;
@@ -538,7 +544,7 @@ public class PathfindingMenuController implements Initializable {
 
         tempButton.setOnAction(event -> {
             textField.setText(n.getLongName());
-            deleteBox(selectionBox);
+            removeAllPopups();
             validateFindPathButton();
         });
 
@@ -667,7 +673,7 @@ public class PathfindingMenuController implements Initializable {
      */
     private void drawPath() {
         if (estimatedTimeBox != null)
-            deleteBox(estimatedTimeBox);
+            removeAllPopups();
 
         Map<String, Node> nodesId = Graph.getGraph().getNodes();
         Map<String, String> hmLongName = makeLongToIDMap();

@@ -13,6 +13,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.VBox;
+import net.kurobako.gesturefx.GesturePane;
 
 import java.net.URL;
 import java.util.*;
@@ -125,6 +126,8 @@ public class AddNodePopupController implements Initializable {
         switch (btn.getId()) {
             case "btnCancel":
                 data.getMapStack().getChildren().remove(root);
+                GesturePane thePane = (GesturePane) data.getMapStack().getChildren().get(0);
+                thePane.setGestureEnabled(true);
                 break;
             case "btnAddNode":
                 String aNodeId = nodeID.getText().trim();
