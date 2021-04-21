@@ -171,7 +171,7 @@
                         </Text>
                         <HBox spacing="20.0">
                            <children>
-                              <JFXRadioButton fx:id="btnCCYes" text="Yes">
+                              <JFXRadioButton fx:id="btnCCYes" onAction="#validateButton" text="Yes">
                                  <toggleGroup>
                                     <ToggleGroup fx:id="ccGroup" />
                                  </toggleGroup>
@@ -179,7 +179,7 @@
                                     <Font name="MS Reference Sans Serif" size="14.0" />
                                  </font>
                               </JFXRadioButton>
-                              <JFXRadioButton fx:id="btnCCNo" text="No" toggleGroup="$ccGroup">
+                              <JFXRadioButton fx:id="btnCCNo" onAction="#validateButton" text="No" toggleGroup="$ccGroup">
                                  <font>
                                     <Font name="MS Reference Sans Serif" size="14.0" />
                                  </font>
@@ -203,7 +203,7 @@
                         </Text>
                         <HBox alignment="CENTER_LEFT" spacing="20.0">
                            <children>
-                              <JFXRadioButton fx:id="btnTestYes" text="Yes">
+                              <JFXRadioButton fx:id="btnTestYes" onAction="#validateButton" text="Yes">
                                  <toggleGroup>
                                     <ToggleGroup fx:id="testGroup" />
                                  </toggleGroup>
@@ -211,7 +211,7 @@
                                     <Font name="MS Reference Sans Serif" size="14.0" />
                                  </font>
                               </JFXRadioButton>
-                              <JFXRadioButton fx:id="btnTestNo" text="No" toggleGroup="$testGroup">
+                              <JFXRadioButton fx:id="btnTestNo" onAction="#validateButton" text="No" toggleGroup="$testGroup">
                                  <font>
                                     <Font name="MS Reference Sans Serif" size="14.0" />
                                  </font>

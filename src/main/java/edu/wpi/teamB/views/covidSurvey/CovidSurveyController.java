@@ -77,6 +77,7 @@ public class CovidSurveyController implements Initializable {
         btnCCNo.setToggleGroup(ccGroup);
         btnTestYes.setToggleGroup(testGroup);
         btnTestNo.setToggleGroup(testGroup);
+        btnSubmit.setDisable(true);
     }
 
     @FXML
@@ -101,5 +102,12 @@ public class CovidSurveyController implements Initializable {
                 SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/covidSurvey/covidSurvey.fxml", "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");
                 break;
         }
+    }
+
+    @FXML
+    private void validateButton(){
+        btnSubmit.setDisable(
+                !(btnCCYes.isSelected() || btnCCNo.isSelected()) || !(btnTestYes.isSelected() || btnTestNo.isSelected())
+        );
     }
 }
