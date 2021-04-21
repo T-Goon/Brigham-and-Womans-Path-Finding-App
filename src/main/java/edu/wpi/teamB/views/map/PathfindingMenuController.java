@@ -32,9 +32,17 @@ import javafx.stage.Stage;
 import javafx.scene.text.Text;
 import lombok.Getter;
 import lombok.Setter;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.*;
 
@@ -352,6 +360,35 @@ public class PathfindingMenuController implements Initializable {
         map.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
+
+                InputStream s = getClass().getResourceAsStream("/edu/wpi/teamB/strings/strings.xml");
+
+                DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+                try {
+                    DocumentBuilder db = dbf.newDocumentBuilder();
+
+                    Document doc = db.parse(s);
+                    doc.getDocumentElement().normalize();
+
+                    NodeList nodeList = doc.getElementsByTagName("string");
+
+                    for (int itr = 0; itr < nodeList.getLength(); itr++)
+                    {
+                        org.w3c.dom.Node node = nodeList.item(itr);
+                        System.out.println("\nNode Name :" + node.getNodeName());
+                        System.out.println("\nNode Name :" + node.getTextContent());
+
+                    }
+                } catch (ParserConfigurationException e) {
+                    e.printStackTrace();
+                } catch (SAXException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+//                getClass().getResource("edu/wpi/teamB/strings/strings.xml");
+
 
                 // Show popup on double clicks
                 if (event.getClickCount() < 2) return;
