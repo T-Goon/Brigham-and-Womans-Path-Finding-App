@@ -82,10 +82,10 @@ public class LaundryRequestFormController extends DefaultServiceRequestFormContr
         validateButton();
     }
 
-    public void handleButtonAction(ActionEvent actionEvent) {
-        super.handleButtonAction(actionEvent);
+    public void handleButtonAction(ActionEvent e) {
+        super.handleButtonAction(e);
 
-        JFXButton btn = (JFXButton) actionEvent.getSource();
+        JFXButton btn = (JFXButton) e.getSource();
         if (btn.getId().equals("btnSubmit")) {
 
             String givenServiceType = comboTypeService.getValue().getText();

@@ -55,17 +55,17 @@ public class SecurityRequestFormController extends DefaultServiceRequestFormCont
     }
 
     @FXML
-    private void validateButton(){
+    private void validateButton() {
         btnSubmit.setDisable(
                 assignedTo.getText().isEmpty() || loc.getValue() == null ||
-                comboUrgency.getValue() == null || description.getText().isEmpty()
+                        comboUrgency.getValue() == null || description.getText().isEmpty()
         );
     }
 
-    public void handleButtonAction(ActionEvent actionEvent) {
-        super.handleButtonAction(actionEvent);
+    public void handleButtonAction(ActionEvent e) {
+        super.handleButtonAction(e);
 
-        JFXButton btn = (JFXButton) actionEvent.getSource();
+        JFXButton btn = (JFXButton) e.getSource();
         if (btn.getId().equals("btnSubmit")) {
             int givenUrgency = Integer.parseInt(comboUrgency.getValue().getText());
 

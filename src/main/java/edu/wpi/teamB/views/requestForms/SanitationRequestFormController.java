@@ -84,17 +84,17 @@ public class SanitationRequestFormController extends DefaultServiceRequestFormCo
     }
 
     @FXML
-    private void validateButton(){
+    private void validateButton() {
         btnSubmit.setDisable(
                 loc.getValue() == null || comboTypeService.getValue() == null || comboSizeService.getValue() == null ||
-            description.getText().isEmpty()
+                        description.getText().isEmpty()
         );
     }
 
-    public void handleButtonAction(ActionEvent actionEvent) {
-        super.handleButtonAction(actionEvent);
+    public void handleButtonAction(ActionEvent e) {
+        super.handleButtonAction(e);
 
-        JFXButton btn = (JFXButton) actionEvent.getSource();
+        JFXButton btn = (JFXButton) e.getSource();
         if (btn.getId().equals("btnSubmit")) {
             String givenSanitationType = comboTypeService.getValue().getText();
             String givenSanitationSize = comboSizeService.getValue().getText();

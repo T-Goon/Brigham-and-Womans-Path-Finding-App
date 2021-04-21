@@ -77,10 +77,9 @@ public class ExternalTransportationRequestFormController extends DefaultServiceR
         validateButton();
     }
 
-    public void handleButtonAction(ActionEvent actionEvent) {
-        super.handleButtonAction(actionEvent);
-
-        JFXButton btn = (JFXButton) actionEvent.getSource();
+    public void handleButtonAction(ActionEvent e) {
+        super.handleButtonAction(e);
+        JFXButton btn = (JFXButton) e.getSource();
         if (btn.getId().equals("btnSubmit")) {
             String givenPatientName = name.getText();
             String givenTransportType = comboTranspType.getValue().getText();
@@ -95,32 +94,27 @@ public class ExternalTransportationRequestFormController extends DefaultServiceR
             Date dateInfo = new Date();
 
             String requestID;
-            if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml")) {
+            if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml"))
                 requestID = this.id;
-            } else {
-                requestID = UUID.randomUUID().toString();
-            }
+            else requestID = UUID.randomUUID().toString();
 
             String time = timeFormat.format(dateInfo); // Stored as HH:MM (24 hour time)
             String date = dateFormat.format(dateInfo); // Stored as YYYY-MM-DD
             String complete = "F";
             String givenDescription = description.getText();
 
+            DatabaseHandler db = DatabaseHandler.getDatabaseHandler("main.db");
             String employeeName;
-            if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml")) {
-                employeeName = DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(this.id, Request.RequestType.EXTERNAL_TRANSPORT).getEmployeeName();
-            } else {
-                employeeName = null;
-            }
+            if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml"))
+                employeeName = db.getSpecificRequestById(this.id, Request.RequestType.EXTERNAL_TRANSPORT).getEmployeeName();
+            else employeeName = null;
 
             ExternalTransportRequest request = new ExternalTransportRequest(givenPatientName, givenTransportType, givenDestination, givenPatientAllergies, givenOutNetwork, givenInfectious, givenUnconscious,
                     requestID, time, date, complete, employeeName, getLocation(), givenDescription);
 
-            if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml")) {
-                DatabaseHandler.getDatabaseHandler("main.db").updateRequest(request);
-            } else {
-                DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
-            }
+            if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml"))
+                db.updateRequest(request);
+            else db.addRequest(request);
         }
     }
 

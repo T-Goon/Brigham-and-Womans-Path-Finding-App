@@ -56,12 +56,12 @@ public class App extends Application {
             db.resetDatabase(new ArrayList<>(Collections.singleton("Users")));
             db.executeSchema();
             if (!db.isInitialized()) {
-                SceneSwitcher.switchToTemp(getClass(), "/edu/wpi/teamB/views/login/databaseInit.fxml");
+                SceneSwitcher.switchFromTemp(getClass(), "/edu/wpi/teamB/views/login/databaseInit.fxml");
                 primaryStage.show();
 
                 dbThread = new Thread(() -> {
                     db.loadNodesEdges(CSVHandler.loadCSVNodes("/edu/wpi/teamB/csvFiles/bwBnodes.csv"), CSVHandler.loadCSVEdges("/edu/wpi/teamB/csvFiles/bwBedges.csv"));
-                    Platform.runLater(() -> SceneSwitcher.switchToTemp(getClass(), "/edu/wpi/teamB/views/login/loginOptions.fxml"));
+                    Platform.runLater(() -> SceneSwitcher.switchFromTemp(getClass(), "/edu/wpi/teamB/views/login/loginOptions.fxml"));
                 });
                 dbThread.start();
             } else primaryStage.show();

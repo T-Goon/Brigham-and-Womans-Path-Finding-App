@@ -68,7 +68,7 @@ public class FloralDeliveryRequestFormController extends DefaultServiceRequestFo
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        super.initialize(location,resources);
+        super.initialize(location, resources);
 
         if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml")) {
             this.id = (String) App.getPrimaryStage().getUserData();
@@ -108,7 +108,7 @@ public class FloralDeliveryRequestFormController extends DefaultServiceRequestFo
                     price += 2.99;
                 }
             }
-            totalPrice.setText("Total Price: $" + Double.toString(price));
+            totalPrice.setText("Total Price: $" + price);
         }
         validateButton();
     }
@@ -132,10 +132,10 @@ public class FloralDeliveryRequestFormController extends DefaultServiceRequestFo
         totalPrice.setText("Total Price: $" + nf.format(currentPrice));
     }
 
-    public void handleButtonAction(ActionEvent actionEvent) {
-        super.handleButtonAction(actionEvent);
+    public void handleButtonAction(ActionEvent e) {
+        super.handleButtonAction(e);
 
-        JFXButton btn = (JFXButton) actionEvent.getSource();
+        JFXButton btn = (JFXButton) e.getSource();
         if (btn.getId().equals("btnSubmit")) {
 
             String givenPatientName = patientName.getText();
@@ -155,11 +155,9 @@ public class FloralDeliveryRequestFormController extends DefaultServiceRequestFo
             Date dateInfo = new Date();
 
             String requestID;
-            if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml")) {
+            if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml"))
                 requestID = this.id;
-            } else {
-                requestID = UUID.randomUUID().toString();
-            }
+            else requestID = UUID.randomUUID().toString();
 
             String time = timeFormat.format(dateInfo); // Stored as HH:MM (24 hour time)
             String date = dateFormat.format(dateInfo); // Stored as YYYY-MM-DD
@@ -167,21 +165,17 @@ public class FloralDeliveryRequestFormController extends DefaultServiceRequestFo
             String givenDescription = message.getText();
 
             String employeeName;
-            if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml")) {
+            if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml"))
                 employeeName = DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(this.id, Request.RequestType.FLORAL).getEmployeeName();
-            } else {
-                employeeName = null;
-            }
+            else employeeName = null;
 
             FloralRequest request = new FloralRequest(givenPatientName, givenDeliveryDate, givenStartTime, givenEndTime,
                     wantsRoses, wantsTulips, wantsDaisies, wantsLilies, wantsSunflowers, wantsCarnations, wantsOrchids,
                     requestID, time, date, complete, employeeName, getLocation(), givenDescription);
 
-            if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml")) {
+            if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml"))
                 DatabaseHandler.getDatabaseHandler("main.db").updateRequest(request);
-            } else {
-                DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
-            }
+            else DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
         }
     }
 

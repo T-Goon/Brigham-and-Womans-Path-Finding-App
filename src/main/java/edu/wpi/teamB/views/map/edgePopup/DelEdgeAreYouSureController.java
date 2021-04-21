@@ -14,6 +14,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class DelEdgeAreYouSureController implements Initializable {
+
     @FXML
     private JFXButton btnYes;
 

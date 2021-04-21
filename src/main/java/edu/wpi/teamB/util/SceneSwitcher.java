@@ -49,7 +49,7 @@ public class SceneSwitcher {
      * @param newClass the class instance
      * @param path     the path to the FXML file to switch to
      */
-    public static void switchToTemp(Class newClass, String path) {
+    public static void switchFromTemp(Class newClass, String path) {
         try {
             Parent root = FXMLLoader.load(Objects.requireNonNull(newClass.getResource(path)));
             App.getPrimaryStage().getScene().setRoot(root);

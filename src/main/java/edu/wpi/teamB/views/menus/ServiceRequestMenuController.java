@@ -4,7 +4,7 @@ import com.jfoenix.controls.JFXButton;
 import edu.wpi.teamB.database.DatabaseHandler;
 import edu.wpi.teamB.entities.User;
 import edu.wpi.teamB.util.SceneSwitcher;
-import javafx.application.Platform;
+import edu.wpi.teamB.views.BasePageController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -15,7 +15,7 @@ import javafx.scene.layout.VBox;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class ServiceRequestMenuController implements Initializable {
+public class ServiceRequestMenuController extends BasePageController implements Initializable {
 
     private static final String VIEWS_PATH = "/edu/wpi/teamB/views/requestForms/";
 
@@ -50,19 +50,10 @@ public class ServiceRequestMenuController implements Initializable {
     private JFXButton btnFoodDelivery;
 
     @FXML
-    private JFXButton btnBack;
-
-    @FXML
     private JFXButton btnCaseManager;
 
     @FXML
     private JFXButton btnSocialWorker;
-
-    @FXML
-    private JFXButton btnEmergency;
-
-    @FXML
-    private JFXButton btnExit;
 
     @FXML
     private VBox medicineDelivery;
@@ -83,10 +74,11 @@ public class ServiceRequestMenuController implements Initializable {
     }
 
     @FXML
-    private void handleButtonAction(ActionEvent e) {
+    public void handleButtonAction(ActionEvent e) {
+        super.handleButtonAction(e);
         Button btn = (Button) e.getSource();
 
-        String path;
+        String path = null;
         switch (btn.getId()) {
             case "btnMedicine":
                 path = VIEWS_PATH + "medDeliveryRequestForm.fxml";
@@ -124,14 +116,6 @@ public class ServiceRequestMenuController implements Initializable {
             case "btnEmergency":
                 path = VIEWS_PATH + "emergencyForm.fxml";
                 break;
-            case "btnBack":
-                SceneSwitcher.goBack(getClass(), 1);
-                return;
-            case "btnExit":
-                Platform.exit();
-                return;
-            default:
-                throw new IllegalStateException("WHAT BUTTON IS THIS AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
         }
 
         SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/serviceRequestMenu.fxml", path);

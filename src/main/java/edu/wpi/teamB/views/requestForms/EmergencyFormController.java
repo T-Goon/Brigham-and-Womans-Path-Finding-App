@@ -46,7 +46,6 @@ public class EmergencyFormController implements Initializable {
         JFXButton btn = (JFXButton) actionEvent.getSource();
         switch (btn.getId()) {
             case "btnSubmit":
-
             case "btnCancel":
                 SceneSwitcher.goBack(getClass(), 1);
                 break;
@@ -56,11 +55,11 @@ public class EmergencyFormController implements Initializable {
     }
 
     @FXML
-    private void validateButton(){
+    private void validateButton() {
         btnSubmit.setDisable(
                 wing.getText().isEmpty() || roomNum.getText().isEmpty() ||
-                !(medicalEmergency.isSelected() || securityEmergency.isSelected()) ||
-                description.getText().isEmpty()
+                        !(medicalEmergency.isSelected() || securityEmergency.isSelected()) ||
+                        description.getText().isEmpty()
         );
     }
 }

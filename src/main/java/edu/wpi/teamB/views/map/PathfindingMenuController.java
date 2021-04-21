@@ -9,6 +9,7 @@ import edu.wpi.teamB.entities.map.*;
 import edu.wpi.teamB.pathfinding.AStar;
 import edu.wpi.teamB.pathfinding.Graph;
 import edu.wpi.teamB.util.*;
+import edu.wpi.teamB.views.BasePageController;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -40,7 +41,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
-public class PathfindingMenuController implements Initializable {
+public class PathfindingMenuController extends BasePageController implements Initializable {
 
     @FXML
     private JFXTextField txtStartLocation;
@@ -62,15 +63,6 @@ public class PathfindingMenuController implements Initializable {
 
     @FXML
     private JFXButton btnFindPath;
-
-    @FXML
-    private JFXButton btnBack;
-
-    @FXML
-    private JFXButton btnEmergency;
-
-    @FXML
-    private JFXButton btnExit;
 
     @FXML
     private Label lblError;
@@ -135,7 +127,6 @@ public class PathfindingMenuController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
         //Add better category names to a hash map
         categoryNameMap.put("SERV", "Services");
         categoryNameMap.put("REST", "Restrooms");
@@ -300,7 +291,9 @@ public class PathfindingMenuController implements Initializable {
      * @param e the action event being handled
      */
     @FXML
-    private void handleButtonAction(ActionEvent e) {
+    public void handleButtonAction(ActionEvent e) {
+        final String currentPath = "/edu/wpi/teamB/views/map/pathfindingMenu.fxml";
+        super.handleButtonAction(e);
         JFXButton b = (JFXButton) e.getSource();
 
         switch (b.getId()) {
@@ -335,17 +328,11 @@ public class PathfindingMenuController implements Initializable {
                 drawAllElements();
 
                 break;
-            case "btnBack":
-                SceneSwitcher.goBack(getClass(), 1);
-                break;
-            case "btnExit":
-                Platform.exit();
-                break;
-            case "btnEmergency":
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/map/pathfindingMenu.fxml", "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");
-                break;
             case "btnHelp":
                 loadHelpDialog();
+                break;
+            case "btnEmergency":
+                SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");
                 break;
         }
     }
@@ -468,14 +455,14 @@ public class PathfindingMenuController implements Initializable {
     }
 
     private void removeAllPopups() {
-        if (addNodePopup != null || editNodePopup != null || delEdgePopup != null || selectionBox != null ) {
+        if (addNodePopup != null || editNodePopup != null || delEdgePopup != null || selectionBox != null) {
             deleteBox(selectionBox);
             deleteBox(editNodePopup);
             deleteBox(delEdgePopup);
             deleteBox(addNodePopup);
         }
 
-        if(estimatedTimeBox!=null){
+        if (estimatedTimeBox != null) {
             nodeHolder.getChildren().remove(estimatedTimeBox);
         }
 
@@ -485,6 +472,7 @@ public class PathfindingMenuController implements Initializable {
 
     /**
      * Place a popup over the map.
+     *
      * @param node The popup
      */
     private void placePopupOnMap(VBox node) {
@@ -512,7 +500,7 @@ public class PathfindingMenuController implements Initializable {
                 javafx.scene.Node child = ((HBox) node).getChildren().get(0);
                 switch (child.getId()) {
                     case "nodeName":
-                        ((Text)child).setText(n.getLongName());
+                        ((Text) child).setText(n.getLongName());
                         break;
                     case "btnStart":
                         showGraphicalSelection(txtStartLocation, child, n);
@@ -521,7 +509,7 @@ public class PathfindingMenuController implements Initializable {
                         showGraphicalSelection(txtEndLocation, child, n);
                         break;
                     case "btnCancel":
-                        ((JFXButton)child).setOnAction(event -> removeAllPopups());
+                        ((JFXButton) child).setOnAction(event -> removeAllPopups());
                         break;
                 }
             }
@@ -635,7 +623,7 @@ public class PathfindingMenuController implements Initializable {
 
         for (Node n : nodes.values()) {
             if ((!(n.getNodeType().equals("WALK") || n.getNodeType().equals("HALL"))) && (!n.getBuilding().equals("BTM") && !n.getBuilding().equals("Shapiro")) &&
-                    n.getFloor().equals(floorID)){
+                    n.getFloor().equals(floorID)) {
                 placeAltNode(n);
             }
         }
@@ -798,7 +786,7 @@ public class PathfindingMenuController implements Initializable {
             l.setEndY(end.getYCoord() / PathfindingMenuController.coordinateScale);
 
             l.setOnMouseClicked(e -> {
-                if(editMap) {
+                if (editMap) {
                     showDelEdgePopup(start, end);
                 }
             });
@@ -847,11 +835,11 @@ public class PathfindingMenuController implements Initializable {
         Map<String, List<TreeItem<String>>> catNameMap = new HashMap<>();
         floorNodes.remove(currentFloor);
         for (Node n : Graph.getGraph().getNodes().values()) {
-            if (!(n.getNodeType().equals("WALK") || n.getNodeType().equals("HALL")|| n.getBuilding().equals("BTM") || n.getBuilding().equals("Shapiro"))) {
+            if (!(n.getNodeType().equals("WALK") || n.getNodeType().equals("HALL") || n.getBuilding().equals("BTM") || n.getBuilding().equals("Shapiro"))) {
                 //Populate Category map for TreeView
 
                 //This if statement is temporary for iteration 1 where pathfinding is only needed for the first floor
-                if(n.getFloor().equals(currentFloor)) {
+                if (n.getFloor().equals(currentFloor)) {
                     if (!catNameMap.containsKey(n.getNodeType())) {
                         ArrayList<TreeItem<String>> tempList = new ArrayList<>();
                         TreeItem<String> tempItem = new TreeItem<>(n.getLongName());
@@ -922,15 +910,13 @@ public class PathfindingMenuController implements Initializable {
         return txtEndLocation.getText();
     }
 
-    private void loadHelpDialog(){
+    private void loadHelpDialog() {
         JFXDialogLayout helpLayout = new JFXDialogLayout();
-
-        Text helpText = new Text();
-        if(!editMap){
+        Text helpText;
+        if (!editMap)
             helpText = new Text("Enter your start and end location graphically or using our menu selector. To use the graphical selection,\nsimply click on the node and click on the set button. To enter a location using the menu. Click on the appropriate\ndrop down and choose your location. The node you selected will show up on your map where you can either\nset it to your start or end location. Once both the start and end nodes are filled in you can press \"Go\" to generate your path");
-        } else{
+        else
             helpText = new Text("Double click to add a node. Click on a node or an edge to edit or remove them. To add a new edge click on\none of the nodes, then add edge, and then start node. Go to the next node in the edge then, add edge, end node,\nand finally add node.");
-        }
         helpText.setFont(new Font("MS Reference Sans Serif", 14));
 
         Label headerLabel = new Label("Help");

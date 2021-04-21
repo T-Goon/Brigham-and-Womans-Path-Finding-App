@@ -51,10 +51,9 @@ public class CaseManagerRequestFormController extends DefaultServiceRequestFormC
         validateButton();
     }
 
-    public void handleButtonAction(ActionEvent actionEvent) {
-        super.handleButtonAction(actionEvent);
-
-        JFXButton btn = (JFXButton) actionEvent.getSource();
+    public void handleButtonAction(ActionEvent e) {
+        super.handleButtonAction(e);
+        JFXButton btn = (JFXButton) e.getSource();
         if (btn.getId().equals("btnSubmit")) {
             String givenPatientName = patientName.getText();
             String givenTimeForArrival = timeForArrival.getValue().toString();

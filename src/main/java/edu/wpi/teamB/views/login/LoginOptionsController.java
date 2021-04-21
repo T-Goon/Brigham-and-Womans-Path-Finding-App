@@ -2,11 +2,12 @@ package edu.wpi.teamB.views.login;
 
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.teamB.util.SceneSwitcher;
-import javafx.application.Platform;
+import edu.wpi.teamB.views.BasePageController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
-public class LoginOptionsController {
+public class LoginOptionsController extends BasePageController {
+
     @FXML
     private JFXButton btnStaff;
 
@@ -17,24 +18,19 @@ public class LoginOptionsController {
     private JFXButton btnEmergency;
 
     @FXML
-    private JFXButton btnExit;
-
-    @FXML
-    public void handleButtonAction(ActionEvent actionEvent) {
-        JFXButton btn = (JFXButton) actionEvent.getSource();
-
+    public void handleButtonAction(ActionEvent e) {
+        final String currentPath = "/edu/wpi/teamB/views/login/loginOptions.fxml";
+        super.handleButtonAction(e);
+        JFXButton btn = (JFXButton) e.getSource();
         switch (btn.getId()) {
             case "btnStaff":
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/login/loginOptions.fxml", "/edu/wpi/teamB/views/login/loginPage.fxml");
+                SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/teamB/views/login/loginPage.fxml");
                 break;
             case "btnGuest":
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/login/loginOptions.fxml", "/edu/wpi/teamB/views/menus/patientDirectoryMenu.fxml");
+                SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/teamB/views/menus/userDirectoryMenu.fxml");
                 break;
             case "btnEmergency":
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/login/loginOptions.fxml", "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");
-                break;
-            case "btnExit":
-                Platform.exit();
+                SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");
                 break;
         }
     }
