@@ -8,6 +8,7 @@ import edu.wpi.teamB.entities.map.GraphicalEdgePopupData;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import net.kurobako.gesturefx.GesturePane;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -40,6 +41,8 @@ public class DelEdgeAreYouSureController implements Initializable {
 
                 // Remove popup from map and refresh the nodes
                 data.getData().getMapStack().getChildren().remove(data.getParent().getRoot());
+                GesturePane thePane = (GesturePane) data.getData().getMapStack().getChildren().get(0);
+                thePane.setGestureEnabled(true);
                 data.getData().getPmfc().refreshEditor();
                 break;
             case "btnNo":
