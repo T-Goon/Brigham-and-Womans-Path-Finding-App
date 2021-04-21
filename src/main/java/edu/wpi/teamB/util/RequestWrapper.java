@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 import edu.wpi.teamB.App;
 import edu.wpi.teamB.database.DatabaseHandler;
+import edu.wpi.teamB.entities.requests.*;
 import edu.wpi.teamB.entities.User;
 import edu.wpi.teamB.entities.requests.Request;
 import javafx.event.ActionEvent;
@@ -99,8 +100,43 @@ public class RequestWrapper {
             @Override
             public void handle(ActionEvent event) {
                 Stage stage = App.getPrimaryStage();
-                stage.setUserData(r);
-                SceneSwitcher.switchScene(getClass(), "this is broken", "this is broken");
+                stage.setUserData(r.getRequestID());
+
+                switch(r.getRequestType()) {
+                    case SANITATION:
+                        SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml", "/edu/wpi/teamB/views/requestForms/sanitationRequestForm.fxml");
+                        break;
+                    case MEDICINE:
+                        SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml", "/edu/wpi/teamB/views/requestForms/medDeliveryRequestForm.fxml");
+                        break;
+                    case INTERNAL_TRANSPORT:
+                        SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml", "/edu/wpi/teamB/views/requestForms/internalTransportationRequestForm.fxml");
+                        break;
+                    case RELIGIOUS:
+                        SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml", "/edu/wpi/teamB/views/requestForms/religiousRequestForm.fxml");
+                        break;
+                    case FOOD:
+                        SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml", "/edu/wpi/teamB/views/requestForms/foodDeliveryRequestForm.fxml");
+                        break;
+                    case FLORAL:
+                        SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml", "/edu/wpi/teamB/views/requestForms/floralDeliveryRequestForm.fxml");
+                        break;
+                    case SECURITY:
+                        SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml", "/edu/wpi/teamB/views/requestForms/securityRequestForm.fxml");
+                        break;
+                    case EXTERNAL_TRANSPORT:
+                        SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml", "/edu/wpi/teamB/views/requestForms/externalTransportationRequestForm.fxml");
+                        break;
+                    case LAUNDRY:
+                        SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml", "/edu/wpi/teamB/views/requestForms/laundryRequestForm.fxml");
+                        break;
+                    case CASE_MANAGER:
+                        SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml", "/edu/wpi/teamB/views/requestForms/caseManagerRequestForm.fxml");
+                        break;
+                    case SOCIAL_WORKER:
+                        SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml", "/edu/wpi/teamB/views/requestForms/socialWorkerRequestForm.fxml");
+                        break;
+                }
             }
         });
 

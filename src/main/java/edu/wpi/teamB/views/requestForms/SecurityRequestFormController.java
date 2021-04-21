@@ -4,8 +4,11 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
+import edu.wpi.teamB.App;
 import edu.wpi.teamB.database.DatabaseHandler;
+import edu.wpi.teamB.entities.requests.Request;
 import edu.wpi.teamB.entities.requests.SecurityRequest;
+import edu.wpi.teamB.util.SceneSwitcher;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -29,6 +32,8 @@ public class SecurityRequestFormController extends DefaultServiceRequestFormCont
     @FXML
     private JFXTextArea description;
 
+    private String id;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location,resources);
@@ -37,6 +42,16 @@ public class SecurityRequestFormController extends DefaultServiceRequestFormCont
             comboUrgency.getItems().add(new Label(Integer.toString(i)));
         }
 
+        if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml")) {
+            this.id = (String) App.getPrimaryStage().getUserData();
+            SecurityRequest securityRequest = (SecurityRequest) DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(id, Request.RequestType.SECURITY);
+            assignedTo.setText(securityRequest.getEmployeeName());
+            getLocationIndex(securityRequest.getLocation());
+            int index = securityRequest.getUrgency() - 1;
+            comboUrgency.getSelectionModel().select(index);
+            description.setText(securityRequest.getDescription());
+        }
+        validateButton();
     }
 
     @FXML
@@ -58,7 +73,13 @@ public class SecurityRequestFormController extends DefaultServiceRequestFormCont
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             Date dateInfo = new Date();
 
-            String requestID = UUID.randomUUID().toString();
+            String requestID;
+            if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml")) {
+                requestID = this.id;
+            } else {
+                requestID = UUID.randomUUID().toString();
+            }
+
             String time = timeFormat.format(dateInfo); // Stored as HH:MM (24 hour time)
             String date = dateFormat.format(dateInfo); // Stored as YYYY-MM-DD
             String complete = "F";
@@ -66,7 +87,12 @@ public class SecurityRequestFormController extends DefaultServiceRequestFormCont
             String givenDescription = description.getText();
 
             SecurityRequest request = new SecurityRequest(givenUrgency, requestID, time, date, complete, employeeName, getLocation(), givenDescription);
-            DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
+
+            if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml")) {
+                DatabaseHandler.getDatabaseHandler("main.db").updateRequest(request);
+            } else {
+                DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
+            }
         }
 
     }

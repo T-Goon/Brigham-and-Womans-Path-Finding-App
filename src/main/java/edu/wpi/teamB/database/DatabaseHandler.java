@@ -6,7 +6,6 @@ import edu.wpi.teamB.entities.map.Node;
 import edu.wpi.teamB.entities.requests.*;
 import edu.wpi.teamB.pathfinding.Graph;
 
-import javax.swing.plaf.nimbus.State;
 import java.sql.*;
 import java.util.*;
 
@@ -71,13 +70,19 @@ public class DatabaseHandler {
      * with that data.
      */
     public void loadNodesEdges(List<Node> nodes, List<Edge> edges) {
-        resetDatabase(new ArrayList<>(Arrays.asList("Nodes", "Edges")));
-        executeSchema();
-        loadDatabaseNodes(nodes);
+        if (!resetDatabase(new ArrayList<>(Arrays.asList("Edges", "Nodes")))) return;
+        if (!executeSchema()) return;
+        if (!loadDatabaseNodes(nodes)) return;
         loadDatabaseEdges(edges);
     }
 
-    public void resetDatabase(List<String> tables) {
+    /**
+     * Resets the inputted tables
+     *
+     * @param tables the list of tables to reset
+     * @return true if it succeeds
+     */
+    public boolean resetDatabase(List<String> tables) {
         Statement statement = this.getStatement();
 
         if (tables.isEmpty()) {
@@ -112,10 +117,17 @@ public class DatabaseHandler {
             statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
+        return true;
     }
 
-    public void executeSchema() {
+    /**
+     * Executes the schema and creates the tables
+     *
+     * @return true upon successful creation
+     */
+    public boolean executeSchema() {
         Statement statement = this.getStatement();
         String configuration = "PRAGMA foreign_keys = ON";
 
@@ -273,7 +285,9 @@ public class DatabaseHandler {
             statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
+        return true;
     }
 
     /**
@@ -281,15 +295,16 @@ public class DatabaseHandler {
      * the database
      *
      * @param nodes the list of nodes
+     * @return true upon successful loading
      */
-    public void loadDatabaseNodes(List<Node> nodes) {
+    public boolean loadDatabaseNodes(List<Node> nodes) {
 
         Statement statement = this.getStatement();
         String query;
 
         try {
             // If either list is empty, then nothing should be put in
-            if (nodes == null) return;
+            if (nodes == null) return false;
             for (Node node : nodes) {
                 query = "INSERT INTO Nodes(nodeID, xcoord, ycoord, floor, building, nodeType, longName, shortName) " +
                         "VALUES('"
@@ -307,7 +322,9 @@ public class DatabaseHandler {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
+        return true;
     }
 
     /**
@@ -315,15 +332,16 @@ public class DatabaseHandler {
      * the database
      *
      * @param edges the list of edges
+     * @return true upon successful loading
      */
-    public void loadDatabaseEdges(List<Edge> edges) {
+    public boolean loadDatabaseEdges(List<Edge> edges) {
 
         Statement statement = this.getStatement();
         String query;
 
         try {
             // If either list is empty, then nothing should be put in
-            if (edges == null) return;
+            if (edges == null) return false;
             for (Edge edge : edges) {
                 query = "INSERT INTO Edges(edgeID, startNode, endNode) "
                         + "VALUES('"
@@ -336,7 +354,9 @@ public class DatabaseHandler {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
+        return true;
     }
 
     /**
@@ -502,17 +522,17 @@ public class DatabaseHandler {
 
     /**
      * Gets a list of users who are assigned to handle jobs of certain type
+     *
      * @param job RequestType enum of the type of job you want the users for
      * @return a list of users who are assigned to jos of the given type
-     * @throws IllegalArgumentException
      */
-    public List<User> getUsersByJob(Request.RequestType job) throws IllegalArgumentException {
+    public List<User> getUsersByJob(Request.RequestType job) {
         Statement statement = this.getStatement();
         String query = "SELECT username FROM " +
                 "Users NATURAL JOIN Jobs " +
                 "WHERE (job = '" + job.toString() + "')";
         ResultSet rs;
-        List<User> outusers = new ArrayList<User>();
+        List<User> outusers = new ArrayList<>();
         try {
             assert statement != null;
             rs = statement.executeQuery(query);
@@ -539,7 +559,7 @@ public class DatabaseHandler {
         String query = "SELECT username, authenticationLevel FROM " +
                 "Users WHERE authenticationLevel='" + authenticationLevel.toString() + "'";
         ResultSet rs;
-        List<User> outUsers = new ArrayList<User>();
+        List<User> outUsers = new ArrayList<>();
         try {
             assert statement != null;
             rs = statement.executeQuery(query);
@@ -556,6 +576,12 @@ public class DatabaseHandler {
         return outUsers;
     }
 
+    /**
+     * Updates the information for a given user
+     *
+     * @param newUser the updated user
+     * @return whether the attempt to update the user was successful
+     */
     public boolean updateUser(User newUser) {
         Statement statement = this.getStatement();
         String updateUser = "UPDATE Users " +
@@ -569,6 +595,7 @@ public class DatabaseHandler {
             if (this.getUserByUsername(newUser.getUsername()) == null) {
                 return false;
             } else {
+                assert statement != null;
                 statement.execute(updateUser);
                 statement.execute(deleteJobs);
                 for (Request.RequestType job : newUser.getJobs()) {
@@ -587,6 +614,12 @@ public class DatabaseHandler {
         return false;
     }
 
+    /**
+     * Given the username of a user, delete them from the database
+     *
+     * @param username the username of the user to delete
+     * @return true if success
+     */
     public boolean deleteUser(String username) {
         Statement statement = this.getStatement();
         String deleteJobs = "DELETE FROM Jobs WHERE (username = '" + username + "')";
@@ -1063,7 +1096,7 @@ public class DatabaseHandler {
      */
     public void removeRequest(Request request) {
         Statement statement = this.getStatement();
-        String querySpecificTable = "DELETE FROM '" + request.getRequestType() + "Requests" + "'WHERE requestID = '" + request.getRequestID() + "'";
+        String querySpecificTable = "DELETE FROM '" + Request.RequestType.prettify(request.getRequestType()).replace(" ", "") + "Requests" + "'WHERE requestID = '" + request.getRequestID() + "'";
         String queryGeneralTable = "DELETE FROM Requests WHERE requestID = '" + request.getRequestID() + "'";
 
         try {
@@ -1194,7 +1227,7 @@ public class DatabaseHandler {
                 break;
             case SOCIAL_WORKER:
                 SocialWorkerRequest socialWorkerRequest = (SocialWorkerRequest) request;
-                query = "UPDATE SocialWorkerRequest SET patientName = '" + socialWorkerRequest.getPatientName().replace("'", "''")
+                query = "UPDATE SocialWorkerRequests SET patientName = '" + socialWorkerRequest.getPatientName().replace("'", "''")
                         + "', timeForArrival = '" + socialWorkerRequest.getTimeForArrival()
                         + "' WHERE requestID = '" + socialWorkerRequest.getRequestID() + "'";
                 break;
@@ -1253,10 +1286,10 @@ public class DatabaseHandler {
      * @param requestType the type of the request
      * @return the request
      */
-    public Request getSpecificRequestById(String requestID, String requestType) {
+    public Request getSpecificRequestById(String requestID, Request.RequestType requestType) {
         Statement statement = this.getStatement();
 
-        String tableName = requestType.replaceAll("\\s", "") + "Requests";
+        String tableName = Request.RequestType.prettify(requestType).replaceAll("\\s", "") + "Requests";
         String query = "SELECT * FROM Requests LEFT JOIN " + tableName + " ON Requests.requestID = " + tableName + ".requestID WHERE Requests.requestID = '" + requestID + "'";
 
         assert statement != null;
@@ -1265,7 +1298,7 @@ public class DatabaseHandler {
             ResultSet rs = statement.executeQuery(query);
             while (rs.next()) {
                 switch (requestType) {
-                    case "Sanitation":
+                    case SANITATION:
                         outRequest = new SanitationRequest(
                                 rs.getString("sanitationType"),
                                 rs.getString("sanitationSize"),
@@ -1281,7 +1314,7 @@ public class DatabaseHandler {
                                 rs.getString("description")
                         );
                         break;
-                    case "Medicine":
+                    case MEDICINE:
                         outRequest = new MedicineRequest(
                                 rs.getString("patientName"),
                                 rs.getString("medicine"),
@@ -1294,7 +1327,7 @@ public class DatabaseHandler {
                                 rs.getString("description")
                         );
                         break;
-                    case "InternalTransport":
+                    case INTERNAL_TRANSPORT:
                         outRequest = new InternalTransportRequest(
                                 rs.getString("patientName"),
                                 rs.getString("transportType"),
@@ -1309,7 +1342,7 @@ public class DatabaseHandler {
                                 rs.getString("description")
                         );
                         break;
-                    case "Religious":
+                    case RELIGIOUS:
                         outRequest = new ReligiousRequest(
                                 rs.getString("patientName"),
                                 rs.getString("startTime"),
@@ -1326,7 +1359,7 @@ public class DatabaseHandler {
                                 rs.getString("description")
                         );
                         break;
-                    case "Food":
+                    case FOOD:
                         outRequest = new FoodRequest(
                                 rs.getString("patientName"),
                                 rs.getString("arrivalTime"),
@@ -1340,7 +1373,7 @@ public class DatabaseHandler {
                                 rs.getString("description")
                         );
                         break;
-                    case "Floral":
+                    case FLORAL:
                         outRequest = new FloralRequest(
                                 rs.getString("patientName"),
                                 rs.getString("deliveryDate"),
@@ -1362,7 +1395,7 @@ public class DatabaseHandler {
                                 rs.getString("description")
                         );
                         break;
-                    case "Security":
+                    case SECURITY:
                         outRequest = new SecurityRequest(
                                 rs.getInt("urgency"),
                                 rs.getString("requestID"),
@@ -1374,7 +1407,7 @@ public class DatabaseHandler {
                                 rs.getString("description")
                         );
                         break;
-                    case "ExternalTransport":
+                    case EXTERNAL_TRANSPORT:
                         outRequest = new ExternalTransportRequest(
                                 rs.getString("patientName"),
                                 rs.getString("transportType"),
@@ -1392,7 +1425,7 @@ public class DatabaseHandler {
                                 rs.getString("description")
                         );
                         break;
-                    case "Laundry":
+                    case LAUNDRY:
                         outRequest = new LaundryRequest(
                                 rs.getString("serviceType"),
                                 rs.getString("serviceSize"),
@@ -1408,8 +1441,21 @@ public class DatabaseHandler {
                                 rs.getString("description")
                         );
                         break;
-                    case "CaseManager":
+                    case CASE_MANAGER:
                         outRequest = new CaseManagerRequest(
+                                rs.getString("patientName"),
+                                rs.getString("timeForArrival"),
+                                rs.getString("requestID"),
+                                rs.getString("requestTime"),
+                                rs.getString("requestDate"),
+                                rs.getString("complete"),
+                                rs.getString("employeeName"),
+                                rs.getString("location"),
+                                rs.getString("description")
+                        );
+                        break;
+                    case SOCIAL_WORKER:
+                        outRequest = new SocialWorkerRequest(
                                 rs.getString("patientName"),
                                 rs.getString("timeForArrival"),
                                 rs.getString("requestID"),

@@ -26,14 +26,14 @@ public class Request {
             switch (requestType) {
                 case CASE_MANAGER:
                     return "Case Manager";
+                case EXTERNAL_TRANSPORT:
+                    return "External Transport";
                 case FLORAL:
                     return "Floral";
                 case FOOD:
                     return "Food";
                 case INTERNAL_TRANSPORT:
                     return "Internal Transport";
-                case EXTERNAL_TRANSPORT:
-                    return "External Transport";
                 case LAUNDRY:
                     return "Laundry";
                 case MEDICINE:

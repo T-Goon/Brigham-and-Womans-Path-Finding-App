@@ -459,7 +459,7 @@ public class DatabaseHandlerTest {
 
     @Test
     public void testGetUserByJob() {
-        List<Request.RequestType> jobs = new ArrayList<Request.RequestType>();
+        List<Request.RequestType> jobs = new ArrayList<>();
         jobs.add(Request.RequestType.FOOD);
         jobs.add(Request.RequestType.INTERNAL_TRANSPORT);
         User user1 = new User("testuser1","Testing1","User1", User.AuthenticationLevel.STAFF, Collections.singletonList(Request.RequestType.FOOD));
@@ -513,7 +513,7 @@ public class DatabaseHandlerTest {
         db.addUser(user, "user");
         db.addUser(altuser, "altuser");
 
-        assertEquals(db.getUsersByAuthenticationLevel(User.AuthenticationLevel.STAFF).get(0), user);;
+        assertEquals(db.getUsersByAuthenticationLevel(User.AuthenticationLevel.STAFF).get(0), user);
 
 
     }
