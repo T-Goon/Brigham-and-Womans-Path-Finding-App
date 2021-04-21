@@ -19,6 +19,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -32,6 +33,7 @@ import javafx.stage.Stage;
 import javafx.scene.text.Text;
 import lombok.Getter;
 import lombok.Setter;
+import net.kurobako.gesturefx.GesturePane;
 
 import java.io.File;
 import java.io.IOException;
@@ -84,6 +86,12 @@ public class PathfindingMenuController implements Initializable {
 
     @FXML
     private JFXTreeView<String> treeLocations;
+
+    @FXML
+    private StackPane mapStack;
+
+    @FXML
+    private GesturePane gpane;
 
     @FXML
     private StackPane stackContainer;
@@ -375,7 +383,7 @@ public class PathfindingMenuController implements Initializable {
                             null,
                             null,
                             null,
-                            nodeHolder,
+                            mapStack,
                             PathfindingMenuController.this,
                             null));
 
@@ -389,13 +397,13 @@ public class PathfindingMenuController implements Initializable {
                     assert addNodePopup != null;
 
                     // Keep popup on the map
-                    placePopupOnMap(addNodePopup, x, y);
+                    placePopupOnMap(addNodePopup);
 
-                    nodeHolder.getChildren().add(addNodePopup);
                 }
 
             }
         });
+
     }
 
     /**
@@ -404,7 +412,6 @@ public class PathfindingMenuController implements Initializable {
      * @param n Node that is to be edited.
      */
     private void showEditNodePopup(Node n, MouseEvent event, boolean fromTreeView) {
-
         Circle c;
         if (fromTreeView) c = null;
         else c = (Circle) event.getSource();
@@ -423,7 +430,7 @@ public class PathfindingMenuController implements Initializable {
                 n.getLongName(),
                 n.getShortName(),
                 null,
-                nodeHolder,
+                mapStack,
                 PathfindingMenuController.this,
                 c));
 
@@ -439,10 +446,8 @@ public class PathfindingMenuController implements Initializable {
         double x = n.getXCoord() / PathfindingMenuController.coordinateScale;
         double y = n.getYCoord() / PathfindingMenuController.coordinateScale;
 
-        placePopupOnMap(editNodePopup, x, y);
+        placePopupOnMap(editNodePopup);
 
-        // Add to map
-        nodeHolder.getChildren().add(editNodePopup);
     }
 
     private void showDelEdgePopup(Node start, Node end) {
@@ -450,7 +455,7 @@ public class PathfindingMenuController implements Initializable {
         removeAllPopups();
 
         // Pass window data
-        App.getPrimaryStage().setUserData(new GraphicalEditorEdgeData(start, end, nodeHolder, this));
+        App.getPrimaryStage().setUserData(new GraphicalEditorEdgeData(start, end, mapStack, this));
 
         try {
             delEdgePopup = FXMLLoader.load(Objects.requireNonNull(
@@ -459,42 +464,34 @@ public class PathfindingMenuController implements Initializable {
             e.printStackTrace();
         }
 
-        // Set popup location on map
-        double startX = (start.getXCoord() / PathfindingMenuController.coordinateScale);
-        double endX = (end.getXCoord() / PathfindingMenuController.coordinateScale);
-
-        double startY = (start.getYCoord() / PathfindingMenuController.coordinateScale);
-        double endY = (end.getYCoord() / PathfindingMenuController.coordinateScale);
-
-        placePopupOnMap(delEdgePopup, (startX + endX) / 2, (startY + endY) / 2);
-
-        nodeHolder.getChildren().add(delEdgePopup);
+        placePopupOnMap(delEdgePopup);
     }
 
     private void removeAllPopups() {
-        if (addNodePopup != null || editNodePopup != null || delEdgePopup != null || selectionBox != null || estimatedTimeBox != null) {
+        if (addNodePopup != null || editNodePopup != null || delEdgePopup != null || selectionBox != null ) {
             deleteBox(selectionBox);
-            deleteBox(estimatedTimeBox);
             deleteBox(editNodePopup);
             deleteBox(delEdgePopup);
             deleteBox(addNodePopup);
         }
-    }
 
-    private void placePopupOnMap(VBox node, double x, double y) {
-
-        if (nodeHolder.getWidth() < node.getPrefWidth() + x) {
-            node.setLayoutX(nodeHolder.getWidth() - node.getPrefWidth());
-        } else {
-            node.setLayoutX(x);
+        if(estimatedTimeBox!=null){
+            nodeHolder.getChildren().remove(estimatedTimeBox);
         }
 
-        if (nodeHolder.getHeight() < node.getPrefHeight() + y) {
-            node.setLayoutY(nodeHolder.getHeight() - node.getPrefHeight());
-        } else {
-            node.setLayoutY(y);
-        }
+        gpane.setGestureEnabled(true);
+
     }
+
+    /**
+     * Place a popup over the map.
+     * @param node The popup
+     */
+    private void placePopupOnMap(VBox node) {
+        gpane.setGestureEnabled(false);
+        mapStack.getChildren().add(node);
+    }
+
 
     // Code for graphical input to pathfinding ***********************************************************
 
@@ -510,10 +507,6 @@ public class PathfindingMenuController implements Initializable {
             final VBox locInput = FXMLLoader.load(
                     Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/map/misc/graphicalInput.fxml")));
 
-            // Set coordinates of popup
-            locInput.setLayoutX((n.getXCoord() / PathfindingMenuController.coordinateScale));
-            locInput.setLayoutY((n.getYCoord() / PathfindingMenuController.coordinateScale) - (locInput.getHeight()));
-
             // Set up popup buttons
             for (javafx.scene.Node node : ((VBox) locInput.getChildren().get(0)).getChildren()) {
                 javafx.scene.Node child = ((HBox) node).getChildren().get(0);
@@ -528,17 +521,18 @@ public class PathfindingMenuController implements Initializable {
                         showGraphicalSelection(txtEndLocation, child, n);
                         break;
                     case "btnCancel":
-                        ((JFXButton)child).setOnAction(event -> deleteBox(selectionBox));
+                        ((JFXButton)child).setOnAction(event -> removeAllPopups());
                         break;
                 }
             }
 
             if (selectionBox != null) {
-                deleteBox(selectionBox);
+                removeAllPopups();
             }
 
             selectionBox = locInput;
-            nodeHolder.getChildren().add(locInput);
+//            nodeHolder.getChildren().add(locInput);
+            placePopupOnMap(locInput);
 
         } catch (IOException ioException) {
             ioException.printStackTrace();
@@ -558,7 +552,7 @@ public class PathfindingMenuController implements Initializable {
 
         tempButton.setOnAction(event -> {
             textField.setText(n.getLongName());
-            deleteBox(selectionBox);
+            removeAllPopups();
             validateFindPathButton();
         });
 
@@ -570,7 +564,7 @@ public class PathfindingMenuController implements Initializable {
      * @param box the VBox to be deleted
      */
     private void deleteBox(VBox box) {
-        nodeHolder.getChildren().remove(box);
+        mapStack.getChildren().remove(box);
         box = null;
     }
 
@@ -640,8 +634,8 @@ public class PathfindingMenuController implements Initializable {
         if (nodes.isEmpty()) return;
 
         for (Node n : nodes.values()) {
-            if ((!(n.getNodeType().equals("WALK") || n.getNodeType().equals("HALL")) || n.getBuilding().equals("BTM") || n.getBuilding().equals("Shapiro")) &&
-                    n.getFloor().equals(floorID)) {
+            if ((!(n.getNodeType().equals("WALK") || n.getNodeType().equals("HALL"))) && (!n.getBuilding().equals("BTM") && !n.getBuilding().equals("Shapiro")) &&
+                    n.getFloor().equals(floorID)){
                 placeAltNode(n);
             }
         }
@@ -658,8 +652,7 @@ public class PathfindingMenuController implements Initializable {
         if (nodes.isEmpty()) return;
 
         for (Node n : nodes.values()) {
-            if (((n.getNodeType().equals("WALK") || n.getNodeType().equals("HALL")|| n.getBuilding().equals("BTM") || n.getBuilding().equals("Shapiro")))  &&
-                    n.getFloor().equals(floorID)) {
+            if ((n.getNodeType().equals("WALK") || n.getNodeType().equals("HALL")) && (!n.getBuilding().equals("BTM") && !n.getBuilding().equals("Shapiro")) && n.getFloor().equals(floorID)) {
                 placeIntermediateNode(n);
             }
         }
@@ -676,7 +669,7 @@ public class PathfindingMenuController implements Initializable {
             Node start = db.getNodeById(e.getStartNodeID());
             Node end = db.getNodeById(e.getEndNodeID());
 
-            if (start.getFloor().equals(floor) && end.getFloor().equals(floor)) {
+            if (start.getFloor().equals(floor) && end.getFloor().equals(floor) && (!start.getBuilding().equals("BTM") && !start.getBuilding().equals("Shapiro")) && (!end.getBuilding().equals("BTM") && !start.getBuilding().equals("Shapiro"))) {
                 placeEdge(start, end);
             }
         }
@@ -687,7 +680,7 @@ public class PathfindingMenuController implements Initializable {
      */
     private void drawPath() {
         if (estimatedTimeBox != null)
-            deleteBox(estimatedTimeBox);
+            removeAllPopups();
 
         Map<String, Node> nodesId = Graph.getGraph().getNodes();
         Map<String, String> hmLongName = makeLongToIDMap();

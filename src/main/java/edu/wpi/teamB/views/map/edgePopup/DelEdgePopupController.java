@@ -11,6 +11,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import lombok.Getter;
+import net.kurobako.gesturefx.GesturePane;
 
 import java.io.IOException;
 import java.net.URL;
@@ -72,7 +73,9 @@ public class DelEdgePopupController implements Initializable {
 
                 break;
             case "btnCancel":
-                data.getNodeHolder().getChildren().remove(root);
+                data.getMapStack().getChildren().remove(root);
+                GesturePane thePane = (GesturePane) data.getMapStack().getChildren().get(0);
+                thePane.setGestureEnabled(true);
                 break;
         }
     }
