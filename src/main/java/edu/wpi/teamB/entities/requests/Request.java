@@ -9,6 +9,18 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Request {
 
+    public Request(String requestID, RequestType requestType, String time, String date, String complete, String employeeName, String location, String description) {
+        this.requestID = requestID;
+        this.requestType = requestType;
+        this.time = time;
+        this.date = date;
+        this.complete = complete;
+        this.employeeName = employeeName;
+        this.location = location;
+        this.description = description;
+        this.submitter = null;
+    }
+
     public enum RequestType {
         CASE_MANAGER,
         EXTERNAL_TRANSPORT,
@@ -67,4 +79,6 @@ public class Request {
     private String location;
 
     private String description;
+
+    private String submitter;
 }

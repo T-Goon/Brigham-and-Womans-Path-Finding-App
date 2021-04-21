@@ -157,6 +157,7 @@ public class DatabaseHandler {
                 + "employeeName CHAR(30), "
                 + "location CHAR(20), "
                 + "description VARCHAR(200), "
+                + "submitter CHAR(30), "
                 + "FOREIGN KEY (location) REFERENCES Nodes(nodeID))";
 
         String sanitationRequestsTable = "CREATE TABLE IF NOT EXISTS SanitationRequests("
@@ -903,6 +904,13 @@ public class DatabaseHandler {
      */
     public void addRequest(Request request) {
         Statement statement = this.getStatement();
+
+        User user = this.getAuthenticationUser();
+        String username = user.getUsername();
+        if (username == null) {
+            username = "null";
+        }
+
         String query = "INSERT INTO Requests VALUES " +
                 "('" + request.getRequestID()
                 + "', '" + request.getRequestType()
@@ -912,6 +920,7 @@ public class DatabaseHandler {
                 + "', '" + request.getEmployeeName()
                 + "', '" + request.getLocation()
                 + "', '" + request.getDescription().replace("'", "''")
+                + "', '" + username
                 + "')";
 
         String current = null;
@@ -1227,7 +1236,8 @@ public class DatabaseHandler {
                         rs.getString("complete"),
                         rs.getString("employeeName"),
                         rs.getString("location"),
-                        rs.getString("description")
+                        rs.getString("description"),
+                        rs.getString("submitter")
                 );
                 requests.put(rs.getString("requestID"), outRequest);
             }
