@@ -117,7 +117,7 @@
                            <graphic>
                               <ImageView fitHeight="149.0" fitWidth="137.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../../images/menus/requestDatabase.png" />
+                                    <Image url="@../../images/menus/userDatabaseButton.png" />
                                  </image>
                               </ImageView>
                            </graphic>
