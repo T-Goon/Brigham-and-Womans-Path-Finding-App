@@ -2,7 +2,7 @@ package edu.wpi.teamB;
 
 import edu.wpi.teamB.database.*;
 import edu.wpi.teamB.entities.User;
-import edu.wpi.teamB.entities.requests.NodeType;
+import edu.wpi.teamB.entities.map.NodeType;
 import edu.wpi.teamB.entities.map.Edge;
 import edu.wpi.teamB.entities.map.Node;
 import edu.wpi.teamB.entities.requests.FoodRequest;
@@ -290,7 +290,7 @@ public class DatabaseHandlerTest {
         db.addRequest(request1);
         db.addRequest(request2);
 
-        SanitationRequest test1 = (SanitationRequest) db.getSpecificRequestById(request1.getRequestID(), "Sanitation");
+        SanitationRequest test1 = (SanitationRequest) db.getSpecificRequestById(request1.getRequestID(), Request.RequestType.SANITATION);
         assertEquals("Glass", test1.getSanitationType());
         assertEquals("Small", test1.getSanitationSize());
         assertEquals("T", test1.getHazardous());
@@ -303,7 +303,7 @@ public class DatabaseHandlerTest {
         assertEquals("node1", test1.getLocation());
         assertEquals("None", test1.getDescription());
 
-        FoodRequest test2 = (FoodRequest) db.getSpecificRequestById(request2.getRequestID(), "Food");
+        FoodRequest test2 = (FoodRequest) db.getSpecificRequestById(request2.getRequestID(), Request.RequestType.FOOD);
         assertEquals("Jane", test2.getPatientName());
         assertEquals("11:30", test2.getArrivalTime());
         assertEquals("salad", test2.getMealChoice());
@@ -393,7 +393,7 @@ public class DatabaseHandlerTest {
         db.updateRequest(new SanitationRequest("Dry", "Medium", "F", "T", "T", request1.getRequestID(), "13:30", "2021-04-18", "T", "Mike", "node2", "test"));
         db.updateRequest(new FoodRequest("Alice", "12:00", "chicken", request2.getRequestID(), "10:05", "2021-05-30", "T", "Mike", "node1", "None"));
 
-        SanitationRequest test1 = (SanitationRequest) db.getSpecificRequestById(request1.getRequestID(), "Sanitation");
+        SanitationRequest test1 = (SanitationRequest) db.getSpecificRequestById(request1.getRequestID(), Request.RequestType.SANITATION);
         assertEquals("Dry", test1.getSanitationType());
         assertEquals("Medium", test1.getSanitationSize());
         assertEquals("F", test1.getHazardous());
@@ -406,7 +406,7 @@ public class DatabaseHandlerTest {
         assertEquals("node2", test1.getLocation());
         assertEquals("test", test1.getDescription());
 
-        FoodRequest test2 = (FoodRequest) db.getSpecificRequestById(request2.getRequestID(), "Food");
+        FoodRequest test2 = (FoodRequest) db.getSpecificRequestById(request2.getRequestID(), Request.RequestType.FOOD);
         assertEquals("Alice", test2.getPatientName());
         assertEquals("12:00", test2.getArrivalTime());
         assertEquals("chicken", test2.getMealChoice());

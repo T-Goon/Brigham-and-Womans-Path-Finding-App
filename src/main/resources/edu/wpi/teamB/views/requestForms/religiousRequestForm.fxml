@@ -35,6 +35,9 @@
                                             <image>
                                                 <Image url="@../../images/general/hospitalLogo.png" />
                                             </image>
+                                 <VBox.margin>
+                                    <Insets top="25.0" />
+                                 </VBox.margin>
                                         </ImageView>
                                         <JFXButton fx:id="btnEmergency" buttonType="RAISED" onAction="#handleButtonAction" style="-fx-background-color: #CE2029;" text="EMERGENCY" textFill="WHITE">
                                             <font>
@@ -55,6 +58,9 @@
                                             <font>
                                                 <Font size="30.0" />
                                             </font>
+                                 <VBox.margin>
+                                    <Insets top="30.0" />
+                                 </VBox.margin>
                                         </JFXButton>
                                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Religious Request Form">
                                             <font>

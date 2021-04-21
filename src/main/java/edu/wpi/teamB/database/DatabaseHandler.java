@@ -3,6 +3,7 @@ package edu.wpi.teamB.database;
 import edu.wpi.teamB.entities.User;
 import edu.wpi.teamB.entities.map.Edge;
 import edu.wpi.teamB.entities.map.Node;
+import edu.wpi.teamB.entities.map.NodeType;
 import edu.wpi.teamB.entities.requests.*;
 import edu.wpi.teamB.pathfinding.Graph;
 
@@ -157,6 +158,7 @@ public class DatabaseHandler {
                 + "employeeName CHAR(30), "
                 + "location CHAR(20), "
                 + "description VARCHAR(200), "
+                + "submitter CHAR(30), "
                 + "FOREIGN KEY (location) REFERENCES Nodes(nodeID))";
 
         String sanitationRequestsTable = "CREATE TABLE IF NOT EXISTS SanitationRequests("
@@ -903,6 +905,13 @@ public class DatabaseHandler {
      */
     public void addRequest(Request request) {
         Statement statement = this.getStatement();
+
+        User user = this.getAuthenticationUser();
+        String username = user.getUsername();
+        if (username == null) {
+            username = "null";
+        }
+
         String query = "INSERT INTO Requests VALUES " +
                 "('" + request.getRequestID()
                 + "', '" + request.getRequestType()
@@ -912,6 +921,7 @@ public class DatabaseHandler {
                 + "', '" + request.getEmployeeName()
                 + "', '" + request.getLocation()
                 + "', '" + request.getDescription().replace("'", "''")
+                + "', '" + username
                 + "')";
 
         String current = null;
@@ -1056,7 +1066,7 @@ public class DatabaseHandler {
      */
     public void removeRequest(Request request) {
         Statement statement = this.getStatement();
-        String querySpecificTable = "DELETE FROM '" + request.getRequestType() + "Requests" + "'WHERE requestID = '" + request.getRequestID() + "'";
+        String querySpecificTable = "DELETE FROM '" + Request.RequestType.prettify(request.getRequestType()).replace(" ", "") + "Requests" + "'WHERE requestID = '" + request.getRequestID() + "'";
         String queryGeneralTable = "DELETE FROM Requests WHERE requestID = '" + request.getRequestID() + "'";
 
         try {
@@ -1187,7 +1197,7 @@ public class DatabaseHandler {
                 break;
             case SOCIAL_WORKER:
                 SocialWorkerRequest socialWorkerRequest = (SocialWorkerRequest) request;
-                query = "UPDATE SocialWorkerRequest SET patientName = '" + socialWorkerRequest.getPatientName().replace("'", "''")
+                query = "UPDATE SocialWorkerRequests SET patientName = '" + socialWorkerRequest.getPatientName().replace("'", "''")
                         + "', timeForArrival = '" + socialWorkerRequest.getTimeForArrival()
                         + "' WHERE requestID = '" + socialWorkerRequest.getRequestID() + "'";
                 break;
@@ -1227,7 +1237,8 @@ public class DatabaseHandler {
                         rs.getString("complete"),
                         rs.getString("employeeName"),
                         rs.getString("location"),
-                        rs.getString("description")
+                        rs.getString("description"),
+                        rs.getString("submitter")
                 );
                 requests.put(rs.getString("requestID"), outRequest);
             }
@@ -1246,10 +1257,10 @@ public class DatabaseHandler {
      * @param requestType the type of the request
      * @return the request
      */
-    public Request getSpecificRequestById(String requestID, String requestType) {
+    public Request getSpecificRequestById(String requestID, Request.RequestType requestType) {
         Statement statement = this.getStatement();
 
-        String tableName = requestType.replaceAll("\\s", "") + "Requests";
+        String tableName = Request.RequestType.prettify(requestType).replaceAll("\\s", "") + "Requests";
         String query = "SELECT * FROM Requests LEFT JOIN " + tableName + " ON Requests.requestID = " + tableName + ".requestID WHERE Requests.requestID = '" + requestID + "'";
 
         assert statement != null;
@@ -1258,7 +1269,7 @@ public class DatabaseHandler {
             ResultSet rs = statement.executeQuery(query);
             while (rs.next()) {
                 switch (requestType) {
-                    case "Sanitation":
+                    case SANITATION:
                         outRequest = new SanitationRequest(
                                 rs.getString("sanitationType"),
                                 rs.getString("sanitationSize"),
@@ -1274,7 +1285,7 @@ public class DatabaseHandler {
                                 rs.getString("description")
                         );
                         break;
-                    case "Medicine":
+                    case MEDICINE:
                         outRequest = new MedicineRequest(
                                 rs.getString("patientName"),
                                 rs.getString("medicine"),
@@ -1287,7 +1298,7 @@ public class DatabaseHandler {
                                 rs.getString("description")
                         );
                         break;
-                    case "InternalTransport":
+                    case INTERNAL_TRANSPORT:
                         outRequest = new InternalTransportRequest(
                                 rs.getString("patientName"),
                                 rs.getString("transportType"),
@@ -1302,7 +1313,7 @@ public class DatabaseHandler {
                                 rs.getString("description")
                         );
                         break;
-                    case "Religious":
+                    case RELIGIOUS:
                         outRequest = new ReligiousRequest(
                                 rs.getString("patientName"),
                                 rs.getString("startTime"),
@@ -1319,7 +1330,7 @@ public class DatabaseHandler {
                                 rs.getString("description")
                         );
                         break;
-                    case "Food":
+                    case FOOD:
                         outRequest = new FoodRequest(
                                 rs.getString("patientName"),
                                 rs.getString("arrivalTime"),
@@ -1333,7 +1344,7 @@ public class DatabaseHandler {
                                 rs.getString("description")
                         );
                         break;
-                    case "Floral":
+                    case FLORAL:
                         outRequest = new FloralRequest(
                                 rs.getString("patientName"),
                                 rs.getString("deliveryDate"),
@@ -1355,7 +1366,7 @@ public class DatabaseHandler {
                                 rs.getString("description")
                         );
                         break;
-                    case "Security":
+                    case SECURITY:
                         outRequest = new SecurityRequest(
                                 rs.getInt("urgency"),
                                 rs.getString("requestID"),
@@ -1367,7 +1378,7 @@ public class DatabaseHandler {
                                 rs.getString("description")
                         );
                         break;
-                    case "ExternalTransport":
+                    case EXTERNAL_TRANSPORT:
                         outRequest = new ExternalTransportRequest(
                                 rs.getString("patientName"),
                                 rs.getString("transportType"),
@@ -1385,7 +1396,7 @@ public class DatabaseHandler {
                                 rs.getString("description")
                         );
                         break;
-                    case "Laundry":
+                    case LAUNDRY:
                         outRequest = new LaundryRequest(
                                 rs.getString("serviceType"),
                                 rs.getString("serviceSize"),
@@ -1401,8 +1412,21 @@ public class DatabaseHandler {
                                 rs.getString("description")
                         );
                         break;
-                    case "CaseManager":
+                    case CASE_MANAGER:
                         outRequest = new CaseManagerRequest(
+                                rs.getString("patientName"),
+                                rs.getString("timeForArrival"),
+                                rs.getString("requestID"),
+                                rs.getString("requestTime"),
+                                rs.getString("requestDate"),
+                                rs.getString("complete"),
+                                rs.getString("employeeName"),
+                                rs.getString("location"),
+                                rs.getString("description")
+                        );
+                        break;
+                    case SOCIAL_WORKER:
+                        outRequest = new SocialWorkerRequest(
                                 rs.getString("patientName"),
                                 rs.getString("timeForArrival"),
                                 rs.getString("requestID"),

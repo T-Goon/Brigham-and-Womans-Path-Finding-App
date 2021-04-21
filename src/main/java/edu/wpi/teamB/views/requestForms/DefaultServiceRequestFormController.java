@@ -51,7 +51,7 @@ public abstract class DefaultServiceRequestFormController implements Initializab
     private StackPane stackContainer;
 
     @FXML
-    protected JFXComboBox<Label> loc;
+    protected JFXComboBox<String> loc;
 
     private VBox helpPopup;
     private double x = 0;
@@ -59,7 +59,6 @@ public abstract class DefaultServiceRequestFormController implements Initializab
     private boolean justClicked = false;
     protected ArrayList<Node> nodesList = new ArrayList<>();
     private String location;
-
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -75,11 +74,20 @@ public abstract class DefaultServiceRequestFormController implements Initializab
 
         // TODO should probably sort
         for(Node n : nodes.values()){
-            loc.getItems().add(new Label(n.getLongName()));
+            loc.getItems().add(n.getLongName());
             nodesList.add(n);
         }
 
         btnSubmit.setDisable(true);
+    }
+
+    protected void getLocationIndex(String nodeID) {
+        for (int i = 0; i < nodesList.size(); i++) {
+            if (nodesList.get(i).getNodeID().equals(nodeID)) {
+                loc.getSelectionModel().select(i);
+                return;
+            }
+        }
     }
 
     protected String getLocation(){
@@ -98,7 +106,6 @@ public abstract class DefaultServiceRequestFormController implements Initializab
             case "btnHelp":
                 loadHelpDialog();
                 break;
-
             case "btnExit":
                 Platform.exit();
                 break;

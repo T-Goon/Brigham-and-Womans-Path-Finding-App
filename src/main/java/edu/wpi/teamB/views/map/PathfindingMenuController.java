@@ -1,9 +1,7 @@
 package edu.wpi.teamB.views.map;
 
-import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.*;
 
-import com.jfoenix.controls.JFXTextField;
-import com.jfoenix.controls.JFXTreeView;
 import edu.wpi.teamB.App;
 import edu.wpi.teamB.database.DatabaseHandler;
 import edu.wpi.teamB.entities.User;
@@ -28,6 +26,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.scene.text.Font;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -93,6 +92,9 @@ public class PathfindingMenuController implements Initializable {
 
     @FXML
     private GesturePane gpane;
+
+    @FXML
+    private StackPane stackContainer;
 
     private static final double coordinateScale = 25 / 9.0;
     private List<Line> edgePlaced = new ArrayList<>();
@@ -341,6 +343,9 @@ public class PathfindingMenuController implements Initializable {
                 break;
             case "btnEmergency":
                 SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/map/pathfindingMenu.fxml", "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");
+                break;
+            case "btnHelp":
+                loadHelpDialog();
                 break;
         }
     }
@@ -626,7 +631,7 @@ public class PathfindingMenuController implements Initializable {
         if (nodes.isEmpty()) return;
 
         for (Node n : nodes.values()) {
-            if ((!(n.getNodeType().equals("WALK") || n.getNodeType().equals("HALL"))) &&
+            if ((!(n.getNodeType().equals("WALK") || n.getNodeType().equals("HALL")) || n.getBuilding().equals("BTM") || n.getBuilding().equals("Shapiro")) &&
                     n.getFloor().equals(floorID)) {
                 placeAltNode(n);
             }
@@ -644,7 +649,7 @@ public class PathfindingMenuController implements Initializable {
         if (nodes.isEmpty()) return;
 
         for (Node n : nodes.values()) {
-            if (((n.getNodeType().equals("WALK") || n.getNodeType().equals("HALL"))) &&
+            if (((n.getNodeType().equals("WALK") || n.getNodeType().equals("HALL")|| n.getBuilding().equals("BTM") || n.getBuilding().equals("Shapiro")))  &&
                     n.getFloor().equals(floorID)) {
                 placeIntermediateNode(n);
             }
@@ -790,7 +795,11 @@ public class PathfindingMenuController implements Initializable {
             l.setEndX(end.getXCoord() / PathfindingMenuController.coordinateScale);
             l.setEndY(end.getYCoord() / PathfindingMenuController.coordinateScale);
 
-            l.setOnMouseClicked(e -> showDelEdgePopup(start, end));
+            l.setOnMouseClicked(e -> {
+                if(editMap) {
+                    showDelEdgePopup(start, end);
+                }
+            });
 
             l.setId(start.getNodeID() + "_" + end.getNodeID() + "Icon");
 
@@ -836,15 +845,19 @@ public class PathfindingMenuController implements Initializable {
         Map<String, List<TreeItem<String>>> catNameMap = new HashMap<>();
         floorNodes.remove(currentFloor);
         for (Node n : Graph.getGraph().getNodes().values()) {
-            if (!(n.getNodeType().equals("WALK") || n.getNodeType().equals("HALL"))) {
+            if (!(n.getNodeType().equals("WALK") || n.getNodeType().equals("HALL")|| n.getBuilding().equals("BTM") || n.getBuilding().equals("Shapiro"))) {
                 //Populate Category map for TreeView
-                if (!catNameMap.containsKey(n.getNodeType())) {
-                    ArrayList<TreeItem<String>> tempList = new ArrayList<>();
-                    TreeItem<String> tempItem = new TreeItem<>(n.getLongName());
-                    tempList.add(tempItem);
-                    catNameMap.put(n.getNodeType(), tempList);
-                } else {
-                    catNameMap.get(n.getNodeType()).add(new TreeItem<>(n.getLongName()));
+
+                //This if statement is temporary for iteration 1 where pathfinding is only needed for the first floor
+                if(n.getFloor().equals(currentFloor)) {
+                    if (!catNameMap.containsKey(n.getNodeType())) {
+                        ArrayList<TreeItem<String>> tempList = new ArrayList<>();
+                        TreeItem<String> tempItem = new TreeItem<>(n.getLongName());
+                        tempList.add(tempItem);
+                        catNameMap.put(n.getNodeType(), tempList);
+                    } else {
+                        catNameMap.get(n.getNodeType()).add(new TreeItem<>(n.getLongName()));
+                    }
                 }
 
             }
@@ -905,5 +918,31 @@ public class PathfindingMenuController implements Initializable {
      */
     public String getEndLocation() {
         return txtEndLocation.getText();
+    }
+
+    private void loadHelpDialog(){
+        JFXDialogLayout helpLayout = new JFXDialogLayout();
+
+        Text helpText = new Text();
+        if(!editMap){
+            helpText = new Text("Enter your start and end location graphically or using our menu selector. To use the graphical selection,\nsimply click on the node and click on the set button. To enter a location using the menu. Click on the appropriate\ndrop down and choose your location. The node you selected will show up on your map where you can either\nset it to your start or end location. Once both the start and end nodes are filled in you can press \"Go\" to generate your path");
+        } else{
+            helpText = new Text("Double click to add a node. Click on a node or an edge to edit or remove them. To add a new edge click on\none of the nodes, then add edge, and then start node. Go to the next node in the edge then, add edge, end node,\nand finally add node.");
+        }
+        helpText.setFont(new Font("MS Reference Sans Serif", 14));
+
+        Label headerLabel = new Label("Help");
+        headerLabel.setFont(new Font("MS Reference Sans Serif", 18));
+
+        helpLayout.setHeading(headerLabel);
+        helpLayout.setBody(helpText);
+        JFXDialog helpWindow = new JFXDialog(stackContainer, helpLayout, JFXDialog.DialogTransition.CENTER);
+
+        JFXButton button = new JFXButton("Close");
+        button.setOnAction(event -> helpWindow.close());
+        helpLayout.setActions(button);
+
+        helpWindow.show();
+
     }
 }

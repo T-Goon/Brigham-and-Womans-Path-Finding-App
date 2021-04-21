@@ -283,7 +283,7 @@
                      <graphic>
                         <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../images/requestForms/socialWorkerIconCropped.png" />
+                              <Image url="@../../images/requestForms/socialWorkerIcon.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -307,7 +307,7 @@
                      <graphic>
                         <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../images/requestForms/caseManagerIconCropped.png" />
+                              <Image url="@../../images/requestForms/caseManagerIcon.png" />
                            </image>
                         </ImageView>
                      </graphic>
