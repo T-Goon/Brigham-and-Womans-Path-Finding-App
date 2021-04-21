@@ -468,12 +468,15 @@ public class PathfindingMenuController implements Initializable {
     }
 
     private void removeAllPopups() {
-        if (addNodePopup != null || editNodePopup != null || delEdgePopup != null || selectionBox != null || estimatedTimeBox != null) {
+        if (addNodePopup != null || editNodePopup != null || delEdgePopup != null || selectionBox != null ) {
             deleteBox(selectionBox);
-            deleteBox(estimatedTimeBox);
             deleteBox(editNodePopup);
             deleteBox(delEdgePopup);
             deleteBox(addNodePopup);
+        }
+
+        if(estimatedTimeBox!=null){
+            nodeHolder.getChildren().remove(estimatedTimeBox);
         }
 
         gpane.setGestureEnabled(true);
@@ -577,7 +580,7 @@ public class PathfindingMenuController implements Initializable {
         if (!floorNodes.containsKey(floorID)) return;
 
         for (Node n : floorNodes.get(floorID)) {
-            if (!(n.getNodeType().equals("WALK") || n.getNodeType().equals("HALL"))) {
+            if (!(n.getNodeType().equals("WALK") || n.getNodeType().equals("HALL") || n.getBuilding().equals("BTM") || n.getBuilding().equals("Shapiro"))) {
                 placeNode(n);
             }
         }
@@ -631,8 +634,8 @@ public class PathfindingMenuController implements Initializable {
         if (nodes.isEmpty()) return;
 
         for (Node n : nodes.values()) {
-            if ((!(n.getNodeType().equals("WALK") || n.getNodeType().equals("HALL")) || n.getBuilding().equals("BTM") || n.getBuilding().equals("Shapiro")) &&
-                    n.getFloor().equals(floorID)) {
+            if ((!(n.getNodeType().equals("WALK") || n.getNodeType().equals("HALL"))) && (!n.getBuilding().equals("BTM") && !n.getBuilding().equals("Shapiro")) &&
+                    n.getFloor().equals(floorID)){
                 placeAltNode(n);
             }
         }
@@ -649,8 +652,7 @@ public class PathfindingMenuController implements Initializable {
         if (nodes.isEmpty()) return;
 
         for (Node n : nodes.values()) {
-            if (((n.getNodeType().equals("WALK") || n.getNodeType().equals("HALL")|| n.getBuilding().equals("BTM") || n.getBuilding().equals("Shapiro")))  &&
-                    n.getFloor().equals(floorID)) {
+            if ((n.getNodeType().equals("WALK") || n.getNodeType().equals("HALL")) && (!n.getBuilding().equals("BTM") && !n.getBuilding().equals("Shapiro")) && n.getFloor().equals(floorID)) {
                 placeIntermediateNode(n);
             }
         }
@@ -667,7 +669,7 @@ public class PathfindingMenuController implements Initializable {
             Node start = db.getNodeById(e.getStartNodeID());
             Node end = db.getNodeById(e.getEndNodeID());
 
-            if (start.getFloor().equals(floor) && end.getFloor().equals(floor)) {
+            if (start.getFloor().equals(floor) && end.getFloor().equals(floor) && (!start.getBuilding().equals("BTM") && !start.getBuilding().equals("Shapiro")) && (!end.getBuilding().equals("BTM") && !start.getBuilding().equals("Shapiro"))) {
                 placeEdge(start, end);
             }
         }

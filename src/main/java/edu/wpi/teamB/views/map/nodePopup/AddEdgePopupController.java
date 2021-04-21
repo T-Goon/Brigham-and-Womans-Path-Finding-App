@@ -11,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import net.kurobako.gesturefx.GesturePane;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -86,6 +87,8 @@ public class AddEdgePopupController implements Initializable {
                 data.getData().getPfmc().refreshEditor();
 
                 data.getData().getMapStack().getChildren().remove(data.getParent().getRoot());
+                GesturePane thePane = (GesturePane) data.getData().getMapStack().getChildren().get(0);
+                thePane.setGestureEnabled(true);
 
             case "btnReset":
                 // Reset Node Colors

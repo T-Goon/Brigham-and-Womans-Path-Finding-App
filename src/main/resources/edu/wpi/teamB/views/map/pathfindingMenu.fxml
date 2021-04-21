@@ -221,25 +221,29 @@
                               </HBox>
                           </children>
                       </VBox>
-                      <GesturePane fitMode="COVER" hbarPolicy="NEVER" maxHeight="-Infinity" maxScale="25.0" maxWidth="-Infinity" prefHeight="9.9999999999E10" prefWidth="9.999999999E9" scrollMode="ZOOM" vbarPolicy="NEVER" VBox.vgrow="ALWAYS">
-                          <AnchorPane fx:id="nodeHolder">
-                              <children>
-                                  <AnchorPane fx:id="intermediateNodeHolder">
-                                      <children>
-                                          <AnchorPane fx:id="mapHolder">
-                                              <children>
-                                                  <ImageView fx:id="map" fitHeight="1800.0" fitWidth="1800.0" pickOnBounds="true" preserveRatio="true">
-                                                      <image>
-                                                          <Image url="@../../images/maps/01_thefirstfloor-Edited.png" />
-                                                      </image>
-                                                  </ImageView>
-                                              </children>
-                                          </AnchorPane>
-                                      </children>
-                                  </AnchorPane>
-                              </children>
-                          </AnchorPane>
-                      </GesturePane>
+                  <StackPane fx:id="mapStack" VBox.vgrow="ALWAYS">
+                     <children>
+                            <GesturePane fx:id="gpane" fitMode="COVER" hbarPolicy="NEVER" maxHeight="-Infinity" maxScale="25.0" maxWidth="-Infinity" prefHeight="9.9999999999E10" prefWidth="9.999999999E9" scrollMode="ZOOM" vbarPolicy="NEVER">
+                                <AnchorPane fx:id="nodeHolder">
+                                    <children>
+                                        <AnchorPane fx:id="intermediateNodeHolder">
+                                            <children>
+                                                <AnchorPane fx:id="mapHolder">
+                                                    <children>
+                                                        <ImageView fx:id="map" fitHeight="1800.0" fitWidth="1800.0" pickOnBounds="true" preserveRatio="true">
+                                                            <image>
+                                                                <Image url="@../../images/maps/01_thefirstfloor-Edited.png" />
+                                                            </image>
+                                                        </ImageView>
+                                                    </children>
+                                                </AnchorPane>
+                                            </children>
+                                        </AnchorPane>
+                                    </children>
+                                </AnchorPane>
+                            </GesturePane>
+                     </children>
+                  </StackPane>
                   </children>
               </HBox>
          </children>
