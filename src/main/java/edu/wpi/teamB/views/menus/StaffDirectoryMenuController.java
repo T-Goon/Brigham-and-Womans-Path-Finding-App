@@ -23,6 +23,11 @@ public class StaffDirectoryMenuController {
     @FXML
     private JFXButton btnServiceRequests;
 
+    @FXML
+    private JFXButton btnBack;
+
+
+
 
     @FXML
     public void handleButtonAction(ActionEvent actionEvent) {
