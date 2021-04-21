@@ -12,6 +12,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ToggleGroup;
+import net.kurobako.gesturefx.GesturePane;
 
 import java.net.URL;
 import java.util.*;
@@ -156,6 +157,8 @@ public class EditNodePopupController implements Initializable {
                 data.getData().getPfmc().refreshEditor();
 
                 data.getData().getMapStack().getChildren().remove(data.getParent().getRoot());
+                GesturePane thePane = (GesturePane) data.getData().getMapStack().getChildren().get(0);
+                thePane.setGestureEnabled(true);
                 break;
             case "btnCancel":
                 if (data.getData().getCircle() == null)

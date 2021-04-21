@@ -7,6 +7,7 @@ import edu.wpi.teamB.entities.map.GraphicalNodePopupData;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import net.kurobako.gesturefx.GesturePane;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -36,6 +37,8 @@ public class DelNodeAreYouSureController implements Initializable {
                 data.getData().getPfmc().refreshEditor();
 
                 data.getData().getMapStack().getChildren().remove(data.getParent().getRoot());
+                GesturePane thePane = (GesturePane) data.getData().getMapStack().getChildren().get(0);
+                thePane.setGestureEnabled(true);
                 break;
             case "btnNo":
                 data.getParent().areYouSureToMain();

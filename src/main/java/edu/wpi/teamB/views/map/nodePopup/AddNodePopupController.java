@@ -153,6 +153,8 @@ public class AddNodePopupController implements Initializable {
 
                 // Remove popup from map
                 data.getMapStack().getChildren().remove(root);
+                GesturePane elPane = (GesturePane) data.getMapStack().getChildren().get(0);
+                elPane.setGestureEnabled(true);
                 break;
         }
     }

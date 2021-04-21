@@ -82,6 +82,8 @@ public class DelEdgePopupController implements Initializable {
 
     void areYouSureToMain(){
         root.getChildren().remove(areYouSureWindow);
+        GesturePane thePane = (GesturePane) data.getMapStack().getChildren().get(0);
+        thePane.setGestureEnabled(true);
         areYouSureWindow = null;
 
         root.getChildren().add(mainMenu);
