@@ -3,6 +3,7 @@ package edu.wpi.teamB.views.menus;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXDialogLayout;
 import edu.wpi.teamB.database.DatabaseHandler;
+import edu.wpi.teamB.entities.User;
 import edu.wpi.teamB.entities.requests.Request;
 import edu.wpi.teamB.util.RequestWrapper;
 import javafx.application.Platform;
@@ -23,6 +24,7 @@ import javafx.scene.text.Text;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 
@@ -66,7 +68,27 @@ public class ServiceRequestDatabaseController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Map<String, Request> requests = DatabaseHandler.getDatabaseHandler("main.db").getRequests();
+        Map<String, Request> allRequests = DatabaseHandler.getDatabaseHandler("main.db").getRequests();
+        Map<String, Request> requests = new HashMap<String, Request>();
+
+        User user = DatabaseHandler.getDatabaseHandler("main.db").getAuthenticationUser();
+        User.AuthenticationLevel level = user.getAuthenticationLevel();
+        String username = user.getUsername();
+        String employeeName = user.getFirstName() + " " + user.getLastName();
+        if (level == User.AuthenticationLevel.ADMIN) {
+            requests = allRequests;
+        } else if (level == User.AuthenticationLevel.STAFF) {
+            if (allRequests != null) {
+                for (Request request : allRequests.values()) {
+                    if (request.getEmployeeName().equals(employeeName)) {
+                        requests.put(request.getRequestID(), request);
+                    } else if (request.getSubmitter().equals(username)) {
+                        requests.put(request.getRequestID(), request);
+                    }
+                }
+            }
+        }
+
         ObservableList<TableColumn<String, Label>> cols = tblRequests.getColumns();
         for (TableColumn<String, Label> c : cols) {
             switch (c.getId()) {
