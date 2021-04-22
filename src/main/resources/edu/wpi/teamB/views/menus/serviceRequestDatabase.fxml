@@ -93,7 +93,7 @@
                             <children>
                                 <HBox alignment="BOTTOM_LEFT" HBox.hgrow="ALWAYS">
                                     <children>
-                              <JFXButton fx:id="btnBack" alignment="CENTER" buttonType="RAISED" cancelButton="true" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" onAction="#handleButtonAction" prefHeight="56" prefWidth="56" style="-fx-background-color: #0067B1; -fx-background-radius: 50%;" text="🡰" textAlignment="CENTER" textFill="WHITE">
+                              <JFXButton fx:id="btnBack" alignment="CENTER" buttonType="RAISED" cancelButton="true" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#handleButtonAction" prefHeight="56" prefWidth="56" style="-fx-background-color: #0067B1; -fx-background-radius: 50%;" text="🡰" textAlignment="CENTER" textFill="WHITE">
                                  <font>
                                     <Font size="27.0" />
                                  </font>
@@ -111,7 +111,7 @@
                                 </HBox>
                                 <HBox alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS">
                                     <children>
-                                        <JFXButton fx:id="btnHelp" buttonType="RAISED" maxHeight="56.0" maxWidth="56.0" onAction="#handleButtonAction" prefHeight="56.0" prefWidth="56.0" style="-fx-background-color: #9A9999; -fx-background-radius: 50%;" text="?" textFill="WHITE">
+                                        <JFXButton fx:id="btnHelp" buttonType="RAISED" maxHeight="56.0" maxWidth="56.0" minHeight="-Infinity" minWidth="-Infinity" onAction="#handleButtonAction" prefHeight="56.0" prefWidth="56.0" style="-fx-background-color: #9A9999; -fx-background-radius: 50%;" text="?" textFill="WHITE">
                                             <font>
                                                 <Font name="MS Reference Sans Serif" size="27.0" />
                                             </font>
