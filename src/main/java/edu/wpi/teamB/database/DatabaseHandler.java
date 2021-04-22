@@ -71,7 +71,9 @@ public class DatabaseHandler {
      * with that data.
      */
     public void loadNodesEdges(List<Node> nodes, List<Edge> edges) {
-        if (!resetDatabase(new ArrayList<>(Arrays.asList("Edges", "Nodes")))) return;
+        if (!resetDatabase(new ArrayList<>(Arrays.asList("SanitationRequests", "MedicineRequests", "InternalTransportRequests", "ReligiousRequests", "FoodRequests", "FloralRequests",
+                "SecurityRequests", "ExternalTransportRequests", "LaundryRequests", "CaseManagerRequests", "SocialWorkerRequests", "Requests", "Edges", "Nodes"))))
+            return;
         if (!executeSchema()) return;
         if (!loadDatabaseNodes(nodes)) return;
         loadDatabaseEdges(edges);
