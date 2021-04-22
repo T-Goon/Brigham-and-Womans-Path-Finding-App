@@ -1,8 +1,8 @@
 package edu.wpi.teamB.util;
 
 import edu.wpi.teamB.database.DatabaseHandler;
-import edu.wpi.teamB.entities.map.Edge;
-import edu.wpi.teamB.entities.map.Node;
+import edu.wpi.teamB.entities.map.data.Edge;
+import edu.wpi.teamB.entities.map.data.Node;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;

@@ -1,7 +1,7 @@
 package edu.wpi.teamB.pathfinding;
 
-import edu.wpi.teamB.entities.map.Path;
-import edu.wpi.teamB.entities.map.Node;
+import edu.wpi.teamB.entities.map.data.Path;
+import edu.wpi.teamB.entities.map.data.Node;
 
 import java.util.*;
 

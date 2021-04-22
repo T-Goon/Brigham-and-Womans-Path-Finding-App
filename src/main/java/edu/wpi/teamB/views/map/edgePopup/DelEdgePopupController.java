@@ -2,8 +2,8 @@ package edu.wpi.teamB.views.map.edgePopup;
 
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.teamB.App;
-import edu.wpi.teamB.entities.map.GraphicalEdgePopupData;
-import edu.wpi.teamB.entities.map.GraphicalEditorEdgeData;
+import edu.wpi.teamB.entities.map.data.GraphicalEdgePopupData;
+import edu.wpi.teamB.entities.map.data.GraphicalEditorEdgeData;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
