@@ -67,9 +67,9 @@
                         </HBox>
                         <VBox alignment="TOP_CENTER" prefHeight="468.0" prefWidth="800.0" style="-fx-background-color: #f1f1f1;">
                             <children>
-                                <Text fill="#0067b1" strokeType="OUTSIDE" strokeWidth="0.0" text="Food Delivery Service Request" wrappingWidth="319.31207275390625">
+                                <Text fill="#0067b1" strokeType="OUTSIDE" strokeWidth="0.0" text="Food Delivery Service Request" textAlignment="CENTER" wrappingWidth="394.31207275390625">
                                     <font>
-                                        <Font name="MS Reference Sans Serif" size="20.0" />
+                                        <Font name="MS Reference Sans Serif" size="25.0" />
                                     </font>
                                     <VBox.margin>
                                         <Insets top="3.0" />
@@ -80,50 +80,50 @@
                                         <Insets top="10.0" />
                                     </VBox.margin>
                                     <children>
-                                        <HBox prefHeight="142.0" prefWidth="800.0">
+                                        <HBox>
                                             <children>
-                                                <HBox prefHeight="105.0" prefWidth="411.0">
-                                                    <children>
-                                                        <VBox prefHeight="143.0" prefWidth="391.0">
-                                                            <children>
-                                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Name:">
-                                                                    <VBox.margin>
-                                                                        <Insets left="5.0" />
-                                                                    </VBox.margin>
-                                                   <font>
-                                                      <Font size="14.0" />
-                                                   </font>
-                                                                </Text>
-                                                                <JFXTextField fx:id="name" onKeyReleased="#validateButton" prefHeight="28.0" prefWidth="381.0" promptText="Ex. &quot;Jane Doe&quot;" style="-fx-background-color: #e5e5e5; -fx-background-radius: 7;" unFocusColor="#f0f0f0" />
-                                                            </children>
-                                                        </VBox>
-                                                    </children>
-                                                </HBox>
-                                                <VBox prefHeight="62.0" prefWidth="429.0">
-                                                    <children>
-                                                        <VBox prefHeight="68.0" prefWidth="409.0">
-                                                            <children>
-                                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Location:">
-                                                                    <font>
-                                                                        <Font size="14.0" />
-                                                                    </font>
-                                                                    <VBox.margin>
-                                                                        <Insets left="5.0" />
-                                                                    </VBox.margin>
-                                                                </Text>
-                                                <JFXComboBox fx:id="loc" maxWidth="1.7976931348623157E308" prefHeight="28.0" prefWidth="394.0" style="-fx-background-color: #e5e5e5; -fx-background-radius: 7;" unFocusColor="WHITE">
-                                                   <VBox.margin>
-                                                      <Insets left="5.0" />
-                                                   </VBox.margin></JFXComboBox>
-                                                            </children>
-                                                        </VBox>
-                                                    </children>
-                                                </VBox>
+                                                  <VBox HBox.hgrow="ALWAYS">
+                                                      <children>
+                                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Name:">
+                                                              <VBox.margin>
+                                                                  <Insets left="5.0" />
+                                                              </VBox.margin>
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                                          </Text>
+                                                          <JFXTextField fx:id="name" onKeyReleased="#validateButton" prefWidth="60.0" promptText="Ex. &quot;Jane Doe&quot;" style="-fx-background-color: #e5e5e5; -fx-background-radius: 7;" unFocusColor="#f0f0f0">
+                                             <VBox.margin>
+                                                <Insets right="10.0" />
+                                             </VBox.margin>
+                                          </JFXTextField>
+                                                      </children>
+                                                  </VBox>
+                                                  <VBox HBox.hgrow="ALWAYS">
+                                                      <children>
+                                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Location:">
+                                                              <font>
+                                                                  <Font size="14.0" />
+                                                              </font>
+                                                              <VBox.margin>
+                                                                  <Insets left="5.0" />
+                                                              </VBox.margin>
+                                                          </Text>
+                                          <JFXComboBox fx:id="loc" maxWidth="1.7976931348623157E308" style="-fx-background-color: #e5e5e5; -fx-background-radius: 7;" unFocusColor="WHITE">
+                                             <VBox.margin>
+                                                <Insets left="5.0" />
+                                             </VBox.margin>
+                                          </JFXComboBox>
+                                                      </children>
+                                                  </VBox>
                                             </children>
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" />
+                                 </VBox.margin>
                                         </HBox>
-                                        <HBox prefHeight="130.0" prefWidth="800.0">
+                                        <HBox>
                                             <children>
-                                                <VBox prefHeight="53.0" prefWidth="574.0">
+                                                <VBox>
                                                     <children>
                                                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Meal Choice (from menu):">
                                                             <VBox.margin>
@@ -133,14 +133,17 @@
                                                 <Font size="14.0" />
                                              </font>
                                                         </Text>
-                                                        <JFXTextField fx:id="mealChoice" onKeyReleased="#validateButton" prefHeight="37.0" prefWidth="381.0" promptText="Ex. &quot;Chicken Sandwich&quot;" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f0f0f0">
+                                                        <JFXTextField fx:id="mealChoice" onKeyReleased="#validateButton" prefWidth="600.0" promptText="Ex. &quot;Chicken Sandwich&quot;" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f0f0f0">
                                                             <VBox.margin>
                                                                 <Insets left="5.0" right="5.0" />
                                                             </VBox.margin>
                                                         </JFXTextField>
                                                     </children>
+                                       <HBox.margin>
+                                          <Insets right="10.0" />
+                                       </HBox.margin>
                                                 </VBox>
-                                                <VBox prefHeight="53.0" prefWidth="601.0">
+                                                <VBox>
                                                     <children>
                                                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Desired Arrival Time:">
                                                             <font>
@@ -150,12 +153,15 @@
                                                                 <Insets left="5.0" />
                                                             </VBox.margin>
                                                         </Text>
-                                                        <JFXTimePicker fx:id="arrivalTime" defaultColor="#012d5a" onAction="#validateButton" prefHeight="37.0" prefWidth="171.0" style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" stylesheets="@../../css/dateTimeFix.css" />
+                                                        <JFXTimePicker fx:id="arrivalTime" defaultColor="#012d5a" onAction="#validateButton" prefWidth="600.0" style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" stylesheets="@../../css/dateTimeFix.css" />
                                                     </children>
                                                 </VBox>
                                             </children>
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" top="10.0" />
+                                 </VBox.margin>
                                         </HBox>
-                                        <VBox prefHeight="171.0" prefWidth="800.0">
+                                        <VBox>
                                             <children>
                                                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Extra Information (Allergies, Preferences, etc.):">
                                                     <VBox.margin>
@@ -168,35 +174,35 @@
                                                 <JFXTextArea fx:id="description" onKeyReleased="#validateButton" promptText="Please include any other relevant information" style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" />
                                             </children>
                                         </VBox>
-                                        <HBox alignment="CENTER_LEFT" prefHeight="152.0" prefWidth="800.0">
-                                            <children>
-                                                <VBox alignment="CENTER_LEFT" prefHeight="110.0" prefWidth="418.0">
-                                                    <children>
-                                                        <JFXButton fx:id="btnCancel" buttonType="RAISED" onAction="#handleButtonAction" prefHeight="31.0" prefWidth="92.0" style="-fx-background-color: #0067b1; -fx-background-radius: 7;" text="Cancel" textFill="WHITE">
-                                                            <font>
-                                                                <Font name="MS Reference Sans Serif" size="14.0" />
-                                                            </font>
-                                                            <VBox.margin>
-                                                                <Insets left="20.0" />
-                                                            </VBox.margin>
-                                                        </JFXButton>
-                                                    </children>
-                                                    <HBox.margin>
-                                                        <Insets />
-                                                    </HBox.margin>
-                                                </VBox>
-                                                <VBox alignment="CENTER" prefHeight="110.0" prefWidth="400.0">
-                                                    <children>
-                                                        <JFXButton fx:id="btnSubmit" buttonType="RAISED" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39; -fx-background-radius: 7;" text="Submit" textFill="#012d5a">
-                                                            <font>
-                                                                <Font name="MS Reference Sans Serif" size="20.0" />
-                                                            </font>
-                                                        </JFXButton>
-                                                    </children>
-                                                </VBox>
-                                                <VBox alignment="CENTER_RIGHT" prefHeight="110.0" prefWidth="367.0" spacing="10.0" HBox.hgrow="ALWAYS" />
-                                            </children>
-                                        </HBox>
+                              <HBox alignment="CENTER_LEFT">
+                                 <children>
+                                    <HBox alignment="CENTER_LEFT" fillHeight="false" HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <JFXButton fx:id="btnCancel" buttonType="RAISED" cancelButton="true" onAction="#handleButtonAction" style="-fx-background-color: #0067b1; -fx-background-radius: 7;" text="Cancel" textFill="WHITE">
+                                             <font>
+                                                <Font name="MS Reference Sans Serif" size="14.0" />
+                                             </font>
+                                          </JFXButton>
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER" fillHeight="false" spacing="10.0" HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <JFXButton fx:id="btnSubmit" buttonType="RAISED" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39; -fx-background-radius: 7;" text="Submit">
+                                             <font>
+                                                <Font name="MS Reference Sans Serif" size="20.0" />
+                                             </font>
+                                          </JFXButton>
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER_RIGHT" fillHeight="false" spacing="10.0" HBox.hgrow="ALWAYS" />
+                                 </children>
+                                 <padding>
+                                    <Insets left="10.0" right="10.0" />
+                                 </padding>
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" top="10.0" />
+                                 </VBox.margin>
+                              </HBox>
                                     </children>
                            <padding>
                               <Insets left="10.0" right="10.0" />

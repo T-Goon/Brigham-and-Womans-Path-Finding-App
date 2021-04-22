@@ -71,7 +71,7 @@
                             <children>
                                 <Text fill="#0067b1" strokeType="OUTSIDE" strokeWidth="0.0" text="Laundry Services Request Form">
                                     <font>
-                                        <Font name="MS Reference Sans Serif" size="24.0" />
+                                        <Font name="MS Reference Sans Serif" size="25.0" />
                                     </font>
                                 </Text>
                                 <VBox>

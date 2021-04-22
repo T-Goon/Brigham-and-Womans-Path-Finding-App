@@ -77,9 +77,9 @@
                                                         <Insets bottom="10.0" left="50.0" right="50.0" top="10.0" />
                                                     </VBox.margin>
                                                     <children>
-                                                        <Text fill="#0067b1" strokeType="OUTSIDE" strokeWidth="0.0" text="Case Manager Request Form">
+                                                        <Text fill="#0067b1" strokeType="OUTSIDE" strokeWidth="0.0" text="Case Manager Request Form" textAlignment="CENTER">
                                                             <font>
-                                                                <Font name="MS Reference Sans Serif" size="24.0" />
+                                                                <Font name="MS Reference Sans Serif" size="25.0" />
                                                             </font>
                                                         </Text>
                                                         <VBox>
