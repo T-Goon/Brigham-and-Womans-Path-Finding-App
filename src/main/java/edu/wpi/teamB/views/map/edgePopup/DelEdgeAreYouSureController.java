@@ -3,6 +3,7 @@ package edu.wpi.teamB.views.map.edgePopup;
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.teamB.App;
 import edu.wpi.teamB.database.DatabaseHandler;
+import edu.wpi.teamB.entities.map.DelEdgeAYSWindow;
 import edu.wpi.teamB.pathfinding.Graph;
 import edu.wpi.teamB.entities.map.data.GraphicalEdgePopupData;
 import javafx.event.ActionEvent;
@@ -20,11 +21,11 @@ public class DelEdgeAreYouSureController implements Initializable {
     @FXML
     private JFXButton btnNo;
 
-    private GraphicalEdgePopupData data;
+    private DelEdgeAYSWindow data;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        data = (GraphicalEdgePopupData) App.getPrimaryStage().getUserData();
+        data = (DelEdgeAYSWindow) App.getPrimaryStage().getUserData();
     }
 
     @FXML
@@ -33,20 +34,10 @@ public class DelEdgeAreYouSureController implements Initializable {
 
         switch (btn.getId()){
             case "btnYes":
-                DatabaseHandler.getDatabaseHandler("main.db").removeEdge(
-                        data.getData().getStart().getNodeID() + "_" +
-                                data.getData().getEnd().getNodeID()
-                );
-                Graph.getGraph().updateGraph();
-
-                // Remove popup from map and refresh the nodes
-                data.getData().getMapStack().getChildren().remove(data.getParent().getRoot());
-                GesturePane thePane = (GesturePane) data.getData().getMapStack().getChildren().get(0);
-                thePane.setGestureEnabled(true);
-                data.getData().getPmfc().refreshEditor();
+                data.deleteEdge();
                 break;
             case "btnNo":
-                data.getParent().areYouSureToMain();
+                data.hide();
                 break;
         }
     }

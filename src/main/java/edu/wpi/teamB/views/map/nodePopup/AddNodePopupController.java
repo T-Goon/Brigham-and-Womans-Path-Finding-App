@@ -6,6 +6,7 @@ import com.jfoenix.controls.JFXRadioButton;
 import com.jfoenix.controls.JFXTextField;
 import edu.wpi.teamB.App;
 import edu.wpi.teamB.database.DatabaseHandler;
+import edu.wpi.teamB.entities.map.AddNodePopup;
 import edu.wpi.teamB.entities.map.data.Node;
 import edu.wpi.teamB.entities.map.data.GraphicalEditorNodeData;
 import javafx.event.ActionEvent;
@@ -62,13 +63,13 @@ public class AddNodePopupController implements Initializable {
     @FXML
     private JFXButton btnAddNode;
 
-    private GraphicalEditorNodeData data;
+    private AddNodePopup popup;
 
     private Map<String, String> categoryNameMap;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        data = (GraphicalEditorNodeData) App.getPrimaryStage().getUserData();
+        popup = (AddNodePopup) App.getPrimaryStage().getUserData();
 
         categoryNameMap = new HashMap<>();
 
@@ -93,11 +94,11 @@ public class AddNodePopupController implements Initializable {
         nodeType.getItems().addAll(temp);
 
         // Fill in current coordinates
-        xCoord.setText(Long.toString(Math.round(data.getX())));
-        yCoord.setText(Long.toString(Math.round(data.getY())));
+        xCoord.setText(Long.toString(Math.round(popup.getData().getX())));
+        yCoord.setText(Long.toString(Math.round(popup.getData().getY())));
 
         // Fill in current floor
-        floor.setText(data.getFloor());
+        floor.setText(popup.getData().getFloor());
         floor.setDisable(true);
     }
 
@@ -108,7 +109,8 @@ public class AddNodePopupController implements Initializable {
      */
     @FXML
     private void validateButton() throws NumberFormatException {
-        btnAddNode.setDisable(nodeID.getText().trim().isEmpty() || building.getText().trim().isEmpty() || (nodeType.getValue() == null || nodeType.getValue().trim().isEmpty())
+        btnAddNode.setDisable(nodeID.getText().trim().isEmpty() || building.getText().trim().isEmpty() ||
+                (nodeType.getValue() == null || nodeType.getValue().trim().isEmpty())
                 || longName.getText().trim().isEmpty() || shortName.getText().trim().isEmpty() || floor.getText().trim().isEmpty()
                 || xCoord.getText().trim().isEmpty() || yCoord.getText().trim().isEmpty());
         try {
@@ -125,36 +127,26 @@ public class AddNodePopupController implements Initializable {
 
         switch (btn.getId()) {
             case "btnCancel":
-                data.getMapStack().getChildren().remove(root);
-                GesturePane thePane = (GesturePane) data.getMapStack().getChildren().get(0);
-                thePane.setGestureEnabled(true);
+                popup.hide();
                 break;
             case "btnAddNode":
-                String aNodeId = nodeID.getText().trim();
-                String aFloor = floor.getText().trim();
-                String aBuilding = building.getText().trim();
+                String id = nodeID.getText().trim();
+                String f = floor.getText().trim();
+                String b = building.getText().trim();
                 String aNodeType = nodeType.getValue().trim();
-                String actualNodeName = "ERROR!";
+                String t = "ERROR!";
                 for (String s : categoryNameMap.keySet()) {
                     if (categoryNameMap.get(s).equals(aNodeType)) {
-                        actualNodeName = s;
+                        t = s;
                         break;
                     }
                 }
-                String aLongName = longName.getText().trim();
-                String aShortName = shortName.getText().trim();
-                int aXCoord = Integer.parseInt(xCoord.getText().trim());
-                int aYCoord = Integer.parseInt(yCoord.getText().trim());
-                Node aNode = new Node(aNodeId, aXCoord, aYCoord, aFloor, aBuilding, actualNodeName, aLongName, aShortName);
-                DatabaseHandler.getDatabaseHandler("main.db").addNode(aNode);
+                String ln = longName.getText().trim();
+                String sn = shortName.getText().trim();
+                int x = Integer.parseInt(xCoord.getText().trim());
+                int y = Integer.parseInt(yCoord.getText().trim());
 
-                // Refresh map editor
-                data.getPfmc().refreshEditor();
-
-                // Remove popup from map
-                data.getMapStack().getChildren().remove(root);
-                GesturePane elPane = (GesturePane) data.getMapStack().getChildren().get(0);
-                elPane.setGestureEnabled(true);
+                popup.addNode(id, x, y, f, b, t, ln, sn);
                 break;
         }
     }

@@ -2,6 +2,8 @@ package edu.wpi.teamB.views.map.edgePopup;
 
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.teamB.App;
+import edu.wpi.teamB.entities.map.DelEdgeAYSWindow;
+import edu.wpi.teamB.entities.map.DelEdgePopup;
 import edu.wpi.teamB.entities.map.data.GraphicalEdgePopupData;
 import edu.wpi.teamB.entities.map.data.GraphicalEditorEdgeData;
 import javafx.event.ActionEvent;
@@ -38,16 +40,20 @@ public class DelEdgePopupController implements Initializable {
     @FXML
     private JFXButton btnCancel;
 
-    private GraphicalEditorEdgeData data;
+    private DelEdgePopup data;
+
+    private DelEdgeAYSWindow ays;
 
     private VBox areYouSureWindow;
 
+    private DelEdgeAYSWindow delWindow;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        data = (GraphicalEditorEdgeData) App.getPrimaryStage().getUserData();
+        data = (DelEdgePopup) App.getPrimaryStage().getUserData();
 
-        startName.setText(data.getStart().getLongName());
-        endName.setText(data.getEnd().getLongName());
+        startName.setText(data.getData().getStart().getLongName());
+        endName.setText(data.getData().getEnd().getLongName());
     }
 
     @FXML
@@ -58,8 +64,12 @@ public class DelEdgePopupController implements Initializable {
             case "btnDelete":
                 root.getChildren().remove(mainMenu);
 
+                ays = new DelEdgeAYSWindow(
+                        root, data.getData()
+                );
+
                 // Pass data to next window
-                App.getPrimaryStage().setUserData(new GraphicalEdgePopupData(data, this));
+                App.getPrimaryStage().setUserData(ays);
 
                 // Load window
                 try{
@@ -69,23 +79,18 @@ public class DelEdgePopupController implements Initializable {
                     e.printStackTrace();
                 }
 
-                root.getChildren().add(areYouSureWindow);
+                ays.show();
 
                 break;
             case "btnCancel":
-                data.getMapStack().getChildren().remove(root);
-                GesturePane thePane = (GesturePane) data.getMapStack().getChildren().get(0);
-                thePane.setGestureEnabled(true);
+                data.hide();
                 break;
         }
     }
 
-    void areYouSureToMain(){
-        root.getChildren().remove(areYouSureWindow);
-        GesturePane thePane = (GesturePane) data.getMapStack().getChildren().get(0);
-        thePane.setGestureEnabled(true);
-        areYouSureWindow = null;
-
-        root.getChildren().add(mainMenu);
-    }
+//    void areYouSureToMain(){
+//        ays.hide();
+//
+//        root.getChildren().add(mainMenu);
+//    }
 }

@@ -5,6 +5,10 @@ import com.jfoenix.controls.*;
 import edu.wpi.teamB.App;
 import edu.wpi.teamB.database.DatabaseHandler;
 import edu.wpi.teamB.entities.User;
+import edu.wpi.teamB.entities.map.MapCache;
+import edu.wpi.teamB.entities.map.MapDrawer;
+import edu.wpi.teamB.entities.map.MapEditorPopupManager;
+import edu.wpi.teamB.entities.map.MapPathPopupManager;
 import edu.wpi.teamB.entities.map.data.*;
 import edu.wpi.teamB.pathfinding.AStar;
 import edu.wpi.teamB.pathfinding.Graph;
@@ -95,21 +99,16 @@ public class PathfindingMenuController implements Initializable {
     @FXML
     private StackPane stackContainer;
 
-    private static final double coordinateScale = 25 / 9.0;
-    private List<Line> edgePlaced = new ArrayList<>();
-    private List<javafx.scene.Node> nodePlaced = new ArrayList<>();
-    private List<javafx.scene.Node> intermediateNodePlaced = new ArrayList<>();
-    private boolean editMap = false;
+    public static final double coordinateScale = 25 / 9.0;
     private VBox selectionBox = null;
     private VBox estimatedTimeBox = null;
 
-    private String currentFloor = "1";
     private VBox addNodePopup;
     private VBox editNodePopup;
     private VBox delEdgePopup;
-    private Map<String, List<Node>> floorNodes = new HashMap<>();
+
     private Map<String, String> categoryNameMap = new HashMap<>();
-    private Map<String, String> mapLongToID = new HashMap<>();
+
     private final DatabaseHandler db = DatabaseHandler.getDatabaseHandler("main.db");
 
     private TreeItem<String> selectedLocation;
@@ -130,6 +129,11 @@ public class PathfindingMenuController implements Initializable {
     final FileChooser fileChooser = new FileChooser();
     final DirectoryChooser directoryChooser = new DirectoryChooser();
 
+    private MapCache mc = new MapCache();;
+    private MapDrawer md;
+    private MapEditorPopupManager mepm;
+    private MapPathPopupManager mppm;
+
     // JavaFX code **************************************************************************************
 
     @Override
@@ -149,16 +153,20 @@ public class PathfindingMenuController implements Initializable {
         categoryNameMap.put("STAI", "Stairs");
         categoryNameMap.put("PARK", "Parking Spots");
 
-        mapLongToID = makeLongToIDMap();
-
         validateFindPathButton();
 
         //Adds all the destination names to locationNames and sort the nodes by floor
-        updateLocations();
+        mc.updateLocations();
+
+        md = new MapDrawer(mc, nodeHolder, mapHolder, intermediateNodeHolder, lblError, mapStack);
+
+        mepm = new MapEditorPopupManager(md, gpane);
+
+        mppm = new MapPathPopupManager(md);
 
         // Draw the nodes on the map
         try {
-            drawNodesOnFloor(currentFloor);
+            md.drawNodesOnFloor();
         } catch (NullPointerException ignored) {
         }
 
@@ -219,6 +227,9 @@ public class PathfindingMenuController implements Initializable {
         checkPermissions();
     }
 
+    /**
+     * Only show edit map buttons if the user has the correct permissions.
+     */
     private void checkPermissions() {
         btnEditMap.setVisible(db.getAuthenticationUser().isAtLeast(User.AuthenticationLevel.ADMIN));
         btnLoad.setVisible(db.getAuthenticationUser().isAtLeast(User.AuthenticationLevel.ADMIN));
@@ -240,12 +251,18 @@ public class PathfindingMenuController implements Initializable {
             //Selected item is a valid location
 
             //For now only work on nodes that are on the first floor until multi-floor pathfinding is added
-            Node tempLocation = Graph.getGraph().getNodes().get(mapLongToID.get(selectedItem.getValue()));
-            if (tempLocation.getFloor().equals(currentFloor)) {
-                if (editMap) showEditNodePopup(tempLocation, mouseEvent, true);
-                else createGraphicalInputPopup(tempLocation);
+            Node tempLocation = Graph.getGraph().getNodes().get(
+                    mc.makeLongToIDMap().get(
+                            selectedItem.getValue()));
+
+            if (tempLocation.getFloor().equals(mc.getCurrentFloor())) {
+
+                if (md.isEditing()) mepm.showEditNodePopup(tempLocation, mouseEvent, true);
+                else mppm.createGraphicalInputPopup(tempLocation);
+
             }
         }
+
         selectedLocation = selectedItem;
         validateFindPathButton();
     }
@@ -349,6 +366,20 @@ public class PathfindingMenuController implements Initializable {
         }
     }
 
+//    private void populateTreeView(){
+//        //Populating TreeView
+//        TreeItem<String> rootNode = new TreeItem<>("Locations");
+//        rootNode.setExpanded(true);
+//        treeLocations.setRoot(rootNode);
+//
+//        //Adding Categories
+//        for (String category : catNameMap.keySet()) {
+//            TreeItem<String> categoryTreeItem = new TreeItem<>(categoryNameMap.get(category));
+//            categoryTreeItem.getChildren().addAll(catNameMap.get(category));
+//            rootNode.getChildren().add(categoryTreeItem);
+//        }
+//    }
+
     // Code for graphical map editor *********************************************************************
 
     /**
@@ -405,82 +436,6 @@ public class PathfindingMenuController implements Initializable {
 
     }
 
-    /**
-     * Shows the edit node popup filled in with the information from n.
-     *
-     * @param n Node that is to be edited.
-     */
-    private void showEditNodePopup(Node n, MouseEvent event, boolean fromTreeView) {
-        Circle c;
-        if (fromTreeView) c = null;
-        else c = (Circle) event.getSource();
-
-        // Make sure there is only one editNodePopup at one time
-        removeAllPopups();
-
-        // Data to pass to popup
-        App.getPrimaryStage().setUserData(new GraphicalEditorNodeData(
-                n.getNodeID(),
-                n.getXCoord(),
-                n.getYCoord(),
-                currentFloor,
-                n.getBuilding(),
-                n.getNodeType(),
-                n.getLongName(),
-                n.getShortName(),
-                null,
-                mapStack,
-                PathfindingMenuController.this,
-                c));
-
-        // Load popup
-        try {
-            editNodePopup = FXMLLoader.load(Objects.requireNonNull(
-                    getClass().getClassLoader().getResource("edu/wpi/teamB/views/map/nodePopup/nodePopupWindow.fxml")));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        // Set location on map
-        double x = n.getXCoord() / PathfindingMenuController.coordinateScale;
-        double y = n.getYCoord() / PathfindingMenuController.coordinateScale;
-
-        placePopupOnMap(editNodePopup);
-
-    }
-
-    private void showDelEdgePopup(Node start, Node end) {
-        // Make sure there is only one editNodePopup at one time
-        removeAllPopups();
-
-        // Pass window data
-        App.getPrimaryStage().setUserData(new GraphicalEditorEdgeData(start, end, mapStack, this));
-
-        try {
-            delEdgePopup = FXMLLoader.load(Objects.requireNonNull(
-                    getClass().getClassLoader().getResource("edu/wpi/teamB/views/map/edgePopup/delEdgePopup.fxml")));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        placePopupOnMap(delEdgePopup);
-    }
-
-    private void removeAllPopups() {
-        if (addNodePopup != null || editNodePopup != null || delEdgePopup != null || selectionBox != null ) {
-            deleteBox(selectionBox);
-            deleteBox(editNodePopup);
-            deleteBox(delEdgePopup);
-            deleteBox(addNodePopup);
-        }
-
-        if(estimatedTimeBox!=null){
-            nodeHolder.getChildren().remove(estimatedTimeBox);
-        }
-
-        gpane.setGestureEnabled(true);
-
-    }
 
     /**
      * Place a popup over the map.
@@ -494,68 +449,7 @@ public class PathfindingMenuController implements Initializable {
 
     // Code for graphical input to pathfinding ***********************************************************
 
-    /**
-     * Creates the popup for the graphical input.
-     *
-     * @param n Node to create the popup for
-     */
-    public void createGraphicalInputPopup(Node n) {
 
-        try {
-            // Load fxml
-            final VBox locInput = FXMLLoader.load(
-                    Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/map/misc/graphicalInput.fxml")));
-
-            // Set up popup buttons
-            for (javafx.scene.Node node : ((VBox) locInput.getChildren().get(0)).getChildren()) {
-                javafx.scene.Node child = ((HBox) node).getChildren().get(0);
-                switch (child.getId()) {
-                    case "nodeName":
-                        ((Text)child).setText(n.getLongName());
-                        break;
-                    case "btnStart":
-                        showGraphicalSelection(txtStartLocation, child, n);
-                        break;
-                    case "btnEnd":
-                        showGraphicalSelection(txtEndLocation, child, n);
-                        break;
-                    case "btnCancel":
-                        ((JFXButton)child).setOnAction(event -> removeAllPopups());
-                        break;
-                }
-            }
-
-            if (selectionBox != null) {
-                removeAllPopups();
-            }
-
-            selectionBox = locInput;
-//            nodeHolder.getChildren().add(locInput);
-            placePopupOnMap(locInput);
-
-        } catch (IOException ioException) {
-            ioException.printStackTrace();
-        }
-
-    }
-
-    /**
-     * Shows the popup for the graphical input.
-     *
-     * @param textField TextField to set text for
-     * @param node      javafx node that will show popup when clicked
-     * @param n         map node the popup is for
-     */
-    private void showGraphicalSelection(JFXTextField textField, javafx.scene.Node node, Node n) {
-        JFXButton tempButton = (JFXButton) node;
-
-        tempButton.setOnAction(event -> {
-            textField.setText(n.getLongName());
-            removeAllPopups();
-            validateFindPathButton();
-        });
-
-    }
 
     /**
      * Removes the graphical input popup from the map.
@@ -569,108 +463,27 @@ public class PathfindingMenuController implements Initializable {
 
     // Code for displaying content on the map ***********************************************************
 
-    /**
-     * Draws all the nodes on a given floor with the default graphic
-     *
-     * @param floorID the floor id for the nodes "L2", "L1", "1", "2", "3"
-     */
-    private void drawNodesOnFloor(String floorID) {
-        // If the floor has no nodes, return
-        if (!floorNodes.containsKey(floorID)) return;
 
-        for (Node n : floorNodes.get(floorID)) {
-            if (!(n.getNodeType().equals("WALK") || n.getNodeType().equals("HALL") || n.getBuilding().equals("BTM") || n.getBuilding().equals("Shapiro"))) {
-                placeNode(n);
-            }
-        }
-    }
 
     /**
      * Draws all the elements of the map base on direction or map edit mode.
      */
     private void drawAllElements() {
         removeAllPopups();
+        String floor = mp.getCurrentFloor();
+
         if (editMap) {
             removeOldPaths();
             removeNodes();
-            drawEdgesOnFloor(currentFloor);
-            drawAltNodesOnFloor(currentFloor);
-            drawIntermediateNodesOnFloor(currentFloor);
+            drawEdgesOnFloor();
+            drawAltNodesOnFloor();
+            drawIntermediateNodesOnFloor();
         } else {
-            updateLocations();
+            mp.updateLocations();
             removeOldPaths();
             removeIntermediateNodes();
             removeNodes();
-            drawNodesOnFloor(currentFloor);
-        }
-    }
-
-    /**
-     * Refresh the nodes on the map.
-     * <p>
-     * FOR MAP EDITOR MODE ONLY!!!
-     * <p>
-     */
-    public void refreshEditor() {
-        updateLocations();
-        removeOldPaths();
-        removeIntermediateNodes();
-        removeNodes();
-        drawEdgesOnFloor(currentFloor);
-        drawAltNodesOnFloor(currentFloor);
-        drawIntermediateNodesOnFloor(currentFloor);
-    }
-
-    /**
-     * Draws all the nodes on a given floor with the alternate graphic
-     *
-     * @param floorID the floor id for the nodes "L2", "L1", "1", "2", "3"
-     */
-    private void drawAltNodesOnFloor(String floorID) {
-
-        Map<String, Node> nodes = db.getNodes();
-
-        if (nodes.isEmpty()) return;
-
-        for (Node n : nodes.values()) {
-            if ((!(n.getNodeType().equals("WALK") || n.getNodeType().equals("HALL"))) && (!n.getBuilding().equals("BTM") && !n.getBuilding().equals("Shapiro")) &&
-                    n.getFloor().equals(floorID)){
-                placeAltNode(n);
-            }
-        }
-    }
-
-    /**
-     * Draws all the intermediate nodes on a floor
-     *
-     * @param floorID the floor id for the nodes "L2", "L1", "1", "2", "3"
-     */
-    private void drawIntermediateNodesOnFloor(String floorID) {
-        Map<String, Node> nodes = db.getNodes();
-
-        if (nodes.isEmpty()) return;
-
-        for (Node n : nodes.values()) {
-            if ((n.getNodeType().equals("WALK") || n.getNodeType().equals("HALL")) && (!n.getBuilding().equals("BTM") && !n.getBuilding().equals("Shapiro")) && n.getFloor().equals(floorID)) {
-                placeIntermediateNode(n);
-            }
-        }
-    }
-
-    /**
-     * Draws all edges on a floor
-     *
-     * @param floor number of floor as a string
-     */
-    private void drawEdgesOnFloor(String floor) {
-        Map<String, Edge> edges = Graph.getGraph().getEdges();
-        for (Edge e : edges.values()) {
-            Node start = db.getNodeById(e.getStartNodeID());
-            Node end = db.getNodeById(e.getEndNodeID());
-
-            if (start.getFloor().equals(floor) && end.getFloor().equals(floor) && (!start.getBuilding().equals("BTM") && !start.getBuilding().equals("Shapiro")) && (!end.getBuilding().equals("BTM") && !start.getBuilding().equals("Shapiro"))) {
-                placeEdge(start, end);
-            }
+            drawNodesOnFloor();
         }
     }
 
@@ -682,7 +495,7 @@ public class PathfindingMenuController implements Initializable {
             removeAllPopups();
 
         Map<String, Node> nodesId = Graph.getGraph().getNodes();
-        Map<String, String> hmLongName = makeLongToIDMap();
+        Map<String, String> hmLongName = mp.makeLongToIDMap();
         Path aStarPath = AStar.findPath(hmLongName.get(getStartLocation()), hmLongName.get(getEndLocation()));
 
         List<String> AstarPath = aStarPath.getPath();
@@ -694,7 +507,7 @@ public class PathfindingMenuController implements Initializable {
             for (String loc : AstarPath) {
                 if ((prev != null) && (loc != null)) {
                     Node curr = nodesId.get(loc);
-                    placeEdge(prev, curr);
+                    md.placeEdge(prev, curr);
                 }
                 prev = nodesId.get(loc);
             }
@@ -703,205 +516,7 @@ public class PathfindingMenuController implements Initializable {
         drawEstimatedTimeBox(aStarPath);
     }
 
-    /**
-     * Removes any edges drawn on the map
-     */
-    private void removeOldPaths() {
-        lblError.setVisible(false);
-        for (Line l : edgePlaced)
-            mapHolder.getChildren().remove(l);
-        edgePlaced = new ArrayList<>();
-    }
-
-    /**
-     * Removes all nodes from the map
-     */
-    private void removeNodes() {
-        for (javafx.scene.Node n : nodePlaced)
-            nodeHolder.getChildren().remove(n);
-        nodePlaced = new ArrayList<>();
-    }
-
-    /**
-     * Removes all intermediate nodes from the map
-     */
-    private void removeIntermediateNodes() {
-        for (javafx.scene.Node n : intermediateNodePlaced)
-            intermediateNodeHolder.getChildren().remove(n);
-        intermediateNodePlaced = new ArrayList<>();
-    }
-
-    /**
-     * Places an image for a node on the map at the given pixel coordinates.
-     *
-     * @param n Node object to place on the map
-     */
-    private void placeNode(Node n) {
-        try {
-            ImageView i = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/map/misc/node.fxml")));
-
-            i.setLayoutX((n.getXCoord() / PathfindingMenuController.coordinateScale) - (i.getFitWidth() / 4));
-            i.setLayoutY((n.getYCoord() / PathfindingMenuController.coordinateScale) - (i.getFitHeight()));
-
-            i.setId(n.getNodeID() + "Icon");
-
-            // Show graphical input for pathfinding when clicked
-            i.setOnMouseClicked((MouseEvent e) -> createGraphicalInputPopup(n));
-
-            nodeHolder.getChildren().add(i);
-            nodePlaced.add(i);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Place alternate node type on the map
-     *
-     * @param n the Node object to place
-     */
-    private void placeAltNode(Node n) {
-        try {
-            Circle c = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/map/misc/nodeAlt.fxml")));
-
-            c.setLayoutX((n.getXCoord() / PathfindingMenuController.coordinateScale));
-            c.setLayoutY((n.getYCoord() / PathfindingMenuController.coordinateScale));
-
-            c.setId(n.getNodeID() + "Icon");
-
-            c.setOnMouseClicked((MouseEvent e) -> showEditNodePopup(n, e, false));
-
-            nodeHolder.getChildren().add(c);
-            nodePlaced.add(c);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Draws an edge between 2 points on the map.
-     *
-     * @param start start node
-     * @param end   end node
-     */
-    public void placeEdge(Node start, Node end) {
-        try {
-            Line l = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/map/misc/edge.fxml")));
-
-            l.setStartX(start.getXCoord() / PathfindingMenuController.coordinateScale);
-            l.setStartY(start.getYCoord() / PathfindingMenuController.coordinateScale);
-
-            l.setEndX(end.getXCoord() / PathfindingMenuController.coordinateScale);
-            l.setEndY(end.getYCoord() / PathfindingMenuController.coordinateScale);
-
-            l.setOnMouseClicked(e -> {
-                if(editMap) {
-                    showDelEdgePopup(start, end);
-                }
-            });
-
-            l.setId(start.getNodeID() + "_" + end.getNodeID() + "Icon");
-
-            mapHolder.getChildren().add(l);
-            edgePlaced.add(l);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Places an image for a node on the map at the given pixel coordinates.
-     *
-     * @param n Node object to place on the map
-     */
-    public void placeIntermediateNode(Node n) {
-        try {
-            Circle c = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/map/misc/intermediateNode.fxml")));
-
-            c.setCenterX((n.getXCoord() / PathfindingMenuController.coordinateScale));
-            c.setCenterY((n.getYCoord() / PathfindingMenuController.coordinateScale));
-
-            c.setOnMouseClicked(event -> showEditNodePopup(n, event, false));
-
-            c.setId(n.getNodeID() + "IntIcon");
-
-            intermediateNodeHolder.getChildren().add(c);
-            intermediateNodePlaced.add(c);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Function that updates everything involved with the different locations on the map
-     * - Tree View
-     * - Floor Nodes
-     */
-    private void updateLocations() {
-        mapLongToID = makeLongToIDMap();
-        Map<String, List<TreeItem<String>>> catNameMap = new HashMap<>();
-        floorNodes.remove(currentFloor);
-        for (Node n : Graph.getGraph().getNodes().values()) {
-            if (!(n.getNodeType().equals("WALK") || n.getNodeType().equals("HALL")|| n.getBuilding().equals("BTM") || n.getBuilding().equals("Shapiro"))) {
-                //Populate Category map for TreeView
-
-                //This if statement is temporary for iteration 1 where pathfinding is only needed for the first floor
-                if(n.getFloor().equals(currentFloor)) {
-                    if (!catNameMap.containsKey(n.getNodeType())) {
-                        ArrayList<TreeItem<String>> tempList = new ArrayList<>();
-                        TreeItem<String> tempItem = new TreeItem<>(n.getLongName());
-                        tempList.add(tempItem);
-                        catNameMap.put(n.getNodeType(), tempList);
-                    } else {
-                        catNameMap.get(n.getNodeType()).add(new TreeItem<>(n.getLongName()));
-                    }
-                }
-
-            }
-
-            //Populate the floorNodes Map to know which nodes belong to each floor
-            if (floorNodes.containsKey(n.getFloor())) {
-                floorNodes.get(n.getFloor()).add(n);
-            } else {
-                ArrayList<Node> tempList = new ArrayList<>();
-                tempList.add(n);
-                floorNodes.put(n.getFloor(), tempList);
-            }
-        }
-
-
-        //Populating TreeView
-        TreeItem<String> rootNode = new TreeItem<>("Locations");
-        rootNode.setExpanded(true);
-        treeLocations.setRoot(rootNode);
-
-        //Adding Categories
-        for (String category : catNameMap.keySet()) {
-            TreeItem<String> categoryTreeItem = new TreeItem<>(categoryNameMap.get(category));
-            categoryTreeItem.getChildren().addAll(catNameMap.get(category));
-            rootNode.getChildren().add(categoryTreeItem);
-        }
-
-    }
-
     // Misc utility methods ****************************************************************************
-
-    /**
-     * @return a map of long names to node IDs
-     */
-    private Map<String, String> makeLongToIDMap() {
-        Map<String, Node> nodesId = Graph.getGraph().getNodes();
-        Map<String, String> longName = new HashMap<>();
-
-        for (Node node : nodesId.values()) {
-            longName.put(node.getLongName(), node.getNodeID());
-        }
-        return longName;
-    }
 
     /**
      * Gets the start location

@@ -56,6 +56,7 @@ public class AddEdgePopupController implements Initializable {
                 data.getData().getPfmc().setStartNode(data.getData().getCircle());
 
                 data.getData().getCircle().setStroke(Color.RED);
+
                 break;
             case "btnEnd":
                 // Set current start back to black
