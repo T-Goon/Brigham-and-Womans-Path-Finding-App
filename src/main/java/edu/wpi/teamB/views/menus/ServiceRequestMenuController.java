@@ -1,21 +1,15 @@
 package edu.wpi.teamB.views.menus;
 
 import com.jfoenix.controls.JFXButton;
-import edu.wpi.teamB.database.DatabaseHandler;
-import edu.wpi.teamB.entities.User;
 import edu.wpi.teamB.util.SceneSwitcher;
 import edu.wpi.teamB.views.BasePageController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-
-public class ServiceRequestMenuController extends BasePageController implements Initializable {
+public class ServiceRequestMenuController extends BasePageController {
 
     private static final String VIEWS_PATH = "/edu/wpi/teamB/views/requestForms/";
 
@@ -64,15 +58,6 @@ public class ServiceRequestMenuController extends BasePageController implements 
     @FXML
     private VBox externalTransport;
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        if (!DatabaseHandler.getDatabaseHandler("main.db").getAuthenticationUser().isAtLeast(User.AuthenticationLevel.STAFF)) {
-            flowpane.getChildren().remove(medicineDelivery);
-            flowpane.getChildren().remove(internalTransport);
-            flowpane.getChildren().remove(externalTransport);
-        }
-    }
-
     @FXML
     public void handleButtonAction(ActionEvent e) {
         super.handleButtonAction(e);
@@ -118,6 +103,7 @@ public class ServiceRequestMenuController extends BasePageController implements 
                 break;
         }
 
-        SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/serviceRequestMenu.fxml", path);
+        if (path != null)
+            SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/serviceRequestMenu.fxml", path);
     }
 }

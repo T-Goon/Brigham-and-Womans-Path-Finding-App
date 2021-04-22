@@ -31,7 +31,7 @@ public class EmergencyFormController implements Initializable {
     private JFXButton btnSubmit;
 
     @FXML
-    private JFXButton btnCancel;
+    private JFXButton btnBack;
 
     @FXML
     private JFXButton btnHelp;
@@ -46,7 +46,7 @@ public class EmergencyFormController implements Initializable {
         JFXButton btn = (JFXButton) actionEvent.getSource();
         switch (btn.getId()) {
             case "btnSubmit":
-            case "btnCancel":
+            case "btnBack":
                 SceneSwitcher.goBack(getClass(), 1);
                 break;
             case "btnHelp":

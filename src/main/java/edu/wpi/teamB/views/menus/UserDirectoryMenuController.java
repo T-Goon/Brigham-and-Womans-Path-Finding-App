@@ -66,6 +66,9 @@ public class UserDirectoryMenuController extends BasePageController implements I
             case "btnEmergency":
                 SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");
                 break;
+            case "btnBack":
+                DatabaseHandler.getDatabaseHandler("main.db").deauthenticate();
+                break;
         }
     }
 }
