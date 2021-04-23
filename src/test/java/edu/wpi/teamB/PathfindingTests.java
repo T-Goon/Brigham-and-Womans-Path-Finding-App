@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Stack;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -125,6 +126,47 @@ public class PathfindingTests {
         result = AStar.getEstimatedTime(tempPath);
         expected = "22 sec";
         assertEquals(expected, result);
+    }
+
+    @Test
+    public void testMultipleNodePathfinding(){
+        Stack<String> nodeList = new Stack<>();
+        nodeList.push("bPARK02501");
+        nodeList.push("bEXIT00501");
+        nodeList.push("bPARK00101");
+
+        LinkedList<String> expectedPath = new LinkedList<>();
+        expectedPath.add("bPARK00101");
+        expectedPath.add("bWALK00101");
+        expectedPath.add("bWALK00201");
+        expectedPath.add("bWALK00301");
+        expectedPath.add("bWALK00401");
+        expectedPath.add("bWALK00501");
+        expectedPath.add("bWALK00601");
+        expectedPath.add("bWALK00701");
+        expectedPath.add("bWALK00801");
+        expectedPath.add("bWALK00901");
+        expectedPath.add("bEXIT00501");
+        expectedPath.add("bWALK00901");
+        expectedPath.add("bWALK00801");
+        expectedPath.add("bWALK01001");
+        expectedPath.add("bWALK01101");
+        expectedPath.add("bWALK01201");
+        expectedPath.add("bWALK01301");
+        expectedPath.add("bWALK01401");
+        expectedPath.add("bWALK01501");
+        expectedPath.add("bWALK01601");
+        expectedPath.add("bPARK02501");
+
+
+        Path expectedResult = new Path(expectedPath, 2484.102858858675+1954.7029936098086);
+
+        Path resultPath = AStar.findPath(nodeList);
+
+        assertEquals(expectedPath, resultPath.getPath());
+
+        assertEquals(expectedResult.getTotalPathCost(), resultPath.getTotalPathCost(), 0.1);
+
     }
 
 }
