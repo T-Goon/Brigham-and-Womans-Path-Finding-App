@@ -350,6 +350,22 @@
                </ImageView>
             </graphic>
          </JFXButton>
+         <HBox alignment="BOTTOM_RIGHT" HBox.hgrow="ALWAYS" />
+         <JFXButton fx:id="btnCredit" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="70.0" minWidth="70.0" onAction="#handleButtonAction" style="-fx-background-color: #0067B1;" text="Credits" HBox.hgrow="ALWAYS">
+            <font>
+               <Font size="14.0" />
+            </font>
+            <graphic>
+               <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@../../images/requestForms/namesIcon.png" />
+                  </image>
+               </ImageView>
+            </graphic>
+            <HBox.margin>
+               <Insets right="20.0" />
+            </HBox.margin>
+         </JFXButton>
       </HBox>
    </children>
 </VBox>

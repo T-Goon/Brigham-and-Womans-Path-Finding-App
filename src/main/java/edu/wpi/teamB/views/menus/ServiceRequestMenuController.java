@@ -65,6 +65,9 @@ public class ServiceRequestMenuController implements Initializable {
     private JFXButton btnExit;
 
     @FXML
+    private JFXButton btnCredit;
+
+    @FXML
     private VBox medicineDelivery;
 
     @FXML
@@ -130,6 +133,8 @@ public class ServiceRequestMenuController implements Initializable {
             case "btnExit":
                 Platform.exit();
                 return;
+            case "btnCredit":
+                SceneSwitcher.switchToTemp(getClass(), "/edu/wpi/teamB/views/menus/serviceRequestMenu.fxml");
             default:
                 throw new IllegalStateException("WHAT BUTTON IS THIS AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
         }
