@@ -10,7 +10,7 @@ public class AStar {
     /**
      * Finds the path between multiple nodes
      *
-     * @param nodes a linked list of the destination nodes in order. (Start, dest1, dest2, ...)
+     * @param nodes a Stack of the destination nodes in order. (Start, dest1, dest2, ...)
      * @return A Path with the full and complete path through the destinations
      */
     public static Path findPath(Stack<String> nodes) {
