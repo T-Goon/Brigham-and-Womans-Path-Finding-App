@@ -878,7 +878,7 @@ public class DatabaseHandler {
      *
      * @param request the request to add
      */
-    public void addRequest(Request request) {
+    public void addRequest(Request request) throws SQLException {
         Statement statement = this.getStatement();
 
         User user = this.getAuthenticationUser();
@@ -900,14 +900,9 @@ public class DatabaseHandler {
                 + "')";
 
         String current = null;
-        try {
-            assert statement != null;
-            current = query;
-            statement.execute(query);
-        } catch (SQLException e) {
-            System.out.println(current);
-            e.printStackTrace();
-        }
+        assert statement != null;
+        current = query;
+        statement.execute(query);
 
         switch (request.getRequestType()) {
             case SANITATION:
@@ -1026,12 +1021,8 @@ public class DatabaseHandler {
                 break;
         }
 
-        try {
-            statement.execute(query);
-            statement.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        statement.execute(query);
+        statement.close();
     }
 
     /**
@@ -1039,19 +1030,15 @@ public class DatabaseHandler {
      *
      * @param request the request to remove
      */
-    public void removeRequest(Request request) {
+    public void removeRequest(Request request) throws SQLException {
         Statement statement = this.getStatement();
         String querySpecificTable = "DELETE FROM '" + Request.RequestType.prettify(request.getRequestType()).replace(" ", "") + "Requests" + "'WHERE requestID = '" + request.getRequestID() + "'";
         String queryGeneralTable = "DELETE FROM Requests WHERE requestID = '" + request.getRequestID() + "'";
 
-        try {
-            assert statement != null;
-            statement.execute(querySpecificTable);
-            statement.execute(queryGeneralTable);
-            statement.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        assert statement != null;
+        statement.execute(querySpecificTable);
+        statement.execute(queryGeneralTable);
+        statement.close();
     }
 
     /**
@@ -1059,7 +1046,7 @@ public class DatabaseHandler {
      *
      * @param request the request to update
      */
-    public void updateRequest(Request request) {
+    public void updateRequest(Request request) throws SQLException {
         Statement statement = this.getStatement();
 
         String query = "UPDATE Requests SET requestType = '" + request.getRequestType()
@@ -1071,12 +1058,8 @@ public class DatabaseHandler {
                 + "', description = '" + request.getDescription().replace("'", "''")
                 + "' WHERE requestID = '" + request.getRequestID() + "'";
 
-        try {
-            assert statement != null;
-            statement.execute(query);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        assert statement != null;
+        statement.execute(query);
 
         //If the given request is an instance of the less specific "Request" then dont try and update the specific tables
         if (request.getClass().equals(Request.class)) {
@@ -1178,12 +1161,8 @@ public class DatabaseHandler {
                 break;
         }
 
-        try {
-            statement.execute(query);
-            statement.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        statement.execute(query);
+        statement.close();
 
         Graph.getGraph().updateGraph();
     }
@@ -1193,36 +1172,32 @@ public class DatabaseHandler {
      *
      * @return a map of request IDs to actual requests
      */
-    public Map<String, Request> getRequests() {
+    public Map<String, Request> getRequests() throws SQLException {
         Statement statement = this.getStatement();
         String query = "SELECT * FROM Requests";
 
         assert statement != null;
-        try {
-            ResultSet rs = statement.executeQuery(query);
-            Map<String, Request> requests = new HashMap<>();
+        ResultSet rs = statement.executeQuery(query);
+        Map<String, Request> requests = new HashMap<>();
 
-            Request outRequest;
-            while (rs.next()) {
-                outRequest = new Request(
-                        rs.getString("requestID"),
-                        Request.RequestType.valueOf(rs.getString("requestType")),
-                        rs.getString("requestTime"),
-                        rs.getString("requestDate"),
-                        rs.getString("complete"),
-                        rs.getString("employeeName"),
-                        rs.getString("location"),
-                        rs.getString("description"),
-                        rs.getString("submitter")
-                );
-                requests.put(rs.getString("requestID"), outRequest);
-            }
-            rs.close();
-            statement.close();
-            return requests;
-        } catch (SQLException ignored) {
-            return null;
+        Request outRequest;
+        while (rs.next()) {
+            outRequest = new Request(
+                    rs.getString("requestID"),
+                    Request.RequestType.valueOf(rs.getString("requestType")),
+                    rs.getString("requestTime"),
+                    rs.getString("requestDate"),
+                    rs.getString("complete"),
+                    rs.getString("employeeName"),
+                    rs.getString("location"),
+                    rs.getString("description"),
+                    rs.getString("submitter")
+            );
+            requests.put(rs.getString("requestID"), outRequest);
         }
+        rs.close();
+        statement.close();
+        return requests;
     }
 
     /**
@@ -1232,7 +1207,7 @@ public class DatabaseHandler {
      * @param requestType the type of the request
      * @return the request
      */
-    public Request getSpecificRequestById(String requestID, Request.RequestType requestType) {
+    public Request getSpecificRequestById(String requestID, Request.RequestType requestType) throws SQLException {
         Statement statement = this.getStatement();
 
         String tableName = Request.RequestType.prettify(requestType).replaceAll("\\s", "") + "Requests";
@@ -1240,187 +1215,182 @@ public class DatabaseHandler {
 
         assert statement != null;
         Request outRequest = null;
-        try {
-            ResultSet rs = statement.executeQuery(query);
-            while (rs.next()) {
-                switch (requestType) {
-                    case SANITATION:
-                        outRequest = new SanitationRequest(
-                                rs.getString("sanitationType"),
-                                rs.getString("sanitationSize"),
-                                rs.getString("hazardous"),
-                                rs.getString("biologicalSubstance"),
-                                rs.getString("occupied"),
-                                rs.getString("requestID"),
-                                rs.getString("requestTime"),
-                                rs.getString("requestDate"),
-                                rs.getString("complete"),
-                                rs.getString("employeeName"),
-                                rs.getString("location"),
-                                rs.getString("description")
-                        );
-                        break;
-                    case MEDICINE:
-                        outRequest = new MedicineRequest(
-                                rs.getString("patientName"),
-                                rs.getString("medicine"),
-                                rs.getString("requestID"),
-                                rs.getString("requestTime"),
-                                rs.getString("requestDate"),
-                                rs.getString("complete"),
-                                rs.getString("employeeName"),
-                                rs.getString("location"),
-                                rs.getString("description")
-                        );
-                        break;
-                    case INTERNAL_TRANSPORT:
-                        outRequest = new InternalTransportRequest(
-                                rs.getString("patientName"),
-                                rs.getString("transportType"),
-                                rs.getString("unconscious"),
-                                rs.getString("infectious"),
-                                rs.getString("requestID"),
-                                rs.getString("requestTime"),
-                                rs.getString("requestDate"),
-                                rs.getString("complete"),
-                                rs.getString("employeeName"),
-                                rs.getString("location"),
-                                rs.getString("description")
-                        );
-                        break;
-                    case RELIGIOUS:
-                        outRequest = new ReligiousRequest(
-                                rs.getString("patientName"),
-                                rs.getString("startTime"),
-                                rs.getString("endTime"),
-                                rs.getString("religiousDate"),
-                                rs.getString("faith"),
-                                rs.getString("infectious"),
-                                rs.getString("requestID"),
-                                rs.getString("requestTime"),
-                                rs.getString("requestDate"),
-                                rs.getString("complete"),
-                                rs.getString("employeeName"),
-                                rs.getString("location"),
-                                rs.getString("description")
-                        );
-                        break;
-                    case FOOD:
-                        outRequest = new FoodRequest(
-                                rs.getString("patientName"),
-                                rs.getString("arrivalTime"),
-                                rs.getString("mealChoice"),
-                                rs.getString("requestID"),
-                                rs.getString("requestTime"),
-                                rs.getString("requestDate"),
-                                rs.getString("complete"),
-                                rs.getString("employeeName"),
-                                rs.getString("location"),
-                                rs.getString("description")
-                        );
-                        break;
-                    case FLORAL:
-                        outRequest = new FloralRequest(
-                                rs.getString("patientName"),
-                                rs.getString("deliveryDate"),
-                                rs.getString("startTime"),
-                                rs.getString("endTime"),
-                                rs.getString("wantsRoses"),
-                                rs.getString("wantsTulips"),
-                                rs.getString("wantsDaisies"),
-                                rs.getString("wantsLilies"),
-                                rs.getString("wantsSunflowers"),
-                                rs.getString("wantsCarnations"),
-                                rs.getString("wantsOrchids"),
-                                rs.getString("requestID"),
-                                rs.getString("requestTime"),
-                                rs.getString("requestDate"),
-                                rs.getString("complete"),
-                                rs.getString("employeeName"),
-                                rs.getString("location"),
-                                rs.getString("description")
-                        );
-                        break;
-                    case SECURITY:
-                        outRequest = new SecurityRequest(
-                                rs.getInt("urgency"),
-                                rs.getString("requestID"),
-                                rs.getString("requestTime"),
-                                rs.getString("requestDate"),
-                                rs.getString("complete"),
-                                rs.getString("employeeName"),
-                                rs.getString("location"),
-                                rs.getString("description")
-                        );
-                        break;
-                    case EXTERNAL_TRANSPORT:
-                        outRequest = new ExternalTransportRequest(
-                                rs.getString("patientName"),
-                                rs.getString("transportType"),
-                                rs.getString("destination"),
-                                rs.getString("patientAllergies"),
-                                rs.getString("outNetwork"),
-                                rs.getString("infectious"),
-                                rs.getString("unconscious"),
-                                rs.getString("requestID"),
-                                rs.getString("requestTime"),
-                                rs.getString("requestDate"),
-                                rs.getString("complete"),
-                                rs.getString("employeeName"),
-                                rs.getString("location"),
-                                rs.getString("description")
-                        );
-                        break;
-                    case LAUNDRY:
-                        outRequest = new LaundryRequest(
-                                rs.getString("serviceType"),
-                                rs.getString("serviceSize"),
-                                rs.getString("dark"),
-                                rs.getString("light"),
-                                rs.getString("occupied"),
-                                rs.getString("requestID"),
-                                rs.getString("requestTime"),
-                                rs.getString("requestDate"),
-                                rs.getString("complete"),
-                                rs.getString("employeeName"),
-                                rs.getString("location"),
-                                rs.getString("description")
-                        );
-                        break;
-                    case CASE_MANAGER:
-                        outRequest = new CaseManagerRequest(
-                                rs.getString("patientName"),
-                                rs.getString("timeForArrival"),
-                                rs.getString("requestID"),
-                                rs.getString("requestTime"),
-                                rs.getString("requestDate"),
-                                rs.getString("complete"),
-                                rs.getString("employeeName"),
-                                rs.getString("location"),
-                                rs.getString("description")
-                        );
-                        break;
-                    case SOCIAL_WORKER:
-                        outRequest = new SocialWorkerRequest(
-                                rs.getString("patientName"),
-                                rs.getString("timeForArrival"),
-                                rs.getString("requestID"),
-                                rs.getString("requestTime"),
-                                rs.getString("requestDate"),
-                                rs.getString("complete"),
-                                rs.getString("employeeName"),
-                                rs.getString("location"),
-                                rs.getString("description")
-                        );
-                        break;
-                }
+        ResultSet rs = statement.executeQuery(query);
+        while (rs.next()) {
+            switch (requestType) {
+                case SANITATION:
+                    outRequest = new SanitationRequest(
+                            rs.getString("sanitationType"),
+                            rs.getString("sanitationSize"),
+                            rs.getString("hazardous"),
+                            rs.getString("biologicalSubstance"),
+                            rs.getString("occupied"),
+                            rs.getString("requestID"),
+                            rs.getString("requestTime"),
+                            rs.getString("requestDate"),
+                            rs.getString("complete"),
+                            rs.getString("employeeName"),
+                            rs.getString("location"),
+                            rs.getString("description")
+                    );
+                    break;
+                case MEDICINE:
+                    outRequest = new MedicineRequest(
+                            rs.getString("patientName"),
+                            rs.getString("medicine"),
+                            rs.getString("requestID"),
+                            rs.getString("requestTime"),
+                            rs.getString("requestDate"),
+                            rs.getString("complete"),
+                            rs.getString("employeeName"),
+                            rs.getString("location"),
+                            rs.getString("description")
+                    );
+                    break;
+                case INTERNAL_TRANSPORT:
+                    outRequest = new InternalTransportRequest(
+                            rs.getString("patientName"),
+                            rs.getString("transportType"),
+                            rs.getString("unconscious"),
+                            rs.getString("infectious"),
+                            rs.getString("requestID"),
+                            rs.getString("requestTime"),
+                            rs.getString("requestDate"),
+                            rs.getString("complete"),
+                            rs.getString("employeeName"),
+                            rs.getString("location"),
+                            rs.getString("description")
+                    );
+                    break;
+                case RELIGIOUS:
+                    outRequest = new ReligiousRequest(
+                            rs.getString("patientName"),
+                            rs.getString("startTime"),
+                            rs.getString("endTime"),
+                            rs.getString("religiousDate"),
+                            rs.getString("faith"),
+                            rs.getString("infectious"),
+                            rs.getString("requestID"),
+                            rs.getString("requestTime"),
+                            rs.getString("requestDate"),
+                            rs.getString("complete"),
+                            rs.getString("employeeName"),
+                            rs.getString("location"),
+                            rs.getString("description")
+                    );
+                    break;
+                case FOOD:
+                    outRequest = new FoodRequest(
+                            rs.getString("patientName"),
+                            rs.getString("arrivalTime"),
+                            rs.getString("mealChoice"),
+                            rs.getString("requestID"),
+                            rs.getString("requestTime"),
+                            rs.getString("requestDate"),
+                            rs.getString("complete"),
+                            rs.getString("employeeName"),
+                            rs.getString("location"),
+                            rs.getString("description")
+                    );
+                    break;
+                case FLORAL:
+                    outRequest = new FloralRequest(
+                            rs.getString("patientName"),
+                            rs.getString("deliveryDate"),
+                            rs.getString("startTime"),
+                            rs.getString("endTime"),
+                            rs.getString("wantsRoses"),
+                            rs.getString("wantsTulips"),
+                            rs.getString("wantsDaisies"),
+                            rs.getString("wantsLilies"),
+                            rs.getString("wantsSunflowers"),
+                            rs.getString("wantsCarnations"),
+                            rs.getString("wantsOrchids"),
+                            rs.getString("requestID"),
+                            rs.getString("requestTime"),
+                            rs.getString("requestDate"),
+                            rs.getString("complete"),
+                            rs.getString("employeeName"),
+                            rs.getString("location"),
+                            rs.getString("description")
+                    );
+                    break;
+                case SECURITY:
+                    outRequest = new SecurityRequest(
+                            rs.getInt("urgency"),
+                            rs.getString("requestID"),
+                            rs.getString("requestTime"),
+                            rs.getString("requestDate"),
+                            rs.getString("complete"),
+                            rs.getString("employeeName"),
+                            rs.getString("location"),
+                            rs.getString("description")
+                    );
+                    break;
+                case EXTERNAL_TRANSPORT:
+                    outRequest = new ExternalTransportRequest(
+                            rs.getString("patientName"),
+                            rs.getString("transportType"),
+                            rs.getString("destination"),
+                            rs.getString("patientAllergies"),
+                            rs.getString("outNetwork"),
+                            rs.getString("infectious"),
+                            rs.getString("unconscious"),
+                            rs.getString("requestID"),
+                            rs.getString("requestTime"),
+                            rs.getString("requestDate"),
+                            rs.getString("complete"),
+                            rs.getString("employeeName"),
+                            rs.getString("location"),
+                            rs.getString("description")
+                    );
+                    break;
+                case LAUNDRY:
+                    outRequest = new LaundryRequest(
+                            rs.getString("serviceType"),
+                            rs.getString("serviceSize"),
+                            rs.getString("dark"),
+                            rs.getString("light"),
+                            rs.getString("occupied"),
+                            rs.getString("requestID"),
+                            rs.getString("requestTime"),
+                            rs.getString("requestDate"),
+                            rs.getString("complete"),
+                            rs.getString("employeeName"),
+                            rs.getString("location"),
+                            rs.getString("description")
+                    );
+                    break;
+                case CASE_MANAGER:
+                    outRequest = new CaseManagerRequest(
+                            rs.getString("patientName"),
+                            rs.getString("timeForArrival"),
+                            rs.getString("requestID"),
+                            rs.getString("requestTime"),
+                            rs.getString("requestDate"),
+                            rs.getString("complete"),
+                            rs.getString("employeeName"),
+                            rs.getString("location"),
+                            rs.getString("description")
+                    );
+                    break;
+                case SOCIAL_WORKER:
+                    outRequest = new SocialWorkerRequest(
+                            rs.getString("patientName"),
+                            rs.getString("timeForArrival"),
+                            rs.getString("requestID"),
+                            rs.getString("requestTime"),
+                            rs.getString("requestDate"),
+                            rs.getString("complete"),
+                            rs.getString("employeeName"),
+                            rs.getString("location"),
+                            rs.getString("description")
+                    );
+                    break;
             }
-            rs.close();
-            statement.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
         }
+        rs.close();
+        statement.close();
 
         return outRequest;
     }
@@ -1432,32 +1402,28 @@ public class DatabaseHandler {
      * @param rest NodeType
      * @return List of nodes with the given node type
      */
-    public List<Node> getNodesByCategory(NodeType rest) {
+    public List<Node> getNodesByCategory(NodeType rest) throws SQLException {
         Statement statement = this.getStatement();
         String query = "SELECT * FROM Nodes WHERE nodeType = '" + rest.toString() + "'";
         assert statement != null;
-        try {
-            ResultSet rs = statement.executeQuery(query);
-            List<Node> nodes = new ArrayList<>();
-            while (rs.next()) {
-                Node outNode = new Node(
-                        rs.getString("NodeID").trim(),
-                        rs.getInt("xcoord"),
-                        rs.getInt("ycoord"),
-                        rs.getString("floor"),
-                        rs.getString("building").trim(),
-                        rs.getString("nodeType").trim(),
-                        rs.getString("longName").trim(),
-                        rs.getString("shortName").trim()
-                );
-                nodes.add(outNode);
-            }
-            rs.close();
-            statement.close();
-            return nodes;
-        } catch (SQLException ignored) {
-            return null;
+        ResultSet rs = statement.executeQuery(query);
+        List<Node> nodes = new ArrayList<>();
+        while (rs.next()) {
+            Node outNode = new Node(
+                    rs.getString("NodeID").trim(),
+                    rs.getInt("xcoord"),
+                    rs.getInt("ycoord"),
+                    rs.getString("floor"),
+                    rs.getString("building").trim(),
+                    rs.getString("nodeType").trim(),
+                    rs.getString("longName").trim(),
+                    rs.getString("shortName").trim()
+            );
+            nodes.add(outNode);
         }
+        rs.close();
+        statement.close();
+        return nodes;
     }
 
     /**
