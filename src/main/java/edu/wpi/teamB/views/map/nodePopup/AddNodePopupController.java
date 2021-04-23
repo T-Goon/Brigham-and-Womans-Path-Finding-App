@@ -119,8 +119,8 @@ public class AddNodePopupController implements Initializable {
     }
 
     @FXML
-    private void handleButtonAction(ActionEvent e) {
-        JFXButton btn = (JFXButton) e.getSource();
+    private void handleButtonAction(ActionEvent event) {
+        JFXButton btn = (JFXButton) event.getSource();
 
         switch (btn.getId()) {
             case "btnCancel":
@@ -145,7 +145,12 @@ public class AddNodePopupController implements Initializable {
                 int aYCoord = Integer.parseInt(yCoord.getText().trim());
 
                 // Figure out what the index should be
-                List<Node> nodes = DatabaseHandler.getDatabaseHandler("main.db").getNodesByCategory(NodeType.valueOf(actualNodeName));
+                List<Node> nodes = null;
+                try {
+                    nodes = DatabaseHandler.getDatabaseHandler("main.db").getNodesByCategory(NodeType.valueOf(actualNodeName));
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
                 List<Integer> indexes = new ArrayList<>();
                 nodes.forEach(node -> {
                     if (node.getNodeID().startsWith("b"))

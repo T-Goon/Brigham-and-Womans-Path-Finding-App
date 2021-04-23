@@ -142,10 +142,19 @@ public class EditNodePopupController implements Initializable {
                 // if the node types are different, delete and remake so the nodeID is up to date
                 DatabaseHandler db = DatabaseHandler.getDatabaseHandler("main.db");
                 if (!data.getData().getNodeType().equals(aNodeType)) {
-                    db.removeNode(data.getData().getNodeID());
+                    try {
+                        db.removeNode(data.getData().getNodeID());
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
 
                     // Figure out what the index should be
-                    List<Node> nodes = db.getNodesByCategory(NodeType.valueOf(actualNodeName));
+                    List<Node> nodes = null;
+                    try {
+                        nodes = db.getNodesByCategory(NodeType.valueOf(actualNodeName));
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
                     List<Integer> indexes = new ArrayList<>();
                     nodes.forEach(node -> {
                         if (node.getNodeID().startsWith("b"))
@@ -158,16 +167,22 @@ public class EditNodePopupController implements Initializable {
 
                     String aNodeId = "b" + actualNodeName + String.format("%3s", index).replace(' ', '0') + String.format("%2s", aFloor).replace(' ', '0');
                     Node node = new Node(aNodeId, aXCoord, aYCoord, aFloor, aBuilding, actualNodeName, aLongName, aShortName);
-                    db.addNode(node);
+                    try {
+                        db.addNode(node);
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
                 } else {
                     Node node = new Node(data.getData().getNodeID(), aXCoord, aYCoord, aFloor, aBuilding, actualNodeName, aLongName, aShortName);
 
-                // Update database and graph
-                try {
-                    db.updateNode(node);
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                    return;
+                    // Update database and graph
+                    try {
+                        db.updateNode(node);
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                        return;
+                    }
+
                 }
 
                 // Remove popup from map and refresh map nodes
