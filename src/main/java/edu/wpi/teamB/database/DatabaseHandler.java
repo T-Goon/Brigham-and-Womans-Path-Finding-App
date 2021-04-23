@@ -69,13 +69,14 @@ public class DatabaseHandler {
     /**
      * Given the list of edges and nodes, clear and fill the database
      * with that data.
+     *
+     * @throws SQLException if the nodes and edges are malformed
      */
-    public void loadNodesEdges(List<Node> nodes, List<Edge> edges) {
-        if (!resetDatabase(new ArrayList<>(Arrays.asList("SanitationRequests", "MedicineRequests", "InternalTransportRequests", "ReligiousRequests", "FoodRequests", "FloralRequests",
-                "SecurityRequests", "ExternalTransportRequests", "LaundryRequests", "CaseManagerRequests", "SocialWorkerRequests", "Requests", "Edges", "Nodes"))))
-            return;
-        if (!executeSchema()) return;
-        if (!loadDatabaseNodes(nodes)) return;
+    public void loadNodesEdges(List<Node> nodes, List<Edge> edges) throws SQLException {
+        resetDatabase(Arrays.asList("SanitationRequests", "MedicineRequests", "InternalTransportRequests", "ReligiousRequests", "FoodRequests", "FloralRequests",
+                "SecurityRequests", "ExternalTransportRequests", "LaundryRequests", "CaseManagerRequests", "SocialWorkerRequests", "Requests", "Edges", "Nodes"));
+        executeSchema();
+        loadDatabaseNodes(nodes);
         loadDatabaseEdges(edges);
     }
 
@@ -83,9 +84,9 @@ public class DatabaseHandler {
      * Resets the inputted tables
      *
      * @param tables the list of tables to reset
-     * @return true if it succeeds
+     * @throws SQLException if the query is malformed
      */
-    public boolean resetDatabase(List<String> tables) {
+    public void resetDatabase(List<String> tables) throws SQLException {
         if (tables.isEmpty()) {
             tables.add("SanitationRequests");
             tables.add("MedicineRequests");
@@ -106,36 +107,20 @@ public class DatabaseHandler {
         }
 
         String query = "DROP TABLE IF EXISTS ?";
-        PreparedStatement statement;
-        try {
-            statement = databaseConnection.prepareStatement(query);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
+        PreparedStatement statement = databaseConnection.prepareStatement(query);
+        for (String table : tables) {
+            statement.setString(1, table);
+            statement.executeUpdate();
         }
-
-        try {
-            List<String> queries = new LinkedList<>();
-            for (String table : tables) {
-                statement.setString(1, table);
-                statement.executeUpdate();
-            }
-            statement.close();
-            for (String q : queries)
-                runStatement(q, false);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-        return true;
+        statement.close();
     }
 
     /**
      * Executes the schema and creates the tables
      *
-     * @return true upon successful creation
+     * @throws SQLException if any of the queries are malformed
      */
-    public boolean executeSchema() {
+    public void executeSchema() throws SQLException {
         String configuration = "PRAGMA foreign_keys = ON";
 
         String nodesTable = "CREATE TABLE IF NOT EXISTS Nodes("
@@ -271,29 +256,24 @@ public class DatabaseHandler {
                 + "job CHAR(30), "
                 + "FOREIGN KEY (username) REFERENCES Users(username))";
 
-        try {
-            runStatement(configuration, false);
-            runStatement(nodesTable, false);
-            runStatement(edgesTable, false);
-            runStatement(requestsTable, false);
-            runStatement(sanitationRequestsTable, false);
-            runStatement(medicineRequestsTable, false);
-            runStatement(internalTransportRequestsTable, false);
-            runStatement(religiousRequestsTable, false);
-            runStatement(foodRequestsTable, false);
-            runStatement(floralRequestsTable, false);
-            runStatement(securityRequestsTable, false);
-            runStatement(externalTransportTable, false);
-            runStatement(laundryTable, false);
-            runStatement(caseManagerRequestsTable, false);
-            runStatement(socialWorkerRequestsTable, false);
-            runStatement(usersTable, false);
-            runStatement(jobsTable, false);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-        return true;
+        runStatement(configuration, false);
+        runStatement(nodesTable, false);
+        runStatement(edgesTable, false);
+        runStatement(requestsTable, false);
+        runStatement(sanitationRequestsTable, false);
+        runStatement(medicineRequestsTable, false);
+        runStatement(internalTransportRequestsTable, false);
+        runStatement(religiousRequestsTable, false);
+        runStatement(foodRequestsTable, false);
+        runStatement(floralRequestsTable, false);
+        runStatement(securityRequestsTable, false);
+        runStatement(externalTransportTable, false);
+        runStatement(laundryTable, false);
+        runStatement(caseManagerRequestsTable, false);
+        runStatement(socialWorkerRequestsTable, false);
+        runStatement(usersTable, false);
+        runStatement(jobsTable, false);
+
     }
 
     /**
@@ -301,23 +281,14 @@ public class DatabaseHandler {
      * the database
      *
      * @param nodes the list of nodes
-     * @return true upon successful loading
+     * @throws SQLException if the nodes are malformed somehow
      */
-    public boolean loadDatabaseNodes(List<Node> nodes) {
+    public void loadDatabaseNodes(List<Node> nodes) throws SQLException {
 
         String query = "INSERT INTO Nodes(nodeID, xcoord, ycoord, floor, building, nodeType, longName, shortName) " +
                 "VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
-        PreparedStatement statement;
-        try {
-            statement = databaseConnection.prepareStatement(query);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-
-        try {
-            // If either list is empty, then nothing should be put in
-            if (nodes == null) return false;
+        PreparedStatement statement = databaseConnection.prepareStatement(query);
+        if (nodes != null) {
             for (Node node : nodes) {
                 statement.setString(1, node.getNodeID());
                 statement.setInt(2, node.getXCoord());
@@ -329,12 +300,8 @@ public class DatabaseHandler {
                 statement.setString(8, node.getShortName());
                 statement.executeUpdate();
             }
-            statement.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
         }
-        return true;
+        statement.close();
     }
 
     /**
@@ -342,36 +309,21 @@ public class DatabaseHandler {
      * the database
      *
      * @param edges the list of edges
-     * @return true upon successful loading
+     * @throws SQLException if the edges are malformed somehow
      */
-    public boolean loadDatabaseEdges(List<Edge> edges) {
-
+    public void loadDatabaseEdges(List<Edge> edges) throws SQLException {
         String query = "INSERT INTO Edges(edgeID, startNode, endNode) "
                 + "VALUES(?, ?, ?)";
-
-        PreparedStatement statement;
-        try {
-            statement = databaseConnection.prepareStatement(query);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-
-        try {
-            // If either list is empty, then nothing should be put in
-            if (edges == null) return false;
+        PreparedStatement statement = databaseConnection.prepareStatement(query);
+        if (edges != null) {
             for (Edge edge : edges) {
                 statement.setString(1, edge.getEdgeID());
                 statement.setString(2, edge.getStartNodeID());
                 statement.setString(3, edge.getEndNodeID());
                 statement.executeUpdate();
             }
-            statement.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
         }
-        return true;
+        statement.close();
     }
 
     /**
@@ -417,10 +369,9 @@ public class DatabaseHandler {
     /**
      * @param user     User to add
      * @param password Plaintext password for user
-     * @return Whether user has been successfully added
      * @throws SQLException if the user or password is malformed
      */
-    public boolean addUser(User user, String password) throws SQLException {
+    public void addUser(User user, String password) throws SQLException {
         String hash = this.passwordHash(password);
         String query = "INSERT INTO Users VALUES " +
                 "('" + user.getUsername()
@@ -440,7 +391,6 @@ public class DatabaseHandler {
                 runStatement(query, false);
             }
         }
-        return true;
     }
 
     /**
@@ -558,19 +508,16 @@ public class DatabaseHandler {
      * @return true if success
      */
     public boolean deleteUser(String username) {
-        Statement statement = this.getStatement();
         String deleteJobs = "DELETE FROM Jobs WHERE (username = '" + username + "')";
         String deleteUser = "DELETE FROM Users WHERE (username = '" + username + "')";
         try {
-            assert statement != null;
-            statement.executeUpdate(deleteJobs);
-            int update = statement.executeUpdate(deleteUser);
-            statement.close();
-            return update == 1;
+            runStatement(deleteJobs, false);
+            runStatement(deleteUser, false);
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
-        return false;
     }
 
     /**
@@ -578,28 +525,17 @@ public class DatabaseHandler {
      * @param password Claimed plaintext password of authenticator
      * @return If authentication is successful, return the User object representing the authenticated user
      */
-    public User authenticate(String username, String password) {
+    public User authenticate(String username, String password) throws SQLException {
         this.deauthenticate();
-        Statement statement = this.getStatement();
         String query = "SELECT passwordHash FROM Users WHERE (username = '" + username + "')";
-        User outUser = null;
-        try {
-            assert statement != null;
-            ResultSet rs = statement.executeQuery(query);
-            if (!rs.next()) return null;
-            String storedHash = (rs.getString("passwordHash"));
-            if (this.passwordHash(password).equals(storedHash)) {
-                outUser = this.getUserByUsername(username);
-                rs.close();
-                statement.close();
-            } else {
-                rs.close();
-                statement.close();
-                return null;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        ResultSet rs = runStatement(query, true);
+        if (!rs.next()) return null;
+        String storedHash = (rs.getString("passwordHash"));
+        rs.close();
+
+        // Make sure the hashed password matches
+        if (!this.passwordHash(password).equals(storedHash)) return null;
+        User outUser = this.getUserByUsername(username);
         DatabaseHandler.AuthenticationUser = outUser;
         return outUser;
     }
@@ -637,11 +573,9 @@ public class DatabaseHandler {
      * @return a map of node IDs to actual nodes
      */
     public Map<String, Node> getNodes() {
-        Statement statement = this.getStatement();
         String query = "SELECT * FROM Nodes";
-        assert statement != null;
         try {
-            ResultSet rs = statement.executeQuery(query);
+            ResultSet rs = runStatement(query, true);
             Map<String, Node> nodes = new HashMap<>();
             while (rs.next()) {
                 Node outNode = new Node(
@@ -656,7 +590,7 @@ public class DatabaseHandler {
                 );
                 nodes.put(rs.getString("NodeID").trim(), outNode);
             }
-            statement.close();
+            rs.close();
             return nodes;
         } catch (SQLException ignored) {
             return null;
@@ -669,12 +603,9 @@ public class DatabaseHandler {
      * @return a map of edge IDs to actual edges
      */
     public Map<String, Edge> getEdges() {
-        Statement statement = this.getStatement();
-
         String query = "SELECT * FROM Edges";
-        assert statement != null;
         try {
-            ResultSet rs = statement.executeQuery(query);
+            ResultSet rs = runStatement(query, true);
             Map<String, Edge> edges = new HashMap<>();
             while (rs.next()) {
                 Edge outEdge = new Edge(
@@ -684,7 +615,7 @@ public class DatabaseHandler {
                 );
                 edges.put(rs.getString("edgeID").trim(), outEdge);
             }
-            statement.close();
+            rs.close();
             return edges;
         } catch (SQLException ignored) {
             return null;
@@ -695,10 +626,9 @@ public class DatabaseHandler {
      * Adds an node to the database with the given information
      *
      * @param node the node to add
+     * @throws SQLException if the query is malformed
      */
-    public void addNode(Node node) {
-        Statement statement = this.getStatement();
-
+    public void addNode(Node node) throws SQLException {
         String query = "INSERT INTO Nodes VALUES " +
                 "('" + node.getNodeID()
                 + "', " + node.getXCoord()
@@ -709,15 +639,7 @@ public class DatabaseHandler {
                 + "', '" + node.getLongName()
                 + "', '" + node.getShortName()
                 + "')";
-
-        try {
-            assert statement != null;
-            statement.execute(query);
-            statement.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
+        runStatement(query, false);
         Graph.getGraph().updateGraph();
     }
 
@@ -725,19 +647,11 @@ public class DatabaseHandler {
      * Adds an edge to the database with the given information
      *
      * @param edge the edge to add
+     * @throws SQLException if the query is malformed
      */
-    public void addEdge(Edge edge) {
-        Statement statement = this.getStatement();
-
+    public void addEdge(Edge edge) throws SQLException {
         String query = "INSERT INTO Edges VALUES ('" + edge.getEdgeID() + "', '" + edge.getStartNodeID() + "', '" + edge.getEndNodeID() + "')";
-
-        try {
-            assert statement != null;
-            statement.execute(query);
-            statement.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        runStatement(query, false);
         Graph.getGraph().updateGraph();
     }
 
@@ -745,10 +659,9 @@ public class DatabaseHandler {
      * Updates the node with the specified ID.
      *
      * @param node the node to update
+     * @throws SQLException if the node is malformed
      */
-    public void updateNode(Node node) {
-        Statement statement = this.getStatement();
-
+    public void updateNode(Node node) throws SQLException {
         String query = "UPDATE Nodes SET xcoord = " + node.getXCoord()
                 + ", ycoord = " + node.getYCoord()
                 + ", floor = " + node.getFloor()
@@ -757,17 +670,7 @@ public class DatabaseHandler {
                 + "', longName = '" + node.getLongName()
                 + "', shortName = '" + node.getShortName()
                 + "' WHERE nodeID = '" + node.getNodeID() + "'";
-
-        try {
-            // If no rows are updated, then the node ID is not in the table
-            assert statement != null;
-            if (statement.executeUpdate(query) == 0)
-                System.err.println("Node ID does not exist in the table!");
-            statement.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
+        runStatement(query, false);
         Graph.getGraph().updateGraph();
     }
 
@@ -775,21 +678,11 @@ public class DatabaseHandler {
      * Updates the edge with the specified ID.
      *
      * @param edge the edge to update
+     * @throws SQLException if the query is malformed
      */
-    public void updateEdge(Edge edge) {
-        Statement statement = this.getStatement();
+    public void updateEdge(Edge edge) throws SQLException {
         String query = "UPDATE Edges SET startNode = '" + edge.getStartNodeID() + "', endNode = '" + edge.getEndNodeID() + "' WHERE edgeID = '" + edge.getEdgeID() + "'";
-
-        try {
-            // If no rows are updated, then the edge ID is not in the table
-            assert statement != null;
-            if (statement.executeUpdate(query) == 0)
-                System.err.println("Edge ID does not exist in the table!");
-            statement.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
+        runStatement(query, false);
         Graph.getGraph().updateGraph();
     }
 
@@ -797,20 +690,13 @@ public class DatabaseHandler {
      * Removes the node given by the node ID.
      *
      * @param nodeID the node to remove, given by the node ID
+     * @throws SQLException if the query is malformed
      */
-    public void removeNode(String nodeID) {
-        Statement statement = this.getStatement();
+    public void removeNode(String nodeID) throws SQLException {
         String edgesQuery = "DELETE FROM Edges WHERE startNode = '" + nodeID + "' OR endNode = '" + nodeID + "'";
         String nodeQuery = "DELETE FROM Nodes WHERE nodeID = '" + nodeID + "'";
-
-        try {
-            assert statement != null;
-            statement.execute(edgesQuery);
-            statement.execute(nodeQuery);
-            statement.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        runStatement(edgesQuery, false);
+        runStatement(nodeQuery, false);
         Graph.getGraph().updateGraph();
     }
 
@@ -818,18 +704,11 @@ public class DatabaseHandler {
      * Removes the edge given by the edge ID.
      *
      * @param edgeID the edge to remove, given by the edge ID
+     * @throws SQLException if the query is malformed
      */
-    public void removeEdge(String edgeID) {
-        Statement statement = this.getStatement();
+    public void removeEdge(String edgeID) throws SQLException {
         String query = "DELETE FROM Edges WHERE edgeID = '" + edgeID + "'";
-
-        try {
-            assert statement != null;
-            statement.execute(query);
-            statement.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        runStatement(query, false);
         Graph.getGraph().updateGraph();
     }
 
@@ -839,27 +718,19 @@ public class DatabaseHandler {
      * @param nodeID the node ID of the node to get the adjacent edges of
      * @return the list of all adjacent edges of that node
      */
-    public List<Edge> getAdjacentEdgesOfNode(String nodeID) {
-        Statement statement = this.getStatement();
+    public List<Edge> getAdjacentEdgesOfNode(String nodeID) throws SQLException {
         String query = "SELECT DISTINCT * FROM Edges WHERE startNode = '" + nodeID + "' OR endNode = '" + nodeID + "'";
         List<Edge> edges = new ArrayList<>();
-
-        try {
-            assert statement != null;
-            ResultSet set = statement.executeQuery(query);
-            while (set.next()) {
-                Edge outEdge = new Edge(
-                        set.getString("edgeID").trim(),
-                        set.getString("startNode").trim(),
-                        set.getString("endNode").trim()
-                );
-                edges.add(outEdge);
-                statement.close();
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+        ResultSet set = runStatement(query, true);
+        while (set.next()) {
+            Edge outEdge = new Edge(
+                    set.getString("edgeID").trim(),
+                    set.getString("startNode").trim(),
+                    set.getString("endNode").trim()
+            );
+            edges.add(outEdge);
         }
-
+        set.close();
         return edges;
     }
 
