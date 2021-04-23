@@ -331,8 +331,9 @@ public class DatabaseHandler {
      * the database
      *
      * @param requests the list of requests
+     * @throws SQLException if any requests are malformed
      */
-    public void loadDatabaseRequests(List<Request> requests) {
+    public void loadDatabaseRequests(List<Request> requests) throws SQLException {
         if (requests == null) return;
         for (Request request : requests)
             this.addRequest(request);
@@ -383,13 +384,14 @@ public class DatabaseHandler {
         runStatement(query, false);
 
         if (user.getJobs() != null) {
+            query = "INSERT INTO Jobs VALUES (?, ?)";
+            PreparedStatement statement = databaseConnection.prepareStatement(query);
             for (Request.RequestType job : user.getJobs()) {
-                query = "INSERT INTO Jobs VALUES " +
-                        "('" + user.getUsername()
-                        + "', '" + job.toString()
-                        + "')";
-                runStatement(query, false);
+                statement.setString(1, user.getUsername());
+                statement.setString(2, job.toString());
+                statement.executeUpdate();
             }
+            statement.close();
         }
     }
 
@@ -397,7 +399,7 @@ public class DatabaseHandler {
      * @param username username to query by
      * @return User object with that username, or null if that user doesn't exist
      */
-    public User getUserByUsername(String username) throws SQLException {
+    public User getUserByUsername(String username) {
         try {
             String query = "SELECT job FROM Jobs WHERE (username = '" + username + "')";
             List<Request.RequestType> jobs = new ArrayList<>();
@@ -425,7 +427,7 @@ public class DatabaseHandler {
      * Gets a list of users who are assigned to handle jobs of certain type
      *
      * @param job RequestType enum of the type of job you want the users for
-     * @return a list of users who are assigned to jos of the given type
+     * @return a list of users who are assigned to jobs of the given type, or null if none of them do
      */
     public List<User> getUsersByJob(Request.RequestType job) {
         try {
@@ -450,7 +452,7 @@ public class DatabaseHandler {
      * Returns a list of users with the given authentication level
      *
      * @param authenticationLevel the EXACT authentication level you want the users for
-     * @return list of users
+     * @return list of users, or null if no users have that level
      */
     public List<User> getUsersByAuthenticationLevel(User.AuthenticationLevel authenticationLevel) {
         try {
@@ -485,19 +487,18 @@ public class DatabaseHandler {
                 "authenticationLevel = '" + newUser.getAuthenticationLevel().toString() + "'" +
                 "WHERE (username = '" + newUser.getUsername() + "')";
         String deleteJobs = "DELETE FROM Jobs WHERE (username = '" + newUser.getUsername() + "')";
-        if (this.getUserByUsername(newUser.getUsername()) == null) {
+        if (this.getUserByUsername(newUser.getUsername()) == null)
             return false;
-        } else {
-            runStatement(updateUser, false);
-            runStatement(deleteJobs, false);
-            for (Request.RequestType job : newUser.getJobs()) {
-                String query = "INSERT INTO Jobs VALUES " +
-                        "('" + newUser.getUsername()
-                        + "', '" + job.toString()
-                        + "')";
-                runStatement(query, false);
-            }
+
+        runStatement(updateUser, false);
+        runStatement(deleteJobs, false);
+
+        PreparedStatement statement = databaseConnection.prepareStatement("INSERT INTO Jobs VALUES (?, ?)");
+        for (Request.RequestType job : newUser.getJobs()) {
+            statement.setString(1, newUser.getUsername());
+            statement.setString(2, job.toString());
         }
+        statement.close();
         return true;
     }
 
@@ -523,21 +524,26 @@ public class DatabaseHandler {
     /**
      * @param username Claimed username of authenticator
      * @param password Claimed plaintext password of authenticator
-     * @return If authentication is successful, return the User object representing the authenticated user
+     * @return If authentication is successful, return the User object representing the authenticated user, or null if not found
      */
-    public User authenticate(String username, String password) throws SQLException {
-        this.deauthenticate();
-        String query = "SELECT passwordHash FROM Users WHERE (username = '" + username + "')";
-        ResultSet rs = runStatement(query, true);
-        if (!rs.next()) return null;
-        String storedHash = (rs.getString("passwordHash"));
-        rs.close();
+    public User authenticate(String username, String password) {
+        try {
+            this.deauthenticate();
+            String query = "SELECT passwordHash FROM Users WHERE (username = '" + username + "')";
+            ResultSet rs = runStatement(query, true);
+            if (!rs.next()) return null;
+            String storedHash = (rs.getString("passwordHash"));
+            rs.close();
 
-        // Make sure the hashed password matches
-        if (!this.passwordHash(password).equals(storedHash)) return null;
-        User outUser = this.getUserByUsername(username);
-        DatabaseHandler.AuthenticationUser = outUser;
-        return outUser;
+            // Make sure the hashed password matches
+            if (!this.passwordHash(password).equals(storedHash)) return null;
+            User outUser = this.getUserByUsername(username);
+            DatabaseHandler.AuthenticationUser = outUser;
+            return outUser;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     /**
@@ -592,7 +598,7 @@ public class DatabaseHandler {
             }
             rs.close();
             return nodes;
-        } catch (SQLException ignored) {
+        } catch (SQLException e) {
             return null;
         }
     }
@@ -617,7 +623,7 @@ public class DatabaseHandler {
             }
             rs.close();
             return edges;
-        } catch (SQLException ignored) {
+        } catch (SQLException e) {
             return null;
         }
     }
@@ -750,14 +756,9 @@ public class DatabaseHandler {
      * @param request the request to add
      */
     public void addRequest(Request request) throws SQLException {
-        Statement statement = this.getStatement();
-
         User user = this.getAuthenticationUser();
         String username = user.getUsername();
-        if (username == null) {
-            username = "null";
-        }
-
+        if (username == null) username = "null";
         String query = "INSERT INTO Requests VALUES " +
                 "('" + request.getRequestID()
                 + "', '" + request.getRequestType()
@@ -769,11 +770,7 @@ public class DatabaseHandler {
                 + "', '" + request.getDescription().replace("'", "''")
                 + "', '" + username
                 + "')";
-
-        String current = null;
-        assert statement != null;
-        current = query;
-        statement.execute(query);
+        runStatement(query, false);
 
         switch (request.getRequestType()) {
             case SANITATION:
@@ -891,9 +888,7 @@ public class DatabaseHandler {
                         + "')";
                 break;
         }
-
-        statement.execute(query);
-        statement.close();
+        runStatement(query, false);
     }
 
     /**
@@ -902,14 +897,10 @@ public class DatabaseHandler {
      * @param request the request to remove
      */
     public void removeRequest(Request request) throws SQLException {
-        Statement statement = this.getStatement();
         String querySpecificTable = "DELETE FROM '" + Request.RequestType.prettify(request.getRequestType()).replace(" ", "") + "Requests" + "'WHERE requestID = '" + request.getRequestID() + "'";
         String queryGeneralTable = "DELETE FROM Requests WHERE requestID = '" + request.getRequestID() + "'";
-
-        assert statement != null;
-        statement.execute(querySpecificTable);
-        statement.execute(queryGeneralTable);
-        statement.close();
+        runStatement(querySpecificTable, false);
+        runStatement(queryGeneralTable, false);
     }
 
     /**
@@ -918,8 +909,6 @@ public class DatabaseHandler {
      * @param request the request to update
      */
     public void updateRequest(Request request) throws SQLException {
-        Statement statement = this.getStatement();
-
         String query = "UPDATE Requests SET requestType = '" + request.getRequestType()
                 + "', requestDate = '" + request.getDate()
                 + "', requestTime = '" + request.getTime()
@@ -928,14 +917,10 @@ public class DatabaseHandler {
                 + "', location = '" + request.getLocation().replace("'", "''")
                 + "', description = '" + request.getDescription().replace("'", "''")
                 + "' WHERE requestID = '" + request.getRequestID() + "'";
-
-        assert statement != null;
-        statement.execute(query);
+        runStatement(query, false);
 
         //If the given request is an instance of the less specific "Request" then dont try and update the specific tables
-        if (request.getClass().equals(Request.class)) {
-            return;
-        }
+        if (request.getClass().equals(Request.class)) return;
 
         switch (request.getRequestType()) {
             case SANITATION:
@@ -1031,11 +1016,7 @@ public class DatabaseHandler {
                         + "' WHERE requestID = '" + socialWorkerRequest.getRequestID() + "'";
                 break;
         }
-
-        statement.execute(query);
-        statement.close();
-
-        Graph.getGraph().updateGraph();
+        runStatement(query, false);
     }
 
     /**
@@ -1044,16 +1025,11 @@ public class DatabaseHandler {
      * @return a map of request IDs to actual requests
      */
     public Map<String, Request> getRequests() throws SQLException {
-        Statement statement = this.getStatement();
         String query = "SELECT * FROM Requests";
-
-        assert statement != null;
-        ResultSet rs = statement.executeQuery(query);
+        ResultSet rs = runStatement(query, true);
         Map<String, Request> requests = new HashMap<>();
-
-        Request outRequest;
         while (rs.next()) {
-            outRequest = new Request(
+            Request outRequest = new Request(
                     rs.getString("requestID"),
                     Request.RequestType.valueOf(rs.getString("requestType")),
                     rs.getString("requestTime"),
@@ -1067,7 +1043,6 @@ public class DatabaseHandler {
             requests.put(rs.getString("requestID"), outRequest);
         }
         rs.close();
-        statement.close();
         return requests;
     }
 
@@ -1079,14 +1054,10 @@ public class DatabaseHandler {
      * @return the request
      */
     public Request getSpecificRequestById(String requestID, Request.RequestType requestType) throws SQLException {
-        Statement statement = this.getStatement();
-
         String tableName = Request.RequestType.prettify(requestType).replaceAll("\\s", "") + "Requests";
         String query = "SELECT * FROM Requests LEFT JOIN " + tableName + " ON Requests.requestID = " + tableName + ".requestID WHERE Requests.requestID = '" + requestID + "'";
-
-        assert statement != null;
         Request outRequest = null;
-        ResultSet rs = statement.executeQuery(query);
+        ResultSet rs = runStatement(query, true);
         while (rs.next()) {
             switch (requestType) {
                 case SANITATION:
@@ -1261,8 +1232,6 @@ public class DatabaseHandler {
             }
         }
         rs.close();
-        statement.close();
-
         return outRequest;
     }
 
@@ -1274,10 +1243,8 @@ public class DatabaseHandler {
      * @return List of nodes with the given node type
      */
     public List<Node> getNodesByCategory(NodeType rest) throws SQLException {
-        Statement statement = this.getStatement();
         String query = "SELECT * FROM Nodes WHERE nodeType = '" + rest.toString() + "'";
-        assert statement != null;
-        ResultSet rs = statement.executeQuery(query);
+        ResultSet rs = runStatement(query, true);
         List<Node> nodes = new ArrayList<>();
         while (rs.next()) {
             Node outNode = new Node(
@@ -1293,7 +1260,6 @@ public class DatabaseHandler {
             nodes.add(outNode);
         }
         rs.close();
-        statement.close();
         return nodes;
     }
 
