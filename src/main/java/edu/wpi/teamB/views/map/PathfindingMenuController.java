@@ -309,13 +309,9 @@ public class PathfindingMenuController implements Initializable {
                 drawPath();
                 break;
             case "btnEditMap":
-                ImageView graphic = (ImageView) btnEditMap.getChildrenUnmodifiable().get(1);
-
                 if (!editMap) {
-                    graphic.setImage(new Image("edu/wpi/teamB/images/menus/directionsIcon.png"));
                     editMap = true;
                 } else {
-                    graphic.setImage(new Image("edu/wpi/teamB/images/menus/wrench.png"));
 
                     // Remove the add node popup if it is on the map
                     if (addNodePopup != null) {
