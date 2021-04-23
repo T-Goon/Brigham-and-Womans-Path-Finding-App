@@ -15,7 +15,7 @@ public class AStar {
      */
     public static Path findPath(Stack<String> nodes) {
         Path retPath = new Path();
-        while (nodes.size()>1) {
+        while (nodes.size() > 1) {
             //Get the path for this segment of the total path
             Path tempPath = findPath(nodes.pop(), nodes.peek());
 
@@ -23,12 +23,12 @@ public class AStar {
             List<String> totalPath = retPath.getPath();
 
             //If the return path is not initialized, initialize it
-            if(totalPath==null){
+            if (totalPath == null) {
                 totalPath = new LinkedList<>();
             }
 
             //remove the start node from any path other than the first one in order to avoid doubling nodes in the path
-            if(totalPath.size()>0){
+            if (totalPath.size() > 0) {
                 tempPathList.remove(0);
             }
 
@@ -37,7 +37,7 @@ public class AStar {
             retPath.setPath(totalPath);
 
             //Add this path segment to total path cost
-            retPath.setTotalPathCost(retPath.getTotalPathCost()+ tempPath.getTotalPathCost());
+            retPath.setTotalPathCost(retPath.getTotalPathCost() + tempPath.getTotalPathCost());
         }
         return retPath;
     }
