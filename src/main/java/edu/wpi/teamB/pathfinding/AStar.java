@@ -135,7 +135,40 @@ public class AStar {
 
             return min + ":" + String.format("%02d", sec) + " min";
         }
-
     }
 
+    public String textDirections(Path path){
+        List<String> locVisit = path.getPath();
+        Graph graph = Graph.getGraph();
+
+        int prevXCoord = -1;
+        int prevYCoord = -1;
+
+        int currXCoord;
+        int currYCoord;
+
+        for(String loc: locVisit) {
+            currXCoord = graph.getNodes().get(loc).getXCoord();
+            currYCoord = graph.getNodes().get(loc).getYCoord();
+
+
+
+            if(prevXCoord != -1){
+
+                if(currXCoord - currXCoord == 0){
+                    //get delta y
+                }
+
+                else{
+                    //get delta x
+                }
+
+            }
+
+            prevXCoord = currXCoord;
+            prevYCoord = currYCoord;
+
+        }
+        return "";
+    }
 }
