@@ -328,8 +328,8 @@ public class DatabaseHandler {
                 statement.setString(7, node.getLongName());
                 statement.setString(8, node.getShortName());
                 statement.executeUpdate();
-                statement.close();
             }
+            statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
@@ -365,8 +365,8 @@ public class DatabaseHandler {
                 statement.setString(2, edge.getStartNodeID());
                 statement.setString(3, edge.getEndNodeID());
                 statement.executeUpdate();
-                statement.close();
             }
+            statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
@@ -381,11 +381,9 @@ public class DatabaseHandler {
      * @param requests the list of requests
      */
     public void loadDatabaseRequests(List<Request> requests) {
-
         if (requests == null) return;
-        for (Request request : requests) {
+        for (Request request : requests)
             this.addRequest(request);
-        }
     }
 
     /**
@@ -395,28 +393,23 @@ public class DatabaseHandler {
      * @return Node object with data from database
      */
     public Node getNodeById(String ID) {
-        Statement statement = this.getStatement();
-
-        String query = "SELECT * FROM Nodes WHERE nodeID = '" + ID + "'";
-        assert statement != null;
         try {
-            ResultSet rs = statement.executeQuery(query);
-            rs.next();
+            String query = "SELECT * FROM Nodes WHERE nodeID = '" + ID + "'";
+            ResultSet set = runStatement(query, true);
+            set.next();
             Node n = new Node(
-                    rs.getString("nodeID").trim(),
-                    rs.getInt("xcoord"),
-                    rs.getInt("ycoord"),
-                    rs.getString("floor").trim(),
-                    rs.getString("building").trim(),
-                    rs.getString("nodeType").trim(),
-                    rs.getString("longName").trim(),
-                    rs.getString("shortName").trim()
+                    set.getString("nodeID").trim(),
+                    set.getInt("xcoord"),
+                    set.getInt("ycoord"),
+                    set.getString("floor").trim(),
+                    set.getString("building").trim(),
+                    set.getString("nodeType").trim(),
+                    set.getString("longName").trim(),
+                    set.getString("shortName").trim()
             );
-            rs.close();
-            statement.close();
+            set.close();
             return n;
         } catch (SQLException e) {
-            e.printStackTrace();
             return null;
         }
     }
@@ -425,11 +418,10 @@ public class DatabaseHandler {
      * @param user     User to add
      * @param password Plaintext password for user
      * @return Whether user has been successfully added
+     * @throws SQLException if the user or password is malformed
      */
-    public boolean addUser(User user, String password) {
-        Statement statement = this.getStatement();
+    public boolean addUser(User user, String password) throws SQLException {
         String hash = this.passwordHash(password);
-
         String query = "INSERT INTO Users VALUES " +
                 "('" + user.getUsername()
                 + "', '" + user.getFirstName()
@@ -437,50 +429,35 @@ public class DatabaseHandler {
                 + "', '" + user.getAuthenticationLevel().toString()
                 + "', '" + hash
                 + "')";
+        runStatement(query, false);
 
-        try {
-            assert statement != null;
-            statement.execute(query);
-            if (user.getJobs() != null) {
-                for (Request.RequestType job : user.getJobs()) {
-                    query = "INSERT INTO Jobs VALUES " +
-                            "('" + user.getUsername()
-                            + "', '" + job.toString()
-                            + "')";
-                    statement.execute(query);
-                }
+        if (user.getJobs() != null) {
+            for (Request.RequestType job : user.getJobs()) {
+                query = "INSERT INTO Jobs VALUES " +
+                        "('" + user.getUsername()
+                        + "', '" + job.toString()
+                        + "')";
+                runStatement(query, false);
             }
-            statement.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
         return true;
     }
 
     /**
      * @param username username to query by
-     * @return User object with that username, null if no user exists
+     * @return User object with that username, or null if that user doesn't exist
      */
-    public User getUserByUsername(String username) {
-        Statement statement = this.getStatement();
-        String query = "SELECT job FROM Jobs WHERE (username = '" + username + "')";
-        ResultSet rs;
-        List<Request.RequestType> jobs = new ArrayList<>();
-        User outUser;
+    public User getUserByUsername(String username) throws SQLException {
         try {
-            assert statement != null;
-            rs = statement.executeQuery(query);
-            while (rs.next()) {
+            String query = "SELECT job FROM Jobs WHERE (username = '" + username + "')";
+            List<Request.RequestType> jobs = new ArrayList<>();
+            ResultSet rs = runStatement(query, true);
+            while (rs.next())
                 jobs.add(Request.RequestType.valueOf(rs.getString("job")));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
 
-        query = "SELECT * FROM Users WHERE (username = '" + username + "')";
-        try {
-            rs = statement.executeQuery(query);
-            outUser = new User(
+            query = "SELECT * FROM Users WHERE (username = '" + username + "')";
+            rs = runStatement(query, true);
+            User outUser = new User(
                     rs.getString("username"),
                     rs.getString("firstName"),
                     rs.getString("lastName"),
@@ -488,11 +465,10 @@ public class DatabaseHandler {
                     jobs
             );
             rs.close();
-            statement.close();
+            return outUser;
         } catch (SQLException e) {
             return null;
         }
-        return outUser;
     }
 
     /**
@@ -502,26 +478,22 @@ public class DatabaseHandler {
      * @return a list of users who are assigned to jos of the given type
      */
     public List<User> getUsersByJob(Request.RequestType job) {
-        Statement statement = this.getStatement();
-        String query = "SELECT username FROM " +
-                "Users NATURAL JOIN Jobs " +
-                "WHERE (job = '" + job.toString() + "')";
-        ResultSet rs;
-        List<User> outusers = new ArrayList<>();
         try {
-            assert statement != null;
-            rs = statement.executeQuery(query);
+            String query = "SELECT username FROM " +
+                    "Users NATURAL JOIN Jobs " +
+                    "WHERE (job = '" + job.toString() + "')";
+            ResultSet rs = runStatement(query, true);
+            List<User> outUsers = new ArrayList<>();
             while (rs.next()) {
                 String username = rs.getString("username");
-                outusers.add(this.getUserByUsername(username));
+                outUsers.add(this.getUserByUsername(username));
             }
             rs.close();
-            statement.close();
+            return outUsers;
         } catch (SQLException e) {
             e.printStackTrace();
+            return null;
         }
-
-        return outusers;
     }
 
     /**
@@ -531,25 +503,21 @@ public class DatabaseHandler {
      * @return list of users
      */
     public List<User> getUsersByAuthenticationLevel(User.AuthenticationLevel authenticationLevel) {
-        Statement statement = this.getStatement();
-        String query = "SELECT username, authenticationLevel FROM " +
-                "Users WHERE authenticationLevel='" + authenticationLevel.toString() + "'";
-        ResultSet rs;
-        List<User> outUsers = new ArrayList<>();
         try {
-            assert statement != null;
-            rs = statement.executeQuery(query);
+            String query = "SELECT username, authenticationLevel FROM " +
+                    "Users WHERE authenticationLevel='" + authenticationLevel.toString() + "'";
+            ResultSet rs = runStatement(query, true);
+            List<User> outUsers = new ArrayList<>();
             while (rs.next()) {
                 String username = rs.getString("username");
                 outUsers.add(this.getUserByUsername(username));
             }
             rs.close();
-            statement.close();
+            return outUsers;
         } catch (SQLException e) {
             e.printStackTrace();
+            return null;
         }
-
-        return outUsers;
     }
 
     /**
@@ -557,9 +525,9 @@ public class DatabaseHandler {
      *
      * @param newUser the updated user
      * @return whether the attempt to update the user was successful
+     * @throws SQLException if the user is malformed
      */
-    public boolean updateUser(User newUser) {
-        Statement statement = this.getStatement();
+    public boolean updateUser(User newUser) throws SQLException {
         String updateUser = "UPDATE Users " +
                 "SET username = '" + newUser.getUsername() + "'," +
                 "firstName = '" + newUser.getFirstName() + "'," +
@@ -567,27 +535,20 @@ public class DatabaseHandler {
                 "authenticationLevel = '" + newUser.getAuthenticationLevel().toString() + "'" +
                 "WHERE (username = '" + newUser.getUsername() + "')";
         String deleteJobs = "DELETE FROM Jobs WHERE (username = '" + newUser.getUsername() + "')";
-        try {
-            if (this.getUserByUsername(newUser.getUsername()) == null) {
-                return false;
-            } else {
-                assert statement != null;
-                statement.execute(updateUser);
-                statement.execute(deleteJobs);
-                for (Request.RequestType job : newUser.getJobs()) {
-                    String query = "INSERT INTO Jobs VALUES " +
-                            "('" + newUser.getUsername()
-                            + "', '" + job.toString()
-                            + "')";
-                    statement.execute(query);
-                }
-
-                return true;
+        if (this.getUserByUsername(newUser.getUsername()) == null) {
+            return false;
+        } else {
+            runStatement(updateUser, false);
+            runStatement(deleteJobs, false);
+            for (Request.RequestType job : newUser.getJobs()) {
+                String query = "INSERT INTO Jobs VALUES " +
+                        "('" + newUser.getUsername()
+                        + "', '" + job.toString()
+                        + "')";
+                runStatement(query, false);
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
-        return false;
+        return true;
     }
 
     /**
