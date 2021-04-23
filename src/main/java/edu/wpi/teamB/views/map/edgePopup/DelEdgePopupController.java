@@ -2,10 +2,8 @@ package edu.wpi.teamB.views.map.edgePopup;
 
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.teamB.App;
-import edu.wpi.teamB.entities.map.DelEdgeAYSWindow;
-import edu.wpi.teamB.entities.map.DelEdgePopup;
-import edu.wpi.teamB.entities.map.data.GraphicalEdgePopupData;
-import edu.wpi.teamB.entities.map.data.GraphicalEditorEdgeData;
+import edu.wpi.teamB.entities.map.edge.DelEdgeAYSWindow;
+import edu.wpi.teamB.entities.map.edge.DelEdgePopup;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,7 +11,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import lombok.Getter;
-import net.kurobako.gesturefx.GesturePane;
 
 import java.io.IOException;
 import java.net.URL;

@@ -2,61 +2,53 @@ package edu.wpi.teamB.entities.map;
 
 import edu.wpi.teamB.App;
 import edu.wpi.teamB.entities.map.data.*;
-import edu.wpi.teamB.pathfinding.Graph;
-import edu.wpi.teamB.util.Popup.Popup;
-import edu.wpi.teamB.util.Popup.PopupManager;
+import edu.wpi.teamB.entities.map.edge.DelEdgePopup;
+import edu.wpi.teamB.entities.map.node.AddNodePopup;
+import edu.wpi.teamB.entities.map.node.NodeMenuPopup;
 import edu.wpi.teamB.views.map.PathfindingMenuController;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.control.TreeItem;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Circle;
 import net.kurobako.gesturefx.GesturePane;
-
-import java.io.IOException;
-import java.util.*;
 
 public class MapEditorPopupManager {
 
     private MapDrawer md;
+    private MapCache mc;
     private AddNodePopup anp;
     private GesturePane gPane;
+    private StackPane mapStack;
 
-    public MapEditorPopupManager(MapDrawer md, GesturePane gPane) {
+    public MapEditorPopupManager(MapDrawer md, MapCache mc, GesturePane gPane, StackPane mapStack) {
         this.md = md;
+        this.mc = mc;
         this.gPane = gPane;
+        this.mapStack = mapStack;
     }
 
     /**
      * Show the popup to add a node
      * @param event The mouse event that triggered the popup to be shown.
-     * @param currentFloor String of the current floor of the hospital.
-     * @param parent The parent pane of the popup
      */
-    private void showAddNodePopup(MouseEvent event, String currentFloor, Pane parent) {
+    private void showAddNodePopup(MouseEvent event) {
 
         // Coordinates on the map
         double x = event.getX();
         double y = event.getY();
 
 
-        // Only one window open at a time;
+        // Only one window open at a time
         md.removeAllPopups();
 
-        AddNodePopupData data = new AddNodePopupData(null,
+        AddNodePopupData data = new AddNodePopupData(
                 x * PathfindingMenuController.coordinateScale,
                 y * PathfindingMenuController.coordinateScale,
-                currentFloor,
-                null,
-                null,
-                null,
-                null,
-                null,
+                mc.getCurrentFloor(),
                 md,
                 gPane);
 
-        AddNodePopup anp = new AddNodePopup(parent, data);
+        AddNodePopup anp = new AddNodePopup(mapStack, data);
 
         App.getPrimaryStage().setUserData(anp);
 
@@ -76,9 +68,10 @@ public class MapEditorPopupManager {
 
         DelEdgePopup dePopup = new DelEdgePopup(parent, delData);
 
+        md.removeAllPopups();
+
         // Pass window data
         App.getPrimaryStage().setUserData(delData);
-
 
         dePopup.show();
     }
@@ -93,33 +86,28 @@ public class MapEditorPopupManager {
         if (fromTreeView) c = null;
         else c = (Circle) event.getSource();
 
-        // Make sure there is only one editNodePopup at one time
-        removeAllPopups();
-
-        // Data to pass to popup
-        App.getPrimaryStage().setUserData(new GraphicalEditorNodeData(
+        NodeMenuPopupData npData = new NodeMenuPopupData(
                 n.getNodeID(),
                 n.getXCoord(),
                 n.getYCoord(),
-                currentFloor,
+                n.getFloor(),
                 n.getBuilding(),
                 n.getNodeType(),
                 n.getLongName(),
                 n.getShortName(),
-                null,
-                mapStack,
-                PathfindingMenuController.this,
-                c));
+                fromTreeView,
+                md
+        );
 
-        // Load popup
-        try {
-            editNodePopup = FXMLLoader.load(Objects.requireNonNull(
-                    getClass().getClassLoader().getResource("edu/wpi/teamB/views/map/nodePopup/nodePopupWindow.fxml")));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        NodeMenuPopup nmPopup = new NodeMenuPopup(mapStack, npData, gPane);
 
-        placePopupOnMap(editNodePopup);
+        // Make sure there is only one editNodePopup at one time
+        md.removeAllPopups();
+
+        // Data to pass to popup
+        App.getPrimaryStage().setUserData(nmPopup);
+
+        nmPopup.show();
     }
 
     public void removeAllPopups(){

@@ -2,14 +2,10 @@ package edu.wpi.teamB.views.map.edgePopup;
 
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.teamB.App;
-import edu.wpi.teamB.database.DatabaseHandler;
-import edu.wpi.teamB.entities.map.DelEdgeAYSWindow;
-import edu.wpi.teamB.pathfinding.Graph;
-import edu.wpi.teamB.entities.map.data.GraphicalEdgePopupData;
+import edu.wpi.teamB.entities.map.edge.DelEdgeAYSWindow;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import net.kurobako.gesturefx.GesturePane;
 
 import java.net.URL;
 import java.util.ResourceBundle;

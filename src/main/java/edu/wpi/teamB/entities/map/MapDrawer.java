@@ -3,6 +3,8 @@ package edu.wpi.teamB.entities.map;
 import edu.wpi.teamB.database.DatabaseHandler;
 import edu.wpi.teamB.entities.map.data.Edge;
 import edu.wpi.teamB.entities.map.data.Node;
+import edu.wpi.teamB.entities.map.data.Path;
+import edu.wpi.teamB.pathfinding.AStar;
 import edu.wpi.teamB.pathfinding.Graph;
 import edu.wpi.teamB.views.map.PathfindingMenuController;
 import javafx.fxml.FXMLLoader;
@@ -12,9 +14,12 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.scene.text.Text;
 import lombok.Getter;
+import lombok.Setter;
 import net.kurobako.gesturefx.GesturePane;
 
 import java.io.IOException;
@@ -31,10 +36,13 @@ public class MapDrawer {
     private Label lblError;
     private GesturePane gpane;
     private StackPane mapStack;
+    private VBox selectionBox = null;
+    private VBox estimatedTimeBox = null;
 
     private final DatabaseHandler db = DatabaseHandler.getDatabaseHandler("main.db");
 
     @Getter
+    @Setter
     private boolean isEditing = false;
 
     public MapDrawer(MapCache mc, AnchorPane nodeHolder, AnchorPane mapHolder, AnchorPane intermediateNodeHolder,
@@ -45,6 +53,68 @@ public class MapDrawer {
         this.intermediateNodeHolder = intermediateNodeHolder;
         this.lblError = lblError;
         this.mapStack = mapStack;
+    }
+
+    /**
+     * Draws the path on the map
+     */
+    public void drawPath(String start, String end) {
+        if (estimatedTimeBox != null)
+            removeAllPopups();
+
+        Map<String, Node> nodesId = Graph.getGraph().getNodes();
+        Map<String, String> hmLongName = mc.makeLongToIDMap();
+        Path aStarPath = AStar.findPath(hmLongName.get(start), hmLongName.get(end));
+
+        List<String> AstarPath = aStarPath.getPath();
+
+        if (AstarPath.isEmpty()) {
+            lblError.setVisible(true);
+        } else {
+            Node prev = null;
+            for (String loc : AstarPath) {
+                if ((prev != null) && (loc != null)) {
+                    Node curr = nodesId.get(loc);
+                    placeEdge(prev, curr);
+                }
+                prev = nodesId.get(loc);
+            }
+        }
+
+        drawEstimatedTimeBox(aStarPath);
+    }
+
+    /**
+     * Draw the estimated time dialog box
+     *
+     * @param path the path to draw the box on
+     */
+    private void drawEstimatedTimeBox(Path path) {
+
+        // No path
+        if (path.getPath().size() == 0) return;
+
+        String estimatedTime = AStar.getEstimatedTime(path);
+        estimatedTimeBox = new VBox();
+        try {
+            estimatedTimeBox = FXMLLoader.load(
+                    Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/map/misc/showEstimatedTime.fxml")));
+        } catch (IOException e) {
+            System.err.println("[drawEstimatedTimeBox] FXMLLoader load failed");
+        }
+
+        estimatedTimeBox.setId("estimatedTimeDialog");
+
+        List<javafx.scene.Node> child = estimatedTimeBox.getChildren();
+        Text textBox = (Text) child.get(0);
+        textBox.setText(estimatedTime);
+
+        Graph graph = Graph.getGraph();
+        Node endNode = graph.getNodes().get(path.getPath().get(path.getPath().size() - 1));
+
+        estimatedTimeBox.setLayoutX((endNode.getXCoord() / PathfindingMenuController.coordinateScale));
+        estimatedTimeBox.setLayoutY((endNode.getYCoord() / PathfindingMenuController.coordinateScale) - (estimatedTimeBox.getHeight()));
+        nodeHolder.getChildren().add(estimatedTimeBox);
     }
 
     /**
@@ -241,6 +311,29 @@ public class MapDrawer {
         drawIntermediateNodesOnFloor();
     }
 
+    /**
+     * Draws all the elements of the map base on direction or map edit mode.
+     */
+    public void drawAllElements() {
+        removeAllPopups();
+        String floor = mc.getCurrentFloor();
+
+        if (isEditing) {
+            removeOldPaths();
+            removeNodes();
+            removeIntermediateNodes();
+            drawEdgesOnFloor();
+            drawAltNodesOnFloor();
+            drawIntermediateNodesOnFloor();
+        } else {
+            mc.updateLocations();
+            removeOldPaths();
+            removeIntermediateNodes();
+            removeNodes();
+            drawNodesOnFloor();
+        }
+    }
+
     public void removeAllPopups() {
 //        if (addNodePopup != null || editNodePopup != null || delEdgePopup != null || selectionBox != null ) {
 //            deleteBox(selectionBox);
@@ -261,7 +354,7 @@ public class MapDrawer {
     /**
      * Removes any edges drawn on the map
      */
-    private void removeOldPaths() {
+    public void removeOldPaths() {
         lblError.setVisible(false);
         for (Line l : mc.getEdgesPlaced())
             mapHolder.getChildren().remove(l);

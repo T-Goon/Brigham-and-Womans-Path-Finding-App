@@ -5,12 +5,9 @@ import com.jfoenix.controls.*;
 import edu.wpi.teamB.App;
 import edu.wpi.teamB.database.DatabaseHandler;
 import edu.wpi.teamB.entities.User;
-import edu.wpi.teamB.entities.map.MapCache;
-import edu.wpi.teamB.entities.map.MapDrawer;
-import edu.wpi.teamB.entities.map.MapEditorPopupManager;
-import edu.wpi.teamB.entities.map.MapPathPopupManager;
+import edu.wpi.teamB.entities.map.*;
 import edu.wpi.teamB.entities.map.data.*;
-import edu.wpi.teamB.pathfinding.AStar;
+import edu.wpi.teamB.entities.map.node.AddNodePopup;
 import edu.wpi.teamB.pathfinding.Graph;
 import edu.wpi.teamB.util.*;
 import javafx.application.Platform;
@@ -24,11 +21,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
@@ -100,8 +95,6 @@ public class PathfindingMenuController implements Initializable {
     private StackPane stackContainer;
 
     public static final double coordinateScale = 25 / 9.0;
-    private VBox selectionBox = null;
-    private VBox estimatedTimeBox = null;
 
     private VBox addNodePopup;
     private VBox editNodePopup;
@@ -160,9 +153,9 @@ public class PathfindingMenuController implements Initializable {
 
         md = new MapDrawer(mc, nodeHolder, mapHolder, intermediateNodeHolder, lblError, mapStack);
 
-        mepm = new MapEditorPopupManager(md, gpane);
+        mepm = new MapEditorPopupManager(md, mc, gpane);
 
-        mppm = new MapPathPopupManager(md);
+        mppm = new MapPathPopupManager(md, txtStartLocation, txtEndLocation, mapStack, gpane, this);
 
         // Draw the nodes on the map
         try {
@@ -204,7 +197,7 @@ public class PathfindingMenuController implements Initializable {
                     Graph.getGraph().updateGraph();
 
                     // Now delete and refresh the nodes
-                    drawAllElements();
+                    md.drawAllElements();
                 }
         );
 
@@ -271,44 +264,9 @@ public class PathfindingMenuController implements Initializable {
      * Input validation for the pathfinding button. Button only enables when both input fields are populated and they
      * are not equal to each other.
      */
-    @FXML
-    private void validateFindPathButton() {
+    public void validateFindPathButton() {
         btnFindPath.setDisable(txtStartLocation.getText().isEmpty() || txtEndLocation.getText().isEmpty() || txtStartLocation.getText().equals(txtEndLocation.getText()));
     }
-
-    /**
-     * Draw the estimated time dialog box
-     *
-     * @param path the path to draw the box on
-     */
-    private void drawEstimatedTimeBox(Path path) {
-
-        // No path
-        if (path.getPath().size() == 0) return;
-
-        String estimatedTime = AStar.getEstimatedTime(path);
-        estimatedTimeBox = new VBox();
-        try {
-            estimatedTimeBox = FXMLLoader.load(
-                    Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/map/misc/showEstimatedTime.fxml")));
-        } catch (IOException e) {
-            System.err.println("[drawEstimatedTimeBox] FXMLLoader load failed");
-        }
-
-        estimatedTimeBox.setId("estimatedTimeDialog");
-
-        List<javafx.scene.Node> child = estimatedTimeBox.getChildren();
-        Text textBox = (Text) child.get(0);
-        textBox.setText(estimatedTime);
-
-        Graph graph = Graph.getGraph();
-        Node endNode = graph.getNodes().get(path.getPath().get(path.getPath().size() - 1));
-
-        estimatedTimeBox.setLayoutX((endNode.getXCoord() / PathfindingMenuController.coordinateScale));
-        estimatedTimeBox.setLayoutY((endNode.getYCoord() / PathfindingMenuController.coordinateScale) - (estimatedTimeBox.getHeight()));
-        nodeHolder.getChildren().add(estimatedTimeBox);
-    }
-
 
     /**
      * Button handler for the scene
@@ -321,15 +279,15 @@ public class PathfindingMenuController implements Initializable {
 
         switch (b.getId()) {
             case "btnFindPath":
-                removeOldPaths();
-                drawPath();
+                md.removeOldPaths();
+                md.drawPath(txtStartLocation.getText(), txtEndLocation.getText());
                 break;
             case "btnEditMap":
                 ImageView graphic = (ImageView) btnEditMap.getChildrenUnmodifiable().get(1);
 
-                if (!editMap) {
+                if (!md.isEditing()) {
                     graphic.setImage(new Image("edu/wpi/teamB/images/menus/directionsIcon.png"));
-                    editMap = true;
+                    md.setEditing(true);
                 } else {
                     graphic.setImage(new Image("edu/wpi/teamB/images/menus/wrench.png"));
 
@@ -345,10 +303,10 @@ public class PathfindingMenuController implements Initializable {
                         editNodePopup = null;
                     }
 
-                    editMap = false;
+                    md.setEditing(false);
                 }
                 selectedLocation = null;
-                drawAllElements();
+                md.drawAllElements();
 
                 break;
             case "btnBack":
@@ -399,36 +357,29 @@ public class PathfindingMenuController implements Initializable {
                 double y = event.getY();
 
                 // if in editing mode
-                if (editMap) {
+                if (md.isEditing()) {
 
                     // Only one window open at a time;
-                    removeAllPopups();
+                    md.removeAllPopups();
 
-                    App.getPrimaryStage().setUserData(new GraphicalEditorNodeData(null,
+                    AddNodePopupData anData = new AddNodePopupData(
                             x * PathfindingMenuController.coordinateScale,
                             y * PathfindingMenuController.coordinateScale,
-                            currentFloor,
-                            null,
-                            null,
-                            null,
-                            null,
-                            null,
-                            mapStack,
-                            PathfindingMenuController.this,
-                            null));
+                            mc.getCurrentFloor(),
+                            md,
+                            gpane
+                    );
+
+                    AddNodePopup adp = new AddNodePopup(mapStack, anData);
+
+                    App.getPrimaryStage().setUserData(adp);
 
                     try {
-                        addNodePopup = FXMLLoader.load(Objects.requireNonNull(
+                        FXMLLoader.load(Objects.requireNonNull(
                                 getClass().getClassLoader().getResource("edu/wpi/teamB/views/map/nodePopup/addNodePopup.fxml")));
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-
-                    assert addNodePopup != null;
-
-                    // Keep popup on the map
-                    placePopupOnMap(addNodePopup);
-
                 }
 
             }
@@ -436,111 +387,13 @@ public class PathfindingMenuController implements Initializable {
 
     }
 
-
-    /**
-     * Place a popup over the map.
-     * @param node The popup
-     */
-    private void placePopupOnMap(VBox node) {
-        gpane.setGestureEnabled(false);
-        mapStack.getChildren().add(node);
-    }
-
-
-    // Code for graphical input to pathfinding ***********************************************************
-
-
-
-    /**
-     * Removes the graphical input popup from the map.
-     *
-     * @param box the VBox to be deleted
-     */
-    private void deleteBox(VBox box) {
-        mapStack.getChildren().remove(box);
-        box = null;
-    }
-
-    // Code for displaying content on the map ***********************************************************
-
-
-
-    /**
-     * Draws all the elements of the map base on direction or map edit mode.
-     */
-    private void drawAllElements() {
-        removeAllPopups();
-        String floor = mp.getCurrentFloor();
-
-        if (editMap) {
-            removeOldPaths();
-            removeNodes();
-            drawEdgesOnFloor();
-            drawAltNodesOnFloor();
-            drawIntermediateNodesOnFloor();
-        } else {
-            mp.updateLocations();
-            removeOldPaths();
-            removeIntermediateNodes();
-            removeNodes();
-            drawNodesOnFloor();
-        }
-    }
-
-    /**
-     * Draws the path on the map
-     */
-    private void drawPath() {
-        if (estimatedTimeBox != null)
-            removeAllPopups();
-
-        Map<String, Node> nodesId = Graph.getGraph().getNodes();
-        Map<String, String> hmLongName = mp.makeLongToIDMap();
-        Path aStarPath = AStar.findPath(hmLongName.get(getStartLocation()), hmLongName.get(getEndLocation()));
-
-        List<String> AstarPath = aStarPath.getPath();
-
-        if (AstarPath.isEmpty()) {
-            lblError.setVisible(true);
-        } else {
-            Node prev = null;
-            for (String loc : AstarPath) {
-                if ((prev != null) && (loc != null)) {
-                    Node curr = nodesId.get(loc);
-                    md.placeEdge(prev, curr);
-                }
-                prev = nodesId.get(loc);
-            }
-        }
-
-        drawEstimatedTimeBox(aStarPath);
-    }
-
     // Misc utility methods ****************************************************************************
-
-    /**
-     * Gets the start location
-     *
-     * @return The long name of the node selected in the combobox.
-     */
-    public String getStartLocation() {
-        return txtStartLocation.getText();
-    }
-
-    /**
-     * Gets the end location
-     *
-     * @return The long name of the node selected in the combobox.
-     */
-    public String getEndLocation() {
-        return txtEndLocation.getText();
-    }
 
     private void loadHelpDialog(){
         JFXDialogLayout helpLayout = new JFXDialogLayout();
 
         Text helpText = new Text();
-        if(!editMap){
+        if(!md.isEditing()){
             helpText = new Text("Enter your start and end location graphically or using our menu selector. To use the graphical selection,\nsimply click on the node and click on the set button. To enter a location using the menu. Click on the appropriate\ndrop down and choose your location. The node you selected will show up on your map where you can either\nset it to your start or end location. Once both the start and end nodes are filled in you can press \"Go\" to generate your path");
         } else{
             helpText = new Text("Double click to add a node. Click on a node or an edge to edit or remove them. To add a new edge click on\none of the nodes, then add edge, and then start node. Go to the next node in the edge then, add edge, end node,\nand finally add node.");

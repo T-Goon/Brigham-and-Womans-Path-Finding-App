@@ -1,18 +1,16 @@
-package edu.wpi.teamB.entities.map;
+package edu.wpi.teamB.entities.map.edge;
 
 import edu.wpi.teamB.App;
 import edu.wpi.teamB.database.DatabaseHandler;
+import edu.wpi.teamB.entities.map.MapDrawer;
 import edu.wpi.teamB.entities.map.data.DelEdgePopupData;
-import edu.wpi.teamB.entities.map.data.GraphicalEdgePopupData;
 import edu.wpi.teamB.pathfinding.Graph;
 import edu.wpi.teamB.util.Popup.Popup;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import net.kurobako.gesturefx.GesturePane;
 
 import java.io.IOException;
-import java.util.Map;
 import java.util.Objects;
 
 public class DelEdgeAYSWindow extends Popup<VBox, DelEdgePopupData> {

@@ -5,16 +5,12 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXRadioButton;
 import com.jfoenix.controls.JFXTextField;
 import edu.wpi.teamB.App;
-import edu.wpi.teamB.database.DatabaseHandler;
-import edu.wpi.teamB.entities.map.AddNodePopup;
-import edu.wpi.teamB.entities.map.data.Node;
-import edu.wpi.teamB.entities.map.data.GraphicalEditorNodeData;
+import edu.wpi.teamB.entities.map.node.AddNodePopup;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.VBox;
-import net.kurobako.gesturefx.GesturePane;
 
 import java.net.URL;
 import java.util.*;

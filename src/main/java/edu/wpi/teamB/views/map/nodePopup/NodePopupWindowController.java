@@ -2,7 +2,8 @@ package edu.wpi.teamB.views.map.nodePopup;
 
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.teamB.App;
-import edu.wpi.teamB.entities.map.data.GraphicalEditorNodeData;
+import edu.wpi.teamB.entities.map.node.EditNodeWindow;
+import edu.wpi.teamB.entities.map.node.NodeMenuPopup;
 import edu.wpi.teamB.entities.map.data.GraphicalNodePopupData;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -42,7 +43,7 @@ public class NodePopupWindowController implements Initializable {
     @FXML
     private JFXButton btnCancel;
 
-    private GraphicalEditorNodeData data;
+    private NodeMenuPopup popup;
 
     private VBox areYouSureMenu;
 
@@ -52,26 +53,20 @@ public class NodePopupWindowController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        data = (GraphicalEditorNodeData) App.getPrimaryStage().getUserData();
+        popup = (NodeMenuPopup) App.getPrimaryStage().getUserData();
 
-        nodeName.setText(data.getLongName());
+        nodeName.setText(popup.getData().getLongName());
 
-        // If coming from the tree view, go
-        if (data.getCircle() == null) {
+        // If coming from the tree view, automatically show edit menu
+        if (popup.getData().isFromTree()) {
             root.getChildren().remove(mainMenu);
 
+            EditNodeWindow enWindow =  new EditNodeWindow(root, popup.getData(), popup);
+
             // Pass data to new window
-            App.getPrimaryStage().setUserData(new GraphicalNodePopupData(data, this));
+            App.getPrimaryStage().setUserData(enWindow);
 
-            // Load window
-            try {
-                nodeEditMenu = FXMLLoader.load(Objects.requireNonNull(
-                        getClass().getClassLoader().getResource("edu/wpi/teamB/views/map/nodePopup/editNodePopup.fxml")));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            root.getChildren().add(nodeEditMenu);
+            enWindow.show();
         }
 
     }
@@ -85,32 +80,18 @@ public class NodePopupWindowController implements Initializable {
             case "btnEditNode":
                 root.getChildren().remove(mainMenu);
 
+                EditNodeWindow enWindow =  new EditNodeWindow(root, popup.getData(), popup);
+
                 // Pass data to new window
-                App.getPrimaryStage().setUserData(new GraphicalNodePopupData(data, this));
+                App.getPrimaryStage().setUserData(enWindow);
 
-                // Load window
-                try {
-                    nodeEditMenu = FXMLLoader.load(Objects.requireNonNull(
-                            getClass().getClassLoader().getResource("edu/wpi/teamB/views/map/nodePopup/editNodePopup.fxml")));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                root.getChildren().add(nodeEditMenu);
+                enWindow.show();
                 break;
             case "btnAddEdge":
                 root.getChildren().remove(mainMenu);
 
                 // Pass data to window
-                App.getPrimaryStage().setUserData(new GraphicalNodePopupData(data, this));
-
-                // Load window
-                try {
-                    addEdgeMenu = FXMLLoader.load(Objects.requireNonNull(
-                            getClass().getClassLoader().getResource("edu/wpi/teamB/views/map/nodePopup/addEdgePopup.fxml")));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                App.getPrimaryStage().setUserData(null);
 
                 root.getChildren().add(addEdgeMenu);
                 break;

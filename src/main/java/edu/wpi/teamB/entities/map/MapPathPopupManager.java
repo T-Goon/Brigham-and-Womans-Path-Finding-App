@@ -1,22 +1,31 @@
 package edu.wpi.teamB.entities.map;
 
-import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
+import edu.wpi.teamB.App;
+import edu.wpi.teamB.entities.map.data.GraphicalInputData;
 import edu.wpi.teamB.entities.map.data.Node;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
-
-import java.io.IOException;
-import java.util.Objects;
+import edu.wpi.teamB.entities.map.node.GraphicalInputPopup;
+import edu.wpi.teamB.views.map.PathfindingMenuController;
+import javafx.scene.layout.StackPane;
+import net.kurobako.gesturefx.GesturePane;
 
 public class MapPathPopupManager {
 
     private MapDrawer md;
+    private JFXTextField txtStartLocation;
+    private JFXTextField txtEndLocation;
+    private PathfindingMenuController pfmc;
+    private StackPane mapStack;
+    private GesturePane gpane;
 
-    public MapPathPopupManager(MapDrawer md) {
+    public MapPathPopupManager(MapDrawer md, JFXTextField txtStartLocation, JFXTextField txtEndLocation,
+                               StackPane mapStack, GesturePane gpane, PathfindingMenuController pfmc) {
         this.md = md;
+        this.txtStartLocation = txtStartLocation;
+        this.txtEndLocation = txtEndLocation;
+        this.pfmc = pfmc;
+        this.mapStack = mapStack;
+        this.gpane =  gpane;
     }
 
     /**
@@ -26,59 +35,13 @@ public class MapPathPopupManager {
      */
     public void createGraphicalInputPopup(Node n) {
 
-        try {
-            // Load fxml
-            final VBox locInput = FXMLLoader.load(
-                    Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/map/misc/graphicalInput.fxml")));
+        GraphicalInputData giData = new GraphicalInputData(n.getLongName(), txtStartLocation, txtEndLocation, md, pfmc);
 
-            // Set up popup buttons
-            for (javafx.scene.Node node : ((VBox) locInput.getChildren().get(0)).getChildren()) {
-                javafx.scene.Node child = ((HBox) node).getChildren().get(0);
-                switch (child.getId()) {
-                    case "nodeName":
-                        ((Text)child).setText(n.getLongName());
-                        break;
-                    case "btnStart":
-                        showGraphicalSelection(txtStartLocation, child, n);
-                        break;
-                    case "btnEnd":
-                        showGraphicalSelection(txtEndLocation, child, n);
-                        break;
-                    case "btnCancel":
-                        ((JFXButton)child).setOnAction(event -> removeAllPopups());
-                        break;
-                }
-            }
+        GraphicalInputPopup giPopup = new GraphicalInputPopup(mapStack, giData, gpane);
 
-            if (selectionBox != null) {
-                removeAllPopups();
-            }
+        App.getPrimaryStage().setUserData(giPopup);
 
-            selectionBox = locInput;
-            placePopupOnMap(locInput);
-
-        } catch (IOException ioException) {
-            ioException.printStackTrace();
-        }
-
-    }
-
-    /**
-     * Shows the popup for the graphical input.
-     *
-     * @param textField TextField to set text for
-     * @param node      javafx node that will show popup when clicked
-     * @param n         map node the popup is for
-     */
-    private void showGraphicalSelection(JFXTextField textField, javafx.scene.Node node, Node n) {
-        JFXButton tempButton = (JFXButton) node;
-
-        tempButton.setOnAction(event -> {
-            textField.setText(n.getLongName());
-            md.removeAllPopups();
-            validateFindPathButton();
-        });
-
+        giPopup.show();
     }
 
     public void removeAllPopups(){
