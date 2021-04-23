@@ -8,6 +8,7 @@ import edu.wpi.teamB.App;
 import edu.wpi.teamB.database.DatabaseHandler;
 import edu.wpi.teamB.entities.map.Node;
 import edu.wpi.teamB.entities.map.GraphicalNodePopupData;
+import edu.wpi.teamB.entities.map.NodeType;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -34,9 +35,6 @@ public class EditNodePopupController implements Initializable {
 
     @FXML
     private ToggleGroup areaGroup;
-
-    @FXML
-    private JFXTextField nodeID;
 
     @FXML
     private JFXTextField xCoord;
@@ -90,8 +88,6 @@ public class EditNodePopupController implements Initializable {
         nodeType.getItems().addAll(temp);
 
         // Fill in current node data
-        nodeID.setText(data.getData().getNodeID());
-        nodeID.setDisable(true);
         xCoord.setText(String.valueOf(Math.round(data.getData().getX())));
         yCoord.setText(String.valueOf(Math.round(data.getData().getY())));
         floor.setText(data.getData().getFloor());
@@ -104,11 +100,12 @@ public class EditNodePopupController implements Initializable {
 
     /**
      * Make sure input is valid
+     *
      * @throws NumberFormatException when floor, xCoord, or yCoord is not a number
      */
     @FXML
     private void validateButton() throws NumberFormatException {
-        btnUpdate.setDisable(nodeID.getText().trim().isEmpty() || building.getText().trim().isEmpty() || nodeType.getValue().trim().isEmpty()
+        btnUpdate.setDisable(building.getText().trim().isEmpty() || nodeType.getValue().trim().isEmpty()
                 || longName.getText().trim().isEmpty() || shortName.getText().trim().isEmpty() || floor.getText().trim().isEmpty()
                 || xCoord.getText().trim().isEmpty() || yCoord.getText().trim().isEmpty());
 
@@ -117,13 +114,14 @@ public class EditNodePopupController implements Initializable {
             Integer.parseInt(yCoord.getText().trim());
         } catch (NumberFormatException notInt) {
             btnUpdate.setDisable(true);
-        }}
+        }
+    }
 
     @FXML
-    private void handleButtonAction(ActionEvent event){
+    private void handleButtonAction(ActionEvent event) {
         JFXButton btn = (JFXButton) event.getSource();
 
-        switch (btn.getId()){
+        switch (btn.getId()) {
             case "btnUpdate":
 
                 int aXCoord = Integer.parseInt(xCoord.getText().trim());
@@ -141,22 +139,50 @@ public class EditNodePopupController implements Initializable {
                 String aLongName = longName.getText().trim();
                 String aShortName = shortName.getText().trim();
 
-                Node node = new Node(
-                        data.getData().getNodeID(),
-                        aXCoord,
-                        aYCoord,
-                        aFloor,
-                        aBuilding,
-                        actualNodeName,
-                        aLongName,
-                        aShortName);
+                // if the node types are different, delete and remake so the nodeID is up to date
+                DatabaseHandler db = DatabaseHandler.getDatabaseHandler("main.db");
+                if (!data.getData().getNodeType().equals(aNodeType)) {
+                    try {
+                        db.removeNode(data.getData().getNodeID());
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
 
-                // Update database and graph
-                try {
-                    DatabaseHandler.getDatabaseHandler("main.db").updateNode(node);
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                    return;
+                    // Figure out what the index should be
+                    List<Node> nodes = null;
+                    try {
+                        nodes = db.getNodesByCategory(NodeType.valueOf(actualNodeName));
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                    List<Integer> indexes = new ArrayList<>();
+                    nodes.forEach(node -> {
+                        if (node.getNodeID().startsWith("b"))
+                            indexes.add(Integer.parseInt(node.getNodeID().substring(5, 8)));
+                    });
+                    Collections.sort(indexes);
+                    int index = 1;
+                    for (Integer i : indexes)
+                        if (i != index++) break;
+
+                    String aNodeId = "b" + actualNodeName + String.format("%3s", index).replace(' ', '0') + String.format("%2s", aFloor).replace(' ', '0');
+                    Node node = new Node(aNodeId, aXCoord, aYCoord, aFloor, aBuilding, actualNodeName, aLongName, aShortName);
+                    try {
+                        db.addNode(node);
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    Node node = new Node(data.getData().getNodeID(), aXCoord, aYCoord, aFloor, aBuilding, actualNodeName, aLongName, aShortName);
+
+                    // Update database and graph
+                    try {
+                        db.updateNode(node);
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                        return;
+                    }
+
                 }
 
                 // Remove popup from map and refresh map nodes

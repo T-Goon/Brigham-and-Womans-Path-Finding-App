@@ -8,6 +8,7 @@ import edu.wpi.teamB.App;
 import edu.wpi.teamB.database.DatabaseHandler;
 import edu.wpi.teamB.entities.map.Node;
 import edu.wpi.teamB.entities.map.GraphicalEditorNodeData;
+import edu.wpi.teamB.entities.map.NodeType;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -35,9 +36,6 @@ public class AddNodePopupController implements Initializable {
 
     @FXML
     private ToggleGroup areaGroup;
-
-    @FXML
-    private JFXTextField nodeID;
 
     @FXML
     private JFXTextField xCoord;
@@ -109,7 +107,7 @@ public class AddNodePopupController implements Initializable {
      */
     @FXML
     private void validateButton() throws NumberFormatException {
-        btnAddNode.setDisable(nodeID.getText().trim().isEmpty() || building.getText().trim().isEmpty() || (nodeType.getValue() == null || nodeType.getValue().trim().isEmpty())
+        btnAddNode.setDisable(building.getText().trim().isEmpty() || (nodeType.getValue() == null || nodeType.getValue().trim().isEmpty())
                 || longName.getText().trim().isEmpty() || shortName.getText().trim().isEmpty() || floor.getText().trim().isEmpty()
                 || xCoord.getText().trim().isEmpty() || yCoord.getText().trim().isEmpty());
         try {
@@ -121,8 +119,8 @@ public class AddNodePopupController implements Initializable {
     }
 
     @FXML
-    private void handleButtonAction(ActionEvent e) {
-        JFXButton btn = (JFXButton) e.getSource();
+    private void handleButtonAction(ActionEvent event) {
+        JFXButton btn = (JFXButton) event.getSource();
 
         switch (btn.getId()) {
             case "btnCancel":
@@ -131,7 +129,6 @@ public class AddNodePopupController implements Initializable {
                 thePane.setGestureEnabled(true);
                 break;
             case "btnAddNode":
-                String aNodeId = nodeID.getText().trim();
                 String aFloor = floor.getText().trim();
                 String aBuilding = building.getText().trim();
                 String aNodeType = nodeType.getValue().trim();
@@ -146,6 +143,25 @@ public class AddNodePopupController implements Initializable {
                 String aShortName = shortName.getText().trim();
                 int aXCoord = Integer.parseInt(xCoord.getText().trim());
                 int aYCoord = Integer.parseInt(yCoord.getText().trim());
+
+                // Figure out what the index should be
+                List<Node> nodes = null;
+                try {
+                    nodes = DatabaseHandler.getDatabaseHandler("main.db").getNodesByCategory(NodeType.valueOf(actualNodeName));
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                List<Integer> indexes = new ArrayList<>();
+                nodes.forEach(node -> {
+                    if (node.getNodeID().startsWith("b"))
+                        indexes.add(Integer.parseInt(node.getNodeID().substring(5, 8)));
+                });
+                Collections.sort(indexes);
+                int index = 1;
+                for (Integer i : indexes)
+                    if (i != index++) break;
+
+                String aNodeId = "b" + actualNodeName + String.format("%3s", index).replace(' ', '0') + String.format("%2s", aFloor).replace(' ', '0');
                 Node aNode = new Node(aNodeId, aXCoord, aYCoord, aFloor, aBuilding, actualNodeName, aLongName, aShortName);
                 try {
                     DatabaseHandler.getDatabaseHandler("main.db").addNode(aNode);
