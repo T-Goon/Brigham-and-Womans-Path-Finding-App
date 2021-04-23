@@ -15,6 +15,7 @@ import javafx.scene.control.ToggleGroup;
 import net.kurobako.gesturefx.GesturePane;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.*;
 
 public class EditNodePopupController implements Initializable {
@@ -151,7 +152,12 @@ public class EditNodePopupController implements Initializable {
                         aShortName);
 
                 // Update database and graph
-                DatabaseHandler.getDatabaseHandler("main.db").updateNode(node);
+                try {
+                    DatabaseHandler.getDatabaseHandler("main.db").updateNode(node);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    return;
+                }
 
                 // Remove popup from map and refresh map nodes
                 data.getData().getPfmc().refreshEditor();

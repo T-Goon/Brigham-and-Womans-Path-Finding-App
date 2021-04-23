@@ -12,6 +12,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -55,16 +56,26 @@ public class ExternalTransportationRequestFormController extends DefaultServiceR
 
         if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml")) {
             this.id = (String) App.getPrimaryStage().getUserData();
-            ExternalTransportRequest externalTransportRequest = (ExternalTransportRequest) DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(id, Request.RequestType.EXTERNAL_TRANSPORT);
+            ExternalTransportRequest externalTransportRequest = null;
+            try {
+                externalTransportRequest = (ExternalTransportRequest) DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(id, Request.RequestType.EXTERNAL_TRANSPORT);
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return;
+            }
             name.setText(externalTransportRequest.getPatientName());
             getLocationIndex(externalTransportRequest.getLocation());
             int index = -1;
-            if (externalTransportRequest.getTransportType().equals("Bus")) {
-                index = 0;
-            } else if (externalTransportRequest.getTransportType().equals("Ambulance")) {
-                index = 1;
-            } else if (externalTransportRequest.getTransportType().equals("Helicopter")) {
-                index = 2;
+            switch (externalTransportRequest.getTransportType()) {
+                case "Bus":
+                    index = 0;
+                    break;
+                case "Ambulance":
+                    index = 1;
+                    break;
+                case "Helicopter":
+                    index = 2;
+                    break;
             }
             comboTranspType.getSelectionModel().select(index);
             destination.setText(externalTransportRequest.getDestination());
@@ -108,7 +119,12 @@ public class ExternalTransportationRequestFormController extends DefaultServiceR
 
             String employeeName;
             if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml")) {
-                employeeName = DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(this.id, Request.RequestType.EXTERNAL_TRANSPORT).getEmployeeName();
+                try {
+                    employeeName = DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(this.id, Request.RequestType.EXTERNAL_TRANSPORT).getEmployeeName();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    return;
+                }
             } else {
                 employeeName = null;
             }
@@ -116,10 +132,12 @@ public class ExternalTransportationRequestFormController extends DefaultServiceR
             ExternalTransportRequest request = new ExternalTransportRequest(givenPatientName, givenTransportType, givenDestination, givenPatientAllergies, givenOutNetwork, givenInfectious, givenUnconscious,
                     requestID, time, date, complete, employeeName, getLocation(), givenDescription);
 
-            if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml")) {
-                DatabaseHandler.getDatabaseHandler("main.db").updateRequest(request);
-            } else {
-                DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
+            try {
+                if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml"))
+                    DatabaseHandler.getDatabaseHandler("main.db").updateRequest(request);
+                else DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
         }
     }

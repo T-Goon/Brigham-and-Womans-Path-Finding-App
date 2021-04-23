@@ -15,6 +15,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -44,7 +45,13 @@ public class SecurityRequestFormController extends DefaultServiceRequestFormCont
 
         if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml")) {
             this.id = (String) App.getPrimaryStage().getUserData();
-            SecurityRequest securityRequest = (SecurityRequest) DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(id, Request.RequestType.SECURITY);
+            SecurityRequest securityRequest = null;
+            try {
+                securityRequest = (SecurityRequest) DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(id, Request.RequestType.SECURITY);
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return;
+            }
             assignedTo.setText(securityRequest.getEmployeeName());
             getLocationIndex(securityRequest.getLocation());
             int index = securityRequest.getUrgency() - 1;
@@ -88,10 +95,14 @@ public class SecurityRequestFormController extends DefaultServiceRequestFormCont
 
             SecurityRequest request = new SecurityRequest(givenUrgency, requestID, time, date, complete, employeeName, getLocation(), givenDescription);
 
-            if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml")) {
-                DatabaseHandler.getDatabaseHandler("main.db").updateRequest(request);
-            } else {
-                DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
+            try {
+                if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml")) {
+                    DatabaseHandler.getDatabaseHandler("main.db").updateRequest(request);
+                } else {
+                    DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
         }
 

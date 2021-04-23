@@ -10,6 +10,7 @@ import edu.wpi.teamB.util.CSVHandler;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -26,7 +27,12 @@ public class PathfindingTests {
         List<Node> nodes = CSVHandler.loadCSVNodes("/edu/wpi/teamB/csvFiles/bwBnodes.csv");
         List<Edge> edges = CSVHandler.loadCSVEdges("/edu/wpi/teamB/csvFiles/bwBedges.csv");
 
-        db.loadNodesEdges(nodes, edges);
+        try {
+            db.loadNodesEdges(nodes, edges);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return;
+        }
 
         Graph.setGraph(db);
     }

@@ -16,6 +16,7 @@ import javafx.scene.layout.VBox;
 import net.kurobako.gesturefx.GesturePane;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.*;
 
 public class AddNodePopupController implements Initializable {
@@ -146,7 +147,12 @@ public class AddNodePopupController implements Initializable {
                 int aXCoord = Integer.parseInt(xCoord.getText().trim());
                 int aYCoord = Integer.parseInt(yCoord.getText().trim());
                 Node aNode = new Node(aNodeId, aXCoord, aYCoord, aFloor, aBuilding, actualNodeName, aLongName, aShortName);
-                DatabaseHandler.getDatabaseHandler("main.db").addNode(aNode);
+                try {
+                    DatabaseHandler.getDatabaseHandler("main.db").addNode(aNode);
+                } catch (SQLException err) {
+                    err.printStackTrace();
+                    return;
+                }
 
                 // Refresh map editor
                 data.getPfmc().refreshEditor();
