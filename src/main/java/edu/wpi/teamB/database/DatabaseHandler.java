@@ -106,13 +106,10 @@ public class DatabaseHandler {
             tables.add("Users");
         }
 
-        String query = "DROP TABLE IF EXISTS ?";
-        PreparedStatement statement = databaseConnection.prepareStatement(query);
         for (String table : tables) {
-            statement.setString(1, table);
-            statement.executeUpdate();
+            String query = "DROP TABLE IF EXISTS " + table;
+            runStatement(query, false);
         }
-        statement.close();
     }
 
     /**
@@ -480,23 +477,25 @@ public class DatabaseHandler {
      * @throws SQLException if the user is malformed
      */
     public boolean updateUser(User newUser) throws SQLException {
-        String updateUser = "UPDATE Users " +
-                "SET username = '" + newUser.getUsername() + "'," +
+        String deleteJobs = "DELETE FROM Jobs WHERE (username = '" + newUser.getUsername() + "')";
+        String updateUser = "UPDATE Users SET " +
                 "firstName = '" + newUser.getFirstName() + "'," +
                 "lastName = '" + newUser.getLastName() + "'," +
                 "authenticationLevel = '" + newUser.getAuthenticationLevel().toString() + "'" +
                 "WHERE (username = '" + newUser.getUsername() + "')";
-        String deleteJobs = "DELETE FROM Jobs WHERE (username = '" + newUser.getUsername() + "')";
+
+        // If the user isn't in the table, do nothing
         if (this.getUserByUsername(newUser.getUsername()) == null)
             return false;
 
-        runStatement(updateUser, false);
         runStatement(deleteJobs, false);
+        runStatement(updateUser, false);
 
         PreparedStatement statement = databaseConnection.prepareStatement("INSERT INTO Jobs VALUES (?, ?)");
         for (Request.RequestType job : newUser.getJobs()) {
             statement.setString(1, newUser.getUsername());
             statement.setString(2, job.toString());
+            statement.executeUpdate();
         }
         statement.close();
         return true;
@@ -1277,8 +1276,10 @@ public class DatabaseHandler {
         assert statement != null;
         ResultSet set = null;
         if (isQuery) set = statement.executeQuery(query);
-        else statement.execute(query);
-        statement.close();
+        else {
+            statement.execute(query);
+            statement.close();
+        }
         return set;
     }
 

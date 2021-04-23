@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.SQLException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -30,7 +31,11 @@ public class CSVHandlerTest {
 
     @BeforeEach
     void resetDB() {
-        db.loadNodesEdges(null, null);
+        try {
+            db.loadNodesEdges(null, null);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
@@ -38,9 +43,14 @@ public class CSVHandlerTest {
         String expected = "nodeID,xcoord,ycoord,floor,building,nodeType,longName,shortName\n" +
                 "1,1,1,2,Parking,PARK,Left Parking Lot Spot 10,LLot10\n";
 
-        DatabaseHandler.getDatabaseHandler("test.db").addNode(new Node(
-                "1", 1, 1, "2", "Parking", "PARK",
-                "Left Parking Lot Spot 10", "LLot10"));
+        try {
+            DatabaseHandler.getDatabaseHandler("test.db").addNode(new Node(
+                    "1", 1, 1, "2", "Parking", "PARK",
+                    "Left Parking Lot Spot 10", "LLot10"));
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return;
+        }
 
         String actualString = CSVHandler.saveCSVNodes(resourcesPath, true);
         assertTrue(Files.exists(Paths.get(resourcesPath + "/bwBnodes.csv")));
@@ -55,9 +65,14 @@ public class CSVHandlerTest {
         String expected = "edgeID,startNode,endNode\n1,2,3\n";
 
         DatabaseHandler db = DatabaseHandler.getDatabaseHandler("test.db");
-        db.addNode(new Node("2", 1, 1, "1", "building", "type", "longName", "shortName (which is longer than long name)"));
-        db.addNode(new Node("3", 1, 1, "1", "building", "type", "longName", "shortName (which is longer than long name)"));
-        db.addEdge(new Edge("1", "2", "3"));
+        try {
+            db.addNode(new Node("2", 1, 1, "1", "building", "type", "longName", "shortName (which is longer than long name)"));
+            db.addNode(new Node("3", 1, 1, "1", "building", "type", "longName", "shortName (which is longer than long name)"));
+            db.addEdge(new Edge("1", "2", "3"));
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return;
+        }
 
         String actualString = CSVHandler.saveCSVEdges(resourcesPath, true);
         assertTrue(Files.exists(Paths.get(resourcesPath + "/bwBedges.csv")));

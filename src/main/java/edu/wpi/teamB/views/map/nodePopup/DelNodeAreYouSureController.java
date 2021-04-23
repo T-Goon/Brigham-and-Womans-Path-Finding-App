@@ -10,6 +10,7 @@ import javafx.fxml.Initializable;
 import net.kurobako.gesturefx.GesturePane;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class DelNodeAreYouSureController implements Initializable {
@@ -33,7 +34,12 @@ public class DelNodeAreYouSureController implements Initializable {
 
         switch (btn.getId()) {
             case "btnYes":
-                DatabaseHandler.getDatabaseHandler("main.db").removeNode(data.getData().getNodeID());
+                try {
+                    DatabaseHandler.getDatabaseHandler("main.db").removeNode(data.getData().getNodeID());
+                } catch (SQLException err) {
+                    err.printStackTrace();
+                    return;
+                }
                 data.getData().getPfmc().refreshEditor();
 
                 data.getData().getMapStack().getChildren().remove(data.getParent().getRoot());

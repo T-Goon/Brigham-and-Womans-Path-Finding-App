@@ -372,7 +372,7 @@ public class DatabaseHandlerTest {
             return;
         }
 
-        SanitationRequest test1 = null;
+        SanitationRequest test1;
         try {
             test1 = (SanitationRequest) db.getSpecificRequestById(request1.getRequestID(), Request.RequestType.SANITATION);
         } catch (SQLException e) {
@@ -677,6 +677,9 @@ public class DatabaseHandlerTest {
             e.printStackTrace();
             return;
         }
+        System.out.println(db.getUserByUsername("testuser").toString());
+        System.out.println(altuser.toString());
+
         assertEquals(db.getUserByUsername("testuser"), altuser);
         assert (!db.getUsersByJob(Request.RequestType.CASE_MANAGER).contains(user));
         assert (db.getUsersByJob(Request.RequestType.FOOD).contains(altuser));

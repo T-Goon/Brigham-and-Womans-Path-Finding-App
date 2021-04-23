@@ -38,6 +38,7 @@ import net.kurobako.gesturefx.GesturePane;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.*;
 
 public class PathfindingMenuController implements Initializable {
@@ -193,8 +194,12 @@ public class PathfindingMenuController implements Initializable {
                     List<Edge> newEdges = CSVHandler.loadCSVEdgesFromExternalPath(file.toPath());
 
                     // Update the database
-                    db.loadNodesEdges(newNodes, newEdges);
-                    Graph.getGraph().updateGraph();
+                    try {
+                        db.loadNodesEdges(newNodes, newEdges);
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                        return;
+                    }
 
                     // Now delete and refresh the nodes
                     drawAllElements();
