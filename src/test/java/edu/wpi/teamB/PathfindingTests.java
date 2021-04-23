@@ -161,11 +161,53 @@ public class PathfindingTests {
 
         Path expectedResult = new Path(expectedPath, 2484.102858858675+1954.7029936098086);
 
-        Path resultPath = AStar.findPath(nodeList);
+        Path returnedResult = AStar.findPath(nodeList);
 
-        assertEquals(expectedPath, resultPath.getPath());
+        assertEquals(expectedResult, returnedResult);
 
-        assertEquals(expectedResult.getTotalPathCost(), resultPath.getTotalPathCost(), 0.1);
+        Stack<String> longNodesList = new Stack<>();
+        longNodesList.push("FDEPT00301");
+        longNodesList.push("FSERV00201");
+        longNodesList.push("bEXIT00501");
+        longNodesList.push("bPARK00101");
+
+
+        LinkedList<String> expectedLongPath = new LinkedList<>();
+        expectedLongPath.add("bPARK00101");
+        expectedLongPath.add("bWALK00101");
+        expectedLongPath.add("bWALK00201");
+        expectedLongPath.add("bWALK00301");
+        expectedLongPath.add("bWALK00401");
+        expectedLongPath.add("bWALK00501");
+        expectedLongPath.add("bWALK00601");
+        expectedLongPath.add("bWALK00701");
+        expectedLongPath.add("bWALK00801");
+        expectedLongPath.add("bWALK00901");
+        expectedLongPath.add("bEXIT00501");
+        expectedLongPath.add("bEXIT00401");
+        expectedLongPath.add("FEXIT00201");
+        expectedLongPath.add("FHALL02801");
+        expectedLongPath.add("FHALL02201");
+        expectedLongPath.add("FHALL02101");
+        expectedLongPath.add("FHALL01901");
+        expectedLongPath.add("FHALL01601");
+        expectedLongPath.add("FHALL01501");
+        expectedLongPath.add("FHALL01401");
+        expectedLongPath.add("FSERV00201");
+        expectedLongPath.add("FHALL01401");
+        expectedLongPath.add("FHALL01501");
+        expectedLongPath.add("FHALL01601");
+        expectedLongPath.add("FHALL03201");
+        expectedLongPath.add("FHALL01801");
+        expectedLongPath.add("FHALL01701");
+        expectedLongPath.add("FDEPT00301");
+
+        Path expectedLongResult = new Path(expectedLongPath, 2484.102858858675+848.2401435306502+350.0);
+
+        Path returnedLongResult = AStar.findPath(longNodesList);
+
+        assertEquals(expectedLongResult, returnedLongResult);
+
 
     }
 
