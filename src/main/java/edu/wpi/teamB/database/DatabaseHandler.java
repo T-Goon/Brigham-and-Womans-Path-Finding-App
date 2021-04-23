@@ -57,7 +57,7 @@ public class DatabaseHandler {
         return this.databaseConnection;
     }
 
-    private Statement getStatement() {
+    Statement getStatement() {
         try {
             return this.getConnection().createStatement();
         } catch (SQLException e) {
