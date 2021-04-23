@@ -1,5 +1,6 @@
 package edu.wpi.teamB.pathfinding;
 
+import edu.wpi.teamB.entities.map.Coord;
 import edu.wpi.teamB.entities.map.Path;
 import edu.wpi.teamB.entities.map.Node;
 
@@ -137,38 +138,27 @@ public class AStar {
         }
     }
 
-    public String textDirections(Path path){
+    private List<Coord> deltaCoords(Path path){
+
         List<String> locVisit = path.getPath();
+
         Graph graph = Graph.getGraph();
 
-        int prevXCoord = -1;
-        int prevYCoord = -1;
-
-        int currXCoord;
-        int currYCoord;
+        Coord prevCoord = new Coord(-1,-1);
+        Coord currCoord = new Coord(0,0);
 
         for(String loc: locVisit) {
-            currXCoord = graph.getNodes().get(loc).getXCoord();
-            currYCoord = graph.getNodes().get(loc).getYCoord();
+            currCoord.setX(graph.getNodes().get(loc).getXCoord());
+            currCoord.setY(graph.getNodes().get(loc).getYCoord());
 
-
-
-            if(prevXCoord != -1){
-
-                if(currXCoord - currXCoord == 0){
-                    //get delta y
-                }
-
-                else{
-                    //get delta x
-                }
+            if(prevCoord.getX() != -1){
 
             }
 
-            prevXCoord = currXCoord;
-            prevYCoord = currYCoord;
+            prevCoord.setX(currCoord.getX());
+            prevCoord.setY(currCoord.getY());
 
         }
-        return "";
+        return null;
     }
 }
