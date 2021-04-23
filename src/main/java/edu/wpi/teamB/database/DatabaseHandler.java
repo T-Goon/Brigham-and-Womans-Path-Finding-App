@@ -7,6 +7,7 @@ import edu.wpi.teamB.entities.map.NodeType;
 import edu.wpi.teamB.entities.requests.*;
 import edu.wpi.teamB.pathfinding.Graph;
 
+import javax.jws.soap.SOAPBinding;
 import java.sql.*;
 import java.util.*;
 
@@ -416,30 +417,8 @@ public class DatabaseHandler {
      * @return Whether user has been successfully added
      */
     public boolean addUser(User user, String password) {
-        Statement statement = this.getStatement();
-        String hash = this.passwordHash(password);
-
-        String query = "INSERT INTO Users VALUES " +
-                "('" + user.getUsername()
-                + "', '" + user.getFirstName()
-                + "', '" + user.getLastName()
-                + "', '" + user.getAuthenticationLevel().toString()
-                + "', '" + hash
-                + "')";
-
         try {
-            assert statement != null;
-            statement.execute(query);
-            if (user.getJobs() != null) {
-                for (Request.RequestType job : user.getJobs()) {
-                    query = "INSERT INTO Jobs VALUES " +
-                            "('" + user.getUsername()
-                            + "', '" + job.toString()
-                            + "')";
-                    statement.execute(query);
-                }
-            }
-            statement.close();
+            new UserMutator().addEntity(new UserPasswordMatch(user, password));
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -547,35 +526,12 @@ public class DatabaseHandler {
      * @return whether the attempt to update the user was successful
      */
     public boolean updateUser(User newUser) {
-        Statement statement = this.getStatement();
-        String updateUser = "UPDATE Users " +
-                "SET username = '" + newUser.getUsername() + "'," +
-                "firstName = '" + newUser.getFirstName() + "'," +
-                "lastName = '" + newUser.getLastName() + "'," +
-                "authenticationLevel = '" + newUser.getAuthenticationLevel().toString() + "'" +
-                "WHERE (username = '" + newUser.getUsername() + "')";
-        String deleteJobs = "DELETE FROM Jobs WHERE (username = '" + newUser.getUsername() + "')";
         try {
-            if (this.getUserByUsername(newUser.getUsername()) == null) {
-                return false;
-            } else {
-                assert statement != null;
-                statement.execute(updateUser);
-                statement.execute(deleteJobs);
-                for (Request.RequestType job : newUser.getJobs()) {
-                    String query = "INSERT INTO Jobs VALUES " +
-                            "('" + newUser.getUsername()
-                            + "', '" + job.toString()
-                            + "')";
-                    statement.execute(query);
-                }
-
-                return true;
-            }
+            new UserMutator().updateEntity(new UserPasswordMatch(newUser, ""));
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return false;
+        return true;
     }
 
     /**
@@ -585,19 +541,12 @@ public class DatabaseHandler {
      * @return true if success
      */
     public boolean deleteUser(String username) {
-        Statement statement = this.getStatement();
-        String deleteJobs = "DELETE FROM Jobs WHERE (username = '" + username + "')";
-        String deleteUser = "DELETE FROM Users WHERE (username = '" + username + "')";
         try {
-            assert statement != null;
-            statement.executeUpdate(deleteJobs);
-            int update = statement.executeUpdate(deleteUser);
-            statement.close();
-            return update == 1;
+            new UserMutator().removeEntity(username);
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return false;
+        return true;
     }
 
     /**

@@ -12,7 +12,7 @@ public class UserMutator implements IDatabaseEntityMutator<UserPasswordMatch> {
      * @param user     User and password match to add
      * @return Whether user has been successfully added
      */
-    public void addEntity(UserPasswordMatch user) {
+    public void addEntity(UserPasswordMatch user) throws SQLException {
         Statement statement = DatabaseHandler.getDatabaseHandler("main.db").getStatement();
         String hash = DatabaseHandler.getDatabaseHandler("main.db").passwordHash(user.password);
 
@@ -48,7 +48,7 @@ public class UserMutator implements IDatabaseEntityMutator<UserPasswordMatch> {
      * @param username the username of the user to delete
      * @return true if success
      */
-    public void removeEntity(String username) {
+    public void removeEntity(String username) throws SQLException {
         Statement statement = DatabaseHandler.getDatabaseHandler("main.db").getStatement();
         String deleteJobs = "DELETE FROM Jobs WHERE (username = '" + username + "')";
         String deleteUser = "DELETE FROM Users WHERE (username = '" + username + "')";
@@ -68,7 +68,7 @@ public class UserMutator implements IDatabaseEntityMutator<UserPasswordMatch> {
      * @param newUser the updated user
      * @return whether the attempt to update the user was successful
      */
-    public void updateEntity(UserPasswordMatch newUser) {
+    public void updateEntity(UserPasswordMatch newUser) throws SQLException {
         Statement statement = DatabaseHandler.getDatabaseHandler("main.db").getStatement();
         String updateUser = "UPDATE Users " +
                 "SET username = '" + newUser.user.getUsername() + "'," +

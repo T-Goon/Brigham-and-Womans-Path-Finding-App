@@ -13,7 +13,7 @@ public class NodeMutator implements IDatabaseEntityMutator<Node> {
      *
      * @param node the node to add
      */
-    public void addEntity(Node node) {
+    public void addEntity(Node node) throws SQLException {
         Statement statement = DatabaseHandler.getDatabaseHandler("main.db").getStatement();
 
         String query = "INSERT INTO Nodes VALUES " +
@@ -43,7 +43,7 @@ public class NodeMutator implements IDatabaseEntityMutator<Node> {
      *
      * @param nodeID the node to remove, given by the node ID
      */
-    public void removeEntity(String nodeID) {
+    public void removeEntity(String nodeID) throws SQLException {
         Statement statement = DatabaseHandler.getDatabaseHandler("main.db").getStatement();
         String edgesQuery = "DELETE FROM Edges WHERE startNode = '" + nodeID + "' OR endNode = '" + nodeID + "'";
         String nodeQuery = "DELETE FROM Nodes WHERE nodeID = '" + nodeID + "'";
@@ -64,7 +64,7 @@ public class NodeMutator implements IDatabaseEntityMutator<Node> {
      *
      * @param node the node to update
      */
-    public void updateEntity(Node node) {
+    public void updateEntity(Node node) throws SQLException {
         Statement statement = DatabaseHandler.getDatabaseHandler("main.db").getStatement();
 
         String query = "UPDATE Nodes SET xcoord = " + node.getXCoord()

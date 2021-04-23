@@ -13,7 +13,7 @@ public class EdgeMutator implements IDatabaseEntityMutator<Edge> {
      *
      * @param edge the edge to add
      */
-    public void addEntity(Edge edge) {
+    public void addEntity(Edge edge) throws SQLException {
         Statement statement = DatabaseHandler.getDatabaseHandler("main.db").getStatement();
 
         String query = "INSERT INTO Edges VALUES ('" + edge.getEdgeID() + "', '" + edge.getStartNodeID() + "', '" + edge.getEndNodeID() + "')";
@@ -33,7 +33,7 @@ public class EdgeMutator implements IDatabaseEntityMutator<Edge> {
      *
      * @param edgeID the edge to remove, given by the edge ID
      */
-    public void removeEntity(String edgeID) {
+    public void removeEntity(String edgeID) throws SQLException {
         Statement statement = DatabaseHandler.getDatabaseHandler("main.db").getStatement();
         String query = "DELETE FROM Edges WHERE edgeID = '" + edgeID + "'";
 
@@ -52,7 +52,7 @@ public class EdgeMutator implements IDatabaseEntityMutator<Edge> {
      *
      * @param edge the edge to update
      */
-    public void updateEntity(Edge edge) {
+    public void updateEntity(Edge edge) throws SQLException {
         Statement statement = DatabaseHandler.getDatabaseHandler("main.db").getStatement();
         String query = "UPDATE Edges SET startNode = '" + edge.getStartNodeID() + "', endNode = '" + edge.getEndNodeID() + "' WHERE edgeID = '" + edge.getEdgeID() + "'";
 
