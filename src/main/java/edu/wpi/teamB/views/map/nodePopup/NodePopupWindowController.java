@@ -2,21 +2,18 @@ package edu.wpi.teamB.views.map.nodePopup;
 
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.teamB.App;
+import edu.wpi.teamB.entities.map.node.AddEdgeWindow;
+import edu.wpi.teamB.entities.map.node.DelNodeAYSWindow;
 import edu.wpi.teamB.entities.map.node.EditNodeWindow;
 import edu.wpi.teamB.entities.map.node.NodeMenuPopup;
-import edu.wpi.teamB.entities.map.data.GraphicalNodePopupData;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import lombok.Getter;
-import net.kurobako.gesturefx.GesturePane;
 
-import java.io.IOException;
 import java.net.URL;
-import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class NodePopupWindowController implements Initializable {
@@ -90,65 +87,28 @@ public class NodePopupWindowController implements Initializable {
             case "btnAddEdge":
                 root.getChildren().remove(mainMenu);
 
+                AddEdgeWindow aeWindow = new AddEdgeWindow(root, popup.getData(), popup);
+
                 // Pass data to window
-                App.getPrimaryStage().setUserData(null);
+                App.getPrimaryStage().setUserData(aeWindow);
+
+                aeWindow.show();
 
                 root.getChildren().add(addEdgeMenu);
                 break;
             case "btnDelete":
                 root.getChildren().remove(mainMenu);
 
+                DelNodeAYSWindow dnWindow = new DelNodeAYSWindow(root, popup.getData(), popup);
+
                 // Pass data to new window
-                App.getPrimaryStage().setUserData(new GraphicalNodePopupData(
-                        data,
-                        this));
+                App.getPrimaryStage().setUserData(dnWindow);
 
-                // Load new window
-                try {
-                    areYouSureMenu = FXMLLoader.load(Objects.requireNonNull(
-                            getClass().getClassLoader().getResource("edu/wpi/teamB/views/map/nodePopup/delNodeAreYouSure.fxml")));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                root.getChildren().add(areYouSureMenu);
-
+                dnWindow.show();
                 break;
             case "btnCancel":
-                data.getMapStack().getChildren().remove(root);
-                GesturePane thePane = (GesturePane) data.getMapStack().getChildren().get(0);
-                thePane.setGestureEnabled(true);
+                popup.hide();
                 break;
         }
-    }
-
-    /**
-     * Swaps windows from the areYouSure window to the main menu.
-     */
-    void areYouSureToMain() {
-        root.getChildren().remove(areYouSureMenu);
-        areYouSureMenu = null;
-
-        root.getChildren().add(mainMenu);
-    }
-
-    /**
-     * Swaps windows from the edit node window to the main menu.
-     */
-    void editToMain() {
-        root.getChildren().remove(nodeEditMenu);
-        nodeEditMenu = null;
-
-        root.getChildren().add(mainMenu);
-    }
-
-    /**
-     * Swaps windows from the add edge window to the main menu.
-     */
-    void addEdgeToMain() {
-        root.getChildren().remove(addEdgeMenu);
-        addEdgeMenu = null;
-
-        root.getChildren().add(mainMenu);
     }
 }

@@ -20,7 +20,7 @@ public abstract class Popup<T extends Pane, E> {
     /**
      * Shows the popup in the parent node.
      */
-    public void show(T node){
+    protected void show(T node){
 
         parent.getChildren().add(node);
         window = node;

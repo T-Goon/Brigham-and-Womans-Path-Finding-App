@@ -3,6 +3,7 @@ package edu.wpi.teamB.entities.map;
 import edu.wpi.teamB.entities.map.data.Node;
 import edu.wpi.teamB.pathfinding.Graph;
 import javafx.scene.control.TreeItem;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import lombok.Getter;
 import lombok.Setter;
@@ -30,6 +31,19 @@ public class MapCache {
     private String currentFloor = "1";
     private Map<String, String> mapLongToID = new HashMap<>();
     private Map<String, List<TreeItem<String>>> catNameMap = new HashMap<>();
+
+    @Setter
+    @Getter
+    private String newEdgeStart;
+    @Setter
+    @Getter
+    private Circle startNode;
+    @Setter
+    @Getter
+    private String newEdgeEnd;
+    @Setter
+    @Getter
+    private Circle endNode;
 
     /**
      * Function that updates everything involved with the different locations on the map

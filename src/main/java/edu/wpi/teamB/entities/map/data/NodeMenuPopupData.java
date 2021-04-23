@@ -1,6 +1,9 @@
 package edu.wpi.teamB.entities.map.data;
 
+import edu.wpi.teamB.entities.map.MapCache;
 import edu.wpi.teamB.entities.map.MapDrawer;
+import javafx.scene.layout.StackPane;
+import javafx.scene.shape.Circle;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -17,4 +20,7 @@ public class NodeMenuPopupData {
     private final String shortName;
     private final boolean fromTree;
     private final MapDrawer md;
+    private final Circle circle;
+    private final MapCache mc;
+    private final StackPane mapStack;
 }

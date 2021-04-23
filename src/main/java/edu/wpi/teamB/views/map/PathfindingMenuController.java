@@ -106,19 +106,6 @@ public class PathfindingMenuController implements Initializable {
 
     private TreeItem<String> selectedLocation;
 
-    @Setter
-    @Getter
-    String newEdgeStart;
-    @Setter
-    @Getter
-    Circle startNode;
-    @Setter
-    @Getter
-    String newEdgeEnd;
-    @Setter
-    @Getter
-    Circle endNode;
-
     final FileChooser fileChooser = new FileChooser();
     final DirectoryChooser directoryChooser = new DirectoryChooser();
 
@@ -153,7 +140,7 @@ public class PathfindingMenuController implements Initializable {
 
         md = new MapDrawer(mc, nodeHolder, mapHolder, intermediateNodeHolder, lblError, mapStack);
 
-        mepm = new MapEditorPopupManager(md, mc, gpane);
+        mepm = new MapEditorPopupManager(md, mc, gpane, mapStack);
 
         mppm = new MapPathPopupManager(md, txtStartLocation, txtEndLocation, mapStack, gpane, this);
 
