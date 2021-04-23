@@ -86,8 +86,6 @@ public class DatabaseHandler {
      * @return true if it succeeds
      */
     public boolean resetDatabase(List<String> tables) {
-        Statement statement = this.getStatement();
-
         if (tables.isEmpty()) {
             tables.add("SanitationRequests");
             tables.add("MedicineRequests");
@@ -108,16 +106,12 @@ public class DatabaseHandler {
         }
 
         List<String> queries = new LinkedList<>();
-        for (String table : tables) {
+        for (String table : tables)
             queries.add("DROP TABLE IF EXISTS " + table);
-        }
 
         try {
-            assert statement != null;
-            for (String query : queries) {
-                statement.execute(query);
-            }
-            statement.close();
+            for (String query : queries)
+                runStatement(query, false);
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
@@ -131,7 +125,6 @@ public class DatabaseHandler {
      * @return true upon successful creation
      */
     public boolean executeSchema() {
-        Statement statement = this.getStatement();
         String configuration = "PRAGMA foreign_keys = ON";
 
         String nodesTable = "CREATE TABLE IF NOT EXISTS Nodes("
@@ -255,38 +248,36 @@ public class DatabaseHandler {
                 + "timeForArrival CHAR(20)," // Stored as HH:MM (24 hour time)
                 + "FOREIGN KEY (requestID) REFERENCES Requests(requestID))";
 
-        String users = "CREATE TABLE IF NOT EXISTS Users("
+        String usersTable = "CREATE TABLE IF NOT EXISTS Users("
                 + "username CHAR(30) PRIMARY KEY, "
                 + "firstName CHAR(30), "
                 + "lastName CHAR(30), "
                 + "authenticationLevel CHAR(30) CHECK (authenticationLevel in ('ADMIN','STAFF','PATIENT', 'GUEST')), "
                 + "passwordHash CHAR(30))";
 
-        String jobs = "CREATE TABLE IF NOT EXISTS Jobs("
+        String jobsTable = "CREATE TABLE IF NOT EXISTS Jobs("
                 + "username CHAR(30), "
                 + "job CHAR(30), "
                 + "FOREIGN KEY (username) REFERENCES Users(username))";
 
         try {
-            assert statement != null;
-            statement.execute(configuration);
-            statement.execute(nodesTable);
-            statement.execute(edgesTable);
-            statement.execute(requestsTable);
-            statement.execute(sanitationRequestsTable);
-            statement.execute(medicineRequestsTable);
-            statement.execute(internalTransportRequestsTable);
-            statement.execute(religiousRequestsTable);
-            statement.execute(foodRequestsTable);
-            statement.execute(floralRequestsTable);
-            statement.execute(securityRequestsTable);
-            statement.execute(externalTransportTable);
-            statement.execute(laundryTable);
-            statement.execute(caseManagerRequestsTable);
-            statement.execute(socialWorkerRequestsTable);
-            statement.execute(users);
-            statement.execute(jobs);
-            statement.close();
+            runStatement(configuration, false);
+            runStatement(nodesTable, false);
+            runStatement(edgesTable, false);
+            runStatement(requestsTable, false);
+            runStatement(sanitationRequestsTable, false);
+            runStatement(medicineRequestsTable, false);
+            runStatement(internalTransportRequestsTable, false);
+            runStatement(religiousRequestsTable, false);
+            runStatement(foodRequestsTable, false);
+            runStatement(floralRequestsTable, false);
+            runStatement(securityRequestsTable, false);
+            runStatement(externalTransportTable, false);
+            runStatement(laundryTable, false);
+            runStatement(caseManagerRequestsTable, false);
+            runStatement(socialWorkerRequestsTable, false);
+            runStatement(usersTable, false);
+            runStatement(jobsTable, false);
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
@@ -303,25 +294,29 @@ public class DatabaseHandler {
      */
     public boolean loadDatabaseNodes(List<Node> nodes) {
 
-        Statement statement = this.getStatement();
-        String query;
+        String query = "INSERT INTO Nodes(nodeID, xcoord, ycoord, floor, building, nodeType, longName, shortName) " +
+                "VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+        PreparedStatement statement;
+        try {
+            statement = databaseConnection.prepareStatement(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
 
         try {
             // If either list is empty, then nothing should be put in
             if (nodes == null) return false;
             for (Node node : nodes) {
-                query = "INSERT INTO Nodes(nodeID, xcoord, ycoord, floor, building, nodeType, longName, shortName) " +
-                        "VALUES('"
-                        + node.getNodeID() + "', "
-                        + node.getXCoord() + ", "
-                        + node.getYCoord() + ", '"
-                        + node.getFloor() + "', '"
-                        + node.getBuilding() + "', '"
-                        + node.getNodeType() + "', '"
-                        + node.getLongName() + "', '"
-                        + node.getShortName() + "')";
-                assert statement != null;
-                statement.execute(query);
+                statement.setString(1, node.getNodeID());
+                statement.setInt(2, node.getXCoord());
+                statement.setInt(3, node.getYCoord());
+                statement.setString(4, node.getFloor());
+                statement.setString(5, node.getBuilding());
+                statement.setString(6, node.getNodeType());
+                statement.setString(7, node.getLongName());
+                statement.setString(8, node.getShortName());
+                statement.executeUpdate();
                 statement.close();
             }
         } catch (SQLException e) {
@@ -340,20 +335,25 @@ public class DatabaseHandler {
      */
     public boolean loadDatabaseEdges(List<Edge> edges) {
 
-        Statement statement = this.getStatement();
-        String query;
+        String query = "INSERT INTO Edges(edgeID, startNode, endNode) "
+                + "VALUES(?, ?, ?)";
+
+        PreparedStatement statement;
+        try {
+            statement = databaseConnection.prepareStatement(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
 
         try {
             // If either list is empty, then nothing should be put in
             if (edges == null) return false;
             for (Edge edge : edges) {
-                query = "INSERT INTO Edges(edgeID, startNode, endNode) "
-                        + "VALUES('"
-                        + edge.getEdgeID() + "', '"
-                        + edge.getStartNodeID() + "', '"
-                        + edge.getEndNodeID() + "')";
-                assert statement != null;
-                statement.execute(query);
+                statement.setString(1, edge.getEdgeID());
+                statement.setString(2, edge.getStartNodeID());
+                statement.setString(3, edge.getEndNodeID());
+                statement.executeUpdate();
                 statement.close();
             }
         } catch (SQLException e) {
@@ -515,10 +515,11 @@ public class DatabaseHandler {
 
     /**
      * Returns a list of users with the given authentication level
+     *
      * @param authenticationLevel the EXACT authentication level you want the users for
      * @return list of users
      */
-    public List<User> getUsersByAuthenticationLevel(User.AuthenticationLevel authenticationLevel){
+    public List<User> getUsersByAuthenticationLevel(User.AuthenticationLevel authenticationLevel) {
         Statement statement = this.getStatement();
         String query = "SELECT username, authenticationLevel FROM " +
                 "Users WHERE authenticationLevel='" + authenticationLevel.toString() + "'";
@@ -1106,7 +1107,7 @@ public class DatabaseHandler {
         }
 
         //If the given request is an instance of the less specific "Request" then dont try and update the specific tables
-        if(request.getClass().equals(Request.class)){
+        if (request.getClass().equals(Request.class)) {
             return;
         }
 
@@ -1485,6 +1486,25 @@ public class DatabaseHandler {
         } catch (SQLException ignored) {
             return null;
         }
+    }
+
+    /**
+     * Runs a given sql command and returns the result set if its a query
+     * or null otherwise
+     *
+     * @param query   the query to run
+     * @param isQuery whether it's a query
+     * @return the result set if it's a query, or null otherwise
+     * @throws SQLException if the query is malformed
+     */
+    private ResultSet runStatement(String query, boolean isQuery) throws SQLException {
+        Statement statement = this.getStatement();
+        assert statement != null;
+        ResultSet set = null;
+        if (isQuery) set = statement.executeQuery(query);
+        else statement.execute(query);
+        statement.close();
+        return set;
     }
 
     /**
