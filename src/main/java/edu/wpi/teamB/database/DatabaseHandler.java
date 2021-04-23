@@ -105,13 +105,24 @@ public class DatabaseHandler {
             tables.add("Users");
         }
 
-        List<String> queries = new LinkedList<>();
-        for (String table : tables)
-            queries.add("DROP TABLE IF EXISTS " + table);
+        String query = "DROP TABLE IF EXISTS ?";
+        PreparedStatement statement;
+        try {
+            statement = databaseConnection.prepareStatement(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
 
         try {
-            for (String query : queries)
-                runStatement(query, false);
+            List<String> queries = new LinkedList<>();
+            for (String table : tables) {
+                statement.setString(1, table);
+                statement.executeUpdate();
+            }
+            statement.close();
+            for (String q : queries)
+                runStatement(q, false);
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
