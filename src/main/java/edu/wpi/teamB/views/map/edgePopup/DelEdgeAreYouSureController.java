@@ -11,6 +11,7 @@ import javafx.fxml.Initializable;
 import net.kurobako.gesturefx.GesturePane;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class DelEdgeAreYouSureController implements Initializable {
@@ -31,12 +32,17 @@ public class DelEdgeAreYouSureController implements Initializable {
     private void handleButtonAction(ActionEvent event){
         JFXButton btn = (JFXButton) event.getSource();
 
-        switch (btn.getId()){
+        switch (btn.getId()) {
             case "btnYes":
-                DatabaseHandler.getDatabaseHandler("main.db").removeEdge(
-                        data.getData().getStart().getNodeID() + "_" +
-                                data.getData().getEnd().getNodeID()
-                );
+                try {
+                    DatabaseHandler.getDatabaseHandler("main.db").removeEdge(
+                            data.getData().getStart().getNodeID() + "_" +
+                                    data.getData().getEnd().getNodeID()
+                    );
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    return;
+                }
                 Graph.getGraph().updateGraph();
 
                 // Remove popup from map and refresh the nodes

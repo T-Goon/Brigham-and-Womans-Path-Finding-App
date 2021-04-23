@@ -13,6 +13,7 @@ import javafx.scene.control.Label;
 
 import java.math.RoundingMode;
 import java.net.URL;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
@@ -72,7 +73,13 @@ public class FloralDeliveryRequestFormController extends DefaultServiceRequestFo
 
         if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml")) {
             this.id = (String) App.getPrimaryStage().getUserData();
-            FloralRequest floralRequest = (FloralRequest) DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(id, Request.RequestType.FLORAL);
+            FloralRequest floralRequest = null;
+            try {
+                floralRequest = (FloralRequest) DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(id, Request.RequestType.FLORAL);
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return;
+            }
             patientName.setText(floralRequest.getPatientName());
             getLocationIndex(floralRequest.getLocation());
             String date = floralRequest.getDeliveryDate();
@@ -168,7 +175,12 @@ public class FloralDeliveryRequestFormController extends DefaultServiceRequestFo
 
             String employeeName;
             if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml")) {
-                employeeName = DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(this.id, Request.RequestType.FLORAL).getEmployeeName();
+                try {
+                    employeeName = DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(this.id, Request.RequestType.FLORAL).getEmployeeName();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    return;
+                }
             } else {
                 employeeName = null;
             }
@@ -177,10 +189,12 @@ public class FloralDeliveryRequestFormController extends DefaultServiceRequestFo
                     wantsRoses, wantsTulips, wantsDaisies, wantsLilies, wantsSunflowers, wantsCarnations, wantsOrchids,
                     requestID, time, date, complete, employeeName, getLocation(), givenDescription);
 
-            if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml")) {
-                DatabaseHandler.getDatabaseHandler("main.db").updateRequest(request);
-            } else {
-                DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
+            try {
+                if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml"))
+                    DatabaseHandler.getDatabaseHandler("main.db").updateRequest(request);
+                else DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
         }
     }

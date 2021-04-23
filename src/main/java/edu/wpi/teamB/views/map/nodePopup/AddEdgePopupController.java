@@ -14,6 +14,7 @@ import javafx.scene.shape.Circle;
 import net.kurobako.gesturefx.GesturePane;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class AddEdgePopupController implements Initializable {
@@ -81,7 +82,12 @@ public class AddEdgePopupController implements Initializable {
                 Edge edge = new Edge(edgeIdentifier, startNodeName, endNodeName);
 
                 // Update database and graph
-                DatabaseHandler.getDatabaseHandler("main.db").addEdge(edge);
+                try {
+                    DatabaseHandler.getDatabaseHandler("main.db").addEdge(edge);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    return;
+                }
 
                 // Remove popup from map and refresh map nodes
                 data.getData().getPfmc().refreshEditor();
