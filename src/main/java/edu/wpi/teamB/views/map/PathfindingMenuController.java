@@ -594,6 +594,7 @@ public class PathfindingMenuController implements Initializable {
         if (editMap) {
             removeOldPaths();
             removeNodes();
+            removeIntermediateNodes();
             drawEdgesOnFloor(currentFloor);
             drawAltNodesOnFloor(currentFloor);
             drawIntermediateNodesOnFloor(currentFloor);
@@ -634,8 +635,10 @@ public class PathfindingMenuController implements Initializable {
         if (nodes.isEmpty()) return;
 
         for (Node n : nodes.values()) {
-            if ((!(n.getNodeType().equals("WALK") || n.getNodeType().equals("HALL"))) && (!n.getBuilding().equals("BTM") && !n.getBuilding().equals("Shapiro")) &&
+            if ((!(n.getNodeType().equals("WALK") || n.getNodeType().equals("HALL"))) &&
+                    (!n.getBuilding().equals("BTM") && !n.getBuilding().equals("Shapiro")) &&
                     n.getFloor().equals(floorID)){
+
                 placeAltNode(n);
             }
         }
