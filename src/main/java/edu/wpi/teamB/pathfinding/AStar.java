@@ -71,9 +71,14 @@ public class AStar {
             }
         }
 
+        // Cannot find path
+        assert current != null;
+        if(pQueue.isEmpty()) {
+            if (!current.equals(endNode)) return new Path(new LinkedList<>(), 0);
+        }
+
 
         //backtrack from end node to start node to create final path.
-        assert current != null;
         String currentID = current.getNodeID();
         while (!currentID.equals("START")) {
             ret.addFirst(currentID);
