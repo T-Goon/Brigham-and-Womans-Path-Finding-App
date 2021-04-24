@@ -27,8 +27,11 @@ public class LoginOptionsController {
             case "btnStaff":
                 SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/login/loginOptions.fxml", "/edu/wpi/teamB/views/login/loginPage.fxml");
                 break;
-            case "btnGuest":
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/login/loginOptions.fxml", "/edu/wpi/teamB/views/menus/patientDirectoryMenu.fxml");
+            case "btnDirections":
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/login/loginOptions.fxml", "/edu/wpi/teamB/views/map/pathfindingMenu.fxml");
+                break;
+            case "btnCovid":
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/login/loginOptions.fxml", "/edu/wpi/teamB/views/covidSurvey/covidSurvey.fxml");
                 break;
             case "btnEmergency":
                 SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/login/loginOptions.fxml", "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");
