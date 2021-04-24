@@ -47,7 +47,9 @@ public class EmergencyFormController implements Initializable {
         JFXButton btn = (JFXButton) actionEvent.getSource();
         switch (btn.getId()) {
             case "btnSubmit":
-            case "btnBack":
+                SceneSwitcher.switchFromTemp(getClass(), "/edu/wpi/teamB/views/requestForms/emergencySubmitted.fxml");
+                break;
+            case "btnCancel":
                 SceneSwitcher.goBack(getClass(), 1);
                 break;
             case "btnHelp":

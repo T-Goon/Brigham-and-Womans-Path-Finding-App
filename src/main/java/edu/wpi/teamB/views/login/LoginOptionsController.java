@@ -26,6 +26,9 @@ public class LoginOptionsController extends BasePageController {
             case "btnStaff":
                 SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/teamB/views/login/loginPage.fxml");
                 break;
+            case "btnDirections":
+                SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/teamB/views/map/pathfindingMenu.fxml");
+                break;
             case "btnGuest":
                 SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/teamB/views/menus/userDirectoryMenu.fxml");
                 break;

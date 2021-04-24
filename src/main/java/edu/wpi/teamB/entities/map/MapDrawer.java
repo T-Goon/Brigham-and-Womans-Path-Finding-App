@@ -177,7 +177,10 @@ public class MapDrawer implements PopableManager {
             i.setId(n.getNodeID() + "Icon");
 
             // Show graphical input for pathfinding when clicked
-            i.setOnMouseClicked((MouseEvent e) -> mppm.createGraphicalInputPopup(n));
+            i.setOnMouseClicked((MouseEvent e) -> {
+                removeAllPopups();
+                mppm.createGraphicalInputPopup(n);
+            });
 
             nodeHolder.getChildren().add(i);
             mc.getNodePlaced().add(i);
