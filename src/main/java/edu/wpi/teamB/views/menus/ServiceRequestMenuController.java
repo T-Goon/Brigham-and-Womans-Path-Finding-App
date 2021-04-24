@@ -1,6 +1,7 @@
 package edu.wpi.teamB.views.menus;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXScrollPane;
 import edu.wpi.teamB.database.DatabaseHandler;
 import edu.wpi.teamB.entities.User;
 import edu.wpi.teamB.util.SceneSwitcher;
@@ -72,6 +73,9 @@ public class ServiceRequestMenuController implements Initializable {
 
     @FXML
     private VBox externalTransport;
+
+    @FXML
+    private JFXScrollPane contentScroll;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
