@@ -1,6 +1,5 @@
 .scroll-pane > .viewport {
    -fx-background-color: transparent;
-    -fx-border-color: #012d5a;
 }
 
 .scroll-bar:vertical .track {
@@ -16,4 +15,8 @@
 .increment-button, .decrement-button {
     -fx-background-color: #004e9c;
     -fx-border-color: #004e9c;
+}
+
+.scroll-pane{
+    -fx-background-color: transparent;
 }
