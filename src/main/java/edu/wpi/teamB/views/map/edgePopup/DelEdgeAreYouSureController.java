@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class DelEdgeAreYouSureController implements Initializable {
+
     @FXML
     private JFXButton btnYes;
 

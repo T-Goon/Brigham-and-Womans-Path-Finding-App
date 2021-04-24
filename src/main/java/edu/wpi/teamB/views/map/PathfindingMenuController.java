@@ -364,11 +364,11 @@ public class PathfindingMenuController implements Initializable {
         JFXDialogLayout helpLayout = new JFXDialogLayout();
 
         Text helpText;
-        if (!md.isEditing()) {
+        if (!md.isEditing())
             helpText = new Text("Enter your start and end location graphically or using our menu selector. To use the graphical selection,\nsimply click on the node and click on the set button. To enter a location using the menu. Click on the appropriate\ndrop down and choose your location. The node you selected will show up on your map where you can either\nset it to your start or end location. Once both the start and end nodes are filled in you can press \"Go\" to generate your path");
-        } else {
+        else
             helpText = new Text("Double click to add a node. Click on a node or an edge to edit or remove them. To add a new edge click on\none of the nodes, then add edge, and then start node. Go to the next node in the edge then, add edge, end node,\nand finally add node.");
-        }
+
         helpText.setFont(new Font("MS Reference Sans Serif", 14));
 
         Label headerLabel = new Label("Help");
