@@ -30,6 +30,7 @@ public class MapCache {
     @Getter
     private String currentFloor = "1";
     private Map<String, String> mapLongToID = new HashMap<>();
+    @Getter
     private Map<String, List<TreeItem<String>>> catNameMap = new HashMap<>();
 
     @Setter

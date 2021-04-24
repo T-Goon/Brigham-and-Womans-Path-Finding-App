@@ -137,18 +137,19 @@ public class PathfindingMenuController implements Initializable {
 
         //Adds all the destination names to locationNames and sort the nodes by floor
         mc.updateLocations();
+        populateTreeView();
 
-        md = new MapDrawer(mc, nodeHolder, mapHolder, intermediateNodeHolder, lblError, mapStack);
+        md = new MapDrawer(mc, nodeHolder, mapHolder, intermediateNodeHolder, lblError, mapStack, gpane);
 
         mepm = new MapEditorPopupManager(md, mc, gpane, mapStack);
+        md.setMepm(mepm);
 
         mppm = new MapPathPopupManager(md, txtStartLocation, txtEndLocation, mapStack, gpane, this);
+        md.setMppm(mppm);
 
         // Draw the nodes on the map
-        try {
-            md.drawNodesOnFloor();
-        } catch (NullPointerException ignored) {
-        }
+        md.drawNodesOnFloor();
+
 
         //test if we came from a failed covid survey
         if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/covidSurvey/covidFormSubmittedWithSymp.fxml")) {
@@ -157,7 +158,6 @@ public class PathfindingMenuController implements Initializable {
         }
 
         initMapForEditing();
-
 
         // Set up Load and Save buttons
         btnLoad.setOnAction(
@@ -237,8 +237,10 @@ public class PathfindingMenuController implements Initializable {
 
             if (tempLocation.getFloor().equals(mc.getCurrentFloor())) {
 
-                if (md.isEditing()) mepm.showEditNodePopup(tempLocation, mouseEvent, true);
-                else mppm.createGraphicalInputPopup(tempLocation);
+                if (md.isEditing())
+                    mepm.showEditNodePopup(tempLocation, mouseEvent, true);
+                else
+                    mppm.createGraphicalInputPopup(tempLocation);
 
             }
         }
@@ -311,19 +313,22 @@ public class PathfindingMenuController implements Initializable {
         }
     }
 
-//    private void populateTreeView(){
-//        //Populating TreeView
-//        TreeItem<String> rootNode = new TreeItem<>("Locations");
-//        rootNode.setExpanded(true);
-//        treeLocations.setRoot(rootNode);
-//
-//        //Adding Categories
-//        for (String category : catNameMap.keySet()) {
-//            TreeItem<String> categoryTreeItem = new TreeItem<>(categoryNameMap.get(category));
-//            categoryTreeItem.getChildren().addAll(catNameMap.get(category));
-//            rootNode.getChildren().add(categoryTreeItem);
-//        }
-//    }
+    /**
+     * Populates the tree view with nodes and categories
+     */
+    private void populateTreeView(){
+        //Populating TreeView
+        TreeItem<String> rootNode = new TreeItem<>("Locations");
+        rootNode.setExpanded(true);
+        treeLocations.setRoot(rootNode);
+
+        //Adding Categories
+        for (String category : mc.getCatNameMap().keySet()) {
+            TreeItem<String> categoryTreeItem = new TreeItem<>(categoryNameMap.get(category));
+            categoryTreeItem.getChildren().addAll(mc.getCatNameMap().get(category));
+            rootNode.getChildren().add(categoryTreeItem);
+        }
+    }
 
     // Code for graphical map editor *********************************************************************
 
@@ -349,24 +354,26 @@ public class PathfindingMenuController implements Initializable {
                     // Only one window open at a time;
                     md.removeAllPopups();
 
-                    AddNodePopupData anData = new AddNodePopupData(
-                            x * PathfindingMenuController.coordinateScale,
-                            y * PathfindingMenuController.coordinateScale,
-                            mc.getCurrentFloor(),
-                            md,
-                            gpane
-                    );
+                    mepm.showAddNodePopup(event);
 
-                    AddNodePopup adp = new AddNodePopup(mapStack, anData);
-
-                    App.getPrimaryStage().setUserData(adp);
-
-                    try {
-                        FXMLLoader.load(Objects.requireNonNull(
-                                getClass().getClassLoader().getResource("edu/wpi/teamB/views/map/nodePopup/addNodePopup.fxml")));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+//                    AddNodePopupData anData = new AddNodePopupData(
+//                            x * PathfindingMenuController.coordinateScale,
+//                            y * PathfindingMenuController.coordinateScale,
+//                            mc.getCurrentFloor(),
+//                            md,
+//                            gpane
+//                    );
+//
+//                    AddNodePopup adp = new AddNodePopup(mapStack, anData);
+//
+//                    App.getPrimaryStage().setUserData(adp);
+//
+//                    try {
+//                        FXMLLoader.load(Objects.requireNonNull(
+//                                getClass().getClassLoader().getResource("edu/wpi/teamB/views/map/nodePopup/addNodePopup.fxml")));
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
                 }
 
             }

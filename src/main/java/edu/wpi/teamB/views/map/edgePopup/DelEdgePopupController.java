@@ -62,8 +62,7 @@ public class DelEdgePopupController implements Initializable {
                 root.getChildren().remove(mainMenu);
 
                 ays = new DelEdgeAYSWindow(
-                        root, data.getData()
-                );
+                        root, data.getData(), data, mainMenu);
 
                 // Pass data to next window
                 App.getPrimaryStage().setUserData(ays);
@@ -85,9 +84,4 @@ public class DelEdgePopupController implements Initializable {
         }
     }
 
-//    void areYouSureToMain(){
-//        ays.hide();
-//
-//        root.getChildren().add(mainMenu);
-//    }
 }

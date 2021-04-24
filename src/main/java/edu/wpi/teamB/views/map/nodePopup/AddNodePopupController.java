@@ -123,9 +123,10 @@ public class AddNodePopupController implements Initializable {
 
         switch (btn.getId()) {
             case "btnCancel":
-                popup.hide();
+                popup.getData().getMd().removeAllPopups();
                 break;
             case "btnAddNode":
+                // Parse data from popup text fields
                 String id = nodeID.getText().trim();
                 String f = floor.getText().trim();
                 String b = building.getText().trim();
@@ -142,6 +143,7 @@ public class AddNodePopupController implements Initializable {
                 int x = Integer.parseInt(xCoord.getText().trim());
                 int y = Integer.parseInt(yCoord.getText().trim());
 
+                // Add node to database
                 popup.addNode(id, x, y, f, b, t, ln, sn);
                 break;
         }

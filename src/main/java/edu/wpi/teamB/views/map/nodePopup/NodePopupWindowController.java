@@ -42,12 +42,6 @@ public class NodePopupWindowController implements Initializable {
 
     private NodeMenuPopup popup;
 
-    private VBox areYouSureMenu;
-
-    private VBox nodeEditMenu;
-
-    private VBox addEdgeMenu;
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         popup = (NodeMenuPopup) App.getPrimaryStage().getUserData();
@@ -87,19 +81,17 @@ public class NodePopupWindowController implements Initializable {
             case "btnAddEdge":
                 root.getChildren().remove(mainMenu);
 
-                AddEdgeWindow aeWindow = new AddEdgeWindow(root, popup.getData(), popup);
+                AddEdgeWindow aeWindow = new AddEdgeWindow(root, popup.getData(), popup, mainMenu);
 
                 // Pass data to window
                 App.getPrimaryStage().setUserData(aeWindow);
 
                 aeWindow.show();
-
-                root.getChildren().add(addEdgeMenu);
                 break;
             case "btnDelete":
                 root.getChildren().remove(mainMenu);
 
-                DelNodeAYSWindow dnWindow = new DelNodeAYSWindow(root, popup.getData(), popup);
+                DelNodeAYSWindow dnWindow = new DelNodeAYSWindow(root, popup.getData(), popup, mainMenu);
 
                 // Pass data to new window
                 App.getPrimaryStage().setUserData(dnWindow);

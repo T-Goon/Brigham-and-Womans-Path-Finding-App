@@ -26,7 +26,7 @@ public class GraphicalInputPopup extends Popup<VBox, GraphicalInputData> {
 
         VBox locInput = null;
 
-        App.getPrimaryStage().setUserData(data);
+        App.getPrimaryStage().setUserData(this);
 
         try{
             // Load fxml
@@ -42,7 +42,6 @@ public class GraphicalInputPopup extends Popup<VBox, GraphicalInputData> {
 
     @Override
     public void hide() {
-        data.getMd().removeAllPopups();
         super.hide();
         this.gpane.setGestureEnabled(true);
     }

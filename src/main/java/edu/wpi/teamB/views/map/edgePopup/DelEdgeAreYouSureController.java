@@ -17,11 +17,11 @@ public class DelEdgeAreYouSureController implements Initializable {
     @FXML
     private JFXButton btnNo;
 
-    private DelEdgeAYSWindow data;
+    private DelEdgeAYSWindow window;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        data = (DelEdgeAYSWindow) App.getPrimaryStage().getUserData();
+        window = (DelEdgeAYSWindow) App.getPrimaryStage().getUserData();
     }
 
     @FXML
@@ -30,10 +30,10 @@ public class DelEdgeAreYouSureController implements Initializable {
 
         switch (btn.getId()){
             case "btnYes":
-                data.deleteEdge();
+                window.deleteEdge();
                 break;
             case "btnNo":
-                data.hide();
+                window.goBack();
                 break;
         }
     }

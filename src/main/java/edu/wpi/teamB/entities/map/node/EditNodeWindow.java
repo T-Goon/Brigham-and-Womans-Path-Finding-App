@@ -7,12 +7,14 @@ import edu.wpi.teamB.util.Popup.Popup;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import lombok.Getter;
 
 import java.io.IOException;
 import java.util.Objects;
 
 public class EditNodeWindow extends Popup<VBox, NodeMenuPopupData> {
 
+    @Getter
     private final NodeMenuPopup container;
 
     public EditNodeWindow(Pane parent, NodeMenuPopupData data, NodeMenuPopup nmp) {

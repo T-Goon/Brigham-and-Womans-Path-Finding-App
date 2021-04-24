@@ -6,6 +6,7 @@ import edu.wpi.teamB.entities.map.MapDrawer;
 import edu.wpi.teamB.entities.map.data.DelEdgePopupData;
 import edu.wpi.teamB.pathfinding.Graph;
 import edu.wpi.teamB.util.Popup.Popup;
+import edu.wpi.teamB.util.Popup.Window;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -13,15 +14,18 @@ import javafx.scene.layout.VBox;
 import java.io.IOException;
 import java.util.Objects;
 
-public class DelEdgeAYSWindow extends Popup<VBox, DelEdgePopupData> {
+public class DelEdgeAYSWindow extends Window<VBox, DelEdgePopupData, VBox> {
 
     private DelEdgePopup container;
-    private MapDrawer md;
 
-    public DelEdgeAYSWindow(Pane parent, DelEdgePopupData data) {
-        super(parent, data);
+    public DelEdgeAYSWindow(Pane parent, DelEdgePopupData data, DelEdgePopup dePopup, VBox previous) {
+        super(parent, data, previous);
+        this.container = dePopup;
     }
 
+    /**
+     * Delete an edge and
+     */
     public void deleteEdge(){
         DatabaseHandler.getDatabaseHandler("main.db").removeEdge(
                 data.getStart().getNodeID() + "_" +
@@ -30,11 +34,13 @@ public class DelEdgeAYSWindow extends Popup<VBox, DelEdgePopupData> {
         Graph.getGraph().updateGraph();
 
         // Remove popup from map and refresh the nodes
-
-        container.hide();
-        md.refreshEditor();
+        data.getMd().removeAllPopups();
+        data.getMd().refreshEditor();
     }
 
+    /**
+     * Show this window
+     */
     public void show() {
 
         // Pass data to next window
@@ -52,6 +58,9 @@ public class DelEdgeAYSWindow extends Popup<VBox, DelEdgePopupData> {
         super.show(node);
     }
 
+    /**
+     * Hide this window
+     */
     @Override
     public void hide() {
         super.hide();

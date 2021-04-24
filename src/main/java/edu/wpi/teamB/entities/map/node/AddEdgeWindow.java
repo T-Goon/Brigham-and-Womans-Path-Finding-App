@@ -5,6 +5,7 @@ import edu.wpi.teamB.entities.map.MapDrawer;
 import edu.wpi.teamB.entities.map.data.Edge;
 import edu.wpi.teamB.entities.map.data.NodeMenuPopupData;
 import edu.wpi.teamB.util.Popup.Popup;
+import edu.wpi.teamB.util.Popup.Window;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -17,12 +18,12 @@ import java.io.IOException;
 import java.util.Objects;
 import java.util.Stack;
 
-public class AddEdgeWindow extends Popup<VBox, NodeMenuPopupData> {
+public class AddEdgeWindow extends Window<VBox, NodeMenuPopupData, VBox> {
 
     private final NodeMenuPopup container;
 
-    public AddEdgeWindow(Pane parent, NodeMenuPopupData data, NodeMenuPopup nmp) {
-        super(parent, data);
+    public AddEdgeWindow(Pane parent, NodeMenuPopupData data, NodeMenuPopup nmp, VBox previous) {
+        super(parent, data, previous);
         this.container = nmp;
     }
 
@@ -115,10 +116,5 @@ public class AddEdgeWindow extends Popup<VBox, NodeMenuPopupData> {
         // Reset start and end nodes
         data.getMc().setNewEdgeStart(null);
         data.getMc().setNewEdgeEnd(null);
-    }
-
-    @Override
-    public void hide() {
-        super.hide();
     }
 }

@@ -6,8 +6,8 @@ import lombok.Getter;
 
 public abstract class Popup<T extends Pane, E> {
 
-    private final Pane parent;
-    private T window;
+    protected final Pane parent;
+    protected T window;
 
     @Getter
     protected final E data;

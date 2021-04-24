@@ -4,6 +4,7 @@ import edu.wpi.teamB.App;
 import edu.wpi.teamB.database.DatabaseHandler;
 import edu.wpi.teamB.entities.map.data.NodeMenuPopupData;
 import edu.wpi.teamB.util.Popup.Popup;
+import edu.wpi.teamB.util.Popup.Window;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -12,12 +13,12 @@ import net.kurobako.gesturefx.GesturePane;
 import java.io.IOException;
 import java.util.Objects;
 
-public class DelNodeAYSWindow extends Popup<VBox, NodeMenuPopupData> {
+public class DelNodeAYSWindow extends Window<VBox, NodeMenuPopupData, VBox> {
 
     private final NodeMenuPopup container;
 
-    public DelNodeAYSWindow(Pane parent, NodeMenuPopupData data, NodeMenuPopup nmPopup) {
-        super(parent, data);
+    public DelNodeAYSWindow(Pane parent, NodeMenuPopupData data, NodeMenuPopup nmPopup, VBox previous) {
+        super(parent, data, previous);
         this.container = nmPopup;
     }
 
@@ -50,10 +51,5 @@ public class DelNodeAYSWindow extends Popup<VBox, NodeMenuPopupData> {
         }
 
         super.show(areYouSureMenu);
-    }
-
-    @Override
-    public void hide() {
-        super.hide();
     }
 }

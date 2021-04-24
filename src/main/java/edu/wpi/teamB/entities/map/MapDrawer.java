@@ -28,7 +28,9 @@ import java.util.*;
 public class MapDrawer {
 
     private MapCache mc;
+    @Setter
     private MapPathPopupManager mppm;
+    @Setter
     private MapEditorPopupManager mepm;
     private AnchorPane nodeHolder;
     private AnchorPane mapHolder;
@@ -46,13 +48,14 @@ public class MapDrawer {
     private boolean isEditing = false;
 
     public MapDrawer(MapCache mc, AnchorPane nodeHolder, AnchorPane mapHolder, AnchorPane intermediateNodeHolder,
-                     Label lblError, StackPane mapStack){
+                     Label lblError, StackPane mapStack, GesturePane gpane){
         this.mc = mc;
         this.nodeHolder = nodeHolder;
         this.mapHolder = mapHolder;
         this.intermediateNodeHolder = intermediateNodeHolder;
         this.lblError = lblError;
         this.mapStack = mapStack;
+        this.gpane = gpane;
     }
 
     /**
@@ -334,17 +337,10 @@ public class MapDrawer {
         }
     }
 
+    /**
+     * Remove all the popups on the map
+     */
     public void removeAllPopups() {
-//        if (addNodePopup != null || editNodePopup != null || delEdgePopup != null || selectionBox != null ) {
-//            deleteBox(selectionBox);
-//            deleteBox(editNodePopup);
-//            deleteBox(delEdgePopup);
-//            deleteBox(addNodePopup);
-//        }
-
-//        if(estimatedTimeBox!=null){
-//            nodeHolder.getChildren().remove(estimatedTimeBox);
-//        }
         mepm.removeAllPopups();
         mppm.removeAllPopups();
 

@@ -53,7 +53,7 @@ public class GraphicalInputController implements Initializable {
                 p.getData().getPfmc().validateFindPathButton();
                 break;
             case "btnCancel":
-                p.hide();
+                p.getData().getMd().removeAllPopups();
                 break;
         }
     }

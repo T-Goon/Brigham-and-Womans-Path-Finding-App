@@ -11,12 +11,14 @@ import net.kurobako.gesturefx.GesturePane;
 
 public class MapPathPopupManager {
 
-    private MapDrawer md;
-    private JFXTextField txtStartLocation;
-    private JFXTextField txtEndLocation;
-    private PathfindingMenuController pfmc;
-    private StackPane mapStack;
-    private GesturePane gpane;
+    private final MapDrawer md;
+    private final JFXTextField txtStartLocation;
+    private final JFXTextField txtEndLocation;
+    private final PathfindingMenuController pfmc;
+    private final StackPane mapStack;
+    private final GesturePane gpane;
+
+    private GraphicalInputPopup giPopup;
 
     public MapPathPopupManager(MapDrawer md, JFXTextField txtStartLocation, JFXTextField txtEndLocation,
                                StackPane mapStack, GesturePane gpane, PathfindingMenuController pfmc) {
@@ -37,14 +39,21 @@ public class MapPathPopupManager {
 
         GraphicalInputData giData = new GraphicalInputData(n.getLongName(), txtStartLocation, txtEndLocation, md, pfmc);
 
-        GraphicalInputPopup giPopup = new GraphicalInputPopup(mapStack, giData, gpane);
+        giPopup = new GraphicalInputPopup(mapStack, giData, gpane);
 
         App.getPrimaryStage().setUserData(giPopup);
 
         giPopup.show();
     }
 
+    /**
+     * Remove all popups managed my this class.
+     */
     public void removeAllPopups(){
 
+        if(giPopup != null){
+            giPopup.hide();
+            giPopup = null;
+        }
     }
 }

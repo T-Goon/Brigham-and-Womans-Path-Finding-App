@@ -16,9 +16,13 @@ public class MapEditorPopupManager {
 
     private MapDrawer md;
     private MapCache mc;
-    private AddNodePopup anp;
+
     private GesturePane gPane;
     private StackPane mapStack;
+
+    private AddNodePopup anPopup;
+    private DelEdgePopup dePopup;
+    private  NodeMenuPopup nmPopup;
 
     public MapEditorPopupManager(MapDrawer md, MapCache mc, GesturePane gPane, StackPane mapStack) {
         this.md = md;
@@ -31,7 +35,7 @@ public class MapEditorPopupManager {
      * Show the popup to add a node
      * @param event The mouse event that triggered the popup to be shown.
      */
-    private void showAddNodePopup(MouseEvent event) {
+    public void showAddNodePopup(MouseEvent event) {
 
         // Coordinates on the map
         double x = event.getX();
@@ -48,11 +52,11 @@ public class MapEditorPopupManager {
                 md,
                 gPane);
 
-        AddNodePopup anp = new AddNodePopup(mapStack, data);
+        anPopup = new AddNodePopup(mapStack, data);
 
-        App.getPrimaryStage().setUserData(anp);
+        App.getPrimaryStage().setUserData(anPopup);
 
-        anp.show();
+        anPopup.show();
     }
 
     /**
@@ -62,16 +66,14 @@ public class MapEditorPopupManager {
      */
     public void showDelEdgePopup(Node start, Node end, Pane parent) {
         // Make sure there is only one editNodePopup at one time
-        removeAllPopups();
-
-        DelEdgePopupData delData = new DelEdgePopupData(start, end, gPane);
-
-        DelEdgePopup dePopup = new DelEdgePopup(parent, delData);
-
         md.removeAllPopups();
 
+        DelEdgePopupData delData = new DelEdgePopupData(start, end, gPane, md);
+
+        dePopup = new DelEdgePopup(parent, delData);
+
         // Pass window data
-        App.getPrimaryStage().setUserData(delData);
+        App.getPrimaryStage().setUserData(dePopup);
 
         dePopup.show();
     }
@@ -82,6 +84,10 @@ public class MapEditorPopupManager {
      * @param n Node that is to be edited.
      */
     public void showEditNodePopup(Node n, MouseEvent event, boolean fromTreeView) {
+
+        // Make sure there is only one editNodePopup at one time
+        md.removeAllPopups();
+
         Circle c;
         if (fromTreeView) c = null;
         else c = (Circle) event.getSource();
@@ -96,13 +102,13 @@ public class MapEditorPopupManager {
                 n.getLongName(),
                 n.getShortName(),
                 fromTreeView,
-                md
+                md,
+                c,
+                mc,
+                mapStack
         );
 
-        NodeMenuPopup nmPopup = new NodeMenuPopup(mapStack, npData, gPane);
-
-        // Make sure there is only one editNodePopup at one time
-        md.removeAllPopups();
+        nmPopup = new NodeMenuPopup(mapStack, npData, gPane);
 
         // Data to pass to popup
         App.getPrimaryStage().setUserData(nmPopup);
@@ -110,7 +116,23 @@ public class MapEditorPopupManager {
         nmPopup.show();
     }
 
+    /**
+     * Hide all popups
+     */
     public void removeAllPopups(){
+        if(anPopup != null){
+            anPopup.hide();
+            anPopup = null;
+        }
 
+        if(nmPopup != null){
+            nmPopup.hide();
+            nmPopup = null;
+        }
+
+        if(dePopup != null){
+            dePopup.hide();
+            dePopup = null;
+        }
     }
 }
