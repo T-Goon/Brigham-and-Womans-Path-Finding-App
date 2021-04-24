@@ -5,6 +5,7 @@ import edu.wpi.teamB.entities.map.data.Node;
 import edu.wpi.teamB.entities.map.data.NodeMenuPopupData;
 import edu.wpi.teamB.entities.map.data.NodeType;
 import edu.wpi.teamB.util.Popup.Popup;
+import edu.wpi.teamB.util.Popup.Window;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -16,10 +17,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-public class EditNodeWindow extends Popup<VBox, NodeMenuPopupData> {
+public class EditNodeWindow extends Window<VBox, NodeMenuPopupData, VBox> {
 
-    public EditNodeWindow(Pane parent, NodeMenuPopupData data) {
-        super(parent, data);
+    public EditNodeWindow(Pane parent, NodeMenuPopupData data, VBox previous) {
+        super(parent, data, previous);
     }
 
     public void updateNode(int x, int y, String floor, String building, String type, String longName, String shortName){

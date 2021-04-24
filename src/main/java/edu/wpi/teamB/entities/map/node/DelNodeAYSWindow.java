@@ -9,6 +9,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Objects;
 
 public class DelNodeAYSWindow extends Window<VBox, NodeMenuPopupData, VBox> {
@@ -22,7 +23,10 @@ public class DelNodeAYSWindow extends Window<VBox, NodeMenuPopupData, VBox> {
      * Delete a node
      */
     public void delNode(){
-        DatabaseHandler.getDatabaseHandler("main.db").removeNode(data.getNodeID());
+        try {
+            DatabaseHandler.getDatabaseHandler("main.db").removeNode(data.getNodeID());
+        } catch (SQLException e) { e.printStackTrace(); }
+
         data.getMd().removeAllPopups();
         data.getMd().refreshEditor();
     }

@@ -155,7 +155,9 @@ public class AddNodePopupController implements Initializable {
 
                 nodes.forEach(node -> {
                     if (node.getNodeID().startsWith("b"))
-                        indexes.add(Integer.parseInt(node.getNodeID().substring(5, 8)));
+                        indexes.add(
+                                Integer.parseInt(
+                                        node.getNodeID().substring(5, 8)));
                 });
 
                 Collections.sort(indexes);
@@ -164,7 +166,7 @@ public class AddNodePopupController implements Initializable {
                 for (Integer i : indexes)
                     if (i != index++) break;
 
-                String id = "b" + longName + String.format("%3s", index).replace(' ', '0') +
+                String id = "b" + t + String.format("%3s", index).replace(' ', '0') +
                         String.format("%2s", f).replace(' ', '0');
 
                 // Add node to database

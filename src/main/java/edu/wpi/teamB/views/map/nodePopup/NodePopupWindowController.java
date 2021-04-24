@@ -52,7 +52,7 @@ public class NodePopupWindowController implements Initializable {
         if (popup.getData().isFromTree()) {
             root.getChildren().remove(mainMenu);
 
-            EditNodeWindow enWindow =  new EditNodeWindow(root, popup.getData());
+            EditNodeWindow enWindow =  new EditNodeWindow(root, popup.getData(), null);
 
             // Pass data to new window
             App.getPrimaryStage().setUserData(enWindow);
@@ -71,7 +71,7 @@ public class NodePopupWindowController implements Initializable {
             case "btnEditNode":
                 root.getChildren().remove(mainMenu);
 
-                EditNodeWindow enWindow =  new EditNodeWindow(root, popup.getData());
+                EditNodeWindow enWindow =  new EditNodeWindow(root, popup.getData(), mainMenu);
 
                 // Pass data to new window
                 App.getPrimaryStage().setUserData(enWindow);

@@ -284,19 +284,13 @@ public class PathfindingMenuController implements Initializable {
                 break;
             case "btnEditMap":
 
-                ImageView graphic = (ImageView) btnEditMap.getChildrenUnmodifiable().get(1);
+//                ImageView graphic = (ImageView) btnEditMap.getChildrenUnmodifiable().get(0);
 
                 md.removeAllPopups();
                 mppm.removeETAPopup();
-                if (!md.isEditing()) {
-
-                    graphic.setImage(new Image("edu/wpi/teamB/images/menus/directionsIcon.png"));
-                    md.setEditing(true);
-                } else {
-
-                    graphic.setImage(new Image("edu/wpi/teamB/images/menus/wrench.png"));
-                    md.setEditing(false);
-                }
+                //                    graphic.setImage(new Image("edu/wpi/teamB/images/menus/directionsIcon.png"));
+                //                    graphic.setImage(new Image("edu/wpi/teamB/images/menus/wrench.png"));
+                md.setEditing(!md.isEditing());
 
                 selectedLocation = null;
                 md.drawAllElements();

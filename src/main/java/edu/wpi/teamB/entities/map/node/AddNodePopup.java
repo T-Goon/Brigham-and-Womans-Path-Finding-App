@@ -9,6 +9,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Objects;
 
 public class AddNodePopup extends Popup<VBox, AddNodePopupData> {
@@ -49,7 +50,12 @@ public class AddNodePopup extends Popup<VBox, AddNodePopupData> {
     public void addNode(String nodeID, int x, int y, String floor, String building, String type, String longName, String shortName){
 
         Node aNode = new Node(nodeID, x, y, floor, building, type, longName, shortName);
-        DatabaseHandler.getDatabaseHandler("main.db").addNode(aNode);
+
+        try {
+            DatabaseHandler.getDatabaseHandler("main.db").addNode(aNode);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
         // Refresh map editor
         data.getMd().refreshEditor();

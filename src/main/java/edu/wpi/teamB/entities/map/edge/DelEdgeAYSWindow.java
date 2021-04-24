@@ -12,6 +12,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Objects;
 
 public class DelEdgeAYSWindow extends Window<VBox, DelEdgePopupData, VBox> {
@@ -24,10 +25,13 @@ public class DelEdgeAYSWindow extends Window<VBox, DelEdgePopupData, VBox> {
      * Delete an edge and
      */
     public void deleteEdge(){
-        DatabaseHandler.getDatabaseHandler("main.db").removeEdge(
-                data.getStart().getNodeID() + "_" +
-                        data.getEnd().getNodeID()
-        );
+        try {
+            DatabaseHandler.getDatabaseHandler("main.db").removeEdge(
+                    data.getStart().getNodeID() + "_" +
+                            data.getEnd().getNodeID()
+            );
+        } catch (SQLException e) { e.printStackTrace(); }
+
         Graph.getGraph().updateGraph();
 
         // Remove popup from map and refresh the nodes
