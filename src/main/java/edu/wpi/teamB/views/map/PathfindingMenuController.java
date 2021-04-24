@@ -37,6 +37,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.sql.SQLException;
+import java.util.*;
 
 public class PathfindingMenuController implements Initializable {
 
@@ -186,7 +188,12 @@ public class PathfindingMenuController implements Initializable {
         List<Edge> newEdges = CSVHandler.loadCSVEdgesFromExternalPath(file.toPath());
 
         // Update the database
-        db.loadNodesEdges(newNodes, newEdges);
+        try {
+            db.loadNodesEdges(newNodes, newEdges);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
         Graph.getGraph().updateGraph();
 
         // Now delete and refresh the nodes

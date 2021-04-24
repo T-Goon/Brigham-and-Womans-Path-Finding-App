@@ -14,6 +14,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
@@ -39,11 +40,17 @@ public class FoodDeliveryRequestFormController extends DefaultServiceRequestForm
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        super.initialize(location,resources);
+        super.initialize(location, resources);
 
         if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml")) {
             this.id = (String) App.getPrimaryStage().getUserData();
-            FoodRequest foodRequest = (FoodRequest) DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(id, Request.RequestType.FOOD);
+            FoodRequest foodRequest = null;
+            try {
+                foodRequest = (FoodRequest) DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(id, Request.RequestType.FOOD);
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return;
+            }
             name.setText(foodRequest.getPatientName());
             getLocationIndex(foodRequest.getLocation());
             mealChoice.setText(foodRequest.getMealChoice());
@@ -83,7 +90,12 @@ public class FoodDeliveryRequestFormController extends DefaultServiceRequestForm
 
             String employeeName;
             if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml")) {
-                employeeName = DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(this.id, Request.RequestType.FOOD).getEmployeeName();
+                try {
+                    employeeName = DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(this.id, Request.RequestType.FOOD).getEmployeeName();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    return;
+                }
             } else {
                 employeeName = null;
             }
@@ -91,19 +103,21 @@ public class FoodDeliveryRequestFormController extends DefaultServiceRequestForm
             FoodRequest request = new FoodRequest(givenPatientName, givenArrivalTime, givenMealChoice,
                     requestID, time, date, complete, employeeName, getLocation(), givenDescription);
 
-            if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml")) {
-                DatabaseHandler.getDatabaseHandler("main.db").updateRequest(request);
-            } else {
-                DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
+            try {
+                if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml"))
+                    DatabaseHandler.getDatabaseHandler("main.db").updateRequest(request);
+                else DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
         }
     }
 
     @FXML
-    private void validateButton(){
+    private void validateButton() {
         btnSubmit.setDisable(
-            name.getText().isEmpty() || loc.getValue() == null || mealChoice.getText().isEmpty() ||
-            arrivalTime.getValue() == null || description.getText().isEmpty()
+                name.getText().isEmpty() || loc.getValue() == null || mealChoice.getText().isEmpty() ||
+                        arrivalTime.getValue() == null || description.getText().isEmpty()
         );
     }
 }

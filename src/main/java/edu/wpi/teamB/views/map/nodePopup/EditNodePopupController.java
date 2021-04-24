@@ -32,9 +32,6 @@ public class EditNodePopupController implements Initializable {
     private ToggleGroup areaGroup;
 
     @FXML
-    private JFXTextField nodeID;
-
-    @FXML
     private JFXTextField xCoord;
 
     @FXML
@@ -86,8 +83,6 @@ public class EditNodePopupController implements Initializable {
         nodeType.getItems().addAll(temp);
 
         // Fill in current node data
-        nodeID.setText(window.getData().getNodeID());
-        nodeID.setDisable(true);
         xCoord.setText(String.valueOf(Math.round(window.getData().getX())));
         yCoord.setText(String.valueOf(Math.round(window.getData().getY())));
         floor.setText(window.getData().getFloor());
@@ -100,11 +95,12 @@ public class EditNodePopupController implements Initializable {
 
     /**
      * Make sure input is valid
+     *
      * @throws NumberFormatException when floor, xCoord, or yCoord is not a number
      */
     @FXML
     private void validateButton() throws NumberFormatException {
-        btnUpdate.setDisable(nodeID.getText().trim().isEmpty() || building.getText().trim().isEmpty() || nodeType.getValue().trim().isEmpty()
+        btnUpdate.setDisable(building.getText().trim().isEmpty() || nodeType.getValue().trim().isEmpty()
                 || longName.getText().trim().isEmpty() || shortName.getText().trim().isEmpty() || floor.getText().trim().isEmpty()
                 || xCoord.getText().trim().isEmpty() || yCoord.getText().trim().isEmpty());
 
@@ -113,13 +109,14 @@ public class EditNodePopupController implements Initializable {
             Integer.parseInt(yCoord.getText().trim());
         } catch (NumberFormatException notInt) {
             btnUpdate.setDisable(true);
-        }}
+        }
+    }
 
     @FXML
-    private void handleButtonAction(ActionEvent event){
+    private void handleButtonAction(ActionEvent event) {
         JFXButton btn = (JFXButton) event.getSource();
 
-        switch (btn.getId()){
+        switch (btn.getId()) {
             case "btnUpdate":
 
                 int x = Integer.parseInt(xCoord.getText().trim());
@@ -139,6 +136,7 @@ public class EditNodePopupController implements Initializable {
 
                 window.updateNode(x, y, f, b, t, l, s);
                 window.getData().getMd().removeAllPopups();
+
                 break;
             case "btnCancel":
                 if (window.getData().isFromTree())

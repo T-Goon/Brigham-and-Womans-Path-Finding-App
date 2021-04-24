@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class DelEdgeAreYouSureController implements Initializable {
@@ -28,7 +29,7 @@ public class DelEdgeAreYouSureController implements Initializable {
     private void handleButtonAction(ActionEvent event){
         JFXButton btn = (JFXButton) event.getSource();
 
-        switch (btn.getId()){
+        switch (btn.getId()) {
             case "btnYes":
                 window.deleteEdge();
                 break;

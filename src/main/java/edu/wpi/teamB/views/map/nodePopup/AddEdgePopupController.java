@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class AddEdgePopupController implements Initializable {
@@ -47,7 +48,6 @@ public class AddEdgePopupController implements Initializable {
                 break;
             case "btnDone":
                 window.addEdge();
-
             case "btnReset":
                 window.resetEdges();
                 break;

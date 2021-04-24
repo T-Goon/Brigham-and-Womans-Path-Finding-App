@@ -11,6 +11,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Objects;
 
 public class AddEdgeWindow extends Window<VBox, NodeMenuPopupData, VBox> {
@@ -87,7 +88,11 @@ public class AddEdgeWindow extends Window<VBox, NodeMenuPopupData, VBox> {
         Edge edge = new Edge(edgeIdentifier, startNodeName, endNodeName);
 
         // Update database and graph
-        DatabaseHandler.getDatabaseHandler("main.db").addEdge(edge);
+        try {
+            DatabaseHandler.getDatabaseHandler("main.db").addEdge(edge);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
         // Remove popup from map and refresh map nodes
         data.getMd().removeAllPopups();
