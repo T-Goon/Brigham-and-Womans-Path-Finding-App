@@ -21,7 +21,7 @@ public class EmergencySubmittedController {
                 SceneSwitcher.goBack(getClass(), 1);
                 break;
             case "btnEmergency":
-                SceneSwitcher.switchToTemp(getClass(), "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");
+                SceneSwitcher.switchFromTemp(getClass(), "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");
                 break;
             case "btnExit":
                 Platform.exit();
