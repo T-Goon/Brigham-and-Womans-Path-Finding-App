@@ -3,6 +3,7 @@ package edu.wpi.teamB.views.covidSurvey;
 // Java program to create a popup and add it to the stage
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.teamB.util.SceneSwitcher;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
@@ -30,6 +31,9 @@ public class CovidSubmittedNoSympController {
                 break;
             case "btnEmergency":
                 SceneSwitcher.switchToTemp(getClass(), "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");
+                break;
+            case "btnExit":
+                Platform.exit();
                 break;
         }
     }

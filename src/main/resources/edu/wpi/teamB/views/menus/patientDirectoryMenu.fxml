@@ -92,22 +92,6 @@
                         <Insets left="20.0" right="20.0" />
                      </HBox.margin>
                   </VBox>
-                  <VBox prefHeight="200.0" prefWidth="100.0">
-                     <HBox.margin>
-                        <Insets left="20.0" />
-                     </HBox.margin>
-                     <children>
-                        <JFXButton fx:id="btnServiceRequests" buttonType="RAISED" onAction="#handleButtonAction" ripplerFill="#0080ff" text="Service Requests" textOverrun="CLIP">
-                           <graphic>
-                              <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../../images/menus/serviceRequestsButton.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                        </JFXButton>
-                     </children>
-                  </VBox>
                </children>
                <VBox.margin>
                   <Insets top="150.0" />
@@ -115,17 +99,13 @@
             </HBox>
             <HBox alignment="BOTTOM_LEFT" VBox.vgrow="ALWAYS">
                <children>
-                  <JFXButton fx:id="btnBack" alignment="CENTER" buttonType="RAISED" cancelButton="true" contentDisplay="CENTER" maxHeight="56" maxWidth="56" onAction="#handleButtonAction" prefHeight="56" prefWidth="56" style="-fx-background-color: #0067B1; -fx-background-radius: 50%;" text="" textAlignment="CENTER" textFill="WHITE">
+                  <JFXButton fx:id="btnBack" alignment="CENTER" buttonType="RAISED" cancelButton="true" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" onAction="#handleButtonAction" prefHeight="56" prefWidth="56" style="-fx-background-color: #0067B1; -fx-background-radius: 50%;" text="🡰" textAlignment="CENTER" textFill="WHITE">
                      <font>
                         <Font size="27.0" />
                      </font>
-                     <graphic>
-                        <ImageView fitHeight="20" fitWidth="20" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../images/menus/backButton.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
+                     <padding>
+                        <Insets top="1.0" />
+                     </padding>
                   </JFXButton>
                </children>
                <VBox.margin>
