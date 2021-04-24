@@ -19,7 +19,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TreeItem;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -101,8 +100,6 @@ public class PathfindingMenuController implements Initializable {
     private final Map<String, String> categoryNameMap = new HashMap<>();
 
     private final DatabaseHandler db = DatabaseHandler.getDatabaseHandler("main.db");
-
-    private TreeItem<String> selectedLocation;
 
     final FileChooser fileChooser = new FileChooser();
     final DirectoryChooser directoryChooser = new DirectoryChooser();
@@ -236,7 +233,7 @@ public class PathfindingMenuController implements Initializable {
         TreeItem<String> selectedItem = treeLocations.getSelectionModel().getSelectedItem();
         if (selectedItem == null) return;
 
-        if (!selectedItem.equals(selectedLocation) && selectedItem.isLeaf()) {
+        if (selectedItem.isLeaf()) {
             //Selected item is a valid location
 
             //For now only work on nodes that are on the first floor until multi-floor pathfinding is added
@@ -255,7 +252,6 @@ public class PathfindingMenuController implements Initializable {
             }
         }
 
-        selectedLocation = selectedItem;
         validateFindPathButton();
     }
 
@@ -284,15 +280,11 @@ public class PathfindingMenuController implements Initializable {
                 break;
             case "btnEditMap":
 
-//                ImageView graphic = (ImageView) btnEditMap.getChildrenUnmodifiable().get(0);
-
                 md.removeAllPopups();
                 mppm.removeETAPopup();
-                //                    graphic.setImage(new Image("edu/wpi/teamB/images/menus/directionsIcon.png"));
-                //                    graphic.setImage(new Image("edu/wpi/teamB/images/menus/wrench.png"));
+
                 md.setEditing(!md.isEditing());
 
-                selectedLocation = null;
                 md.drawAllElements();
                 break;
             case "btnBack":
