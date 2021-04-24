@@ -34,6 +34,7 @@ public class AStar {
 
         Node current = null;
         while (!pQueue.isEmpty()) {
+
             //Takes next node in the priority queue which should be the node with the greatest fVal
             current = pQueue.poll();
 

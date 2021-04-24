@@ -98,9 +98,8 @@ public class PathfindingMenuController implements Initializable {
 
     private VBox addNodePopup;
     private VBox editNodePopup;
-    private VBox delEdgePopup;
 
-    private Map<String, String> categoryNameMap = new HashMap<>();
+    private final Map<String, String> categoryNameMap = new HashMap<>();
 
     private final DatabaseHandler db = DatabaseHandler.getDatabaseHandler("main.db");
 
@@ -109,7 +108,7 @@ public class PathfindingMenuController implements Initializable {
     final FileChooser fileChooser = new FileChooser();
     final DirectoryChooser directoryChooser = new DirectoryChooser();
 
-    private MapCache mc = new MapCache();;
+    private final MapCache mc = new MapCache();;
     private MapDrawer md;
     private MapEditorPopupManager mepm;
     private MapPathPopupManager mppm;
@@ -144,7 +143,7 @@ public class PathfindingMenuController implements Initializable {
         mepm = new MapEditorPopupManager(md, mc, gpane, mapStack);
         md.setMepm(mepm);
 
-        mppm = new MapPathPopupManager(md, txtStartLocation, txtEndLocation, mapStack, gpane, this);
+        mppm = new MapPathPopupManager(md, txtStartLocation, txtEndLocation, mapStack, gpane, this, nodeHolder);
         md.setMppm(mppm);
 
         // Draw the nodes on the map
@@ -160,51 +159,57 @@ public class PathfindingMenuController implements Initializable {
         initMapForEditing();
 
         // Set up Load and Save buttons
-        btnLoad.setOnAction(
-                event -> {
-                    // Get the nodes CSV file and load it
-                    Stage stage = App.getPrimaryStage();
-                    fileChooser.setTitle("Select Nodes CSV file:");
-                    fileChooser.setInitialDirectory(new File(new File("").getAbsolutePath()));
-                    fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV files", "*.csv"));
-                    File file = fileChooser.showOpenDialog(stage);
-                    if (file == null) return;
-                    List<Node> newNodes = CSVHandler.loadCSVNodesFromExternalPath(file.toPath());
+        btnLoad.setOnAction( event -> loadCSV());
 
-                    // Get the edges CSV file and load it
-                    fileChooser.setTitle("Select Edges CSV file:");
-                    fileChooser.setInitialDirectory(new File(new File("").getAbsolutePath()));
-                    fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV files", "*.csv"));
-                    file = fileChooser.showOpenDialog(stage);
-                    if (file == null) return;
-                    List<Edge> newEdges = CSVHandler.loadCSVEdgesFromExternalPath(file.toPath());
-
-                    // Update the database
-                    db.loadNodesEdges(newNodes, newEdges);
-                    Graph.getGraph().updateGraph();
-
-                    // Now delete and refresh the nodes
-                    md.drawAllElements();
-                }
-        );
-
-        btnSave.setOnAction(
-                event -> {
-                    // Get the CSV directory location
-                    Stage stage = App.getPrimaryStage();
-                    directoryChooser.setTitle("Select directory to save CSV files to:");
-                    directoryChooser.setInitialDirectory(new File(new File("").getAbsolutePath()));
-                    File file = directoryChooser.showDialog(stage);
-                    if (file == null) return;
-
-                    // Save the current database into that folder in CSV files
-                    CSVHandler.saveCSVNodes(file.toPath(), false);
-                    CSVHandler.saveCSVEdges(file.toPath(), false);
-                }
-        );
+        btnSave.setOnAction( event -> saveCSV());
 
         // Disable editing if the user is not an admin
         checkPermissions();
+    }
+
+    /**
+     * Loads node and edges data from csv
+     */
+    private void loadCSV(){
+        // Get the nodes CSV file and load it
+        Stage stage = App.getPrimaryStage();
+        fileChooser.setTitle("Select Nodes CSV file:");
+        fileChooser.setInitialDirectory(new File(new File("").getAbsolutePath()));
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV files", "*.csv"));
+        File file = fileChooser.showOpenDialog(stage);
+        if (file == null) return;
+        List<Node> newNodes = CSVHandler.loadCSVNodesFromExternalPath(file.toPath());
+
+        // Get the edges CSV file and load it
+        fileChooser.setTitle("Select Edges CSV file:");
+        fileChooser.setInitialDirectory(new File(new File("").getAbsolutePath()));
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV files", "*.csv"));
+        file = fileChooser.showOpenDialog(stage);
+        if (file == null) return;
+        List<Edge> newEdges = CSVHandler.loadCSVEdgesFromExternalPath(file.toPath());
+
+        // Update the database
+        db.loadNodesEdges(newNodes, newEdges);
+        Graph.getGraph().updateGraph();
+
+        // Now delete and refresh the nodes
+        md.drawAllElements();
+    }
+
+    /**
+     * Saves node and edges data to a csv
+     */
+    private void saveCSV(){
+        // Get the CSV directory location
+        Stage stage = App.getPrimaryStage();
+        directoryChooser.setTitle("Select directory to save CSV files to:");
+        directoryChooser.setInitialDirectory(new File(new File("").getAbsolutePath()));
+        File file = directoryChooser.showDialog(stage);
+        if (file == null) return;
+
+        // Save the current database into that folder in CSV files
+        CSVHandler.saveCSVNodes(file.toPath(), false);
+        CSVHandler.saveCSVEdges(file.toPath(), false);
     }
 
     /**
@@ -237,6 +242,7 @@ public class PathfindingMenuController implements Initializable {
 
             if (tempLocation.getFloor().equals(mc.getCurrentFloor())) {
 
+                md.removeAllPopups();
                 if (md.isEditing())
                     mepm.showEditNodePopup(tempLocation, mouseEvent, true);
                 else
@@ -268,35 +274,28 @@ public class PathfindingMenuController implements Initializable {
 
         switch (b.getId()) {
             case "btnFindPath":
+
                 md.removeOldPaths();
                 md.drawPath(txtStartLocation.getText(), txtEndLocation.getText());
                 break;
             case "btnEditMap":
+
                 ImageView graphic = (ImageView) btnEditMap.getChildrenUnmodifiable().get(1);
 
+                md.removeAllPopups();
+                mppm.removeETAPopup();
                 if (!md.isEditing()) {
+
                     graphic.setImage(new Image("edu/wpi/teamB/images/menus/directionsIcon.png"));
                     md.setEditing(true);
                 } else {
+
                     graphic.setImage(new Image("edu/wpi/teamB/images/menus/wrench.png"));
-
-                    // Remove the add node popup if it is on the map
-                    if (addNodePopup != null) {
-                        nodeHolder.getChildren().remove(addNodePopup);
-                        addNodePopup = null;
-                    }
-
-                    // Remove the edit node popup if it is on the map
-                    if (editNodePopup != null) {
-                        nodeHolder.getChildren().remove(editNodePopup);
-                        editNodePopup = null;
-                    }
-
                     md.setEditing(false);
                 }
+
                 selectedLocation = null;
                 md.drawAllElements();
-
                 break;
             case "btnBack":
                 SceneSwitcher.goBack(getClass(), 1);
@@ -330,63 +329,34 @@ public class PathfindingMenuController implements Initializable {
         }
     }
 
-    // Code for graphical map editor *********************************************************************
-
     /**
      * Shows the add node popup when double clicking on the map.
      */
     private void initMapForEditing() {
 
-        map.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
+        map.setOnMouseClicked(event -> {
+            // Show popup on double clicks
+            if (event.getClickCount() < 2) return;
 
-                // Show popup on double clicks
-                if (event.getClickCount() < 2) return;
+            // if in editing mode
+            if (md.isEditing()) {
 
-                // Coordinates on the map
-                double x = event.getX();
-                double y = event.getY();
+                // Only one window open at a time;
+                md.removeAllPopups();
 
-                // if in editing mode
-                if (md.isEditing()) {
-
-                    // Only one window open at a time;
-                    md.removeAllPopups();
-
-                    mepm.showAddNodePopup(event);
-
-//                    AddNodePopupData anData = new AddNodePopupData(
-//                            x * PathfindingMenuController.coordinateScale,
-//                            y * PathfindingMenuController.coordinateScale,
-//                            mc.getCurrentFloor(),
-//                            md,
-//                            gpane
-//                    );
-//
-//                    AddNodePopup adp = new AddNodePopup(mapStack, anData);
-//
-//                    App.getPrimaryStage().setUserData(adp);
-//
-//                    try {
-//                        FXMLLoader.load(Objects.requireNonNull(
-//                                getClass().getClassLoader().getResource("edu/wpi/teamB/views/map/nodePopup/addNodePopup.fxml")));
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-                }
-
+                mepm.showAddNodePopup(event);
             }
         });
 
     }
 
-    // Misc utility methods ****************************************************************************
-
+    /**
+     * Shows the help dialog box.
+     */
     private void loadHelpDialog(){
         JFXDialogLayout helpLayout = new JFXDialogLayout();
 
-        Text helpText = new Text();
+        Text helpText;
         if(!md.isEditing()){
             helpText = new Text("Enter your start and end location graphically or using our menu selector. To use the graphical selection,\nsimply click on the node and click on the set button. To enter a location using the menu. Click on the appropriate\ndrop down and choose your location. The node you selected will show up on your map where you can either\nset it to your start or end location. Once both the start and end nodes are filled in you can press \"Go\" to generate your path");
         } else{
@@ -406,6 +376,5 @@ public class PathfindingMenuController implements Initializable {
         helpLayout.setActions(button);
 
         helpWindow.show();
-
     }
 }

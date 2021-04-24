@@ -52,7 +52,7 @@ public class NodePopupWindowController implements Initializable {
         if (popup.getData().isFromTree()) {
             root.getChildren().remove(mainMenu);
 
-            EditNodeWindow enWindow =  new EditNodeWindow(root, popup.getData(), popup);
+            EditNodeWindow enWindow =  new EditNodeWindow(root, popup.getData());
 
             // Pass data to new window
             App.getPrimaryStage().setUserData(enWindow);
@@ -71,7 +71,7 @@ public class NodePopupWindowController implements Initializable {
             case "btnEditNode":
                 root.getChildren().remove(mainMenu);
 
-                EditNodeWindow enWindow =  new EditNodeWindow(root, popup.getData(), popup);
+                EditNodeWindow enWindow =  new EditNodeWindow(root, popup.getData());
 
                 // Pass data to new window
                 App.getPrimaryStage().setUserData(enWindow);
@@ -81,7 +81,7 @@ public class NodePopupWindowController implements Initializable {
             case "btnAddEdge":
                 root.getChildren().remove(mainMenu);
 
-                AddEdgeWindow aeWindow = new AddEdgeWindow(root, popup.getData(), popup, mainMenu);
+                AddEdgeWindow aeWindow = new AddEdgeWindow(root, popup.getData(), mainMenu);
 
                 // Pass data to window
                 App.getPrimaryStage().setUserData(aeWindow);
@@ -91,7 +91,7 @@ public class NodePopupWindowController implements Initializable {
             case "btnDelete":
                 root.getChildren().remove(mainMenu);
 
-                DelNodeAYSWindow dnWindow = new DelNodeAYSWindow(root, popup.getData(), popup, mainMenu);
+                DelNodeAYSWindow dnWindow = new DelNodeAYSWindow(root, popup.getData(), mainMenu);
 
                 // Pass data to new window
                 App.getPrimaryStage().setUserData(dnWindow);

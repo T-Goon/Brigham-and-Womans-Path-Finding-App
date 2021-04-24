@@ -16,11 +16,8 @@ import java.util.Objects;
 
 public class DelEdgeAYSWindow extends Window<VBox, DelEdgePopupData, VBox> {
 
-    private DelEdgePopup container;
-
-    public DelEdgeAYSWindow(Pane parent, DelEdgePopupData data, DelEdgePopup dePopup, VBox previous) {
+    public DelEdgeAYSWindow(Pane parent, DelEdgePopupData data, VBox previous) {
         super(parent, data, previous);
-        this.container = dePopup;
     }
 
     /**

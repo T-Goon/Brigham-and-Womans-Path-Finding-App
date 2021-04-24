@@ -3,7 +3,6 @@ package edu.wpi.teamB.entities.map.data;
 import com.jfoenix.controls.JFXTextField;
 import edu.wpi.teamB.entities.map.MapDrawer;
 import edu.wpi.teamB.views.map.PathfindingMenuController;
-import javafx.scene.text.Text;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

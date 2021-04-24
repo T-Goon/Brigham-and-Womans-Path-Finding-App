@@ -26,12 +26,12 @@ public class MapCache {
     private List<javafx.scene.Node> intermediateNodePlaced = new ArrayList<>();
 
     @Getter
-    private Map<String, List<Node>> floorNodes = new HashMap<>();
+    private final Map<String, List<Node>> floorNodes = new HashMap<>();
     @Getter
-    private String currentFloor = "1";
+    private final String currentFloor = "1";
     private Map<String, String> mapLongToID = new HashMap<>();
     @Getter
-    private Map<String, List<TreeItem<String>>> catNameMap = new HashMap<>();
+    private final Map<String, List<TreeItem<String>>> catNameMap = new HashMap<>();
 
     @Setter
     @Getter

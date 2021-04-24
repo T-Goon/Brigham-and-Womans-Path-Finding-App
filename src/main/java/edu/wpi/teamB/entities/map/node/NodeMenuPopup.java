@@ -12,7 +12,7 @@ import java.util.Objects;
 
 public class NodeMenuPopup extends Popup<VBox, NodeMenuPopupData> {
 
-    private GesturePane gpane;
+    private final GesturePane gpane;
 
     public NodeMenuPopup(Pane parent, NodeMenuPopupData data, GesturePane gpane) {
         super(parent, data);

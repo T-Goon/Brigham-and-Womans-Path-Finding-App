@@ -7,19 +7,14 @@ import edu.wpi.teamB.util.Popup.Popup;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import lombok.Getter;
 
 import java.io.IOException;
 import java.util.Objects;
 
 public class EditNodeWindow extends Popup<VBox, NodeMenuPopupData> {
 
-    @Getter
-    private final NodeMenuPopup container;
-
-    public EditNodeWindow(Pane parent, NodeMenuPopupData data, NodeMenuPopup nmp) {
+    public EditNodeWindow(Pane parent, NodeMenuPopupData data) {
         super(parent, data);
-        this.container = nmp;
     }
 
     public void updateNode(int x, int y, String floor, String building, String type, String longName, String shortName){
@@ -38,9 +33,8 @@ public class EditNodeWindow extends Popup<VBox, NodeMenuPopupData> {
         DatabaseHandler.getDatabaseHandler("main.db").updateNode(node);
 
         // Remove popup from map and refresh map nodes
+        data.getMd().removeAllPopups();
         data.getMd().refreshEditor();
-
-        container.hide();
     }
 
     public void show(){

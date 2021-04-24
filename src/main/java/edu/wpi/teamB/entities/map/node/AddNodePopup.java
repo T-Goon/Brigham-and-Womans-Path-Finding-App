@@ -17,6 +17,9 @@ public class AddNodePopup extends Popup<VBox, AddNodePopupData> {
         super(parent, data);
     }
 
+    /**
+     * Show this popup on the map
+     */
     public void show(){
         VBox popup = null;
 
@@ -32,6 +35,17 @@ public class AddNodePopup extends Popup<VBox, AddNodePopupData> {
         super.show(popup);
     }
 
+    /**
+     * Add a node to the database
+     * @param nodeID Node id of the node
+     * @param x x coordinate of the node in pixels
+     * @param y y coordinate of the node in pixels
+     * @param floor Floor of the hospital the node is on
+     * @param building Building that the node is in
+     * @param type Type of the node
+     * @param longName Long name of the node
+     * @param shortName short name of the node
+     */
     public void addNode(String nodeID, int x, int y, String floor, String building, String type, String longName, String shortName){
 
         Node aNode = new Node(nodeID, x, y, floor, building, type, longName, shortName);
@@ -44,6 +58,9 @@ public class AddNodePopup extends Popup<VBox, AddNodePopupData> {
         hide();
     }
 
+    /**
+     * Remove the popup from the map.
+     */
     @Override
     public void hide() {
         super.hide();

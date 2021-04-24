@@ -1,32 +1,27 @@
 package edu.wpi.teamB.entities.map.node;
 
 import edu.wpi.teamB.database.DatabaseHandler;
-import edu.wpi.teamB.entities.map.MapDrawer;
 import edu.wpi.teamB.entities.map.data.Edge;
 import edu.wpi.teamB.entities.map.data.NodeMenuPopupData;
-import edu.wpi.teamB.util.Popup.Popup;
 import edu.wpi.teamB.util.Popup.Window;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import net.kurobako.gesturefx.GesturePane;
 
 import java.io.IOException;
 import java.util.Objects;
-import java.util.Stack;
 
 public class AddEdgeWindow extends Window<VBox, NodeMenuPopupData, VBox> {
 
-    private final NodeMenuPopup container;
-
-    public AddEdgeWindow(Pane parent, NodeMenuPopupData data, NodeMenuPopup nmp, VBox previous) {
+    public AddEdgeWindow(Pane parent, NodeMenuPopupData data, VBox previous) {
         super(parent, data, previous);
-        this.container = nmp;
     }
 
+    /**
+     * Show this window in the popup
+     */
     public void show(){
 
         VBox addEdgeMenu = null;
@@ -95,9 +90,8 @@ public class AddEdgeWindow extends Window<VBox, NodeMenuPopupData, VBox> {
         DatabaseHandler.getDatabaseHandler("main.db").addEdge(edge);
 
         // Remove popup from map and refresh map nodes
+        data.getMd().removeAllPopups();
         data.getMd().refreshEditor();
-
-        container.hide();
     }
 
     /**

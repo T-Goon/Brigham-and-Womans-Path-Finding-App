@@ -6,7 +6,6 @@ import edu.wpi.teamB.util.Popup.Popup;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import jdk.nashorn.internal.ir.GetSplitState;
 import net.kurobako.gesturefx.GesturePane;
 
 import java.io.IOException;
@@ -22,10 +21,14 @@ public class GraphicalInputPopup extends Popup<VBox, GraphicalInputData> {
         this.gpane = gpane;
     }
 
+    /**
+     * Show this popup on the map
+     */
     public void show(){
 
         VBox locInput = null;
 
+        // Pass this object to the controller
         App.getPrimaryStage().setUserData(this);
 
         try{
@@ -40,6 +43,9 @@ public class GraphicalInputPopup extends Popup<VBox, GraphicalInputData> {
         this.gpane.setGestureEnabled(false);
     }
 
+    /**
+     * Remove this popup from the map
+     */
     @Override
     public void hide() {
         super.hide();

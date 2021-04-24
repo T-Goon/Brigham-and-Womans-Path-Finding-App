@@ -12,34 +12,33 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
-import javafx.scene.text.Text;
 import lombok.Getter;
 import lombok.Setter;
 import net.kurobako.gesturefx.GesturePane;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 public class MapDrawer {
 
-    private MapCache mc;
+    private final MapCache mc;
     @Setter
     private MapPathPopupManager mppm;
     @Setter
     private MapEditorPopupManager mepm;
-    private AnchorPane nodeHolder;
-    private AnchorPane mapHolder;
-    private AnchorPane intermediateNodeHolder;
-    private Label lblError;
-    private GesturePane gpane;
-    private StackPane mapStack;
-    private VBox selectionBox = null;
-    private VBox estimatedTimeBox = null;
+    private final AnchorPane nodeHolder;
+    private final AnchorPane mapHolder;
+    private final AnchorPane intermediateNodeHolder;
+    private final Label lblError;
+    private final GesturePane gpane;
+    private final StackPane mapStack;
+    private ETAPopup etaPopup;
 
     private final DatabaseHandler db = DatabaseHandler.getDatabaseHandler("main.db");
 
@@ -62,8 +61,10 @@ public class MapDrawer {
      * Draws the path on the map
      */
     public void drawPath(String start, String end) {
-        if (estimatedTimeBox != null)
-            removeAllPopups();
+        if (etaPopup != null) {
+            etaPopup.hide();
+            etaPopup = null;
+        }
 
         Map<String, Node> nodesId = Graph.getGraph().getNodes();
         Map<String, String> hmLongName = mc.makeLongToIDMap();
@@ -84,40 +85,7 @@ public class MapDrawer {
             }
         }
 
-        drawEstimatedTimeBox(aStarPath);
-    }
-
-    /**
-     * Draw the estimated time dialog box
-     *
-     * @param path the path to draw the box on
-     */
-    private void drawEstimatedTimeBox(Path path) {
-
-        // No path
-        if (path.getPath().size() == 0) return;
-
-        String estimatedTime = AStar.getEstimatedTime(path);
-        estimatedTimeBox = new VBox();
-        try {
-            estimatedTimeBox = FXMLLoader.load(
-                    Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/map/misc/showEstimatedTime.fxml")));
-        } catch (IOException e) {
-            System.err.println("[drawEstimatedTimeBox] FXMLLoader load failed");
-        }
-
-        estimatedTimeBox.setId("estimatedTimeDialog");
-
-        List<javafx.scene.Node> child = estimatedTimeBox.getChildren();
-        Text textBox = (Text) child.get(0);
-        textBox.setText(estimatedTime);
-
-        Graph graph = Graph.getGraph();
-        Node endNode = graph.getNodes().get(path.getPath().get(path.getPath().size() - 1));
-
-        estimatedTimeBox.setLayoutX((endNode.getXCoord() / PathfindingMenuController.coordinateScale));
-        estimatedTimeBox.setLayoutY((endNode.getYCoord() / PathfindingMenuController.coordinateScale) - (estimatedTimeBox.getHeight()));
-        nodeHolder.getChildren().add(estimatedTimeBox);
+        etaPopup = mppm.createETAPopup(aStarPath);
     }
 
     /**
@@ -319,7 +287,6 @@ public class MapDrawer {
      */
     public void drawAllElements() {
         removeAllPopups();
-        String floor = mc.getCurrentFloor();
 
         if (isEditing) {
             removeOldPaths();
