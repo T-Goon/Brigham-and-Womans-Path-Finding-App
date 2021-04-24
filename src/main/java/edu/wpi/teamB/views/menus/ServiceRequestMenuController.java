@@ -74,9 +74,6 @@ public class ServiceRequestMenuController implements Initializable {
     @FXML
     private VBox externalTransport;
 
-    @FXML
-    private JFXScrollPane contentScroll;
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         if (!DatabaseHandler.getDatabaseHandler("main.db").getAuthenticationUser().isAtLeast(User.AuthenticationLevel.STAFF)) {
