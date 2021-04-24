@@ -24,7 +24,7 @@ public class GraphicalInputPopup extends Popup<VBox, GraphicalInputData> {
     /**
      * Show this popup on the map
      */
-    public void show(){
+    public void show() {
 
         VBox locInput = null;
 
@@ -35,9 +35,7 @@ public class GraphicalInputPopup extends Popup<VBox, GraphicalInputData> {
             // Load fxml
             locInput = FXMLLoader.load(
                     Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/map/misc/graphicalInput.fxml")));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        } catch (IOException e) { e.printStackTrace(); }
 
         super.show(locInput);
         this.gpane.setGestureEnabled(false);
@@ -49,6 +47,5 @@ public class GraphicalInputPopup extends Popup<VBox, GraphicalInputData> {
     @Override
     public void hide() {
         super.hide();
-        this.gpane.setGestureEnabled(true);
     }
 }

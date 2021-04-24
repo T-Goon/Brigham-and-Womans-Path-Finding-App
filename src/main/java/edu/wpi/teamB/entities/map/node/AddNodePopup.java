@@ -53,9 +53,7 @@ public class AddNodePopup extends Popup<VBox, AddNodePopupData> {
 
         try {
             DatabaseHandler.getDatabaseHandler("main.db").addNode(aNode);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        } catch (SQLException e) { e.printStackTrace(); }
 
         // Refresh map editor
         data.getMd().refreshEditor();
@@ -70,6 +68,5 @@ public class AddNodePopup extends Popup<VBox, AddNodePopupData> {
     @Override
     public void hide() {
         super.hide();
-        data.getGesturePane().setGestureEnabled(true);
     }
 }

@@ -19,16 +19,14 @@ public class NodeMenuPopup extends Popup<VBox, NodeMenuPopupData> {
         this.gpane = gpane;
     }
 
-    public void show(){
+    public void show() {
 
         VBox nmPopup = null;
 
         try{
             nmPopup = FXMLLoader.load(Objects.requireNonNull(
                     getClass().getClassLoader().getResource("edu/wpi/teamB/views/map/nodePopup/nodePopupWindow.fxml")));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        } catch (IOException e) { e.printStackTrace(); }
 
         super.show(nmPopup);
         gpane.setGestureEnabled(false);
@@ -37,6 +35,5 @@ public class NodeMenuPopup extends Popup<VBox, NodeMenuPopupData> {
     @Override
     public void hide() {
         super.hide();
-        gpane.setGestureEnabled(true);
     }
 }

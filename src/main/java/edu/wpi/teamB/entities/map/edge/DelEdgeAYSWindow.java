@@ -24,7 +24,7 @@ public class DelEdgeAYSWindow extends Window<VBox, DelEdgePopupData, VBox> {
     /**
      * Delete an edge and
      */
-    public void deleteEdge(){
+    public void deleteEdge() {
         try {
             DatabaseHandler.getDatabaseHandler("main.db").removeEdge(
                     data.getStart().getNodeID() + "_" +
@@ -52,9 +52,7 @@ public class DelEdgeAYSWindow extends Window<VBox, DelEdgePopupData, VBox> {
         try{
             node = FXMLLoader.load(Objects.requireNonNull(
                     getClass().getClassLoader().getResource("edu/wpi/teamB/views/map/edgePopup/delEdgeAreYouSure.fxml")));
-        } catch (IOException e){
-            e.printStackTrace();
-        }
+        } catch (IOException e){ e.printStackTrace(); }
 
         super.show(node);
     }

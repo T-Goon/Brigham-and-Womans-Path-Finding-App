@@ -64,6 +64,7 @@ public class AddEdgeWindow extends Window<VBox, NodeMenuPopupData, VBox> {
         // Set current start back to black
         String end = data.getMc().getNewEdgeEnd();
         Circle endC = data.getMc().getEndNode();
+
         if (end != null && endC != null) {
             endC.setStroke(Color.BLACK);
         }
@@ -77,7 +78,7 @@ public class AddEdgeWindow extends Window<VBox, NodeMenuPopupData, VBox> {
     /**
      * Add an edge
      */
-    public void addEdge(){
+    public void addEdge() {
         String startNodeName = data.getMc().getNewEdgeStart();
         String endNodeName = data.getMc().getNewEdgeEnd();
 
@@ -102,10 +103,11 @@ public class AddEdgeWindow extends Window<VBox, NodeMenuPopupData, VBox> {
     /**
      * Reset the edges picked
      */
-    public void resetEdges(){
+    public void resetEdges() {
         // Reset Node Colors
         if(data.getMc().getStartNode() != null)
             data.getMc().getStartNode().setStroke(Color.BLACK);
+
         if(data.getMc().getEndNode() != null)
             data.getMc().getEndNode().setStroke(Color.BLACK);
 

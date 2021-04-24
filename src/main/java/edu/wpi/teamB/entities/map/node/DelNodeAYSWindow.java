@@ -14,7 +14,6 @@ import java.util.Objects;
 
 public class DelNodeAYSWindow extends Window<VBox, NodeMenuPopupData, VBox> {
 
-
     public DelNodeAYSWindow(Pane parent, NodeMenuPopupData data, VBox previous) {
         super(parent, data, previous);
     }
@@ -22,9 +21,9 @@ public class DelNodeAYSWindow extends Window<VBox, NodeMenuPopupData, VBox> {
     /**
      * Delete a node
      */
-    public void delNode(){
+    public void delNode() {
         try {
-            DatabaseHandler.getDatabaseHandler("main.db").removeNode(data.getNodeID());
+            DatabaseHandler.getDatabaseHandler("main.db").removeNode( data.getNodeID() );
         } catch (SQLException e) { e.printStackTrace(); }
 
         data.getMd().removeAllPopups();

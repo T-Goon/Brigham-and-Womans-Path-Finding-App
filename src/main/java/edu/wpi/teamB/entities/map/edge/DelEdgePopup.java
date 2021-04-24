@@ -18,15 +18,13 @@ public class DelEdgePopup extends Popup<VBox, DelEdgePopupData> {
     /**
      * Shows the popup on the map
      */
-    public void show(){
+    public void show() {
         VBox popup = null;
 
         try {
             popup = FXMLLoader.load(Objects.requireNonNull(
                     getClass().getClassLoader().getResource("edu/wpi/teamB/views/map/edgePopup/delEdgePopup.fxml")));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        } catch (IOException e) { e.printStackTrace(); }
 
         data.getGesturePane().setGestureEnabled(false);
 
@@ -39,6 +37,5 @@ public class DelEdgePopup extends Popup<VBox, DelEdgePopupData> {
     @Override
     public void hide() {
         super.hide();
-        data.getGesturePane().setGestureEnabled(true);
     }
 }

@@ -28,23 +28,21 @@ public class EditNodeWindow extends Window<VBox, NodeMenuPopupData, VBox> {
         // if the node types are different, delete and remake so the nodeID is up to date
         DatabaseHandler db = DatabaseHandler.getDatabaseHandler("main.db");
         if (!data.getNodeType().equals(type)) {
-            try {
-                db.removeNode(data.getNodeID());
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+
+            // Remove old node
+            try { db.removeNode(data.getNodeID()); }
+            catch (SQLException e) { e.printStackTrace(); }
 
             // Figure out what the index should be
             List<Node> nodes = null;
-            try {
-                nodes = db.getNodesByCategory(NodeType.valueOf(type));
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            // Get all nodes of the same category
+            try { nodes = db.getNodesByCategory(NodeType.valueOf(type)); }
+            catch (SQLException e) { e.printStackTrace(); }
 
             List<Integer> indexes = new ArrayList<>();
             assert nodes != null;
 
+            // Find the number to append to the end of the id
             nodes.forEach(node -> {
                 if (node.getNodeID().startsWith("b"))
                     indexes.add(Integer.parseInt(node.getNodeID().substring(5, 8)));
@@ -56,13 +54,13 @@ public class EditNodeWindow extends Window<VBox, NodeMenuPopupData, VBox> {
             for (Integer i : indexes)
                 if (i != index++) break;
 
+            // Construct the id
             String aNodeId = "b" + type + String.format("%3s", index).replace(' ', '0') + String.format("%2s", floor).replace(' ', '0');
             Node node = new Node(aNodeId, x, y, floor, building, type, longName, shortName);
-            try {
-                db.addNode(node);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+
+            // Add the node
+            try { db.addNode(node); }
+            catch (SQLException e) { e.printStackTrace(); }
 
         } else {
             Node node = new Node(
@@ -76,13 +74,11 @@ public class EditNodeWindow extends Window<VBox, NodeMenuPopupData, VBox> {
                     shortName);
 
             // Update database and graph
-            try {
-                db.updateNode(node);
-            } catch (SQLException e) {
+            try { db.updateNode(node); }
+            catch (SQLException e) {
                 e.printStackTrace();
                 return;
             }
-
         }
 
         // Remove popup from map and refresh map nodes
@@ -98,9 +94,7 @@ public class EditNodeWindow extends Window<VBox, NodeMenuPopupData, VBox> {
         try {
             nodeEditMenu = FXMLLoader.load(Objects.requireNonNull(
                     getClass().getClassLoader().getResource("edu/wpi/teamB/views/map/nodePopup/editNodePopup.fxml")));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        } catch (IOException e) { e.printStackTrace(); }
 
         super.show(nodeEditMenu);
     }
