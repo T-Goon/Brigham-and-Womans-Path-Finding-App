@@ -1,42 +1,42 @@
 package edu.wpi.teamB.views.map;
 
 import com.jfoenix.controls.*;
-
 import edu.wpi.teamB.App;
 import edu.wpi.teamB.database.DatabaseHandler;
 import edu.wpi.teamB.entities.User;
-import edu.wpi.teamB.entities.map.*;
-import edu.wpi.teamB.entities.map.data.*;
-import edu.wpi.teamB.entities.map.node.AddNodePopup;
+import edu.wpi.teamB.entities.map.MapCache;
+import edu.wpi.teamB.entities.map.MapDrawer;
+import edu.wpi.teamB.entities.map.MapEditorPopupManager;
+import edu.wpi.teamB.entities.map.MapPathPopupManager;
+import edu.wpi.teamB.entities.map.data.Edge;
+import edu.wpi.teamB.entities.map.data.Node;
 import edu.wpi.teamB.pathfinding.Graph;
-import edu.wpi.teamB.util.*;
+import edu.wpi.teamB.util.CSVHandler;
+import edu.wpi.teamB.util.SceneSwitcher;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.*;
+import javafx.scene.control.Label;
+import javafx.scene.control.TreeItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.scene.text.Text;
-import lombok.Getter;
-import lombok.Setter;
 import net.kurobako.gesturefx.GesturePane;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.ResourceBundle;
 
 public class PathfindingMenuController implements Initializable {
 
@@ -95,9 +95,6 @@ public class PathfindingMenuController implements Initializable {
     private StackPane stackContainer;
 
     public static final double coordinateScale = 25 / 9.0;
-
-    private VBox addNodePopup;
-    private VBox editNodePopup;
 
     private final Map<String, String> categoryNameMap = new HashMap<>();
 
