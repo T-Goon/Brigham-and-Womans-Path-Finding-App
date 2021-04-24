@@ -52,7 +52,7 @@ public class AddEdgePopupController implements Initializable {
                 window.resetEdges();
                 break;
             case "btnCancel":
-                window.goBack();
+                window.hide();
                 break;
         }
     }

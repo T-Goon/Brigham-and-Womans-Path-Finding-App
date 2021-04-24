@@ -16,12 +16,9 @@ public abstract class Window<T extends Pane, E, V extends Node> extends Popup<T,
     /**
      * Goes back to the previous window in a popup.
      */
-    public void goBack(){
-        parent.getChildren().add(previous);
-        super.hide();
-    }
-
     @Override
     public void hide() {
+        parent.getChildren().add(previous);
+        super.hide();
     }
 }

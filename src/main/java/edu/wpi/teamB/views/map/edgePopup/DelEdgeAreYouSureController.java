@@ -34,7 +34,7 @@ public class DelEdgeAreYouSureController implements Initializable {
                 window.deleteEdge();
                 break;
             case "btnNo":
-                window.goBack();
+                window.hide();
                 break;
         }
     }

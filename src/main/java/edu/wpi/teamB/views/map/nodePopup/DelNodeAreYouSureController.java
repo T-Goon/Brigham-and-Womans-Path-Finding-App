@@ -37,7 +37,7 @@ public class DelNodeAreYouSureController implements Initializable {
                 window.delNode();
                 break;
             case "btnNo":
-                window.goBack();
+                window.hide();
                 break;
         }
     }

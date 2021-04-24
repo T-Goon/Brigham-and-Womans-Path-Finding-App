@@ -141,7 +141,7 @@ public class EditNodePopupController implements Initializable {
             case "btnCancel":
                 if (window.getData().isFromTree())
                     window.getData().getMd().removeAllPopups();
-                window.goBack();
+                window.hide();
                 break;
         }
     }
