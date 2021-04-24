@@ -2,8 +2,8 @@ package edu.wpi.teamB.views.map.edgePopup;
 
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.teamB.App;
-import edu.wpi.teamB.entities.map.GraphicalEdgePopupData;
-import edu.wpi.teamB.entities.map.GraphicalEditorEdgeData;
+import edu.wpi.teamB.entities.map.edge.DelEdgeAYSWindow;
+import edu.wpi.teamB.entities.map.edge.DelEdgePopup;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -11,7 +11,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import lombok.Getter;
-import net.kurobako.gesturefx.GesturePane;
 
 import java.io.IOException;
 import java.net.URL;
@@ -38,16 +37,14 @@ public class DelEdgePopupController implements Initializable {
     @FXML
     private JFXButton btnCancel;
 
-    private GraphicalEditorEdgeData data;
-
-    private VBox areYouSureWindow;
+    private DelEdgePopup popup;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        data = (GraphicalEditorEdgeData) App.getPrimaryStage().getUserData();
+        popup = (DelEdgePopup) App.getPrimaryStage().getUserData();
 
-        startName.setText(data.getStart().getLongName());
-        endName.setText(data.getEnd().getLongName());
+        startName.setText(popup.getData().getStart().getLongName());
+        endName.setText(popup.getData().getEnd().getLongName());
     }
 
     @FXML
@@ -58,34 +55,27 @@ public class DelEdgePopupController implements Initializable {
             case "btnDelete":
                 root.getChildren().remove(mainMenu);
 
+                DelEdgeAYSWindow ays = new DelEdgeAYSWindow(
+                        root, popup.getData(), mainMenu);
+
                 // Pass data to next window
-                App.getPrimaryStage().setUserData(new GraphicalEdgePopupData(data, this));
+                App.getPrimaryStage().setUserData(ays);
 
                 // Load window
                 try{
-                    areYouSureWindow = FXMLLoader.load(Objects.requireNonNull(
+                    FXMLLoader.load(Objects.requireNonNull(
                             getClass().getClassLoader().getResource("edu/wpi/teamB/views/map/edgePopup/delEdgeAreYouSure.fxml")));
                 } catch (IOException e){
                     e.printStackTrace();
                 }
 
-                root.getChildren().add(areYouSureWindow);
+                ays.show();
 
                 break;
             case "btnCancel":
-                data.getMapStack().getChildren().remove(root);
-                GesturePane thePane = (GesturePane) data.getMapStack().getChildren().get(0);
-                thePane.setGestureEnabled(true);
+                popup.getData().getMd().removeAllPopups();
                 break;
         }
     }
 
-    void areYouSureToMain(){
-        root.getChildren().remove(areYouSureWindow);
-        GesturePane thePane = (GesturePane) data.getMapStack().getChildren().get(0);
-        thePane.setGestureEnabled(true);
-        areYouSureWindow = null;
-
-        root.getChildren().add(mainMenu);
-    }
 }

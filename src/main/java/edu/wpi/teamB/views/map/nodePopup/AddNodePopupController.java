@@ -5,16 +5,15 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXRadioButton;
 import com.jfoenix.controls.JFXTextField;
 import edu.wpi.teamB.App;
+import edu.wpi.teamB.entities.map.data.Node;
+import edu.wpi.teamB.entities.map.data.NodeType;
+import edu.wpi.teamB.entities.map.node.AddNodePopup;
 import edu.wpi.teamB.database.DatabaseHandler;
-import edu.wpi.teamB.entities.map.Node;
-import edu.wpi.teamB.entities.map.GraphicalEditorNodeData;
-import edu.wpi.teamB.entities.map.NodeType;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.VBox;
-import net.kurobako.gesturefx.GesturePane;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -61,13 +60,13 @@ public class AddNodePopupController implements Initializable {
     @FXML
     private JFXButton btnAddNode;
 
-    private GraphicalEditorNodeData data;
+    private AddNodePopup popup;
 
     private Map<String, String> categoryNameMap;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        data = (GraphicalEditorNodeData) App.getPrimaryStage().getUserData();
+        popup = (AddNodePopup) App.getPrimaryStage().getUserData();
 
         categoryNameMap = new HashMap<>();
 
@@ -92,11 +91,11 @@ public class AddNodePopupController implements Initializable {
         nodeType.getItems().addAll(temp);
 
         // Fill in current coordinates
-        xCoord.setText(Long.toString(Math.round(data.getX())));
-        yCoord.setText(Long.toString(Math.round(data.getY())));
+        xCoord.setText(Long.toString(Math.round(popup.getData().getX())));
+        yCoord.setText(Long.toString(Math.round(popup.getData().getY())));
 
         // Fill in current floor
-        floor.setText(data.getFloor());
+        floor.setText(popup.getData().getFloor());
         floor.setDisable(true);
     }
 
@@ -124,59 +123,54 @@ public class AddNodePopupController implements Initializable {
 
         switch (btn.getId()) {
             case "btnCancel":
-                data.getMapStack().getChildren().remove(root);
-                GesturePane thePane = (GesturePane) data.getMapStack().getChildren().get(0);
-                thePane.setGestureEnabled(true);
+                popup.getData().getMd().removeAllPopups();
                 break;
             case "btnAddNode":
-                String aFloor = floor.getText().trim();
-                String aBuilding = building.getText().trim();
+                // Parse data from popup text fields
+                String f = floor.getText().trim();
+                String b = building.getText().trim();
                 String aNodeType = nodeType.getValue().trim();
-                String actualNodeName = "ERROR!";
+                String t = "ERROR!";
                 for (String s : categoryNameMap.keySet()) {
                     if (categoryNameMap.get(s).equals(aNodeType)) {
-                        actualNodeName = s;
+                        t = s;
                         break;
                     }
                 }
-                String aLongName = longName.getText().trim();
-                String aShortName = shortName.getText().trim();
-                int aXCoord = Integer.parseInt(xCoord.getText().trim());
-                int aYCoord = Integer.parseInt(yCoord.getText().trim());
+                String ln = longName.getText().trim();
+                String sn = shortName.getText().trim();
+                int x = Integer.parseInt(xCoord.getText().trim());
+                int y = Integer.parseInt(yCoord.getText().trim());
 
                 // Figure out what the index should be
                 List<Node> nodes = null;
+
                 try {
-                    nodes = DatabaseHandler.getDatabaseHandler("main.db").getNodesByCategory(NodeType.valueOf(actualNodeName));
+                    nodes = DatabaseHandler.getDatabaseHandler("main.db").getNodesByCategory(NodeType.valueOf(t));
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
+
                 List<Integer> indexes = new ArrayList<>();
+
                 nodes.forEach(node -> {
                     if (node.getNodeID().startsWith("b"))
-                        indexes.add(Integer.parseInt(node.getNodeID().substring(5, 8)));
+                        indexes.add(
+                                Integer.parseInt(
+                                        node.getNodeID().substring(5, 8)));
                 });
+
                 Collections.sort(indexes);
                 int index = 1;
+
                 for (Integer i : indexes)
                     if (i != index++) break;
 
-                String aNodeId = "b" + actualNodeName + String.format("%3s", index).replace(' ', '0') + String.format("%2s", aFloor).replace(' ', '0');
-                Node aNode = new Node(aNodeId, aXCoord, aYCoord, aFloor, aBuilding, actualNodeName, aLongName, aShortName);
-                try {
-                    DatabaseHandler.getDatabaseHandler("main.db").addNode(aNode);
-                } catch (SQLException err) {
-                    err.printStackTrace();
-                    return;
-                }
+                String id = "b" + t + String.format("%3s", index).replace(' ', '0') +
+                        String.format("%2s", f).replace(' ', '0');
 
-                // Refresh map editor
-                data.getPfmc().refreshEditor();
-
-                // Remove popup from map
-                data.getMapStack().getChildren().remove(root);
-                GesturePane elPane = (GesturePane) data.getMapStack().getChildren().get(0);
-                elPane.setGestureEnabled(true);
+                // Add node to database
+                popup.addNode(id, x, y, f, b, t, ln, sn);
                 break;
         }
     }

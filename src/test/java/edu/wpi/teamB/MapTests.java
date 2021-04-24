@@ -51,8 +51,6 @@ public class MapTests extends FxRobot{
         doubleClickOn(MouseButton.PRIMARY);
 
         // Fill in node info
-        clickOn("#nodeID");
-        write("nodeabcd12345");
         clickOn("#building");
         write("building123");
         clickOn("#nodeType");
@@ -68,8 +66,6 @@ public class MapTests extends FxRobot{
         doubleClickOn(MouseButton.PRIMARY);
 
         // Fill in node info
-        clickOn("#nodeID");
-        write("nodeabcd123452");
         clickOn("#building");
         write("building123");
         clickOn("#nodeType");
@@ -81,37 +77,37 @@ public class MapTests extends FxRobot{
         clickOn("#btnAddNode");
 
         // Edit Node
-        verifyThat("#nodeabcd12345Icon", Node::isVisible);
-        clickOn("#nodeabcd12345Icon");
+        verifyThat("#bBATH00101Icon", Node::isVisible);
+        clickOn("#bBATH00101Icon");
         clickOn("#btnEditNode");
-        clickOn("#nodeType");
-        clickOn("Lab Rooms");
+        clickOn("#building");
+        write("123");
         clickOn("#btnUpdate");
 
         // Set start node for edge
-        clickOn("#nodeabcd12345Icon");
+        clickOn("#bBATH00101Icon");
         clickOn("#btnAddEdge");
         clickOn("#btnStart");
         clickOn("#btnCancel");
         clickOn("#btnCancel");
 
         // Set end node for edge
-        clickOn("#nodeabcd123452Icon");
+        clickOn("#bBATH00201Icon");
         clickOn("#btnAddEdge");
         clickOn("#btnEnd");
         clickOn("#btnDone");
 
         // Delete Edge
-        clickOn("#nodeabcd12345_nodeabcd123452Icon");
+        clickOn("#bBATH00101_bBATH00201Icon");
         clickOn("#btnDelete");
         clickOn("#btnYes");
 
         // Delete nodes
-        clickOn("#nodeabcd12345Icon");
+        clickOn("#bBATH00101Icon");
         clickOn("#btnDelete");
         clickOn("#btnYes");
 
-        clickOn("#nodeabcd123452Icon");
+        clickOn("#bBATH00201Icon");
         clickOn("#btnDelete");
         clickOn("#btnYes");
 

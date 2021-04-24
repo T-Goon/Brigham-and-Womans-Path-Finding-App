@@ -1,9 +1,9 @@
 package edu.wpi.teamB.database;
 
 import edu.wpi.teamB.entities.User;
-import edu.wpi.teamB.entities.map.Edge;
-import edu.wpi.teamB.entities.map.Node;
-import edu.wpi.teamB.entities.map.NodeType;
+import edu.wpi.teamB.entities.map.data.Edge;
+import edu.wpi.teamB.entities.map.data.Node;
+import edu.wpi.teamB.entities.map.data.NodeType;
 import edu.wpi.teamB.entities.requests.*;
 import edu.wpi.teamB.pathfinding.Graph;
 

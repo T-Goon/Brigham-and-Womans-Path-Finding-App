@@ -5,18 +5,13 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXRadioButton;
 import com.jfoenix.controls.JFXTextField;
 import edu.wpi.teamB.App;
-import edu.wpi.teamB.database.DatabaseHandler;
-import edu.wpi.teamB.entities.map.Node;
-import edu.wpi.teamB.entities.map.GraphicalNodePopupData;
-import edu.wpi.teamB.entities.map.NodeType;
+import edu.wpi.teamB.entities.map.node.EditNodeWindow;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ToggleGroup;
-import net.kurobako.gesturefx.GesturePane;
 
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.*;
 
 public class EditNodePopupController implements Initializable {
@@ -57,13 +52,13 @@ public class EditNodePopupController implements Initializable {
     @FXML
     private JFXTextField shortName;
 
-    private GraphicalNodePopupData data;
+    private EditNodeWindow window;
 
     private Map<String, String> categoryNameMap;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        data = (GraphicalNodePopupData) App.getPrimaryStage().getUserData();
+        window = (EditNodeWindow) App.getPrimaryStage().getUserData();
 
         categoryNameMap = new HashMap<>();
 
@@ -88,14 +83,14 @@ public class EditNodePopupController implements Initializable {
         nodeType.getItems().addAll(temp);
 
         // Fill in current node data
-        xCoord.setText(String.valueOf(Math.round(data.getData().getX())));
-        yCoord.setText(String.valueOf(Math.round(data.getData().getY())));
-        floor.setText(data.getData().getFloor());
+        xCoord.setText(String.valueOf(Math.round(window.getData().getX())));
+        yCoord.setText(String.valueOf(Math.round(window.getData().getY())));
+        floor.setText(window.getData().getFloor());
         floor.setDisable(true);
-        building.setText(data.getData().getBuilding());
-        nodeType.getSelectionModel().select(categoryNameMap.get(data.getData().getNodeType()));
-        longName.setText(data.getData().getLongName());
-        shortName.setText(data.getData().getShortName());
+        building.setText(window.getData().getBuilding());
+        nodeType.getSelectionModel().select(categoryNameMap.get(window.getData().getNodeType()));
+        longName.setText(window.getData().getLongName());
+        shortName.setText(window.getData().getShortName());
     }
 
     /**
@@ -124,78 +119,29 @@ public class EditNodePopupController implements Initializable {
         switch (btn.getId()) {
             case "btnUpdate":
 
-                int aXCoord = Integer.parseInt(xCoord.getText().trim());
-                int aYCoord = Integer.parseInt(yCoord.getText().trim());
-                String aFloor = floor.getText().trim();
-                String aBuilding = building.getText().trim();
+                int x = Integer.parseInt(xCoord.getText().trim());
+                int y = Integer.parseInt(yCoord.getText().trim());
+                String f = floor.getText().trim();
+                String b = building.getText().trim();
                 String aNodeType = nodeType.getValue().trim();
-                String actualNodeName = "ERROR!";
+                String t = "ERROR!";
                 for (String s : categoryNameMap.keySet()) {
                     if (categoryNameMap.get(s).equals(aNodeType)) {
-                        actualNodeName = s;
+                        t = s;
                         break;
                     }
                 }
-                String aLongName = longName.getText().trim();
-                String aShortName = shortName.getText().trim();
+                String l = longName.getText().trim();
+                String s = shortName.getText().trim();
 
-                // if the node types are different, delete and remake so the nodeID is up to date
-                DatabaseHandler db = DatabaseHandler.getDatabaseHandler("main.db");
-                if (!data.getData().getNodeType().equals(aNodeType)) {
-                    try {
-                        db.removeNode(data.getData().getNodeID());
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
+                window.updateNode(x, y, f, b, t, l, s);
+                window.getData().getMd().removeAllPopups();
 
-                    // Figure out what the index should be
-                    List<Node> nodes = null;
-                    try {
-                        nodes = db.getNodesByCategory(NodeType.valueOf(actualNodeName));
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
-                    List<Integer> indexes = new ArrayList<>();
-                    nodes.forEach(node -> {
-                        if (node.getNodeID().startsWith("b"))
-                            indexes.add(Integer.parseInt(node.getNodeID().substring(5, 8)));
-                    });
-                    Collections.sort(indexes);
-                    int index = 1;
-                    for (Integer i : indexes)
-                        if (i != index++) break;
-
-                    String aNodeId = "b" + actualNodeName + String.format("%3s", index).replace(' ', '0') + String.format("%2s", aFloor).replace(' ', '0');
-                    Node node = new Node(aNodeId, aXCoord, aYCoord, aFloor, aBuilding, actualNodeName, aLongName, aShortName);
-                    try {
-                        db.addNode(node);
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                    Node node = new Node(data.getData().getNodeID(), aXCoord, aYCoord, aFloor, aBuilding, actualNodeName, aLongName, aShortName);
-
-                    // Update database and graph
-                    try {
-                        db.updateNode(node);
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                        return;
-                    }
-
-                }
-
-                // Remove popup from map and refresh map nodes
-                data.getData().getPfmc().refreshEditor();
-
-                data.getData().getMapStack().getChildren().remove(data.getParent().getRoot());
-                GesturePane thePane = (GesturePane) data.getData().getMapStack().getChildren().get(0);
-                thePane.setGestureEnabled(true);
                 break;
             case "btnCancel":
-                if (data.getData().getCircle() == null)
-                    data.getData().getMapStack().getChildren().remove(data.getParent().getRoot());
-                data.getParent().editToMain();
+                if (window.getData().isFromTree())
+                    window.getData().getMd().removeAllPopups();
+                window.hide();
                 break;
         }
     }
