@@ -30,6 +30,8 @@ public class MapTests extends FxRobot{
         while (App.getPrimaryStage().getScene().lookup("#gif") != null) {
             // Wait for the database to finish initializing
         }
+
+
     }
 
     @Test
@@ -112,12 +114,10 @@ public class MapTests extends FxRobot{
         clickOn("#btnYes");
 
         clickOn("#btnBack");
-        clickOn("#btnBack");
     }
 
     @Test
     void testMapGraphicalInput() {
-        clickOn("#btnGuest");
         clickOn("#btnDirections");
 
         // Select start node
@@ -133,13 +133,11 @@ public class MapTests extends FxRobot{
         verifyThat(".edge", Node::isVisible);
 
         clickOn("#btnBack");
-        clickOn("#btnBack");
 
     }
 
     @Test
     void testMapMovement() {
-        clickOn("#btnGuest");
         clickOn("#btnDirections");
         moveTo("#map");
         scroll(25, VerticalDirection.UP);
@@ -148,12 +146,10 @@ public class MapTests extends FxRobot{
         drag(100, 0, MouseButton.PRIMARY);
         release(MouseButton.PRIMARY);
         clickOn("#btnBack");
-        clickOn("#btnBack");
     }
 
     @Test
     void testMapPathDisplay() {
-        clickOn("#btnGuest");
         clickOn("#btnDirections");
 
         // Select start and end locations
@@ -176,15 +172,12 @@ public class MapTests extends FxRobot{
         verifyThat("15 sec", Node::isVisible);
 
         clickOn("#btnBack");
-        clickOn("#btnBack");
     }
 
     @Test
     void testMapBack() {
-        clickOn("#btnGuest");
         verifyThat("#btnDirections", Node::isVisible);
         clickOn("#btnDirections");
-        clickOn("#btnBack");
         clickOn("#btnBack");
     }
 
