@@ -5,6 +5,7 @@ import edu.wpi.teamB.database.DatabaseHandler;
 import edu.wpi.teamB.entities.map.MapDrawer;
 import edu.wpi.teamB.entities.map.data.DelEdgePopupData;
 import edu.wpi.teamB.pathfinding.Graph;
+import edu.wpi.teamB.util.Popup.Popable;
 import edu.wpi.teamB.util.Popup.Popup;
 import edu.wpi.teamB.util.Popup.Window;
 import javafx.fxml.FXMLLoader;
@@ -15,7 +16,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Objects;
 
-public class DelEdgeAYSWindow extends Window<VBox, DelEdgePopupData, VBox> {
+public class DelEdgeAYSWindow extends Window<VBox, DelEdgePopupData, VBox> implements Popable {
 
     public DelEdgeAYSWindow(Pane parent, DelEdgePopupData data, VBox previous) {
         super(parent, data, previous);

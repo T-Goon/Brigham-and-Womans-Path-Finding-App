@@ -5,6 +5,7 @@ import edu.wpi.teamB.entities.map.data.*;
 import edu.wpi.teamB.entities.map.edge.DelEdgePopup;
 import edu.wpi.teamB.entities.map.node.AddNodePopup;
 import edu.wpi.teamB.entities.map.node.NodeMenuPopup;
+import edu.wpi.teamB.util.Popup.PopableManager;
 import edu.wpi.teamB.views.map.PathfindingMenuController;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -12,7 +13,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Circle;
 import net.kurobako.gesturefx.GesturePane;
 
-public class MapEditorPopupManager {
+public class MapEditorPopupManager implements PopableManager {
 
     private MapDrawer md;
     private MapCache mc;

@@ -6,6 +6,7 @@ import edu.wpi.teamB.entities.map.data.Node;
 import edu.wpi.teamB.entities.map.data.Path;
 import edu.wpi.teamB.pathfinding.AStar;
 import edu.wpi.teamB.pathfinding.Graph;
+import edu.wpi.teamB.util.Popup.PopableManager;
 import edu.wpi.teamB.views.map.PathfindingMenuController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
@@ -25,7 +26,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-public class MapDrawer {
+public class MapDrawer implements PopableManager {
 
     private final MapCache mc;
     @Setter

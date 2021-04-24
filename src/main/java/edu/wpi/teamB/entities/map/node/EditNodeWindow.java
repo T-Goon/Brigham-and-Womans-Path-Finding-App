@@ -4,6 +4,7 @@ import edu.wpi.teamB.database.DatabaseHandler;
 import edu.wpi.teamB.entities.map.data.Node;
 import edu.wpi.teamB.entities.map.data.NodeMenuPopupData;
 import edu.wpi.teamB.entities.map.data.NodeType;
+import edu.wpi.teamB.util.Popup.Popable;
 import edu.wpi.teamB.util.Popup.Popup;
 import edu.wpi.teamB.util.Popup.Window;
 import javafx.fxml.FXMLLoader;
@@ -17,7 +18,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-public class EditNodeWindow extends Window<VBox, NodeMenuPopupData, VBox> {
+public class EditNodeWindow extends Window<VBox, NodeMenuPopupData, VBox> implements Popable {
 
     public EditNodeWindow(Pane parent, NodeMenuPopupData data, VBox previous) {
         super(parent, data, previous);
