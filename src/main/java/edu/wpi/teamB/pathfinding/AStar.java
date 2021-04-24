@@ -138,44 +138,101 @@ public class AStar {
         }
     }
 
-    //ret 0 if going left and 1 if we are going right
-    private static int direction(){
-        return 0;
-    }
+//    //left is 1
+//    private static int direction(Coord prevP, Coord prev, Coord curr, int changeX){
+//        //x goes to a higher x
+//        if(changeX == 0){
+//            if(prevP.getX() < prev.getX()){
+//                if(prev.getY() < curr.getY()){
+//                    //take a right
+//                    return 0;
+//                }
+//            }
+//
+//            else{
+//                if(prev.getY() > curr.getY()){
+//                    return 0;
+//                }
+//            }
+//
+//        }
+//        //x goes to a lower x
+//        else {
+//            if(prevP.getY() < prev.getY()){
+//                if(prev.getX()> curr.getX()){
+//                    //turn right
+//                    return 0;
+//                }
+//            }
+//            else{
+//                if(prev.getX()< curr.getX()){
+//                    //turn right
+//                    return 0;
+//                }
+//            }
+//        }
+//        return 1;
+//    }
+//
+//
+//    public static List<Coord> dirPixles(Path path){
+//
+//        List<String> locVisit = path.getPath();
+//        List<Coord> coordinates = new ArrayList<>();
+//        Graph graph = Graph.getGraph();
+//
+//        List<Coord> dir = new ArrayList<>();
+//
+//        for(String loc: locVisit) {
+//            Node curr = graph.getNodes().get(loc);
+//            coordinates.add(new Coord(curr.getXCoord(), curr.getYCoord()));
+//        }
+//
+//        //if x changed if y changed if both changed
+//        Coord prevP = null;
+//        Coord prev = null;
+//        int distAccum = 0;
+//        int changeX=-1;
+//        int dirIndicator;
+//
+//        for(Coord coord: coordinates){
+//
+//            if(prev!= null &&(prev.getX() == coord.getX())){// ((prev.getX()-20<= coord.getX()) && (prev.getX()+20>=coord.getX()))){//
+//                distAccum+=(coord.getY() - prev.getY());
+//
+//                if(changeX == 0){
+//
+//                    dirIndicator = direction(prevP, prev, coord, changeX);
+//                    dir.add( new Coord(dirIndicator, distAccum));
+//                    distAccum=0;
+//
+//                }
+//                changeX = 1;
+//            }
+//            else if(prev!= null && (prev.getY() == coord.getY())){//((prev.getY()-20== coord.getY()) && (prev.getY()+20>=coord.getY()))){
+//                distAccum+=(coord.getX() - prev.getX());
+//
+//                if(changeX == 1){
+//
+//                    dirIndicator = direction(prevP, prev, coord, changeX);
+//                    dir.add( new Coord(dirIndicator, distAccum));
+//                    distAccum=0;
+//
+//                }
+//                changeX = 0;
+//            }
+//
+//            prevP = prev;
+//            prev = coord;
+//
+//        }
+//        return dir;
+//    }
 
 
-    public static List<Coord> coords(Path path){
 
-        List<String> locVisit = path.getPath();
-        List<Coord> coordinates = new ArrayList<>();
-        Graph graph = Graph.getGraph();
 
-        for(String loc: locVisit) {
-            Node curr = graph.getNodes().get(loc);
-            coordinates.add(new Coord(curr.getXCoord(), curr.getYCoord()));
-        }
 
-        //if x changed if y changed if both changed
-        List<Integer> distTravelled = new ArrayList();
 
-        Coord prev = null;
-        int distAccum = 0;
 
-        for(Coord coord: coordinates){
-
-            if(prev!= null && (prev.getX()+20 >= coord.getX() || prev.getX()-20 <= coord.getX())){
-                distAccum+=(coord.getY() - prev.getY());
-            }
-            else if(prev!= null && (prev.getY()+20 >= coord.getY() || prev.getY()-20 <= coord.getY())){
-                distAccum+=(coord.getX() - prev.getX());
-            }
-            else{
-                //direction I am taking Coord list x: 0=left 1=right, y:dist I am travelling
-                distTravelled.add(distAccum);
-                distAccum=0;
-            }
-            prev = coord;
-        }
-        return coordinates;
-    }
 }

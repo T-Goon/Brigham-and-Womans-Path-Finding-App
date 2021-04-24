@@ -127,77 +127,77 @@ public class PathfindingTests {
         expected = "22 sec";
         assertEquals(expected, result);
     }
-
-    @Test
-    public void userTestForDirections(){
-        Path path1 = AStar.findPath("FSERV00501", "WELEV00K01");
-        List<Coord> c = AStar.coords(path1);
-
-        System.out.println(path1.getPath());
-
-
-        for(Coord coords: c){
-            System.out.println(coords.getX()+ ","+ coords.getY());
-        }
-        /*
-        1645,1280
-        1700,1280
-        1748,1280
-        1769,1280
-        1769,1146
-        left
-        1758,1120
-        1758,1060
-        1758,1029
-        1758,956
-        1758,930
-        right
-        1810,930
-        1869,930
-        1950,910
-        1973,910
-        2017,910
-        2026,910
-        2055,910
-        2160,910
-        2175,910
-        2190,910
-        2240,910
-        right
-        2240,985*/
-
-        //FDEPT00201
-        //FLABS00101
-
-
-
-    }
-
-    @Test
-    public void anotherUserPath(){
-        Path path1 = AStar.findPath("FDEPT00201", "FLABS00101");
-        List<Coord> c = AStar.coords(path1);
-
-        System.out.println(path1.getPath());
-
-
-        for(Coord coords: c){
-            System.out.println(coords.getX()+ ","+ coords.getY());
-        }
-
-        /*
-        *RLL
-        1610,1120
-        1700,1120
-        1758,1120
-        * R
-        1769,1146
-        * L
-        1769,1280
-        1810,1280
-        1845,1280
-        * L
-        1845,1250*/
-    }
+//
+//    @Test
+//    public void userTestForDirections(){
+//        Path path1 = AStar.findPath("FSERV00501", "WELEV00K01");
+//        //System.out.println(path1.getPath());
+//        List<Coord>  dir = AStar.dirPixles(path1);
+//
+//        for(Coord coords: dir){
+//            System.out.println(coords.getX()+ ","+ coords.getY());
+//        }
+//        /*
+//        1645,1280
+//        1700,1280
+//        1748,1280
+//        1769,1280
+//
+//        1769,1146 dir change L  here Read this
+//
+//        1758,1120 dir change R
+//        1758,1060
+//        1758,1029
+//        1758,956
+//        1758,930
+//
+//        1810,930 Read this
+//        1869,930
+//        1950,910 dir change
+//        1973,910
+//        2017,910
+//        2026,910
+//        2055,910
+//        2160,910
+//        2175,910
+//        2190,910
+//        2240,910
+//
+//        2240,985 dir change Read this
+//        */
+//
+//        //FDEPT00201
+//        //FLABS00101
+//
+//
+//
+//    }
+//
+//    @Test
+//    public void anotherUserPath(){
+//        Path path1 = AStar.findPath("FDEPT00201", "FLABS00101");
+//        List<Coord>  dir = AStar.dirPixles(path1);
+//
+//        System.out.println(path1.getPath());
+//
+//
+//        for(Coord coords: dir){
+//            System.out.println(coords.getX()+ ","+ coords.getY());
+//        }
+//
+//        /*
+//        *RLL
+//        1610,1120
+//        1700,1120 90
+//        1758,1120 58
+//        * R
+//        1769,1146
+//        * L
+//        1769,1280
+//        1810,1280
+//        1845,1280
+//        * L
+//        1845,1250*/
+//    }
 
 }
