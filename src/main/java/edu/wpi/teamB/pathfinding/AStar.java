@@ -138,27 +138,44 @@ public class AStar {
         }
     }
 
-    private List<Coord> deltaCoords(Path path){
+    //ret 0 if going left and 1 if we are going right
+    private static int direction(){
+        return 0;
+    }
+
+
+    public static List<Coord> coords(Path path){
 
         List<String> locVisit = path.getPath();
-
+        List<Coord> coordinates = new ArrayList<>();
         Graph graph = Graph.getGraph();
 
-        Coord prevCoord = new Coord(-1,-1);
-        Coord currCoord = new Coord(0,0);
-
         for(String loc: locVisit) {
-            currCoord.setX(graph.getNodes().get(loc).getXCoord());
-            currCoord.setY(graph.getNodes().get(loc).getYCoord());
-
-            if(prevCoord.getX() != -1){
-
-            }
-
-            prevCoord.setX(currCoord.getX());
-            prevCoord.setY(currCoord.getY());
-
+            Node curr = graph.getNodes().get(loc);
+            coordinates.add(new Coord(curr.getXCoord(), curr.getYCoord()));
         }
-        return null;
+
+        //if x changed if y changed if both changed
+        List<Integer> distTravelled = new ArrayList();
+
+        Coord prev = null;
+        int distAccum = 0;
+
+        for(Coord coord: coordinates){
+
+            if(prev!= null && (prev.getX()+20 >= coord.getX() || prev.getX()-20 <= coord.getX())){
+                distAccum+=(coord.getY() - prev.getY());
+            }
+            else if(prev!= null && (prev.getY()+20 >= coord.getY() || prev.getY()-20 <= coord.getY())){
+                distAccum+=(coord.getX() - prev.getX());
+            }
+            else{
+                //direction I am taking Coord list x: 0=left 1=right, y:dist I am travelling
+                distTravelled.add(distAccum);
+                distAccum=0;
+            }
+            prev = coord;
+        }
+        return coordinates;
     }
 }
