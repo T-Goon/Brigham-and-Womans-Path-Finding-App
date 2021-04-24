@@ -57,9 +57,7 @@ public class AddNodePopup extends Popup<VBox, AddNodePopupData> {
 
         // Refresh map editor
         data.getMd().refreshEditor();
-
-        // Remove popup from map
-        hide();
+        data.getMd().removeAllPopups();
     }
 
     /**

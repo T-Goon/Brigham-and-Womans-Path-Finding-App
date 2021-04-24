@@ -99,7 +99,7 @@ public class NodePopupWindowController implements Initializable {
                 dnWindow.show();
                 break;
             case "btnCancel":
-                popup.hide();
+                popup.getData().getMd().removeAllPopups();
                 break;
         }
     }

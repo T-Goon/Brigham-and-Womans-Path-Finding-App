@@ -37,20 +37,14 @@ public class DelEdgePopupController implements Initializable {
     @FXML
     private JFXButton btnCancel;
 
-    private DelEdgePopup data;
-
-    private DelEdgeAYSWindow ays;
-
-    private VBox areYouSureWindow;
-
-    private DelEdgeAYSWindow delWindow;
+    private DelEdgePopup popup;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        data = (DelEdgePopup) App.getPrimaryStage().getUserData();
+        popup = (DelEdgePopup) App.getPrimaryStage().getUserData();
 
-        startName.setText(data.getData().getStart().getLongName());
-        endName.setText(data.getData().getEnd().getLongName());
+        startName.setText(popup.getData().getStart().getLongName());
+        endName.setText(popup.getData().getEnd().getLongName());
     }
 
     @FXML
@@ -61,15 +55,15 @@ public class DelEdgePopupController implements Initializable {
             case "btnDelete":
                 root.getChildren().remove(mainMenu);
 
-                ays = new DelEdgeAYSWindow(
-                        root, data.getData(), mainMenu);
+                DelEdgeAYSWindow ays = new DelEdgeAYSWindow(
+                        root, popup.getData(), mainMenu);
 
                 // Pass data to next window
                 App.getPrimaryStage().setUserData(ays);
 
                 // Load window
                 try{
-                    areYouSureWindow = FXMLLoader.load(Objects.requireNonNull(
+                    FXMLLoader.load(Objects.requireNonNull(
                             getClass().getClassLoader().getResource("edu/wpi/teamB/views/map/edgePopup/delEdgeAreYouSure.fxml")));
                 } catch (IOException e){
                     e.printStackTrace();
@@ -79,7 +73,7 @@ public class DelEdgePopupController implements Initializable {
 
                 break;
             case "btnCancel":
-                data.hide();
+                popup.getData().getMd().removeAllPopups();
                 break;
         }
     }
