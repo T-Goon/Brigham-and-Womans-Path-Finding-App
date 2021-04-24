@@ -5,6 +5,7 @@ import edu.wpi.teamB.entities.map.data.Path;
 import edu.wpi.teamB.entities.map.data.Edge;
 import edu.wpi.teamB.entities.map.data.Node;
 import edu.wpi.teamB.pathfinding.AStar;
+import edu.wpi.teamB.pathfinding.Directions;
 import edu.wpi.teamB.pathfinding.Graph;
 import edu.wpi.teamB.util.CSVHandler;
 import org.junit.jupiter.api.BeforeAll;
@@ -286,6 +287,65 @@ public class PathfindingTests {
 
         assertEquals(expectedLongResult, returnedLongResult);
 
+
+    }
+
+    @Test
+    public void testing180Angles(){
+        Node a = new Node("bPARK01501",3159,1,"1","Parking","PARK","Right Parking Lot Spot 5","RLot5");
+        Node b = new Node("bPARK01501",3159,2,"1","Parking","PARK","Right Parking Lot Spot 5","RLot5");
+        Node c = new Node("bPARK01501",3159,3,"1","Parking","PARK","Right Parking Lot Spot 5","RLot5");
+
+        double angle180 = Directions.angleBetweenEdges(a, b, c);
+        System.out.println(angle180);
+
+
+        Node a1 = new Node("bPARK01501",3159,3159,"1","Parking","PARK","Right Parking Lot Spot 5","RLot5");
+        Node b1 = new Node("bPARK01501",1,3159,"1","Parking","PARK","Right Parking Lot Spot 5","RLot5");
+        Node c1 = new Node("bPARK01501",5,3159,"1","Parking","PARK","Right Parking Lot Spot 5","RLot5");
+
+        angle180 = Directions.angleBetweenEdges(a1, b1, c1);
+        System.out.println(angle180);
+
+        Node a2 = new Node("bPARK01501",5,5,"1","Parking","PARK","Right Parking Lot Spot 5","RLot5");
+        Node b2 = new Node("bPARK01501",8,8,"1","Parking","PARK","Right Parking Lot Spot 5","RLot5");
+        Node c2 = new Node("bPARK01501",13,13,"1","Parking","PARK","Right Parking Lot Spot 5","RLot5");
+
+        angle180 = Directions.angleBetweenEdges(a2, b2, c2);
+        System.out.println(angle180);
+
+    }
+
+    @Test
+    public void testing90and270Angles(){
+        Node a = new Node("bPARK01501",2,5,"1","Parking","PARK","Right Parking Lot Spot 5","RLot5");
+        Node b = new Node("bPARK01501",2,8,"1","Parking","PARK","Right Parking Lot Spot 5","RLot5");
+        Node c = new Node("bPARK01501",5,9,"1","Parking","PARK","Right Parking Lot Spot 5","RLot5");
+
+        double angle270 = Directions.angleBetweenEdges(a, b, c);
+        System.out.println(angle270);
+
+        Node a0 = new Node("bPARK01501",8,10,"1","Parking","PARK","Right Parking Lot Spot 5","RLot5");
+        Node b0 = new Node("bPARK01501",8,8,"1","Parking","PARK","Right Parking Lot Spot 5","RLot5");
+        Node c0 = new Node("bPARK01501",11,8,"1","Parking","PARK","Right Parking Lot Spot 5","RLot5");
+
+        angle270 = Directions.angleBetweenEdges(a0, b0, c0);
+        System.out.println(angle270);
+
+
+        Node a1 = new Node("bPARK01501",0,2,"1","Parking","PARK","Right Parking Lot Spot 5","RLot5");
+        Node b1 = new Node("bPARK01501",2,2,"1","Parking","PARK","Right Parking Lot Spot 5","RLot5");
+        Node c1 = new Node("bPARK01501",2,0,"1","Parking","PARK","Right Parking Lot Spot 5","RLot5");
+
+        double angle90 = Directions.angleBetweenEdges(a1, b1, c1);
+        System.out.println(angle90);
+
+        Node a2 = new Node("bPARK01501",1,1,"1","Parking","PARK","Right Parking Lot Spot 5","RLot5");
+        Node b2 = new Node("bPARK01501",5,1,"1","Parking","PARK","Right Parking Lot Spot 5","RLot5");
+        Node c2 = new Node("bPARK01501",5,5,"1","Parking","PARK","Right Parking Lot Spot 5","RLot5");
+
+        angle90 = Directions.angleBetweenEdges(a2, b2, c2);
+        System.out.println(angle90);
 
     }
 
