@@ -19,7 +19,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TreeItem;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -40,7 +39,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.sql.SQLException;
-import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -116,7 +114,6 @@ public class PathfindingMenuController implements Initializable {
     final DirectoryChooser directoryChooser = new DirectoryChooser();
 
     private final MapCache mc = new MapCache();
-    ;
     private MapDrawer md;
     private MapEditorPopupManager mepm;
     private MapPathPopupManager mppm;
@@ -298,13 +295,11 @@ public class PathfindingMenuController implements Initializable {
                 break;
             case "btnEditMap":
 
-//                ImageView graphic = (ImageView) btnEditMap.getChildrenUnmodifiable().get(0);
-
                 md.removeAllPopups();
                 mppm.removeETAPopup();
-                //                    graphic.setImage(new Image("edu/wpi/teamB/images/menus/directionsIcon.png"));
-                //                    graphic.setImage(new Image("edu/wpi/teamB/images/menus/wrench.png"));
+
                 md.setEditing(!md.isEditing());
+
                 md.drawAllElements();
                 break;
             case "btnBack":
@@ -339,7 +334,6 @@ public class PathfindingMenuController implements Initializable {
             categoryTreeItem.getChildren().addAll(mc.getCatNameMap().get(category));
             rootNode.getChildren().add(categoryTreeItem);
         }
-
     }
 
     /**
