@@ -21,6 +21,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TreeItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
@@ -83,6 +84,12 @@ public class PathfindingMenuController implements Initializable {
 
     @FXML
     private JFXButton btnSave;
+
+    @FXML
+    private JFXTextField txtSearch;
+
+    @FXML
+    private JFXButton btnSearch;
 
     @FXML
     private JFXTreeView<String> treeLocations;
@@ -306,6 +313,8 @@ public class PathfindingMenuController implements Initializable {
                 break;
             case "btnHelp":
                 loadHelpDialog();
+            case "btnSearch":
+                handleItemSearched();
                 break;
         }
     }
@@ -314,17 +323,18 @@ public class PathfindingMenuController implements Initializable {
      * Populates the tree view with nodes and categories
      */
     private void populateTreeView(){
-        //Populating TreeView
-        TreeItem<String> rootNode = new TreeItem<>("Locations");
-        rootNode.setExpanded(true);
-        treeLocations.setRoot(rootNode);
+            //Populating TreeView
+            TreeItem<String> rootNode = new TreeItem<>("Locations");
+            rootNode.setExpanded(true);
+            treeLocations.setRoot(rootNode);
 
-        //Adding Categories
-        for (String category : mc.getCatNameMap().keySet()) {
-            TreeItem<String> categoryTreeItem = new TreeItem<>(categoryNameMap.get(category));
-            categoryTreeItem.getChildren().addAll(mc.getCatNameMap().get(category));
-            rootNode.getChildren().add(categoryTreeItem);
-        }
+            //Adding Categories
+            for (String category : mc.getCatNameMap().keySet()) {
+                TreeItem<String> categoryTreeItem = new TreeItem<>(categoryNameMap.get(category));
+                categoryTreeItem.getChildren().addAll(mc.getCatNameMap().get(category));
+                rootNode.getChildren().add(categoryTreeItem);
+            }
+
     }
 
     /**
@@ -374,5 +384,78 @@ public class PathfindingMenuController implements Initializable {
         helpLayout.setActions(button);
 
         helpWindow.show();
+    }
+
+    @FXML
+    private void handleKeysPressedSearchBar(KeyEvent e){
+        switch(e.getCode()){
+            case A:
+            case B:
+            case C:
+            case D:
+            case E:
+            case F:
+            case G:
+            case H:
+            case I:
+            case J:
+            case K:
+            case L:
+            case M:
+            case N:
+            case O:
+            case P:
+            case Q:
+            case R:
+            case S:
+            case T:
+            case U:
+            case V:
+            case W:
+            case X:
+            case Y:
+            case Z:
+            case DIGIT0:
+            case DIGIT1:
+            case DIGIT2:
+            case DIGIT3:
+            case DIGIT4:
+            case DIGIT5:
+            case DIGIT6:
+            case DIGIT7:
+            case DIGIT8:
+            case DIGIT9:
+                handleItemSearched();
+                break;
+            case BACK_SPACE:
+                if (txtSearch.getText().isEmpty() || txtSearch.getText().length() == 1) populateTreeView();
+                break;
+
+        }
+    }
+
+    /**
+     * Shows only the nodes similar to what is being searched for
+     */
+    @FXML
+    private void handleItemSearched(){
+        //when an item is searched for, have only objects with that phrase populate the treeview
+        String searchBar = txtSearch.getText();
+        //Populating TreeView
+        TreeItem<String> newRoot = new TreeItem<>("Locations");
+        newRoot.setExpanded(true);
+        treeLocations.setRoot(newRoot);
+
+        //Adding the nodes
+        for (String category : mc.getCatNameMap().keySet()) {
+            TreeItem<String> categoryTreeItem = new TreeItem<>(categoryNameMap.get(category));
+            categoryTreeItem.getChildren().addAll(mc.getCatNameMap().get(category));
+            List<TreeItem<String>> treeItems = categoryTreeItem.getChildren();
+            for (TreeItem<String> c : treeItems){
+                if(c.getValue().contains(searchBar)){
+                    newRoot.getChildren().add(c);
+            }
+            }
+        }
     }
 }

@@ -94,13 +94,16 @@
                                           <font>
                                               <Font size="18.0" />
                                           </font>
+                                 <GridPane.margin>
+                                    <Insets top="20.0" />
+                                 </GridPane.margin>
                                       </Text>
                                       <JFXButton fx:id="btnFindPath" onAction="#handleButtonAction" prefHeight="30.0" prefWidth="84.0" style="-fx-background-color: #F6BD39; -fx-background-radius: 5;" text="Go" textFill="#012d5a" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER">
                                           <font>
                                               <Font name="System Bold" size="12.0" />
                                           </font>
                                  <GridPane.margin>
-                                    <Insets left="5.0" right="5.0" />
+                                    <Insets left="5.0" right="5.0" top="30.0" />
                                  </GridPane.margin>
                                       </JFXButton>
                               <JFXTextField fx:id="txtStartLocation" editable="false" onAction="#validateFindPathButton" prefWidth="230.0" style="-fx-background-color: white; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" GridPane.columnIndex="1">
@@ -110,7 +113,7 @@
                               </JFXTextField>
                               <JFXTextField fx:id="txtEndLocation" editable="false" layoutX="96.0" layoutY="8.0" onAction="#validateFindPathButton" style="-fx-background-color: white; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" GridPane.columnIndex="1" GridPane.rowIndex="2">
                                  <GridPane.margin>
-                                    <Insets left="5.0" right="5.0" />
+                                    <Insets left="5.0" right="5.0" top="20.0" />
                                  </GridPane.margin>
                               </JFXTextField>
                                   </children>
@@ -130,6 +133,27 @@
                                       <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                   </VBox.margin>
                               </HBox>
+                        <HBox prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <JFXTextField fx:id="txtSearch" onKeyPressed="#handleKeysPressedSearchBar" style="-fx-background-color: #FFFFFF; -fx-background-radius: 5px;" HBox.hgrow="ALWAYS">
+                                 <HBox.margin>
+                                    <Insets left="5.0" right="5.0" />
+                                 </HBox.margin>
+                              </JFXTextField>
+                              <JFXButton fx:id="btnSearch" alignment="CENTER" ellipsisString="" onAction="#handleButtonAction" prefWidth="30.0" style="-fx-background-color: #F6BD39; -fx-border-radius: 5px;" HBox.hgrow="ALWAYS">
+                                 <graphic>
+                                    <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../images/menus/search.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                                 <HBox.margin>
+                                    <Insets right="5.0" />
+                                 </HBox.margin>
+                              </JFXButton>
+                           </children>
+                        </HBox>
                         <HBox alignment="CENTER" layoutX="15.0" layoutY="197.0" VBox.vgrow="ALWAYS">
                            <children>
                               <JFXTreeView fx:id="treeLocations" onMouseClicked="#handleLocationSelected" style="-fx-background-radius: 7;" stylesheets="@../../css/treeView.css" HBox.hgrow="ALWAYS">
@@ -213,6 +237,9 @@
                            </padding>
                               </HBox>
                           </children>
+                     <padding>
+                        <Insets bottom="5.0" top="5.0" />
+                     </padding>
                       </VBox>
                   <StackPane fx:id="mapStack" alignment="BOTTOM_RIGHT" VBox.vgrow="ALWAYS">
                      <children>
