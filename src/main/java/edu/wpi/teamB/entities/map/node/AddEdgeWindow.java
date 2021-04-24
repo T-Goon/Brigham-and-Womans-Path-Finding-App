@@ -3,7 +3,7 @@ package edu.wpi.teamB.entities.map.node;
 import edu.wpi.teamB.database.DatabaseHandler;
 import edu.wpi.teamB.entities.map.data.Edge;
 import edu.wpi.teamB.entities.map.data.NodeMenuPopupData;
-import edu.wpi.teamB.util.Popup.Popable;
+import edu.wpi.teamB.util.Popup.Poppable;
 import edu.wpi.teamB.util.Popup.Window;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Pane;
@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Objects;
 
-public class AddEdgeWindow extends Window<VBox, NodeMenuPopupData, VBox> implements Popable {
+public class AddEdgeWindow extends Window<VBox, NodeMenuPopupData, VBox> implements Poppable {
 
     public AddEdgeWindow(Pane parent, NodeMenuPopupData data, VBox previous) {
         super(parent, data, previous);
@@ -24,7 +24,7 @@ public class AddEdgeWindow extends Window<VBox, NodeMenuPopupData, VBox> impleme
     /**
      * Show this window in the popup
      */
-    public void show(){
+    public void show() {
 
         VBox addEdgeMenu = null;
 
