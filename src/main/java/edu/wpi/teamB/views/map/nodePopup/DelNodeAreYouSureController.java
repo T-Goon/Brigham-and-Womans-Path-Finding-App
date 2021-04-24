@@ -3,7 +3,7 @@ package edu.wpi.teamB.views.map.nodePopup;
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.teamB.App;
 import edu.wpi.teamB.database.DatabaseHandler;
-import edu.wpi.teamB.entities.map.GraphicalNodePopupData;
+import edu.wpi.teamB.entities.map.node.DelNodeAYSWindow;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -21,11 +21,11 @@ public class DelNodeAreYouSureController implements Initializable {
     @FXML
     private JFXButton btnNo;
 
-    private GraphicalNodePopupData data;
+    private DelNodeAYSWindow window;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        data = (GraphicalNodePopupData) App.getPrimaryStage().getUserData();
+        window = (DelNodeAYSWindow) App.getPrimaryStage().getUserData();
     }
 
     @FXML
@@ -34,20 +34,10 @@ public class DelNodeAreYouSureController implements Initializable {
 
         switch (btn.getId()) {
             case "btnYes":
-                try {
-                    DatabaseHandler.getDatabaseHandler("main.db").removeNode(data.getData().getNodeID());
-                } catch (SQLException err) {
-                    err.printStackTrace();
-                    return;
-                }
-                data.getData().getPfmc().refreshEditor();
-
-                data.getData().getMapStack().getChildren().remove(data.getParent().getRoot());
-                GesturePane thePane = (GesturePane) data.getData().getMapStack().getChildren().get(0);
-                thePane.setGestureEnabled(true);
+                window.delNode();
                 break;
             case "btnNo":
-                data.getParent().areYouSureToMain();
+                window.hide();
                 break;
         }
     }

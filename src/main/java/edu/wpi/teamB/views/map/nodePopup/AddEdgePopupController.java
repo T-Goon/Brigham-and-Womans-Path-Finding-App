@@ -2,16 +2,11 @@ package edu.wpi.teamB.views.map.nodePopup;
 
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.teamB.App;
-import edu.wpi.teamB.database.DatabaseHandler;
 
-import edu.wpi.teamB.entities.map.Edge;
-import edu.wpi.teamB.entities.map.GraphicalNodePopupData;
+import edu.wpi.teamB.entities.map.node.AddEdgeWindow;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import net.kurobako.gesturefx.GesturePane;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -33,11 +28,11 @@ public class AddEdgePopupController implements Initializable {
     @FXML
     private JFXButton btnCancel;
 
-    private GraphicalNodePopupData data;
+    private AddEdgeWindow window;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        data = (GraphicalNodePopupData) App.getPrimaryStage().getUserData();
+        window = (AddEdgeWindow) App.getPrimaryStage().getUserData();
     }
 
     @FXML
@@ -46,72 +41,18 @@ public class AddEdgePopupController implements Initializable {
 
         switch (btn.getId()) {
             case "btnStart":
-                // Set current start back to black
-                String start = data.getData().getPfmc().getNewEdgeStart();
-                Circle startC = data.getData().getPfmc().getStartNode();
-                if (start != null && startC != null) {
-                    startC.setStroke(Color.BLACK);
-                }
-
-                data.getData().getPfmc().setNewEdgeStart(data.getData().getNodeID());
-                data.getData().getPfmc().setStartNode(data.getData().getCircle());
-
-                data.getData().getCircle().setStroke(Color.RED);
+                window.setStart();
                 break;
             case "btnEnd":
-                // Set current start back to black
-                String end = data.getData().getPfmc().getNewEdgeEnd();
-                Circle endC = data.getData().getPfmc().getEndNode();
-                if (end != null && endC != null) {
-                    endC.setStroke(Color.BLACK);
-                }
-
-                data.getData().getPfmc().setNewEdgeEnd(data.getData().getNodeID());
-                data.getData().getPfmc().setEndNode(data.getData().getCircle());
-
-                data.getData().getCircle().setStroke(Color.GREEN);
+                window.setEnd();
                 break;
             case "btnDone":
-                String startNodeName = data.getData().getPfmc().getNewEdgeStart();
-                String endNodeName = data.getData().getPfmc().getNewEdgeEnd();
-
-                if (startNodeName == null || endNodeName == null || startNodeName.equals(endNodeName)) return;
-
-                String edgeIdentifier = startNodeName + "_" + endNodeName;
-
-                Edge edge = new Edge(edgeIdentifier, startNodeName, endNodeName);
-
-                // Update database and graph
-                try {
-                    DatabaseHandler.getDatabaseHandler("main.db").addEdge(edge);
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                    return;
-                }
-
-                // Remove popup from map and refresh map nodes
-                data.getData().getPfmc().refreshEditor();
-
-                data.getData().getMapStack().getChildren().remove(data.getParent().getRoot());
-                GesturePane thePane = (GesturePane) data.getData().getMapStack().getChildren().get(0);
-                thePane.setGestureEnabled(true);
-
+                window.addEdge();
             case "btnReset":
-                // Reset Node Colors
-                if(data.getData().getPfmc().getStartNode() != null)
-                    data.getData().getPfmc().getStartNode().setStroke(Color.BLACK);
-                if(data.getData().getPfmc().getEndNode() != null)
-                    data.getData().getPfmc().getEndNode().setStroke(Color.BLACK);
-
-                data.getData().getPfmc().setStartNode(null);
-                data.getData().getPfmc().setEndNode(null);
-
-                // Reset start and end nodes
-                data.getData().getPfmc().setNewEdgeStart(null);
-                data.getData().getPfmc().setNewEdgeEnd(null);
+                window.resetEdges();
                 break;
             case "btnCancel":
-                data.getParent().addEdgeToMain();
+                window.hide();
                 break;
         }
     }

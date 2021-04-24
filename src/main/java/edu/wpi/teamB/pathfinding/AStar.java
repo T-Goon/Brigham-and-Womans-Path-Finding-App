@@ -1,7 +1,7 @@
 package edu.wpi.teamB.pathfinding;
 
-import edu.wpi.teamB.entities.map.Path;
-import edu.wpi.teamB.entities.map.Node;
+import edu.wpi.teamB.entities.map.data.Path;
+import edu.wpi.teamB.entities.map.data.Node;
 
 import java.util.*;
 
@@ -70,6 +70,7 @@ public class AStar {
 
         Node current = null;
         while (!pQueue.isEmpty()) {
+
             //Takes next node in the priority queue which should be the node with the greatest fVal
             current = pQueue.poll();
 
@@ -106,9 +107,14 @@ public class AStar {
             }
         }
 
+        // Cannot find path
+        assert current != null;
+        if(pQueue.isEmpty()) {
+            if (!current.equals(endNode)) return new Path(new LinkedList<>(), 0);
+        }
+
 
         //backtrack from end node to start node to create final path.
-        assert current != null;
         String currentID = current.getNodeID();
         while (!currentID.equals("START")) {
             ret.addFirst(currentID);
