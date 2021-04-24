@@ -48,4 +48,15 @@ public class User {
                 throw new IllegalStateException("Unknown authentication level!");
         }
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "username='" + username + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", authenticationLevel=" + authenticationLevel +
+                ", jobs=" + jobs +
+                '}';
+    }
 }

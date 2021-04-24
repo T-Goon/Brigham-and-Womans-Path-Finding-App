@@ -12,6 +12,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -54,24 +55,38 @@ public class LaundryRequestFormController extends DefaultServiceRequestFormContr
 
         if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml")) {
             this.id = (String) App.getPrimaryStage().getUserData();
-            LaundryRequest laundryRequest = (LaundryRequest) DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(id, Request.RequestType.LAUNDRY);
+            LaundryRequest laundryRequest = null;
+            try {
+                laundryRequest = (LaundryRequest) DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(id, Request.RequestType.LAUNDRY);
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return;
+            }
             getLocationIndex(laundryRequest.getLocation());
             int indexType = -1;
-            if (laundryRequest.getServiceType().equals("Regular Cycle")) {
-                indexType = 0;
-            } else if (laundryRequest.getServiceType().equals("Delicate Cycle")) {
-                indexType = 1;
-            } else if (laundryRequest.getServiceType().equals("Permanent Press")) {
-                indexType = 2;
+            switch (laundryRequest.getServiceType()) {
+                case "Regular Cycle":
+                    indexType = 0;
+                    break;
+                case "Delicate Cycle":
+                    indexType = 1;
+                    break;
+                case "Permanent Press":
+                    indexType = 2;
+                    break;
             }
             comboTypeService.getSelectionModel().select(indexType);
             int indexSize = -1;
-            if (laundryRequest.getServiceSize().equals("Small")) {
-                indexSize = 0;
-            } else if (laundryRequest.getServiceSize().equals("Medium")) {
-                indexSize = 1;
-            } else if (laundryRequest.getServiceSize().equals("Large")) {
-                indexSize = 2;
+            switch (laundryRequest.getServiceSize()) {
+                case "Small":
+                    indexSize = 0;
+                    break;
+                case "Medium":
+                    indexSize = 1;
+                    break;
+                case "Large":
+                    indexSize = 2;
+                    break;
             }
             comboSizeService.getSelectionModel().select(indexSize);
             description.setText(laundryRequest.getDescription());
@@ -112,7 +127,12 @@ public class LaundryRequestFormController extends DefaultServiceRequestFormContr
 
             String employeeName;
             if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml")) {
-                employeeName = DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(this.id, Request.RequestType.LAUNDRY).getEmployeeName();
+                try {
+                    employeeName = DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(this.id, Request.RequestType.LAUNDRY).getEmployeeName();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    return;
+                }
             } else {
                 employeeName = null;
             }
@@ -120,10 +140,14 @@ public class LaundryRequestFormController extends DefaultServiceRequestFormContr
             LaundryRequest request = new LaundryRequest(givenServiceType, givenServiceSize, givenDark, givenLight, givenOccupied,
                     requestID, time, date, complete, employeeName, getLocation(), givenDescription);
 
-            if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml")) {
-                DatabaseHandler.getDatabaseHandler("main.db").updateRequest(request);
-            } else {
-                DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
+            try {
+                if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml")) {
+                    DatabaseHandler.getDatabaseHandler("main.db").updateRequest(request);
+                } else {
+                    DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
         }
     }

@@ -25,6 +25,7 @@ import javafx.scene.text.Text;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -61,7 +62,13 @@ public class ServiceRequestDatabaseController extends BasePageController impleme
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Map<String, Request> allRequests = DatabaseHandler.getDatabaseHandler("main.db").getRequests();
+        Map<String, Request> allRequests = null;
+        try {
+            allRequests = DatabaseHandler.getDatabaseHandler("main.db").getRequests();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return;
+        }
         Map<String, Request> requests = new HashMap<String, Request>();
 
         User user = DatabaseHandler.getDatabaseHandler("main.db").getAuthenticationUser();

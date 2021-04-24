@@ -1,21 +1,18 @@
-package edu.wpi.teamB.entities.map;
+package edu.wpi.teamB.entities.map.data;
 
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 
+@Getter
+@Setter
 @EqualsAndHashCode
 public class Path {
     List<String> path;
     double totalPathCost;
 
-    public List<String> getPath() {
-        return path;
-    }
-
-    public double getTotalPathCost() {
-        return totalPathCost;
-    }
 
     public Path() {
     }

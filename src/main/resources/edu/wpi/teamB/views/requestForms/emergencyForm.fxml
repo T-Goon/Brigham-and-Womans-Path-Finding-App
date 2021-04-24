@@ -60,7 +60,7 @@
                 <children>
                     <Text fill="#0067b1" strokeType="OUTSIDE" strokeWidth="0.0" text="Reporting an Emergency ">
                         <font>
-                            <Font name="MS Reference Sans Serif" size="24.0" />
+                            <Font name="MS Reference Sans Serif" size="25.0" />
                         </font>
                     </Text>
                     <VBox>
@@ -158,15 +158,7 @@
                                     </JFXButton>
                                 </children>
                             </HBox>
-                            <HBox alignment="CENTER_RIGHT" fillHeight="false" spacing="10.0" HBox.hgrow="ALWAYS">
-                                <children>
-                                    <JFXButton fx:id="btnHelp" buttonType="RAISED" onAction="#handleButtonAction" style="-fx-background-color: #9A9999; -fx-background-radius: 50%;" text="?" textFill="WHITE">
-                                        <font>
-                                            <Font name="MS Reference Sans Serif" size="14.0" />
-                                        </font>
-                                    </JFXButton>
-                                </children>
-                            </HBox>
+                            <HBox alignment="CENTER_RIGHT" fillHeight="false" spacing="10.0" HBox.hgrow="ALWAYS" />
                         </children>
                         <padding>
                             <Insets left="10.0" right="10.0" />
@@ -177,6 +169,18 @@
                     </HBox>
                 </children>
             </VBox>
+            <HBox alignment="BOTTOM_RIGHT" VBox.vgrow="ALWAYS">
+               <children>
+                  <JFXButton fx:id="btnHelp" buttonType="RAISED" maxHeight="56.0" maxWidth="56.0" onAction="#handleButtonAction" prefHeight="56.0" prefWidth="56.0" style="-fx-background-color: #9A9999; -fx-background-radius: 50%;" text="?" textFill="WHITE">
+                     <font>
+                        <Font name="MS Reference Sans Serif" size="27.0" />
+                     </font>
+                  </JFXButton>
+               </children>
+               <padding>
+                  <Insets bottom="15.0" right="15.0" />
+               </padding>
+            </HBox>
         </children>
     </VBox>
 </children>

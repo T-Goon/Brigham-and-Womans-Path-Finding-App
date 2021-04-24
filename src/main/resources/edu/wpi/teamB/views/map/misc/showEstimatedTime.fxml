@@ -5,15 +5,14 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-      style="-fx-background-color: #0067E1; -fx-background-radius: 7;" xmlns="http://javafx.com/javafx/8.0.171">
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-color: #0067E1; -fx-background-radius: 7;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamB.views.map.misc.showEstimatedTimeController">
    <children>
-      <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+      <Text fx:id="time" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
          <font>
-            <Font name="MS Reference Sans Serif" size="15.0"/>
+            <Font name="MS Reference Sans Serif" size="15.0" />
          </font>
          <VBox.margin>
-            <Insets bottom="5.0" left="10.0" right="10.0" top="5.0"/>
+            <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
          </VBox.margin>
       </Text>
    </children>

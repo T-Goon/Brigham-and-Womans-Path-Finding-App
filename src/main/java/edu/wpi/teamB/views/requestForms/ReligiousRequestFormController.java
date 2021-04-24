@@ -11,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -50,7 +51,13 @@ public class ReligiousRequestFormController extends DefaultServiceRequestFormCon
 
         if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml")) {
             this.id = (String) App.getPrimaryStage().getUserData();
-            ReligiousRequest religiousRequest = (ReligiousRequest) DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(id, Request.RequestType.RELIGIOUS);
+            ReligiousRequest religiousRequest = null;
+            try {
+                religiousRequest = (ReligiousRequest) DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(id, Request.RequestType.RELIGIOUS);
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return;
+            }
             name.setText(religiousRequest.getPatientName());
             getLocationIndex(religiousRequest.getLocation());
             String d = religiousRequest.getReligiousDate();
@@ -100,7 +107,12 @@ public class ReligiousRequestFormController extends DefaultServiceRequestFormCon
 
             String employeeName;
             if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml")) {
-                employeeName = DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(this.id, Request.RequestType.RELIGIOUS).getEmployeeName();
+                try {
+                    employeeName = DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(this.id, Request.RequestType.RELIGIOUS).getEmployeeName();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    return;
+                }
             } else {
                 employeeName = null;
             }
@@ -108,10 +120,14 @@ public class ReligiousRequestFormController extends DefaultServiceRequestFormCon
             ReligiousRequest request = new ReligiousRequest(givenPatientName, givenReligiousDate, givenStartTime, givenEndTime, givenFaith, givenInfectious,
                     requestID, time, date, complete, employeeName, getLocation(), givenDescription);
 
-            if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml")) {
-                DatabaseHandler.getDatabaseHandler("main.db").updateRequest(request);
-            } else {
-                DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
+            try {
+                if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml")) {
+                    DatabaseHandler.getDatabaseHandler("main.db").updateRequest(request);
+                } else {
+                    DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
         }
     }

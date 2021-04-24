@@ -2,6 +2,7 @@ package edu.wpi.teamB.views.requestForms;
 
 import com.jfoenix.controls.*;
 import edu.wpi.teamB.util.SceneSwitcher;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -50,6 +51,9 @@ public class EmergencyFormController implements Initializable {
                 SceneSwitcher.goBack(getClass(), 1);
                 break;
             case "btnHelp":
+                break;
+            case "btnExit":
+                Platform.exit();
                 break;
         }
     }

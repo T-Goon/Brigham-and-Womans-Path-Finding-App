@@ -6,7 +6,7 @@ import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXDialogLayout;
 import edu.wpi.teamB.App;
 import edu.wpi.teamB.database.DatabaseHandler;
-import edu.wpi.teamB.entities.map.Node;
+import edu.wpi.teamB.entities.map.data.Node;
 import edu.wpi.teamB.util.SceneSwitcher;
 import edu.wpi.teamB.views.BasePageController;
 import javafx.event.ActionEvent;
