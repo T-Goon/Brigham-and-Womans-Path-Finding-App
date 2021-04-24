@@ -175,8 +175,8 @@ public class FloralDeliveryRequestFormController extends DefaultServiceRequestFo
             if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml")) {
                 try {
                     employeeName = DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(this.id, Request.RequestType.FLORAL).getEmployeeName();
-                } catch (SQLException e) {
-                    e.printStackTrace();
+                } catch (SQLException err) {
+                    err.printStackTrace();
                     return;
                 }
             } else {
@@ -191,8 +191,8 @@ public class FloralDeliveryRequestFormController extends DefaultServiceRequestFo
                 if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml"))
                     DatabaseHandler.getDatabaseHandler("main.db").updateRequest(request);
                 else DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
-            } catch (SQLException e) {
-                e.printStackTrace();
+            } catch (SQLException err) {
+                err.printStackTrace();
             }
         }
     }

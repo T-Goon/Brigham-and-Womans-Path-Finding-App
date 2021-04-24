@@ -58,7 +58,7 @@ public class App extends Application {
                 db.resetDatabase(new ArrayList<>(Collections.singleton("Users")));
                 db.executeSchema();
                 if (!db.isInitialized()) {
-                    SceneSwitcher.switchToTemp(getClass(), "/edu/wpi/teamB/views/login/databaseInit.fxml");
+                    SceneSwitcher.switchFromTemp(getClass(), "/edu/wpi/teamB/views/login/databaseInit.fxml");
                     primaryStage.show();
 
                     dbThread = new Thread(() -> {
@@ -67,7 +67,7 @@ public class App extends Application {
                         } catch (SQLException e) {
                             e.printStackTrace();
                         }
-                        Platform.runLater(() -> SceneSwitcher.switchToTemp(getClass(), "/edu/wpi/teamB/views/login/loginOptions.fxml"));
+                        Platform.runLater(() -> SceneSwitcher.switchFromTemp(getClass(), "/edu/wpi/teamB/views/login/loginOptions.fxml"));
                     });
                     dbThread.start();
                 } else primaryStage.show();

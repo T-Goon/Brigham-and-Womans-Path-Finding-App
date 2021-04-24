@@ -86,8 +86,8 @@ public class SocialWorkerRequestFormController extends DefaultServiceRequestForm
             if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml")) {
                 try {
                     employeeName = DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(this.id, Request.RequestType.SOCIAL_WORKER).getEmployeeName();
-                } catch (SQLException e) {
-                    e.printStackTrace();
+                } catch (SQLException err) {
+                    err.printStackTrace();
                     return;
                 }
             } else {
@@ -103,8 +103,8 @@ public class SocialWorkerRequestFormController extends DefaultServiceRequestForm
                 } else {
                     DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
                 }
-            } catch (SQLException e) {
-                e.printStackTrace();
+            } catch (SQLException err) {
+                err.printStackTrace();
             }
         }
     }

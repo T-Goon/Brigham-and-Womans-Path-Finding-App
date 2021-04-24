@@ -118,9 +118,9 @@ public class ExternalTransportationRequestFormController extends DefaultServiceR
             String employeeName;
             if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml")) {
                 try {
-                    employeeName = DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(this.id, Request.RequestType.EXTERNAL_TRANSPORT).getEmployeeName();
-                } catch (SQLException e) {
-                    e.printStackTrace();
+                    employeeName = db.getSpecificRequestById(this.id, Request.RequestType.EXTERNAL_TRANSPORT).getEmployeeName();
+                } catch (SQLException err) {
+                    err.printStackTrace();
                     return;
                 }
             } else {
@@ -132,10 +132,10 @@ public class ExternalTransportationRequestFormController extends DefaultServiceR
 
             try {
                 if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml"))
-                    DatabaseHandler.getDatabaseHandler("main.db").updateRequest(request);
-                else DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
-            } catch (SQLException e) {
-                e.printStackTrace();
+                    db.updateRequest(request);
+                else db.addRequest(request);
+            } catch (SQLException err) {
+                err.printStackTrace();
             }
         }
     }

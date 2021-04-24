@@ -83,8 +83,8 @@ public class MedDeliveryRequestFormController extends DefaultServiceRequestFormC
             if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml")) {
                 try {
                     employeeName = DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(this.id, Request.RequestType.MEDICINE).getEmployeeName();
-                } catch (SQLException e) {
-                    e.printStackTrace();
+                } catch (SQLException err) {
+                    err.printStackTrace();
                     return;
                 }
             } else {
@@ -100,8 +100,8 @@ public class MedDeliveryRequestFormController extends DefaultServiceRequestFormC
                 } else {
                     DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
                 }
-            } catch (SQLException e) {
-                e.printStackTrace();
+            } catch (SQLException err) {
+                err.printStackTrace();
             }
         }
     }

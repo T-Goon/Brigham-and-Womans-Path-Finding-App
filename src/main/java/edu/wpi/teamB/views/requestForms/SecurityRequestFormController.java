@@ -101,8 +101,8 @@ public class SecurityRequestFormController extends DefaultServiceRequestFormCont
                 } else {
                     DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
                 }
-            } catch (SQLException e) {
-                e.printStackTrace();
+            } catch (SQLException err) {
+                err.printStackTrace();
             }
         }
 
