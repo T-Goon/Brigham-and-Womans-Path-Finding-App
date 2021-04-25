@@ -19,15 +19,15 @@ public class Directions {
         Coord currC = new Coord(curr.getXCoord(), curr.getYCoord());
         Coord nextC = new Coord(next.getXCoord(), next.getYCoord());
 
-        Coord firstTriangle = new Coord(currC.getX(), prevC.getY());
+        Coord firstTriangleCoord = new Coord(currC.getX(), prevC.getY());
 
-        double aLen = prevC.getX() - firstTriangle.getX();
-        double bLen = currC.getY() - firstTriangle.getY();
+        double aLen = prevC.getX() - firstTriangleCoord.getX();
+        double bLen = currC.getY() - firstTriangleCoord.getY();
         double firstAngle = java.lang.Math.atan(bLen / aLen) * (180 / Math.PI);
 
         Coord secondTriangle = new Coord(nextC.getX(), currC.getY());
-        double aLen1 = currC.getX() - secondTriangle.getX();
-        double bLen1 = nextC.getY() - secondTriangle.getY();
+        double aLen1 = dist(currC, secondTriangle); //currC.getX() - secondTriangle.getX();
+        double bLen1 = dist(nextC, secondTriangle); //nextC.getY() - secondTriangle.getY();
         double secondAngle = 180 - java.lang.Math.atan(bLen1 / aLen1) * (180 / Math.PI);
 
         return secondAngle + firstAngle;
@@ -112,6 +112,7 @@ public class Directions {
                     //sharp right
                     dir += "Take a sharp right and walk " + (int)distance + " feet towards " + next.getLongName();
                 } else if (turn >= 210 && turn <= 280) {
+                    //take a left
                     dir += "Take a left and walk " + (int)distance + " feet towards " + next.getLongName();
                 } else{// if (turn == 0 || (turn > 280 && turn <= 360)) {
                     dir += "Take a sharp left and walk " + (int)distance + " feet towards " + next.getLongName();
