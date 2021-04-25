@@ -97,6 +97,7 @@ public class UserMutator implements IDatabaseEntityMutator<UserMutator.UserPassw
 
         String query = "DELETE FROM FavoriteLocations WHERE username = '" + username + "' AND favoriteLocation = '" + favoriteLocation + "'";
         db.runStatement(query, false);
+
     }
 
     public void getFavoritesForUser() {
