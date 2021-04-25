@@ -2,6 +2,9 @@ package edu.wpi.teamB;
 
 import static org.testfx.api.FxAssert.verifyThat;
 
+import edu.wpi.teamB.database.DatabaseHandler;
+import edu.wpi.teamB.entities.map.data.Edge;
+import edu.wpi.teamB.util.CSVHandler;
 import javafx.geometry.VerticalDirection;
 import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
@@ -15,6 +18,8 @@ import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit5.ApplicationExtension;
 
+import java.sql.SQLException;
+import java.util.List;
 import java.util.stream.Stream;
 
 @ExtendWith(ApplicationExtension.class)
@@ -31,7 +36,15 @@ public class MapTests extends FxRobot{
             // Wait for the database to finish initializing
         }
 
+        DatabaseHandler db = DatabaseHandler.getDatabaseHandler("main.db");
+        List<edu.wpi.teamB.entities.map.data.Node> nodes = CSVHandler.loadCSVNodes("/edu/wpi/teamB/csvFiles/bwBnodes.csv");
+        List<Edge> edges = CSVHandler.loadCSVEdges("/edu/wpi/teamB/csvFiles/bwBedges.csv");
 
+        try {
+            db.loadNodesEdges(nodes, edges);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
@@ -89,15 +102,10 @@ public class MapTests extends FxRobot{
         // Set start node for edge
         clickOn("#bBATH00101Icon");
         clickOn("#btnAddEdge");
-        clickOn("#btnStart");
-        clickOn("#btnCancel");
-        clickOn("#btnCancel");
 
         // Set end node for edge
         clickOn("#bBATH00201Icon");
-        clickOn("#btnAddEdge");
-        clickOn("#btnEnd");
-        clickOn("#btnDone");
+        clickOn("#btnYes");
 
         // Delete Edge
         clickOn("#bBATH00101_bBATH00201Icon");
