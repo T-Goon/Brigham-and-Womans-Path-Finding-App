@@ -84,7 +84,7 @@
                         </VBox>
                         <VBox alignment="CENTER">
                            <children>
-                              <JFXButton fx:id="btnFloralDelivery" contentDisplay="GRAPHIC_ONLY" minHeight="160.0" minWidth="160.0" nodeOrientation="LEFT_TO_RIGHT" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39; -fx-background-radius: 7%;" stylesheets="@../../css/serviceRequestDirectory.css" text="Floral Delivery" VBox.vgrow="ALWAYS">
+                              <JFXButton fx:id="btnFloralDelivery" contentDisplay="GRAPHIC_ONLY" minHeight="160.0" minWidth="160.0" nodeOrientation="LEFT_TO_RIGHT" onAction="#handleButtonAction" ripplerFill="WHITE" style="-fx-background-color: #F6BD39; -fx-background-radius: 7%;" text="Floral Delivery" VBox.vgrow="ALWAYS">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
@@ -100,7 +100,7 @@
                         </VBox>
                         <VBox fx:id="medicineDelivery" alignment="CENTER">
                            <children>
-                               <JFXButton fx:id="btnMedicine" contentDisplay="GRAPHIC_ONLY" minHeight="160.0" minWidth="160.0" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39; -fx-background-radius: 7%;" stylesheets="@../../css/serviceRequestDirectory.css" text="Medicine Delivery" VBox.vgrow="ALWAYS">
+                               <JFXButton fx:id="btnMedicine" contentDisplay="GRAPHIC_ONLY" minHeight="160.0" minWidth="160.0" onAction="#handleButtonAction" ripplerFill="WHITE" style="-fx-background-color: #F6BD39; -fx-background-radius: 7%;" stylesheets="@../../css/serviceRequestDirectory.css" text="Medicine Delivery" VBox.vgrow="ALWAYS">
                                    <font>
                                        <Font size="14.0" />
                                    </font>
@@ -116,7 +116,7 @@
                         </VBox>
                         <VBox alignment="CENTER">
                            <children>
-                              <JFXButton fx:id="btnSecurity" contentDisplay="GRAPHIC_ONLY" minHeight="160.0" minWidth="160.0" nodeOrientation="LEFT_TO_RIGHT" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39; -fx-background-radius: 7%;" text="Security Services" VBox.vgrow="ALWAYS">
+                              <JFXButton fx:id="btnSecurity" contentDisplay="GRAPHIC_ONLY" minHeight="160.0" minWidth="160.0" nodeOrientation="LEFT_TO_RIGHT" onAction="#handleButtonAction" ripplerFill="WHITE" style="-fx-background-color: #F6BD39; -fx-background-radius: 7%;" text="Security Services" VBox.vgrow="ALWAYS">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
@@ -132,7 +132,7 @@
                         </VBox>
                         <VBox fx:id="internalTransport" alignment="CENTER">
                            <children>
-                               <JFXButton fx:id="btnIntTransp" contentDisplay="GRAPHIC_ONLY" minHeight="160.0" minWidth="160.0" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39; -fx-background-radius: 7%;" text="Internal Transportation" VBox.vgrow="ALWAYS">
+                               <JFXButton fx:id="btnIntTransp" contentDisplay="GRAPHIC_ONLY" minHeight="160.0" minWidth="160.0" onAction="#handleButtonAction" ripplerFill="WHITE" style="-fx-background-color: #F6BD39; -fx-background-radius: 7%;" text="Internal Transportation" VBox.vgrow="ALWAYS">
                                    <font>
                                        <Font size="14.0" />
                                    </font>
@@ -148,7 +148,7 @@
                         </VBox>
                         <VBox fx:id="externalTransport" alignment="CENTER">
                            <children>
-                               <JFXButton fx:id="btnExtTransp" contentDisplay="GRAPHIC_ONLY" minHeight="160.0" minWidth="160.0" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39; -fx-background-radius: 7%;" text="External Transportation" VBox.vgrow="ALWAYS">
+                               <JFXButton fx:id="btnExtTransp" contentDisplay="GRAPHIC_ONLY" minHeight="160.0" minWidth="160.0" onAction="#handleButtonAction" ripplerFill="WHITE" style="-fx-background-color: #F6BD39; -fx-background-radius: 7%;" text="External Transportation" VBox.vgrow="ALWAYS">
                                    <font>
                                        <Font size="14.0" />
                                    </font>
@@ -164,7 +164,7 @@
                         </VBox>
                         <VBox alignment="CENTER">
                            <children>
-                              <JFXButton fx:id="btnReligiousRequest" contentDisplay="GRAPHIC_ONLY" minHeight="160.0" minWidth="160.0" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39; -fx-background-radius: 7%;" text="Religious Service" VBox.vgrow="ALWAYS">
+                              <JFXButton fx:id="btnReligiousRequest" contentDisplay="GRAPHIC_ONLY" minHeight="160.0" minWidth="160.0" onAction="#handleButtonAction" ripplerFill="WHITE" style="-fx-background-color: #F6BD39; -fx-background-radius: 7%;" text="Religious Service" VBox.vgrow="ALWAYS">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
@@ -180,7 +180,7 @@
                         </VBox>
                         <VBox alignment="CENTER">
                            <children>
-                              <JFXButton fx:id="btnFoodDelivery" contentDisplay="GRAPHIC_ONLY" minHeight="160.0" minWidth="160.0" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39; -fx-background-radius: 7%;" text="Food Delivery" VBox.vgrow="ALWAYS">
+                              <JFXButton fx:id="btnFoodDelivery" contentDisplay="GRAPHIC_ONLY" minHeight="160.0" minWidth="160.0" onAction="#handleButtonAction" ripplerFill="WHITE" style="-fx-background-color: #F6BD39; -fx-background-radius: 7%;" text="Food Delivery" VBox.vgrow="ALWAYS">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
@@ -196,7 +196,7 @@
                         </VBox>
                         <VBox alignment="CENTER">
                            <children>
-                              <JFXButton fx:id="btnLaundryRequest" contentDisplay="GRAPHIC_ONLY" minHeight="160.0" minWidth="160.0" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39; -fx-background-radius: 7%;" text="Laundry" VBox.vgrow="ALWAYS">
+                              <JFXButton fx:id="btnLaundryRequest" contentDisplay="GRAPHIC_ONLY" minHeight="160.0" minWidth="160.0" onAction="#handleButtonAction" ripplerFill="WHITE" style="-fx-background-color: #F6BD39; -fx-background-radius: 7%;" text="Laundry" VBox.vgrow="ALWAYS">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
@@ -212,7 +212,7 @@
                         </VBox>
                         <VBox alignment="CENTER">
                            <children>
-                              <JFXButton fx:id="btnSocialWorker" contentDisplay="GRAPHIC_ONLY" minHeight="160.0" minWidth="160.0" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39; -fx-background-radius: 7%;" text="Social Worker" VBox.vgrow="ALWAYS">
+                              <JFXButton fx:id="btnSocialWorker" contentDisplay="GRAPHIC_ONLY" minHeight="160.0" minWidth="160.0" onAction="#handleButtonAction" ripplerFill="WHITE" style="-fx-background-color: #F6BD39; -fx-background-radius: 7%;" text="Social Worker" VBox.vgrow="ALWAYS">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
@@ -228,7 +228,7 @@
                         </VBox>
                         <VBox alignment="CENTER" style="-fx-background-color: #012d5a;">
                            <children>
-                              <JFXButton fx:id="btnCaseManager" contentDisplay="GRAPHIC_ONLY" minHeight="160.0" minWidth="160.0" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39; -fx-background-radius: 7%;" text="Case Manager" VBox.vgrow="ALWAYS">
+                              <JFXButton fx:id="btnCaseManager" contentDisplay="GRAPHIC_ONLY" minHeight="160.0" minWidth="160.0" onAction="#handleButtonAction" ripplerFill="WHITE" style="-fx-background-color: #F6BD39; -fx-background-radius: 7%;" text="Case Manager" VBox.vgrow="ALWAYS">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
