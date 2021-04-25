@@ -177,7 +177,7 @@
                         </HBox>
                         <HBox prefHeight="100.0" prefWidth="200.0">
                            <children>
-                              <JFXToggleButton fx:id="txtDirToggle" onAction="#textDirVisbility" text="Text Directions" textFill="WHITE" />
+                              <JFXToggleButton fx:id="txtDirToggle" onAction="#textDirVisibility" text="Text Directions" textFill="WHITE" />
                            </children>
                         </HBox>
                               <HBox VBox.vgrow="ALWAYS">

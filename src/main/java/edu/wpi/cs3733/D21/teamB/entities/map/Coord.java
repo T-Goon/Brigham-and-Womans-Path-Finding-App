@@ -1,4 +1,4 @@
-package edu.wpi.teamB.entities.map;
+package edu.wpi.cs3733.D21.teamB.entities.map;
 
 public class Coord {
     int x;

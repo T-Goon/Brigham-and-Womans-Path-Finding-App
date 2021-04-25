@@ -1,8 +1,10 @@
-package edu.wpi.teamB.pathfinding;
+package edu.wpi.cs3733.D21.teamB.pathfinding;
 
-import edu.wpi.teamB.entities.map.data.Path;
-import edu.wpi.teamB.entities.map.data.Node;
-import edu.wpi.teamB.entities.map.Coord;
+import edu.wpi.cs3733.D21.teamB.entities.map.data.Node;
+
+import edu.wpi.cs3733.D21.teamB.entities.map.data.Path;
+import edu.wpi.cs3733.D21.teamB.pathfinding.Graph;
+import edu.wpi.cs3733.D21.teamB.entities.map.Coord;
 
 import java.util.ArrayList;
 import java.util.List;

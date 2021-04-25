@@ -11,11 +11,14 @@ import edu.wpi.cs3733.D21.teamB.entities.map.MapEditorPopupManager;
 import edu.wpi.cs3733.D21.teamB.entities.map.MapPathPopupManager;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Edge;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Node;
+import edu.wpi.cs3733.D21.teamB.entities.map.data.Path;
 import edu.wpi.cs3733.D21.teamB.pathfinding.AStar;
+import edu.wpi.cs3733.D21.teamB.pathfinding.Directions;
 import edu.wpi.cs3733.D21.teamB.pathfinding.Graph;
 import edu.wpi.cs3733.D21.teamB.util.CSVHandler;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
 import javafx.application.Platform;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -475,11 +478,9 @@ public class PathfindingMenuController implements Initializable {
     }
 
     @FXML
-    public void textDirVisbility(ActionEvent actionEvent){
+    public void textDirVisibility(ActionEvent actionEvent){
+        Map<String, String> hmLongName = mc.makeLongToIDMap();
         JFXToggleButton toggleButton = (JFXToggleButton) actionEvent.getSource();
-
-        //String estimatedTime = Directions.
-
         VBox txtDirBox = null;
 
         if(toggleButton.isSelected()){
@@ -487,17 +488,28 @@ public class PathfindingMenuController implements Initializable {
             try {
                 txtDirBox = FXMLLoader.load(
                         Objects.requireNonNull(getClass().getResource("/edu/wpi/cs3733/D21/teamB/views/map/misc/showTextDir.fxml")));
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
         }
 
-        //give path
-        //set text to be dir
-        //show pop up in txtDirHOlder
+        Path APath = AStar.findPath(hmLongName.get(txtStartLocation.getText()), hmLongName.get(txtEndLocation.getText()));
+        Node endNode  = Graph.getGraph().getNodes().get(hmLongName.get(txtEndLocation.getText()));
 
-        //make sure that you hide when off else show
+        List<String> directions = Directions.inst(APath);
+
+        ObservableList<javafx.scene.Node> children = txtDirBox.getChildren();
+        Text text = (Text) children.get(0);
+
+        for(String direction : directions){
+            text.setText(direction + "\n");
+        }
+
+        txtDirBox.setLayoutX((endNode.getXCoord() / PathfindingMenuController.coordinateScale));
+        txtDirBox.setLayoutY((endNode.getYCoord() / PathfindingMenuController.coordinateScale) - (txtDirBox.getHeight()));
+
     }
 
 }
