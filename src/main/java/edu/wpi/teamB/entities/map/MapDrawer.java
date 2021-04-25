@@ -90,13 +90,13 @@ public class MapDrawer implements PoppableManager {
         }
 
         assert path != null;
-        List<String> AstarPath = path.getPath();
+        List<String> nodePath = path.getPath();
 
-        if (AstarPath.isEmpty()) {
+        if (nodePath.isEmpty()) {
             lblError.setVisible(true);
         } else {
             Node prev = null;
-            for (String loc : AstarPath) {
+            for (String loc : nodePath) {
                 if ((prev != null) && (loc != null)) {
                     Node curr = nodesId.get(loc);
                     placeEdge(prev, curr);

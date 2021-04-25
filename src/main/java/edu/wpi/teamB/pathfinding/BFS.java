@@ -60,9 +60,7 @@ public class BFS {
                 result.addAll(dfsHelper(neighbor.getNodeID(), end, visited, graph));
                 if (!result.isEmpty()) {
                     queue.add(start);
-                    for (String s : result) {
-                        queue.add(s);
-                    }
+                    queue.addAll(result);
                     break;
                 }
             }
