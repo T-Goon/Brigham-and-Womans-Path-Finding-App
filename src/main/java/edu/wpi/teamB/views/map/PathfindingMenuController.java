@@ -4,10 +4,7 @@ import com.jfoenix.controls.*;
 import edu.wpi.teamB.App;
 import edu.wpi.teamB.database.DatabaseHandler;
 import edu.wpi.teamB.entities.User;
-import edu.wpi.teamB.entities.map.MapCache;
-import edu.wpi.teamB.entities.map.MapDrawer;
-import edu.wpi.teamB.entities.map.MapEditorPopupManager;
-import edu.wpi.teamB.entities.map.MapPathPopupManager;
+import edu.wpi.teamB.entities.map.*;
 import edu.wpi.teamB.entities.map.data.Edge;
 import edu.wpi.teamB.entities.map.data.Node;
 import edu.wpi.teamB.pathfinding.Graph;
@@ -90,9 +87,6 @@ public class PathfindingMenuController implements Initializable {
     private JFXTextField txtSearch;
 
     @FXML
-    private JFXButton btnSearch;
-
-    @FXML
     private JFXTreeView<String> treeLocations;
 
     @FXML
@@ -103,6 +97,21 @@ public class PathfindingMenuController implements Initializable {
 
     @FXML
     private StackPane stackContainer;
+
+    @FXML
+    private JFXButton btnF3;
+
+    @FXML
+    private JFXButton btnF2;
+
+    @FXML
+    private JFXButton btnF1;
+
+    @FXML
+    private JFXButton btnFL1;
+
+    @FXML
+    private JFXButton btnFL2;
 
     public static final double coordinateScale = 25 / 9.0;
 
@@ -117,6 +126,7 @@ public class PathfindingMenuController implements Initializable {
     private MapDrawer md;
     private MapEditorPopupManager mepm;
     private MapPathPopupManager mppm;
+    private FloorSwitcher fs;
 
     // JavaFX code **************************************************************************************
 
@@ -154,6 +164,8 @@ public class PathfindingMenuController implements Initializable {
         // Draw the nodes on the map
         md.drawNodesOnFloor();
 
+        // Set up floor switching
+        fs = new FloorSwitcher(md, mc, map, btnF3, btnF2, btnF1, btnFL1, btnFL2);
 
         //test if we came from a failed covid survey
         if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/covidSurvey/covidFormSubmittedWithSymp.fxml")) {
@@ -296,17 +308,37 @@ public class PathfindingMenuController implements Initializable {
         switch (b.getId()) {
             case "btnFindPath":
 
-                md.removeOldPaths();
+                md.removeAllEdges();
                 md.drawPath(txtStartLocation.getText(), txtEndLocation.getText());
                 break;
             case "btnEditMap":
 
                 md.removeAllPopups();
-                mppm.removeETAPopup();
+                md.removeAllEdges();
 
                 md.setEditing(!md.isEditing());
 
                 md.drawAllElements();
+                break;
+            case "btnF3":
+                md.removeAllEdges();
+                fs.switchFloor(FloorSwitcher.floor3ID);
+                break;
+            case "btnF2":
+                md.removeAllEdges();
+                fs.switchFloor(FloorSwitcher.floor2ID);
+                break;
+            case "btnF1":
+                md.removeAllEdges();
+                fs.switchFloor(FloorSwitcher.floor1ID);
+                break;
+            case "btnFL1":
+                md.removeAllEdges();
+                fs.switchFloor(FloorSwitcher.floorL1ID);
+                break;
+            case "btnFL2":
+                md.removeAllEdges();
+                fs.switchFloor(FloorSwitcher.floorL2ID);
                 break;
             case "btnBack":
                 SceneSwitcher.goBack(getClass(), 1);
