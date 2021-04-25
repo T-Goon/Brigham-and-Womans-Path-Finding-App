@@ -91,8 +91,8 @@
                               </VBox>
                               <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="100.0" spacing="5.0" HBox.hgrow="ALWAYS">
                                  <children>
-                                    <JFXTextField fx:id="txtEndLocation" editable="false" focusColor="#405aa800" maxWidth="-Infinity" onAction="#validateFindPathButton" prefWidth="230.0" style="-fx-background-color: white; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" />
                                     <JFXTextField fx:id="txtStartLocation" editable="false" focusColor="#405aa800" maxWidth="-Infinity" onAction="#validateFindPathButton" prefWidth="230.0" style="-fx-background-color: white; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" />
+                                    <JFXTextField fx:id="txtEndLocation" editable="false" focusColor="#405aa800" maxWidth="-Infinity" onAction="#validateFindPathButton" prefWidth="230.0" style="-fx-background-color: white; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" />
                                     <JFXTextArea fx:id="txtAreaStops" editable="false" maxHeight="1.7976931348623157E308" prefHeight="300.0" prefWidth="300.0" style="-fx-background-color: white; -fx-background-radius: 7;" />
                                     <JFXButton fx:id="btnRemoveStop" disable="true" onAction="#handleButtonAction" prefHeight="30.0" prefWidth="100.0" style="-fx-background-color: #CE2029; -fx-background-radius: 5;" text="Remove Stop" textFill="WHITE">
                                        <font>
