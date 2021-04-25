@@ -1,8 +1,11 @@
 package edu.wpi.teamB.database;
 
-import edu.wpi.teamB.entities.IStoredEntity;
-import edu.wpi.teamB.entities.User;
-import edu.wpi.teamB.entities.requests.Request;
+
+import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
+import edu.wpi.cs3733.D21.teamB.database.IDatabaseEntityMutator;
+import edu.wpi.cs3733.D21.teamB.entities.IStoredEntity;
+import edu.wpi.cs3733.D21.teamB.entities.User;
+import edu.wpi.cs3733.D21.teamB.entities.requests.Request;
 import lombok.AllArgsConstructor;
 
 import java.sql.SQLException;
@@ -100,7 +103,6 @@ public class UserMutator implements IDatabaseEntityMutator<UserMutator.UserPassw
         User user = db.getAuthenticationUser();
         String username = user.getUsername();
 
-        String
     }
 
     @AllArgsConstructor

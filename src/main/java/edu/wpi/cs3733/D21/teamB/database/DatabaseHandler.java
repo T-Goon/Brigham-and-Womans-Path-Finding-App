@@ -617,7 +617,7 @@ public class DatabaseHandler {
      * @param favoriteLocation the favorite location to add
      */
     public void addFavoriteLocation(String favoriteLocation) throws SQLException {
-        new UserMutator(this).addFavoriteToUser(favoriteLocation);
+        userMutator.addFavoriteToUser(favoriteLocation);
     }
 
     /**
@@ -626,7 +626,7 @@ public class DatabaseHandler {
      * @param favoriteLocation the favorite location to remove
      */
     public void removeFavoriteLocation(String favoriteLocation) throws SQLException {
-        new UserMutator(this).removeFavoriteFromUser(favoriteLocation);
+        userMutator.removeFavoriteFromUser(favoriteLocation);
     }
 
     /**
