@@ -110,8 +110,9 @@ public class AddNodePopupController implements Initializable {
                 || longName.getText().trim().isEmpty() || shortName.getText().trim().isEmpty() || floor.getText().trim().isEmpty()
                 || xCoord.getText().trim().isEmpty() || yCoord.getText().trim().isEmpty());
         try {
-            Integer.parseInt(xCoord.getText().trim());
-            Integer.parseInt(yCoord.getText().trim());
+            int xCoord = Integer.parseInt(this.xCoord.getText().trim());
+            int yCoord = Integer.parseInt(this.yCoord.getText().trim());
+            btnAddNode.setDisable(xCoord < 0 || yCoord < 0);
         } catch (NumberFormatException notInt) {
             btnAddNode.setDisable(true);
         }
