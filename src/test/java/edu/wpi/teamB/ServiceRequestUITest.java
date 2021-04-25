@@ -211,7 +211,6 @@ public class ServiceRequestUITest extends FxRobot {
         clickOn("Return to Main Screen");
         verifyThat("Service Requests", Node::isVisible);
         clickOn("#btnBack");
-        verifyThat("#btnGuest", Node::isVisible);
     }
 
     private static Stream<Arguments> textProvider() {

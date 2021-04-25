@@ -14,6 +14,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
@@ -36,11 +37,17 @@ public class CaseManagerRequestFormController extends DefaultServiceRequestFormC
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        super.initialize(location,resources);
+        super.initialize(location, resources);
 
         if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml")) {
             this.id = (String) App.getPrimaryStage().getUserData();
-            CaseManagerRequest caseManagerRequest = (CaseManagerRequest) DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(id, Request.RequestType.CASE_MANAGER);
+            CaseManagerRequest caseManagerRequest = null;
+            try {
+                caseManagerRequest = (CaseManagerRequest) DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(id, Request.RequestType.CASE_MANAGER);
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return;
+            }
             patientName.setText(caseManagerRequest.getPatientName());
             getLocationIndex(caseManagerRequest.getLocation());
             String time = caseManagerRequest.getTimeForArrival();
@@ -51,10 +58,9 @@ public class CaseManagerRequestFormController extends DefaultServiceRequestFormC
         validateButton();
     }
 
-    public void handleButtonAction(ActionEvent actionEvent) {
-        super.handleButtonAction(actionEvent);
-
-        JFXButton btn = (JFXButton) actionEvent.getSource();
+    public void handleButtonAction(ActionEvent e) {
+        super.handleButtonAction(e);
+        JFXButton btn = (JFXButton) e.getSource();
         if (btn.getId().equals("btnSubmit")) {
             String givenPatientName = patientName.getText();
             String givenTimeForArrival = timeForArrival.getValue().toString();
@@ -77,7 +83,12 @@ public class CaseManagerRequestFormController extends DefaultServiceRequestFormC
 
             String employeeName;
             if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml")) {
-                employeeName = DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(this.id, Request.RequestType.CASE_MANAGER).getEmployeeName();
+                try {
+                    employeeName = DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(this.id, Request.RequestType.CASE_MANAGER).getEmployeeName();
+                } catch (SQLException err) {
+                    err.printStackTrace();
+                    return;
+                }
             } else {
                 employeeName = null;
             }
@@ -85,10 +96,12 @@ public class CaseManagerRequestFormController extends DefaultServiceRequestFormC
             CaseManagerRequest request = new CaseManagerRequest(givenPatientName, givenTimeForArrival,
                     requestID, time, date, complete, employeeName, getLocation(), givenDescription);
 
-            if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml")) {
-                DatabaseHandler.getDatabaseHandler("main.db").updateRequest(request);
-            } else {
-                DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
+            try {
+                if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml"))
+                    DatabaseHandler.getDatabaseHandler("main.db").updateRequest(request);
+                else DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
+            } catch (SQLException err) {
+                err.printStackTrace();
             }
         }
     }

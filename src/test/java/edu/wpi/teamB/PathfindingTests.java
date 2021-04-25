@@ -1,18 +1,20 @@
 package edu.wpi.teamB;
 
 import edu.wpi.teamB.database.DatabaseHandler;
-import edu.wpi.teamB.entities.map.Path;
-import edu.wpi.teamB.entities.map.Edge;
-import edu.wpi.teamB.entities.map.Node;
+import edu.wpi.teamB.entities.map.data.Path;
+import edu.wpi.teamB.entities.map.data.Edge;
+import edu.wpi.teamB.entities.map.data.Node;
 import edu.wpi.teamB.pathfinding.AStar;
 import edu.wpi.teamB.pathfinding.Graph;
 import edu.wpi.teamB.util.CSVHandler;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Stack;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -25,7 +27,12 @@ public class PathfindingTests {
         List<Node> nodes = CSVHandler.loadCSVNodes("/edu/wpi/teamB/csvFiles/bwBnodes.csv");
         List<Edge> edges = CSVHandler.loadCSVEdges("/edu/wpi/teamB/csvFiles/bwBedges.csv");
 
-        db.loadNodesEdges(nodes, edges);
+        try {
+            db.loadNodesEdges(nodes, edges);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return;
+        }
 
         Graph.setGraph(db);
     }
@@ -125,6 +132,89 @@ public class PathfindingTests {
         result = AStar.getEstimatedTime(tempPath);
         expected = "22 sec";
         assertEquals(expected, result);
+    }
+
+    @Test
+    public void testMultipleNodePathfinding(){
+        Stack<String> nodeList = new Stack<>();
+        nodeList.push("bPARK02501");
+        nodeList.push("bEXIT00501");
+        nodeList.push("bPARK00101");
+
+        LinkedList<String> expectedPath = new LinkedList<>();
+        expectedPath.add("bPARK00101");
+        expectedPath.add("bWALK00101");
+        expectedPath.add("bWALK00201");
+        expectedPath.add("bWALK00301");
+        expectedPath.add("bWALK00401");
+        expectedPath.add("bWALK00501");
+        expectedPath.add("bWALK00601");
+        expectedPath.add("bWALK00701");
+        expectedPath.add("bWALK00801");
+        expectedPath.add("bWALK00901");
+        expectedPath.add("bEXIT00501");
+        expectedPath.add("bWALK00901");
+        expectedPath.add("bWALK00801");
+        expectedPath.add("bWALK01001");
+        expectedPath.add("bWALK01101");
+        expectedPath.add("bWALK01201");
+        expectedPath.add("bWALK01301");
+        expectedPath.add("bWALK01401");
+        expectedPath.add("bWALK01501");
+        expectedPath.add("bWALK01601");
+        expectedPath.add("bPARK02501");
+
+
+        Path expectedResult = new Path(expectedPath, 2484.102858858675+1954.7029936098086);
+
+        Path returnedResult = AStar.findPath(nodeList);
+
+        assertEquals(expectedResult, returnedResult);
+
+        Stack<String> longNodesList = new Stack<>();
+        longNodesList.push("FDEPT00301");
+        longNodesList.push("FSERV00201");
+        longNodesList.push("bEXIT00501");
+        longNodesList.push("bPARK00101");
+
+
+        LinkedList<String> expectedLongPath = new LinkedList<>();
+        expectedLongPath.add("bPARK00101");
+        expectedLongPath.add("bWALK00101");
+        expectedLongPath.add("bWALK00201");
+        expectedLongPath.add("bWALK00301");
+        expectedLongPath.add("bWALK00401");
+        expectedLongPath.add("bWALK00501");
+        expectedLongPath.add("bWALK00601");
+        expectedLongPath.add("bWALK00701");
+        expectedLongPath.add("bWALK00801");
+        expectedLongPath.add("bWALK00901");
+        expectedLongPath.add("bEXIT00501");
+        expectedLongPath.add("bEXIT00401");
+        expectedLongPath.add("FEXIT00201");
+        expectedLongPath.add("FHALL02801");
+        expectedLongPath.add("FHALL02201");
+        expectedLongPath.add("FHALL02101");
+        expectedLongPath.add("FHALL01901");
+        expectedLongPath.add("FHALL01601");
+        expectedLongPath.add("FHALL01501");
+        expectedLongPath.add("FHALL01401");
+        expectedLongPath.add("FSERV00201");
+        expectedLongPath.add("FHALL01401");
+        expectedLongPath.add("FHALL01501");
+        expectedLongPath.add("FHALL01601");
+        expectedLongPath.add("FHALL03201");
+        expectedLongPath.add("FHALL01801");
+        expectedLongPath.add("FHALL01701");
+        expectedLongPath.add("FDEPT00301");
+
+        Path expectedLongResult = new Path(expectedLongPath, 2484.102858858675+848.2401435306502+350.0);
+
+        Path returnedLongResult = AStar.findPath(longNodesList);
+
+        assertEquals(expectedLongResult, returnedLongResult);
+
+
     }
 
 }

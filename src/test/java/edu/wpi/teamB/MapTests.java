@@ -2,6 +2,9 @@ package edu.wpi.teamB;
 
 import static org.testfx.api.FxAssert.verifyThat;
 
+import edu.wpi.teamB.database.DatabaseHandler;
+import edu.wpi.teamB.entities.map.data.Edge;
+import edu.wpi.teamB.util.CSVHandler;
 import javafx.geometry.VerticalDirection;
 import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
@@ -15,6 +18,8 @@ import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit5.ApplicationExtension;
 
+import java.sql.SQLException;
+import java.util.List;
 import java.util.stream.Stream;
 
 @ExtendWith(ApplicationExtension.class)
@@ -29,6 +34,16 @@ public class MapTests extends FxRobot{
         FxToolkit.setupApplication(App.class);
         while (App.getPrimaryStage().getScene().lookup("#gif") != null) {
             // Wait for the database to finish initializing
+        }
+
+        DatabaseHandler db = DatabaseHandler.getDatabaseHandler("main.db");
+        List<edu.wpi.teamB.entities.map.data.Node> nodes = CSVHandler.loadCSVNodes("/edu/wpi/teamB/csvFiles/bwBnodes.csv");
+        List<Edge> edges = CSVHandler.loadCSVEdges("/edu/wpi/teamB/csvFiles/bwBedges.csv");
+
+        try {
+            db.loadNodesEdges(nodes, edges);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
@@ -51,8 +66,6 @@ public class MapTests extends FxRobot{
         doubleClickOn(MouseButton.PRIMARY);
 
         // Fill in node info
-        clickOn("#nodeID");
-        write("nodeabcd12345");
         clickOn("#building");
         write("building123");
         clickOn("#nodeType");
@@ -68,8 +81,6 @@ public class MapTests extends FxRobot{
         doubleClickOn(MouseButton.PRIMARY);
 
         // Fill in node info
-        clickOn("#nodeID");
-        write("nodeabcd123452");
         clickOn("#building");
         write("building123");
         clickOn("#nodeType");
@@ -81,47 +92,40 @@ public class MapTests extends FxRobot{
         clickOn("#btnAddNode");
 
         // Edit Node
-        verifyThat("#nodeabcd12345Icon", Node::isVisible);
-        clickOn("#nodeabcd12345Icon");
+        verifyThat("#bBATH00101Icon", Node::isVisible);
+        clickOn("#bBATH00101Icon");
         clickOn("#btnEditNode");
-        clickOn("#nodeType");
-        clickOn("Lab Rooms");
+        clickOn("#building");
+        write("123");
         clickOn("#btnUpdate");
 
         // Set start node for edge
-        clickOn("#nodeabcd12345Icon");
+        clickOn("#bBATH00101Icon");
         clickOn("#btnAddEdge");
-        clickOn("#btnStart");
-        clickOn("#btnCancel");
-        clickOn("#btnCancel");
 
         // Set end node for edge
-        clickOn("#nodeabcd123452Icon");
-        clickOn("#btnAddEdge");
-        clickOn("#btnEnd");
-        clickOn("#btnDone");
+        clickOn("#bBATH00201Icon");
+        clickOn("#btnYes");
 
         // Delete Edge
-        clickOn("#nodeabcd12345_nodeabcd123452Icon");
+        clickOn("#bBATH00101_bBATH00201Icon");
         clickOn("#btnDelete");
         clickOn("#btnYes");
 
         // Delete nodes
-        clickOn("#nodeabcd12345Icon");
+        clickOn("#bBATH00101Icon");
         clickOn("#btnDelete");
         clickOn("#btnYes");
 
-        clickOn("#nodeabcd123452Icon");
+        clickOn("#bBATH00201Icon");
         clickOn("#btnDelete");
         clickOn("#btnYes");
 
-        clickOn("#btnBack");
         clickOn("#btnBack");
     }
 
     @Test
     void testMapGraphicalInput() {
-        clickOn("#btnGuest");
         clickOn("#btnDirections");
 
         // Select start node
@@ -137,13 +141,11 @@ public class MapTests extends FxRobot{
         verifyThat(".edge", Node::isVisible);
 
         clickOn("#btnBack");
-        clickOn("#btnBack");
 
     }
 
     @Test
     void testMapMovement() {
-        clickOn("#btnGuest");
         clickOn("#btnDirections");
         moveTo("#map");
         scroll(25, VerticalDirection.UP);
@@ -152,12 +154,10 @@ public class MapTests extends FxRobot{
         drag(100, 0, MouseButton.PRIMARY);
         release(MouseButton.PRIMARY);
         clickOn("#btnBack");
-        clickOn("#btnBack");
     }
 
     @Test
     void testMapPathDisplay() {
-        clickOn("#btnGuest");
         clickOn("#btnDirections");
 
         // Select start and end locations
@@ -180,15 +180,12 @@ public class MapTests extends FxRobot{
         verifyThat("15 sec", Node::isVisible);
 
         clickOn("#btnBack");
-        clickOn("#btnBack");
     }
 
     @Test
     void testMapBack() {
-        clickOn("#btnGuest");
         verifyThat("#btnDirections", Node::isVisible);
         clickOn("#btnDirections");
-        clickOn("#btnBack");
         clickOn("#btnBack");
     }
 

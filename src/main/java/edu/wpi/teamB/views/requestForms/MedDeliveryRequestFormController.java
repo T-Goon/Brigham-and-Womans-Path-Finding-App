@@ -13,6 +13,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -38,7 +39,13 @@ public class MedDeliveryRequestFormController extends DefaultServiceRequestFormC
 
         if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml")) {
             this.id = (String) App.getPrimaryStage().getUserData();
-            MedicineRequest medicineRequest = (MedicineRequest) DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(id, Request.RequestType.MEDICINE);
+            MedicineRequest medicineRequest = null;
+            try {
+                medicineRequest = (MedicineRequest) DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(id, Request.RequestType.MEDICINE);
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return;
+            }
             name.setText(medicineRequest.getPatientName());
             getLocationIndex(medicineRequest.getLocation());
             medName.setText(medicineRequest.getMedicine());
@@ -47,10 +54,10 @@ public class MedDeliveryRequestFormController extends DefaultServiceRequestFormC
         validateButton();
     }
 
-    public void handleButtonAction(ActionEvent actionEvent) {
-        super.handleButtonAction(actionEvent);
+    public void handleButtonAction(ActionEvent e) {
+        super.handleButtonAction(e);
 
-        JFXButton btn = (JFXButton) actionEvent.getSource();
+        JFXButton btn = (JFXButton) e.getSource();
         if (btn.getId().equals("btnSubmit")) {
 
             String givenPatientName = name.getText();
@@ -74,7 +81,12 @@ public class MedDeliveryRequestFormController extends DefaultServiceRequestFormC
 
             String employeeName;
             if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml")) {
-                employeeName = DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(this.id, Request.RequestType.MEDICINE).getEmployeeName();
+                try {
+                    employeeName = DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(this.id, Request.RequestType.MEDICINE).getEmployeeName();
+                } catch (SQLException err) {
+                    err.printStackTrace();
+                    return;
+                }
             } else {
                 employeeName = null;
             }
@@ -82,10 +94,14 @@ public class MedDeliveryRequestFormController extends DefaultServiceRequestFormC
             MedicineRequest request = new MedicineRequest(givenPatientName, givenMedicine,
                     requestID, time, date, complete, employeeName, getLocation(), givenDescription);
 
-            if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml")) {
-                DatabaseHandler.getDatabaseHandler("main.db").updateRequest(request);
-            } else {
-                DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
+            try {
+                if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml")) {
+                    DatabaseHandler.getDatabaseHandler("main.db").updateRequest(request);
+                } else {
+                    DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
+                }
+            } catch (SQLException err) {
+                err.printStackTrace();
             }
         }
     }

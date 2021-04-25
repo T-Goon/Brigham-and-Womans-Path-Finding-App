@@ -271,24 +271,22 @@
          </children>
       </JFXScrollPane>
       <HBox alignment="BOTTOM_LEFT" prefHeight="77.0" prefWidth="0.0" VBox.vgrow="ALWAYS">
-         <children>
-            <JFXButton fx:id="btnBack" alignment="CENTER" buttonType="RAISED" cancelButton="true" contentDisplay="CENTER" maxHeight="56" maxWidth="56" onAction="#handleButtonAction" prefHeight="56" prefWidth="56" style="-fx-background-color: #0067B1; -fx-background-radius: 50%;" text="" textAlignment="CENTER" textFill="WHITE">
-               <font>
-                  <Font size="27.0" />
-               </font>
-               <graphic>
-                  <ImageView fitHeight="20" fitWidth="20" pickOnBounds="true" preserveRatio="true">
-                     <Image url="@../../images/menus/backButton.png" />
-                  </ImageView>
-               </graphic>
-            </JFXButton>
-         </children>
          <padding>
             <Insets top="10.0" />
          </padding>
          <VBox.margin>
             <Insets bottom="15.0" left="15.0" />
          </VBox.margin>
+         <children>
+            <JFXButton fx:id="btnBack" alignment="CENTER" buttonType="RAISED" cancelButton="true" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#handleButtonAction" prefHeight="56" prefWidth="56" style="-fx-background-color: #0067B1; -fx-background-radius: 50%;" text="🡰" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font size="27.0" />
+               </font>
+               <padding>
+                  <Insets top="1.0" />
+               </padding>
+            </JFXButton>
+         </children>
       </HBox>
    </children>
 </VBox>

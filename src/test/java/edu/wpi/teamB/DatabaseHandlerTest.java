@@ -2,9 +2,9 @@ package edu.wpi.teamB;
 
 import edu.wpi.teamB.database.*;
 import edu.wpi.teamB.entities.User;
-import edu.wpi.teamB.entities.map.NodeType;
-import edu.wpi.teamB.entities.map.Edge;
-import edu.wpi.teamB.entities.map.Node;
+import edu.wpi.teamB.entities.map.data.NodeType;
+import edu.wpi.teamB.entities.map.data.Edge;
+import edu.wpi.teamB.entities.map.data.Node;
 import edu.wpi.teamB.entities.requests.FoodRequest;
 import edu.wpi.teamB.entities.requests.Request;
 import edu.wpi.teamB.entities.requests.SanitationRequest;
@@ -14,6 +14,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.sql.SQLException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -58,8 +59,13 @@ public class DatabaseHandlerTest {
 
     @BeforeEach
     void resetDB() {
-        db.resetDatabase(new ArrayList<>());
-        db.executeSchema();
+        try {
+            db.resetDatabase(new ArrayList<>());
+            db.executeSchema();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return;
+        }
     }
 
     @Test
@@ -118,7 +124,13 @@ public class DatabaseHandlerTest {
         Edge targetEdge = new Edge("bPARK01201_bWALK00501", "bWALK00502", "bWALK00501");
         edges.add(targetEdge);
 
-        db.loadNodesEdges(testNodes, edges);
+        try {
+            db.loadNodesEdges(testNodes, edges);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return;
+        }
+
         Map<String, Node> outNodes = db.getNodes();
         assert (outNodes.values().containsAll(testNodes));
         Map<String, Edge> outEdges = db.getEdges();
@@ -138,7 +150,12 @@ public class DatabaseHandlerTest {
                 "Name With Many Spaces",
                 "N W M S");
         actual.add(target);
-        db.loadNodesEdges(actual, edges);
+        try {
+            db.loadNodesEdges(actual, edges);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return;
+        }
 
         String nodeID = target.getNodeID();
         int xcoord = 1;
@@ -148,7 +165,12 @@ public class DatabaseHandlerTest {
         String nodeType = "PARK";
         String longName = "Left Parking Lot Spot 10";
         String shortName = "LLot10";
-        db.updateNode(new Node(nodeID, xcoord, ycoord, floor, building, nodeType, longName, shortName));
+        try {
+            db.updateNode(new Node(nodeID, xcoord, ycoord, floor, building, nodeType, longName, shortName));
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return;
+        }
 
         Map<String, Node> nodes = db.getNodes();
         assertEquals(1, nodes.get("testNode").getXCoord());
@@ -170,12 +192,22 @@ public class DatabaseHandlerTest {
         actual.add(target);
         nodes.add(start);
         nodes.add(end);
-        db.loadNodesEdges(nodes, actual);
+        try {
+            db.loadNodesEdges(nodes, actual);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return;
+        }
 
         String edgeID = target.getEdgeID();
         String startNode = "test_start";
         String endNode = "test_end";
-        db.updateEdge(new Edge(edgeID, startNode, endNode));
+        try {
+            db.updateEdge(new Edge(edgeID, startNode, endNode));
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return;
+        }
 
         Map<String, Edge> edges = db.getEdges();
         assertEquals("test_start", edges.get("bPARK01201_bWALK00501").getStartNodeID());
@@ -193,7 +225,12 @@ public class DatabaseHandlerTest {
                 "Name With Many Spaces",
                 "N W M S");
 
-        db.addNode(target);
+        try {
+            db.addNode(target);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return;
+        }
 
         Map<String, Node> nodes = db.getNodes();
         assertEquals(0, nodes.get("testNode").getXCoord());
@@ -210,13 +247,22 @@ public class DatabaseHandlerTest {
         Node start = new Node("test_start", 0, 0, "0", "0", "0", "test", "t");
         Node end = new Node("test_end", 0, 0, "0", "0", "0", "test", "t");
 
-        db.addNode(start);
-        db.addNode(end);
+        try {
+            db.addNode(start);
+            db.addNode(end);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return;
+        }
 
         Edge target = new Edge("bPARK01201_bWALK00501", "test_start", "test_end");
 
-
-        db.addEdge(target);
+        try {
+            db.addEdge(target);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return;
+        }
 
         Map<String, Edge> edges = db.getEdges();
         assertEquals("test_start", edges.get("bPARK01201_bWALK00501").getStartNodeID());
@@ -234,10 +280,21 @@ public class DatabaseHandlerTest {
                 "Name With Many Spaces",
                 "N W M S");
 
-        db.addNode(target);
+        try {
+            db.addNode(target);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return;
+        }
+
         assertFalse(db.getNodes().isEmpty());
 
-        db.removeNode(target.getNodeID());
+        try {
+            db.removeNode(target.getNodeID());
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return;
+        }
         assertTrue(db.getNodes().isEmpty());
     }
 
@@ -245,25 +302,45 @@ public class DatabaseHandlerTest {
     public void testRemoveEdge() {
         Node start = new Node("test_start", 0, 0, "0", "0", "0", "test", "t");
         Node end = new Node("test_end", 0, 0, "0", "0", "0", "test", "t");
-        db.addNode(start);
-        db.addNode(end);
+        try {
+            db.addNode(start);
+            db.addNode(end);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return;
+        }
 
         Edge target = new Edge("bPARK01201_bWALK00501", "test_start", "test_end");
 
-        db.addEdge(target);
+        try {
+            db.addEdge(target);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return;
+        }
         assertFalse(db.getEdges().isEmpty());
 
-        db.removeEdge(target.getEdgeID());
+        try {
+            db.removeEdge(target.getEdgeID());
+        } catch (SQLException e) {
+                e.printStackTrace();
+                return;
+            }
         assertTrue(db.getEdges().isEmpty());
     }
 
     @Test
     public void testAddRequest() {
         // populate nodes table with nodes
-        Node node1 = new Node("node1",0,0,"0","0","0","test","t");
-        Node node2 = new Node("node2",0,0,"0","0","0","test","t");
-        db.addNode(node1);
-        db.addNode(node2);
+        Node node1 = new Node("node1", 0, 0, "0", "0", "0", "test", "t");
+        Node node2 = new Node("node2", 0, 0, "0", "0", "0", "test", "t");
+        try {
+            db.addNode(node1);
+            db.addNode(node2);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return;
+        }
 
         SanitationRequest request1 = new SanitationRequest("Glass",
                 "Small",
@@ -287,10 +364,21 @@ public class DatabaseHandlerTest {
                 "Bob",
                 "node2",
                 "test");
-        db.addRequest(request1);
-        db.addRequest(request2);
+        try {
+            db.addRequest(request1);
+            db.addRequest(request2);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return;
+        }
 
-        SanitationRequest test1 = (SanitationRequest) db.getSpecificRequestById(request1.getRequestID(), Request.RequestType.SANITATION);
+        SanitationRequest test1;
+        try {
+            test1 = (SanitationRequest) db.getSpecificRequestById(request1.getRequestID(), Request.RequestType.SANITATION);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return;
+        }
         assertEquals("Glass", test1.getSanitationType());
         assertEquals("Small", test1.getSanitationSize());
         assertEquals("T", test1.getHazardous());
@@ -303,7 +391,13 @@ public class DatabaseHandlerTest {
         assertEquals("node1", test1.getLocation());
         assertEquals("None", test1.getDescription());
 
-        FoodRequest test2 = (FoodRequest) db.getSpecificRequestById(request2.getRequestID(), Request.RequestType.FOOD);
+        FoodRequest test2 = null;
+        try {
+            test2 = (FoodRequest) db.getSpecificRequestById(request2.getRequestID(), Request.RequestType.FOOD);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return;
+        }
         assertEquals("Jane", test2.getPatientName());
         assertEquals("11:30", test2.getArrivalTime());
         assertEquals("salad", test2.getMealChoice());
@@ -318,10 +412,15 @@ public class DatabaseHandlerTest {
     @Test
     public void testRemoveRequest() {
         // populate nodes table with nodes
-        Node node1 = new Node("node1",0,0,"0","0","0","test","t");
-        Node node2 = new Node("node2",0,0,"0","0","0","test","t");
-        db.addNode(node1);
-        db.addNode(node2);
+        Node node1 = new Node("node1", 0, 0, "0", "0", "0", "test", "t");
+        Node node2 = new Node("node2", 0, 0, "0", "0", "0", "test", "t");
+        try {
+            db.addNode(node1);
+            db.addNode(node2);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return;
+        }
 
         SanitationRequest request1 = new SanitationRequest("Glass",
                 "Small",
@@ -346,22 +445,38 @@ public class DatabaseHandlerTest {
                 "node2",
                 "test");
 
-        db.addRequest(request1);
-        db.addRequest(request2);
-        assertFalse(db.getRequests().isEmpty());
+        try {
+            db.addRequest(request1);
+            db.addRequest(request2);
+            assertFalse(db.getRequests().isEmpty());
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return;
+        }
 
-        db.removeRequest(request1);
-        db.removeRequest(request2);
-        assertTrue(db.getRequests().isEmpty());
+        try {
+            db.removeRequest(request1);
+            db.removeRequest(request2);
+            assertTrue(db.getRequests().isEmpty());
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return;
+        }
+
     }
 
     @Test
     public void testUpdateRequest() {
         // populate nodes table with nodes
-        Node node1 = new Node("node1",0,0,"0","0","0","test","t");
-        Node node2 = new Node("node2",0,0,"0","0","0","test","t");
-        db.addNode(node1);
-        db.addNode(node2);
+        Node node1 = new Node("node1", 0, 0, "0", "0", "0", "test", "t");
+        Node node2 = new Node("node2", 0, 0, "0", "0", "0", "test", "t");
+        try {
+            db.addNode(node1);
+            db.addNode(node2);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return;
+        }
 
         List<Request> actual = new ArrayList<>();
         SanitationRequest request1 = new SanitationRequest("Glass",
@@ -388,12 +503,28 @@ public class DatabaseHandlerTest {
                 "test");
         actual.add(request1);
         actual.add(request2);
-        db.loadDatabaseRequests(actual);
+        try {
+            db.loadDatabaseRequests(actual);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return;
+        }
 
-        db.updateRequest(new SanitationRequest("Dry", "Medium", "F", "T", "T", request1.getRequestID(), "13:30", "2021-04-18", "T", "Mike", "node2", "test"));
-        db.updateRequest(new FoodRequest("Alice", "12:00", "chicken", request2.getRequestID(), "10:05", "2021-05-30", "T", "Mike", "node1", "None"));
+        try {
+            db.updateRequest(new SanitationRequest("Dry", "Medium", "F", "T", "T", request1.getRequestID(), "13:30", "2021-04-18", "T", "Mike", "node2", "test"));
+            db.updateRequest(new FoodRequest("Alice", "12:00", "chicken", request2.getRequestID(), "10:05", "2021-05-30", "T", "Mike", "node1", "None"));
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return;
+        }
 
-        SanitationRequest test1 = (SanitationRequest) db.getSpecificRequestById(request1.getRequestID(), Request.RequestType.SANITATION);
+        SanitationRequest test1 = null;
+        try {
+            test1 = (SanitationRequest) db.getSpecificRequestById(request1.getRequestID(), Request.RequestType.SANITATION);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return;
+        }
         assertEquals("Dry", test1.getSanitationType());
         assertEquals("Medium", test1.getSanitationSize());
         assertEquals("F", test1.getHazardous());
@@ -406,7 +537,13 @@ public class DatabaseHandlerTest {
         assertEquals("node2", test1.getLocation());
         assertEquals("test", test1.getDescription());
 
-        FoodRequest test2 = (FoodRequest) db.getSpecificRequestById(request2.getRequestID(), Request.RequestType.FOOD);
+        FoodRequest test2 = null;
+        try {
+            test2 = (FoodRequest) db.getSpecificRequestById(request2.getRequestID(), Request.RequestType.FOOD);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return;
+        }
         assertEquals("Alice", test2.getPatientName());
         assertEquals("12:00", test2.getArrivalTime());
         assertEquals("chicken", test2.getMealChoice());
@@ -420,9 +557,20 @@ public class DatabaseHandlerTest {
 
     @Test
     public void testGetNodesByCategory() {
-        db.loadDatabaseNodes(testNodes);
+        try {
+            db.loadDatabaseNodes(testNodes);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return;
+        }
 
-        List<Node> result = db.getNodesByCategory(NodeType.PARK);
+        List<Node> result = null;
+        try {
+            result = db.getNodesByCategory(NodeType.PARK);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return;
+        }
         List<Node> expected = new ArrayList<>();
         expected.add(testNodes.get(10));
 
@@ -433,28 +581,38 @@ public class DatabaseHandlerTest {
 
     @Test
     public void testPasswordHash() {
-        assertEquals(db.passwordHash("Sphinx"),db.passwordHash("Sphinx"));
-        assertNotEquals(db.passwordHash("Sphinx"),db.passwordHash("Quartz"));
+        assertEquals(db.passwordHash("Sphinx"), db.passwordHash("Sphinx"));
+        assertNotEquals(db.passwordHash("Sphinx"), db.passwordHash("Quartz"));
     }
 
     @Test
     public void testAddGetUser() {
-        User user = new User("testuser","Testing","User", User.AuthenticationLevel.STAFF, Collections.singletonList(Request.RequestType.LAUNDRY));
-        db.addUser(user,"password");
+        User user = new User("testuser", "Testing", "User", User.AuthenticationLevel.STAFF, Collections.singletonList(Request.RequestType.LAUNDRY));
+        try {
+            db.addUser(user, "password");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return;
+        }
         User out = db.getUserByUsername("testuser");
-        assertEquals(out,user);
+        assertEquals(out, user);
 
     }
 
     @Test
     public void testAuthentication() {
-        User user = new User("testuser","Testing","User", User.AuthenticationLevel.STAFF, Collections.singletonList(Request.RequestType.CASE_MANAGER));
-        db.addUser(user,"password");
+        User user = new User("testuser", "Testing", "User", User.AuthenticationLevel.STAFF, Collections.singletonList(Request.RequestType.CASE_MANAGER));
+        try {
+            db.addUser(user, "password");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return;
+        }
         User authentication = db.authenticate("testuser", "password");
-        assertEquals(authentication,user);
-        assertEquals(db.getAuthenticationUser(),authentication);
-        assertNull(db.authenticate("testuser","pasword"));
-        assertEquals(db.getAuthenticationUser(),new User(null,null,null, User.AuthenticationLevel.GUEST,null));
+        assertEquals(authentication, user);
+        assertEquals(db.getAuthenticationUser(), authentication);
+        assertNull(db.authenticate("testuser", "pasword"));
+        assertEquals(db.getAuthenticationUser(), new User(null, null, null, User.AuthenticationLevel.GUEST, null));
     }
 
     @Test
@@ -462,60 +620,86 @@ public class DatabaseHandlerTest {
         List<Request.RequestType> jobs = new ArrayList<>();
         jobs.add(Request.RequestType.FOOD);
         jobs.add(Request.RequestType.INTERNAL_TRANSPORT);
-        User user1 = new User("testuser1","Testing1","User1", User.AuthenticationLevel.STAFF, Collections.singletonList(Request.RequestType.FOOD));
-        User user2 = new User("testuser2","Testing2","User2", User.AuthenticationLevel.STAFF, Collections.singletonList(Request.RequestType.INTERNAL_TRANSPORT));
-        User user3 = new User("testuser3","Testing3","User3", User.AuthenticationLevel.STAFF, jobs);
+        User user1 = new User("testuser1", "Testing1", "User1", User.AuthenticationLevel.STAFF, Collections.singletonList(Request.RequestType.FOOD));
+        User user2 = new User("testuser2", "Testing2", "User2", User.AuthenticationLevel.STAFF, Collections.singletonList(Request.RequestType.INTERNAL_TRANSPORT));
+        User user3 = new User("testuser3", "Testing3", "User3", User.AuthenticationLevel.STAFF, jobs);
 
-        db.addUser(user1, "p1");
-        db.addUser(user2, "p2");
-        db.addUser(user3, "p3");
+        try {
+            db.addUser(user1, "p1");
+            db.addUser(user2, "p2");
+            db.addUser(user3, "p3");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return;
+        }
 
         List<User> set1 = db.getUsersByJob(Request.RequestType.FOOD);
         List<User> set2 = db.getUsersByJob(Request.RequestType.INTERNAL_TRANSPORT);
 
-        assertEquals(2,set1.size());
-        assertEquals(2,set2.size());
-        assert(set1.contains(user1));
-        assert(set2.contains(user2));
-        assert(set1.contains(user3));
+        assertEquals(2, set1.size());
+        assertEquals(2, set2.size());
+        assert (set1.contains(user1));
+        assert (set2.contains(user2));
+        assert (set1.contains(user3));
 
     }
 
     @Test
-    public void testDeleteUser(){
-        User user = new User("testuser","Testing","User", User.AuthenticationLevel.STAFF, Collections.singletonList(Request.RequestType.CASE_MANAGER));
-        db.addUser(user,"password");
-        assertEquals(db.getUserByUsername("testuser"),user);
+    public void testDeleteUser() {
+        User user = new User("testuser", "Testing", "User", User.AuthenticationLevel.STAFF, Collections.singletonList(Request.RequestType.CASE_MANAGER));
+        try {
+            db.addUser(user, "password");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return;
+        }
+        assertEquals(db.getUserByUsername("testuser"), user);
         db.deleteUser("testuser");
         assertNull(db.getUserByUsername("testuser"));
     }
 
     @Test
-    public void testUpdateUser(){
-        User user = new User("testuser","Testing","User", User.AuthenticationLevel.STAFF, Collections.singletonList(Request.RequestType.CASE_MANAGER));
-        User altuser = new User("testuser","Alternate","User", User.AuthenticationLevel.ADMIN, Collections.singletonList(Request.RequestType.FOOD));
-        db.addUser(user,"password");
-        assertEquals(db.getUserByUsername("testuser"),user);
-        assert(db.getUsersByJob(Request.RequestType.CASE_MANAGER).contains(user));
+    public void testUpdateUser() {
+        User user = new User("testuser", "Testing", "User", User.AuthenticationLevel.STAFF, Collections.singletonList(Request.RequestType.CASE_MANAGER));
+        User altuser = new User("testuser", "Alternate", "User", User.AuthenticationLevel.ADMIN, Collections.singletonList(Request.RequestType.FOOD));
+        try {
+            db.addUser(user, "password");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return;
+        }
+        assertEquals(db.getUserByUsername("testuser"), user);
+        assert (db.getUsersByJob(Request.RequestType.CASE_MANAGER).contains(user));
         assertNotNull(db.authenticate("testuser", "password"));
-        db.updateUser(altuser);
-        assertEquals(db.getUserByUsername("testuser"),altuser);
-        assert(!db.getUsersByJob(Request.RequestType.CASE_MANAGER).contains(user));
-        assert(db.getUsersByJob(Request.RequestType.FOOD).contains(altuser));
+        try {
+            db.updateUser(altuser);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return;
+        }
+        System.out.println(db.getUserByUsername("testuser").toString());
+        System.out.println(altuser.toString());
+
+        assertEquals(db.getUserByUsername("testuser"), altuser);
+        assert (!db.getUsersByJob(Request.RequestType.CASE_MANAGER).contains(user));
+        assert (db.getUsersByJob(Request.RequestType.FOOD).contains(altuser));
         assertNotNull(db.authenticate("testuser", "password"));
     }
 
     @Test
-    public void testGetUsersByAuthenticationLevel(){
-        User user = new User("testUser","Testing","User", User.AuthenticationLevel.STAFF, Collections.singletonList(Request.RequestType.CASE_MANAGER));
-        User altuser = new User("altUser","Alternate","User", User.AuthenticationLevel.ADMIN, Collections.singletonList(Request.RequestType.FOOD));
+    public void testGetUsersByAuthenticationLevel() {
+        User user = new User("testUser", "Testing", "User", User.AuthenticationLevel.STAFF, Collections.singletonList(Request.RequestType.CASE_MANAGER));
+        User altuser = new User("altUser", "Alternate", "User", User.AuthenticationLevel.ADMIN, Collections.singletonList(Request.RequestType.FOOD));
 
-        db.addUser(user, "user");
-        db.addUser(altuser, "altuser");
+        try {
+            db.addUser(user, "user");
+            db.addUser(altuser, "altuser");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return;
+        }
 
         assertEquals(db.getUsersByAuthenticationLevel(User.AuthenticationLevel.STAFF).get(0), user);
-
-
     }
 
     @Test

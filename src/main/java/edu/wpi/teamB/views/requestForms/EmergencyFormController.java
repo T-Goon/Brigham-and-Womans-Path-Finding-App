@@ -2,6 +2,7 @@ package edu.wpi.teamB.views.requestForms;
 
 import com.jfoenix.controls.*;
 import edu.wpi.teamB.util.SceneSwitcher;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -31,7 +32,7 @@ public class EmergencyFormController implements Initializable {
     private JFXButton btnSubmit;
 
     @FXML
-    private JFXButton btnCancel;
+    private JFXButton btnBack;
 
     @FXML
     private JFXButton btnHelp;
@@ -46,21 +47,25 @@ public class EmergencyFormController implements Initializable {
         JFXButton btn = (JFXButton) actionEvent.getSource();
         switch (btn.getId()) {
             case "btnSubmit":
-
+                SceneSwitcher.switchFromTemp(getClass(), "/edu/wpi/teamB/views/requestForms/emergencySubmitted.fxml");
+                break;
             case "btnCancel":
                 SceneSwitcher.goBack(getClass(), 1);
                 break;
             case "btnHelp":
                 break;
+            case "btnExit":
+                Platform.exit();
+                break;
         }
     }
 
     @FXML
-    private void validateButton(){
+    private void validateButton() {
         btnSubmit.setDisable(
                 wing.getText().isEmpty() || roomNum.getText().isEmpty() ||
-                !(medicalEmergency.isSelected() || securityEmergency.isSelected()) ||
-                description.getText().isEmpty()
+                        !(medicalEmergency.isSelected() || securityEmergency.isSelected()) ||
+                        description.getText().isEmpty()
         );
     }
 }

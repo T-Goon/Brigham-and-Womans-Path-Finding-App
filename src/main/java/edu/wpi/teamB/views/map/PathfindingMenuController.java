@@ -1,44 +1,46 @@
 package edu.wpi.teamB.views.map;
 
 import com.jfoenix.controls.*;
-
 import edu.wpi.teamB.App;
 import edu.wpi.teamB.database.DatabaseHandler;
 import edu.wpi.teamB.entities.User;
-import edu.wpi.teamB.entities.map.*;
-import edu.wpi.teamB.pathfinding.AStar;
+import edu.wpi.teamB.entities.map.MapCache;
+import edu.wpi.teamB.entities.map.MapDrawer;
+import edu.wpi.teamB.entities.map.MapEditorPopupManager;
+import edu.wpi.teamB.entities.map.MapPathPopupManager;
+import edu.wpi.teamB.entities.map.data.Edge;
+import edu.wpi.teamB.entities.map.data.Node;
 import edu.wpi.teamB.pathfinding.Graph;
-import edu.wpi.teamB.util.*;
+import edu.wpi.teamB.util.CSVHandler;
+import edu.wpi.teamB.util.SceneSwitcher;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.*;
-import javafx.scene.image.Image;
+import javafx.scene.control.Label;
+import javafx.scene.control.TreeItem;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.scene.text.Text;
-import lombok.Getter;
-import lombok.Setter;
 import net.kurobako.gesturefx.GesturePane;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.ResourceBundle;
+import java.sql.SQLException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class PathfindingMenuController implements Initializable {
 
@@ -85,6 +87,12 @@ public class PathfindingMenuController implements Initializable {
     private JFXButton btnSave;
 
     @FXML
+    private JFXTextField txtSearch;
+
+    @FXML
+    private JFXButton btnSearch;
+
+    @FXML
     private JFXTreeView<String> treeLocations;
 
     @FXML
@@ -96,40 +104,19 @@ public class PathfindingMenuController implements Initializable {
     @FXML
     private StackPane stackContainer;
 
-    private static final double coordinateScale = 25 / 9.0;
-    private List<Line> edgePlaced = new ArrayList<>();
-    private List<javafx.scene.Node> nodePlaced = new ArrayList<>();
-    private List<javafx.scene.Node> intermediateNodePlaced = new ArrayList<>();
-    private boolean editMap = false;
-    private VBox selectionBox = null;
-    private VBox estimatedTimeBox = null;
+    public static final double coordinateScale = 25 / 9.0;
 
-    private String currentFloor = "1";
-    private VBox addNodePopup;
-    private VBox editNodePopup;
-    private VBox delEdgePopup;
-    private Map<String, List<Node>> floorNodes = new HashMap<>();
-    private Map<String, String> categoryNameMap = new HashMap<>();
-    private Map<String, String> mapLongToID = new HashMap<>();
+    private final Map<String, String> categoryNameMap = new HashMap<>();
+
     private final DatabaseHandler db = DatabaseHandler.getDatabaseHandler("main.db");
-
-    private TreeItem<String> selectedLocation;
-
-    @Setter
-    @Getter
-    String newEdgeStart;
-    @Setter
-    @Getter
-    Circle startNode;
-    @Setter
-    @Getter
-    String newEdgeEnd;
-    @Setter
-    @Getter
-    Circle endNode;
 
     final FileChooser fileChooser = new FileChooser();
     final DirectoryChooser directoryChooser = new DirectoryChooser();
+
+    private final MapCache mc = new MapCache();
+    private MapDrawer md;
+    private MapEditorPopupManager mepm;
+    private MapPathPopupManager mppm;
 
     // JavaFX code **************************************************************************************
 
@@ -150,18 +137,23 @@ public class PathfindingMenuController implements Initializable {
         categoryNameMap.put("STAI", "Stairs");
         categoryNameMap.put("PARK", "Parking Spots");
 
-        mapLongToID = makeLongToIDMap();
-
         validateFindPathButton();
 
         //Adds all the destination names to locationNames and sort the nodes by floor
-        updateLocations();
+        mc.updateLocations();
+        populateTreeView();
+
+        md = new MapDrawer(mc, nodeHolder, mapHolder, intermediateNodeHolder, lblError, mapStack, gpane);
+
+        mepm = new MapEditorPopupManager(md, mc, gpane, mapStack);
+        md.setMepm(mepm);
+
+        mppm = new MapPathPopupManager(md, txtStartLocation, txtEndLocation, mapStack, gpane, this, nodeHolder);
+        md.setMppm(mppm);
 
         // Draw the nodes on the map
-        try {
-            drawNodesOnFloor(currentFloor);
-        } catch (NullPointerException ignored) {
-        }
+        md.drawNodesOnFloor();
+
 
         //test if we came from a failed covid survey
         if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/covidSurvey/covidFormSubmittedWithSymp.fxml")) {
@@ -169,57 +161,82 @@ public class PathfindingMenuController implements Initializable {
             SceneSwitcher.popLastScene();
         }
 
+        //test if we came from a not failed covid survey
+        if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/covidSurvey/covidFormSubmittedNoSymp.fxml")) {
+            txtEndLocation.setText("75 Francis Lobby Entrance");
+            SceneSwitcher.popLastScene();
+        }
+
         initMapForEditing();
 
-
         // Set up Load and Save buttons
-        btnLoad.setOnAction(
-                event -> {
-                    // Get the nodes CSV file and load it
-                    Stage stage = App.getPrimaryStage();
-                    fileChooser.setTitle("Select Nodes CSV file:");
-                    fileChooser.setInitialDirectory(new File(new File("").getAbsolutePath()));
-                    fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV files", "*.csv"));
-                    File file = fileChooser.showOpenDialog(stage);
-                    if (file == null) return;
-                    List<Node> newNodes = CSVHandler.loadCSVNodesFromExternalPath(file.toPath());
+        btnLoad.setOnAction(event -> loadCSV());
 
-                    // Get the edges CSV file and load it
-                    fileChooser.setTitle("Select Edges CSV file:");
-                    fileChooser.setInitialDirectory(new File(new File("").getAbsolutePath()));
-                    fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV files", "*.csv"));
-                    file = fileChooser.showOpenDialog(stage);
-                    if (file == null) return;
-                    List<Edge> newEdges = CSVHandler.loadCSVEdgesFromExternalPath(file.toPath());
-
-                    // Update the database
-                    db.loadNodesEdges(newNodes, newEdges);
-                    Graph.getGraph().updateGraph();
-
-                    // Now delete and refresh the nodes
-                    drawAllElements();
-                }
-        );
-
-        btnSave.setOnAction(
-                event -> {
-                    // Get the CSV directory location
-                    Stage stage = App.getPrimaryStage();
-                    directoryChooser.setTitle("Select directory to save CSV files to:");
-                    directoryChooser.setInitialDirectory(new File(new File("").getAbsolutePath()));
-                    File file = directoryChooser.showDialog(stage);
-                    if (file == null) return;
-
-                    // Save the current database into that folder in CSV files
-                    CSVHandler.saveCSVNodes(file.toPath(), false);
-                    CSVHandler.saveCSVEdges(file.toPath(), false);
-                }
-        );
+        btnSave.setOnAction(event -> saveCSV());
 
         // Disable editing if the user is not an admin
         checkPermissions();
+
+        // Makes sure no illegal characters can't be written in the field
+        txtSearch.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches(" a-zA-Z0-9\\-"))
+                txtSearch.setText(newValue.replaceAll("[^ a-zA-Z0-9\\-]", ""));
+        });
     }
 
+    /**
+     * Loads node and edges data from csv
+     */
+    private void loadCSV() {
+        // Get the nodes CSV file and load it
+        Stage stage = App.getPrimaryStage();
+        fileChooser.setTitle("Select Nodes CSV file:");
+        fileChooser.setInitialDirectory(new File(new File("").getAbsolutePath()));
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV files", "*.csv"));
+        File file = fileChooser.showOpenDialog(stage);
+        if (file == null) return;
+        List<Node> newNodes = CSVHandler.loadCSVNodesFromExternalPath(file.toPath());
+
+        // Get the edges CSV file and load it
+        fileChooser.setTitle("Select Edges CSV file:");
+        fileChooser.setInitialDirectory(new File(new File("").getAbsolutePath()));
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV files", "*.csv"));
+        file = fileChooser.showOpenDialog(stage);
+        if (file == null) return;
+        List<Edge> newEdges = CSVHandler.loadCSVEdgesFromExternalPath(file.toPath());
+
+        // Update the database
+        try {
+            db.loadNodesEdges(newNodes, newEdges);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        Graph.getGraph().updateGraph();
+
+        // Now delete and refresh the nodes
+        md.drawAllElements();
+    }
+
+    /**
+     * Saves node and edges data to a csv
+     */
+    private void saveCSV() {
+        // Get the CSV directory location
+        Stage stage = App.getPrimaryStage();
+        directoryChooser.setTitle("Select directory to save CSV files to:");
+        directoryChooser.setInitialDirectory(new File(new File("").getAbsolutePath()));
+        File file = directoryChooser.showDialog(stage);
+        if (file == null) return;
+
+        // Save the current database into that folder in CSV files
+        CSVHandler.saveCSVNodes(file.toPath(), false);
+        CSVHandler.saveCSVEdges(file.toPath(), false);
+    }
+
+    /**
+     * Only show edit map buttons if the user has the correct permissions.
+     */
     private void checkPermissions() {
         btnEditMap.setVisible(db.getAuthenticationUser().isAtLeast(User.AuthenticationLevel.ADMIN));
         btnLoad.setVisible(db.getAuthenticationUser().isAtLeast(User.AuthenticationLevel.ADMIN));
@@ -237,17 +254,25 @@ public class PathfindingMenuController implements Initializable {
         TreeItem<String> selectedItem = treeLocations.getSelectionModel().getSelectedItem();
         if (selectedItem == null) return;
 
-        if (!selectedItem.equals(selectedLocation) && selectedItem.isLeaf()) {
+        if (selectedItem.isLeaf()) {
             //Selected item is a valid location
 
             //For now only work on nodes that are on the first floor until multi-floor pathfinding is added
-            Node tempLocation = Graph.getGraph().getNodes().get(mapLongToID.get(selectedItem.getValue()));
-            if (tempLocation.getFloor().equals(currentFloor)) {
-                if (editMap) showEditNodePopup(tempLocation, mouseEvent, true);
-                else createGraphicalInputPopup(tempLocation);
+            Node tempLocation = Graph.getGraph().getNodes().get(
+                    mc.makeLongToIDMap().get(
+                            selectedItem.getValue()));
+
+            if (tempLocation.getFloor().equals(mc.getCurrentFloor())) {
+
+                md.removeAllPopups();
+                if (md.isEditing())
+                    mepm.showEditNodePopup(tempLocation, mouseEvent, true);
+                else
+                    mppm.createGraphicalInputPopup(tempLocation);
+
             }
         }
-        selectedLocation = selectedItem;
+
         validateFindPathButton();
     }
 
@@ -255,44 +280,9 @@ public class PathfindingMenuController implements Initializable {
      * Input validation for the pathfinding button. Button only enables when both input fields are populated and they
      * are not equal to each other.
      */
-    @FXML
-    private void validateFindPathButton() {
+    public void validateFindPathButton() {
         btnFindPath.setDisable(txtStartLocation.getText().isEmpty() || txtEndLocation.getText().isEmpty() || txtStartLocation.getText().equals(txtEndLocation.getText()));
     }
-
-    /**
-     * Draw the estimated time dialog box
-     *
-     * @param path the path to draw the box on
-     */
-    private void drawEstimatedTimeBox(Path path) {
-
-        // No path
-        if (path.getPath().size() == 0) return;
-
-        String estimatedTime = AStar.getEstimatedTime(path);
-        estimatedTimeBox = new VBox();
-        try {
-            estimatedTimeBox = FXMLLoader.load(
-                    Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/map/misc/showEstimatedTime.fxml")));
-        } catch (IOException e) {
-            System.err.println("[drawEstimatedTimeBox] FXMLLoader load failed");
-        }
-
-        estimatedTimeBox.setId("estimatedTimeDialog");
-
-        List<javafx.scene.Node> child = estimatedTimeBox.getChildren();
-        Text textBox = (Text) child.get(0);
-        textBox.setText(estimatedTime);
-
-        Graph graph = Graph.getGraph();
-        Node endNode = graph.getNodes().get(path.getPath().get(path.getPath().size() - 1));
-
-        estimatedTimeBox.setLayoutX((endNode.getXCoord() / PathfindingMenuController.coordinateScale));
-        estimatedTimeBox.setLayoutY((endNode.getYCoord() / PathfindingMenuController.coordinateScale) - (estimatedTimeBox.getHeight()));
-        nodeHolder.getChildren().add(estimatedTimeBox);
-    }
-
 
     /**
      * Button handler for the scene
@@ -305,35 +295,18 @@ public class PathfindingMenuController implements Initializable {
 
         switch (b.getId()) {
             case "btnFindPath":
-                removeOldPaths();
-                drawPath();
+
+                md.removeOldPaths();
+                md.drawPath(txtStartLocation.getText(), txtEndLocation.getText());
                 break;
             case "btnEditMap":
-                ImageView graphic = (ImageView) btnEditMap.getChildrenUnmodifiable().get(1);
 
-                if (!editMap) {
-                    graphic.setImage(new Image("edu/wpi/teamB/images/menus/directionsIcon.png"));
-                    editMap = true;
-                } else {
-                    graphic.setImage(new Image("edu/wpi/teamB/images/menus/wrench.png"));
+                md.removeAllPopups();
+                mppm.removeETAPopup();
 
-                    // Remove the add node popup if it is on the map
-                    if (addNodePopup != null) {
-                        nodeHolder.getChildren().remove(addNodePopup);
-                        addNodePopup = null;
-                    }
+                md.setEditing(!md.isEditing());
 
-                    // Remove the edit node popup if it is on the map
-                    if (editNodePopup != null) {
-                        nodeHolder.getChildren().remove(editNodePopup);
-                        editNodePopup = null;
-                    }
-
-                    editMap = false;
-                }
-                selectedLocation = null;
-                drawAllElements();
-
+                md.drawAllElements();
                 break;
             case "btnBack":
                 SceneSwitcher.goBack(getClass(), 1);
@@ -346,594 +319,62 @@ public class PathfindingMenuController implements Initializable {
                 break;
             case "btnHelp":
                 loadHelpDialog();
+            case "btnSearch":
+                handleItemSearched();
                 break;
         }
     }
 
-    // Code for graphical map editor *********************************************************************
-
     /**
-     * Shows the add node popup when double clicking on the map.
+     * Populates the tree view with nodes and categories
      */
-    private void initMapForEditing() {
-
-        map.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-
-                // Show popup on double clicks
-                if (event.getClickCount() < 2) return;
-
-                // Coordinates on the map
-                double x = event.getX();
-                double y = event.getY();
-
-                // if in editing mode
-                if (editMap) {
-
-                    // Only one window open at a time;
-                    removeAllPopups();
-
-                    App.getPrimaryStage().setUserData(new GraphicalEditorNodeData(null,
-                            x * PathfindingMenuController.coordinateScale,
-                            y * PathfindingMenuController.coordinateScale,
-                            currentFloor,
-                            null,
-                            null,
-                            null,
-                            null,
-                            null,
-                            mapStack,
-                            PathfindingMenuController.this,
-                            null));
-
-                    try {
-                        addNodePopup = FXMLLoader.load(Objects.requireNonNull(
-                                getClass().getClassLoader().getResource("edu/wpi/teamB/views/map/nodePopup/addNodePopup.fxml")));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
-                    assert addNodePopup != null;
-
-                    // Keep popup on the map
-                    placePopupOnMap(addNodePopup);
-
-                }
-
-            }
-        });
-
-    }
-
-    /**
-     * Shows the edit node popup filled in with the information from n.
-     *
-     * @param n Node that is to be edited.
-     */
-    private void showEditNodePopup(Node n, MouseEvent event, boolean fromTreeView) {
-        Circle c;
-        if (fromTreeView) c = null;
-        else c = (Circle) event.getSource();
-
-        // Make sure there is only one editNodePopup at one time
-        removeAllPopups();
-
-        // Data to pass to popup
-        App.getPrimaryStage().setUserData(new GraphicalEditorNodeData(
-                n.getNodeID(),
-                n.getXCoord(),
-                n.getYCoord(),
-                currentFloor,
-                n.getBuilding(),
-                n.getNodeType(),
-                n.getLongName(),
-                n.getShortName(),
-                null,
-                mapStack,
-                PathfindingMenuController.this,
-                c));
-
-        // Load popup
-        try {
-            editNodePopup = FXMLLoader.load(Objects.requireNonNull(
-                    getClass().getClassLoader().getResource("edu/wpi/teamB/views/map/nodePopup/nodePopupWindow.fxml")));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        // Set location on map
-        double x = n.getXCoord() / PathfindingMenuController.coordinateScale;
-        double y = n.getYCoord() / PathfindingMenuController.coordinateScale;
-
-        placePopupOnMap(editNodePopup);
-
-    }
-
-    private void showDelEdgePopup(Node start, Node end) {
-        // Make sure there is only one editNodePopup at one time
-        removeAllPopups();
-
-        // Pass window data
-        App.getPrimaryStage().setUserData(new GraphicalEditorEdgeData(start, end, mapStack, this));
-
-        try {
-            delEdgePopup = FXMLLoader.load(Objects.requireNonNull(
-                    getClass().getClassLoader().getResource("edu/wpi/teamB/views/map/edgePopup/delEdgePopup.fxml")));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        placePopupOnMap(delEdgePopup);
-    }
-
-    private void removeAllPopups() {
-        if (addNodePopup != null || editNodePopup != null || delEdgePopup != null || selectionBox != null ) {
-            deleteBox(selectionBox);
-            deleteBox(editNodePopup);
-            deleteBox(delEdgePopup);
-            deleteBox(addNodePopup);
-        }
-
-        if(estimatedTimeBox!=null){
-            nodeHolder.getChildren().remove(estimatedTimeBox);
-        }
-
-        gpane.setGestureEnabled(true);
-
-    }
-
-    /**
-     * Place a popup over the map.
-     * @param node The popup
-     */
-    private void placePopupOnMap(VBox node) {
-        gpane.setGestureEnabled(false);
-        mapStack.getChildren().add(node);
-    }
-
-
-    // Code for graphical input to pathfinding ***********************************************************
-
-    /**
-     * Creates the popup for the graphical input.
-     *
-     * @param n Node to create the popup for
-     */
-    public void createGraphicalInputPopup(Node n) {
-
-        try {
-            // Load fxml
-            final VBox locInput = FXMLLoader.load(
-                    Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/map/misc/graphicalInput.fxml")));
-
-            // Set up popup buttons
-            for (javafx.scene.Node node : ((VBox) locInput.getChildren().get(0)).getChildren()) {
-                javafx.scene.Node child = ((HBox) node).getChildren().get(0);
-                switch (child.getId()) {
-                    case "nodeName":
-                        ((Text)child).setText(n.getLongName());
-                        break;
-                    case "btnStart":
-                        showGraphicalSelection(txtStartLocation, child, n);
-                        break;
-                    case "btnEnd":
-                        showGraphicalSelection(txtEndLocation, child, n);
-                        break;
-                    case "btnCancel":
-                        ((JFXButton)child).setOnAction(event -> removeAllPopups());
-                        break;
-                }
-            }
-
-            if (selectionBox != null) {
-                removeAllPopups();
-            }
-
-            selectionBox = locInput;
-//            nodeHolder.getChildren().add(locInput);
-            placePopupOnMap(locInput);
-
-        } catch (IOException ioException) {
-            ioException.printStackTrace();
-        }
-
-    }
-
-    /**
-     * Shows the popup for the graphical input.
-     *
-     * @param textField TextField to set text for
-     * @param node      javafx node that will show popup when clicked
-     * @param n         map node the popup is for
-     */
-    private void showGraphicalSelection(JFXTextField textField, javafx.scene.Node node, Node n) {
-        JFXButton tempButton = (JFXButton) node;
-
-        tempButton.setOnAction(event -> {
-            textField.setText(n.getLongName());
-            removeAllPopups();
-            validateFindPathButton();
-        });
-
-    }
-
-    /**
-     * Removes the graphical input popup from the map.
-     *
-     * @param box the VBox to be deleted
-     */
-    private void deleteBox(VBox box) {
-        mapStack.getChildren().remove(box);
-        box = null;
-    }
-
-    // Code for displaying content on the map ***********************************************************
-
-    /**
-     * Draws all the nodes on a given floor with the default graphic
-     *
-     * @param floorID the floor id for the nodes "L2", "L1", "1", "2", "3"
-     */
-    private void drawNodesOnFloor(String floorID) {
-        // If the floor has no nodes, return
-        if (!floorNodes.containsKey(floorID)) return;
-
-        for (Node n : floorNodes.get(floorID)) {
-            if (!(n.getNodeType().equals("WALK") || n.getNodeType().equals("HALL") || n.getBuilding().equals("BTM") || n.getBuilding().equals("Shapiro"))) {
-                placeNode(n);
-            }
-        }
-    }
-
-    /**
-     * Draws all the elements of the map base on direction or map edit mode.
-     */
-    private void drawAllElements() {
-        removeAllPopups();
-        if (editMap) {
-            removeOldPaths();
-            removeNodes();
-            removeIntermediateNodes();
-            drawEdgesOnFloor(currentFloor);
-            drawAltNodesOnFloor(currentFloor);
-            drawIntermediateNodesOnFloor(currentFloor);
-        } else {
-            updateLocations();
-            removeOldPaths();
-            removeIntermediateNodes();
-            removeNodes();
-            drawNodesOnFloor(currentFloor);
-        }
-    }
-
-    /**
-     * Refresh the nodes on the map.
-     * <p>
-     * FOR MAP EDITOR MODE ONLY!!!
-     * <p>
-     */
-    public void refreshEditor() {
-        updateLocations();
-        removeOldPaths();
-        removeIntermediateNodes();
-        removeNodes();
-        drawEdgesOnFloor(currentFloor);
-        drawAltNodesOnFloor(currentFloor);
-        drawIntermediateNodesOnFloor(currentFloor);
-    }
-
-    /**
-     * Draws all the nodes on a given floor with the alternate graphic
-     *
-     * @param floorID the floor id for the nodes "L2", "L1", "1", "2", "3"
-     */
-    private void drawAltNodesOnFloor(String floorID) {
-
-        Map<String, Node> nodes = db.getNodes();
-
-        if (nodes.isEmpty()) return;
-
-        for (Node n : nodes.values()) {
-            if ((!(n.getNodeType().equals("WALK") || n.getNodeType().equals("HALL"))) &&
-                    (!n.getBuilding().equals("BTM") && !n.getBuilding().equals("Shapiro")) &&
-                    n.getFloor().equals(floorID)){
-
-                placeAltNode(n);
-            }
-        }
-    }
-
-    /**
-     * Draws all the intermediate nodes on a floor
-     *
-     * @param floorID the floor id for the nodes "L2", "L1", "1", "2", "3"
-     */
-    private void drawIntermediateNodesOnFloor(String floorID) {
-        Map<String, Node> nodes = db.getNodes();
-
-        if (nodes.isEmpty()) return;
-
-        for (Node n : nodes.values()) {
-            if ((n.getNodeType().equals("WALK") || n.getNodeType().equals("HALL")) && (!n.getBuilding().equals("BTM") && !n.getBuilding().equals("Shapiro")) && n.getFloor().equals(floorID)) {
-                placeIntermediateNode(n);
-            }
-        }
-    }
-
-    /**
-     * Draws all edges on a floor
-     *
-     * @param floor number of floor as a string
-     */
-    private void drawEdgesOnFloor(String floor) {
-        Map<String, Edge> edges = Graph.getGraph().getEdges();
-        for (Edge e : edges.values()) {
-            Node start = db.getNodeById(e.getStartNodeID());
-            Node end = db.getNodeById(e.getEndNodeID());
-
-            if (start.getFloor().equals(floor) && end.getFloor().equals(floor) && (!start.getBuilding().equals("BTM") && !start.getBuilding().equals("Shapiro")) && (!end.getBuilding().equals("BTM") && !start.getBuilding().equals("Shapiro"))) {
-                placeEdge(start, end);
-            }
-        }
-    }
-
-    /**
-     * Draws the path on the map
-     */
-    private void drawPath() {
-        if (estimatedTimeBox != null)
-            removeAllPopups();
-
-        Map<String, Node> nodesId = Graph.getGraph().getNodes();
-        Map<String, String> hmLongName = makeLongToIDMap();
-        Path aStarPath = AStar.findPath(hmLongName.get(getStartLocation()), hmLongName.get(getEndLocation()));
-
-        List<String> AstarPath = aStarPath.getPath();
-
-        if (AstarPath.isEmpty()) {
-            lblError.setVisible(true);
-        } else {
-            Node prev = null;
-            for (String loc : AstarPath) {
-                if ((prev != null) && (loc != null)) {
-                    Node curr = nodesId.get(loc);
-                    placeEdge(prev, curr);
-                }
-                prev = nodesId.get(loc);
-            }
-        }
-
-        drawEstimatedTimeBox(aStarPath);
-    }
-
-    /**
-     * Removes any edges drawn on the map
-     */
-    private void removeOldPaths() {
-        lblError.setVisible(false);
-        for (Line l : edgePlaced)
-            mapHolder.getChildren().remove(l);
-        edgePlaced = new ArrayList<>();
-    }
-
-    /**
-     * Removes all nodes from the map
-     */
-    private void removeNodes() {
-        for (javafx.scene.Node n : nodePlaced)
-            nodeHolder.getChildren().remove(n);
-        nodePlaced = new ArrayList<>();
-    }
-
-    /**
-     * Removes all intermediate nodes from the map
-     */
-    private void removeIntermediateNodes() {
-        for (javafx.scene.Node n : intermediateNodePlaced)
-            intermediateNodeHolder.getChildren().remove(n);
-        intermediateNodePlaced = new ArrayList<>();
-    }
-
-    /**
-     * Places an image for a node on the map at the given pixel coordinates.
-     *
-     * @param n Node object to place on the map
-     */
-    private void placeNode(Node n) {
-        try {
-            ImageView i = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/map/misc/node.fxml")));
-
-            i.setLayoutX((n.getXCoord() / PathfindingMenuController.coordinateScale) - (i.getFitWidth() / 4));
-            i.setLayoutY((n.getYCoord() / PathfindingMenuController.coordinateScale) - (i.getFitHeight()));
-
-            i.setId(n.getNodeID() + "Icon");
-
-            // Show graphical input for pathfinding when clicked
-            i.setOnMouseClicked((MouseEvent e) -> createGraphicalInputPopup(n));
-
-            nodeHolder.getChildren().add(i);
-            nodePlaced.add(i);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Place alternate node type on the map
-     *
-     * @param n the Node object to place
-     */
-    private void placeAltNode(Node n) {
-        try {
-            Circle c = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/map/misc/nodeAlt.fxml")));
-
-            c.setLayoutX((n.getXCoord() / PathfindingMenuController.coordinateScale));
-            c.setLayoutY((n.getYCoord() / PathfindingMenuController.coordinateScale));
-
-            c.setId(n.getNodeID() + "Icon");
-
-            c.setOnMouseClicked((MouseEvent e) -> showEditNodePopup(n, e, false));
-
-            nodeHolder.getChildren().add(c);
-            nodePlaced.add(c);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Draws an edge between 2 points on the map.
-     *
-     * @param start start node
-     * @param end   end node
-     */
-    public void placeEdge(Node start, Node end) {
-        try {
-            Line l = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/map/misc/edge.fxml")));
-
-            l.setStartX(start.getXCoord() / PathfindingMenuController.coordinateScale);
-            l.setStartY(start.getYCoord() / PathfindingMenuController.coordinateScale);
-
-            l.setEndX(end.getXCoord() / PathfindingMenuController.coordinateScale);
-            l.setEndY(end.getYCoord() / PathfindingMenuController.coordinateScale);
-
-            l.setOnMouseClicked(e -> {
-                if(editMap) {
-                    showDelEdgePopup(start, end);
-                }
-            });
-
-            l.setId(start.getNodeID() + "_" + end.getNodeID() + "Icon");
-
-            mapHolder.getChildren().add(l);
-            edgePlaced.add(l);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Places an image for a node on the map at the given pixel coordinates.
-     *
-     * @param n Node object to place on the map
-     */
-    public void placeIntermediateNode(Node n) {
-        try {
-            Circle c = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/map/misc/intermediateNode.fxml")));
-
-            c.setCenterX((n.getXCoord() / PathfindingMenuController.coordinateScale));
-            c.setCenterY((n.getYCoord() / PathfindingMenuController.coordinateScale));
-
-            c.setOnMouseClicked(event -> showEditNodePopup(n, event, false));
-
-            c.setId(n.getNodeID() + "IntIcon");
-
-            intermediateNodeHolder.getChildren().add(c);
-            intermediateNodePlaced.add(c);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Function that updates everything involved with the different locations on the map
-     * - Tree View
-     * - Floor Nodes
-     */
-    private void updateLocations() {
-        mapLongToID = makeLongToIDMap();
-        Map<String, List<TreeItem<String>>> catNameMap = new HashMap<>();
-        floorNodes.remove(currentFloor);
-        for (Node n : Graph.getGraph().getNodes().values()) {
-            if (!(n.getNodeType().equals("WALK") || n.getNodeType().equals("HALL")|| n.getBuilding().equals("BTM") || n.getBuilding().equals("Shapiro"))) {
-                //Populate Category map for TreeView
-
-                //This if statement is temporary for iteration 1 where pathfinding is only needed for the first floor
-                if(n.getFloor().equals(currentFloor)) {
-                    if (!catNameMap.containsKey(n.getNodeType())) {
-                        ArrayList<TreeItem<String>> tempList = new ArrayList<>();
-                        TreeItem<String> tempItem = new TreeItem<>(n.getLongName());
-                        tempList.add(tempItem);
-                        catNameMap.put(n.getNodeType(), tempList);
-                    } else {
-                        catNameMap.get(n.getNodeType()).add(new TreeItem<>(n.getLongName()));
-                    }
-                }
-
-            }
-
-            //Populate the floorNodes Map to know which nodes belong to each floor
-            if (floorNodes.containsKey(n.getFloor())) {
-                floorNodes.get(n.getFloor()).add(n);
-            } else {
-                ArrayList<Node> tempList = new ArrayList<>();
-                tempList.add(n);
-                floorNodes.put(n.getFloor(), tempList);
-            }
-        }
-
-
+    private void populateTreeView() {
         //Populating TreeView
         TreeItem<String> rootNode = new TreeItem<>("Locations");
         rootNode.setExpanded(true);
         treeLocations.setRoot(rootNode);
 
         //Adding Categories
-        for (String category : catNameMap.keySet()) {
+        for (String category : mc.getCatNameMap().keySet()) {
             TreeItem<String> categoryTreeItem = new TreeItem<>(categoryNameMap.get(category));
-            categoryTreeItem.getChildren().addAll(catNameMap.get(category));
+            categoryTreeItem.getChildren().addAll(mc.getCatNameMap().get(category));
             rootNode.getChildren().add(categoryTreeItem);
         }
-
-    }
-
-    // Misc utility methods ****************************************************************************
-
-    /**
-     * @return a map of long names to node IDs
-     */
-    private Map<String, String> makeLongToIDMap() {
-        Map<String, Node> nodesId = Graph.getGraph().getNodes();
-        Map<String, String> longName = new HashMap<>();
-
-        for (Node node : nodesId.values()) {
-            longName.put(node.getLongName(), node.getNodeID());
-        }
-        return longName;
     }
 
     /**
-     * Gets the start location
-     *
-     * @return The long name of the node selected in the combobox.
+     * Shows the add node popup when double clicking on the map.
      */
-    public String getStartLocation() {
-        return txtStartLocation.getText();
+    private void initMapForEditing() {
+
+        map.setOnMouseClicked(event -> {
+            // Show popup on double clicks
+            if (event.getClickCount() < 2) return;
+
+            // if in editing mode
+            if (md.isEditing()) {
+
+                // Only one window open at a time;
+                md.removeAllPopups();
+
+                mepm.showAddNodePopup(event);
+            }
+        });
+
     }
 
     /**
-     * Gets the end location
-     *
-     * @return The long name of the node selected in the combobox.
+     * Shows the help dialog box.
      */
-    public String getEndLocation() {
-        return txtEndLocation.getText();
-    }
-
-    private void loadHelpDialog(){
+    private void loadHelpDialog() {
         JFXDialogLayout helpLayout = new JFXDialogLayout();
 
-        Text helpText = new Text();
-        if(!editMap){
+        Text helpText;
+        if (!md.isEditing())
             helpText = new Text("Enter your start and end location graphically or using our menu selector. To use the graphical selection,\nsimply click on the node and click on the set button. To enter a location using the menu. Click on the appropriate\ndrop down and choose your location. The node you selected will show up on your map where you can either\nset it to your start or end location. Once both the start and end nodes are filled in you can press \"Go\" to generate your path");
-        } else{
-            helpText = new Text("Double click to add a node. Click on a node or an edge to edit or remove them. To add a new edge click on\none of the nodes, then add edge, and then start node. Go to the next node in the edge then, add edge, end node,\nand finally add node.");
-        }
+        else
+            helpText = new Text("Double click to add a node. Click on a node or an edge to edit or remove them. To add a new edge click on\none of the nodes, then \"Add Edge\". Click on another node and click \"Yes\" to add the new edge or \"No\" to cancel it.");
+
         helpText.setFont(new Font("MS Reference Sans Serif", 14));
 
         Label headerLabel = new Label("Help");
@@ -948,6 +389,47 @@ public class PathfindingMenuController implements Initializable {
         helpLayout.setActions(button);
 
         helpWindow.show();
+    }
 
+    @FXML
+    private void handleKeysPressedSearchBar(KeyEvent e) {
+        String regex = "[ a-zA-Z0-9\\-]+";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(e.getText());
+        if (matcher.matches()) handleItemSearched();
+
+        // Check for backspace
+        if (e.getCode() == KeyCode.BACK_SPACE) {
+            handleItemSearched();
+            if (txtSearch.getText().isEmpty() || txtSearch.getText().length() == 1) populateTreeView();
+        }
+    }
+
+    /**
+     * Shows only the nodes similar to what is being searched for
+     */
+    @FXML
+    private void handleItemSearched() {
+        //when an item is searched for, have only objects with that phrase populate the treeview
+        String searchBar = txtSearch.getText();
+        //Populating TreeView
+        TreeItem<String> newRoot = new TreeItem<>("Locations");
+        newRoot.setExpanded(true);
+        treeLocations.setRoot(newRoot);
+
+        //Adding the nodes
+        for (String category : mc.getCatNameMap().keySet()) {
+            TreeItem<String> categoryTreeItem = new TreeItem<>(categoryNameMap.get(category));
+            categoryTreeItem.getChildren().addAll(mc.getCatNameMap().get(category));
+            List<TreeItem<String>> treeItems = categoryTreeItem.getChildren();
+            for (TreeItem<String> c : treeItems) {
+                if (c.getValue().toLowerCase().contains(searchBar.toLowerCase())) {
+                    newRoot.getChildren().add(c);
+                }
+            }
+        }
+
+        // If nothing is found, say "None"
+        if (newRoot.getChildren().isEmpty()) newRoot.setValue("Not found!");
     }
 }
