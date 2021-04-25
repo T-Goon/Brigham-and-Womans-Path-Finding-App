@@ -308,7 +308,7 @@ public class MapDrawer implements PoppableManager {
      */
     public void refreshEditor() {
         mc.updateLocations();
-        removeOldPaths();
+        removeAllEdges();
         removeIntermediateNodes();
         removeNodes();
         drawEdgesOnFloor();
@@ -323,7 +323,7 @@ public class MapDrawer implements PoppableManager {
         removeAllPopups();
 
         if (isEditing) {
-            removeOldPaths();
+            removeAllEdges();
             removeNodes();
             removeIntermediateNodes();
             drawEdgesOnFloor();
@@ -331,7 +331,7 @@ public class MapDrawer implements PoppableManager {
             drawIntermediateNodesOnFloor();
         } else {
             mc.updateLocations();
-            removeOldPaths();
+            removeAllEdges();
             removeIntermediateNodes();
             removeNodes();
             drawNodesOnFloor();
@@ -351,7 +351,8 @@ public class MapDrawer implements PoppableManager {
     /**
      * Removes any edges drawn on the map
      */
-    public void removeOldPaths() {
+    public void removeAllEdges() {
+        mppm.removeETAPopup();
         lblError.setVisible(false);
         for (Line l : mc.getEdgesPlaced())
             mapHolder.getChildren().remove(l);
