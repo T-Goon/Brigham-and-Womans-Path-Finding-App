@@ -4,7 +4,7 @@ import edu.wpi.teamB.App;
 import edu.wpi.teamB.entities.map.data.ETAPopupData;
 import edu.wpi.teamB.entities.map.data.Node;
 import edu.wpi.teamB.pathfinding.Graph;
-import edu.wpi.teamB.util.Popup.Popable;
+import edu.wpi.teamB.util.Popup.Poppable;
 import edu.wpi.teamB.util.Popup.Popup;
 import edu.wpi.teamB.views.map.PathfindingMenuController;
 import javafx.fxml.FXMLLoader;
@@ -14,7 +14,7 @@ import javafx.scene.layout.VBox;
 import java.io.IOException;
 import java.util.Objects;
 
-public class ETAPopup extends Popup<VBox, ETAPopupData> implements Popable {
+public class ETAPopup extends Popup<VBox, ETAPopupData> implements Poppable {
     public ETAPopup(Pane parent, ETAPopupData data) {
         super(parent, data);
     }
@@ -22,7 +22,7 @@ public class ETAPopup extends Popup<VBox, ETAPopupData> implements Popable {
     /**
      * Show the eta popup.
      */
-    public void show(){
+    public void show() {
 
         VBox estimatedTimeBox = null;
 

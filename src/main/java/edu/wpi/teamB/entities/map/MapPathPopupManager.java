@@ -8,13 +8,13 @@ import edu.wpi.teamB.entities.map.data.Node;
 import edu.wpi.teamB.entities.map.data.Path;
 import edu.wpi.teamB.entities.map.node.GraphicalInputPopup;
 import edu.wpi.teamB.pathfinding.AStar;
-import edu.wpi.teamB.util.Popup.PopableManager;
+import edu.wpi.teamB.util.Popup.PoppableManager;
 import edu.wpi.teamB.views.map.PathfindingMenuController;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import net.kurobako.gesturefx.GesturePane;
 
-public class MapPathPopupManager implements PopableManager {
+public class MapPathPopupManager implements PoppableManager {
 
     private final MapDrawer md;
     private final JFXTextField txtStartLocation;
