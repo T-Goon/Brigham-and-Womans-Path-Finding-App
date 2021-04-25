@@ -4,10 +4,7 @@ import com.jfoenix.controls.*;
 import edu.wpi.teamB.App;
 import edu.wpi.teamB.database.DatabaseHandler;
 import edu.wpi.teamB.entities.User;
-import edu.wpi.teamB.entities.map.MapCache;
-import edu.wpi.teamB.entities.map.MapDrawer;
-import edu.wpi.teamB.entities.map.MapEditorPopupManager;
-import edu.wpi.teamB.entities.map.MapPathPopupManager;
+import edu.wpi.teamB.entities.map.*;
 import edu.wpi.teamB.entities.map.data.Edge;
 import edu.wpi.teamB.entities.map.data.Node;
 import edu.wpi.teamB.pathfinding.Graph;
@@ -329,6 +326,7 @@ public class PathfindingMenuController implements Initializable {
      */
     private void populateTreeView() throws IOException {
         //Populating TreeView
+        btnAddToFavorites = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/misc/addBtn.fxml")));
         TreeItem<String> rootNode = new TreeItem<>("Root");
         treeLocations.setRoot(rootNode);
         treeLocations.setShowRoot(false);
@@ -337,7 +335,6 @@ public class PathfindingMenuController implements Initializable {
         favorites.setExpanded(true);
         rootNode.getChildren().add(favorites);
 
-        btnAddToFavorites = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/misc/addBtn.fxml")));
         favorites.setGraphic(btnAddToFavorites);
 
         TreeItem<String> locations = new TreeItem<>("Locations");
@@ -362,7 +359,7 @@ public class PathfindingMenuController implements Initializable {
             String text = treeLocations.getSelectionModel().getSelectedItem().getValue();
             TreeItem<String> itemToAdd = new TreeItem<>(text);
 
-            if (!favorites.getChildren().contains(itemToAdd)) {
+            if (!favorites.getChildren().contains(itemToAdd) && itemToAdd.getChildren().isEmpty()) {
                 itemToAdd.setGraphic(btnRemoveFromFavorites);
                 favorites.getChildren().add(itemToAdd);
             }
