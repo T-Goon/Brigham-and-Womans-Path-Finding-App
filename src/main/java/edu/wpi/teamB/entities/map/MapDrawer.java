@@ -210,6 +210,13 @@ public class MapDrawer implements PoppableManager {
                 } else mepm.showEditNodePopup(n, e, false);
             });
 
+            c.setOnMouseEntered(event -> {
+                if (isEditing) c.setStroke(Color.GREEN);
+            });
+            c.setOnMouseExited(event -> {
+                if (isEditing) c.setStroke(Color.BLACK);
+            });
+
             nodeHolder.getChildren().add(c);
             mc.getNodePlaced().add(c);
 
@@ -238,6 +245,13 @@ public class MapDrawer implements PoppableManager {
             });
 
             c.setId(n.getNodeID() + "IntIcon");
+
+            c.setOnMouseEntered(event -> {
+                if (isEditing) c.setStroke(Color.GREEN);
+            });
+            c.setOnMouseExited(event -> {
+                if (isEditing) c.setStroke(Color.BLACK);
+            });
 
             intermediateNodeHolder.getChildren().add(c);
             mc.getIntermediateNodePlaced().add(c);
