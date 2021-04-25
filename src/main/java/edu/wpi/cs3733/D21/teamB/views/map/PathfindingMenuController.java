@@ -3,7 +3,7 @@ package edu.wpi.cs3733.D21.teamB.views.map;
 import com.jfoenix.controls.*;
 import edu.wpi.cs3733.D21.teamB.App;
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
-import edu.wpi.cs3733.D21.teamB.entities.FloorSwitcher;
+import edu.wpi.cs3733.D21.teamB.entities.map.FloorSwitcher;
 import edu.wpi.cs3733.D21.teamB.entities.User;
 import edu.wpi.cs3733.D21.teamB.entities.map.MapCache;
 import edu.wpi.cs3733.D21.teamB.entities.map.MapDrawer;
@@ -117,6 +117,12 @@ public class PathfindingMenuController implements Initializable {
     @FXML
     private JFXButton btnFL2;
 
+    @FXML
+    private JFXTextArea txtAreaStops;
+
+    @FXML
+    private JFXButton btnRemoveStop;
+
     public static final double coordinateScale = 25 / 9.0;
 
     private final Map<String, String> categoryNameMap = new HashMap<>();
@@ -162,7 +168,7 @@ public class PathfindingMenuController implements Initializable {
         mepm = new MapEditorPopupManager(md, mc, gpane, mapStack);
         md.setMepm(mepm);
 
-        mppm = new MapPathPopupManager(md, txtStartLocation, txtEndLocation, mapStack, gpane, this, nodeHolder);
+        mppm = new MapPathPopupManager(md, mc, txtStartLocation, txtEndLocation, btnRemoveStop, mapStack, gpane, this, nodeHolder);
         md.setMppm(mppm);
 
         // Set up floor switching
@@ -342,6 +348,14 @@ public class PathfindingMenuController implements Initializable {
                 md.removeAllEdges();
                 fs.switchFloor(FloorSwitcher.floorL2ID);
                 break;
+            case "btnRemoveStop":
+                mc.getStopsList().remove(mc.getStopsList().size() - 1);
+                displayStops(mc.getStopsList());
+
+                // Validate button
+                btnRemoveStop.setDisable(mc.getStopsList().isEmpty());
+
+                break;
             case "btnBack":
                 SceneSwitcher.goBack(getClass(), 1);
                 break;
@@ -357,6 +371,21 @@ public class PathfindingMenuController implements Initializable {
                 handleItemSearched();
                 break;
         }
+    }
+
+    /**
+     * Display the stops in the textArea
+     *
+     * @param stopsList List of node longnames
+     */
+    public void displayStops(List<String> stopsList) {
+        StringBuilder stops = new StringBuilder();
+
+        for (String s : stopsList) {
+            stops.append(s).append("\n");
+        }
+
+        txtAreaStops.setText(stops.toString());
     }
 
     /**
