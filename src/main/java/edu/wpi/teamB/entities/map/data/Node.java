@@ -1,12 +1,13 @@
 package edu.wpi.teamB.entities.map.data;
 
+import edu.wpi.teamB.entities.IStoredEntity;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @EqualsAndHashCode
-public class Node implements Comparable<Node> {
+public class Node implements Comparable<Node>, IStoredEntity {
     private final String nodeID;
     private final int xCoord;
     private final int yCoord;

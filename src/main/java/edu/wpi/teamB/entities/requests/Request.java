@@ -1,5 +1,6 @@
 package edu.wpi.teamB.entities.requests;
 
+import edu.wpi.teamB.entities.IStoredEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -7,7 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class Request {
+public class Request implements IStoredEntity {
 
     public Request(String requestID, RequestType requestType, String time, String date, String complete, String employeeName, String location, String description) {
         this.requestID = requestID;
