@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.D21.teamB.pathfinding;
 
+import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Node;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Path;
 
@@ -30,7 +31,10 @@ public class DFS implements Pathfinder {
      */
     public Path findPath(String start, String end) {
         Graph graph = Graph.getGraph();
-        List<String> path = dfsHelper(start, end, new ArrayList<>(), graph);
+        DatabaseHandler db = DatabaseHandler.getDatabaseHandler("main.db");
+        Node startNode = db.getNodeById(start);
+        Node endNode = db.getNodeById(end);
+        List<String> path = dfsHelper(start, end, new ArrayList<>(), graph, startNode.getFloor().equals(endNode.getFloor()));
         double cost = graph.calculateCost(path);
         return new Path(path, cost);
     }
@@ -43,7 +47,7 @@ public class DFS implements Pathfinder {
      * @param visited list of nodeIDs already visited
      * @return a stack of the path of nodeIDs from start to end
      */
-    public static List<String> dfsHelper(String start, String end, List<String> visited, Graph graph) {
+    public static List<String> dfsHelper(String start, String end, List<String> visited, Graph graph, boolean sameFloor) {
         visited.add(start);
 
         // If the start equals the end, this is the recursive base case
@@ -55,18 +59,20 @@ public class DFS implements Pathfinder {
         List<String> result;
         Stack<String> stack = new Stack<>();
         for (Node neighbor : graph.getAdjNodesById(start)) {
-            result = new ArrayList<>();
+            if (sameFloor && neighbor.getFloor().equals(DatabaseHandler.getDatabaseHandler("main.db").getNodeById(start).getFloor())) {
+                result = new ArrayList<>();
 
-            // If the neighbor is not already visited
-            if (!visited.contains(neighbor.getNodeID())) {
-                // Recursively see if it is part of path
-                result.addAll(dfsHelper(neighbor.getNodeID(), end, visited, graph));
-                if (!result.isEmpty()) {
-                    stack.push(start);
-                    for (String s : result) {
-                        stack.push(s);
+                // If the neighbor is not already visited
+                if (!visited.contains(neighbor.getNodeID())) {
+                    // Recursively see if it is part of path
+                    result.addAll(dfsHelper(neighbor.getNodeID(), end, visited, graph, sameFloor));
+                    if (!result.isEmpty()) {
+                        stack.push(start);
+                        for (String s : result) {
+                            stack.push(s);
+                        }
+                        break;
                     }
-                    break;
                 }
             }
         }
