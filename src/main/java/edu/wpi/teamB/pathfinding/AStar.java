@@ -121,7 +121,7 @@ public class AStar {
             currentID = cameFrom.get(currentID);
         }
 
-        return new Path(ret, costSoFar.get(current.getNodeID()));
+        return new Path(ret, graph.calculateCost(ret));
     }
 
     /**

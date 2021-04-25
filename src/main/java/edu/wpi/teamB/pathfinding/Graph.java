@@ -104,7 +104,12 @@ public class Graph {
         if (path == null || path.isEmpty()) return 0;
         double cost = 0;
         for (int i = 0; i < path.size() - 1; i++) {
-            cost += dist(db.getNodeById(path.get(i)), db.getNodeById(path.get(i + 1)));
+            Node start = db.getNodeById(path.get(i));
+            Node end = db.getNodeById(path.get(i + 1));
+
+            if (start.getFloor().equals(end.getFloor()))
+                cost += dist(start, end);
+            else cost += 408.75625 * Math.abs(end.getFloorAsInt() - start.getFloorAsInt());
         }
         return cost;
     }

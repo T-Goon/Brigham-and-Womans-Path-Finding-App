@@ -5,6 +5,7 @@ import edu.wpi.teamB.entities.map.data.Edge;
 import edu.wpi.teamB.entities.map.data.Node;
 import edu.wpi.teamB.entities.map.data.Path;
 import edu.wpi.teamB.pathfinding.AStar;
+import edu.wpi.teamB.pathfinding.BFS;
 import edu.wpi.teamB.pathfinding.DFS;
 import edu.wpi.teamB.pathfinding.Graph;
 import edu.wpi.teamB.util.Popup.PoppableManager;
@@ -84,8 +85,8 @@ public class MapDrawer implements PoppableManager {
                 path = DFS.findPath(hmLongName.get(start), hmLongName.get(end));
                 break;
             case "BFS":
-                System.err.println("Not implemented");
-                return;
+                path = BFS.findPath(hmLongName.get(start), hmLongName.get(end));
+                break;
         }
 
         assert path != null;
