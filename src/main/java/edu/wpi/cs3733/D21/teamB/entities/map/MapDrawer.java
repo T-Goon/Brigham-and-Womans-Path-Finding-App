@@ -80,6 +80,7 @@ public class MapDrawer implements PoppableManager {
 
             List<String> AstarPath = aStarPath.getPath();
             wholePath.getPath().addAll(AstarPath);
+            wholePath.setTotalPathCost(wholePath.getTotalPathCost()+aStarPath.getTotalPathCost());
 
             if (AstarPath.isEmpty()) {
                 lblError.setVisible(true);
