@@ -161,6 +161,12 @@ public class PathfindingMenuController implements Initializable {
             SceneSwitcher.popLastScene();
         }
 
+        //test if we came from a not failed covid survey
+        if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/covidSurvey/covidFormSubmittedNoSymp.fxml")) {
+            txtEndLocation.setText("75 Francis Lobby Entrance");
+            SceneSwitcher.popLastScene();
+        }
+
         initMapForEditing();
 
         // Set up Load and Save buttons
