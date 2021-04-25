@@ -5,7 +5,6 @@ import edu.wpi.teamB.entities.map.data.Edge;
 import edu.wpi.teamB.entities.map.data.Node;
 import edu.wpi.teamB.entities.map.data.NodeType;
 import edu.wpi.teamB.entities.requests.*;
-import edu.wpi.teamB.pathfinding.Graph;
 
 import java.sql.*;
 import java.util.*;
@@ -57,7 +56,7 @@ public class DatabaseHandler {
         return this.databaseConnection;
     }
 
-    private Statement getStatement() {
+    Statement getStatement() {
         try {
             return this.getConnection().createStatement();
         } catch (SQLException e) {
@@ -348,7 +347,6 @@ public class DatabaseHandler {
         try {
             String query = "SELECT * FROM Nodes WHERE nodeID = '" + ID + "'";
             ResultSet set = runStatement(query, true);
-            set.next();
             Node n = new Node(
                     set.getString("nodeID").trim(),
                     set.getInt("xcoord"),
@@ -372,26 +370,7 @@ public class DatabaseHandler {
      * @throws SQLException if the user or password is malformed
      */
     public void addUser(User user, String password) throws SQLException {
-        String hash = this.passwordHash(password);
-        String query = "INSERT INTO Users VALUES " +
-                "('" + user.getUsername()
-                + "', '" + user.getFirstName()
-                + "', '" + user.getLastName()
-                + "', '" + user.getAuthenticationLevel().toString()
-                + "', '" + hash
-                + "')";
-        runStatement(query, false);
-
-        if (user.getJobs() != null) {
-            query = "INSERT INTO Jobs VALUES (?, ?)";
-            PreparedStatement statement = databaseConnection.prepareStatement(query);
-            for (Request.RequestType job : user.getJobs()) {
-                statement.setString(1, user.getUsername());
-                statement.setString(2, job.toString());
-                statement.executeUpdate();
-            }
-            statement.close();
-        }
+        new UserMutator(this).addEntity(new UserMutator.UserPasswordMatch(user, password));
     }
 
     /**
@@ -403,11 +382,16 @@ public class DatabaseHandler {
             String query = "SELECT job FROM Jobs WHERE (username = '" + username + "')";
             List<Request.RequestType> jobs = new ArrayList<>();
             ResultSet rs = runStatement(query, true);
-            while (rs.next())
-                jobs.add(Request.RequestType.valueOf(rs.getString("job")));
+            if (rs != null) {
+                do {
+                    jobs.add(Request.RequestType.valueOf(rs.getString("job")));
+                } while (rs.next());
+                rs.close();
+            }
 
             query = "SELECT * FROM Users WHERE (username = '" + username + "')";
             rs = runStatement(query, true);
+            if (rs == null) return null;
             User outUser = new User(
                     rs.getString("username"),
                     rs.getString("firstName"),
@@ -435,10 +419,11 @@ public class DatabaseHandler {
                     "WHERE (job = '" + job.toString() + "')";
             ResultSet rs = runStatement(query, true);
             List<User> outUsers = new ArrayList<>();
-            while (rs.next()) {
+            if (rs == null) return outUsers;
+            do {
                 String username = rs.getString("username");
                 outUsers.add(this.getUserByUsername(username));
-            }
+            } while (rs.next());
             rs.close();
             return outUsers;
         } catch (SQLException e) {
@@ -459,10 +444,11 @@ public class DatabaseHandler {
                     "Users WHERE authenticationLevel='" + authenticationLevel.toString() + "'";
             ResultSet rs = runStatement(query, true);
             List<User> outUsers = new ArrayList<>();
-            while (rs.next()) {
+            if (rs == null) return outUsers;
+            do {
                 String username = rs.getString("username");
                 outUsers.add(this.getUserByUsername(username));
-            }
+            } while (rs.next());
             rs.close();
             return outUsers;
         } catch (SQLException e) {
@@ -475,51 +461,20 @@ public class DatabaseHandler {
      * Updates the information for a given user
      *
      * @param newUser the updated user
-     * @return whether the attempt to update the user was successful
      * @throws SQLException if the user is malformed
      */
-    public boolean updateUser(User newUser) throws SQLException {
-        String deleteJobs = "DELETE FROM Jobs WHERE (username = '" + newUser.getUsername() + "')";
-        String updateUser = "UPDATE Users SET " +
-                "firstName = '" + newUser.getFirstName() + "'," +
-                "lastName = '" + newUser.getLastName() + "'," +
-                "authenticationLevel = '" + newUser.getAuthenticationLevel().toString() + "'" +
-                "WHERE (username = '" + newUser.getUsername() + "')";
-
-        // If the user isn't in the table, do nothing
-        if (this.getUserByUsername(newUser.getUsername()) == null)
-            return false;
-
-        runStatement(deleteJobs, false);
-        runStatement(updateUser, false);
-
-        PreparedStatement statement = databaseConnection.prepareStatement("INSERT INTO Jobs VALUES (?, ?)");
-        for (Request.RequestType job : newUser.getJobs()) {
-            statement.setString(1, newUser.getUsername());
-            statement.setString(2, job.toString());
-            statement.executeUpdate();
-        }
-        statement.close();
-        return true;
+    public void updateUser(User newUser) throws SQLException {
+        new UserMutator(this).updateEntity(new UserMutator.UserPasswordMatch(newUser, ""));
     }
 
     /**
      * Given the username of a user, delete them from the database
      *
      * @param username the username of the user to delete
-     * @return true if success
+     * @throws SQLException if the user is malformed
      */
-    public boolean deleteUser(String username) {
-        String deleteJobs = "DELETE FROM Jobs WHERE (username = '" + username + "')";
-        String deleteUser = "DELETE FROM Users WHERE (username = '" + username + "')";
-        try {
-            runStatement(deleteJobs, false);
-            runStatement(deleteUser, false);
-            return true;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
+    public void deleteUser(String username) throws SQLException {
+        new UserMutator(this).removeEntity(username);
     }
 
     /**
@@ -532,7 +487,7 @@ public class DatabaseHandler {
             this.deauthenticate();
             String query = "SELECT passwordHash FROM Users WHERE (username = '" + username + "')";
             ResultSet rs = runStatement(query, true);
-            if (!rs.next()) return null;
+            if (rs == null) return null;
             String storedHash = (rs.getString("passwordHash"));
             rs.close();
 
@@ -584,7 +539,8 @@ public class DatabaseHandler {
         try {
             ResultSet rs = runStatement(query, true);
             Map<String, Node> nodes = new HashMap<>();
-            while (rs.next()) {
+            if (rs == null) return nodes;
+            do {
                 Node outNode = new Node(
                         rs.getString("NodeID").trim(),
                         rs.getInt("xcoord"),
@@ -596,7 +552,7 @@ public class DatabaseHandler {
                         rs.getString("shortName").trim()
                 );
                 nodes.put(rs.getString("NodeID").trim(), outNode);
-            }
+            } while (rs.next());
             rs.close();
             return nodes;
         } catch (SQLException e) {
@@ -614,14 +570,15 @@ public class DatabaseHandler {
         try {
             ResultSet rs = runStatement(query, true);
             Map<String, Edge> edges = new HashMap<>();
-            while (rs.next()) {
+            if (rs == null) return edges;
+            do {
                 Edge outEdge = new Edge(
                         rs.getString("edgeID").trim(),
                         rs.getString("startNode").trim(),
                         rs.getString("endNode").trim()
                 );
                 edges.put(rs.getString("edgeID").trim(), outEdge);
-            }
+            } while (rs.next());
             rs.close();
             return edges;
         } catch (SQLException e) {
@@ -633,90 +590,54 @@ public class DatabaseHandler {
      * Adds an node to the database with the given information
      *
      * @param node the node to add
-     * @throws SQLException if the query is malformed
      */
     public void addNode(Node node) throws SQLException {
-        String query = "INSERT INTO Nodes VALUES " +
-                "('" + node.getNodeID()
-                + "', " + node.getXCoord()
-                + ", " + node.getYCoord()
-                + ", '" + node.getFloor()
-                + "', '" + node.getBuilding()
-                + "', '" + node.getNodeType()
-                + "', '" + node.getLongName()
-                + "', '" + node.getShortName()
-                + "')";
-        runStatement(query, false);
-        Graph.getGraph().updateGraph();
+        new NodeMutator(this).addEntity(node);
     }
 
     /**
      * Adds an edge to the database with the given information
      *
      * @param edge the edge to add
-     * @throws SQLException if the query is malformed
      */
     public void addEdge(Edge edge) throws SQLException {
-        String query = "INSERT INTO Edges VALUES ('" + edge.getEdgeID() + "', '" + edge.getStartNodeID() + "', '" + edge.getEndNodeID() + "')";
-        runStatement(query, false);
-        Graph.getGraph().updateGraph();
+        new EdgeMutator(this).addEntity(edge);
     }
 
     /**
      * Updates the node with the specified ID.
      *
      * @param node the node to update
-     * @throws SQLException if the node is malformed
      */
     public void updateNode(Node node) throws SQLException {
-        String query = "UPDATE Nodes SET xcoord = " + node.getXCoord()
-                + ", ycoord = " + node.getYCoord()
-                + ", floor = " + node.getFloor()
-                + ", building = '" + node.getBuilding()
-                + "', nodeType = '" + node.getNodeType()
-                + "', longName = '" + node.getLongName()
-                + "', shortName = '" + node.getShortName()
-                + "' WHERE nodeID = '" + node.getNodeID() + "'";
-        runStatement(query, false);
-        Graph.getGraph().updateGraph();
+        new NodeMutator(this).updateEntity(node);
     }
 
     /**
      * Updates the edge with the specified ID.
      *
      * @param edge the edge to update
-     * @throws SQLException if the query is malformed
      */
     public void updateEdge(Edge edge) throws SQLException {
-        String query = "UPDATE Edges SET startNode = '" + edge.getStartNodeID() + "', endNode = '" + edge.getEndNodeID() + "' WHERE edgeID = '" + edge.getEdgeID() + "'";
-        runStatement(query, false);
-        Graph.getGraph().updateGraph();
+        new EdgeMutator(this).updateEntity(edge);
     }
 
     /**
      * Removes the node given by the node ID.
      *
      * @param nodeID the node to remove, given by the node ID
-     * @throws SQLException if the query is malformed
      */
     public void removeNode(String nodeID) throws SQLException {
-        String edgesQuery = "DELETE FROM Edges WHERE startNode = '" + nodeID + "' OR endNode = '" + nodeID + "'";
-        String nodeQuery = "DELETE FROM Nodes WHERE nodeID = '" + nodeID + "'";
-        runStatement(edgesQuery, false);
-        runStatement(nodeQuery, false);
-        Graph.getGraph().updateGraph();
+        new NodeMutator(this).removeEntity(nodeID);
     }
 
     /**
      * Removes the edge given by the edge ID.
      *
      * @param edgeID the edge to remove, given by the edge ID
-     * @throws SQLException if the query is malformed
      */
     public void removeEdge(String edgeID) throws SQLException {
-        String query = "DELETE FROM Edges WHERE edgeID = '" + edgeID + "'";
-        runStatement(query, false);
-        Graph.getGraph().updateGraph();
+        new EdgeMutator(this).removeEntity(edgeID);
     }
 
     /**
@@ -757,151 +678,7 @@ public class DatabaseHandler {
      * @param request the request to add
      */
     public void addRequest(Request request) throws SQLException {
-        User user = this.getAuthenticationUser();
-        String username = user.getUsername();
-        if (username == null) username = "null";
-        String query = "INSERT INTO Requests VALUES " +
-                "('" + request.getRequestID()
-                + "', '" + request.getRequestType()
-                + "', '" + request.getDate()
-                + "', '" + request.getTime()
-                + "', '" + request.getComplete()
-                + "', '" + request.getEmployeeName()
-                + "', '" + request.getLocation()
-                + "', '" + request.getDescription().replace("'", "''")
-                + "', '" + username
-                + "')";
-        runStatement(query, false);
-
-        switch (request.getRequestType()) {
-            case SANITATION:
-                SanitationRequest sanitationRequest = (SanitationRequest) request;
-                query = "INSERT INTO SanitationRequests VALUES " +
-                        "('" + sanitationRequest.getRequestID()
-                        + "', '" + sanitationRequest.getSanitationType()
-                        + "', '" + sanitationRequest.getSanitationSize()
-                        + "', '" + (sanitationRequest.getHazardous())
-                        + "', '" + (sanitationRequest.getBiologicalSubstance())
-                        + "', '" + (sanitationRequest.getOccupied())
-                        + "')";
-                break;
-            case MEDICINE:
-                MedicineRequest medicineRequest = (MedicineRequest) request;
-                query = "INSERT INTO MedicineRequests VALUES " +
-                        "('" + medicineRequest.getRequestID()
-                        + "', '" + medicineRequest.getPatientName().replace("'", "''")
-                        + "', '" + medicineRequest.getMedicine().replace("'", "''")
-                        + "')";
-                break;
-            case INTERNAL_TRANSPORT:
-                InternalTransportRequest internalTransportRequest = (InternalTransportRequest) request;
-                query = "INSERT INTO InternalTransportRequests VALUES " +
-                        "('" + internalTransportRequest.getRequestID()
-                        + "', '" + internalTransportRequest.getPatientName().replace("'", "''")
-                        + "', '" + internalTransportRequest.getTransportType()
-                        + "', '" + (internalTransportRequest.getUnconscious())
-                        + "', '" + (internalTransportRequest.getInfectious())
-                        + "')";
-                break;
-            case RELIGIOUS:
-                ReligiousRequest religiousRequest = (ReligiousRequest) request;
-                query = "INSERT INTO ReligiousRequests VALUES " +
-                        "('" + religiousRequest.getRequestID()
-                        + "', '" + religiousRequest.getPatientName().replace("'", "''")
-                        + "', '" + religiousRequest.getReligiousDate()
-                        + "', '" + religiousRequest.getStartTime()
-                        + "', '" + religiousRequest.getEndTime()
-                        + "', '" + religiousRequest.getFaith().replace("'", "''")
-                        + "', '" + (religiousRequest.getInfectious())
-                        + "')";
-                break;
-            case FOOD:
-                FoodRequest foodRequest = (FoodRequest) request;
-                query = "INSERT INTO FoodRequests VALUES " +
-                        "('" + foodRequest.getRequestID()
-                        + "', '" + foodRequest.getPatientName().replace("'", "''")
-                        + "', '" + foodRequest.getArrivalTime()
-                        + "', '" + foodRequest.getMealChoice().replace("'", "''")
-                        + "')";
-                break;
-            case FLORAL:
-                FloralRequest floralRequest = (FloralRequest) request;
-                query = "INSERT INTO FloralRequests VALUES " +
-                        "('" + floralRequest.getRequestID()
-                        + "', '" + floralRequest.getPatientName().replace("'", "''")
-                        + "', '" + floralRequest.getDeliveryDate()
-                        + "', '" + floralRequest.getStartTime()
-                        + "', '" + floralRequest.getEndTime()
-                        + "', '" + floralRequest.getWantsRoses()
-                        + "', '" + floralRequest.getWantsTulips()
-                        + "', '" + floralRequest.getWantsDaisies()
-                        + "', '" + floralRequest.getWantsLilies()
-                        + "', '" + floralRequest.getWantsSunflowers()
-                        + "', '" + floralRequest.getWantsCarnations()
-                        + "', '" + floralRequest.getWantsOrchids()
-                        + "')";
-                break;
-            case SECURITY:
-                SecurityRequest securityRequest = (SecurityRequest) request;
-                query = "INSERT INTO SecurityRequests VALUES " +
-                        "('" + securityRequest.getRequestID()
-                        + "', " + securityRequest.getUrgency()
-                        + ")";
-                break;
-            case EXTERNAL_TRANSPORT:
-                ExternalTransportRequest externalTransportRequest = (ExternalTransportRequest) request;
-                query = "INSERT INTO ExternalTransportRequests VALUES " +
-                        "('" + externalTransportRequest.getRequestID()
-                        + "', '" + externalTransportRequest.getPatientName().replace("'", "''")
-                        + "', '" + externalTransportRequest.getTransportType()
-                        + "', '" + externalTransportRequest.getDestination().replace("'", "''")
-                        + "', '" + externalTransportRequest.getPatientAllergies().replace("'", "''")
-                        + "', '" + (externalTransportRequest.getOutNetwork())
-                        + "', '" + (externalTransportRequest.getInfectious())
-                        + "', '" + (externalTransportRequest.getUnconscious())
-                        + "')";
-                break;
-            case LAUNDRY:
-                LaundryRequest laundryRequest = (LaundryRequest) request;
-                query = "INSERT INTO LaundryRequests VALUES " +
-                        "('" + laundryRequest.getRequestID()
-                        + "', '" + laundryRequest.getServiceType()
-                        + "', '" + laundryRequest.getServiceSize()
-                        + "', '" + (laundryRequest.getDark())
-                        + "', '" + (laundryRequest.getLight())
-                        + "', '" + (laundryRequest.getOccupied())
-                        + "')";
-                break;
-            case CASE_MANAGER:
-                CaseManagerRequest caseManagerRequest = (CaseManagerRequest) request;
-                query = "INSERT INTO CaseManagerRequests VALUES " +
-                        "('" + caseManagerRequest.getRequestID()
-                        + "', '" + caseManagerRequest.getPatientName().replace("'", "''")
-                        + "', '" + caseManagerRequest.getTimeForArrival()
-                        + "')";
-                break;
-            case SOCIAL_WORKER:
-                SocialWorkerRequest socialWorkerRequest = (SocialWorkerRequest) request;
-                query = "INSERT INTO SocialWorkerRequests VALUES " +
-                        "('" + socialWorkerRequest.getRequestID()
-                        + "', '" + socialWorkerRequest.getPatientName().replace("'", "''")
-                        + "', '" + socialWorkerRequest.getTimeForArrival()
-                        + "')";
-                break;
-        }
-        runStatement(query, false);
-    }
-
-    /**
-     * Removes a request from Requests and the table specific to the given request
-     *
-     * @param request the request to remove
-     */
-    public void removeRequest(Request request) throws SQLException {
-        String querySpecificTable = "DELETE FROM '" + Request.RequestType.prettify(request.getRequestType()).replace(" ", "") + "Requests" + "'WHERE requestID = '" + request.getRequestID() + "'";
-        String queryGeneralTable = "DELETE FROM Requests WHERE requestID = '" + request.getRequestID() + "'";
-        runStatement(querySpecificTable, false);
-        runStatement(queryGeneralTable, false);
+        new RequestMutator(this).addEntity(request);
     }
 
     /**
@@ -910,114 +687,16 @@ public class DatabaseHandler {
      * @param request the request to update
      */
     public void updateRequest(Request request) throws SQLException {
-        String query = "UPDATE Requests SET requestType = '" + request.getRequestType()
-                + "', requestDate = '" + request.getDate()
-                + "', requestTime = '" + request.getTime()
-                + "', complete = '" + request.getComplete()
-                + "', employeeName = '" + request.getEmployeeName()
-                + "', location = '" + request.getLocation().replace("'", "''")
-                + "', description = '" + request.getDescription().replace("'", "''")
-                + "' WHERE requestID = '" + request.getRequestID() + "'";
-        runStatement(query, false);
+        new RequestMutator(this).updateEntity(request);
+    }
 
-        //If the given request is an instance of the less specific "Request" then dont try and update the specific tables
-        if (request.getClass().equals(Request.class)) return;
-
-        switch (request.getRequestType()) {
-            case SANITATION:
-                SanitationRequest sanitationRequest = (SanitationRequest) request;
-                query = "UPDATE SanitationRequests SET sanitationType = '" + sanitationRequest.getSanitationType()
-                        + "', sanitationSize = '" + sanitationRequest.getSanitationSize()
-                        + "', hazardous = '" + sanitationRequest.getHazardous()
-                        + "', biologicalSubstance = '" + sanitationRequest.getBiologicalSubstance()
-                        + "', occupied = '" + sanitationRequest.getOccupied()
-                        + "' WHERE requestID = '" + sanitationRequest.getRequestID() + "'";
-                break;
-            case MEDICINE:
-                MedicineRequest medicineRequest = (MedicineRequest) request;
-                query = "UPDATE MedicineRequests SET patientName = '" + medicineRequest.getPatientName().replace("'", "''")
-                        + "', medicine = '" + medicineRequest.getMedicine().replace("'", "''")
-                        + "' WHERE requestID = '" + medicineRequest.getRequestID() + "'";
-                break;
-            case INTERNAL_TRANSPORT:
-                InternalTransportRequest internalTransportRequest = (InternalTransportRequest) request;
-                query = "UPDATE InternalTransportRequests SET patientName = '" + internalTransportRequest.getPatientName().replace("'", "''")
-                        + "', transportType = '" + internalTransportRequest.getTransportType()
-                        + "', unconscious = '" + internalTransportRequest.getUnconscious()
-                        + "', infectious = '" + internalTransportRequest.getInfectious()
-                        + "' WHERE requestID = '" + internalTransportRequest.getRequestID() + "'";
-                break;
-            case RELIGIOUS:
-                ReligiousRequest religiousRequest = (ReligiousRequest) request;
-                query = "UPDATE ReligiousRequests SET patientName = '" + religiousRequest.getPatientName().replace("'", "''")
-                        + "', startTime = '" + religiousRequest.getStartTime()
-                        + "', endTime = '" + religiousRequest.getEndTime()
-                        + "', religiousDate = '" + religiousRequest.getReligiousDate()
-                        + "', faith = '" + religiousRequest.getFaith().replace("'", "''")
-                        + "', infectious = '" + religiousRequest.getInfectious()
-                        + "' WHERE requestID = '" + religiousRequest.getRequestID() + "'";
-                break;
-            case FOOD:
-                FoodRequest foodRequest = (FoodRequest) request;
-                query = "UPDATE FoodRequests SET patientName = '" + foodRequest.getPatientName().replace("'", "''")
-                        + "', arrivalTime = '" + foodRequest.getArrivalTime()
-                        + "', mealChoice = '" + foodRequest.getMealChoice().replace("'", "''")
-                        + "' WHERE requestID = '" + foodRequest.getRequestID() + "'";
-                break;
-            case FLORAL:
-                FloralRequest floralRequest = (FloralRequest) request;
-                query = "UPDATE FloralRequests SET patientName = '" + floralRequest.getPatientName().replace("'", "''")
-                        + "', deliveryDate = '" + floralRequest.getDeliveryDate()
-                        + "', startTime = '" + floralRequest.getStartTime()
-                        + "', endTime = '" + floralRequest.getEndTime()
-                        + "', wantsRoses = '" + floralRequest.getWantsRoses()
-                        + "', wantsTulips = '" + floralRequest.getWantsTulips()
-                        + "', wantsDaisies = '" + floralRequest.getWantsDaisies()
-                        + "', wantsLilies = '" + floralRequest.getWantsLilies()
-                        + "', wantsSunflowers = '" + floralRequest.getWantsSunflowers()
-                        + "', wantsCarnations = '" + floralRequest.getWantsCarnations()
-                        + "', wantsOrchids = '" + floralRequest.getWantsOrchids()
-                        + "' WHERE requestID = '" + floralRequest.getRequestID() + "'";
-                break;
-            case SECURITY:
-                SecurityRequest securityRequest = (SecurityRequest) request;
-                query = "UPDATE SecurityRequests SET urgency = " + securityRequest.getUrgency()
-                        + " WHERE requestID = '" + securityRequest.getRequestID() + "'";
-                break;
-            case EXTERNAL_TRANSPORT:
-                ExternalTransportRequest externalTransportRequest = (ExternalTransportRequest) request;
-                query = "UPDATE ExternalTransportRequests SET patientName = '" + externalTransportRequest.getPatientName().replace("'", "''")
-                        + "', transportType = '" + externalTransportRequest.getTransportType()
-                        + "', destination = '" + externalTransportRequest.getDestination().replace("'", "''")
-                        + "', patientAllergies = '" + externalTransportRequest.getPatientAllergies().replace("'", "''")
-                        + "', outNetwork = '" + (externalTransportRequest.getOutNetwork())
-                        + "', infectious = '" + (externalTransportRequest.getInfectious())
-                        + "', unconscious = '" + (externalTransportRequest.getUnconscious())
-                        + "' WHERE requestID = '" + externalTransportRequest.getRequestID() + "'";
-                break;
-            case LAUNDRY:
-                LaundryRequest laundryRequest = (LaundryRequest) request;
-                query = "UPDATE LaundryRequests SET serviceType = '" + laundryRequest.getServiceType()
-                        + "', serviceSize = '" + laundryRequest.getServiceSize()
-                        + "', dark = '" + (laundryRequest.getDark())
-                        + "', light = '" + (laundryRequest.getLight())
-                        + "', occupied = '" + (laundryRequest.getOccupied())
-                        + "' WHERE requestID = '" + laundryRequest.getRequestID() + "'";
-                break;
-            case CASE_MANAGER:
-                CaseManagerRequest caseManagerRequest = (CaseManagerRequest) request;
-                query = "UPDATE CaseManagerRequests SET patientName = '" + caseManagerRequest.getPatientName().replace("'", "''")
-                        + "', timeForArrival = '" + caseManagerRequest.getTimeForArrival()
-                        + "' WHERE requestID = '" + caseManagerRequest.getRequestID() + "'";
-                break;
-            case SOCIAL_WORKER:
-                SocialWorkerRequest socialWorkerRequest = (SocialWorkerRequest) request;
-                query = "UPDATE SocialWorkerRequests SET patientName = '" + socialWorkerRequest.getPatientName().replace("'", "''")
-                        + "', timeForArrival = '" + socialWorkerRequest.getTimeForArrival()
-                        + "' WHERE requestID = '" + socialWorkerRequest.getRequestID() + "'";
-                break;
-        }
-        runStatement(query, false);
+    /**
+     * Removes a request from Requests and the table specific to the given request
+     *
+     * @param request the request to remove
+     */
+    public void removeRequest(Request request) throws SQLException {
+        new RequestMutator(this).removeEntity(request.getRequestID());
     }
 
     /**
@@ -1029,7 +708,8 @@ public class DatabaseHandler {
         String query = "SELECT * FROM Requests";
         ResultSet rs = runStatement(query, true);
         Map<String, Request> requests = new HashMap<>();
-        while (rs.next()) {
+        if (rs == null) return requests;
+        do {
             Request outRequest = new Request(
                     rs.getString("requestID"),
                     Request.RequestType.valueOf(rs.getString("requestType")),
@@ -1042,7 +722,7 @@ public class DatabaseHandler {
                     rs.getString("submitter")
             );
             requests.put(rs.getString("requestID"), outRequest);
-        }
+        } while (rs.next());
         rs.close();
         return requests;
     }
@@ -1059,178 +739,177 @@ public class DatabaseHandler {
         String query = "SELECT * FROM Requests LEFT JOIN " + tableName + " ON Requests.requestID = " + tableName + ".requestID WHERE Requests.requestID = '" + requestID + "'";
         Request outRequest = null;
         ResultSet rs = runStatement(query, true);
-        while (rs.next()) {
-            switch (requestType) {
-                case SANITATION:
-                    outRequest = new SanitationRequest(
-                            rs.getString("sanitationType"),
-                            rs.getString("sanitationSize"),
-                            rs.getString("hazardous"),
-                            rs.getString("biologicalSubstance"),
-                            rs.getString("occupied"),
-                            rs.getString("requestID"),
-                            rs.getString("requestTime"),
-                            rs.getString("requestDate"),
-                            rs.getString("complete"),
-                            rs.getString("employeeName"),
-                            rs.getString("location"),
-                            rs.getString("description")
-                    );
-                    break;
-                case MEDICINE:
-                    outRequest = new MedicineRequest(
-                            rs.getString("patientName"),
-                            rs.getString("medicine"),
-                            rs.getString("requestID"),
-                            rs.getString("requestTime"),
-                            rs.getString("requestDate"),
-                            rs.getString("complete"),
-                            rs.getString("employeeName"),
-                            rs.getString("location"),
-                            rs.getString("description")
-                    );
-                    break;
-                case INTERNAL_TRANSPORT:
-                    outRequest = new InternalTransportRequest(
-                            rs.getString("patientName"),
-                            rs.getString("transportType"),
-                            rs.getString("unconscious"),
-                            rs.getString("infectious"),
-                            rs.getString("requestID"),
-                            rs.getString("requestTime"),
-                            rs.getString("requestDate"),
-                            rs.getString("complete"),
-                            rs.getString("employeeName"),
-                            rs.getString("location"),
-                            rs.getString("description")
-                    );
-                    break;
-                case RELIGIOUS:
-                    outRequest = new ReligiousRequest(
-                            rs.getString("patientName"),
-                            rs.getString("startTime"),
-                            rs.getString("endTime"),
-                            rs.getString("religiousDate"),
-                            rs.getString("faith"),
-                            rs.getString("infectious"),
-                            rs.getString("requestID"),
-                            rs.getString("requestTime"),
-                            rs.getString("requestDate"),
-                            rs.getString("complete"),
-                            rs.getString("employeeName"),
-                            rs.getString("location"),
-                            rs.getString("description")
-                    );
-                    break;
-                case FOOD:
-                    outRequest = new FoodRequest(
-                            rs.getString("patientName"),
-                            rs.getString("arrivalTime"),
-                            rs.getString("mealChoice"),
-                            rs.getString("requestID"),
-                            rs.getString("requestTime"),
-                            rs.getString("requestDate"),
-                            rs.getString("complete"),
-                            rs.getString("employeeName"),
-                            rs.getString("location"),
-                            rs.getString("description")
-                    );
-                    break;
-                case FLORAL:
-                    outRequest = new FloralRequest(
-                            rs.getString("patientName"),
-                            rs.getString("deliveryDate"),
-                            rs.getString("startTime"),
-                            rs.getString("endTime"),
-                            rs.getString("wantsRoses"),
-                            rs.getString("wantsTulips"),
-                            rs.getString("wantsDaisies"),
-                            rs.getString("wantsLilies"),
-                            rs.getString("wantsSunflowers"),
-                            rs.getString("wantsCarnations"),
-                            rs.getString("wantsOrchids"),
-                            rs.getString("requestID"),
-                            rs.getString("requestTime"),
-                            rs.getString("requestDate"),
-                            rs.getString("complete"),
-                            rs.getString("employeeName"),
-                            rs.getString("location"),
-                            rs.getString("description")
-                    );
-                    break;
-                case SECURITY:
-                    outRequest = new SecurityRequest(
-                            rs.getInt("urgency"),
-                            rs.getString("requestID"),
-                            rs.getString("requestTime"),
-                            rs.getString("requestDate"),
-                            rs.getString("complete"),
-                            rs.getString("employeeName"),
-                            rs.getString("location"),
-                            rs.getString("description")
-                    );
-                    break;
-                case EXTERNAL_TRANSPORT:
-                    outRequest = new ExternalTransportRequest(
-                            rs.getString("patientName"),
-                            rs.getString("transportType"),
-                            rs.getString("destination"),
-                            rs.getString("patientAllergies"),
-                            rs.getString("outNetwork"),
-                            rs.getString("infectious"),
-                            rs.getString("unconscious"),
-                            rs.getString("requestID"),
-                            rs.getString("requestTime"),
-                            rs.getString("requestDate"),
-                            rs.getString("complete"),
-                            rs.getString("employeeName"),
-                            rs.getString("location"),
-                            rs.getString("description")
-                    );
-                    break;
-                case LAUNDRY:
-                    outRequest = new LaundryRequest(
-                            rs.getString("serviceType"),
-                            rs.getString("serviceSize"),
-                            rs.getString("dark"),
-                            rs.getString("light"),
-                            rs.getString("occupied"),
-                            rs.getString("requestID"),
-                            rs.getString("requestTime"),
-                            rs.getString("requestDate"),
-                            rs.getString("complete"),
-                            rs.getString("employeeName"),
-                            rs.getString("location"),
-                            rs.getString("description")
-                    );
-                    break;
-                case CASE_MANAGER:
-                    outRequest = new CaseManagerRequest(
-                            rs.getString("patientName"),
-                            rs.getString("timeForArrival"),
-                            rs.getString("requestID"),
-                            rs.getString("requestTime"),
-                            rs.getString("requestDate"),
-                            rs.getString("complete"),
-                            rs.getString("employeeName"),
-                            rs.getString("location"),
-                            rs.getString("description")
-                    );
-                    break;
-                case SOCIAL_WORKER:
-                    outRequest = new SocialWorkerRequest(
-                            rs.getString("patientName"),
-                            rs.getString("timeForArrival"),
-                            rs.getString("requestID"),
-                            rs.getString("requestTime"),
-                            rs.getString("requestDate"),
-                            rs.getString("complete"),
-                            rs.getString("employeeName"),
-                            rs.getString("location"),
-                            rs.getString("description")
-                    );
-                    break;
-            }
+        if (rs == null) return null;
+        switch (requestType) {
+            case SANITATION:
+                outRequest = new SanitationRequest(
+                        rs.getString("sanitationType"),
+                        rs.getString("sanitationSize"),
+                        rs.getString("hazardous"),
+                        rs.getString("biologicalSubstance"),
+                        rs.getString("occupied"),
+                        rs.getString("requestID"),
+                        rs.getString("requestTime"),
+                        rs.getString("requestDate"),
+                        rs.getString("complete"),
+                        rs.getString("employeeName"),
+                        rs.getString("location"),
+                        rs.getString("description")
+                );
+                break;
+            case MEDICINE:
+                outRequest = new MedicineRequest(
+                        rs.getString("patientName"),
+                        rs.getString("medicine"),
+                        rs.getString("requestID"),
+                        rs.getString("requestTime"),
+                        rs.getString("requestDate"),
+                        rs.getString("complete"),
+                        rs.getString("employeeName"),
+                        rs.getString("location"),
+                        rs.getString("description")
+                );
+                break;
+            case INTERNAL_TRANSPORT:
+                outRequest = new InternalTransportRequest(
+                        rs.getString("patientName"),
+                        rs.getString("transportType"),
+                        rs.getString("unconscious"),
+                        rs.getString("infectious"),
+                        rs.getString("requestID"),
+                        rs.getString("requestTime"),
+                        rs.getString("requestDate"),
+                        rs.getString("complete"),
+                        rs.getString("employeeName"),
+                        rs.getString("location"),
+                        rs.getString("description")
+                );
+                break;
+            case RELIGIOUS:
+                outRequest = new ReligiousRequest(
+                        rs.getString("patientName"),
+                        rs.getString("startTime"),
+                        rs.getString("endTime"),
+                        rs.getString("religiousDate"),
+                        rs.getString("faith"),
+                        rs.getString("infectious"),
+                        rs.getString("requestID"),
+                        rs.getString("requestTime"),
+                        rs.getString("requestDate"),
+                        rs.getString("complete"),
+                        rs.getString("employeeName"),
+                        rs.getString("location"),
+                        rs.getString("description")
+                );
+                break;
+            case FOOD:
+                outRequest = new FoodRequest(
+                        rs.getString("patientName"),
+                        rs.getString("arrivalTime"),
+                        rs.getString("mealChoice"),
+                        rs.getString("requestID"),
+                        rs.getString("requestTime"),
+                        rs.getString("requestDate"),
+                        rs.getString("complete"),
+                        rs.getString("employeeName"),
+                        rs.getString("location"),
+                        rs.getString("description")
+                );
+                break;
+            case FLORAL:
+                outRequest = new FloralRequest(
+                        rs.getString("patientName"),
+                        rs.getString("deliveryDate"),
+                        rs.getString("startTime"),
+                        rs.getString("endTime"),
+                        rs.getString("wantsRoses"),
+                        rs.getString("wantsTulips"),
+                        rs.getString("wantsDaisies"),
+                        rs.getString("wantsLilies"),
+                        rs.getString("wantsSunflowers"),
+                        rs.getString("wantsCarnations"),
+                        rs.getString("wantsOrchids"),
+                        rs.getString("requestID"),
+                        rs.getString("requestTime"),
+                        rs.getString("requestDate"),
+                        rs.getString("complete"),
+                        rs.getString("employeeName"),
+                        rs.getString("location"),
+                        rs.getString("description")
+                );
+                break;
+            case SECURITY:
+                outRequest = new SecurityRequest(
+                        rs.getInt("urgency"),
+                        rs.getString("requestID"),
+                        rs.getString("requestTime"),
+                        rs.getString("requestDate"),
+                        rs.getString("complete"),
+                        rs.getString("employeeName"),
+                        rs.getString("location"),
+                        rs.getString("description")
+                );
+                break;
+            case EXTERNAL_TRANSPORT:
+                outRequest = new ExternalTransportRequest(
+                        rs.getString("patientName"),
+                        rs.getString("transportType"),
+                        rs.getString("destination"),
+                        rs.getString("patientAllergies"),
+                        rs.getString("outNetwork"),
+                        rs.getString("infectious"),
+                        rs.getString("unconscious"),
+                        rs.getString("requestID"),
+                        rs.getString("requestTime"),
+                        rs.getString("requestDate"),
+                        rs.getString("complete"),
+                        rs.getString("employeeName"),
+                        rs.getString("location"),
+                        rs.getString("description")
+                );
+                break;
+            case LAUNDRY:
+                outRequest = new LaundryRequest(
+                        rs.getString("serviceType"),
+                        rs.getString("serviceSize"),
+                        rs.getString("dark"),
+                        rs.getString("light"),
+                        rs.getString("occupied"),
+                        rs.getString("requestID"),
+                        rs.getString("requestTime"),
+                        rs.getString("requestDate"),
+                        rs.getString("complete"),
+                        rs.getString("employeeName"),
+                        rs.getString("location"),
+                        rs.getString("description")
+                );
+                break;
+            case CASE_MANAGER:
+                outRequest = new CaseManagerRequest(
+                        rs.getString("patientName"),
+                        rs.getString("timeForArrival"),
+                        rs.getString("requestID"),
+                        rs.getString("requestTime"),
+                        rs.getString("requestDate"),
+                        rs.getString("complete"),
+                        rs.getString("employeeName"),
+                        rs.getString("location"),
+                        rs.getString("description")
+                );
+                break;
+            case SOCIAL_WORKER:
+                outRequest = new SocialWorkerRequest(
+                        rs.getString("patientName"),
+                        rs.getString("timeForArrival"),
+                        rs.getString("requestID"),
+                        rs.getString("requestTime"),
+                        rs.getString("requestDate"),
+                        rs.getString("complete"),
+                        rs.getString("employeeName"),
+                        rs.getString("location"),
+                        rs.getString("description")
+                );
+                break;
         }
         rs.close();
         return outRequest;
@@ -1247,7 +926,7 @@ public class DatabaseHandler {
         String query = "SELECT * FROM Nodes WHERE nodeType = '" + rest.toString() + "'";
         ResultSet rs = runStatement(query, true);
         List<Node> nodes = new ArrayList<>();
-        while (rs.next()) {
+        do {
             Node outNode = new Node(
                     rs.getString("NodeID").trim(),
                     rs.getInt("xcoord"),
@@ -1259,7 +938,7 @@ public class DatabaseHandler {
                     rs.getString("shortName").trim()
             );
             nodes.add(outNode);
-        }
+        } while (rs.next());
         rs.close();
         return nodes;
     }
@@ -1268,17 +947,19 @@ public class DatabaseHandler {
      * Runs a given sql command and returns the result set if its a query
      * or null otherwise
      *
-     * @param query   the query to run
-     * @param isQuery whether it's a query
+     * @param query     the query to run
+     * @param returnSet whether it's a query
      * @return the result set if it's a query, or null otherwise
      * @throws SQLException if the query is malformed
      */
-    private ResultSet runStatement(String query, boolean isQuery) throws SQLException {
+    public ResultSet runStatement(String query, boolean returnSet) throws SQLException {
         Statement statement = this.getStatement();
         assert statement != null;
         ResultSet set = null;
-        if (isQuery) set = statement.executeQuery(query);
-        else {
+        if (returnSet) {
+            set = statement.executeQuery(query);
+            if (!set.next()) return null;
+        } else {
             statement.execute(query);
             statement.close();
         }

@@ -1,11 +1,15 @@
 package edu.wpi.teamB.views.menus;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXScrollPane;
+import edu.wpi.teamB.database.DatabaseHandler;
+import edu.wpi.teamB.entities.User;
 import edu.wpi.teamB.util.SceneSwitcher;
 import edu.wpi.teamB.views.BasePageController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 
@@ -62,6 +66,9 @@ public class ServiceRequestMenuController extends BasePageController {
     public void handleButtonAction(ActionEvent e) {
         super.handleButtonAction(e);
         Button btn = (Button) e.getSource();
+
+        btn.getStyleClass().removeAll();
+        btn.getStyleClass().add("btnPressed");
 
         String path = null;
         switch (btn.getId()) {
