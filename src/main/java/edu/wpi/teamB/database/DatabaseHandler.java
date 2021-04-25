@@ -383,8 +383,11 @@ public class DatabaseHandler {
             String query = "SELECT job FROM Jobs WHERE (username = '" + username + "')";
             List<Request.RequestType> jobs = new ArrayList<>();
             ResultSet rs = runStatement(query, true);
-            while (rs.next())
+            if (rs == null) return null;
+            do {
                 jobs.add(Request.RequestType.valueOf(rs.getString("job")));
+            } while (rs.next());
+            rs.close();
 
             query = "SELECT * FROM Users WHERE (username = '" + username + "')";
             rs = runStatement(query, true);
@@ -415,10 +418,11 @@ public class DatabaseHandler {
                     "WHERE (job = '" + job.toString() + "')";
             ResultSet rs = runStatement(query, true);
             List<User> outUsers = new ArrayList<>();
-            while (rs.next()) {
+            if (rs == null) return outUsers;
+            do {
                 String username = rs.getString("username");
                 outUsers.add(this.getUserByUsername(username));
-            }
+            } while (rs.next());
             rs.close();
             return outUsers;
         } catch (SQLException e) {
@@ -439,10 +443,11 @@ public class DatabaseHandler {
                     "Users WHERE authenticationLevel='" + authenticationLevel.toString() + "'";
             ResultSet rs = runStatement(query, true);
             List<User> outUsers = new ArrayList<>();
-            while (rs.next()) {
+            if (rs == null) return outUsers;
+            do {
                 String username = rs.getString("username");
                 outUsers.add(this.getUserByUsername(username));
-            }
+            } while (rs.next());
             rs.close();
             return outUsers;
         } catch (SQLException e) {
@@ -481,7 +486,6 @@ public class DatabaseHandler {
             this.deauthenticate();
             String query = "SELECT passwordHash FROM Users WHERE (username = '" + username + "')";
             ResultSet rs = runStatement(query, true);
-            if (!rs.next()) return null;
             String storedHash = (rs.getString("passwordHash"));
             rs.close();
 
@@ -905,7 +909,7 @@ public class DatabaseHandler {
                 );
                 break;
         }
-//        rs.close();
+        rs.close();
         return outRequest;
     }
 

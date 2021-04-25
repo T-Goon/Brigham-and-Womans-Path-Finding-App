@@ -57,6 +57,16 @@ public class DatabaseHandlerTest {
         testNodes.add(targetNode10);
     }
 
+    @BeforeEach
+    public void resetDB() {
+        try {
+            db.resetDatabase(new ArrayList<>());
+            db.executeSchema();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     @Test
     public void simpleParseNodes() {
         Node target = new Node("testNode",
@@ -215,7 +225,6 @@ public class DatabaseHandlerTest {
                 "N W M S");
 
         try {
-            db.loadNodesEdges(null, null);
             db.addNode(target);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -238,7 +247,6 @@ public class DatabaseHandlerTest {
         Node end = new Node("test_end", 0, 0, "0", "0", "0", "test", "t");
 
         try {
-            db.loadNodesEdges(null, null);
             db.addNode(start);
             db.addNode(end);
         } catch (SQLException e) {
@@ -272,7 +280,6 @@ public class DatabaseHandlerTest {
                 "N W M S");
 
         try {
-            db.loadNodesEdges(null, null);
             db.addNode(target);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -295,7 +302,6 @@ public class DatabaseHandlerTest {
         Node start = new Node("testStart", 0, 0, "0", "0", "0", "test", "t");
         Node end = new Node("testEnd", 0, 0, "0", "0", "0", "test", "t");
         try {
-            db.loadNodesEdges(null, null);
             db.addNode(start);
             db.addNode(end);
         } catch (SQLException e) {
@@ -328,7 +334,6 @@ public class DatabaseHandlerTest {
         Node node1 = new Node("node1", 0, 0, "0", "0", "0", "test", "t");
         Node node2 = new Node("node2", 0, 0, "0", "0", "0", "test", "t");
         try {
-            db.loadNodesEdges(null, null);
             db.addNode(node1);
             db.addNode(node2);
         } catch (SQLException e) {
@@ -410,7 +415,6 @@ public class DatabaseHandlerTest {
         Node node1 = new Node("node1", 0, 0, "0", "0", "0", "test", "t");
         Node node2 = new Node("node2", 0, 0, "0", "0", "0", "test", "t");
         try {
-            db.loadNodesEdges(null, null);
             db.addNode(node1);
             db.addNode(node2);
         } catch (SQLException e) {
@@ -465,7 +469,6 @@ public class DatabaseHandlerTest {
         Node node1 = new Node("node1", 0, 0, "0", "0", "0", "test", "t");
         Node node2 = new Node("node2", 0, 0, "0", "0", "0", "test", "t");
         try {
-            db.loadNodesEdges(null, null);
             db.addNode(node1);
             db.addNode(node2);
         } catch (SQLException e) {
@@ -532,7 +535,7 @@ public class DatabaseHandlerTest {
         assertEquals("node2", test1.getLocation());
         assertEquals("test", test1.getDescription());
 
-        FoodRequest test2 = null;
+        FoodRequest test2;
         try {
             test2 = (FoodRequest) db.getSpecificRequestById(request2.getRequestID(), Request.RequestType.FOOD);
         } catch (SQLException e) {

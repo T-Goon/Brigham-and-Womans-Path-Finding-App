@@ -19,7 +19,7 @@ public class UserMutator implements IDatabaseEntityMutator<UserMutator.UserPassw
      * @param user User and password match to add
      */
     public void addEntity(UserPasswordMatch user) throws SQLException {
-        String hash = DatabaseHandler.getDatabaseHandler("main.db").passwordHash(user.password);
+        String hash = db.passwordHash(user.password);
         String query = "INSERT INTO Users VALUES " +
                 "('" + user.user.getUsername()
                 + "', '" + user.user.getFirstName()
