@@ -6,7 +6,7 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
-public class FormSubmittedController {
+public class EmergencySubmittedController {
 
     @FXML
     private JFXButton btnReturn;
@@ -18,7 +18,7 @@ public class FormSubmittedController {
 
         switch (btn.getId()) {
             case "btnReturn":
-                SceneSwitcher.goBack(getClass(), 2);
+                SceneSwitcher.goBack(getClass(), 1);
                 break;
             case "btnEmergency":
                 SceneSwitcher.switchFromTemp(getClass(), "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");

@@ -117,9 +117,12 @@
                                             <children>
                                                 <HBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
                                                     <children>
-                                                        <JFXButton id="btnCancel" fx:id="btnCancel" buttonType="RAISED" cancelButton="true" onAction="#handleButtonAction" style="-fx-background-radius: 7; -fx-background-color: #0067B1;" text="Cancel" textFill="WHITE">
+                                                        <JFXButton id="btnBack" fx:id="btnBack" buttonType="RAISED"
+                                                                   cancelButton="true" onAction="#handleButtonAction"
+                                                                   style="-fx-background-radius: 7; -fx-background-color: #0067B1;"
+                                                                   text="Cancel" textFill="WHITE">
                                                             <font>
-                                                                <Font name="MS Reference Sans Serif" size="14.0" />
+                                                                <Font name="MS Reference Sans Serif" size="14.0"/>
                                                             </font>
                                                         </JFXButton>
                                                     </children>

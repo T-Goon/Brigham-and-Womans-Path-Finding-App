@@ -6,7 +6,7 @@ import edu.wpi.teamB.entities.map.data.Node;
 import edu.wpi.teamB.entities.map.data.Path;
 import edu.wpi.teamB.pathfinding.AStar;
 import edu.wpi.teamB.pathfinding.Graph;
-import edu.wpi.teamB.util.Popup.PopableManager;
+import edu.wpi.teamB.util.Popup.PoppableManager;
 import edu.wpi.teamB.views.map.PathfindingMenuController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
@@ -14,6 +14,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import lombok.Getter;
@@ -26,7 +27,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-public class MapDrawer implements PopableManager {
+public class MapDrawer implements PoppableManager {
 
     private final MapCache mc;
     @Setter
@@ -48,7 +49,7 @@ public class MapDrawer implements PopableManager {
     private boolean isEditing = false;
 
     public MapDrawer(MapCache mc, AnchorPane nodeHolder, AnchorPane mapHolder, AnchorPane intermediateNodeHolder,
-                     Label lblError, StackPane mapStack, GesturePane gpane){
+                     Label lblError, StackPane mapStack, GesturePane gpane) {
         this.mc = mc;
         this.nodeHolder = nodeHolder;
         this.mapHolder = mapHolder;
@@ -91,7 +92,6 @@ public class MapDrawer implements PopableManager {
 
     /**
      * Draws all the nodes on a given floor with the default graphic
-     *
      */
     public void drawNodesOnFloor() {
         Map<String, List<Node>> nodes = mc.getFloorNodes();
@@ -116,7 +116,7 @@ public class MapDrawer implements PopableManager {
 
         for (Node n : nodes.values()) {
             if ((!(n.getNodeType().equals("WALK") || n.getNodeType().equals("HALL"))) && (!n.getBuilding().equals("BTM") && !n.getBuilding().equals("Shapiro")) &&
-                    n.getFloor().equals(mc.getCurrentFloor())){
+                    n.getFloor().equals(mc.getCurrentFloor())) {
                 placeAltNode(n);
             }
         }
@@ -140,7 +140,6 @@ public class MapDrawer implements PopableManager {
 
     /**
      * Draws all edges on a floor
-     *
      */
     private void drawEdgesOnFloor() {
         Map<String, Edge> edges = Graph.getGraph().getEdges();
@@ -148,14 +147,14 @@ public class MapDrawer implements PopableManager {
             Node start = db.getNodeById(e.getStartNodeID());
             Node end = db.getNodeById(e.getEndNodeID());
 
-            if (start.getFloor().equals( mc.getCurrentFloor() ) &&
-                    end.getFloor().equals( mc.getCurrentFloor() ) &&
+            if (start.getFloor().equals(mc.getCurrentFloor()) &&
+                    end.getFloor().equals(mc.getCurrentFloor()) &&
                     (
                             !start.getBuilding().equals("BTM") &&
-                            !start.getBuilding().equals("Shapiro")) &&
+                                    !start.getBuilding().equals("Shapiro")) &&
                     (
                             !end.getBuilding().equals("BTM") &&
-                            !start.getBuilding().equals("Shapiro")
+                                    !start.getBuilding().equals("Shapiro")
                     )) {
                 placeEdge(start, end);
             }
@@ -177,7 +176,10 @@ public class MapDrawer implements PopableManager {
             i.setId(n.getNodeID() + "Icon");
 
             // Show graphical input for pathfinding when clicked
-            i.setOnMouseClicked((MouseEvent e) -> mppm.createGraphicalInputPopup(n));
+            i.setOnMouseClicked((MouseEvent e) -> {
+                removeAllPopups();
+                mppm.createGraphicalInputPopup(n);
+            });
 
             nodeHolder.getChildren().add(i);
             mc.getNodePlaced().add(i);
@@ -201,7 +203,19 @@ public class MapDrawer implements PopableManager {
 
             c.setId(n.getNodeID() + "Icon");
 
-            c.setOnMouseClicked((MouseEvent e) -> mepm.showEditNodePopup(n, e, false));
+            c.setOnMouseClicked((MouseEvent e) -> {
+                if (mc.getStartNode() != null) {
+                    mc.setNewEdgeEnd(n.getNodeID());
+                    mepm.showAddEdgePopup(e);
+                } else mepm.showEditNodePopup(n, e, false);
+            });
+
+            c.setOnMouseEntered(event -> {
+                if (isEditing) c.setStroke(Color.GREEN);
+            });
+            c.setOnMouseExited(event -> {
+                if (isEditing) c.setStroke(Color.BLACK);
+            });
 
             nodeHolder.getChildren().add(c);
             mc.getNodePlaced().add(c);
@@ -223,9 +237,21 @@ public class MapDrawer implements PopableManager {
             c.setCenterX((n.getXCoord() / PathfindingMenuController.coordinateScale));
             c.setCenterY((n.getYCoord() / PathfindingMenuController.coordinateScale));
 
-            c.setOnMouseClicked(event -> mepm.showEditNodePopup(n, event, false));
+            c.setOnMouseClicked(event -> {
+                if (mc.getStartNode() != null) {
+                    mc.setNewEdgeEnd(n.getNodeID());
+                    mepm.showAddEdgePopup(event);
+                } else mepm.showEditNodePopup(n, event, false);
+            });
 
             c.setId(n.getNodeID() + "IntIcon");
+
+            c.setOnMouseEntered(event -> {
+                if (isEditing) c.setStroke(Color.GREEN);
+            });
+            c.setOnMouseExited(event -> {
+                if (isEditing) c.setStroke(Color.BLACK);
+            });
 
             intermediateNodeHolder.getChildren().add(c);
             mc.getIntermediateNodePlaced().add(c);
@@ -252,9 +278,16 @@ public class MapDrawer implements PopableManager {
             l.setEndY(end.getYCoord() / PathfindingMenuController.coordinateScale);
 
             l.setOnMouseClicked(e -> {
-                if(isEditing) {
+                if (isEditing) {
                     mepm.showDelEdgePopup(start, end, mapStack);
                 }
+            });
+
+            l.setOnMouseEntered(event -> {
+                if (isEditing) l.setStroke(Color.RED);
+            });
+            l.setOnMouseExited(event -> {
+                if (isEditing) l.setStroke(Color.rgb(0, 103, 177));
             });
 
             l.setId(start.getNodeID() + "_" + end.getNodeID() + "Icon");

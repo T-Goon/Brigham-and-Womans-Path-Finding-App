@@ -3,7 +3,7 @@ package edu.wpi.teamB.entities.map.node;
 import edu.wpi.teamB.database.DatabaseHandler;
 import edu.wpi.teamB.entities.map.data.AddNodePopupData;
 import edu.wpi.teamB.entities.map.data.Node;
-import edu.wpi.teamB.util.Popup.Popable;
+import edu.wpi.teamB.util.Popup.Poppable;
 import edu.wpi.teamB.util.Popup.Popup;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Pane;
@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Objects;
 
-public class AddNodePopup extends Popup<VBox, AddNodePopupData> implements Popable {
+public class AddNodePopup extends Popup<VBox, AddNodePopupData> implements Poppable {
 
     public AddNodePopup(Pane parent, AddNodePopupData data) {
         super(parent, data);
@@ -22,7 +22,7 @@ public class AddNodePopup extends Popup<VBox, AddNodePopupData> implements Popab
     /**
      * Show this popup on the map
      */
-    public void show(){
+    public void show() {
         VBox popup = null;
 
         try {

@@ -2,10 +2,11 @@ package edu.wpi.teamB.entities.map;
 
 import edu.wpi.teamB.App;
 import edu.wpi.teamB.entities.map.data.*;
+import edu.wpi.teamB.entities.map.edge.AddEdgePopup;
 import edu.wpi.teamB.entities.map.edge.DelEdgePopup;
 import edu.wpi.teamB.entities.map.node.AddNodePopup;
 import edu.wpi.teamB.entities.map.node.NodeMenuPopup;
-import edu.wpi.teamB.util.Popup.PopableManager;
+import edu.wpi.teamB.util.Popup.PoppableManager;
 import edu.wpi.teamB.views.map.PathfindingMenuController;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -13,7 +14,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Circle;
 import net.kurobako.gesturefx.GesturePane;
 
-public class MapEditorPopupManager implements PopableManager {
+public class MapEditorPopupManager implements PoppableManager {
 
     private MapDrawer md;
     private MapCache mc;
@@ -22,8 +23,9 @@ public class MapEditorPopupManager implements PopableManager {
     private StackPane mapStack;
 
     private AddNodePopup anPopup;
+    private AddEdgePopup aePopup;
     private DelEdgePopup dePopup;
-    private  NodeMenuPopup nmPopup;
+    private NodeMenuPopup nmPopup;
 
     public MapEditorPopupManager(MapDrawer md, MapCache mc, GesturePane gPane, StackPane mapStack) {
         this.md = md;
@@ -61,9 +63,28 @@ public class MapEditorPopupManager implements PopableManager {
     }
 
     /**
+     * Show the popup to add a node
+     *
+     * @param event The mouse event that triggered the popup to be shown.
+     */
+    public void showAddEdgePopup(MouseEvent event) {
+        // Only one window open at a time
+        md.removeAllPopups();
+
+        AddEdgePopupData data = new AddEdgePopupData(mc, md);
+
+        aePopup = new AddEdgePopup(mapStack, data);
+
+        App.getPrimaryStage().setUserData(aePopup);
+
+        aePopup.show();
+    }
+
+    /**
      * Shows the popup to delete an edge.
+     *
      * @param start The start node of the edge.
-     * @param end The end node of the edge.
+     * @param end   The end node of the edge.
      */
     public void showDelEdgePopup(Node start, Node end, Pane parent) {
         // Make sure there is only one editNodePopup at one time
@@ -120,18 +141,23 @@ public class MapEditorPopupManager implements PopableManager {
     /**
      * Hide all popups
      */
-    public void removeAllPopups(){
-        if(anPopup != null){
+    public void removeAllPopups() {
+        if (anPopup != null) {
             anPopup.hide();
             anPopup = null;
         }
 
-        if(nmPopup != null){
+        if (aePopup != null) {
+            aePopup.hide();
+            aePopup = null;
+        }
+
+        if (nmPopup != null) {
             nmPopup.hide();
             nmPopup = null;
         }
 
-        if(dePopup != null){
+        if (dePopup != null) {
             dePopup.hide();
             dePopup = null;
         }

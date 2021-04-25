@@ -2,16 +2,15 @@ package edu.wpi.teamB.views.map.edgePopup;
 
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.teamB.App;
-import edu.wpi.teamB.entities.map.edge.DelEdgeAYSWindow;
+import edu.wpi.teamB.entities.map.edge.AddEdgePopup;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-public class DelEdgeAreYouSureController implements Initializable {
+public class AddEdgeAreYouSureController implements Initializable {
 
     @FXML
     private JFXButton btnYes;
@@ -19,23 +18,24 @@ public class DelEdgeAreYouSureController implements Initializable {
     @FXML
     private JFXButton btnNo;
 
-    private DelEdgeAYSWindow window;
+    private AddEdgePopup window;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        window = (DelEdgeAYSWindow) App.getPrimaryStage().getUserData();
+        window = (AddEdgePopup) App.getPrimaryStage().getUserData();
     }
 
     @FXML
-    private void handleButtonAction(ActionEvent event){
+    private void handleButtonAction(ActionEvent event) {
         JFXButton btn = (JFXButton) event.getSource();
 
         switch (btn.getId()) {
             case "btnYes":
-                window.deleteEdge();
+                window.addEdge();
                 break;
             case "btnNo":
-                window.hide();
+                window.reset();
+                window.getData().getMd().removeAllPopups();
                 break;
         }
     }

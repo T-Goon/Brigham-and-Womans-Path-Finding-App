@@ -88,10 +88,9 @@ public class ExternalTransportationRequestFormController extends DefaultServiceR
         validateButton();
     }
 
-    public void handleButtonAction(ActionEvent actionEvent) {
-        super.handleButtonAction(actionEvent);
-
-        JFXButton btn = (JFXButton) actionEvent.getSource();
+    public void handleButtonAction(ActionEvent e) {
+        super.handleButtonAction(e);
+        JFXButton btn = (JFXButton) e.getSource();
         if (btn.getId().equals("btnSubmit")) {
             String givenPatientName = name.getText();
             String givenTransportType = comboTranspType.getValue().getText();
@@ -106,23 +105,22 @@ public class ExternalTransportationRequestFormController extends DefaultServiceR
             Date dateInfo = new Date();
 
             String requestID;
-            if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml")) {
+            if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml"))
                 requestID = this.id;
-            } else {
-                requestID = UUID.randomUUID().toString();
-            }
+            else requestID = UUID.randomUUID().toString();
 
             String time = timeFormat.format(dateInfo); // Stored as HH:MM (24 hour time)
             String date = dateFormat.format(dateInfo); // Stored as YYYY-MM-DD
             String complete = "F";
             String givenDescription = description.getText();
 
+            DatabaseHandler db = DatabaseHandler.getDatabaseHandler("main.db");
             String employeeName;
             if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml")) {
                 try {
-                    employeeName = DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(this.id, Request.RequestType.EXTERNAL_TRANSPORT).getEmployeeName();
-                } catch (SQLException e) {
-                    e.printStackTrace();
+                    employeeName = db.getSpecificRequestById(this.id, Request.RequestType.EXTERNAL_TRANSPORT).getEmployeeName();
+                } catch (SQLException err) {
+                    err.printStackTrace();
                     return;
                 }
             } else {
@@ -134,10 +132,10 @@ public class ExternalTransportationRequestFormController extends DefaultServiceR
 
             try {
                 if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml"))
-                    DatabaseHandler.getDatabaseHandler("main.db").updateRequest(request);
-                else DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
-            } catch (SQLException e) {
-                e.printStackTrace();
+                    db.updateRequest(request);
+                else db.addRequest(request);
+            } catch (SQLException err) {
+                err.printStackTrace();
             }
         }
     }

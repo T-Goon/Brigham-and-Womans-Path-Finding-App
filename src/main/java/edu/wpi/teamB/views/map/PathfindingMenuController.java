@@ -19,8 +19,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TreeItem;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
@@ -38,7 +39,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class PathfindingMenuController implements Initializable {
 
@@ -85,6 +87,12 @@ public class PathfindingMenuController implements Initializable {
     private JFXButton btnSave;
 
     @FXML
+    private JFXTextField txtSearch;
+
+    @FXML
+    private JFXButton btnSearch;
+
+    @FXML
     private JFXTreeView<String> treeLocations;
 
     @FXML
@@ -102,12 +110,10 @@ public class PathfindingMenuController implements Initializable {
 
     private final DatabaseHandler db = DatabaseHandler.getDatabaseHandler("main.db");
 
-    private TreeItem<String> selectedLocation;
-
     final FileChooser fileChooser = new FileChooser();
     final DirectoryChooser directoryChooser = new DirectoryChooser();
 
-    private final MapCache mc = new MapCache();;
+    private final MapCache mc = new MapCache();
     private MapDrawer md;
     private MapEditorPopupManager mepm;
     private MapPathPopupManager mppm;
@@ -155,21 +161,33 @@ public class PathfindingMenuController implements Initializable {
             SceneSwitcher.popLastScene();
         }
 
+        //test if we came from a not failed covid survey
+        if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/covidSurvey/covidFormSubmittedNoSymp.fxml")) {
+            txtEndLocation.setText("75 Francis Lobby Entrance");
+            SceneSwitcher.popLastScene();
+        }
+
         initMapForEditing();
 
         // Set up Load and Save buttons
-        btnLoad.setOnAction( event -> loadCSV());
+        btnLoad.setOnAction(event -> loadCSV());
 
-        btnSave.setOnAction( event -> saveCSV());
+        btnSave.setOnAction(event -> saveCSV());
 
         // Disable editing if the user is not an admin
         checkPermissions();
+
+        // Makes sure no illegal characters can't be written in the field
+        txtSearch.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches(" a-zA-Z0-9\\-"))
+                txtSearch.setText(newValue.replaceAll("[^ a-zA-Z0-9\\-]", ""));
+        });
     }
 
     /**
      * Loads node and edges data from csv
      */
-    private void loadCSV(){
+    private void loadCSV() {
         // Get the nodes CSV file and load it
         Stage stage = App.getPrimaryStage();
         fileChooser.setTitle("Select Nodes CSV file:");
@@ -203,7 +221,7 @@ public class PathfindingMenuController implements Initializable {
     /**
      * Saves node and edges data to a csv
      */
-    private void saveCSV(){
+    private void saveCSV() {
         // Get the CSV directory location
         Stage stage = App.getPrimaryStage();
         directoryChooser.setTitle("Select directory to save CSV files to:");
@@ -236,7 +254,7 @@ public class PathfindingMenuController implements Initializable {
         TreeItem<String> selectedItem = treeLocations.getSelectionModel().getSelectedItem();
         if (selectedItem == null) return;
 
-        if (!selectedItem.equals(selectedLocation) && selectedItem.isLeaf()) {
+        if (selectedItem.isLeaf()) {
             //Selected item is a valid location
 
             //For now only work on nodes that are on the first floor until multi-floor pathfinding is added
@@ -255,7 +273,6 @@ public class PathfindingMenuController implements Initializable {
             }
         }
 
-        selectedLocation = selectedItem;
         validateFindPathButton();
     }
 
@@ -284,15 +301,11 @@ public class PathfindingMenuController implements Initializable {
                 break;
             case "btnEditMap":
 
-//                ImageView graphic = (ImageView) btnEditMap.getChildrenUnmodifiable().get(0);
-
                 md.removeAllPopups();
                 mppm.removeETAPopup();
-                //                    graphic.setImage(new Image("edu/wpi/teamB/images/menus/directionsIcon.png"));
-                //                    graphic.setImage(new Image("edu/wpi/teamB/images/menus/wrench.png"));
+
                 md.setEditing(!md.isEditing());
 
-                selectedLocation = null;
                 md.drawAllElements();
                 break;
             case "btnBack":
@@ -306,6 +319,8 @@ public class PathfindingMenuController implements Initializable {
                 break;
             case "btnHelp":
                 loadHelpDialog();
+            case "btnSearch":
+                handleItemSearched();
                 break;
         }
     }
@@ -313,7 +328,7 @@ public class PathfindingMenuController implements Initializable {
     /**
      * Populates the tree view with nodes and categories
      */
-    private void populateTreeView(){
+    private void populateTreeView() {
         //Populating TreeView
         TreeItem<String> rootNode = new TreeItem<>("Locations");
         rootNode.setExpanded(true);
@@ -351,15 +366,15 @@ public class PathfindingMenuController implements Initializable {
     /**
      * Shows the help dialog box.
      */
-    private void loadHelpDialog(){
+    private void loadHelpDialog() {
         JFXDialogLayout helpLayout = new JFXDialogLayout();
 
         Text helpText;
-        if(!md.isEditing()){
+        if (!md.isEditing())
             helpText = new Text("Enter your start and end location graphically or using our menu selector. To use the graphical selection,\nsimply click on the node and click on the set button. To enter a location using the menu. Click on the appropriate\ndrop down and choose your location. The node you selected will show up on your map where you can either\nset it to your start or end location. Once both the start and end nodes are filled in you can press \"Go\" to generate your path");
-        } else{
-            helpText = new Text("Double click to add a node. Click on a node or an edge to edit or remove them. To add a new edge click on\none of the nodes, then add edge, and then start node. Go to the next node in the edge then, add edge, end node,\nand finally add node.");
-        }
+        else
+            helpText = new Text("Double click to add a node. Click on a node or an edge to edit or remove them. To add a new edge click on\none of the nodes, then \"Add Edge\". Click on another node and click \"Yes\" to add the new edge or \"No\" to cancel it.");
+
         helpText.setFont(new Font("MS Reference Sans Serif", 14));
 
         Label headerLabel = new Label("Help");
@@ -374,5 +389,47 @@ public class PathfindingMenuController implements Initializable {
         helpLayout.setActions(button);
 
         helpWindow.show();
+    }
+
+    @FXML
+    private void handleKeysPressedSearchBar(KeyEvent e) {
+        String regex = "[ a-zA-Z0-9\\-]+";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(e.getText());
+        if (matcher.matches()) handleItemSearched();
+
+        // Check for backspace
+        if (e.getCode() == KeyCode.BACK_SPACE) {
+            handleItemSearched();
+            if (txtSearch.getText().isEmpty() || txtSearch.getText().length() == 1) populateTreeView();
+        }
+    }
+
+    /**
+     * Shows only the nodes similar to what is being searched for
+     */
+    @FXML
+    private void handleItemSearched() {
+        //when an item is searched for, have only objects with that phrase populate the treeview
+        String searchBar = txtSearch.getText();
+        //Populating TreeView
+        TreeItem<String> newRoot = new TreeItem<>("Locations");
+        newRoot.setExpanded(true);
+        treeLocations.setRoot(newRoot);
+
+        //Adding the nodes
+        for (String category : mc.getCatNameMap().keySet()) {
+            TreeItem<String> categoryTreeItem = new TreeItem<>(categoryNameMap.get(category));
+            categoryTreeItem.getChildren().addAll(mc.getCatNameMap().get(category));
+            List<TreeItem<String>> treeItems = categoryTreeItem.getChildren();
+            for (TreeItem<String> c : treeItems) {
+                if (c.getValue().toLowerCase().contains(searchBar.toLowerCase())) {
+                    newRoot.getChildren().add(c);
+                }
+            }
+        }
+
+        // If nothing is found, say "None"
+        if (newRoot.getChildren().isEmpty()) newRoot.setValue("Not found!");
     }
 }
