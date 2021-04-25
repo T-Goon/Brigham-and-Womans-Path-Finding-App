@@ -300,6 +300,5 @@ public class RequestMutator implements IDatabaseEntityMutator<Request> {
                 break;
         }
         db.runStatement(query, false);
-        System.out.println();
     }
 }

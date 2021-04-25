@@ -347,7 +347,6 @@ public class DatabaseHandler {
         try {
             String query = "SELECT * FROM Nodes WHERE nodeID = '" + ID + "'";
             ResultSet set = runStatement(query, true);
-            set.next();
             Node n = new Node(
                     set.getString("nodeID").trim(),
                     set.getInt("xcoord"),
@@ -392,6 +391,7 @@ public class DatabaseHandler {
 
             query = "SELECT * FROM Users WHERE (username = '" + username + "')";
             rs = runStatement(query, true);
+            if (rs == null) return null;
             User outUser = new User(
                     rs.getString("username"),
                     rs.getString("firstName"),
