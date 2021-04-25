@@ -2,6 +2,7 @@ package edu.wpi.cs3733.D21.teamB.database;
 
 import edu.wpi.cs3733.D21.teamB.entities.IStoredEntity;
 import edu.wpi.cs3733.D21.teamB.entities.User;
+import edu.wpi.cs3733.D21.teamB.entities.map.data.Node;
 import edu.wpi.cs3733.D21.teamB.entities.requests.Request;
 import lombok.AllArgsConstructor;
 
@@ -199,6 +200,41 @@ public class UserMutator implements IDatabaseEntityMutator<UserMutator.UserPassw
             DatabaseHandler.AuthenticationUser = new User(null, null, null, User.AuthenticationLevel.GUEST, null);
             return true;
         } else return false;
+    }
+
+    public void addFavoriteToUser(String favoriteLocation) throws SQLException {
+        User user = db.getAuthenticationUser();
+        String username = user.getUsername();
+
+        String query = "INSERT INTO FavoriteLocations VALUES " +
+                "('" + username
+                + "', '" + favoriteLocation
+                + "')";
+        db.runStatement(query, false);
+    }
+
+    public void removeFavoriteFromUser(String favoriteLocation) throws SQLException {
+        User user = db.getAuthenticationUser();
+        String username = user.getUsername();
+
+        String query = "DELETE FROM FavoriteLocations WHERE username = '" + username + "' AND favoriteLocation = '" + favoriteLocation + "'";
+        db.runStatement(query, false);
+
+    }
+
+    public List<String> getFavoritesForUser() throws SQLException {
+        User user = db.getAuthenticationUser();
+        String username = user.getUsername();
+
+        String query = "SELECT * FROM FavoriteLocations WHERE username = '" + username + "'";
+        ResultSet rs = db.runStatement(query, true);
+        ArrayList<String> favorites = new ArrayList<>();
+        if (rs == null) return favorites;
+        do {
+            favorites.add(rs.getString("favoriteLocation"));
+        } while (rs.next());
+
+        return favorites;
     }
 
     @AllArgsConstructor
