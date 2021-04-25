@@ -383,11 +383,12 @@ public class DatabaseHandler {
             String query = "SELECT job FROM Jobs WHERE (username = '" + username + "')";
             List<Request.RequestType> jobs = new ArrayList<>();
             ResultSet rs = runStatement(query, true);
-            if (rs == null) return null;
-            do {
-                jobs.add(Request.RequestType.valueOf(rs.getString("job")));
-            } while (rs.next());
-            rs.close();
+            if (rs != null) {
+                do {
+                    jobs.add(Request.RequestType.valueOf(rs.getString("job")));
+                } while (rs.next());
+                rs.close();
+            }
 
             query = "SELECT * FROM Users WHERE (username = '" + username + "')";
             rs = runStatement(query, true);
@@ -486,6 +487,7 @@ public class DatabaseHandler {
             this.deauthenticate();
             String query = "SELECT passwordHash FROM Users WHERE (username = '" + username + "')";
             ResultSet rs = runStatement(query, true);
+            if (rs == null) return null;
             String storedHash = (rs.getString("passwordHash"));
             rs.close();
 
