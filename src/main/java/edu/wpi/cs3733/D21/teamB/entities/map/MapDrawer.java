@@ -5,10 +5,7 @@ import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Edge;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Node;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Path;
-import edu.wpi.cs3733.D21.teamB.pathfinding.AStar;
-import edu.wpi.cs3733.D21.teamB.pathfinding.BFS;
-import edu.wpi.cs3733.D21.teamB.pathfinding.DFS;
-import edu.wpi.cs3733.D21.teamB.pathfinding.Graph;
+import edu.wpi.cs3733.D21.teamB.pathfinding.*;
 import edu.wpi.cs3733.D21.teamB.util.Popup.PoppableManager;
 import edu.wpi.cs3733.D21.teamB.views.map.PathfindingMenuController;
 import javafx.fxml.FXMLLoader;
@@ -76,19 +73,21 @@ public class MapDrawer implements PoppableManager {
         Map<String, Node> nodesId = Graph.getGraph().getNodes();
         Map<String, String> hmLongName = mc.makeLongToIDMap();
 
-
-        Path path = null;
+        Pathfinder pathfinder;
         switch (pfmc.getComboPathingType().getSelectionModel().getSelectedItem()) {
             case "A*":
-                path = AStar.findPath(hmLongName.get(start), hmLongName.get(end));
+                pathfinder = new AStar();
                 break;
             case "DFS":
-                path = DFS.findPath(hmLongName.get(start), hmLongName.get(end));
+                pathfinder = new DFS();
                 break;
             case "BFS":
-                path = BFS.findPath(hmLongName.get(start), hmLongName.get(end));
+                pathfinder = new BFS();
                 break;
+            default:
+                throw new IllegalStateException("Extra option in combo box?");
         }
+        Path path = pathfinder.findPath(hmLongName.get(start), hmLongName.get(end));
 
         assert path != null;
         List<String> nodePath = path.getPath();

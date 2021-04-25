@@ -8,7 +8,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
 
-public class DFS {
+public class DFS implements Pathfinder {
 
     /**
      * Finds the path between multiple nodes by using DFS
@@ -16,7 +16,7 @@ public class DFS {
      * @param nodes a Stack of the destination nodes in order. (Start, dest1, dest2, ...)
      * @return A Path with the full and complete path through the destinations
      */
-    public static Path findPath(Stack<String> nodes) {
+    public Path findPath(Stack<String> nodes) {
         // todo implement later
         return null;
     }
@@ -28,7 +28,7 @@ public class DFS {
      * @param end   the ending NodeID
      * @return a stack of the path of nodeIDs from start to end
      */
-    public static Path findPath(String start, String end) {
+    public Path findPath(String start, String end) {
         Graph graph = Graph.getGraph();
         List<String> path = dfsHelper(start, end, new ArrayList<>(), graph);
         double cost = graph.calculateCost(path);

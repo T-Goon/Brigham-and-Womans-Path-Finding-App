@@ -6,7 +6,7 @@ import edu.wpi.cs3733.D21.teamB.entities.map.data.Path;
 
 import java.util.*;
 
-public class AStar {
+public class AStar implements Pathfinder {
 
     /**
      * Finds the path between multiple nodes by using AStar
@@ -14,7 +14,7 @@ public class AStar {
      * @param nodes a Stack of the destination nodes in order. (Start, dest1, dest2, ...)
      * @return A Path with the full and complete path through the destinations
      */
-    public static Path findPath(Stack<String> nodes) {
+    public Path findPath(Stack<String> nodes) {
         Path retPath = new Path();
         while (nodes.size() > 1) {
             //Get the path for this segment of the total path
@@ -51,7 +51,7 @@ public class AStar {
      * @param endID   nodeID of the ending node
      * @return LinkedList of nodeIDs which dictates the order of nodes in the path
      */
-    public static Path findPath(String startID, String endID) {
+    public Path findPath(String startID, String endID) {
 
         Graph graph = Graph.getGraph();
         Node startNode = graph.getNodes().get(startID);
@@ -132,7 +132,7 @@ public class AStar {
      * @return The shortest path from the starting node to any of the nodes in the destinations list
      * to it
      */
-    public static Path shortestPathToNodeInList(String startID, List<Node> destinations) {
+    public Path shortestPathToNodeInList(String startID, List<Node> destinations) {
 
         double min = Double.MAX_VALUE;
         Path shortestPath = new Path();

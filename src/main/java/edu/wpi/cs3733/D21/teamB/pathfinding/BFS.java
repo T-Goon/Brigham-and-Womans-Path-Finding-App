@@ -5,7 +5,7 @@ import edu.wpi.cs3733.D21.teamB.entities.map.data.Path;
 
 import java.util.*;
 
-public class BFS {
+public class BFS implements Pathfinder {
 
     /**
      * Finds the path between multiple nodes by using DFS
@@ -13,7 +13,7 @@ public class BFS {
      * @param nodes a Stack of the destination nodes in order. (Start, dest1, dest2, ...)
      * @return A Path with the full and complete path through the destinations
      */
-    public static Path findPath(Stack<String> nodes) {
+    public Path findPath(Stack<String> nodes) {
         // todo implement later
         return null;
     }
@@ -25,7 +25,7 @@ public class BFS {
      * @param end   the ending NodeID
      * @return a stack of the path of nodeIDs from start to end
      */
-    public static Path findPath(String start, String end) {
+    public Path findPath(String start, String end) {
         Graph graph = Graph.getGraph();
         List<String> path = dfsHelper(start, end, new ArrayList<>(), graph);
         double cost = graph.calculateCost(path);
@@ -40,7 +40,7 @@ public class BFS {
      * @param visited list of nodeIDs already visited
      * @return a stack of the path of nodeIDs from start to end
      */
-    public static List<String> dfsHelper(String start, String end, List<String> visited, Graph graph) {
+    public List<String> dfsHelper(String start, String end, List<String> visited, Graph graph) {
         visited.add(start);
 
         // If the start equals the end, this is the recursive base case
