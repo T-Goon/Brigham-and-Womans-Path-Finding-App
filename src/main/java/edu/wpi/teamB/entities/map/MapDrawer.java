@@ -205,6 +205,13 @@ public class MapDrawer implements PoppableManager {
 
             c.setOnMouseClicked((MouseEvent e) -> mepm.showEditNodePopup(n, e, false));
 
+            c.setOnMouseEntered(event -> {
+                if (isEditing) c.setStroke(Color.GREEN);
+            });
+            c.setOnMouseExited(event -> {
+                if (isEditing) c.setStroke(Color.BLACK);
+            });
+
             nodeHolder.getChildren().add(c);
             mc.getNodePlaced().add(c);
 
@@ -228,6 +235,13 @@ public class MapDrawer implements PoppableManager {
             c.setOnMouseClicked(event -> mepm.showEditNodePopup(n, event, false));
 
             c.setId(n.getNodeID() + "IntIcon");
+
+            c.setOnMouseEntered(event -> {
+                if (isEditing) c.setStroke(Color.GREEN);
+            });
+            c.setOnMouseExited(event -> {
+                if (isEditing) c.setStroke(Color.rgb(1, 45, 90));
+            });
 
             intermediateNodeHolder.getChildren().add(c);
             mc.getIntermediateNodePlaced().add(c);
