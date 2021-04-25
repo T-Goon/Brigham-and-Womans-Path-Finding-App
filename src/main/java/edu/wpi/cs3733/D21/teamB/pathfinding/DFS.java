@@ -1,11 +1,14 @@
-package edu.wpi.teamB.pathfinding;
+package edu.wpi.cs3733.D21.teamB.pathfinding;
 
-import edu.wpi.teamB.entities.map.data.Node;
-import edu.wpi.teamB.entities.map.data.Path;
+import edu.wpi.cs3733.D21.teamB.entities.map.data.Node;
+import edu.wpi.cs3733.D21.teamB.entities.map.data.Path;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Stack;
 
-public class BFS {
+public class DFS {
 
     /**
      * Finds the path between multiple nodes by using DFS
@@ -50,7 +53,7 @@ public class BFS {
 
         // Otherwise, run dfs on all the neighbors
         List<String> result;
-        Queue<String> queue = new LinkedList<>();
+        Stack<String> stack = new Stack<>();
         for (Node neighbor : graph.getAdjNodesById(start)) {
             result = new ArrayList<>();
 
@@ -59,13 +62,15 @@ public class BFS {
                 // Recursively see if it is part of path
                 result.addAll(dfsHelper(neighbor.getNodeID(), end, visited, graph));
                 if (!result.isEmpty()) {
-                    queue.add(start);
-                    queue.addAll(result);
+                    stack.push(start);
+                    for (String s : result) {
+                        stack.push(s);
+                    }
                     break;
                 }
             }
         }
 
-        return (List<String>) queue;
+        return stack;
     }
 }
