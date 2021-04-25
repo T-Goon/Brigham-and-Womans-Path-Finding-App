@@ -22,13 +22,13 @@ public class Directions {
         Coord firstTriangle = new Coord(currC.getX(), prevC.getY());
 
         double aLen = prevC.getX() - firstTriangle.getX();
-        double bLen = currC.getY()-firstTriangle.getY();
-        double firstAngle = java.lang.Math.atan(bLen / aLen)* (180/Math.PI);
+        double bLen = currC.getY() - firstTriangle.getY();
+        double firstAngle = java.lang.Math.atan(bLen / aLen) * (180 / Math.PI);
 
-        Coord secondTriangle = new Coord(nextC.getX(),currC.getY());
+        Coord secondTriangle = new Coord(nextC.getX(), currC.getY());
         double aLen1 = currC.getX() - secondTriangle.getX();
-        double bLen1 = nextC.getY()-secondTriangle.getY();
-        double secondAngle = 180 - java.lang.Math.atan(bLen1 / aLen1) * (180/Math.PI);
+        double bLen1 = nextC.getY() - secondTriangle.getY();
+        double secondAngle = 180 - java.lang.Math.atan(bLen1 / aLen1) * (180 / Math.PI);
 
         return secondAngle + firstAngle;
     }
@@ -41,26 +41,23 @@ public class Directions {
 
         List<String> pathID = path.getPath();
         List<String> pathIDCopy = new ArrayList<>(pathID);
-        Path retPath = new Path();
-
         Graph graph = Graph.getGraph();
 
         Node prevNode = null;
         Node currNode = null;
 
-        for(String nextNodeID : pathID){
+        for (String nextNodeID : pathID) {
 
             Node nextNode = graph.getNodes().get(nextNodeID);
 
-            if(prevNode != null){
-                if((angleBetweenEdges(prevNode, currNode, nextNode) >= 150) && (angleBetweenEdges(prevNode, currNode, nextNode) <= 210)){
+            if (prevNode != null) {
+                if ((angleBetweenEdges(prevNode, currNode, nextNode) >= 150) && (angleBetweenEdges(prevNode, currNode, nextNode) <= 210)) {
                     pathIDCopy.remove(currNode.getNodeID());
                 }
             }
             prevNode = currNode;
             currNode = nextNode;
         }
-
 
         return pathIDCopy;
     }
@@ -69,71 +66,64 @@ public class Directions {
      * @param path pass in path we want to create instructions for
      * @return String instructions for that path
      */
-    private List<String> inst(Path path) {
+    public static List<String> inst(Path path) {
         List<String> simplePath = simplifyPath(path);
+
+        String idEnd = simplePath.get(simplePath.size()-1);
         Graph graph = Graph.getGraph();
+
+        String endloc = graph.getNodes().get(idEnd).getLongName();
+
         List<String> directions = new ArrayList<>();
-        double FT_CONST = 500/1635.02;
+        directions.add("Starting route to " + endloc);
+
+        double FT_CONST = 5000/1635;
 
         Node prev = null;
         Node curr = null;
-        double turn;
 
-        for(String id : simplePath){
+        double distance;
+        String dir = "";
+        for (String id : simplePath) {
             Node next = graph.getNodes().get(id);
 
-            if(prev != null){
-                //get turn then get the dist between c and next turn blah and walk dist
+            if (curr != null && prev == null) {
+                Coord currCoord = new Coord(curr.getXCoord(), curr.getYCoord());
+                Coord nextCoord = new Coord(next.getXCoord(), next.getYCoord());
+                distance = dist(currCoord, nextCoord)*FT_CONST;
+                //starting directions get the distance between the current and next and convert to feet
+                dir += "Walk " + (int)distance + " feet towards " + next.getLongName();
+                directions.add(dir);
             }
 
-            else if(curr != null){
-                //starting directions get the distance between the current and next and convert to feet
+            if(prev != null) {
+                dir = "";
+                Coord currCoord = new Coord(curr.getXCoord(), curr.getYCoord());
+                Coord nextCoord = new Coord(next.getXCoord(), next.getYCoord());
+                distance = dist(currCoord, nextCoord)*FT_CONST;
+                //get turn then get the dist between c and next turn blah and walk dist
+
+                double turn = angleBetweenEdges(prev, curr, next);
+
+                if (turn < 150 && turn >= 80) {
+                    //take a right
+                    dir += "Take a right and walk " + (int)distance + " feet towards " + next.getLongName();
+                } else if (turn > 0 && turn < 80) {
+                    //sharp right
+                    dir += "Take a sharp right and walk " + (int)distance + " feet towards " + next.getLongName();
+                } else if (turn >= 210 && turn <= 280) {
+                    dir += "Take a left and walk " + (int)distance + " feet towards " + next.getLongName();
+                } else{// if (turn == 0 || (turn > 280 && turn <= 360)) {
+                    dir += "Take a sharp left and walk " + (int)distance + " feet towards " + next.getLongName();
+                }
+                directions.add(dir);
             }
 
             prev = curr;
             curr = next;
         }
         //add that you have reached your destination
-
-        return null;
+        directions.add("You have reached your destination");
+        return directions;
     }
-
-    /**
-     *   if(curr != null){
-     *                 String s = "";
-     *                 Coord prevCoord = new Coord(curr.getXCoord(), curr.getYCoord());
-     *                 Coord currCoord = new Coord(next.getXCoord(), curr.getYCoord());
-     *                 double feet = dist(prevCoord, currCoord)*FT_CONST;
-     *
-     *                 if(prev != null){
-     *                     turn = angleBetweenEdges(prev, curr, next);
-     *
-     *                     if(turn<150 && turn>=80){
-     *                         //take a right
-     *                         s += "take a right and walk " ;
-     *                     }
-     *                     else if(turn>0 && turn<80){
-     *                         //sharp right
-     *                     }
-     *                     else if(turn>=210 && turn<=280){
-     *                         //take a left
-     *                     }
-     *                     else if(turn==0 || (turn>280 && turn<=360)){
-     *                         //sharp left
-     *                     }
-     *                     else{
-     *                         //straight (I don't even think I would get here lol)
-     *                     }
-     *                     //turn blah and walk feet feet to long name
-     *                 }
-     *                 else{
-     *                     s+="Starting route head straight for " + dist(prevCoord, currCoord);
-     *                     //head straight feet feet to long name
-     *                 }
-     *
-     *             }
-     */
-
-
-
 }

@@ -275,13 +275,13 @@ public class PathfindingTests {
     }
 
     @Test
-    public void testSimpleGraph(){
+    public void testSimplePath(){
         Path path = AStar.findPath("FDEPT00101","FSERV00201");
         List<String> idExpected = new ArrayList<>();
-        idExpected.add("FDEPT00101");
-        idExpected.add("FHALL01301");
-        idExpected.add("FHALL01401");
-        idExpected.add("FSERV00201");
+        idExpected.add("FDEPT00101"); //1617,825
+        idExpected.add("FHALL01301"); //1627,825
+        idExpected.add("FHALL01401"); //1627,1029
+        idExpected.add("FSERV00201"); //1605,1029
 
         Path pathCheck = new Path();
         pathCheck.setPath(idExpected);
@@ -292,7 +292,6 @@ public class PathfindingTests {
         Path path1 = AStar.findPath("FINFO00101","WELEV00L01");
         List<String> idExpected1 = new ArrayList<>();
         idExpected1.add("FINFO00101");
-
         idExpected1.add("FHALL02901");
         idExpected1.add("FHALL02201");
         idExpected1.add("FHALL00701");
@@ -303,6 +302,17 @@ public class PathfindingTests {
         pathCheck1.setTotalPathCost(path1.getTotalPathCost());
         List<String> simplePath1 = Directions.simplifyPath(pathCheck1);
         assertEquals(idExpected1, simplePath1);
+    }
+
+    @Test
+    public void testTextDir(){
+        Path path = AStar.findPath("FDEPT00101","FSERV00201");
+        List<String> instructions = Directions.inst(path);
+
+        for(String inst : instructions){
+            System.out.println(inst);
+        }
+
     }
 
 }
