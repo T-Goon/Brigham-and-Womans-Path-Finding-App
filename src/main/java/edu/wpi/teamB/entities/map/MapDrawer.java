@@ -240,7 +240,7 @@ public class MapDrawer implements PoppableManager {
                 if (isEditing) c.setStroke(Color.GREEN);
             });
             c.setOnMouseExited(event -> {
-                if (isEditing) c.setStroke(Color.rgb(1, 45, 90));
+                if (isEditing) c.setStroke(Color.BLACK);
             });
 
             intermediateNodeHolder.getChildren().add(c);
