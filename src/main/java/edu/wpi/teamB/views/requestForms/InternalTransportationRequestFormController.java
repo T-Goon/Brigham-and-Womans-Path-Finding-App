@@ -12,6 +12,7 @@ import javafx.scene.control.Label;
 import javafx.fxml.Initializable;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -47,16 +48,26 @@ public class InternalTransportationRequestFormController extends DefaultServiceR
 
         if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml")) {
             this.id = (String) App.getPrimaryStage().getUserData();
-            InternalTransportRequest internalTransportRequest = (InternalTransportRequest) DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(id, Request.RequestType.INTERNAL_TRANSPORT);
+            InternalTransportRequest internalTransportRequest;
+            try {
+                internalTransportRequest = (InternalTransportRequest) DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(id, Request.RequestType.INTERNAL_TRANSPORT);
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return;
+            }
             name.setText(internalTransportRequest.getPatientName());
             getLocationIndex(internalTransportRequest.getLocation());
             int index = -1;
-            if (internalTransportRequest.getTransportType().equals("Wheelchair")) {
-                index = 0;
-            } else if (internalTransportRequest.getTransportType().equals("Stretcher")) {
-                index = 1;
-            } else if (internalTransportRequest.getTransportType().equals("Gurney")) {
-                index = 2;
+            switch (internalTransportRequest.getTransportType()) {
+                case "Wheelchair":
+                    index = 0;
+                    break;
+                case "Stretcher":
+                    index = 1;
+                    break;
+                case "Gurney":
+                    index = 2;
+                    break;
             }
             comboTranspType.getSelectionModel().select(index);
             description.setText(internalTransportRequest.getDescription());
@@ -66,10 +77,10 @@ public class InternalTransportationRequestFormController extends DefaultServiceR
         validateButton();
     }
 
-    public void handleButtonAction(ActionEvent actionEvent) {
-        super.handleButtonAction(actionEvent);
+    public void handleButtonAction(ActionEvent e) {
+        super.handleButtonAction(e);
 
-        JFXButton btn = (JFXButton) actionEvent.getSource();
+        JFXButton btn = (JFXButton) e.getSource();
         if (btn.getId().equals("btnSubmit")) {
             String givenPatientName = name.getText();
             String givenTransportType = comboTranspType.getValue().getText();
@@ -94,7 +105,12 @@ public class InternalTransportationRequestFormController extends DefaultServiceR
 
             String employeeName;
             if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml")) {
-                employeeName = DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(this.id, Request.RequestType.INTERNAL_TRANSPORT).getEmployeeName();
+                try {
+                    employeeName = DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(this.id, Request.RequestType.INTERNAL_TRANSPORT).getEmployeeName();
+                } catch (SQLException err) {
+                    err.printStackTrace();
+                    return;
+                }
             } else {
                 employeeName = null;
             }
@@ -102,10 +118,14 @@ public class InternalTransportationRequestFormController extends DefaultServiceR
             InternalTransportRequest request = new InternalTransportRequest(givenPatientName, givenTransportType, givenUnconscious, givenInfectious,
                     requestID, time, date, complete, employeeName, getLocation(), givenDescription);
 
-            if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml")) {
-                DatabaseHandler.getDatabaseHandler("main.db").updateRequest(request);
-            } else {
-                DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
+            try {
+                if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml")) {
+                    DatabaseHandler.getDatabaseHandler("main.db").updateRequest(request);
+                } else {
+                    DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
+                }
+            } catch (SQLException err) {
+                err.printStackTrace();
             }
         }
     }

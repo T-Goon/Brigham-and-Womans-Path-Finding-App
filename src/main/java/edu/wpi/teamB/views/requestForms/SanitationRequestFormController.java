@@ -12,6 +12,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -55,24 +56,38 @@ public class SanitationRequestFormController extends DefaultServiceRequestFormCo
 
         if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml")) {
             this.id = (String) App.getPrimaryStage().getUserData();
-            SanitationRequest sanitationRequest = (SanitationRequest) DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(id, Request.RequestType.SANITATION);
+            SanitationRequest sanitationRequest = null;
+            try {
+                sanitationRequest = (SanitationRequest) DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(id, Request.RequestType.SANITATION);
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return;
+            }
             getLocationIndex(sanitationRequest.getLocation());
             int indexType = -1;
-            if (sanitationRequest.getSanitationType().equals("Wet")) {
-                indexType = 0;
-            } else if (sanitationRequest.getSanitationType().equals("Dry")) {
-                indexType = 1;
-            } else if (sanitationRequest.getSanitationType().equals("Glass")) {
-                indexType = 2;
+            switch (sanitationRequest.getSanitationType()) {
+                case "Wet":
+                    indexType = 0;
+                    break;
+                case "Dry":
+                    indexType = 1;
+                    break;
+                case "Glass":
+                    indexType = 2;
+                    break;
             }
             comboTypeService.getSelectionModel().select(indexType);
             int indexSize = -1;
-            if (sanitationRequest.getSanitationSize().equals("Small")) {
-                indexSize = 0;
-            } else if (sanitationRequest.getSanitationSize().equals("Medium")) {
-                indexSize = 1;
-            } else if (sanitationRequest.getSanitationSize().equals("Large")) {
-                indexSize = 2;
+            switch (sanitationRequest.getSanitationSize()) {
+                case "Small":
+                    indexSize = 0;
+                    break;
+                case "Medium":
+                    indexSize = 1;
+                    break;
+                case "Large":
+                    indexSize = 2;
+                    break;
             }
             comboSizeService.getSelectionModel().select(indexSize);
             description.setText(sanitationRequest.getDescription());
@@ -84,17 +99,17 @@ public class SanitationRequestFormController extends DefaultServiceRequestFormCo
     }
 
     @FXML
-    private void validateButton(){
+    private void validateButton() {
         btnSubmit.setDisable(
                 loc.getValue() == null || comboTypeService.getValue() == null || comboSizeService.getValue() == null ||
-            description.getText().isEmpty()
+                        description.getText().isEmpty()
         );
     }
 
-    public void handleButtonAction(ActionEvent actionEvent) {
-        super.handleButtonAction(actionEvent);
+    public void handleButtonAction(ActionEvent e) {
+        super.handleButtonAction(e);
 
-        JFXButton btn = (JFXButton) actionEvent.getSource();
+        JFXButton btn = (JFXButton) e.getSource();
         if (btn.getId().equals("btnSubmit")) {
             String givenSanitationType = comboTypeService.getValue().getText();
             String givenSanitationSize = comboSizeService.getValue().getText();
@@ -120,7 +135,12 @@ public class SanitationRequestFormController extends DefaultServiceRequestFormCo
 
             String employeeName;
             if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml")) {
-                employeeName = DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(this.id, Request.RequestType.SANITATION).getEmployeeName();
+                try {
+                    employeeName = DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(this.id, Request.RequestType.SANITATION).getEmployeeName();
+                } catch (SQLException err) {
+                    err.printStackTrace();
+                    return;
+                }
             } else {
                 employeeName = null;
             }
@@ -128,10 +148,14 @@ public class SanitationRequestFormController extends DefaultServiceRequestFormCo
             SanitationRequest request = new SanitationRequest(givenSanitationType, givenSanitationSize, givenHazardous, givenBiologicalSubstance, givenOccupied,
                     requestID, time, date, complete, employeeName, getLocation(), givenDescription);
 
-            if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml")) {
-                DatabaseHandler.getDatabaseHandler("main.db").updateRequest(request);
-            } else {
-                DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
+            try {
+                if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml")) {
+                    DatabaseHandler.getDatabaseHandler("main.db").updateRequest(request);
+                } else {
+                    DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
+                }
+            } catch (SQLException err) {
+                err.printStackTrace();
             }
         }
     }

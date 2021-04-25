@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 import lombok.Getter;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -28,7 +29,7 @@ public class RequestWrapper {
     private final Label time;
     private final Label date;
     private final JFXCheckBox complete;
-    private  Label employeeName;
+    private Label employeeName;
     private final TableView parentTable;
     private final JFXButton btnEdit;
     private final JFXButton btnDel;
@@ -50,33 +51,49 @@ public class RequestWrapper {
         Menu assignMenu = new Menu("Assign");
         MenuItem unassignItem = new MenuItem("Unassign");
 
+        DatabaseHandler db = DatabaseHandler.getDatabaseHandler("main.db");
         List<MenuItem> staff = new ArrayList<>();
-        for(User employee: DatabaseHandler.getDatabaseHandler("main.db").getUsersByAuthenticationLevel(User.AuthenticationLevel.STAFF)){
-            MenuItem tempItem = new MenuItem(employee.getFirstName() + " " + employee.getLastName());
-            tempItem.setOnAction(event -> {
-                parentTable.getItems().removeIf((Object o) -> ((RequestWrapper) o).r.getRequestID().equals(r.getRequestID()));
-                r.setEmployeeName(employee.getFirstName() + " " + employee.getLastName());
+        List<User> users = db.getUsersByAuthenticationLevel(User.AuthenticationLevel.STAFF);
+        if (users != null) {
+            for (User employee : users) {
+                MenuItem tempItem = new MenuItem(employee.getFirstName() + " " + employee.getLastName());
+                tempItem.setOnAction(event -> {
+                    parentTable.getItems().removeIf((Object o) -> ((RequestWrapper) o).r.getRequestID().equals(r.getRequestID()));
+                    r.setEmployeeName(employee.getFirstName() + " " + employee.getLastName());
 
-                DatabaseHandler.getDatabaseHandler("main.db").updateRequest(r);
+                    // Try to update the request
+                    try {
+                        db.updateRequest(r);
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                        return;
+                    }
 
-                try {
-                    parentTable.getItems().add(0, new RequestWrapper(r, parentTable));
-                } catch (IOException e){
-                    e.printStackTrace();
-                }
-            });
-            staff.add(tempItem);
+                    try {
+                        parentTable.getItems().add(0, new RequestWrapper(r, parentTable));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                });
+                staff.add(tempItem);
+            }
         }
         assignMenu.getItems().addAll(staff);
 
         unassignItem.setOnAction(event -> {
             parentTable.getItems().removeIf((Object o) -> ((RequestWrapper) o).r.getRequestID().equals(r.getRequestID()));
             r.setEmployeeName("null");
-            DatabaseHandler.getDatabaseHandler("main.db").updateRequest(r);
+
+            try {
+                db.updateRequest(r);
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return;
+            }
 
             try {
                 parentTable.getItems().add(0, new RequestWrapper(r, parentTable));
-            } catch (IOException e){
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         });
@@ -89,7 +106,11 @@ public class RequestWrapper {
 
         complete.setOnAction(event -> {
             r.setComplete(complete.isSelected() ? "T" : "F");
-            DatabaseHandler.getDatabaseHandler("main.db").updateRequest(r);
+            try {
+                db.updateRequest(r);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         });
 
         // Set up edit button
@@ -102,7 +123,7 @@ public class RequestWrapper {
                 Stage stage = App.getPrimaryStage();
                 stage.setUserData(r.getRequestID());
 
-                switch(r.getRequestType()) {
+                switch (r.getRequestType()) {
                     case SANITATION:
                         SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml", "/edu/wpi/teamB/views/requestForms/sanitationRequestForm.fxml");
                         break;
@@ -148,7 +169,11 @@ public class RequestWrapper {
         btnDel.setId(r.getRequestID() + "DelBtn");
 
         btnDel.setOnAction(event -> {
-            DatabaseHandler.getDatabaseHandler("main.db").removeRequest(r);
+            try {
+                db.removeRequest(r);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
             parentTable.getItems().removeIf((Object o) -> ((RequestWrapper) o).r.getRequestID().equals(r.getRequestID()));
         });
 

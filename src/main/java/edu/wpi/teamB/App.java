@@ -1,6 +1,7 @@
 package edu.wpi.teamB;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Objects;
@@ -53,23 +54,37 @@ public class App extends Application {
             primaryStage.setFullScreen(true);
 
             // If the database is uninitialized, fill it with the csv files
-            db.resetDatabase(new ArrayList<>(Collections.singleton("Users")));
-            db.executeSchema();
-            if (!db.isInitialized()) {
-                SceneSwitcher.switchToTemp(getClass(), "/edu/wpi/teamB/views/login/databaseInit.fxml");
-                primaryStage.show();
+            try {
+                db.resetDatabase(new ArrayList<>(Collections.singleton("Users")));
+                db.executeSchema();
+                if (!db.isInitialized()) {
+                    SceneSwitcher.switchFromTemp(getClass(), "/edu/wpi/teamB/views/login/databaseInit.fxml");
+                    primaryStage.show();
 
-                dbThread = new Thread(() -> {
-                    db.loadNodesEdges(CSVHandler.loadCSVNodes("/edu/wpi/teamB/csvFiles/bwBnodes.csv"), CSVHandler.loadCSVEdges("/edu/wpi/teamB/csvFiles/bwBedges.csv"));
-                    Platform.runLater(() -> SceneSwitcher.switchToTemp(getClass(), "/edu/wpi/teamB/views/login/loginOptions.fxml"));
-                });
-                dbThread.start();
-            } else primaryStage.show();
-            db.addUser(new User("admin", "Professor", "X", User.AuthenticationLevel.ADMIN, null), "password");
-            db.addUser(new User("staff", "Mike", "Bedard", User.AuthenticationLevel.STAFF, null), "password");
-            db.addUser(new User("d", "Dan", "Druff", User.AuthenticationLevel.STAFF, null), "d");
-            db.addUser(new User("j", "Joe", "Mama", User.AuthenticationLevel.STAFF, null), "j");
-            db.addUser(new User("guest", "T", "Goon", User.AuthenticationLevel.GUEST, null), "password");
+                    dbThread = new Thread(() -> {
+                        try {
+                            db.loadNodesEdges(CSVHandler.loadCSVNodes("/edu/wpi/teamB/csvFiles/bwBnodes.csv"), CSVHandler.loadCSVEdges("/edu/wpi/teamB/csvFiles/bwBedges.csv"));
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+                        Platform.runLater(() -> SceneSwitcher.switchFromTemp(getClass(), "/edu/wpi/teamB/views/login/loginOptions.fxml"));
+                    });
+                    dbThread.start();
+                } else primaryStage.show();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return;
+            }
+
+            try {
+                db.addUser(new User("admin", "Professor", "X", User.AuthenticationLevel.ADMIN, null), "password");
+                db.addUser(new User("staff", "Mike", "Bedard", User.AuthenticationLevel.STAFF, null), "password");
+                db.addUser(new User("d", "Dan", "Druff", User.AuthenticationLevel.STAFF, null), "d");
+                db.addUser(new User("j", "Joe", "Mama", User.AuthenticationLevel.STAFF, null), "j");
+                db.addUser(new User("guest", "T", "Goon", User.AuthenticationLevel.GUEST, null), "password");
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

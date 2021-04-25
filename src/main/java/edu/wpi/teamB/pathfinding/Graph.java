@@ -1,8 +1,8 @@
 package edu.wpi.teamB.pathfinding;
 
 import edu.wpi.teamB.database.DatabaseHandler;
-import edu.wpi.teamB.entities.map.Edge;
-import edu.wpi.teamB.entities.map.Node;
+import edu.wpi.teamB.entities.map.data.Edge;
+import edu.wpi.teamB.entities.map.data.Node;
 import lombok.Getter;
 
 import java.util.*;

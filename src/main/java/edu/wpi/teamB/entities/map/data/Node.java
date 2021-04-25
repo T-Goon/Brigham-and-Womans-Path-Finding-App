@@ -1,4 +1,4 @@
-package edu.wpi.teamB.entities.map;
+package edu.wpi.teamB.entities.map.data;
 
 import edu.wpi.teamB.entities.IStoredEntity;
 import lombok.EqualsAndHashCode;

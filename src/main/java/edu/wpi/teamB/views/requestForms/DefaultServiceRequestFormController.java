@@ -6,9 +6,9 @@ import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXDialogLayout;
 import edu.wpi.teamB.App;
 import edu.wpi.teamB.database.DatabaseHandler;
-import edu.wpi.teamB.entities.map.Node;
+import edu.wpi.teamB.entities.map.data.Node;
 import edu.wpi.teamB.util.SceneSwitcher;
-import javafx.application.Platform;
+import edu.wpi.teamB.views.BasePageController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -24,22 +24,13 @@ import javafx.scene.text.Text;
 import java.net.URL;
 import java.util.*;
 
-public abstract class DefaultServiceRequestFormController implements Initializable {
+public abstract class DefaultServiceRequestFormController extends BasePageController implements Initializable {
 
     @FXML
     protected JFXButton btnSubmit;
 
     @FXML
-    private JFXButton btnExit;
-
-    @FXML
-    private JFXButton btnCancel;
-
-    @FXML
     private JFXButton btnHelp;
-
-    @FXML
-    private JFXButton btnEmergency;
 
     @FXML
     private AnchorPane basePane;
@@ -73,7 +64,7 @@ public abstract class DefaultServiceRequestFormController implements Initializab
         Map<String, Node> nodes = DatabaseHandler.getDatabaseHandler("main.db").getNodes();
 
         // TODO should probably sort
-        for(Node n : nodes.values()){
+        for (Node n : nodes.values()) {
             loc.getItems().add(n.getLongName());
             nodesList.add(n);
         }
@@ -90,32 +81,27 @@ public abstract class DefaultServiceRequestFormController implements Initializab
         }
     }
 
-    protected String getLocation(){
+    protected String getLocation() {
         return nodesList.get(loc.getSelectionModel().getSelectedIndex()).getNodeID();
     }
 
-    public void handleButtonAction(ActionEvent actionEvent) {
-        JFXButton btn = (JFXButton) actionEvent.getSource();
+    public void handleButtonAction(ActionEvent e) {
+        super.handleButtonAction(e);
+        JFXButton btn = (JFXButton) e.getSource();
         switch (btn.getId()) {
             case "btnSubmit":
-                SceneSwitcher.switchToTemp(getClass(), "/edu/wpi/teamB/views/requestForms/formSubmitted.fxml");
-                break;
-            case "btnCancel":
-                SceneSwitcher.goBack(getClass(), 1);
+                SceneSwitcher.switchFromTemp(getClass(), "/edu/wpi/teamB/views/requestForms/formSubmitted.fxml");
                 break;
             case "btnHelp":
                 loadHelpDialog();
                 break;
-            case "btnExit":
-                Platform.exit();
-                break;
             case "btnEmergency":
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/menus/serviceRequestMenu.fxml", "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");
+                SceneSwitcher.switchFromTemp(getClass(), "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");
                 break;
         }
     }
 
-    private void loadHelpDialog(){
+    private void loadHelpDialog() {
         JFXDialogLayout helpLayout = new JFXDialogLayout();
 
         Text helpText = new Text("Please fill out this form completely. Once each field is full, you can submit the form and an employee will be assigned.\nIf you wish to end your request early, click 'Cancel'. If your request is an emergency please click 'Emergency'.");
