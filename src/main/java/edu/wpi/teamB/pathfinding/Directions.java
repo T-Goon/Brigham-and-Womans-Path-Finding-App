@@ -15,19 +15,31 @@ public class Directions {
     }
 
     public static double angleBetweenEdges(Node prev, Node curr, Node next) {
+
+        //1,0
+        //1,1
+        //0,1
         Coord prevC = new Coord(prev.getXCoord(), prev.getYCoord());
         Coord currC = new Coord(curr.getXCoord(), curr.getYCoord());
         Coord nextC = new Coord(next.getXCoord(), next.getYCoord());
 
+        //1,0
         Coord firstTriangleCoord = new Coord(currC.getX(), prevC.getY());
 
-        double aLen = prevC.getX() - firstTriangleCoord.getX();
-        double bLen = currC.getY() - firstTriangleCoord.getY();
+        //0
+        double aLen = dist(prevC, firstTriangleCoord);//prevC.getX() - firstTriangleCoord.getX();
+        //1
+        double bLen = dist(currC, firstTriangleCoord);//currC.getY() - firstTriangleCoord.getY();
+        //arctan(1/0)
         double firstAngle = java.lang.Math.atan(bLen / aLen) * (180 / Math.PI);
 
+        //0,1
         Coord secondTriangle = new Coord(nextC.getX(), currC.getY());
-        double aLen1 = dist(currC, secondTriangle); //currC.getX() - secondTriangle.getX();
-        double bLen1 = dist(nextC, secondTriangle); //nextC.getY() - secondTriangle.getY();
+        //1
+        double aLen1 = dist(currC,secondTriangle);//currC.getX() - secondTriangle.getX();
+        //0
+        double bLen1 = dist(nextC, secondTriangle);//nextC.getY() - secondTriangle.getY();
+        //arctan(0/1)
         double secondAngle = 180 - java.lang.Math.atan(bLen1 / aLen1) * (180 / Math.PI);
 
         return secondAngle + firstAngle;
