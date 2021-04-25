@@ -264,7 +264,7 @@ public class DatabaseHandlerTest {
     public void testRemoveNode() {
         Node target = new Node("testNode",
                 0,
-                -992,
+                992,
                 "1",
                 "test_building",
                 "NODETYPE",
@@ -292,8 +292,8 @@ public class DatabaseHandlerTest {
 
     @Test
     public void testRemoveEdge() {
-        Node start = new Node("test_start", 0, 0, "0", "0", "0", "test", "t");
-        Node end = new Node("test_end", 0, 0, "0", "0", "0", "test", "t");
+        Node start = new Node("testStart", 0, 0, "0", "0", "0", "test", "t");
+        Node end = new Node("testEnd", 0, 0, "0", "0", "0", "test", "t");
         try {
             db.loadNodesEdges(null, null);
             db.addNode(start);
@@ -303,10 +303,9 @@ public class DatabaseHandlerTest {
             return;
         }
 
-        Edge target = new Edge("bPARK01201_bWALK00501", "test_start", "test_end");
+        Edge target = new Edge("testStart_testEnd", "testStart", "testEnd");
 
         try {
-            db.loadNodesEdges(null, null);
             db.addEdge(target);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -554,13 +553,13 @@ public class DatabaseHandlerTest {
     @Test
     public void testGetNodesByCategory() {
         try {
-            db.loadDatabaseNodes(testNodes);
+            db.loadNodesEdges(testNodes, null);
         } catch (SQLException e) {
             e.printStackTrace();
             return;
         }
 
-        List<Node> result = null;
+        List<Node> result;
         try {
             result = db.getNodesByCategory(NodeType.PARK);
         } catch (SQLException e) {

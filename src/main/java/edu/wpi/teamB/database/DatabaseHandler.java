@@ -533,6 +533,7 @@ public class DatabaseHandler {
         try {
             ResultSet rs = runStatement(query, true);
             Map<String, Node> nodes = new HashMap<>();
+            if (rs == null) return nodes;
             do {
                 Node outNode = new Node(
                         rs.getString("NodeID").trim(),
@@ -562,8 +563,8 @@ public class DatabaseHandler {
         String query = "SELECT * FROM Edges";
         try {
             ResultSet rs = runStatement(query, true);
-            if (rs == null) return null;
             Map<String, Edge> edges = new HashMap<>();
+            if (rs == null) return edges;
             do {
                 Edge outEdge = new Edge(
                         rs.getString("edgeID").trim(),
@@ -675,21 +676,21 @@ public class DatabaseHandler {
     }
 
     /**
-     * Removes a request from Requests and the table specific to the given request
-     *
-     * @param request the request to remove
-     */
-    public void removeRequest(Request request) throws SQLException {
-        new RequestMutator(this).removeEntity(request.getRequestID());
-    }
-
-    /**
      * Updates the given request
      *
      * @param request the request to update
      */
     public void updateRequest(Request request) throws SQLException {
         new RequestMutator(this).updateEntity(request);
+    }
+
+    /**
+     * Removes a request from Requests and the table specific to the given request
+     *
+     * @param request the request to remove
+     */
+    public void removeRequest(Request request) throws SQLException {
+        new RequestMutator(this).removeEntity(request.getRequestID());
     }
 
     /**
@@ -701,7 +702,8 @@ public class DatabaseHandler {
         String query = "SELECT * FROM Requests";
         ResultSet rs = runStatement(query, true);
         Map<String, Request> requests = new HashMap<>();
-        while (rs.next()) {
+        if (rs == null) return requests;
+        do {
             Request outRequest = new Request(
                     rs.getString("requestID"),
                     Request.RequestType.valueOf(rs.getString("requestType")),
@@ -714,7 +716,7 @@ public class DatabaseHandler {
                     rs.getString("submitter")
             );
             requests.put(rs.getString("requestID"), outRequest);
-        }
+        } while (rs.next());
         rs.close();
         return requests;
     }
@@ -918,7 +920,7 @@ public class DatabaseHandler {
         String query = "SELECT * FROM Nodes WHERE nodeType = '" + rest.toString() + "'";
         ResultSet rs = runStatement(query, true);
         List<Node> nodes = new ArrayList<>();
-        while (rs.next()) {
+        do {
             Node outNode = new Node(
                     rs.getString("NodeID").trim(),
                     rs.getInt("xcoord"),
@@ -930,7 +932,7 @@ public class DatabaseHandler {
                     rs.getString("shortName").trim()
             );
             nodes.add(outNode);
-        }
+        } while (rs.next());
         rs.close();
         return nodes;
     }

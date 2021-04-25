@@ -165,23 +165,22 @@ public class RequestMutator implements IDatabaseEntityMutator<Request> {
         String query = "SELECT * FROM Requests WHERE requestID = '" + requestID + "'";
 
         ResultSet rs = db.runStatement(query, true);
-        Request request = null;
-        while (rs.next()) {
+        Request request;
+        do {
             request = new Request(
                     rs.getString("requestID"),
                     Request.RequestType.valueOf(rs.getString("requestType")),
-                    rs.getString("time"),
-                    rs.getString("date"),
+                    rs.getString("requestTime"),
+                    rs.getString("requestDate"),
                     rs.getString("complete"),
                     rs.getString("employeeName"),
                     rs.getString("location"),
                     rs.getString("description"),
                     rs.getString("submitter")
             );
-        }
+        } while (rs.next());
         rs.close();
 
-        assert request != null;
         String querySpecificTable = "DELETE FROM '" + Request.RequestType.prettify(request.getRequestType()).replace(" ", "") + "Requests" + "'WHERE requestID = '" + request.getRequestID() + "'";
         String queryGeneralTable = "DELETE FROM Requests WHERE requestID = '" + request.getRequestID() + "'";
         db.runStatement(querySpecificTable, false);
