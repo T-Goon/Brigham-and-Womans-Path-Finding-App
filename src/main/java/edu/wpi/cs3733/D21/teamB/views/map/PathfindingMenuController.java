@@ -11,12 +11,14 @@ import edu.wpi.cs3733.D21.teamB.entities.map.MapEditorPopupManager;
 import edu.wpi.cs3733.D21.teamB.entities.map.MapPathPopupManager;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Edge;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Node;
+import edu.wpi.cs3733.D21.teamB.pathfinding.AStar;
 import edu.wpi.cs3733.D21.teamB.pathfinding.Graph;
 import edu.wpi.cs3733.D21.teamB.util.CSVHandler;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TreeItem;
@@ -26,6 +28,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
@@ -34,11 +37,9 @@ import javafx.stage.Stage;
 import net.kurobako.gesturefx.GesturePane;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.sql.SQLException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -116,6 +117,12 @@ public class PathfindingMenuController implements Initializable {
 
     @FXML
     private JFXButton btnFL2;
+
+    @FXML
+    private StackPane textDirectionsHolder;
+
+    @FXML
+    private JFXToggleButton txtDirToggle;
 
     public static final double coordinateScale = 25 / 9.0;
 
@@ -466,4 +473,31 @@ public class PathfindingMenuController implements Initializable {
         // If nothing is found, say "None"
         if (newRoot.getChildren().isEmpty()) newRoot.setValue("Not found!");
     }
+
+    @FXML
+    public void textDirVisbility(ActionEvent actionEvent){
+        JFXToggleButton toggleButton = (JFXToggleButton) actionEvent.getSource();
+
+        //String estimatedTime = Directions.
+
+        VBox txtDirBox = null;
+
+        if(toggleButton.isSelected()){
+
+            try {
+                txtDirBox = FXMLLoader.load(
+                        Objects.requireNonNull(getClass().getResource("/edu/wpi/cs3733/D21/teamB/views/map/misc/showTextDir.fxml")));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+        //give path
+        //set text to be dir
+        //show pop up in txtDirHOlder
+
+        //make sure that you hide when off else show
+    }
+
 }

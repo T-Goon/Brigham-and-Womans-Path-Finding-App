@@ -2,6 +2,7 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXTextField?>
+<?import com.jfoenix.controls.JFXToggleButton?>
 <?import com.jfoenix.controls.JFXTreeView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
@@ -18,7 +19,7 @@
 <?import javafx.scene.text.Text?>
 <?import net.kurobako.gesturefx.GesturePane?>
 
-<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" style="-fx-background-color: #012d5a;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D21.teamB.views.map.PathfindingMenuController">
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: #012d5a;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D21.teamB.views.map.PathfindingMenuController">
     <children>
         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #FFFFFF;">
             <children>
@@ -174,6 +175,11 @@
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </padding>
                         </HBox>
+                        <HBox prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <JFXToggleButton fx:id="txtDirToggle" onAction="#textDirVisbility" text="Text Directions" textFill="WHITE" />
+                           </children>
+                        </HBox>
                               <HBox VBox.vgrow="ALWAYS">
                                   <children>
                               <VBox alignment="BOTTOM_LEFT" HBox.hgrow="ALWAYS">
@@ -229,64 +235,71 @@
                         <Insets bottom="5.0" top="5.0" />
                      </padding>
                       </VBox>
-                  <StackPane alignment="TOP_RIGHT" VBox.vgrow="ALWAYS">
+                  <StackPane fx:id="textDirectionsHolder" alignment="TOP_LEFT" VBox.vgrow="ALWAYS">
                      <children>
-                            <StackPane fx:id="mapStack">
-                                <children>
-                                    <GesturePane fx:id="gpane" fitMode="COVER" hbarPolicy="NEVER" maxHeight="-Infinity" maxScale="25.0" maxWidth="-Infinity" prefHeight="9.9999999999E10" prefWidth="9.999999999E9" scrollMode="ZOOM" vbarPolicy="NEVER">
-                                        <AnchorPane fx:id="nodeHolder">
-                                            <children>
-                                                <AnchorPane fx:id="intermediateNodeHolder">
-                                                    <children>
-                                                        <AnchorPane fx:id="mapHolder">
-                                                            <children>
-                                                                <ImageView fx:id="map" fitHeight="1800.0" fitWidth="1800.0" pickOnBounds="true" preserveRatio="true">
-                                                                    <image>
-                                                                      <Image url="@../../images/maps/01_thefirstfloor-Edited.png" />
-                                                                  </image>
-                                                              </ImageView>
-                                                          </children>
-                                                      </AnchorPane>
-                                                  </children>
-                                              </AnchorPane>
-                                          </children>
-                                      </AnchorPane>
-                                  </GesturePane>
+                        <StackPane alignment="TOP_RIGHT">
+                           <children>
+                                  <StackPane fx:id="mapStack">
+                                      <children>
+                                          <GesturePane fx:id="gpane" fitMode="COVER" hbarPolicy="NEVER" maxHeight="-Infinity" maxScale="25.0" maxWidth="-Infinity" prefHeight="9.9999999999E10" prefWidth="9.999999999E9" scrollMode="ZOOM" vbarPolicy="NEVER">
+                                              <AnchorPane fx:id="nodeHolder">
+                                                  <children>
+                                                      <AnchorPane fx:id="intermediateNodeHolder">
+                                                          <children>
+                                                              <AnchorPane fx:id="mapHolder">
+                                                                  <children>
+                                                                      <ImageView fx:id="map" fitHeight="1800.0" fitWidth="1800.0" pickOnBounds="true" preserveRatio="true">
+                                                                          <image>
+                                                                            <Image url="@../../images/maps/01_thefirstfloor-Edited.png" />
+                                                                        </image>
+                                                                    </ImageView>
+                                                                </children>
+                                                            </AnchorPane>
+                                                        </children>
+                                                    </AnchorPane>
+                                                </children>
+                                            </AnchorPane>
+                                        </GesturePane>
+                                 </children>
+                              </StackPane>
+                              <VBox alignment="TOP_RIGHT" maxHeight="100.0" maxWidth="55.0">
+                                 <children>
+                                    <JFXButton fx:id="btnF3" maxHeight="20.0" maxWidth="45.0" onAction="#handleButtonAction" style="-fx-background-color: F6BD39; -fx-border-color: #012D5A;" text="3">
+                                       <font>
+                                          <Font name="MS Reference Sans Serif" size="14.0" />
+                                       </font>
+                                    </JFXButton>
+                                    <JFXButton fx:id="btnF2" maxHeight="20.0" maxWidth="45.0" onAction="#handleButtonAction" style="-fx-background-color: F6BD39; -fx-border-color: #012D5A;" text="2">
+                                       <font>
+                                          <Font name="MS Reference Sans Serif" size="14.0" />
+                                       </font>
+                                    </JFXButton>
+                                    <JFXButton fx:id="btnF1" maxHeight="20.0" maxWidth="45.0" onAction="#handleButtonAction" style="-fx-background-color: F6BD39; -fx-border-color: #012D5A;" text="1">
+                                       <font>
+                                          <Font name="MS Reference Sans Serif" size="14.0" />
+                                       </font>
+                                    </JFXButton>
+                                    <JFXButton fx:id="btnFL1" maxHeight="20.0" maxWidth="45.0" onAction="#handleButtonAction" style="-fx-background-color: F6BD39; -fx-border-color: #012D5A;" text="L1">
+                                       <font>
+                                          <Font name="MS Reference Sans Serif" size="14.0" />
+                                       </font>
+                                    </JFXButton>
+                                    <JFXButton fx:id="btnFL2" maxHeight="20.0" maxWidth="45.0" onAction="#handleButtonAction" style="-fx-background-color: F6BD39; -fx-border-color: #012D5A;" text="L2">
+                                       <font>
+                                          <Font name="MS Reference Sans Serif" size="14.0" />
+                                       </font>
+                                    </JFXButton>
+                                 </children>
+                                 <padding>
+                                    <Insets right="10.0" top="10.0" />
+                                 </padding>
+                              </VBox>
                            </children>
                         </StackPane>
-                        <VBox alignment="TOP_RIGHT" maxHeight="100.0" maxWidth="55.0">
-                           <children>
-                              <JFXButton fx:id="btnF3" maxHeight="20.0" maxWidth="45.0" onAction="#handleButtonAction" style="-fx-background-color: F6BD39; -fx-border-color: #012D5A;" text="3">
-                                 <font>
-                                    <Font name="MS Reference Sans Serif" size="14.0" />
-                                 </font>
-                              </JFXButton>
-                              <JFXButton fx:id="btnF2" maxHeight="20.0" maxWidth="45.0" onAction="#handleButtonAction" style="-fx-background-color: F6BD39; -fx-border-color: #012D5A;" text="2">
-                                 <font>
-                                    <Font name="MS Reference Sans Serif" size="14.0" />
-                                 </font>
-                              </JFXButton>
-                              <JFXButton fx:id="btnF1" maxHeight="20.0" maxWidth="45.0" onAction="#handleButtonAction" style="-fx-background-color: F6BD39; -fx-border-color: #012D5A;" text="1">
-                                 <font>
-                                    <Font name="MS Reference Sans Serif" size="14.0" />
-                                 </font>
-                              </JFXButton>
-                              <JFXButton fx:id="btnFL1" maxHeight="20.0" maxWidth="45.0" onAction="#handleButtonAction" style="-fx-background-color: F6BD39; -fx-border-color: #012D5A;" text="L1">
-                                 <font>
-                                    <Font name="MS Reference Sans Serif" size="14.0" />
-                                 </font>
-                              </JFXButton>
-                              <JFXButton fx:id="btnFL2" maxHeight="20.0" maxWidth="45.0" onAction="#handleButtonAction" style="-fx-background-color: F6BD39; -fx-border-color: #012D5A;" text="L2">
-                                 <font>
-                                    <Font name="MS Reference Sans Serif" size="14.0" />
-                                 </font>
-                              </JFXButton>
-                           </children>
-                           <padding>
-                              <Insets right="10.0" top="10.0" />
-                           </padding>
-                        </VBox>
                      </children>
+                     <padding>
+                        <Insets left="5.0" top="5.0" />
+                     </padding>
                   </StackPane>
                   </children>
               </HBox>

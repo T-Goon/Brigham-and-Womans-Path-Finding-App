@@ -1,18 +1,16 @@
-package edu.wpi.teamB.views.requestForms;
+package edu.wpi.cs3733.D21.teamB.views.requestForms;
 
 import com.jfoenix.controls.*;
 import com.jfoenix.validation.RequiredFieldValidator;
-import edu.wpi.teamB.App;
-import edu.wpi.teamB.database.DatabaseHandler;
-import edu.wpi.teamB.entities.requests.GiftRequest;
-import edu.wpi.teamB.entities.requests.Request;
-import edu.wpi.teamB.util.SceneSwitcher;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import edu.wpi.cs3733.D21.teamB.App;
+import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
+import edu.wpi.cs3733.D21.teamB.entities.requests.GiftRequest;
+import edu.wpi.cs3733.D21.teamB.entities.requests.Request;
+
+import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.Label;
 
 import java.math.RoundingMode;
