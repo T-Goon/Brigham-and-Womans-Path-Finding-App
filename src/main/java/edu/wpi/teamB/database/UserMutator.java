@@ -9,7 +9,11 @@ import java.sql.SQLException;
 
 public class UserMutator implements IDatabaseEntityMutator<UserMutator.UserPasswordMatch> {
 
-    private final DatabaseHandler db = DatabaseHandler.getDatabaseHandler("main.db");
+    private final DatabaseHandler db;
+
+    public UserMutator(DatabaseHandler db) {
+        this.db = db;
+    }
 
     /**
      * @param user User and password match to add
@@ -43,12 +47,8 @@ public class UserMutator implements IDatabaseEntityMutator<UserMutator.UserPassw
     public void removeEntity(String username) throws SQLException {
         String deleteJobs = "DELETE FROM Jobs WHERE (username = '" + username + "')";
         String deleteUser = "DELETE FROM Users WHERE (username = '" + username + "')";
-        try {
-            db.runStatement(deleteJobs, false);
-            db.runStatement(deleteUser, false);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        db.runStatement(deleteJobs, false);
+        db.runStatement(deleteUser, false);
     }
 
     /**

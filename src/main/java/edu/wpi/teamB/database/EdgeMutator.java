@@ -7,7 +7,11 @@ import java.sql.SQLException;
 
 public class EdgeMutator implements IDatabaseEntityMutator<Edge> {
 
-    private final DatabaseHandler db = DatabaseHandler.getDatabaseHandler("main.db");
+    private final DatabaseHandler db;
+
+    public EdgeMutator(DatabaseHandler db) {
+        this.db = db;
+    }
 
     /**
      * Adds an edge to the database with the given information

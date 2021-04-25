@@ -57,16 +57,6 @@ public class DatabaseHandlerTest {
         testNodes.add(targetNode10);
     }
 
-    @BeforeEach
-    void resetDB() {
-        try {
-            db.resetDatabase(new ArrayList<>());
-            db.executeSchema();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
     @Test
     public void simpleParseNodes() {
         Node target = new Node("testNode",
@@ -217,7 +207,7 @@ public class DatabaseHandlerTest {
     public void testAddNode() {
         Node target = new Node("testNode",
                 0,
-                -992,
+                992,
                 "1",
                 "test_building",
                 "NODETYPE",
@@ -225,6 +215,7 @@ public class DatabaseHandlerTest {
                 "N W M S");
 
         try {
+            db.loadNodesEdges(null, null);
             db.addNode(target);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -233,7 +224,7 @@ public class DatabaseHandlerTest {
 
         Map<String, Node> nodes = db.getNodes();
         assertEquals(0, nodes.get("testNode").getXCoord());
-        assertEquals(-992, nodes.get("testNode").getYCoord());
+        assertEquals(992, nodes.get("testNode").getYCoord());
         assertEquals("1", nodes.get("testNode").getFloor());
         assertEquals("test_building", nodes.get("testNode").getBuilding());
         assertEquals("NODETYPE", nodes.get("testNode").getNodeType());
@@ -247,6 +238,7 @@ public class DatabaseHandlerTest {
         Node end = new Node("test_end", 0, 0, "0", "0", "0", "test", "t");
 
         try {
+            db.loadNodesEdges(null, null);
             db.addNode(start);
             db.addNode(end);
         } catch (SQLException e) {
@@ -280,6 +272,7 @@ public class DatabaseHandlerTest {
                 "N W M S");
 
         try {
+            db.loadNodesEdges(null, null);
             db.addNode(target);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -302,6 +295,7 @@ public class DatabaseHandlerTest {
         Node start = new Node("test_start", 0, 0, "0", "0", "0", "test", "t");
         Node end = new Node("test_end", 0, 0, "0", "0", "0", "test", "t");
         try {
+            db.loadNodesEdges(null, null);
             db.addNode(start);
             db.addNode(end);
         } catch (SQLException e) {
@@ -312,6 +306,7 @@ public class DatabaseHandlerTest {
         Edge target = new Edge("bPARK01201_bWALK00501", "test_start", "test_end");
 
         try {
+            db.loadNodesEdges(null, null);
             db.addEdge(target);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -334,6 +329,7 @@ public class DatabaseHandlerTest {
         Node node1 = new Node("node1", 0, 0, "0", "0", "0", "test", "t");
         Node node2 = new Node("node2", 0, 0, "0", "0", "0", "test", "t");
         try {
+            db.loadNodesEdges(null, null);
             db.addNode(node1);
             db.addNode(node2);
         } catch (SQLException e) {
@@ -367,6 +363,7 @@ public class DatabaseHandlerTest {
             db.addRequest(request1);
             db.addRequest(request2);
         } catch (SQLException e) {
+            System.out.println("request fails");
             e.printStackTrace();
             return;
         }
@@ -390,7 +387,7 @@ public class DatabaseHandlerTest {
         assertEquals("node1", test1.getLocation());
         assertEquals("None", test1.getDescription());
 
-        FoodRequest test2 = null;
+        FoodRequest test2;
         try {
             test2 = (FoodRequest) db.getSpecificRequestById(request2.getRequestID(), Request.RequestType.FOOD);
         } catch (SQLException e) {
@@ -414,6 +411,7 @@ public class DatabaseHandlerTest {
         Node node1 = new Node("node1", 0, 0, "0", "0", "0", "test", "t");
         Node node2 = new Node("node2", 0, 0, "0", "0", "0", "test", "t");
         try {
+            db.loadNodesEdges(null, null);
             db.addNode(node1);
             db.addNode(node2);
         } catch (SQLException e) {
@@ -459,9 +457,7 @@ public class DatabaseHandlerTest {
             assertTrue(db.getRequests().isEmpty());
         } catch (SQLException e) {
             e.printStackTrace();
-            return;
         }
-
     }
 
     @Test
@@ -470,6 +466,7 @@ public class DatabaseHandlerTest {
         Node node1 = new Node("node1", 0, 0, "0", "0", "0", "test", "t");
         Node node2 = new Node("node2", 0, 0, "0", "0", "0", "test", "t");
         try {
+            db.loadNodesEdges(null, null);
             db.addNode(node1);
             db.addNode(node2);
         } catch (SQLException e) {
@@ -517,7 +514,7 @@ public class DatabaseHandlerTest {
             return;
         }
 
-        SanitationRequest test1 = null;
+        SanitationRequest test1;
         try {
             test1 = (SanitationRequest) db.getSpecificRequestById(request1.getRequestID(), Request.RequestType.SANITATION);
         } catch (SQLException e) {
@@ -680,8 +677,6 @@ public class DatabaseHandlerTest {
             e.printStackTrace();
             return;
         }
-        System.out.println(db.getUserByUsername("testuser").toString());
-        System.out.println(altuser.toString());
 
         assertEquals(db.getUserByUsername("testuser"), altuser);
         assert (!db.getUsersByJob(Request.RequestType.CASE_MANAGER).contains(user));

@@ -4,11 +4,14 @@ import edu.wpi.teamB.entities.map.data.Node;
 import edu.wpi.teamB.pathfinding.Graph;
 
 import java.sql.SQLException;
-import java.sql.Statement;
 
 public class NodeMutator implements IDatabaseEntityMutator<Node> {
 
-    private final DatabaseHandler db = DatabaseHandler.getDatabaseHandler("main.db");
+    private final DatabaseHandler db;
+
+    public NodeMutator(DatabaseHandler db) {
+        this.db = db;
+    }
 
     /**
      * Adds an node to the database with the given information
@@ -51,8 +54,8 @@ public class NodeMutator implements IDatabaseEntityMutator<Node> {
     public void updateEntity(Node node) throws SQLException {
         String query = "UPDATE Nodes SET xcoord = " + node.getXCoord()
                 + ", ycoord = " + node.getYCoord()
-                + ", floor = " + node.getFloor()
-                + ", building = '" + node.getBuilding()
+                + ", floor = '" + node.getFloor()
+                + "', building = '" + node.getBuilding()
                 + "', nodeType = '" + node.getNodeType()
                 + "', longName = '" + node.getLongName()
                 + "', shortName = '" + node.getShortName()

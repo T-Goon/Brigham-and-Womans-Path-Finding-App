@@ -2,15 +2,17 @@ package edu.wpi.teamB.database;
 
 import edu.wpi.teamB.entities.User;
 import edu.wpi.teamB.entities.requests.*;
-import edu.wpi.teamB.pathfinding.Graph;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 public class RequestMutator implements IDatabaseEntityMutator<Request> {
 
-    private final DatabaseHandler db = DatabaseHandler.getDatabaseHandler("main.db");
+    private final DatabaseHandler db;
+
+    public RequestMutator(DatabaseHandler db) {
+        this.db = db;
+    }
 
     /**
      * Adds a request to Requests and the table specific to the given request
@@ -299,5 +301,6 @@ public class RequestMutator implements IDatabaseEntityMutator<Request> {
                 break;
         }
         db.runStatement(query, false);
+        System.out.println();
     }
 }
