@@ -3,7 +3,7 @@ package edu.wpi.cs3733.D21.teamB.views.map;
 import com.jfoenix.controls.*;
 import edu.wpi.cs3733.D21.teamB.App;
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
-import edu.wpi.cs3733.D21.teamB.entities.FloorSwitcher;
+import edu.wpi.cs3733.D21.teamB.entities.map.FloorSwitcher;
 import edu.wpi.cs3733.D21.teamB.entities.User;
 import edu.wpi.cs3733.D21.teamB.entities.map.MapCache;
 import edu.wpi.cs3733.D21.teamB.entities.map.MapDrawer;
@@ -17,8 +17,10 @@ import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -35,15 +37,14 @@ import lombok.Getter;
 import net.kurobako.gesturefx.GesturePane;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.sql.SQLException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@SuppressWarnings("unchecked")
 public class PathfindingMenuController implements Initializable {
 
     @FXML
@@ -108,6 +109,12 @@ public class PathfindingMenuController implements Initializable {
     private StackPane stackContainer;
 
     @FXML
+    private JFXButton btnAddToFavorites;
+
+    @FXML
+    private JFXButton btnRemoveFromFavorites;
+
+    @FXML
     private JFXButton btnF3;
 
     @FXML
@@ -121,6 +128,12 @@ public class PathfindingMenuController implements Initializable {
 
     @FXML
     private JFXButton btnFL2;
+
+    @FXML
+    private JFXTextArea txtAreaStops;
+
+    @FXML
+    private JFXButton btnRemoveStop;
 
     public static final double coordinateScale = 25 / 9.0;
 
@@ -160,14 +173,18 @@ public class PathfindingMenuController implements Initializable {
 
         //Adds all the destination names to locationNames and sort the nodes by floor
         mc.updateLocations();
-        populateTreeView();
+        try {
+            populateTreeView();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         md = new MapDrawer(this, mc, nodeHolder, mapHolder, intermediateNodeHolder, lblError, mapStack, gpane);
 
         mepm = new MapEditorPopupManager(md, mc, gpane, mapStack);
         md.setMepm(mepm);
 
-        mppm = new MapPathPopupManager(md, txtStartLocation, txtEndLocation, mapStack, gpane, this, nodeHolder);
+        mppm = new MapPathPopupManager(md, mc, txtStartLocation, txtEndLocation, btnRemoveStop, mapStack, gpane, this, nodeHolder);
         md.setMppm(mppm);
 
         // Set up floor switching
@@ -281,7 +298,7 @@ public class PathfindingMenuController implements Initializable {
         TreeItem<String> selectedItem = treeLocations.getSelectionModel().getSelectedItem();
         if (selectedItem == null) return;
 
-        if (selectedItem.isLeaf()) {
+        if (!selectedItem.getValue().equals("Favorites") && selectedItem.isLeaf()) {
             //Selected item is a valid location
 
             //For now only work on nodes that are on the first floor until multi-floor pathfinding is added
@@ -298,6 +315,8 @@ public class PathfindingMenuController implements Initializable {
                     mppm.createGraphicalInputPopup(tempLocation);
 
             }
+        } else if (!selectedItem.isLeaf()) {
+            md.removeAllPopups();
         }
 
         validateFindPathButton();
@@ -355,6 +374,14 @@ public class PathfindingMenuController implements Initializable {
                 md.removeAllEdges();
                 fs.switchFloor(FloorSwitcher.floorL2ID);
                 break;
+            case "btnRemoveStop":
+                mc.getStopsList().remove(mc.getStopsList().size() - 1);
+                displayStops(mc.getStopsList());
+
+                // Validate button
+                btnRemoveStop.setDisable(mc.getStopsList().isEmpty());
+
+                break;
             case "btnBack":
                 SceneSwitcher.goBack(getClass(), 1);
                 break;
@@ -373,19 +400,123 @@ public class PathfindingMenuController implements Initializable {
     }
 
     /**
+     * Display the stops in the textArea
+     *
+     * @param stopsList List of node longnames
+     */
+    public void displayStops(List<String> stopsList) {
+        StringBuilder stops = new StringBuilder();
+
+        for (String s : stopsList) {
+            stops.append(s).append("\n");
+        }
+
+        txtAreaStops.setText(stops.toString());
+    }
+
+    /**
      * Populates the tree view with nodes and categories
      */
-    private void populateTreeView() {
+    private void populateTreeView() throws IOException {
         //Populating TreeView
-        TreeItem<String> rootNode = new TreeItem<>("Locations");
-        rootNode.setExpanded(true);
+        btnAddToFavorites = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/cs3733/D21/teamB/views/misc/addBtn.fxml")));
+        TreeItem<String> rootNode = new TreeItem<>("Root");
         treeLocations.setRoot(rootNode);
+        treeLocations.setShowRoot(false);
+
+        // Favorites drop down
+        TreeItem<String> favorites = new TreeItem<>("Favorites");
+        if (DatabaseHandler.getDatabaseHandler("main.db").getAuthenticationUser().isAtLeast(User.AuthenticationLevel.PATIENT)) {
+            favorites.setExpanded(true);
+            rootNode.getChildren().add(favorites);
+            favorites.setGraphic(btnAddToFavorites);
+        }
+
+        // Locations drop down
+        TreeItem<String> locations = new TreeItem<>("Locations");
+        locations.setExpanded(true);
+        rootNode.getChildren().add(locations);
 
         //Adding Categories
         for (String category : mc.getCatNameMap().keySet()) {
             TreeItem<String> categoryTreeItem = new TreeItem<>(categoryNameMap.get(category));
             categoryTreeItem.getChildren().addAll(mc.getCatNameMap().get(category));
-            rootNode.getChildren().add(categoryTreeItem);
+            locations.getChildren().add(categoryTreeItem);
+        }
+
+        // Adding to Favorites
+        btnAddToFavorites.setOnAction(addEvent -> {
+            try {
+                btnRemoveFromFavorites = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/cs3733/D21/teamB/views/misc/removeBtn.fxml")));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            TreeItem<String> equivalent = treeLocations.getSelectionModel().getSelectedItem();
+            if (equivalent == null) {
+                return;
+            }
+            String text = equivalent.getValue();
+            TreeItem<String> itemToAdd = new TreeItem<>(text);
+
+            boolean contains = false;
+
+            for (TreeItem<String> item : favorites.getChildren()) {
+                if (item.getValue().equals(equivalent.getValue())) {
+                    contains = true;
+                    break;
+                }
+            }
+
+            if (!contains && equivalent.isLeaf() && !text.equals("Favorites")) {
+                itemToAdd.setGraphic(btnRemoveFromFavorites);
+                favorites.getChildren().add(itemToAdd);
+                try {
+                    DatabaseHandler.getDatabaseHandler("main.db").addFavoriteLocation(itemToAdd.getValue());
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            // Removing from Favorites
+            btnRemoveFromFavorites.setOnAction(removeEvent -> {
+                JFXButton itemToRemove = (JFXButton) removeEvent.getSource();
+                TreeCell<String> treeCell = (TreeCell<String>) itemToRemove.getParent();
+                favorites.getChildren().remove(treeCell.getTreeItem());
+                try {
+                    DatabaseHandler.getDatabaseHandler("main.db").removeFavoriteLocation(treeCell.getTreeItem().getValue());
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            });
+        });
+
+        // Populate Favorites with locations from database
+        try {
+            ArrayList<String> savedFavorites = (ArrayList<String>) DatabaseHandler.getDatabaseHandler("main.db").getFavorites();
+            for (String favorite : savedFavorites) {
+                TreeItem<String> item = new TreeItem<>(favorite);
+                try {
+                    btnRemoveFromFavorites = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/cs3733/D21/teamB/views/misc/removeBtn.fxml")));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                // Removing from Favorites
+                btnRemoveFromFavorites.setOnAction(removeEvent -> {
+                    JFXButton itemToRemove = (JFXButton) removeEvent.getSource();
+                    TreeCell<String> treeCell = (TreeCell<String>) itemToRemove.getParent();
+                    favorites.getChildren().remove(treeCell.getTreeItem());
+                    try {
+                        DatabaseHandler.getDatabaseHandler("main.db").removeFavoriteLocation(treeCell.getTreeItem().getValue());
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                });
+                item.setGraphic(btnRemoveFromFavorites);
+                favorites.getChildren().add(item);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
@@ -439,7 +570,7 @@ public class PathfindingMenuController implements Initializable {
     }
 
     @FXML
-    private void handleKeysPressedSearchBar(KeyEvent e) {
+    private void handleKeysPressedSearchBar(KeyEvent e) throws IOException {
         String regex = "[ a-zA-Z0-9\\-]+";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(e.getText());

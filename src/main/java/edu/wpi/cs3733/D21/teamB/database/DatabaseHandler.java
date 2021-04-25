@@ -18,11 +18,19 @@ public class DatabaseHandler {
 
     // Singleton
     private static DatabaseHandler handler;
+    private final NodeMutator nodeMutator;
+    private final EdgeMutator edgeMutator;
+    private final RequestMutator requestMutator;
+    private final UserMutator userMutator;
 
     //State
-    private static User AuthenticationUser = new User(null, null, null, User.AuthenticationLevel.GUEST, null);
+    static User AuthenticationUser = new User(null, null, null, User.AuthenticationLevel.GUEST, null);
 
     private DatabaseHandler() {
+        nodeMutator = new NodeMutator(this);
+        edgeMutator = new EdgeMutator(this);
+        requestMutator = new RequestMutator(this);
+        userMutator = new UserMutator(this);
     }
 
     /**
@@ -103,6 +111,7 @@ public class DatabaseHandler {
             tables.add("Nodes");
             tables.add("Jobs");
             tables.add("Users");
+            tables.add("FavoriteLocations");
         }
 
         for (String table : tables) {
@@ -254,6 +263,11 @@ public class DatabaseHandler {
                 + "job CHAR(30), "
                 + "FOREIGN KEY (username) REFERENCES Users(username))";
 
+        String favoriteLocationsTable = "CREATE TABLE IF NOT EXISTS FavoriteLocations("
+                + "username CHAR(30), "
+                + "favoriteLocation CHAR(30), "
+                + "FOREIGN KEY (username) REFERENCES Users(username))";
+
         runStatement(configuration, false);
         runStatement(nodesTable, false);
         runStatement(edgesTable, false);
@@ -271,7 +285,7 @@ public class DatabaseHandler {
         runStatement(socialWorkerRequestsTable, false);
         runStatement(usersTable, false);
         runStatement(jobsTable, false);
-
+        runStatement(favoriteLocationsTable, false);
     }
 
     /**
@@ -337,32 +351,8 @@ public class DatabaseHandler {
             this.addRequest(request);
     }
 
-    /**
-     * Get specific node information from the database given the node's ID
-     *
-     * @param ID requested node ID
-     * @return Node object with data from database
-     */
-    public Node getNodeById(String ID) {
-        try {
-            String query = "SELECT * FROM Nodes WHERE nodeID = '" + ID + "'";
-            ResultSet set = runStatement(query, true);
-            Node n = new Node(
-                    set.getString("nodeID").trim(),
-                    set.getInt("xcoord"),
-                    set.getInt("ycoord"),
-                    set.getString("floor").trim(),
-                    set.getString("building").trim(),
-                    set.getString("nodeType").trim(),
-                    set.getString("longName").trim(),
-                    set.getString("shortName").trim()
-            );
-            set.close();
-            return n;
-        } catch (SQLException e) {
-            return null;
-        }
-    }
+
+    // USERS
 
     /**
      * @param user     User to add
@@ -370,92 +360,9 @@ public class DatabaseHandler {
      * @throws SQLException if the user or password is malformed
      */
     public void addUser(User user, String password) throws SQLException {
-        new UserMutator(this).addEntity(new UserMutator.UserPasswordMatch(user, password));
+        userMutator.addEntity(new UserMutator.UserPasswordMatch(user, password));
     }
 
-    /**
-     * @param username username to query by
-     * @return User object with that username, or null if that user doesn't exist
-     */
-    public User getUserByUsername(String username) {
-        try {
-            String query = "SELECT job FROM Jobs WHERE (username = '" + username + "')";
-            List<Request.RequestType> jobs = new ArrayList<>();
-            ResultSet rs = runStatement(query, true);
-            if (rs != null) {
-                do {
-                    jobs.add(Request.RequestType.valueOf(rs.getString("job")));
-                } while (rs.next());
-                rs.close();
-            }
-
-            query = "SELECT * FROM Users WHERE (username = '" + username + "')";
-            rs = runStatement(query, true);
-            if (rs == null) return null;
-            User outUser = new User(
-                    rs.getString("username"),
-                    rs.getString("firstName"),
-                    rs.getString("lastName"),
-                    User.AuthenticationLevel.valueOf(rs.getString("authenticationLevel")),
-                    jobs
-            );
-            rs.close();
-            return outUser;
-        } catch (SQLException e) {
-            return null;
-        }
-    }
-
-    /**
-     * Gets a list of users who are assigned to handle jobs of certain type
-     *
-     * @param job RequestType enum of the type of job you want the users for
-     * @return a list of users who are assigned to jobs of the given type, or null if none of them do
-     */
-    public List<User> getUsersByJob(Request.RequestType job) {
-        try {
-            String query = "SELECT username FROM " +
-                    "Users NATURAL JOIN Jobs " +
-                    "WHERE (job = '" + job.toString() + "')";
-            ResultSet rs = runStatement(query, true);
-            List<User> outUsers = new ArrayList<>();
-            if (rs == null) return outUsers;
-            do {
-                String username = rs.getString("username");
-                outUsers.add(this.getUserByUsername(username));
-            } while (rs.next());
-            rs.close();
-            return outUsers;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    /**
-     * Returns a list of users with the given authentication level
-     *
-     * @param authenticationLevel the EXACT authentication level you want the users for
-     * @return list of users, or null if no users have that level
-     */
-    public List<User> getUsersByAuthenticationLevel(User.AuthenticationLevel authenticationLevel) {
-        try {
-            String query = "SELECT username, authenticationLevel FROM " +
-                    "Users WHERE authenticationLevel='" + authenticationLevel.toString() + "'";
-            ResultSet rs = runStatement(query, true);
-            List<User> outUsers = new ArrayList<>();
-            if (rs == null) return outUsers;
-            do {
-                String username = rs.getString("username");
-                outUsers.add(this.getUserByUsername(username));
-            } while (rs.next());
-            rs.close();
-            return outUsers;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
 
     /**
      * Updates the information for a given user
@@ -464,7 +371,7 @@ public class DatabaseHandler {
      * @throws SQLException if the user is malformed
      */
     public void updateUser(User newUser) throws SQLException {
-        new UserMutator(this).updateEntity(new UserMutator.UserPasswordMatch(newUser, ""));
+        userMutator.updateEntity(new UserMutator.UserPasswordMatch(newUser, ""));
     }
 
     /**
@@ -474,7 +381,35 @@ public class DatabaseHandler {
      * @throws SQLException if the user is malformed
      */
     public void deleteUser(String username) throws SQLException {
-        new UserMutator(this).removeEntity(username);
+        userMutator.removeEntity(username);
+    }
+
+    /**
+     * @param username username to query by
+     * @return User object with that username, or null if that user doesn't exist
+     */
+    public User getUserByUsername(String username) {
+        return userMutator.getUserByUsername(username);
+    }
+
+    /**
+     * Gets a list of users who are assigned to handle jobs of certain type
+     *
+     * @param job RequestType enum of the type of job you want the users for
+     * @return a list of users who are assigned to jobs of the given type, or null if none of them do
+     */
+    public List<User> getUsersByJob(Request.RequestType job) {
+        return userMutator.getUsersByJob(job);
+    }
+
+    /**
+     * Returns a list of users with the given authentication level
+     *
+     * @param authenticationLevel the EXACT authentication level you want the users for
+     * @return list of users, or null if no users have that level
+     */
+    public List<User> getUsersByAuthenticationLevel(User.AuthenticationLevel authenticationLevel) {
+        return userMutator.getUsersByAuthenticationLevel(authenticationLevel);
     }
 
     /**
@@ -483,23 +418,189 @@ public class DatabaseHandler {
      * @return If authentication is successful, return the User object representing the authenticated user, or null if not found
      */
     public User authenticate(String username, String password) {
-        try {
-            this.deauthenticate();
-            String query = "SELECT passwordHash FROM Users WHERE (username = '" + username + "')";
-            ResultSet rs = runStatement(query, true);
-            if (rs == null) return null;
-            String storedHash = (rs.getString("passwordHash"));
-            rs.close();
+        return userMutator.authenticate(username, password);
+    }
 
-            // Make sure the hashed password matches
-            if (!this.passwordHash(password).equals(storedHash)) return null;
-            User outUser = this.getUserByUsername(username);
-            DatabaseHandler.AuthenticationUser = outUser;
-            return outUser;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
-        }
+    /**
+     * Sets authentication level to guest
+     */
+    public void deauthenticate() {
+        userMutator.deauthenticate();
+    }
+
+    /*
+     * @return the User that is currently logged in
+     */
+    public User getAuthenticationUser() {
+        return DatabaseHandler.AuthenticationUser;
+    }
+
+
+    // NODES
+
+    /**
+     * Displays the list of nodes along with their attributes.
+     *
+     * @return a map of node IDs to actual nodes
+     */
+    public Map<String, Node> getNodes() {
+        return nodeMutator.getNodes();
+    }
+
+    /**
+     * Adds an node to the database with the given information
+     *
+     * @param node the node to add
+     */
+    public void addNode(Node node) throws SQLException {
+        nodeMutator.addEntity(node);
+    }
+
+    /**
+     * Updates the node with the specified ID.
+     *
+     * @param node the node to update
+     */
+    public void updateNode(Node node) throws SQLException {
+        nodeMutator.updateEntity(node);
+    }
+
+    /**
+     * Removes the node given by the node ID.
+     *
+     * @param nodeID the node to remove, given by the node ID
+     */
+    public void removeNode(String nodeID) throws SQLException {
+        nodeMutator.removeEntity(nodeID);
+    }
+
+    /**
+     * Given a node ID, returns a list of all the edges that are adjacent to that node.
+     *
+     * @param nodeID the node ID of the node to get the adjacent edges of
+     * @return the list of all adjacent edges of that node
+     */
+    public List<Edge> getAdjacentEdgesOfNode(String nodeID) throws SQLException {
+        return nodeMutator.getAdjacentEdgesOfNode(nodeID);
+    }
+
+    /**
+     * Retrieves a list of nodes from the database based on the given nodeType
+     *
+     * @param rest NodeType
+     * @return List of nodes with the given node type
+     */
+    public List<Node> getNodesByCategory(NodeType rest) throws SQLException {
+        return nodeMutator.getNodesByCategory(rest);
+    }
+
+    /**
+     * Get specific node information from the database given the node's ID
+     *
+     * @param ID requested node ID
+     * @return Node object with data from database
+     */
+    public Node getNodeById(String ID) {
+        return nodeMutator.getNodeById(ID);
+    }
+
+
+    // EDGES
+
+    /**
+     * Displays the list of edges along with their attributes.
+     *
+     * @return a map of edge IDs to actual edges
+     */
+    public Map<String, Edge> getEdges() {
+        return edgeMutator.getEdges();
+    }
+
+    /**
+     * Adds an edge to the database with the given information
+     *
+     * @param edge the edge to add
+     */
+    public void addEdge(Edge edge) throws SQLException {
+        edgeMutator.addEntity(edge);
+    }
+
+    /**
+     * Updates the edge with the specified ID.
+     *
+     * @param edge the edge to update
+     */
+    public void updateEdge(Edge edge) throws SQLException {
+        edgeMutator.updateEntity(edge);
+    }
+
+    /**
+     * Removes the edge given by the edge ID.
+     *
+     * @param edgeID the edge to remove, given by the edge ID
+     */
+    public void removeEdge(String edgeID) throws SQLException {
+        edgeMutator.removeEntity(edgeID);
+    }
+
+
+    // REQUESTS
+
+    /**
+     * Displays the list of requests along with their attributes.
+     *
+     * @return a map of request IDs to actual requests
+     */
+    public Map<String, Request> getRequests() throws SQLException {
+        return requestMutator.getRequests();
+    }
+
+    /**
+     * Adds a request to Requests and the table specific to the given request
+     *
+     * @param request the request to add
+     */
+    public void addRequest(Request request) throws SQLException {
+        requestMutator.addEntity(request);
+    }
+
+    /**
+     * Updates the given request
+     *
+     * @param request the request to update
+     */
+    public void updateRequest(Request request) throws SQLException {
+        requestMutator.updateEntity(request);
+    }
+
+    /**
+     * Removes a request from Requests and the table specific to the given request
+     *
+     * @param request the request to remove
+     */
+    public void removeRequest(Request request) throws SQLException {
+        requestMutator.removeEntity(request.getRequestID());
+    }
+
+    /**
+     * Get specific request information from the database given the request's ID and type
+     *
+     * @param requestID   the ID of the request
+     * @param requestType the type of the request
+     * @return the request
+     */
+    public Request getSpecificRequestById(String requestID, Request.RequestType requestType) throws SQLException {
+        return requestMutator.getSpecificRequestById(requestID, requestType);
+    }
+
+
+    // MISCELLANEOUS
+
+    /**
+     * @return whether the nodes table is initialized or not
+     */
+    public boolean isInitialized() {
+        return !getNodes().isEmpty() && !getEdges().isEmpty();
     }
 
     /**
@@ -511,436 +612,31 @@ public class DatabaseHandler {
     }
 
     /**
-     * Sets authentication level to guest
+     * Adds a favorite location to FavoriteLocations
      *
-     * @return if the user successfully lowered their authentication level (false if already guest)
+     * @param favoriteLocation the favorite location to add
      */
-    public boolean deauthenticate() {
-        if (DatabaseHandler.AuthenticationUser.getAuthenticationLevel() != User.AuthenticationLevel.GUEST) {
-            DatabaseHandler.AuthenticationUser = new User(null, null, null, User.AuthenticationLevel.GUEST, null);
-            return true;
-        } else return false;
-    }
-
-    /*
-     * @return the User that is currently logged in
-     */
-    public User getAuthenticationUser() {
-        return DatabaseHandler.AuthenticationUser;
+    public void addFavoriteLocation(String favoriteLocation) throws SQLException {
+        userMutator.addFavoriteToUser(favoriteLocation);
     }
 
     /**
-     * Displays the list of nodes along with their attributes.
+     * Removes a favorite location from FavoriteLocations
      *
-     * @return a map of node IDs to actual nodes
+     * @param favoriteLocation the favorite location to remove
      */
-    public Map<String, Node> getNodes() {
-        String query = "SELECT * FROM Nodes";
-        try {
-            ResultSet rs = runStatement(query, true);
-            Map<String, Node> nodes = new HashMap<>();
-            if (rs == null) return nodes;
-            do {
-                Node outNode = new Node(
-                        rs.getString("NodeID").trim(),
-                        rs.getInt("xcoord"),
-                        rs.getInt("ycoord"),
-                        rs.getString("floor"),
-                        rs.getString("building").trim(),
-                        rs.getString("nodeType").trim(),
-                        rs.getString("longName").trim(),
-                        rs.getString("shortName").trim()
-                );
-                nodes.put(rs.getString("NodeID").trim(), outNode);
-            } while (rs.next());
-            rs.close();
-            return nodes;
-        } catch (SQLException e) {
-            return null;
-        }
+    public void removeFavoriteLocation(String favoriteLocation) throws SQLException {
+        userMutator.removeFavoriteFromUser(favoriteLocation);
     }
 
     /**
-     * Displays the list of edges along with their attributes.
+     * Displays the list of favorite locations
      *
-     * @return a map of edge IDs to actual edges
+     * @return a list of favorite locations
+     * @throws SQLException
      */
-    public Map<String, Edge> getEdges() {
-        String query = "SELECT * FROM Edges";
-        try {
-            ResultSet rs = runStatement(query, true);
-            Map<String, Edge> edges = new HashMap<>();
-            if (rs == null) return edges;
-            do {
-                Edge outEdge = new Edge(
-                        rs.getString("edgeID").trim(),
-                        rs.getString("startNode").trim(),
-                        rs.getString("endNode").trim()
-                );
-                edges.put(rs.getString("edgeID").trim(), outEdge);
-            } while (rs.next());
-            rs.close();
-            return edges;
-        } catch (SQLException e) {
-            return null;
-        }
-    }
-
-    /**
-     * Adds an node to the database with the given information
-     *
-     * @param node the node to add
-     */
-    public void addNode(Node node) throws SQLException {
-        new NodeMutator(this).addEntity(node);
-    }
-
-    /**
-     * Adds an edge to the database with the given information
-     *
-     * @param edge the edge to add
-     */
-    public void addEdge(Edge edge) throws SQLException {
-        new EdgeMutator(this).addEntity(edge);
-    }
-
-    /**
-     * Updates the node with the specified ID.
-     *
-     * @param node the node to update
-     */
-    public void updateNode(Node node) throws SQLException {
-        new NodeMutator(this).updateEntity(node);
-    }
-
-    /**
-     * Updates the edge with the specified ID.
-     *
-     * @param edge the edge to update
-     */
-    public void updateEdge(Edge edge) throws SQLException {
-        new EdgeMutator(this).updateEntity(edge);
-    }
-
-    /**
-     * Removes the node given by the node ID.
-     *
-     * @param nodeID the node to remove, given by the node ID
-     */
-    public void removeNode(String nodeID) throws SQLException {
-        new NodeMutator(this).removeEntity(nodeID);
-    }
-
-    /**
-     * Removes the edge given by the edge ID.
-     *
-     * @param edgeID the edge to remove, given by the edge ID
-     */
-    public void removeEdge(String edgeID) throws SQLException {
-        new EdgeMutator(this).removeEntity(edgeID);
-    }
-
-    /**
-     * Given a node ID, returns a list of all the edges that are adjacent to that node.
-     *
-     * @param nodeID the node ID of the node to get the adjacent edges of
-     * @return the list of all adjacent edges of that node
-     */
-    public List<Edge> getAdjacentEdgesOfNode(String nodeID) throws SQLException {
-        String query = "SELECT DISTINCT * FROM Edges WHERE startNode = '" + nodeID + "' OR endNode = '" + nodeID + "'";
-        List<Edge> edges = new ArrayList<>();
-        ResultSet set = runStatement(query, true);
-        while (set.next()) {
-            Edge outEdge = new Edge(
-                    set.getString("edgeID").trim(),
-                    set.getString("startNode").trim(),
-                    set.getString("endNode").trim()
-            );
-            edges.add(outEdge);
-        }
-        set.close();
-        return edges;
-    }
-
-    /**
-     * @return whether the nodes table is initialized or not
-     */
-    public boolean isInitialized() {
-        return !getNodes().isEmpty() && !getEdges().isEmpty();
-    }
-
-
-    // REQUESTS ARE BELOW
-
-    /**
-     * Adds a request to Requests and the table specific to the given request
-     *
-     * @param request the request to add
-     */
-    public void addRequest(Request request) throws SQLException {
-        new RequestMutator(this).addEntity(request);
-    }
-
-    /**
-     * Updates the given request
-     *
-     * @param request the request to update
-     */
-    public void updateRequest(Request request) throws SQLException {
-        new RequestMutator(this).updateEntity(request);
-    }
-
-    /**
-     * Removes a request from Requests and the table specific to the given request
-     *
-     * @param request the request to remove
-     */
-    public void removeRequest(Request request) throws SQLException {
-        new RequestMutator(this).removeEntity(request.getRequestID());
-    }
-
-    /**
-     * Displays the list of requests along with their attributes.
-     *
-     * @return a map of request IDs to actual requests
-     */
-    public Map<String, Request> getRequests() throws SQLException {
-        String query = "SELECT * FROM Requests";
-        ResultSet rs = runStatement(query, true);
-        Map<String, Request> requests = new HashMap<>();
-        if (rs == null) return requests;
-        do {
-            Request outRequest = new Request(
-                    rs.getString("requestID"),
-                    Request.RequestType.valueOf(rs.getString("requestType")),
-                    rs.getString("requestTime"),
-                    rs.getString("requestDate"),
-                    rs.getString("complete"),
-                    rs.getString("employeeName"),
-                    rs.getString("location"),
-                    rs.getString("description"),
-                    rs.getString("submitter")
-            );
-            requests.put(rs.getString("requestID"), outRequest);
-        } while (rs.next());
-        rs.close();
-        return requests;
-    }
-
-    /**
-     * Get specific request information from the database given the request's ID and type
-     *
-     * @param requestID   the ID of the request
-     * @param requestType the type of the request
-     * @return the request
-     */
-    public Request getSpecificRequestById(String requestID, Request.RequestType requestType) throws SQLException {
-        String tableName = Request.RequestType.prettify(requestType).replaceAll("\\s", "") + "Requests";
-        String query = "SELECT * FROM Requests LEFT JOIN " + tableName + " ON Requests.requestID = " + tableName + ".requestID WHERE Requests.requestID = '" + requestID + "'";
-        Request outRequest = null;
-        ResultSet rs = runStatement(query, true);
-        if (rs == null) return null;
-        switch (requestType) {
-            case SANITATION:
-                outRequest = new SanitationRequest(
-                        rs.getString("sanitationType"),
-                        rs.getString("sanitationSize"),
-                        rs.getString("hazardous"),
-                        rs.getString("biologicalSubstance"),
-                        rs.getString("occupied"),
-                        rs.getString("requestID"),
-                        rs.getString("requestTime"),
-                        rs.getString("requestDate"),
-                        rs.getString("complete"),
-                        rs.getString("employeeName"),
-                        rs.getString("location"),
-                        rs.getString("description")
-                );
-                break;
-            case MEDICINE:
-                outRequest = new MedicineRequest(
-                        rs.getString("patientName"),
-                        rs.getString("medicine"),
-                        rs.getString("requestID"),
-                        rs.getString("requestTime"),
-                        rs.getString("requestDate"),
-                        rs.getString("complete"),
-                        rs.getString("employeeName"),
-                        rs.getString("location"),
-                        rs.getString("description")
-                );
-                break;
-            case INTERNAL_TRANSPORT:
-                outRequest = new InternalTransportRequest(
-                        rs.getString("patientName"),
-                        rs.getString("transportType"),
-                        rs.getString("unconscious"),
-                        rs.getString("infectious"),
-                        rs.getString("requestID"),
-                        rs.getString("requestTime"),
-                        rs.getString("requestDate"),
-                        rs.getString("complete"),
-                        rs.getString("employeeName"),
-                        rs.getString("location"),
-                        rs.getString("description")
-                );
-                break;
-            case RELIGIOUS:
-                outRequest = new ReligiousRequest(
-                        rs.getString("patientName"),
-                        rs.getString("startTime"),
-                        rs.getString("endTime"),
-                        rs.getString("religiousDate"),
-                        rs.getString("faith"),
-                        rs.getString("infectious"),
-                        rs.getString("requestID"),
-                        rs.getString("requestTime"),
-                        rs.getString("requestDate"),
-                        rs.getString("complete"),
-                        rs.getString("employeeName"),
-                        rs.getString("location"),
-                        rs.getString("description")
-                );
-                break;
-            case FOOD:
-                outRequest = new FoodRequest(
-                        rs.getString("patientName"),
-                        rs.getString("arrivalTime"),
-                        rs.getString("mealChoice"),
-                        rs.getString("requestID"),
-                        rs.getString("requestTime"),
-                        rs.getString("requestDate"),
-                        rs.getString("complete"),
-                        rs.getString("employeeName"),
-                        rs.getString("location"),
-                        rs.getString("description")
-                );
-                break;
-            case FLORAL:
-                outRequest = new FloralRequest(
-                        rs.getString("patientName"),
-                        rs.getString("deliveryDate"),
-                        rs.getString("startTime"),
-                        rs.getString("endTime"),
-                        rs.getString("wantsRoses"),
-                        rs.getString("wantsTulips"),
-                        rs.getString("wantsDaisies"),
-                        rs.getString("wantsLilies"),
-                        rs.getString("wantsSunflowers"),
-                        rs.getString("wantsCarnations"),
-                        rs.getString("wantsOrchids"),
-                        rs.getString("requestID"),
-                        rs.getString("requestTime"),
-                        rs.getString("requestDate"),
-                        rs.getString("complete"),
-                        rs.getString("employeeName"),
-                        rs.getString("location"),
-                        rs.getString("description")
-                );
-                break;
-            case SECURITY:
-                outRequest = new SecurityRequest(
-                        rs.getInt("urgency"),
-                        rs.getString("requestID"),
-                        rs.getString("requestTime"),
-                        rs.getString("requestDate"),
-                        rs.getString("complete"),
-                        rs.getString("employeeName"),
-                        rs.getString("location"),
-                        rs.getString("description")
-                );
-                break;
-            case EXTERNAL_TRANSPORT:
-                outRequest = new ExternalTransportRequest(
-                        rs.getString("patientName"),
-                        rs.getString("transportType"),
-                        rs.getString("destination"),
-                        rs.getString("patientAllergies"),
-                        rs.getString("outNetwork"),
-                        rs.getString("infectious"),
-                        rs.getString("unconscious"),
-                        rs.getString("requestID"),
-                        rs.getString("requestTime"),
-                        rs.getString("requestDate"),
-                        rs.getString("complete"),
-                        rs.getString("employeeName"),
-                        rs.getString("location"),
-                        rs.getString("description")
-                );
-                break;
-            case LAUNDRY:
-                outRequest = new LaundryRequest(
-                        rs.getString("serviceType"),
-                        rs.getString("serviceSize"),
-                        rs.getString("dark"),
-                        rs.getString("light"),
-                        rs.getString("occupied"),
-                        rs.getString("requestID"),
-                        rs.getString("requestTime"),
-                        rs.getString("requestDate"),
-                        rs.getString("complete"),
-                        rs.getString("employeeName"),
-                        rs.getString("location"),
-                        rs.getString("description")
-                );
-                break;
-            case CASE_MANAGER:
-                outRequest = new CaseManagerRequest(
-                        rs.getString("patientName"),
-                        rs.getString("timeForArrival"),
-                        rs.getString("requestID"),
-                        rs.getString("requestTime"),
-                        rs.getString("requestDate"),
-                        rs.getString("complete"),
-                        rs.getString("employeeName"),
-                        rs.getString("location"),
-                        rs.getString("description")
-                );
-                break;
-            case SOCIAL_WORKER:
-                outRequest = new SocialWorkerRequest(
-                        rs.getString("patientName"),
-                        rs.getString("timeForArrival"),
-                        rs.getString("requestID"),
-                        rs.getString("requestTime"),
-                        rs.getString("requestDate"),
-                        rs.getString("complete"),
-                        rs.getString("employeeName"),
-                        rs.getString("location"),
-                        rs.getString("description")
-                );
-                break;
-        }
-        rs.close();
-        return outRequest;
-    }
-
-
-    /**
-     * Retrieves a list of nodes from the database based on the given nodeType
-     *
-     * @param rest NodeType
-     * @return List of nodes with the given node type
-     */
-    public List<Node> getNodesByCategory(NodeType rest) throws SQLException {
-        String query = "SELECT * FROM Nodes WHERE nodeType = '" + rest.toString() + "'";
-        ResultSet rs = runStatement(query, true);
-        List<Node> nodes = new ArrayList<>();
-        do {
-            Node outNode = new Node(
-                    rs.getString("NodeID").trim(),
-                    rs.getInt("xcoord"),
-                    rs.getInt("ycoord"),
-                    rs.getString("floor"),
-                    rs.getString("building").trim(),
-                    rs.getString("nodeType").trim(),
-                    rs.getString("longName").trim(),
-                    rs.getString("shortName").trim()
-            );
-            nodes.add(outNode);
-        } while (rs.next());
-        rs.close();
-        return nodes;
+    public List<String> getFavorites() throws SQLException {
+        return userMutator.getFavoritesForUser();
     }
 
     /**
