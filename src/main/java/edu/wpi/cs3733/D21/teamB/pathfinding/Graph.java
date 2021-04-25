@@ -17,9 +17,11 @@ public class Graph {
     private Map<String, List<Node>> adjMap;
 
     private final DatabaseHandler db;
+    private int pathingTypeIndex;
 
     private Graph() {
         this.db = DatabaseHandler.getDatabaseHandler("main.db");
+        pathingTypeIndex = 0;
         updateGraph();
     }
 
@@ -113,4 +115,22 @@ public class Graph {
         }
         return cost;
     }
+
+    public int getPathingTypeIndex(String type) {
+        switch (type) {
+            case "A*":
+                return 0;
+            case "DFS":
+                return 1;
+            case "BFS":
+                return 2;
+            default:
+                return -1;
+        }
+    }
+
+    public void setPathingTypeIndex(int index) {
+        this.pathingTypeIndex = index;
+    }
+
 }
