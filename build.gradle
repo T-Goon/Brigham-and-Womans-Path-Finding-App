@@ -13,7 +13,7 @@ plugins {
     id 'java'
     id "io.freefair.lombok" version "5.3.0"
 }
-mainClassName = 'edu.wpi.teamB.Main'
+mainClassName = 'edu.wpi.cs3733.D21.teamB.Main'
 
 
 //These are the repositories where Gradle looks for dependencies.
