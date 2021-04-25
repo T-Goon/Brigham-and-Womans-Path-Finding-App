@@ -12,7 +12,7 @@ public class LoginOptionsController extends BasePageController {
     private JFXButton btnStaff;
 
     @FXML
-    private JFXButton btnGuest;
+    private JFXButton btnCovid;
 
     @FXML
     private JFXButton btnEmergency;
@@ -29,8 +29,8 @@ public class LoginOptionsController extends BasePageController {
             case "btnDirections":
                 SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/teamB/views/map/pathfindingMenu.fxml");
                 break;
-            case "btnGuest":
-                SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/teamB/views/menus/userDirectoryMenu.fxml");
+            case "btnCovid":
+                SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/teamB/views/covidSurvey/covidSurvey.fxml");
                 break;
             case "btnEmergency":
                 SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");

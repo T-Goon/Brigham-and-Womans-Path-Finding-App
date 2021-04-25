@@ -14,6 +14,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import lombok.Getter;
@@ -48,7 +49,7 @@ public class MapDrawer implements PoppableManager {
     private boolean isEditing = false;
 
     public MapDrawer(MapCache mc, AnchorPane nodeHolder, AnchorPane mapHolder, AnchorPane intermediateNodeHolder,
-                     Label lblError, StackPane mapStack, GesturePane gpane){
+                     Label lblError, StackPane mapStack, GesturePane gpane) {
         this.mc = mc;
         this.nodeHolder = nodeHolder;
         this.mapHolder = mapHolder;
@@ -91,7 +92,6 @@ public class MapDrawer implements PoppableManager {
 
     /**
      * Draws all the nodes on a given floor with the default graphic
-     *
      */
     public void drawNodesOnFloor() {
         Map<String, List<Node>> nodes = mc.getFloorNodes();
@@ -116,7 +116,7 @@ public class MapDrawer implements PoppableManager {
 
         for (Node n : nodes.values()) {
             if ((!(n.getNodeType().equals("WALK") || n.getNodeType().equals("HALL"))) && (!n.getBuilding().equals("BTM") && !n.getBuilding().equals("Shapiro")) &&
-                    n.getFloor().equals(mc.getCurrentFloor())){
+                    n.getFloor().equals(mc.getCurrentFloor())) {
                 placeAltNode(n);
             }
         }
@@ -140,7 +140,6 @@ public class MapDrawer implements PoppableManager {
 
     /**
      * Draws all edges on a floor
-     *
      */
     private void drawEdgesOnFloor() {
         Map<String, Edge> edges = Graph.getGraph().getEdges();
@@ -148,14 +147,14 @@ public class MapDrawer implements PoppableManager {
             Node start = db.getNodeById(e.getStartNodeID());
             Node end = db.getNodeById(e.getEndNodeID());
 
-            if (start.getFloor().equals( mc.getCurrentFloor() ) &&
-                    end.getFloor().equals( mc.getCurrentFloor() ) &&
+            if (start.getFloor().equals(mc.getCurrentFloor()) &&
+                    end.getFloor().equals(mc.getCurrentFloor()) &&
                     (
                             !start.getBuilding().equals("BTM") &&
-                            !start.getBuilding().equals("Shapiro")) &&
+                                    !start.getBuilding().equals("Shapiro")) &&
                     (
                             !end.getBuilding().equals("BTM") &&
-                            !start.getBuilding().equals("Shapiro")
+                                    !start.getBuilding().equals("Shapiro")
                     )) {
                 placeEdge(start, end);
             }
@@ -204,7 +203,12 @@ public class MapDrawer implements PoppableManager {
 
             c.setId(n.getNodeID() + "Icon");
 
-            c.setOnMouseClicked((MouseEvent e) -> mepm.showEditNodePopup(n, e, false));
+            c.setOnMouseClicked((MouseEvent e) -> {
+                if (mc.getStartNode() != null) {
+                    mc.setNewEdgeEnd(n.getNodeID());
+                    mepm.showAddEdgePopup(e);
+                } else mepm.showEditNodePopup(n, e, false);
+            });
 
             nodeHolder.getChildren().add(c);
             mc.getNodePlaced().add(c);
@@ -226,7 +230,12 @@ public class MapDrawer implements PoppableManager {
             c.setCenterX((n.getXCoord() / PathfindingMenuController.coordinateScale));
             c.setCenterY((n.getYCoord() / PathfindingMenuController.coordinateScale));
 
-            c.setOnMouseClicked(event -> mepm.showEditNodePopup(n, event, false));
+            c.setOnMouseClicked(event -> {
+                if (mc.getStartNode() != null) {
+                    mc.setNewEdgeEnd(n.getNodeID());
+                    mepm.showAddEdgePopup(event);
+                } else mepm.showEditNodePopup(n, event, false);
+            });
 
             c.setId(n.getNodeID() + "IntIcon");
 
@@ -255,9 +264,16 @@ public class MapDrawer implements PoppableManager {
             l.setEndY(end.getYCoord() / PathfindingMenuController.coordinateScale);
 
             l.setOnMouseClicked(e -> {
-                if(isEditing) {
+                if (isEditing) {
                     mepm.showDelEdgePopup(start, end, mapStack);
                 }
+            });
+
+            l.setOnMouseEntered(event -> {
+                if (isEditing) l.setStroke(Color.RED);
+            });
+            l.setOnMouseExited(event -> {
+                if (isEditing) l.setStroke(Color.rgb(0, 103, 177));
             });
 
             l.setId(start.getNodeID() + "_" + end.getNodeID() + "Icon");
