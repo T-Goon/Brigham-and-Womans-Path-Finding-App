@@ -3,8 +3,6 @@ package edu.wpi.teamB.entities.map;
 import com.jfoenix.controls.JFXButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 
 public class FloorSwitcher {
     private final MapDrawer md;
@@ -45,6 +43,7 @@ public class FloorSwitcher {
 
     /**
      * Switches the map image and has the map drawer place new nodes for that floor
+     *
      * @param floor String of the floor to switch to
      */
     public void switchFloor(String floor) {
@@ -86,10 +85,11 @@ public class FloorSwitcher {
     }
 
     /**
-     * Changes the background color of the currently selected floor button.
+     * Changes the border color of the currently selected floor button.
+     *
      * @param floor the floor id of the floor
      */
-    private void highlightFloorButton(String floor){
+    private void highlightFloorButton(String floor) {
         currentlySelected.setStyle("-fx-border-color: BLACK;-fx-border-width: 1;-fx-background-color:  F6BD39;");
 
         switch (floor) {
