@@ -204,7 +204,12 @@ public class MapDrawer implements PoppableManager {
 
             c.setId(n.getNodeID() + "Icon");
 
-            c.setOnMouseClicked((MouseEvent e) -> mepm.showEditNodePopup(n, e, false));
+            c.setOnMouseClicked((MouseEvent e) -> {
+                if (mc.getStartNode() != null) {
+                    mc.setNewEdgeEnd(n.getNodeID());
+                    mepm.showAddEdgePopup(e);
+                } else mepm.showEditNodePopup(n, e, false);
+            });
 
             nodeHolder.getChildren().add(c);
             mc.getNodePlaced().add(c);
@@ -226,7 +231,12 @@ public class MapDrawer implements PoppableManager {
             c.setCenterX((n.getXCoord() / PathfindingMenuController.coordinateScale));
             c.setCenterY((n.getYCoord() / PathfindingMenuController.coordinateScale));
 
-            c.setOnMouseClicked(event -> mepm.showEditNodePopup(n, event, false));
+            c.setOnMouseClicked(event -> {
+                if (mc.getStartNode() != null) {
+                    mc.setNewEdgeEnd(n.getNodeID());
+                    mepm.showAddEdgePopup(event);
+                } else mepm.showEditNodePopup(n, event, false);
+            });
 
             c.setId(n.getNodeID() + "IntIcon");
 
