@@ -367,9 +367,15 @@ public class PathfindingMenuController implements Initializable {
                 e.printStackTrace();
             }
 
-            TreeItem<String> itemToAdd = treeLocations.getSelectionModel().getSelectedItem();
+            TreeItem<String> equivalent = treeLocations.getSelectionModel().getSelectedItem();
+            if (equivalent == null) {
+                return;
+            }
+            String text = equivalent.getValue();
+            TreeItem<String> itemToAdd = new TreeItem<>(text);
 
-            if (!favorites.getChildren().contains(itemToAdd) && itemToAdd.isLeaf()) {
+
+            if (!favorites.getChildren().contains(equivalent) && equivalent.isLeaf() && !text.equals("Favorites")) {
                 itemToAdd.setGraphic(btnRemoveFromFavorites);
                 favorites.getChildren().add(itemToAdd);
             }
