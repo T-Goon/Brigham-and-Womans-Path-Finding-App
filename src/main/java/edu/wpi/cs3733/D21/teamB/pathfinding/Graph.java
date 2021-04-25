@@ -4,6 +4,7 @@ import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Edge;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Node;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.*;
 
@@ -17,6 +18,9 @@ public class Graph {
     private Map<String, List<Node>> adjMap;
 
     private final DatabaseHandler db;
+
+    @Getter
+    @Setter
     private int pathingTypeIndex;
 
     private Graph() {
@@ -115,22 +119,4 @@ public class Graph {
         }
         return cost;
     }
-
-    public int getPathingTypeIndex(String type) {
-        switch (type) {
-            case "A*":
-                return 0;
-            case "DFS":
-                return 1;
-            case "BFS":
-                return 2;
-            default:
-                return -1;
-        }
-    }
-
-    public void setPathingTypeIndex(int index) {
-        this.pathingTypeIndex = index;
-    }
-
 }
