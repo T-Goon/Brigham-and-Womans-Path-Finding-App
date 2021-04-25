@@ -89,15 +89,10 @@ public class MapTests extends FxRobot{
         // Set start node for edge
         clickOn("#bBATH00101Icon");
         clickOn("#btnAddEdge");
-        clickOn("#btnStart");
-        clickOn("#btnCancel");
-        clickOn("#btnCancel");
 
         // Set end node for edge
         clickOn("#bBATH00201Icon");
-        clickOn("#btnAddEdge");
-        clickOn("#btnEnd");
-        clickOn("#btnDone");
+        clickOn("#btnYes");
 
         // Delete Edge
         clickOn("#bBATH00101_bBATH00201Icon");
