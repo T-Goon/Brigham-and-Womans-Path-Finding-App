@@ -4,6 +4,8 @@ import edu.wpi.teamB.entities.map.data.Path;
 import edu.wpi.teamB.entities.map.data.Node;
 import edu.wpi.teamB.entities.map.Coord;
 
+import java.util.List;
+
 public class Directions {
 
     //takes a path and returns a string
@@ -34,13 +36,29 @@ public class Directions {
      * @param path takes in path we want instructions for
      * @return No two consecutive are in a line
      */
-    private Path simplifyPath(Path path) {
+    private List<String> simplifyPath(Path path) {
 
-        //det all nodes very near 180 degrees
-        return null;
+        List<String> pathID = path.getPath();
+        Graph graph = Graph.getGraph();
+
+        Node prevNode = null;
+        Node currNode = null;
+
+        for(String nextNodeID : pathID){
+
+            Node nextNode = graph.getNodes().get(nextNodeID);
+
+            if(prevNode != null){
+                if(angleBetweenEdges(prevNode, currNode, nextNode) == 180){
+                    pathID.remove(currNode.getNodeID());
+                }
+            }
+            prevNode = currNode;
+            currNode = nextNode;
+        }
+
+        return pathID;
     }
-
-    //turn simplified path into a list of Strings
 
     /**
      * @param simplifiedPath pass in path we want to create instructions for
