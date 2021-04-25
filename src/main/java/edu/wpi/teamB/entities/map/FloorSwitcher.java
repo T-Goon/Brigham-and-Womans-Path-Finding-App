@@ -90,12 +90,7 @@ public class FloorSwitcher {
      * @param floor the floor id of the floor
      */
     private void highlightFloorButton(String floor){
-        currentlySelected.setBorder(new Border(
-                new BorderStroke(
-                        Color.BLACK,
-                        BorderStrokeStyle.SOLID,
-                        new CornerRadii(0),
-                        new BorderWidths(1.0))));
+        currentlySelected.setStyle("-fx-border-color: BLACK;-fx-border-width: 1;-fx-background-color:  F6BD39;");
 
         switch (floor) {
             case floor3ID:
@@ -118,11 +113,6 @@ public class FloorSwitcher {
                 break;
         }
 
-        currentlySelected.setBorder(new Border(
-                new BorderStroke(
-                        Color.RED,
-                        BorderStrokeStyle.SOLID,
-                        new CornerRadii(0),
-                        new BorderWidths(3.0))));
+        currentlySelected.setStyle("-fx-border-color: RED; -fx-border-width: 3; -fx-background-color:  F6BD39;");
     }
 }

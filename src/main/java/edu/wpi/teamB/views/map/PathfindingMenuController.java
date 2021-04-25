@@ -161,11 +161,9 @@ public class PathfindingMenuController implements Initializable {
         mppm = new MapPathPopupManager(md, txtStartLocation, txtEndLocation, mapStack, gpane, this, nodeHolder);
         md.setMppm(mppm);
 
-        // Draw the nodes on the map
-        md.drawNodesOnFloor();
-
         // Set up floor switching
         fs = new FloorSwitcher(md, mc, map, btnF3, btnF2, btnF1, btnFL1, btnFL2);
+        fs.switchFloor(FloorSwitcher.floor1ID);
 
         //test if we came from a failed covid survey
         if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/covidSurvey/covidFormSubmittedWithSymp.fxml")) {
