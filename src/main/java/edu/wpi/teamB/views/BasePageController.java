@@ -1,4 +1,4 @@
-package edu.wpi.teamB.views.requestForms;
+package edu.wpi.teamB.views;
 
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.teamB.util.SceneSwitcher;
@@ -6,22 +6,19 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
-public class EmergencySubmittedController {
+public abstract class BasePageController {
 
     @FXML
-    private JFXButton btnReturn;
+    private JFXButton btnBack;
 
     @FXML
-    private void handleButtonAction(ActionEvent e) {
+    private JFXButton btnExit;
 
+    public void handleButtonAction(ActionEvent e) {
         JFXButton btn = (JFXButton) e.getSource();
-
         switch (btn.getId()) {
-            case "btnReturn":
+            case "btnBack":
                 SceneSwitcher.goBack(getClass(), 1);
-                break;
-            case "btnEmergency":
-                SceneSwitcher.switchFromTemp(getClass(), "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");
                 break;
             case "btnExit":
                 Platform.exit();

@@ -6,6 +6,7 @@ import edu.wpi.teamB.database.DatabaseHandler;
 import edu.wpi.teamB.entities.User;
 import edu.wpi.teamB.entities.requests.Request;
 import edu.wpi.teamB.util.RequestWrapper;
+import edu.wpi.teamB.views.BasePageController;
 import javafx.application.Platform;
 
 import com.jfoenix.controls.JFXButton;
@@ -30,15 +31,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 
 @SuppressWarnings("unchecked") // Added so Java doesn't get mad at the raw use of TableView that is necessary
-public class ServiceRequestDatabaseController implements Initializable {
-    @FXML
-    private JFXButton btnBack;
-
-    @FXML
-    private JFXButton btnExit;
-
-    @FXML
-    private JFXButton btnEmergency;
+public class ServiceRequestDatabaseController extends BasePageController implements Initializable {
 
     @FXML
     private TableView tblRequests;
@@ -135,26 +128,21 @@ public class ServiceRequestDatabaseController implements Initializable {
     }
 
     @FXML
-    private void handleButtonAction(ActionEvent e) {
+    public void handleButtonAction(ActionEvent e) {
+        final String currentPath = "/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml";
+        super.handleButtonAction(e);
         JFXButton btn = (JFXButton) e.getSource();
-
         switch (btn.getId()) {
-            case "btnBack":
-                SceneSwitcher.goBack(getClass(), 1);
-                break;
-            case "btnExit":
-                Platform.exit();
-                break;
-            case "btnEmergency":
-                SceneSwitcher.switchToTemp(getClass(), "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");
-                break;
             case "btnHelp":
                 loadHelpDialog();
+                break;
+            case "btnEmergency":
+                SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");
                 break;
         }
     }
 
-    private void loadHelpDialog(){
+    private void loadHelpDialog() {
         JFXDialogLayout helpLayout = new JFXDialogLayout();
 
         Text helpText = new Text("To assign an employee to a request right click on the text in the 'assigned to' column and select a staff member from the context menu");

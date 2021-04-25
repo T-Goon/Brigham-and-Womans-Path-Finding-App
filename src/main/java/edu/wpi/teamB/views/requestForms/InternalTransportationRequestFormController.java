@@ -77,10 +77,10 @@ public class InternalTransportationRequestFormController extends DefaultServiceR
         validateButton();
     }
 
-    public void handleButtonAction(ActionEvent actionEvent) {
-        super.handleButtonAction(actionEvent);
+    public void handleButtonAction(ActionEvent e) {
+        super.handleButtonAction(e);
 
-        JFXButton btn = (JFXButton) actionEvent.getSource();
+        JFXButton btn = (JFXButton) e.getSource();
         if (btn.getId().equals("btnSubmit")) {
             String givenPatientName = name.getText();
             String givenTransportType = comboTranspType.getValue().getText();
@@ -107,8 +107,8 @@ public class InternalTransportationRequestFormController extends DefaultServiceR
             if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml")) {
                 try {
                     employeeName = DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(this.id, Request.RequestType.INTERNAL_TRANSPORT).getEmployeeName();
-                } catch (SQLException e) {
-                    e.printStackTrace();
+                } catch (SQLException err) {
+                    err.printStackTrace();
                     return;
                 }
             } else {
@@ -124,8 +124,8 @@ public class InternalTransportationRequestFormController extends DefaultServiceR
                 } else {
                     DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
                 }
-            } catch (SQLException e) {
-                e.printStackTrace();
+            } catch (SQLException err) {
+                err.printStackTrace();
             }
         }
     }

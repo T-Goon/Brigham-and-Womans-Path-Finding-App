@@ -1,7 +1,7 @@
 package edu.wpi.teamB.entities.map.edge;
 
 import edu.wpi.teamB.entities.map.data.DelEdgePopupData;
-import edu.wpi.teamB.util.Popup.Popable;
+import edu.wpi.teamB.util.Popup.Poppable;
 import edu.wpi.teamB.util.Popup.Popup;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Pane;
@@ -10,7 +10,7 @@ import javafx.scene.layout.VBox;
 import java.io.IOException;
 import java.util.Objects;
 
-public class DelEdgePopup extends Popup<VBox, DelEdgePopupData> implements Popable {
+public class DelEdgePopup extends Popup<VBox, DelEdgePopupData> implements Poppable {
 
     public DelEdgePopup(Pane parent, DelEdgePopupData data) {
         super(parent, data);

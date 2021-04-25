@@ -6,7 +6,7 @@ import com.jfoenix.controls.JFXTextField;
 import edu.wpi.teamB.database.DatabaseHandler;
 import edu.wpi.teamB.entities.User;
 import edu.wpi.teamB.util.SceneSwitcher;
-import javafx.application.Platform;
+import edu.wpi.teamB.views.BasePageController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -16,7 +16,7 @@ import javafx.scene.input.KeyCode;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class LoginPageController implements Initializable {
+public class LoginPageController extends BasePageController implements Initializable {
 
     @FXML
     private JFXTextField username;
@@ -28,20 +28,10 @@ public class LoginPageController implements Initializable {
     private JFXButton btnLogin;
 
     @FXML
-    private JFXButton btnBack;
-
-    @FXML
-    private JFXButton btnEmergency;
-
-    @FXML
     private Label error;
-
-    @FXML
-    private JFXButton btnExit;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
         //Add event listeners to the text boxes so user can submit by pressing enter
         username.setOnKeyPressed(event -> {
             if (event.getCode().equals(KeyCode.ENTER) && !areFormsEmpty()) {
@@ -57,22 +47,16 @@ public class LoginPageController implements Initializable {
     }
 
     @FXML
-    public void handleButtonAction(ActionEvent actionEvent) {
-        JFXButton btn = (JFXButton) actionEvent.getSource();
-
+    public void handleButtonAction(ActionEvent e) {
+        final String currentPath = "/edu/wpi/teamB/views/login/loginPage.fxml";
+        super.handleButtonAction(e);
+        JFXButton btn = (JFXButton) e.getSource();
         switch (btn.getId()) {
             case "btnLogin":
                 handleLoginSubmit();
                 break;
-            case "btnBack":
-                DatabaseHandler.getDatabaseHandler("main.db").deauthenticate();
-                SceneSwitcher.goBack(getClass(), 1);
-                break;
-            case "btnExit":
-                Platform.exit();
-                break;
             case "btnEmergency":
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/login/loginPage.fxml", "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");
+                SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");
                 break;
         }
     }
@@ -92,9 +76,13 @@ public class LoginPageController implements Initializable {
             error.setVisible(true);
             return;
         }
-        SceneSwitcher.switchToTemp(getClass(), "/edu/wpi/teamB/views/menus/staffDirectoryMenu.fxml");
+        SceneSwitcher.switchFromTemp(getClass(), "/edu/wpi/teamB/views/menus/userDirectoryMenu.fxml");
     }
 
+    /**
+     * Disables the submit button if either the username or
+     * the password is empty
+     */
     @FXML
     private void validateButton() {
         btnLogin.setDisable(areFormsEmpty());

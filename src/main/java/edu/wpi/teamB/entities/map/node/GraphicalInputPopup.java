@@ -2,7 +2,7 @@ package edu.wpi.teamB.entities.map.node;
 
 import edu.wpi.teamB.App;
 import edu.wpi.teamB.entities.map.data.GraphicalInputData;
-import edu.wpi.teamB.util.Popup.Popable;
+import edu.wpi.teamB.util.Popup.Poppable;
 import edu.wpi.teamB.util.Popup.Popup;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Pane;
@@ -12,7 +12,7 @@ import net.kurobako.gesturefx.GesturePane;
 import java.io.IOException;
 import java.util.Objects;
 
-public class GraphicalInputPopup extends Popup<VBox, GraphicalInputData> implements Popable {
+public class GraphicalInputPopup extends Popup<VBox, GraphicalInputData> implements Poppable {
 
     private final GesturePane gpane;
 

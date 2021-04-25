@@ -76,10 +76,10 @@ public class ReligiousRequestFormController extends DefaultServiceRequestFormCon
         validateButton();
     }
 
-    public void handleButtonAction(ActionEvent actionEvent) {
-        super.handleButtonAction(actionEvent);
+    public void handleButtonAction(ActionEvent e) {
+        super.handleButtonAction(e);
 
-        JFXButton btn = (JFXButton) actionEvent.getSource();
+        JFXButton btn = (JFXButton) e.getSource();
         if (btn.getId().equals("btnSubmit")) {
 
             String givenPatientName = name.getText();
@@ -109,8 +109,8 @@ public class ReligiousRequestFormController extends DefaultServiceRequestFormCon
             if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml")) {
                 try {
                     employeeName = DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(this.id, Request.RequestType.RELIGIOUS).getEmployeeName();
-                } catch (SQLException e) {
-                    e.printStackTrace();
+                } catch (SQLException err) {
+                    err.printStackTrace();
                     return;
                 }
             } else {
@@ -126,8 +126,8 @@ public class ReligiousRequestFormController extends DefaultServiceRequestFormCon
                 } else {
                     DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
                 }
-            } catch (SQLException e) {
-                e.printStackTrace();
+            } catch (SQLException err) {
+                err.printStackTrace();
             }
         }
     }

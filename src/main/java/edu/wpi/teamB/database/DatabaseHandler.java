@@ -128,7 +128,9 @@ public class DatabaseHandler {
                 + "building CHAR(20), "
                 + "nodeType CHAR(20), "
                 + "longName CHAR(50), "
-                + "shortName CHAR(20))";
+                + "shortName CHAR(20), "
+                + "CHECK (xcoord >= 0), "
+                + "CHECK (ycoord >= 0))";
 
         String edgesTable = "CREATE TABLE IF NOT EXISTS Edges("
                 + "edgeID CHAR(30) PRIMARY KEY, "

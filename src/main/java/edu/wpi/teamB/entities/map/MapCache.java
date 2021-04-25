@@ -42,9 +42,6 @@ public class MapCache {
     @Setter
     @Getter
     private String newEdgeEnd;
-    @Setter
-    @Getter
-    private Circle endNode;
 
     /**
      * Function that updates everything involved with the different locations on the map
