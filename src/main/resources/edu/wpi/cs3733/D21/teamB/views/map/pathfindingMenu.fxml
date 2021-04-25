@@ -64,7 +64,7 @@
         </HBox>
       <StackPane fx:id="stackContainer">
          <children>
-              <HBox alignment="BOTTOM_CENTER" prefHeight="9.999999999E9" prefWidth="9.99999999E8">
+              <HBox alignment="TOP_RIGHT" prefHeight="9.999999999E9" prefWidth="9.99999999E8">
                   <children>
                       <VBox alignment="BOTTOM_CENTER" minWidth="300.0" prefHeight="675.0" prefWidth="300.0" style="-fx-background-color: #012D5A;">
                           <children>
@@ -230,7 +230,7 @@
                                                     <children>
                                                         <AnchorPane fx:id="mapHolder">
                                                             <children>
-                                                                <ImageView fx:id="map" fitHeight="1800.0" fitWidth="1800.0" layoutY="-14.0" pickOnBounds="true" preserveRatio="true">
+                                                                <ImageView fx:id="map" fitHeight="1800.0" fitWidth="1800.0" pickOnBounds="true" preserveRatio="true">
                                                                     <image>
                                                                       <Image url="@../../images/maps/01_thefirstfloor-Edited.png" />
                                                                   </image>
