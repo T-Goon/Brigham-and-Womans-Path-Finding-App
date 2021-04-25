@@ -29,7 +29,9 @@ public class AddEdgePopup extends Popup<VBox, AddEdgePopupData> implements Poppa
      */
     public void addEdge() {
         try {
-            System.out.println(data.getMc().getNewEdgeStart() + "_" + data.getMc().getNewEdgeEnd());
+
+
+
             if (DatabaseHandler.getDatabaseHandler("main.db").getEdges().get(data.getMc().getNewEdgeStart() + "_" +
                     data.getMc().getNewEdgeEnd()) == null)
                 DatabaseHandler.getDatabaseHandler("main.db").addEdge(new Edge(
