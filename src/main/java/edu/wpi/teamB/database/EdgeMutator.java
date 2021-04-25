@@ -1,6 +1,6 @@
 package edu.wpi.teamB.database;
 
-import edu.wpi.teamB.entities.map.Edge;
+import edu.wpi.teamB.entities.map.data.Edge;
 import edu.wpi.teamB.pathfinding.Graph;
 
 import java.sql.SQLException;

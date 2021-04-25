@@ -654,7 +654,11 @@ public class DatabaseHandlerTest {
             return;
         }
         assertEquals(db.getUserByUsername("testuser"), user);
-        db.deleteUser("testuser");
+        try {
+            db.deleteUser("testuser");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         assertNull(db.getUserByUsername("testuser"));
     }
 

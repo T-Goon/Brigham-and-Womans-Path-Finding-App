@@ -1,6 +1,5 @@
 package edu.wpi.teamB.database;
 
-import edu.wpi.teamB.entities.User;
 import edu.wpi.teamB.entities.requests.Request;
 
 import java.sql.SQLException;

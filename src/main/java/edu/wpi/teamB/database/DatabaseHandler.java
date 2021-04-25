@@ -1,9 +1,9 @@
 package edu.wpi.teamB.database;
 
 import edu.wpi.teamB.entities.User;
-import edu.wpi.teamB.entities.map.Edge;
-import edu.wpi.teamB.entities.map.Node;
-import edu.wpi.teamB.entities.map.NodeType;
+import edu.wpi.teamB.entities.map.data.Edge;
+import edu.wpi.teamB.entities.map.data.Node;
+import edu.wpi.teamB.entities.map.data.NodeType;
 import edu.wpi.teamB.entities.requests.*;
 
 import java.sql.*;
@@ -368,14 +368,10 @@ public class DatabaseHandler {
     /**
      * @param user     User to add
      * @param password Plaintext password for user
+     * @throws SQLException if the user or password is malformed
      */
-    public boolean addUser(User user, String password) {
-        try {
-            new UserMutator().addEntity(new UserPasswordMatch(user, password));
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return true;
+    public void addUser(User user, String password) throws SQLException {
+        new UserMutator().addEntity(new UserPasswordMatch(user, password));
     }
 
     /**
@@ -459,30 +455,20 @@ public class DatabaseHandler {
      * Updates the information for a given user
      *
      * @param newUser the updated user
-     * @return whether the attempt to update the user was successful
+     * @throws SQLException if the user is malformed
      */
-    public boolean updateUser(User newUser) {
-        try {
-            new UserMutator().updateEntity(new UserPasswordMatch(newUser, ""));
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return true;
+    public void updateUser(User newUser) throws SQLException {
+        new UserMutator().updateEntity(new UserPasswordMatch(newUser, ""));
     }
 
     /**
      * Given the username of a user, delete them from the database
      *
      * @param username the username of the user to delete
-     * @return true if success
+     * @throws SQLException if the user is malformed
      */
-    public boolean deleteUser(String username) {
-        try {
-            new UserMutator().removeEntity(username);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return true;
+    public void deleteUser(String username) throws SQLException {
+        new UserMutator().removeEntity(username);
     }
 
     /**
@@ -597,12 +583,8 @@ public class DatabaseHandler {
      *
      * @param node the node to add
      */
-    public void addNode(Node node) {
-        try {
-            new NodeMutator().addEntity(node);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public void addNode(Node node) throws SQLException {
+        new NodeMutator().addEntity(node);
     }
 
     /**
@@ -610,12 +592,8 @@ public class DatabaseHandler {
      *
      * @param edge the edge to add
      */
-    public void addEdge(Edge edge) {
-        try {
-            new EdgeMutator().addEntity(edge);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public void addEdge(Edge edge) throws SQLException {
+        new EdgeMutator().addEntity(edge);
     }
 
     /**
@@ -623,12 +601,8 @@ public class DatabaseHandler {
      *
      * @param node the node to update
      */
-    public void updateNode(Node node) {
-        try {
-            new NodeMutator().updateEntity(node);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public void updateNode(Node node) throws SQLException {
+        new NodeMutator().updateEntity(node);
     }
 
     /**
@@ -636,12 +610,8 @@ public class DatabaseHandler {
      *
      * @param edge the edge to update
      */
-    public void updateEdge(Edge edge) {
-        try {
-            new EdgeMutator().updateEntity(edge);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public void updateEdge(Edge edge) throws SQLException {
+        new EdgeMutator().updateEntity(edge);
     }
 
     /**
@@ -649,12 +619,8 @@ public class DatabaseHandler {
      *
      * @param nodeID the node to remove, given by the node ID
      */
-    public void removeNode(String nodeID) {
-        try {
-            new NodeMutator().removeEntity(nodeID);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public void removeNode(String nodeID) throws SQLException {
+        new NodeMutator().removeEntity(nodeID);
     }
 
     /**
@@ -662,12 +628,8 @@ public class DatabaseHandler {
      *
      * @param edgeID the edge to remove, given by the edge ID
      */
-    public void removeEdge(String edgeID) {
-        try {
-            new EdgeMutator().removeEntity(edgeID);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public void removeEdge(String edgeID) throws SQLException {
+        new EdgeMutator().removeEntity(edgeID);
     }
 
     /**
@@ -707,12 +669,8 @@ public class DatabaseHandler {
      *
      * @param request the request to add
      */
-    public void addRequest(Request request) {
-        try {
-            new RequestMutator().updateEntity(request);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public void addRequest(Request request) throws SQLException {
+        new RequestMutator().updateEntity(request);
     }
 
     /**
@@ -720,12 +678,8 @@ public class DatabaseHandler {
      *
      * @param request the request to remove
      */
-    public void removeRequest(Request request) {
-        try {
-            new RequestMutator().removeEntity(request.getRequestID());
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public void removeRequest(Request request) throws SQLException {
+        new RequestMutator().removeEntity(request.getRequestID());
     }
 
     /**
@@ -733,12 +687,8 @@ public class DatabaseHandler {
      *
      * @param request the request to update
      */
-    public void updateRequest(Request request) {
-        try {
-            new RequestMutator().addEntity(request);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public void updateRequest(Request request) throws SQLException {
+        new RequestMutator().addEntity(request);
     }
 
     /**
