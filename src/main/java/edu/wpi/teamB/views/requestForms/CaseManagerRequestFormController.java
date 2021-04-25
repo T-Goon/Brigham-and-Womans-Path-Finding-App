@@ -4,11 +4,14 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXTimePicker;
+import com.jfoenix.validation.RequiredFieldValidator;
 import edu.wpi.teamB.App;
 import edu.wpi.teamB.database.DatabaseHandler;
 import edu.wpi.teamB.entities.requests.CaseManagerRequest;
 import edu.wpi.teamB.entities.requests.Request;
 import edu.wpi.teamB.util.SceneSwitcher;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -56,6 +59,37 @@ public class CaseManagerRequestFormController extends DefaultServiceRequestFormC
             messageForCaseManager.setText(caseManagerRequest.getDescription());
         }
         validateButton();
+
+        //creating a pop-up error message when a text field is left empty
+        //patientName text field
+        RequiredFieldValidator validatorPatientName = new RequiredFieldValidator();
+
+        patientName.getValidators().add(validatorPatientName);
+        validatorPatientName.setMessage("Please input your name!");
+
+        patientName.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if(!newValue){
+                    patientName.validate();
+                }
+            }
+        });
+
+        //name text field
+        RequiredFieldValidator validatorMessage = new RequiredFieldValidator();
+
+        messageForCaseManager.getValidators().add(validatorMessage);
+        validatorMessage.setMessage("Please input a message for your case manager!");
+
+        messageForCaseManager.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if(!newValue){
+                    messageForCaseManager.validate();
+                }
+            }
+        });
     }
 
     public void handleButtonAction(ActionEvent actionEvent) {

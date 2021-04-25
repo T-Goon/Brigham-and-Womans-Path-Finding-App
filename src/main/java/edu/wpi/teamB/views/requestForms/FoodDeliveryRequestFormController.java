@@ -4,11 +4,14 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXTimePicker;
+import com.jfoenix.validation.RequiredFieldValidator;
 import edu.wpi.teamB.App;
 import edu.wpi.teamB.database.DatabaseHandler;
 import edu.wpi.teamB.entities.requests.FoodRequest;
 import edu.wpi.teamB.entities.requests.Request;
 import edu.wpi.teamB.util.SceneSwitcher;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -60,9 +63,41 @@ public class FoodDeliveryRequestFormController extends DefaultServiceRequestForm
             description.setText(foodRequest.getDescription());
         }
         validateButton();
+
+        //creating a pop-up error message when a text field is left empty
+        //name text field
+        RequiredFieldValidator validatorName = new RequiredFieldValidator();
+
+        name.getValidators().add(validatorName);
+        validatorName.setMessage("Please input your name!");
+
+        name.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if(!newValue){
+                    name.validate();
+                }
+            }
+        });
+
+        //meal choice text field
+        RequiredFieldValidator validatorMealChoice = new RequiredFieldValidator();
+
+        mealChoice.getValidators().add(validatorMealChoice);
+        validatorMealChoice.setMessage("Please input your meal choice from the menu!");
+
+        mealChoice.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if(!newValue){
+                    mealChoice.validate();
+                }
+            }
+        });
     }
 
     public void handleButtonAction(ActionEvent actionEvent) {
+
         super.handleButtonAction(actionEvent);
 
         JFXButton btn = (JFXButton) actionEvent.getSource();
@@ -112,6 +147,7 @@ public class FoodDeliveryRequestFormController extends DefaultServiceRequestForm
             }
         }
     }
+
 
     @FXML
     private void validateButton() {

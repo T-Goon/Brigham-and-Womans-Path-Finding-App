@@ -51,6 +51,9 @@ public class CovidSurveyController implements Initializable {
     private JFXCheckBox chkNausea;
 
     @FXML
+    private JFXCheckBox chkNone;
+
+    @FXML
     private JFXButton btnExit;
 
     @FXML
