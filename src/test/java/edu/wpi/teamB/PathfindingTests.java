@@ -292,6 +292,7 @@ public class PathfindingTests {
         Path path1 = AStar.findPath("FINFO00101","WELEV00L01");
         List<String> idExpected1 = new ArrayList<>();
         idExpected1.add("FINFO00101");
+
         idExpected1.add("FHALL02901");
         idExpected1.add("FHALL02201");
         idExpected1.add("FHALL00701");
