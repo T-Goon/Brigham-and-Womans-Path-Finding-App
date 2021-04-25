@@ -84,7 +84,7 @@
                         </VBox>
                         <VBox alignment="CENTER">
                            <children>
-                              <JFXButton fx:id="btnFloralDelivery" contentDisplay="GRAPHIC_ONLY" minHeight="160.0" minWidth="160.0" nodeOrientation="LEFT_TO_RIGHT" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39; -fx-background-radius: 7%;" text="Floral Delivery" VBox.vgrow="ALWAYS">
+                              <JFXButton fx:id="btnFloralDelivery" contentDisplay="GRAPHIC_ONLY" minHeight="160.0" minWidth="160.0" nodeOrientation="LEFT_TO_RIGHT" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39; -fx-background-radius: 7%;" stylesheets="@../../css/serviceRequestDirectory.css" text="Floral Delivery" VBox.vgrow="ALWAYS">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
@@ -100,7 +100,7 @@
                         </VBox>
                         <VBox fx:id="medicineDelivery" alignment="CENTER">
                            <children>
-                               <JFXButton fx:id="btnMedicine" contentDisplay="GRAPHIC_ONLY" minHeight="160.0" minWidth="160.0" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39; -fx-background-radius: 7%;" text="Medicine Delivery" VBox.vgrow="ALWAYS">
+                               <JFXButton fx:id="btnMedicine" contentDisplay="GRAPHIC_ONLY" minHeight="160.0" minWidth="160.0" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39; -fx-background-radius: 7%;" stylesheets="@../../css/serviceRequestDirectory.css" text="Medicine Delivery" VBox.vgrow="ALWAYS">
                                    <font>
                                        <Font size="14.0" />
                                    </font>

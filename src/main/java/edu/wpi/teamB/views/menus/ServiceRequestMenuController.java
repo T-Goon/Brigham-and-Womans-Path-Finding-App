@@ -67,6 +67,9 @@ public class ServiceRequestMenuController extends BasePageController {
         super.handleButtonAction(e);
         Button btn = (Button) e.getSource();
 
+        btn.getStyleClass().removeAll();
+        btn.getStyleClass().add("btnPressed");
+
         String path = null;
         switch (btn.getId()) {
             case "btnMedicine":

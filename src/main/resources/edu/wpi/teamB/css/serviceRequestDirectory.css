@@ -20,3 +20,11 @@
 .scroll-pane{
     -fx-background-color: transparent;
 }
+
+#JFXButton.btnPressed{
+    -fx-background-color: #f7d483;
+}
+
+.btnPressed{
+    -fx-background-color: #f7d483;
+}
