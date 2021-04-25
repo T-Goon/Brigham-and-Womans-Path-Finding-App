@@ -21,7 +21,7 @@
             <children>
                 <VBox layoutX="-5.0" style="-fx-background-color: #012d5a;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <children>
-                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #FFFFFF;">
+                        <HBox alignment="CENTER" prefHeight="167.0" prefWidth="988.0" style="-fx-background-color: #FFFFFF;">
                             <children>
                                 <VBox>
                                     <HBox.margin>
@@ -43,7 +43,7 @@
                                         </JFXButton>
                                     </children>
                                 </VBox>
-                                <VBox alignment="TOP_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+                                <VBox alignment="TOP_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="167.0" prefWidth="698.0" HBox.hgrow="ALWAYS">
                                     <children>
                                         <JFXButton fx:id="btnExit" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" onAction="#handleButtonAction" prefHeight="40.0" prefWidth="40.0" rotate="45.0" style="-fx-background-color: transparent; -fx-background-radius: 50%;" text="+" textAlignment="CENTER">
                                             <padding>
@@ -80,7 +80,7 @@
                                         <Insets top="10.0" />
                                     </VBox.margin>
                                     <children>
-                                            <VBox prefHeight="116.0" prefWidth="780.0">
+                                            <VBox prefHeight="37.0" prefWidth="780.0">
                                                 <children>
                                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Name:">
                                                         <VBox.margin>
@@ -100,7 +100,7 @@
                                     <Insets bottom="10.0" />
                                  </VBox.margin>
                                             </VBox>
-                                            <VBox prefHeight="116.0" prefWidth="780.0">
+                                            <VBox prefHeight="37.0" prefWidth="780.0">
                                                 <children>
                                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Location:">
                                                         <font>
@@ -119,8 +119,11 @@
                                  <VBox.margin>
                                     <Insets bottom="10.0" />
                                  </VBox.margin>
+                                 <padding>
+                                    <Insets top="10.0" />
+                                 </padding>
                                             </VBox>
-                                          <VBox prefHeight="115.0" prefWidth="780.0">
+                                          <VBox prefHeight="36.0" prefWidth="780.0">
                                               <children>
                                                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Meal Choice (from menu):">
                                                       <VBox.margin>
@@ -135,8 +138,11 @@
                                  <VBox.margin>
                                     <Insets bottom="10.0" />
                                  </VBox.margin>
+                                 <padding>
+                                    <Insets top="10.0" />
+                                 </padding>
                                           </VBox>
-                                          <VBox prefHeight="103.0" prefWidth="780.0">
+                                          <VBox prefHeight="39.0" prefWidth="780.0">
                                               <children>
                                                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Desired Arrival Time:">
                                                       <font>
@@ -146,13 +152,16 @@
                                                           <Insets left="5.0" />
                                                       </VBox.margin>
                                                   </Text>
-                                                  <JFXTimePicker fx:id="arrivalTime" defaultColor="#012d5a" onAction="#validateButton" style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" stylesheets="@../../css/dateTimeFix.css" />
+                                                  <JFXTimePicker fx:id="arrivalTime" defaultColor="#012d5a" onAction="#validateButton" prefHeight="25.0" prefWidth="221.0" style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" stylesheets="@../../css/dateTimeFix.css" />
                                               </children>
                                  <VBox.margin>
                                     <Insets bottom="10.0" />
                                  </VBox.margin>
+                                 <padding>
+                                    <Insets top="10.0" />
+                                 </padding>
                                           </VBox>
-                                        <VBox prefHeight="129.0" prefWidth="780.0">
+                                        <VBox prefHeight="81.0" prefWidth="780.0">
                                             <children>
                                                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Extra Information (Allergies, Preferences, etc.):">
                                                     <VBox.margin>
@@ -164,6 +173,9 @@
                                                 </Text>
                                                 <JFXTextArea fx:id="description" onKeyReleased="#validateButton" promptText="Please include any other relevant information" style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" />
                                             </children>
+                                 <padding>
+                                    <Insets top="10.0" />
+                                 </padding>
                                         </VBox>
                               <HBox alignment="CENTER_LEFT">
                                  <children>
@@ -185,17 +197,10 @@
                                           </JFXButton>
                                        </children>
                                     </HBox>
-                                    <HBox alignment="CENTER_RIGHT" fillHeight="false" spacing="10.0" HBox.hgrow="ALWAYS">
-                                       <children>
-                                          <JFXButton fx:id="btnHelp" buttonType="RAISED" maxHeight="56.0" maxWidth="56.0" minHeight="-Infinity" minWidth="-Infinity" onAction="#handleButtonAction" prefHeight="56.0" prefWidth="56.0" style="-fx-background-color: #9A9999; -fx-background-radius: 50%;" text="?" textFill="WHITE">
-                                             <font>
-                                                <Font name="MS Reference Sans Serif" size="27.0" />
-                                             </font>
-                                          </JFXButton>
-                                       </children></HBox>
+                                    <HBox alignment="CENTER_RIGHT" fillHeight="false" spacing="10.0" HBox.hgrow="ALWAYS" />
                                  </children>
                                  <padding>
-                                    <Insets left="10.0" right="10.0" />
+                                    <Insets left="10.0" right="10.0" top="8.0" />
                                  </padding>
                                  <VBox.margin>
                                     <Insets bottom="10.0" top="10.0" />
@@ -213,6 +218,14 @@
                         </VBox>
                     </children>
                 </VBox>
+            <JFXButton fx:id="btnHelp" buttonType="RAISED" maxHeight="56.0" maxWidth="56.0" minHeight="-Infinity" minWidth="-Infinity" onAction="#handleButtonAction" prefHeight="56.0" prefWidth="56.0" style="-fx-background-color: #9A9999; -fx-background-radius: 50%;" text="?" textFill="WHITE" StackPane.alignment="BOTTOM_RIGHT">
+               <font>
+                  <Font name="MS Reference Sans Serif" size="27.0" />
+               </font>
+               <StackPane.margin>
+                  <Insets bottom="15.0" right="15.0" />
+               </StackPane.margin>
+            </JFXButton>
             </children>
         </StackPane>
     </children>

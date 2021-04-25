@@ -1,11 +1,14 @@
 package edu.wpi.teamB.views.requestForms;
 
 import com.jfoenix.controls.*;
+import com.jfoenix.validation.RequiredFieldValidator;
 import edu.wpi.teamB.App;
 import edu.wpi.teamB.database.DatabaseHandler;
 import edu.wpi.teamB.entities.requests.LaundryRequest;
 import edu.wpi.teamB.entities.requests.Request;
 import edu.wpi.teamB.util.SceneSwitcher;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -95,6 +98,67 @@ public class LaundryRequestFormController extends DefaultServiceRequestFormContr
             roomOccupied.setSelected(laundryRequest.getOccupied().equals("T"));
         }
         validateButton();
+
+        //creating a pop-up error message when a text field is left empty
+        //location combo box
+        RequiredFieldValidator validatorLocation = new RequiredFieldValidator();
+
+        loc.getValidators().add(validatorLocation);
+        validatorLocation.setMessage("Please select a location!");
+
+        loc.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if(!newValue){
+                    loc.validate();
+                }
+            }
+        });
+
+        //type of service combo box
+        RequiredFieldValidator validatorTypeOfService = new RequiredFieldValidator();
+
+        comboTypeService.getValidators().add(validatorTypeOfService);
+        validatorTypeOfService.setMessage("Please select a type of service!");
+
+        comboTypeService.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if(!newValue){
+                    comboTypeService.validate();
+                }
+            }
+        });
+
+        //size of service combo box
+        RequiredFieldValidator validatorSizeOfService = new RequiredFieldValidator();
+
+        comboSizeService.getValidators().add(validatorSizeOfService);
+        validatorSizeOfService.setMessage("Please select the size of the service!");
+
+        comboSizeService.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if(!newValue){
+                    comboSizeService.validate();
+                }
+            }
+        });
+
+        //description text field
+        RequiredFieldValidator validatorDescription = new RequiredFieldValidator();
+
+        description.getValidators().add(validatorDescription);
+        validatorDescription.setMessage("Please input a description or type 'none'!");
+
+        description.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if(!newValue){
+                    description.validate();
+                }
+            }
+        });
     }
 
     public void handleButtonAction(ActionEvent e) {

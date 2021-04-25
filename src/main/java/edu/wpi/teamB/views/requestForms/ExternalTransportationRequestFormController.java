@@ -95,7 +95,7 @@ public class ExternalTransportationRequestFormController extends DefaultServiceR
         RequiredFieldValidator validatorName = new RequiredFieldValidator();
 
         name.getValidators().add(validatorName);
-        validatorName.setMessage("Please input your name!");
+        validatorName.setMessage("Please input the patient's name!");
 
         name.focusedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
@@ -106,11 +106,26 @@ public class ExternalTransportationRequestFormController extends DefaultServiceR
             }
         });
 
+        //location combo box
+        RequiredFieldValidator validatorLocation = new RequiredFieldValidator();
+
+        loc.getValidators().add(validatorLocation);
+        validatorLocation.setMessage("Please input the current location!");
+
+        loc.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if(!newValue){
+                    loc.validate();
+                }
+            }
+        });
+
         //destination text field
         RequiredFieldValidator validatorDestination = new RequiredFieldValidator();
 
         destination.getValidators().add(validatorDestination);
-        validatorDestination.setMessage("Please input the patient name!");
+        validatorDestination.setMessage("Please input the destination address!");
 
         destination.focusedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
@@ -121,11 +136,26 @@ public class ExternalTransportationRequestFormController extends DefaultServiceR
             }
         });
 
-        //name text field
+        //transportation type combo box
+        RequiredFieldValidator validatorType = new RequiredFieldValidator();
+
+        comboTranspType.getValidators().add(validatorType);
+        validatorType.setMessage("Please select the transportation type!");
+
+        comboTranspType.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if(!newValue){
+                    comboTranspType.validate();
+                }
+            }
+        });
+
+        //transportation details text field
         RequiredFieldValidator validatorDescription = new RequiredFieldValidator();
 
         description.getValidators().add(validatorDescription);
-        validatorDescription.setMessage("Please input transportation details");
+        validatorDescription.setMessage("Please input transportation details!");
 
         description.focusedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
@@ -140,7 +170,7 @@ public class ExternalTransportationRequestFormController extends DefaultServiceR
         RequiredFieldValidator validatorAllergies = new RequiredFieldValidator();
 
         allergies.getValidators().add(validatorAllergies);
-        validatorAllergies.setMessage("Please input any allergies or write 'none'");
+        validatorAllergies.setMessage("Please input any allergies or input 'none'!");
 
         allergies.focusedProperty().addListener(new ChangeListener<Boolean>() {
             @Override

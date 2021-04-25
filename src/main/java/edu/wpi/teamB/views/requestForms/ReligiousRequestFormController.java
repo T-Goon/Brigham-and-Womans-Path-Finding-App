@@ -1,11 +1,14 @@
 package edu.wpi.teamB.views.requestForms;
 
 import com.jfoenix.controls.*;
+import com.jfoenix.validation.RequiredFieldValidator;
 import edu.wpi.teamB.App;
 import edu.wpi.teamB.database.DatabaseHandler;
 import edu.wpi.teamB.entities.requests.ReligiousRequest;
 import edu.wpi.teamB.entities.requests.Request;
 import edu.wpi.teamB.util.SceneSwitcher;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -74,6 +77,112 @@ public class ReligiousRequestFormController extends DefaultServiceRequestFormCon
             infectious.setSelected(religiousRequest.getInfectious().equals("T"));
         }
         validateButton();
+
+        //creating a pop-up error message when a text field is left empty
+        //patient name text field
+        RequiredFieldValidator validatorName = new RequiredFieldValidator();
+
+        name.getValidators().add(validatorName);
+        validatorName.setMessage("Please input the patient's name!");
+
+        name.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if(!newValue){
+                    name.validate();
+                }
+            }
+        });
+
+        //location combo box
+        RequiredFieldValidator validatorLocation = new RequiredFieldValidator();
+
+        loc.getValidators().add(validatorLocation);
+        validatorLocation.setMessage("Please select the location for the request!");
+
+        loc.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if(!newValue){
+                    loc.validate();
+                }
+            }
+        });
+
+        //date picker
+        RequiredFieldValidator validatorDate = new RequiredFieldValidator();
+
+        date.getValidators().add(validatorDate);
+        validatorDate.setMessage("Please select the date!");
+
+        date.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if(!newValue){
+                    date.validate();
+                }
+            }
+        });
+
+        //start time picker
+        RequiredFieldValidator validatorStartTime = new RequiredFieldValidator();
+
+        startTime.getValidators().add(validatorStartTime);
+        validatorStartTime.setMessage("Please select the start time!");
+
+        startTime.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if(!newValue){
+                    startTime.validate();
+                }
+            }
+        });
+
+        //end time picker
+        RequiredFieldValidator validatorEndTime = new RequiredFieldValidator();
+
+        endTime.getValidators().add(validatorEndTime);
+        validatorEndTime.setMessage("Please select the end time!");
+
+        endTime.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if(!newValue){
+                    endTime.validate();
+                }
+            }
+        });
+
+        //faith/denomination text field
+        RequiredFieldValidator validatorFaith = new RequiredFieldValidator();
+
+        faith.getValidators().add(validatorFaith);
+        validatorFaith.setMessage("Please input the faith/denomination for the request!");
+
+        faith.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if(!newValue){
+                    faith.validate();
+                }
+            }
+        });
+
+        //description
+        RequiredFieldValidator validatorDescription = new RequiredFieldValidator();
+
+        description.getValidators().add(validatorDescription);
+        validatorDescription.setMessage("Please input any relevant information or type 'none'!");
+
+        description.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if(!newValue){
+                    description.validate();
+                }
+            }
+        });
     }
 
     public void handleButtonAction(ActionEvent e) {

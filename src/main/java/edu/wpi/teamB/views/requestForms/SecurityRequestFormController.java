@@ -4,11 +4,14 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.validation.RequiredFieldValidator;
 import edu.wpi.teamB.App;
 import edu.wpi.teamB.database.DatabaseHandler;
 import edu.wpi.teamB.entities.requests.Request;
 import edu.wpi.teamB.entities.requests.SecurityRequest;
 import edu.wpi.teamB.util.SceneSwitcher;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -59,6 +62,67 @@ public class SecurityRequestFormController extends DefaultServiceRequestFormCont
             description.setText(securityRequest.getDescription());
         }
         validateButton();
+
+        //creating a pop-up error message when a text field is left empty
+        //assigned to text field
+        RequiredFieldValidator validatorAssignedTo = new RequiredFieldValidator();
+
+        assignedTo.getValidators().add(validatorAssignedTo);
+        validatorAssignedTo.setMessage("Please assign the request!");
+
+        assignedTo.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if(!newValue){
+                    assignedTo.validate();
+                }
+            }
+        });
+
+        //location combo box
+        RequiredFieldValidator validatorLocation = new RequiredFieldValidator();
+
+        loc.getValidators().add(validatorLocation);
+        validatorLocation.setMessage("Please select the location!");
+
+        loc.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if(!newValue){
+                    loc.validate();
+                }
+            }
+        });
+
+        //urgency combo box
+        RequiredFieldValidator validatorUrgency = new RequiredFieldValidator();
+
+        comboUrgency.getValidators().add(validatorUrgency);
+        validatorUrgency.setMessage("Please select the urgency!");
+
+        comboUrgency.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if(!newValue){
+                    comboUrgency.validate();
+                }
+            }
+        });
+
+        //description text field
+        RequiredFieldValidator validatorDescription = new RequiredFieldValidator();
+
+        description.getValidators().add(validatorDescription);
+        validatorDescription.setMessage("Please provide relevant information or type 'none'!");
+
+        description.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if(!newValue){
+                    description.validate();
+                }
+            }
+        });
     }
 
     @FXML

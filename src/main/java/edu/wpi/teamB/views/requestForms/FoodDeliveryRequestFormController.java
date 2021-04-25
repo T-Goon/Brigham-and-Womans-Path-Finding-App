@@ -63,6 +63,82 @@ public class FoodDeliveryRequestFormController extends DefaultServiceRequestForm
             description.setText(foodRequest.getDescription());
         }
         validateButton();
+
+        //creating a pop-up error message when a text field is left empty
+        //patient name text field
+        RequiredFieldValidator validatorName = new RequiredFieldValidator();
+
+        name.getValidators().add(validatorName);
+        validatorName.setMessage("Please input the patient's name!");
+
+        name.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if(!newValue){
+                    name.validate();
+                }
+            }
+        });
+
+        //location combo box
+        RequiredFieldValidator validatorLocation = new RequiredFieldValidator();
+
+        loc.getValidators().add(validatorLocation);
+        validatorLocation.setMessage("Please select the location for delivery!");
+
+        loc.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if(!newValue){
+                    loc.validate();
+                }
+            }
+        });
+
+        //meal choice text field
+        RequiredFieldValidator validatorMealChoice = new RequiredFieldValidator();
+
+        mealChoice.getValidators().add(validatorMealChoice);
+        validatorMealChoice.setMessage("Please input your meal choice!");
+
+        mealChoice.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if(!newValue){
+                    mealChoice.validate();
+                }
+            }
+        });
+
+        //arrival time picker
+        RequiredFieldValidator validatorArrival = new RequiredFieldValidator();
+
+        arrivalTime.getValidators().add(validatorArrival);
+        validatorArrival.setMessage("Please select your desired arrival time!");
+
+        arrivalTime.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if(!newValue){
+                    arrivalTime.validate();
+                }
+            }
+        });
+
+        //extra information
+        RequiredFieldValidator validatorExtra = new RequiredFieldValidator();
+
+        description.getValidators().add(validatorExtra);
+        validatorExtra.setMessage("Please input any additional information or type 'none'!");
+
+        description.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if(!newValue){
+                    description.validate();
+                }
+            }
+        });
     }
 
     public void handleButtonAction(ActionEvent actionEvent) {

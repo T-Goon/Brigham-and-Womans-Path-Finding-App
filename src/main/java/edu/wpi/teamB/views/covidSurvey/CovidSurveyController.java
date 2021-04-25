@@ -5,10 +5,11 @@ import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXRadioButton;
 import edu.wpi.teamB.util.SceneSwitcher;
 import edu.wpi.teamB.views.BasePageController;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.ToggleGroup;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ToggleGroup;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -82,7 +83,7 @@ public class CovidSurveyController extends BasePageController implements Initial
     }
 
     @FXML
-    void handleButtonAction(ActionEvent e) {
+    public void handleButtonAction(ActionEvent e) {
         JFXButton btn = (JFXButton) e.getSource();
 
         switch (btn.getId()) {
@@ -92,9 +93,9 @@ public class CovidSurveyController extends BasePageController implements Initial
             case "btnSubmit":
                 if (btnCCNo.isSelected() && btnTestNo.isSelected() && !chkCough.isSelected() && !chkChills.isSelected() && !chkAches.isSelected() && !chkFever.isSelected()
                         && !chkHeadache.isSelected() && !chkLostTaste.isSelected() && !chkNausea.isSelected() && !chkNose.isSelected() && !chkShortBreath.isSelected() && !chkSoreTht.isSelected())
-                    SceneSwitcher.switchToTemp(getClass(), "/edu/wpi/teamB/views/covidSurvey/covidFormSubmittedNoSymp.fxml");
+                    SceneSwitcher.switchFromTemp(getClass(), "/edu/wpi/teamB/views/covidSurvey/covidFormSubmittedNoSymp.fxml");
                 else
-                    SceneSwitcher.switchToTemp(getClass(), "/edu/wpi/teamB/views/covidSurvey/covidFormSubmittedWithSymp.fxml");
+                    SceneSwitcher.switchFromTemp(getClass(), "/edu/wpi/teamB/views/covidSurvey/covidFormSubmittedWithSymp.fxml");
                 break;
             case "btnExit":
                 Platform.exit();
