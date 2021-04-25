@@ -377,7 +377,7 @@ public class PathfindingMenuController implements Initializable {
      */
     private void populateTreeView() throws IOException {
         //Populating TreeView
-        btnAddToFavorites = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/misc/addBtn.fxml")));
+        btnAddToFavorites = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/cs3733/D21/teamB/views/misc/addBtn.fxml")));
         TreeItem<String> rootNode = new TreeItem<>("Root");
         treeLocations.setRoot(rootNode);
         treeLocations.setShowRoot(false);
@@ -405,7 +405,7 @@ public class PathfindingMenuController implements Initializable {
         // Adding to Favorites
         btnAddToFavorites.setOnAction(addEvent -> {
             try {
-                btnRemoveFromFavorites = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/misc/removeBtn.fxml")));
+                btnRemoveFromFavorites = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/cs3733/D21/teamB/views/misc/removeBtn.fxml")));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -454,7 +454,7 @@ public class PathfindingMenuController implements Initializable {
             for (String favorite : savedFavorites) {
                 TreeItem<String> item = new TreeItem<>(favorite);
                 try {
-                    btnRemoveFromFavorites = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/misc/removeBtn.fxml")));
+                    btnRemoveFromFavorites = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/cs3733/D21/teamB/views/misc/removeBtn.fxml")));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
