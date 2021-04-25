@@ -75,49 +75,65 @@ public class Directions {
         List<String> directions = new ArrayList<>();
         double FT_CONST = 500/1635.02;
 
-        Node curr = null;
         Node prev = null;
-
+        Node curr = null;
         double turn;
-
 
         for(String id : simplePath){
             Node next = graph.getNodes().get(id);
-            if(curr != null){
-                Coord prevCoord = new Coord(curr.getXCoord(), curr.getYCoord());
-                Coord currCoord = new Coord(next.getXCoord(), curr.getYCoord());
-                double feet = dist(prevCoord, currCoord)*FT_CONST;
 
-                if(prev != null){
-                    turn = angleBetweenEdges(prev, curr, next);
-
-                    if(turn<150 && turn>=90){
-                        //take a right
-                    }
-                    else if(turn>0 && turn<90){
-                        //sharp right
-                    }
-                    else if(turn>=210 && turn<=270){
-                        //take a left
-                    }
-                    else if(turn==0 || (turn>270 && turn<=360)){
-                        //sharp left
-                    }
-                    else{
-                        //straight (I don't even think I would get here lol)
-                    }
-                    //turn blah and walk feet feet to long name
-                }
-                else{
-                    //head straight feet feet to long name
-                }
-
+            if(prev != null){
+                //get turn then get the dist between c and next turn blah and walk dist
             }
+
+            else if(curr != null){
+                //starting directions get the distance between the current and next and convert to feet
+            }
+
+            prev = curr;
+            curr = next;
         }
-        //you have reached your destination
+        //add that you have reached your destination
 
         return null;
     }
+
+    /**
+     *   if(curr != null){
+     *                 String s = "";
+     *                 Coord prevCoord = new Coord(curr.getXCoord(), curr.getYCoord());
+     *                 Coord currCoord = new Coord(next.getXCoord(), curr.getYCoord());
+     *                 double feet = dist(prevCoord, currCoord)*FT_CONST;
+     *
+     *                 if(prev != null){
+     *                     turn = angleBetweenEdges(prev, curr, next);
+     *
+     *                     if(turn<150 && turn>=80){
+     *                         //take a right
+     *                         s += "take a right and walk " ;
+     *                     }
+     *                     else if(turn>0 && turn<80){
+     *                         //sharp right
+     *                     }
+     *                     else if(turn>=210 && turn<=280){
+     *                         //take a left
+     *                     }
+     *                     else if(turn==0 || (turn>280 && turn<=360)){
+     *                         //sharp left
+     *                     }
+     *                     else{
+     *                         //straight (I don't even think I would get here lol)
+     *                     }
+     *                     //turn blah and walk feet feet to long name
+     *                 }
+     *                 else{
+     *                     s+="Starting route head straight for " + dist(prevCoord, currCoord);
+     *                     //head straight feet feet to long name
+     *                 }
+     *
+     *             }
+     */
+
 
 
 }
