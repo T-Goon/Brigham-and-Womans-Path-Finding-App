@@ -1,5 +1,5 @@
 package edu.wpi.teamB.util.Popup;
 
-public interface PopableManager {
+public interface PoppableManager {
     void removeAllPopups();
 }

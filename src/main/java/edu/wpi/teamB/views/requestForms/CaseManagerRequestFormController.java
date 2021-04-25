@@ -92,10 +92,9 @@ public class CaseManagerRequestFormController extends DefaultServiceRequestFormC
         });
     }
 
-    public void handleButtonAction(ActionEvent actionEvent) {
-        super.handleButtonAction(actionEvent);
-
-        JFXButton btn = (JFXButton) actionEvent.getSource();
+    public void handleButtonAction(ActionEvent e) {
+        super.handleButtonAction(e);
+        JFXButton btn = (JFXButton) e.getSource();
         if (btn.getId().equals("btnSubmit")) {
             String givenPatientName = patientName.getText();
             String givenTimeForArrival = timeForArrival.getValue().toString();
@@ -120,8 +119,8 @@ public class CaseManagerRequestFormController extends DefaultServiceRequestFormC
             if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml")) {
                 try {
                     employeeName = DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(this.id, Request.RequestType.CASE_MANAGER).getEmployeeName();
-                } catch (SQLException e) {
-                    e.printStackTrace();
+                } catch (SQLException err) {
+                    err.printStackTrace();
                     return;
                 }
             } else {
@@ -135,8 +134,8 @@ public class CaseManagerRequestFormController extends DefaultServiceRequestFormC
                 if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml"))
                     DatabaseHandler.getDatabaseHandler("main.db").updateRequest(request);
                 else DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
-            } catch (SQLException e) {
-                e.printStackTrace();
+            } catch (SQLException err) {
+                err.printStackTrace();
             }
         }
     }

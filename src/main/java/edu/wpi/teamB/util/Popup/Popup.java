@@ -3,7 +3,10 @@ package edu.wpi.teamB.util.Popup;
 import javafx.scene.layout.Pane;
 import lombok.Getter;
 
-
+/**
+ * @param <T> the data type of the main container of the popup (ex. in PFMC, it would be MapStack)
+ * @param <E> the entity object for any of the popups
+ */
 public abstract class Popup<T extends Pane, E> {
 
     protected final Pane parent;

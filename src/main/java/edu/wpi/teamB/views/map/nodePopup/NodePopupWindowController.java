@@ -2,7 +2,6 @@ package edu.wpi.teamB.views.map.nodePopup;
 
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.teamB.App;
-import edu.wpi.teamB.entities.map.node.AddEdgeWindow;
 import edu.wpi.teamB.entities.map.node.DelNodeAYSWindow;
 import edu.wpi.teamB.entities.map.node.EditNodeWindow;
 import edu.wpi.teamB.entities.map.node.NodeMenuPopup;
@@ -52,7 +51,7 @@ public class NodePopupWindowController implements Initializable {
         if (popup.getData().isFromTree()) {
             root.getChildren().remove(mainMenu);
 
-            EditNodeWindow enWindow =  new EditNodeWindow(root, popup.getData(), null);
+            EditNodeWindow enWindow = new EditNodeWindow(root, popup.getData(), null);
 
             // Pass data to new window
             App.getPrimaryStage().setUserData(enWindow);
@@ -71,7 +70,7 @@ public class NodePopupWindowController implements Initializable {
             case "btnEditNode":
                 root.getChildren().remove(mainMenu);
 
-                EditNodeWindow enWindow =  new EditNodeWindow(root, popup.getData(), mainMenu);
+                EditNodeWindow enWindow = new EditNodeWindow(root, popup.getData(), mainMenu);
 
                 // Pass data to new window
                 App.getPrimaryStage().setUserData(enWindow);
@@ -79,14 +78,7 @@ public class NodePopupWindowController implements Initializable {
                 enWindow.show();
                 break;
             case "btnAddEdge":
-                root.getChildren().remove(mainMenu);
-
-                AddEdgeWindow aeWindow = new AddEdgeWindow(root, popup.getData(), mainMenu);
-
-                // Pass data to window
-                App.getPrimaryStage().setUserData(aeWindow);
-
-                aeWindow.show();
+                popup.setStartEdge();
                 break;
             case "btnDelete":
                 root.getChildren().remove(mainMenu);

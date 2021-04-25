@@ -4,8 +4,7 @@ import edu.wpi.teamB.database.DatabaseHandler;
 import edu.wpi.teamB.entities.map.data.Node;
 import edu.wpi.teamB.entities.map.data.NodeMenuPopupData;
 import edu.wpi.teamB.entities.map.data.NodeType;
-import edu.wpi.teamB.util.Popup.Popable;
-import edu.wpi.teamB.util.Popup.Popup;
+import edu.wpi.teamB.util.Popup.Poppable;
 import edu.wpi.teamB.util.Popup.Window;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Pane;
@@ -18,13 +17,13 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-public class EditNodeWindow extends Window<VBox, NodeMenuPopupData, VBox> implements Popable {
+public class EditNodeWindow extends Window<VBox, NodeMenuPopupData, VBox> implements Poppable {
 
     public EditNodeWindow(Pane parent, NodeMenuPopupData data, VBox previous) {
         super(parent, data, previous);
     }
 
-    public void updateNode(int x, int y, String floor, String building, String type, String longName, String shortName){
+    public void updateNode(int x, int y, String floor, String building, String type, String longName, String shortName) {
 
         // if the node types are different, delete and remake so the nodeID is up to date
         DatabaseHandler db = DatabaseHandler.getDatabaseHandler("main.db");

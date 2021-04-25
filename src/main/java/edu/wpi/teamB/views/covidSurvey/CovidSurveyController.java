@@ -4,7 +4,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXRadioButton;
 import edu.wpi.teamB.util.SceneSwitcher;
-import javafx.application.Platform;
+import edu.wpi.teamB.views.BasePageController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ToggleGroup;
@@ -13,7 +13,8 @@ import javafx.fxml.Initializable;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class CovidSurveyController implements Initializable {
+public class CovidSurveyController extends BasePageController implements Initializable {
+
     @FXML
     private JFXButton btnSubmit;
 
@@ -49,9 +50,6 @@ public class CovidSurveyController implements Initializable {
 
     @FXML
     private JFXCheckBox chkNausea;
-
-    @FXML
-    private JFXCheckBox chkNone;
 
     @FXML
     private JFXButton btnExit;

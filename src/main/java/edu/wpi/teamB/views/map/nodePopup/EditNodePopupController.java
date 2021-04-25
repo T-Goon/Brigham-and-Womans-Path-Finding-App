@@ -105,8 +105,9 @@ public class EditNodePopupController implements Initializable {
                 || xCoord.getText().trim().isEmpty() || yCoord.getText().trim().isEmpty());
 
         try {
-            Integer.parseInt(xCoord.getText().trim());
-            Integer.parseInt(yCoord.getText().trim());
+            int xCoord = Integer.parseInt(this.xCoord.getText().trim());
+            int yCoord = Integer.parseInt(this.yCoord.getText().trim());
+            btnUpdate.setDisable(xCoord < 0 || yCoord < 0);
         } catch (NumberFormatException notInt) {
             btnUpdate.setDisable(true);
         }
