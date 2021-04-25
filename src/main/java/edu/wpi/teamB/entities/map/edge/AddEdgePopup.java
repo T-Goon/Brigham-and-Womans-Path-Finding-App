@@ -28,21 +28,23 @@ public class AddEdgePopup extends Popup<VBox, AddEdgePopupData> implements Poppa
      * Delete an edge and
      */
     public void addEdge() {
-        try {
 
+        // Do not allow adding an edge that has same start and end node
+        if(!data.getMc().getNewEdgeStart().equals(data.getMc().getNewEdgeEnd())) {
+            try {
 
+                if (DatabaseHandler.getDatabaseHandler("main.db").getEdges().get(data.getMc().getNewEdgeStart() + "_" +
+                        data.getMc().getNewEdgeEnd()) == null)
+                    DatabaseHandler.getDatabaseHandler("main.db").addEdge(new Edge(
+                            data.getMc().getNewEdgeStart() + "_" +
+                                    data.getMc().getNewEdgeEnd(), data.getMc().getNewEdgeStart(), data.getMc().getNewEdgeEnd()
+                    ));
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
 
-            if (DatabaseHandler.getDatabaseHandler("main.db").getEdges().get(data.getMc().getNewEdgeStart() + "_" +
-                    data.getMc().getNewEdgeEnd()) == null)
-                DatabaseHandler.getDatabaseHandler("main.db").addEdge(new Edge(
-                        data.getMc().getNewEdgeStart() + "_" +
-                                data.getMc().getNewEdgeEnd(), data.getMc().getNewEdgeStart(), data.getMc().getNewEdgeEnd()
-                ));
-        } catch (SQLException e) {
-            e.printStackTrace();
+            Graph.getGraph().updateGraph();
         }
-
-        Graph.getGraph().updateGraph();
 
         // Remove popup from map and refresh the nodes
         reset();
