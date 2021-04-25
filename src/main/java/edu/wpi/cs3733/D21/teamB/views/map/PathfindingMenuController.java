@@ -43,6 +43,7 @@ import java.sql.SQLException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@SuppressWarnings("unchecked")
 public class PathfindingMenuController implements Initializable {
 
     @FXML
@@ -161,7 +162,11 @@ public class PathfindingMenuController implements Initializable {
 
         //Adds all the destination names to locationNames and sort the nodes by floor
         mc.updateLocations();
-        populateTreeView();
+        try {
+            populateTreeView();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         md = new MapDrawer(mc, nodeHolder, mapHolder, intermediateNodeHolder, lblError, mapStack, gpane);
 
@@ -274,7 +279,7 @@ public class PathfindingMenuController implements Initializable {
         TreeItem<String> selectedItem = treeLocations.getSelectionModel().getSelectedItem();
         if (selectedItem == null) return;
 
-        if (selectedItem.isLeaf()) {
+        if (!selectedItem.getValue().equals("Favorites") && selectedItem.isLeaf()) {
             //Selected item is a valid location
 
             //For now only work on nodes that are on the first floor until multi-floor pathfinding is added
@@ -291,6 +296,8 @@ public class PathfindingMenuController implements Initializable {
                     mppm.createGraphicalInputPopup(tempLocation);
 
             }
+        } else if (!selectedItem.isLeaf()) {
+            md.removeAllPopups();
         }
 
         validateFindPathButton();
@@ -375,13 +382,24 @@ public class PathfindingMenuController implements Initializable {
         treeLocations.setRoot(rootNode);
         treeLocations.setShowRoot(false);
 
-        TreeItem<String> favorites = new TreeItem<>("Favorites");
-
         // Favorites drop down
+        TreeItem<String> favorites = new TreeItem<>("Favorites");
         if (DatabaseHandler.getDatabaseHandler("main.db").getAuthenticationUser().isAtLeast(User.AuthenticationLevel.PATIENT)) {
             favorites.setExpanded(true);
             rootNode.getChildren().add(favorites);
             favorites.setGraphic(btnAddToFavorites);
+        }
+
+        // Populate Favorites with locations from database
+        try {
+            ArrayList<String> savedFavorites = (ArrayList<String>) DatabaseHandler.getDatabaseHandler("main.db").getFavorites();
+            for (String favorite : savedFavorites) {
+                TreeItem<String> item = new TreeItem<>(favorite);
+                item.setGraphic(btnRemoveFromFavorites);
+                favorites.getChildren().add(item);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
         // Locations drop down
