@@ -12,12 +12,16 @@ import edu.wpi.teamB.entities.map.data.Edge;
 import edu.wpi.teamB.entities.map.data.Node;
 import edu.wpi.teamB.pathfinding.Graph;
 import edu.wpi.teamB.util.CSVHandler;
+import edu.wpi.teamB.util.RequestWrapper;
 import edu.wpi.teamB.util.SceneSwitcher;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
+import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -29,9 +33,11 @@ import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import lombok.SneakyThrows;
 import net.kurobako.gesturefx.GesturePane;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
@@ -96,6 +102,12 @@ public class PathfindingMenuController implements Initializable {
     @FXML
     private StackPane stackContainer;
 
+    @FXML
+    private JFXButton btnAddToFavorites;
+
+    @FXML
+    private JFXButton btnRemoveFromFavorites;
+
     public static final double coordinateScale = 25 / 9.0;
 
     private final Map<String, String> categoryNameMap = new HashMap<>();
@@ -107,13 +119,15 @@ public class PathfindingMenuController implements Initializable {
     final FileChooser fileChooser = new FileChooser();
     final DirectoryChooser directoryChooser = new DirectoryChooser();
 
-    private final MapCache mc = new MapCache();;
+    private final MapCache mc = new MapCache();
+    ;
     private MapDrawer md;
     private MapEditorPopupManager mepm;
     private MapPathPopupManager mppm;
 
     // JavaFX code **************************************************************************************
 
+    @SneakyThrows
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -158,9 +172,9 @@ public class PathfindingMenuController implements Initializable {
         initMapForEditing();
 
         // Set up Load and Save buttons
-        btnLoad.setOnAction( event -> loadCSV());
+        btnLoad.setOnAction(event -> loadCSV());
 
-        btnSave.setOnAction( event -> saveCSV());
+        btnSave.setOnAction(event -> saveCSV());
 
         // Disable editing if the user is not an admin
         checkPermissions();
@@ -169,7 +183,7 @@ public class PathfindingMenuController implements Initializable {
     /**
      * Loads node and edges data from csv
      */
-    private void loadCSV(){
+    private void loadCSV() {
         // Get the nodes CSV file and load it
         Stage stage = App.getPrimaryStage();
         fileChooser.setTitle("Select Nodes CSV file:");
@@ -203,7 +217,7 @@ public class PathfindingMenuController implements Initializable {
     /**
      * Saves node and edges data to a csv
      */
-    private void saveCSV(){
+    private void saveCSV() {
         // Get the CSV directory location
         Stage stage = App.getPrimaryStage();
         directoryChooser.setTitle("Select directory to save CSV files to:");
@@ -313,18 +327,53 @@ public class PathfindingMenuController implements Initializable {
     /**
      * Populates the tree view with nodes and categories
      */
-    private void populateTreeView(){
+    private void populateTreeView() throws IOException {
         //Populating TreeView
-        TreeItem<String> rootNode = new TreeItem<>("Locations");
-        rootNode.setExpanded(true);
+        TreeItem<String> rootNode = new TreeItem<>("Root");
         treeLocations.setRoot(rootNode);
+        treeLocations.setShowRoot(false);
+
+        TreeItem<String> favorites = new TreeItem<>("Favorites");
+        favorites.setExpanded(true);
+        rootNode.getChildren().add(favorites);
+
+        btnAddToFavorites = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/misc/addBtn.fxml")));
+        favorites.setGraphic(btnAddToFavorites);
+
+        TreeItem<String> locations = new TreeItem<>("Locations");
+        locations.setExpanded(true);
+        rootNode.getChildren().add(locations);
 
         //Adding Categories
         for (String category : mc.getCatNameMap().keySet()) {
             TreeItem<String> categoryTreeItem = new TreeItem<>(categoryNameMap.get(category));
             categoryTreeItem.getChildren().addAll(mc.getCatNameMap().get(category));
-            rootNode.getChildren().add(categoryTreeItem);
+            locations.getChildren().add(categoryTreeItem);
         }
+
+        // Adding to Favorites
+        btnAddToFavorites.setOnAction(event -> {
+            try {
+                btnRemoveFromFavorites = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/misc/removeBtn.fxml")));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            String text = treeLocations.getSelectionModel().getSelectedItem().getValue();
+            TreeItem<String> itemToAdd = new TreeItem<>(text);
+
+            if (!favorites.getChildren().contains(itemToAdd)) {
+                itemToAdd.setGraphic(btnRemoveFromFavorites);
+                favorites.getChildren().add(itemToAdd);
+            }
+
+            // Removing from Favorites
+            btnRemoveFromFavorites.setOnAction(e -> {
+                JFXButton itemToRemove = (JFXButton) e.getSource();
+                TreeCell<String> treeCell = (TreeCell<String>) itemToRemove.getParent();
+                favorites.getChildren().remove(treeCell.getTreeItem());
+            });
+        });
     }
 
     /**
@@ -351,13 +400,13 @@ public class PathfindingMenuController implements Initializable {
     /**
      * Shows the help dialog box.
      */
-    private void loadHelpDialog(){
+    private void loadHelpDialog() {
         JFXDialogLayout helpLayout = new JFXDialogLayout();
 
         Text helpText;
-        if(!md.isEditing()){
+        if (!md.isEditing()) {
             helpText = new Text("Enter your start and end location graphically or using our menu selector. To use the graphical selection,\nsimply click on the node and click on the set button. To enter a location using the menu. Click on the appropriate\ndrop down and choose your location. The node you selected will show up on your map where you can either\nset it to your start or end location. Once both the start and end nodes are filled in you can press \"Go\" to generate your path");
-        } else{
+        } else {
             helpText = new Text("Double click to add a node. Click on a node or an edge to edit or remove them. To add a new edge click on\none of the nodes, then add edge, and then start node. Go to the next node in the edge then, add edge, end node,\nand finally add node.");
         }
         helpText.setFont(new Font("MS Reference Sans Serif", 14));
