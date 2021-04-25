@@ -27,6 +27,7 @@ import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import lombok.Getter;
 import net.kurobako.gesturefx.GesturePane;
 
 import java.io.File;
@@ -82,6 +83,10 @@ public class PathfindingMenuController implements Initializable {
 
     @FXML
     private JFXButton btnSave;
+
+    @FXML
+    @Getter
+    private JFXComboBox<String> comboPathingType;
 
     @FXML
     private JFXTextField txtSearch;
@@ -153,7 +158,7 @@ public class PathfindingMenuController implements Initializable {
         mc.updateLocations();
         populateTreeView();
 
-        md = new MapDrawer(mc, nodeHolder, mapHolder, intermediateNodeHolder, lblError, mapStack, gpane);
+        md = new MapDrawer(this, mc, nodeHolder, mapHolder, intermediateNodeHolder, lblError, mapStack, gpane);
 
         mepm = new MapEditorPopupManager(md, mc, gpane, mapStack);
         md.setMepm(mepm);
@@ -192,6 +197,12 @@ public class PathfindingMenuController implements Initializable {
             if (!newValue.matches(" a-zA-Z0-9\\-"))
                 txtSearch.setText(newValue.replaceAll("[^ a-zA-Z0-9\\-]", ""));
         });
+
+        // Set up the pathing type combo box
+        comboPathingType.getItems().add("A*");
+        comboPathingType.getItems().add("DFS");
+        comboPathingType.getItems().add("BFS");
+        comboPathingType.getSelectionModel().select(0);
     }
 
     /**
@@ -251,6 +262,7 @@ public class PathfindingMenuController implements Initializable {
         btnEditMap.setVisible(db.getAuthenticationUser().isAtLeast(User.AuthenticationLevel.ADMIN));
         btnLoad.setVisible(db.getAuthenticationUser().isAtLeast(User.AuthenticationLevel.ADMIN));
         btnSave.setVisible(db.getAuthenticationUser().isAtLeast(User.AuthenticationLevel.ADMIN));
+        comboPathingType.setVisible(db.getAuthenticationUser().isAtLeast(User.AuthenticationLevel.ADMIN));
     }
 
     /**

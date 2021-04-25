@@ -93,4 +93,19 @@ public class Graph {
         dist += Math.abs(end.getFloorAsInt() - start.getFloorAsInt()) * 5000;
         return dist;
     }
+
+    /**
+     * Calculates the cost of a path.
+     *
+     * @param path the list of nodeIDs
+     * @return the cost of the path
+     */
+    public double calculateCost(List<String> path) {
+        if (path == null || path.isEmpty()) return 0;
+        double cost = 0;
+        for (int i = 0; i < path.size() - 1; i++) {
+            cost += dist(db.getNodeById(path.get(i)), db.getNodeById(path.get(i + 1)));
+        }
+        return cost;
+    }
 }

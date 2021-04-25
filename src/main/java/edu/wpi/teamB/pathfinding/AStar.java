@@ -8,7 +8,7 @@ import java.util.*;
 public class AStar {
 
     /**
-     * Finds the path between multiple nodes
+     * Finds the path between multiple nodes by using AStar
      *
      * @param nodes a Stack of the destination nodes in order. (Start, dest1, dest2, ...)
      * @return A Path with the full and complete path through the destinations
@@ -148,7 +148,7 @@ public class AStar {
     }
 
     /**
-     * Calculates the estimated time it would take to walk a certan path
+     * Calculates the estimated time it would take to walk a certain path
      *
      * @param path the given Path
      * @return the estimated time string to put in the box

@@ -5,6 +5,7 @@ import edu.wpi.teamB.entities.map.data.Edge;
 import edu.wpi.teamB.entities.map.data.Node;
 import edu.wpi.teamB.entities.map.data.Path;
 import edu.wpi.teamB.pathfinding.AStar;
+import edu.wpi.teamB.pathfinding.DFS;
 import edu.wpi.teamB.pathfinding.Graph;
 import edu.wpi.teamB.util.Popup.PoppableManager;
 import edu.wpi.teamB.views.map.PathfindingMenuController;
@@ -29,6 +30,7 @@ import java.util.Objects;
 
 public class MapDrawer implements PoppableManager {
 
+    private final PathfindingMenuController pfmc;
     private final MapCache mc;
     @Setter
     private MapPathPopupManager mppm;
@@ -48,8 +50,9 @@ public class MapDrawer implements PoppableManager {
     @Setter
     private boolean isEditing = false;
 
-    public MapDrawer(MapCache mc, AnchorPane nodeHolder, AnchorPane mapHolder, AnchorPane intermediateNodeHolder,
+    public MapDrawer(PathfindingMenuController pfmc, MapCache mc, AnchorPane nodeHolder, AnchorPane mapHolder, AnchorPane intermediateNodeHolder,
                      Label lblError, StackPane mapStack, GesturePane gpane) {
+        this.pfmc = pfmc;
         this.mc = mc;
         this.nodeHolder = nodeHolder;
         this.mapHolder = mapHolder;
@@ -70,9 +73,23 @@ public class MapDrawer implements PoppableManager {
 
         Map<String, Node> nodesId = Graph.getGraph().getNodes();
         Map<String, String> hmLongName = mc.makeLongToIDMap();
-        Path aStarPath = AStar.findPath(hmLongName.get(start), hmLongName.get(end));
 
-        List<String> AstarPath = aStarPath.getPath();
+
+        Path path = null;
+        switch (pfmc.getComboPathingType().getSelectionModel().getSelectedItem()) {
+            case "A*":
+                path = AStar.findPath(hmLongName.get(start), hmLongName.get(end));
+                break;
+            case "DFS":
+                path = DFS.findPath(hmLongName.get(start), hmLongName.get(end));
+                break;
+            case "BFS":
+                System.err.println("Not implemented");
+                return;
+        }
+
+        assert path != null;
+        List<String> AstarPath = path.getPath();
 
         if (AstarPath.isEmpty()) {
             lblError.setVisible(true);
@@ -87,7 +104,7 @@ public class MapDrawer implements PoppableManager {
             }
         }
 
-        etaPopup = mppm.createETAPopup(aStarPath);
+        etaPopup = mppm.createETAPopup(path);
     }
 
     /**
