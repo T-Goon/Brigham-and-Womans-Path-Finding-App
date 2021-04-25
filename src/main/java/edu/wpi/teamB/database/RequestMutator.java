@@ -5,6 +5,8 @@ import edu.wpi.teamB.entities.requests.*;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class RequestMutator implements IDatabaseEntityMutator<Request> {
 
@@ -12,6 +14,34 @@ public class RequestMutator implements IDatabaseEntityMutator<Request> {
 
     public RequestMutator(DatabaseHandler db) {
         this.db = db;
+    }
+
+    /**
+     * Displays the list of requests along with their attributes.
+     *
+     * @return a map of request IDs to actual requests
+     */
+    public Map<String, Request> getRequests() throws SQLException {
+        String query = "SELECT * FROM Requests";
+        ResultSet rs = db.runStatement(query, true);
+        Map<String, Request> requests = new HashMap<>();
+        if (rs == null) return requests;
+        do {
+            Request outRequest = new Request(
+                    rs.getString("requestID"),
+                    Request.RequestType.valueOf(rs.getString("requestType")),
+                    rs.getString("requestTime"),
+                    rs.getString("requestDate"),
+                    rs.getString("complete"),
+                    rs.getString("employeeName"),
+                    rs.getString("location"),
+                    rs.getString("description"),
+                    rs.getString("submitter")
+            );
+            requests.put(rs.getString("requestID"), outRequest);
+        } while (rs.next());
+        rs.close();
+        return requests;
     }
 
     /**
@@ -157,37 +187,6 @@ public class RequestMutator implements IDatabaseEntityMutator<Request> {
     }
 
     /**
-     * Removes a request from Requests and the table specific to the given request
-     *
-     * @param requestID the request to remove, given by the request ID
-     */
-    public void removeEntity(String requestID) throws SQLException {
-        String query = "SELECT * FROM Requests WHERE requestID = '" + requestID + "'";
-
-        ResultSet rs = db.runStatement(query, true);
-        Request request;
-        do {
-            request = new Request(
-                    rs.getString("requestID"),
-                    Request.RequestType.valueOf(rs.getString("requestType")),
-                    rs.getString("requestTime"),
-                    rs.getString("requestDate"),
-                    rs.getString("complete"),
-                    rs.getString("employeeName"),
-                    rs.getString("location"),
-                    rs.getString("description"),
-                    rs.getString("submitter")
-            );
-        } while (rs.next());
-        rs.close();
-
-        String querySpecificTable = "DELETE FROM '" + Request.RequestType.prettify(request.getRequestType()).replace(" ", "") + "Requests" + "'WHERE requestID = '" + request.getRequestID() + "'";
-        String queryGeneralTable = "DELETE FROM Requests WHERE requestID = '" + request.getRequestID() + "'";
-        db.runStatement(querySpecificTable, false);
-        db.runStatement(queryGeneralTable, false);
-    }
-
-    /**
      * Updates the given request
      *
      * @param request the request to update
@@ -300,5 +299,224 @@ public class RequestMutator implements IDatabaseEntityMutator<Request> {
                 break;
         }
         db.runStatement(query, false);
+    }
+
+    /**
+     * Removes a request from Requests and the table specific to the given request
+     *
+     * @param requestID the request to remove, given by the request ID
+     */
+    public void removeEntity(String requestID) throws SQLException {
+        String query = "SELECT * FROM Requests WHERE requestID = '" + requestID + "'";
+
+        ResultSet rs = db.runStatement(query, true);
+        Request request;
+        do {
+            request = new Request(
+                    rs.getString("requestID"),
+                    Request.RequestType.valueOf(rs.getString("requestType")),
+                    rs.getString("requestTime"),
+                    rs.getString("requestDate"),
+                    rs.getString("complete"),
+                    rs.getString("employeeName"),
+                    rs.getString("location"),
+                    rs.getString("description"),
+                    rs.getString("submitter")
+            );
+        } while (rs.next());
+        rs.close();
+
+        String querySpecificTable = "DELETE FROM '" + Request.RequestType.prettify(request.getRequestType()).replace(" ", "") + "Requests" + "'WHERE requestID = '" + request.getRequestID() + "'";
+        String queryGeneralTable = "DELETE FROM Requests WHERE requestID = '" + request.getRequestID() + "'";
+        db.runStatement(querySpecificTable, false);
+        db.runStatement(queryGeneralTable, false);
+    }
+
+    /**
+     * Get specific request information from the database given the request's ID and type
+     *
+     * @param requestID   the ID of the request
+     * @param requestType the type of the request
+     * @return the request
+     */
+    public Request getSpecificRequestById(String requestID, Request.RequestType requestType) throws SQLException {
+        String tableName = Request.RequestType.prettify(requestType).replaceAll("\\s", "") + "Requests";
+        String query = "SELECT * FROM Requests LEFT JOIN " + tableName + " ON Requests.requestID = " + tableName + ".requestID WHERE Requests.requestID = '" + requestID + "'";
+        Request outRequest = null;
+        ResultSet rs = db.runStatement(query, true);
+        if (rs == null) return null;
+        switch (requestType) {
+            case SANITATION:
+                outRequest = new SanitationRequest(
+                        rs.getString("sanitationType"),
+                        rs.getString("sanitationSize"),
+                        rs.getString("hazardous"),
+                        rs.getString("biologicalSubstance"),
+                        rs.getString("occupied"),
+                        rs.getString("requestID"),
+                        rs.getString("requestTime"),
+                        rs.getString("requestDate"),
+                        rs.getString("complete"),
+                        rs.getString("employeeName"),
+                        rs.getString("location"),
+                        rs.getString("description")
+                );
+                break;
+            case MEDICINE:
+                outRequest = new MedicineRequest(
+                        rs.getString("patientName"),
+                        rs.getString("medicine"),
+                        rs.getString("requestID"),
+                        rs.getString("requestTime"),
+                        rs.getString("requestDate"),
+                        rs.getString("complete"),
+                        rs.getString("employeeName"),
+                        rs.getString("location"),
+                        rs.getString("description")
+                );
+                break;
+            case INTERNAL_TRANSPORT:
+                outRequest = new InternalTransportRequest(
+                        rs.getString("patientName"),
+                        rs.getString("transportType"),
+                        rs.getString("unconscious"),
+                        rs.getString("infectious"),
+                        rs.getString("requestID"),
+                        rs.getString("requestTime"),
+                        rs.getString("requestDate"),
+                        rs.getString("complete"),
+                        rs.getString("employeeName"),
+                        rs.getString("location"),
+                        rs.getString("description")
+                );
+                break;
+            case RELIGIOUS:
+                outRequest = new ReligiousRequest(
+                        rs.getString("patientName"),
+                        rs.getString("startTime"),
+                        rs.getString("endTime"),
+                        rs.getString("religiousDate"),
+                        rs.getString("faith"),
+                        rs.getString("infectious"),
+                        rs.getString("requestID"),
+                        rs.getString("requestTime"),
+                        rs.getString("requestDate"),
+                        rs.getString("complete"),
+                        rs.getString("employeeName"),
+                        rs.getString("location"),
+                        rs.getString("description")
+                );
+                break;
+            case FOOD:
+                outRequest = new FoodRequest(
+                        rs.getString("patientName"),
+                        rs.getString("arrivalTime"),
+                        rs.getString("mealChoice"),
+                        rs.getString("requestID"),
+                        rs.getString("requestTime"),
+                        rs.getString("requestDate"),
+                        rs.getString("complete"),
+                        rs.getString("employeeName"),
+                        rs.getString("location"),
+                        rs.getString("description")
+                );
+                break;
+            case FLORAL:
+                outRequest = new FloralRequest(
+                        rs.getString("patientName"),
+                        rs.getString("deliveryDate"),
+                        rs.getString("startTime"),
+                        rs.getString("endTime"),
+                        rs.getString("wantsRoses"),
+                        rs.getString("wantsTulips"),
+                        rs.getString("wantsDaisies"),
+                        rs.getString("wantsLilies"),
+                        rs.getString("wantsSunflowers"),
+                        rs.getString("wantsCarnations"),
+                        rs.getString("wantsOrchids"),
+                        rs.getString("requestID"),
+                        rs.getString("requestTime"),
+                        rs.getString("requestDate"),
+                        rs.getString("complete"),
+                        rs.getString("employeeName"),
+                        rs.getString("location"),
+                        rs.getString("description")
+                );
+                break;
+            case SECURITY:
+                outRequest = new SecurityRequest(
+                        rs.getInt("urgency"),
+                        rs.getString("requestID"),
+                        rs.getString("requestTime"),
+                        rs.getString("requestDate"),
+                        rs.getString("complete"),
+                        rs.getString("employeeName"),
+                        rs.getString("location"),
+                        rs.getString("description")
+                );
+                break;
+            case EXTERNAL_TRANSPORT:
+                outRequest = new ExternalTransportRequest(
+                        rs.getString("patientName"),
+                        rs.getString("transportType"),
+                        rs.getString("destination"),
+                        rs.getString("patientAllergies"),
+                        rs.getString("outNetwork"),
+                        rs.getString("infectious"),
+                        rs.getString("unconscious"),
+                        rs.getString("requestID"),
+                        rs.getString("requestTime"),
+                        rs.getString("requestDate"),
+                        rs.getString("complete"),
+                        rs.getString("employeeName"),
+                        rs.getString("location"),
+                        rs.getString("description")
+                );
+                break;
+            case LAUNDRY:
+                outRequest = new LaundryRequest(
+                        rs.getString("serviceType"),
+                        rs.getString("serviceSize"),
+                        rs.getString("dark"),
+                        rs.getString("light"),
+                        rs.getString("occupied"),
+                        rs.getString("requestID"),
+                        rs.getString("requestTime"),
+                        rs.getString("requestDate"),
+                        rs.getString("complete"),
+                        rs.getString("employeeName"),
+                        rs.getString("location"),
+                        rs.getString("description")
+                );
+                break;
+            case CASE_MANAGER:
+                outRequest = new CaseManagerRequest(
+                        rs.getString("patientName"),
+                        rs.getString("timeForArrival"),
+                        rs.getString("requestID"),
+                        rs.getString("requestTime"),
+                        rs.getString("requestDate"),
+                        rs.getString("complete"),
+                        rs.getString("employeeName"),
+                        rs.getString("location"),
+                        rs.getString("description")
+                );
+                break;
+            case SOCIAL_WORKER:
+                outRequest = new SocialWorkerRequest(
+                        rs.getString("patientName"),
+                        rs.getString("timeForArrival"),
+                        rs.getString("requestID"),
+                        rs.getString("requestTime"),
+                        rs.getString("requestDate"),
+                        rs.getString("complete"),
+                        rs.getString("employeeName"),
+                        rs.getString("location"),
+                        rs.getString("description")
+                );
+                break;
+        }
+        rs.close();
+        return outRequest;
     }
 }
