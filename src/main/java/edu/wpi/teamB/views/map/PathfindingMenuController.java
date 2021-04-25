@@ -9,14 +9,12 @@ import edu.wpi.teamB.entities.map.data.Edge;
 import edu.wpi.teamB.entities.map.data.Node;
 import edu.wpi.teamB.pathfinding.Graph;
 import edu.wpi.teamB.util.CSVHandler;
-import edu.wpi.teamB.util.RequestWrapper;
 import edu.wpi.teamB.util.SceneSwitcher;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
@@ -343,11 +341,15 @@ public class PathfindingMenuController implements Initializable {
         treeLocations.setShowRoot(false);
 
         TreeItem<String> favorites = new TreeItem<>("Favorites");
-        favorites.setExpanded(true);
-        rootNode.getChildren().add(favorites);
 
-        favorites.setGraphic(btnAddToFavorites);
+        // Favorites drop down
+        if (DatabaseHandler.getDatabaseHandler("main.db").getAuthenticationUser().isAtLeast(User.AuthenticationLevel.PATIENT)) {
+            favorites.setExpanded(true);
+            rootNode.getChildren().add(favorites);
+            favorites.setGraphic(btnAddToFavorites);
+        }
 
+        // Locations drop down
         TreeItem<String> locations = new TreeItem<>("Locations");
         locations.setExpanded(true);
         rootNode.getChildren().add(locations);
@@ -360,7 +362,7 @@ public class PathfindingMenuController implements Initializable {
         }
 
         // Adding to Favorites
-        btnAddToFavorites.setOnAction(event -> {
+        btnAddToFavorites.setOnAction(addEvent -> {
             try {
                 btnRemoveFromFavorites = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/misc/removeBtn.fxml")));
             } catch (IOException e) {
@@ -374,17 +376,35 @@ public class PathfindingMenuController implements Initializable {
             String text = equivalent.getValue();
             TreeItem<String> itemToAdd = new TreeItem<>(text);
 
+            boolean contains = false;
 
-            if (!favorites.getChildren().contains(equivalent) && equivalent.isLeaf() && !text.equals("Favorites")) {
+            for (TreeItem<String> item : favorites.getChildren()) {
+                if (item.getValue().equals(equivalent.getValue())) {
+                    contains = true;
+                    break;
+                }
+            }
+
+            if (!contains && equivalent.isLeaf() && !text.equals("Favorites")) {
                 itemToAdd.setGraphic(btnRemoveFromFavorites);
                 favorites.getChildren().add(itemToAdd);
+                try {
+                    DatabaseHandler.getDatabaseHandler("main.db").addFavoriteLocation(itemToAdd.getValue());
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             }
 
             // Removing from Favorites
-            btnRemoveFromFavorites.setOnAction(e -> {
-                JFXButton itemToRemove = (JFXButton) e.getSource();
+            btnRemoveFromFavorites.setOnAction(removeEvent -> {
+                JFXButton itemToRemove = (JFXButton) removeEvent.getSource();
                 TreeCell<String> treeCell = (TreeCell<String>) itemToRemove.getParent();
                 favorites.getChildren().remove(treeCell.getTreeItem());
+                try {
+                    DatabaseHandler.getDatabaseHandler("main.db").removeFavoriteLocation(treeCell.getTreeItem().getValue());
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             });
         });
     }

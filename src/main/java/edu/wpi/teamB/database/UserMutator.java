@@ -77,6 +77,32 @@ public class UserMutator implements IDatabaseEntityMutator<UserMutator.UserPassw
         }
     }
 
+    public void addFavoriteToUser(String favoriteLocation) throws SQLException {
+        User user = db.getAuthenticationUser();
+        String username = user.getUsername();
+
+        String query = "INSERT INTO FavoriteLocations VALUES " +
+                "('" + username
+                + "', '" + favoriteLocation
+                + "')";
+        db.runStatement(query, false);
+    }
+
+    public void removeFavoriteFromUser(String favoriteLocation) throws SQLException {
+        User user = db.getAuthenticationUser();
+        String username = user.getUsername();
+
+        String query = "DELETE FROM FavoriteLocations WHERE username = '" + username + "' AND favoriteLocation = '" + favoriteLocation + "'";
+        db.runStatement(query, false);
+    }
+
+    public void getFavoritesForUser() {
+        User user = db.getAuthenticationUser();
+        String username = user.getUsername();
+
+        String
+    }
+
     @AllArgsConstructor
     public static class UserPasswordMatch implements IStoredEntity {
         User user;

@@ -103,6 +103,7 @@ public class DatabaseHandler {
             tables.add("Nodes");
             tables.add("Jobs");
             tables.add("Users");
+            tables.add("FavoriteLocations");
         }
 
         for (String table : tables) {
@@ -254,6 +255,11 @@ public class DatabaseHandler {
                 + "job CHAR(30), "
                 + "FOREIGN KEY (username) REFERENCES Users(username))";
 
+        String favoriteLocationsTable = "CREATE TABLE IF NOT EXISTS FavoriteLocations("
+                + "username CHAR(30), "
+                + "favoriteLocation CHAR(30), "
+                + "FOREIGN KEY (username) REFERENCES Users(username))";
+
         runStatement(configuration, false);
         runStatement(nodesTable, false);
         runStatement(edgesTable, false);
@@ -271,7 +277,7 @@ public class DatabaseHandler {
         runStatement(socialWorkerRequestsTable, false);
         runStatement(usersTable, false);
         runStatement(jobsTable, false);
-
+        runStatement(favoriteLocationsTable, false);
     }
 
     /**
@@ -941,6 +947,24 @@ public class DatabaseHandler {
         } while (rs.next());
         rs.close();
         return nodes;
+    }
+
+    /**
+     * Adds a favorite location to FavoriteLocations
+     *
+     * @param favoriteLocation the favorite location to add
+     */
+    public void addFavoriteLocation(String favoriteLocation) throws SQLException {
+        new UserMutator(this).addFavoriteToUser(favoriteLocation);
+    }
+
+    /**
+     * Removes a favorite location from FavoriteLocations
+     *
+     * @param favoriteLocation the favorite location to remove
+     */
+    public void removeFavoriteLocation(String favoriteLocation) throws SQLException {
+        new UserMutator(this).removeFavoriteFromUser(favoriteLocation);
     }
 
     /**
