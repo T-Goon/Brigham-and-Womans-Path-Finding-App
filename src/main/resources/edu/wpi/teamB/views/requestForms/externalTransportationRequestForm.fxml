@@ -37,7 +37,7 @@
                                                 <Image url="@../../images/general/hospitalLogo.png" />
                                             </image>
                                         </ImageView>
-                                        <JFXButton fx:id="btnEmergency1" buttonType="RAISED" onAction="#handleButtonAction" style="-fx-background-color: #CE2029;" text="EMERGENCY" textFill="WHITE">
+                                        <JFXButton fx:id="btnEmergency" buttonType="RAISED" onAction="#handleButtonAction" style="-fx-background-color: #CE2029;" text="EMERGENCY" textFill="WHITE">
                                             <font>
                                                 <Font name="MS Reference Sans Serif" size="16.0" />
                                             </font>

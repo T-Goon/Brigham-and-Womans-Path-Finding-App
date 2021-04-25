@@ -1,4 +1,4 @@
-package edu.wpi.teamB.entities.requests;
+package edu.wpi.teamB.entities.map;
 
 public enum NodeType {
     SERV,

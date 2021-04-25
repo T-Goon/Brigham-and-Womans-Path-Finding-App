@@ -7,11 +7,12 @@ import edu.wpi.teamB.entities.map.GraphicalNodePopupData;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import net.kurobako.gesturefx.GesturePane;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class delNodeAreYouSureController implements Initializable {
+public class DelNodeAreYouSureController implements Initializable {
 
     @FXML
     private JFXButton btnYes;
@@ -35,7 +36,9 @@ public class delNodeAreYouSureController implements Initializable {
                 DatabaseHandler.getDatabaseHandler("main.db").removeNode(data.getData().getNodeID());
                 data.getData().getPfmc().refreshEditor();
 
-                data.getData().getNodeHolder().getChildren().remove(data.getParent().getRoot());
+                data.getData().getMapStack().getChildren().remove(data.getParent().getRoot());
+                GesturePane thePane = (GesturePane) data.getData().getMapStack().getChildren().get(0);
+                thePane.setGestureEnabled(true);
                 break;
             case "btnNo":
                 data.getParent().areYouSureToMain();

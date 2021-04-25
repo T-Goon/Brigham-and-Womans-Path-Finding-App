@@ -139,8 +139,8 @@
                                         </Text>
                                         <HBox alignment="CENTER_LEFT" fillHeight="false" spacing="50.0" HBox.hgrow="ALWAYS">
                                             <children>
-                                                <JFXCheckBox fx:id="darks" text="Darks" />
-                                                <JFXCheckBox fx:id="lights" text="Lights" />
+                                                <JFXCheckBox fx:id="darks" text="Dark Colors" />
+                                                <JFXCheckBox fx:id="lights" text="Light Colors" />
                                                 <JFXCheckBox fx:id="roomOccupied" text="Room Occupied" />
                                             </children>
                                         </HBox>

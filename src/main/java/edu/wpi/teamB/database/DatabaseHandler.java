@@ -3,6 +3,7 @@ package edu.wpi.teamB.database;
 import edu.wpi.teamB.entities.User;
 import edu.wpi.teamB.entities.map.Edge;
 import edu.wpi.teamB.entities.map.Node;
+import edu.wpi.teamB.entities.map.NodeType;
 import edu.wpi.teamB.entities.requests.*;
 import edu.wpi.teamB.pathfinding.Graph;
 
@@ -70,7 +71,9 @@ public class DatabaseHandler {
      * with that data.
      */
     public void loadNodesEdges(List<Node> nodes, List<Edge> edges) {
-        if (!resetDatabase(new ArrayList<>(Arrays.asList("Edges", "Nodes")))) return;
+        if (!resetDatabase(new ArrayList<>(Arrays.asList("SanitationRequests", "MedicineRequests", "InternalTransportRequests", "ReligiousRequests", "FoodRequests", "FloralRequests",
+                "SecurityRequests", "ExternalTransportRequests", "LaundryRequests", "CaseManagerRequests", "SocialWorkerRequests", "Requests", "Edges", "Nodes"))))
+            return;
         if (!executeSchema()) return;
         if (!loadDatabaseNodes(nodes)) return;
         loadDatabaseEdges(edges);
@@ -157,6 +160,7 @@ public class DatabaseHandler {
                 + "employeeName CHAR(30), "
                 + "location CHAR(20), "
                 + "description VARCHAR(200), "
+                + "submitter CHAR(30), "
                 + "FOREIGN KEY (location) REFERENCES Nodes(nodeID))";
 
         String sanitationRequestsTable = "CREATE TABLE IF NOT EXISTS SanitationRequests("
@@ -943,6 +947,13 @@ public class DatabaseHandler {
      */
     public void addRequest(Request request) {
         Statement statement = this.getStatement();
+
+        User user = this.getAuthenticationUser();
+        String username = user.getUsername();
+        if (username == null) {
+            username = "null";
+        }
+
         String query = "INSERT INTO Requests VALUES " +
                 "('" + request.getRequestID()
                 + "', '" + request.getRequestType()
@@ -952,6 +963,7 @@ public class DatabaseHandler {
                 + "', '" + request.getEmployeeName()
                 + "', '" + request.getLocation()
                 + "', '" + request.getDescription().replace("'", "''")
+                + "', '" + username
                 + "')";
 
         String current = null;
@@ -1267,7 +1279,8 @@ public class DatabaseHandler {
                         rs.getString("complete"),
                         rs.getString("employeeName"),
                         rs.getString("location"),
-                        rs.getString("description")
+                        rs.getString("description"),
+                        rs.getString("submitter")
                 );
                 requests.put(rs.getString("requestID"), outRequest);
             }
