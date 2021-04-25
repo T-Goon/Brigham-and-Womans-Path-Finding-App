@@ -9,22 +9,39 @@
 
 .scroll-bar:vertical .thumb {
     -fx-background-color: #004e9c;
+    -fx-background-insets:2.0, 0.0, 0.0;
     -fx-background-radius: 2.0em;
 }
 
-.increment-button, .decrement-button {
-    -fx-background-color: #004e9c;
-    -fx-border-color: #004e9c;
-}
+/*.increment-button, .decrement-button {*/
+/*    -fx-background-color: #004e9c;*/
+/*    -fx-border-color: #004e9c;*/
+/*}*/
 
 .scroll-pane{
     -fx-background-color: transparent;
 }
 
-#JFXButton.btnPressed{
-    -fx-background-color: #f7d483;
+.scroll-bar .increment-arrow,
+.scroll-bar .decrement-arrow{
+
+    -fx-background-color:transparent;
+    -fx-shape: " ";
+    -fx-padding:0.0 0.15em;
 }
 
-.btnPressed{
-    -fx-background-color: #f7d483;
+.scroll-bar:vertical .increment-button ,
+.scroll-bar:vertical .decrement-button {
+    -fx-background-color:transparent;
+    -fx-background-radius: 0.0em;
+    -fx-padding :0.0 10.0 0.0 0.0;
+
+}
+
+.corner{
+    -fx-background-color: transparent;
+}
+
+.arrow{
+    -fx-background-color: #FFFFFF;
 }

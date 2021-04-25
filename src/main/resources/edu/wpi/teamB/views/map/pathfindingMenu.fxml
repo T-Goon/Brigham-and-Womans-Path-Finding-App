@@ -79,9 +79,9 @@
                                   </columnConstraints>
                                   <rowConstraints>
                                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                      <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                                      <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" vgrow="NEVER" />
                                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                      <RowConstraints maxHeight="25.0" minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
+                                      <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" vgrow="SOMETIMES" />
                                       <RowConstraints maxHeight="50.0" minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
                                   </rowConstraints>
                                   <children>
@@ -95,7 +95,7 @@
                                               <Font size="18.0" />
                                           </font>
                                  <GridPane.margin>
-                                    <Insets top="20.0" />
+                                    <Insets />
                                  </GridPane.margin>
                                       </Text>
                                       <JFXButton fx:id="btnFindPath" onAction="#handleButtonAction" prefHeight="30.0" prefWidth="84.0" style="-fx-background-color: #F6BD39; -fx-background-radius: 5;" text="Go" textFill="#012d5a" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER">
@@ -103,17 +103,17 @@
                                               <Font name="System Bold" size="12.0" />
                                           </font>
                                  <GridPane.margin>
-                                    <Insets left="5.0" right="5.0" top="30.0" />
+                                    <Insets left="5.0" />
                                  </GridPane.margin>
                                       </JFXButton>
-                              <JFXTextField fx:id="txtStartLocation" editable="false" onAction="#validateFindPathButton" prefWidth="230.0" style="-fx-background-color: white; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" GridPane.columnIndex="1">
+                              <JFXTextField fx:id="txtStartLocation" editable="false" focusColor="#405aa800" onAction="#validateFindPathButton" prefWidth="230.0" style="-fx-background-color: white; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" GridPane.columnIndex="1">
                                  <GridPane.margin>
-                                    <Insets left="5.0" right="5.0" />
+                                    <Insets left="5.0" />
                                  </GridPane.margin>
                               </JFXTextField>
-                              <JFXTextField fx:id="txtEndLocation" editable="false" layoutX="96.0" layoutY="8.0" onAction="#validateFindPathButton" style="-fx-background-color: white; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                              <JFXTextField fx:id="txtEndLocation" editable="false" focusColor="#405aa800" layoutX="96.0" layoutY="8.0" onAction="#validateFindPathButton" style="-fx-background-color: white; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" GridPane.columnIndex="1" GridPane.rowIndex="2">
                                  <GridPane.margin>
-                                    <Insets left="5.0" right="5.0" top="20.0" />
+                                    <Insets left="5.0" />
                                  </GridPane.margin>
                               </JFXTextField>
                                   </children>
@@ -135,12 +135,9 @@
                               </HBox>
                         <HBox>
                             <children>
-                                <JFXTextField fx:id="txtSearch" onKeyReleased="#handleKeysPressedSearchBar"
-                                              promptText="Search location..."
-                                              style="-fx-background-color: #FFFFFF; -fx-background-radius: 5px;"
-                                              HBox.hgrow="ALWAYS">
+                                <JFXTextField fx:id="txtSearch" focusColor="#405aa800" onKeyReleased="#handleKeysPressedSearchBar" promptText="Search location..." style="-fx-background-color: #FFFFFF; -fx-background-radius: 5px;" unFocusColor="#4d4d4d00" HBox.hgrow="ALWAYS">
                                     <HBox.margin>
-                                        <Insets left="5.0" right="5.0"/>
+                                        <Insets left="5.0" right="5.0" />
                                     </HBox.margin>
                                 </JFXTextField>
                             </children>
@@ -234,17 +231,14 @@
                       </VBox>
                       <StackPane fx:id="mapStack" VBox.vgrow="ALWAYS">
                           <children>
-                              <GesturePane fx:id="gpane" fitMode="COVER" hbarPolicy="NEVER" maxHeight="-Infinity"
-                                           maxScale="25.0" maxWidth="-Infinity" prefHeight="9.9999999999E10"
-                                           prefWidth="9.999999999E9" scrollMode="ZOOM" vbarPolicy="NEVER">
+                              <GesturePane fx:id="gpane" fitMode="COVER" hbarPolicy="NEVER" maxHeight="-Infinity" maxScale="25.0" maxWidth="-Infinity" prefHeight="9.9999999999E10" prefWidth="9.999999999E9" scrollMode="ZOOM" vbarPolicy="NEVER">
                                   <AnchorPane fx:id="nodeHolder">
                                       <children>
                                           <AnchorPane fx:id="intermediateNodeHolder">
                                               <children>
                                                   <AnchorPane fx:id="mapHolder">
                                                       <children>
-                                                          <ImageView fx:id="map" fitHeight="1800.0" fitWidth="1800.0"
-                                                                     pickOnBounds="true" preserveRatio="true">
+                                                          <ImageView fx:id="map" fitHeight="1800.0" fitWidth="1800.0" pickOnBounds="true" preserveRatio="true">
                                                               <image>
                                                                 <Image url="@../../images/maps/01_thefirstfloor-Edited.png" />
                                                             </image>
