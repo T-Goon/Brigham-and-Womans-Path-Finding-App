@@ -4,6 +4,7 @@ import edu.wpi.teamB.entities.map.data.Path;
 import edu.wpi.teamB.entities.map.data.Node;
 import edu.wpi.teamB.entities.map.Coord;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Directions {
@@ -36,9 +37,12 @@ public class Directions {
      * @param path takes in path we want instructions for
      * @return No two consecutive are in a line
      */
-    private List<String> simplifyPath(Path path) {
+    public static List<String> simplifyPath(Path path) {
 
         List<String> pathID = path.getPath();
+        List<String> pathIDCopy = new ArrayList<>(pathID);
+        Path retPath = new Path();
+
         Graph graph = Graph.getGraph();
 
         Node prevNode = null;
@@ -49,22 +53,24 @@ public class Directions {
             Node nextNode = graph.getNodes().get(nextNodeID);
 
             if(prevNode != null){
-                if(angleBetweenEdges(prevNode, currNode, nextNode) == 180){
-                    pathID.remove(currNode.getNodeID());
+                if((angleBetweenEdges(prevNode, currNode, nextNode) >= 150) && (angleBetweenEdges(prevNode, currNode, nextNode) <= 210)){
+                    pathIDCopy.remove(currNode.getNodeID());
                 }
             }
             prevNode = currNode;
             currNode = nextNode;
         }
 
-        return pathID;
+
+        return pathIDCopy;
     }
 
     /**
-     * @param simplifiedPath pass in path we want to create instructions for
+     * @param path pass in path we want to create instructions for
      * @return String instructions for that path
      */
-    private String inst(Path simplifiedPath) {
+    private String inst(List<String> path) {
+        //cost -> pixles to get feet
         //det all nodes very near 180 degrees
         return null;
     }

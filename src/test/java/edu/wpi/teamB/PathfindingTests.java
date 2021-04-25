@@ -134,78 +134,6 @@ public class PathfindingTests {
         expected = "22 sec";
         assertEquals(expected, result);
     }
-//
-//    @Test
-//    public void userTestForDirections(){
-//        Path path1 = AStar.findPath("FSERV00501", "WELEV00K01");
-//        //System.out.println(path1.getPath());
-//        List<Coord>  dir = AStar.dirPixles(path1);
-//
-//        for(Coord coords: dir){
-//            System.out.println(coords.getX()+ ","+ coords.getY());
-//        }
-//        /*
-//        1645,1280
-//        1700,1280
-//        1748,1280
-//        1769,1280
-//
-//        1769,1146 dir change L  here Read this
-//
-//        1758,1120 dir change R
-//        1758,1060
-//        1758,1029
-//        1758,956
-//        1758,930
-//
-//        1810,930 Read this
-//        1869,930
-//        1950,910 dir change
-//        1973,910
-//        2017,910
-//        2026,910
-//        2055,910
-//        2160,910
-//        2175,910
-//        2190,910
-//        2240,910
-//
-//        2240,985 dir change Read this
-//        */
-//
-//        //FDEPT00201
-//        //FLABS00101
-//
-//
-//
-//    }
-//
-//    @Test
-//    public void anotherUserPath(){
-//        Path path1 = AStar.findPath("FDEPT00201", "FLABS00101");
-//        List<Coord>  dir = AStar.dirPixles(path1);
-//
-//        System.out.println(path1.getPath());
-//
-//
-//        for(Coord coords: dir){
-//            System.out.println(coords.getX()+ ","+ coords.getY());
-//        }
-//
-//        /*
-//        *RLL
-//        1610,1120
-//        1700,1120 90
-//        1758,1120 58
-//        * R
-//        1769,1146
-//        * L
-//        1769,1280
-//        1810,1280
-//        1845,1280
-//        * L
-//        1845,1250*/
-//    }
 
     @Test
     public void testMultipleNodePathfinding(){
@@ -297,23 +225,21 @@ public class PathfindingTests {
         Node c = new Node("bPARK01501",3159,3,"1","Parking","PARK","Right Parking Lot Spot 5","RLot5");
 
         double angle180 = Directions.angleBetweenEdges(a, b, c);
-        System.out.println(angle180);
-
+        assertEquals(angle180, 180, .5);
 
         Node a1 = new Node("bPARK01501",3159,3159,"1","Parking","PARK","Right Parking Lot Spot 5","RLot5");
         Node b1 = new Node("bPARK01501",1,3159,"1","Parking","PARK","Right Parking Lot Spot 5","RLot5");
         Node c1 = new Node("bPARK01501",5,3159,"1","Parking","PARK","Right Parking Lot Spot 5","RLot5");
 
         angle180 = Directions.angleBetweenEdges(a1, b1, c1);
-        System.out.println(angle180);
+        assertEquals(angle180, 180, .5);
 
         Node a2 = new Node("bPARK01501",5,5,"1","Parking","PARK","Right Parking Lot Spot 5","RLot5");
         Node b2 = new Node("bPARK01501",8,8,"1","Parking","PARK","Right Parking Lot Spot 5","RLot5");
         Node c2 = new Node("bPARK01501",13,13,"1","Parking","PARK","Right Parking Lot Spot 5","RLot5");
 
         angle180 = Directions.angleBetweenEdges(a2, b2, c2);
-        System.out.println(angle180);
-
+        assertEquals(angle180, 180, .5);
     }
 
     @Test
@@ -323,30 +249,59 @@ public class PathfindingTests {
         Node c = new Node("bPARK01501",5,9,"1","Parking","PARK","Right Parking Lot Spot 5","RLot5");
 
         double angle270 = Directions.angleBetweenEdges(a, b, c);
-        System.out.println(angle270);
+        //taking a right
+        assertEquals(angle270, 270, 20);
 
         Node a0 = new Node("bPARK01501",8,10,"1","Parking","PARK","Right Parking Lot Spot 5","RLot5");
         Node b0 = new Node("bPARK01501",8,8,"1","Parking","PARK","Right Parking Lot Spot 5","RLot5");
         Node c0 = new Node("bPARK01501",11,8,"1","Parking","PARK","Right Parking Lot Spot 5","RLot5");
 
-        angle270 = Directions.angleBetweenEdges(a0, b0, c0);
-        System.out.println(angle270);
-
+        double angle90 = Directions.angleBetweenEdges(a0, b0, c0);
+        assertEquals(angle90, 90, .10);
 
         Node a1 = new Node("bPARK01501",0,2,"1","Parking","PARK","Right Parking Lot Spot 5","RLot5");
         Node b1 = new Node("bPARK01501",2,2,"1","Parking","PARK","Right Parking Lot Spot 5","RLot5");
         Node c1 = new Node("bPARK01501",2,0,"1","Parking","PARK","Right Parking Lot Spot 5","RLot5");
 
-        double angle90 = Directions.angleBetweenEdges(a1, b1, c1);
-        System.out.println(angle90);
+        angle270 = Directions.angleBetweenEdges(a1, b1, c1);
+        assertEquals(angle270, 270, .10);
 
         Node a2 = new Node("bPARK01501",1,1,"1","Parking","PARK","Right Parking Lot Spot 5","RLot5");
         Node b2 = new Node("bPARK01501",5,1,"1","Parking","PARK","Right Parking Lot Spot 5","RLot5");
         Node c2 = new Node("bPARK01501",5,5,"1","Parking","PARK","Right Parking Lot Spot 5","RLot5");
 
         angle90 = Directions.angleBetweenEdges(a2, b2, c2);
-        System.out.println(angle90);
+        assertEquals(angle90, 90, .10);
+    }
 
+    @Test
+    public void testSimpleGraph(){
+        Path path = AStar.findPath("FDEPT00101","FSERV00201");
+        List<String> idExpected = new ArrayList<>();
+        idExpected.add("FDEPT00101");
+        idExpected.add("FHALL01301");
+        idExpected.add("FHALL01401");
+        idExpected.add("FSERV00201");
+
+        Path pathCheck = new Path();
+        pathCheck.setPath(idExpected);
+        pathCheck.setTotalPathCost(path.getTotalPathCost());
+        List<String> simplePath = Directions.simplifyPath(path);
+        assertEquals(idExpected, simplePath);
+
+        Path path1 = AStar.findPath("FINFO00101","WELEV00L01");
+        List<String> idExpected1 = new ArrayList<>();
+        idExpected1.add("FINFO00101");
+        idExpected1.add("FHALL02901");
+        idExpected1.add("FHALL02201");
+        idExpected1.add("FHALL00701");
+        idExpected1.add("WELEV00L01");
+
+        Path pathCheck1 = new Path();
+        pathCheck1.setPath(idExpected1);
+        pathCheck1.setTotalPathCost(path1.getTotalPathCost());
+        List<String> simplePath1 = Directions.simplifyPath(pathCheck1);
+        assertEquals(idExpected1, simplePath1);
     }
 
 }
