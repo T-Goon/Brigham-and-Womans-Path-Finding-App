@@ -10,19 +10,17 @@ import java.sql.Statement;
 
 public class RequestMutator implements IDatabaseEntityMutator<Request> {
 
+    private final DatabaseHandler db = DatabaseHandler.getDatabaseHandler("main.db");
+
     /**
      * Adds a request to Requests and the table specific to the given request
      *
      * @param request the request to add
      */
     public void addEntity(Request request) throws SQLException {
-        Statement statement = DatabaseHandler.getDatabaseHandler("main.db").getStatement();
-
-        User user = DatabaseHandler.getDatabaseHandler("main.db").getAuthenticationUser();
+        User user = db.getAuthenticationUser();
         String username = user.getUsername();
-        if (username == null) {
-            username = "null";
-        }
+        if (username == null) username = "null";
 
         String query = "INSERT INTO Requests VALUES " +
                 "('" + request.getRequestID()
@@ -35,16 +33,7 @@ public class RequestMutator implements IDatabaseEntityMutator<Request> {
                 + "', '" + request.getDescription().replace("'", "''")
                 + "', '" + username
                 + "')";
-
-        String current = null;
-        try {
-            assert statement != null;
-            current = query;
-            statement.execute(query);
-        } catch (SQLException e) {
-            System.out.println(current);
-            e.printStackTrace();
-        }
+        db.runStatement(query, false);
 
         switch (request.getRequestType()) {
             case SANITATION:
@@ -162,13 +151,7 @@ public class RequestMutator implements IDatabaseEntityMutator<Request> {
                         + "')";
                 break;
         }
-
-        try {
-            statement.execute(query);
-            statement.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        db.runStatement(query, false);
     }
 
     /**
@@ -177,10 +160,9 @@ public class RequestMutator implements IDatabaseEntityMutator<Request> {
      * @param requestID the request to remove, given by the request ID
      */
     public void removeEntity(String requestID) throws SQLException {
-        Statement statement = DatabaseHandler.getDatabaseHandler("main.db").getStatement();
         String query = "SELECT * FROM Requests WHERE requestID = '" + requestID + "'";
 
-        ResultSet rs = statement.executeQuery(query);
+        ResultSet rs = db.runStatement(query, true);
         Request request = null;
         while (rs.next()) {
             request = new Request(
@@ -197,17 +179,11 @@ public class RequestMutator implements IDatabaseEntityMutator<Request> {
         }
         rs.close();
 
+        assert request != null;
         String querySpecificTable = "DELETE FROM '" + Request.RequestType.prettify(request.getRequestType()).replace(" ", "") + "Requests" + "'WHERE requestID = '" + request.getRequestID() + "'";
         String queryGeneralTable = "DELETE FROM Requests WHERE requestID = '" + request.getRequestID() + "'";
-
-        try {
-            assert statement != null;
-            statement.execute(querySpecificTable);
-            statement.execute(queryGeneralTable);
-            statement.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        db.runStatement(querySpecificTable, false);
+        db.runStatement(queryGeneralTable, false);
     }
 
     /**
@@ -216,8 +192,6 @@ public class RequestMutator implements IDatabaseEntityMutator<Request> {
      * @param request the request to update
      */
     public void updateEntity(Request request) throws SQLException {
-        Statement statement = DatabaseHandler.getDatabaseHandler("main.db").getStatement();
-
         String query = "UPDATE Requests SET requestType = '" + request.getRequestType()
                 + "', requestDate = '" + request.getDate()
                 + "', requestTime = '" + request.getTime()
@@ -226,19 +200,10 @@ public class RequestMutator implements IDatabaseEntityMutator<Request> {
                 + "', location = '" + request.getLocation().replace("'", "''")
                 + "', description = '" + request.getDescription().replace("'", "''")
                 + "' WHERE requestID = '" + request.getRequestID() + "'";
-
-        try {
-            assert statement != null;
-            statement.execute(query);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        db.runStatement(query, false);
 
         //If the given request is an instance of the less specific "Request" then dont try and update the specific tables
-        if(request.getClass().equals(Request.class)){
-            return;
-        }
-
+        if (request.getClass().equals(Request.class)) return;
         switch (request.getRequestType()) {
             case SANITATION:
                 SanitationRequest sanitationRequest = (SanitationRequest) request;
@@ -333,14 +298,6 @@ public class RequestMutator implements IDatabaseEntityMutator<Request> {
                         + "' WHERE requestID = '" + socialWorkerRequest.getRequestID() + "'";
                 break;
         }
-
-        try {
-            statement.execute(query);
-            statement.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        Graph.getGraph().updateGraph();
+        db.runStatement(query, false);
     }
 }

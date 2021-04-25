@@ -4,9 +4,10 @@ import edu.wpi.teamB.entities.map.data.Edge;
 import edu.wpi.teamB.pathfinding.Graph;
 
 import java.sql.SQLException;
-import java.sql.Statement;
 
 public class EdgeMutator implements IDatabaseEntityMutator<Edge> {
+
+    private final DatabaseHandler db = DatabaseHandler.getDatabaseHandler("main.db");
 
     /**
      * Adds an edge to the database with the given information
@@ -14,17 +15,8 @@ public class EdgeMutator implements IDatabaseEntityMutator<Edge> {
      * @param edge the edge to add
      */
     public void addEntity(Edge edge) throws SQLException {
-        Statement statement = DatabaseHandler.getDatabaseHandler("main.db").getStatement();
-
         String query = "INSERT INTO Edges VALUES ('" + edge.getEdgeID() + "', '" + edge.getStartNodeID() + "', '" + edge.getEndNodeID() + "')";
-
-        try {
-            assert statement != null;
-            statement.execute(query);
-            statement.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        db.runStatement(query, false);
         Graph.getGraph().updateGraph();
     }
 
@@ -34,16 +26,8 @@ public class EdgeMutator implements IDatabaseEntityMutator<Edge> {
      * @param edgeID the edge to remove, given by the edge ID
      */
     public void removeEntity(String edgeID) throws SQLException {
-        Statement statement = DatabaseHandler.getDatabaseHandler("main.db").getStatement();
         String query = "DELETE FROM Edges WHERE edgeID = '" + edgeID + "'";
-
-        try {
-            assert statement != null;
-            statement.execute(query);
-            statement.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        db.runStatement(query, false);
         Graph.getGraph().updateGraph();
     }
 
@@ -53,19 +37,8 @@ public class EdgeMutator implements IDatabaseEntityMutator<Edge> {
      * @param edge the edge to update
      */
     public void updateEntity(Edge edge) throws SQLException {
-        Statement statement = DatabaseHandler.getDatabaseHandler("main.db").getStatement();
         String query = "UPDATE Edges SET startNode = '" + edge.getStartNodeID() + "', endNode = '" + edge.getEndNodeID() + "' WHERE edgeID = '" + edge.getEdgeID() + "'";
-
-        try {
-            // If no rows are updated, then the edge ID is not in the table
-            assert statement != null;
-            if (statement.executeUpdate(query) == 0)
-                System.err.println("Edge ID does not exist in the table!");
-            statement.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
+        db.runStatement(query, false);
         Graph.getGraph().updateGraph();
     }
 }

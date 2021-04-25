@@ -371,7 +371,7 @@ public class DatabaseHandler {
      * @throws SQLException if the user or password is malformed
      */
     public void addUser(User user, String password) throws SQLException {
-        new UserMutator().addEntity(new UserPasswordMatch(user, password));
+        new UserMutator().addEntity(new UserMutator.UserPasswordMatch(user, password));
     }
 
     /**
@@ -458,7 +458,7 @@ public class DatabaseHandler {
      * @throws SQLException if the user is malformed
      */
     public void updateUser(User newUser) throws SQLException {
-        new UserMutator().updateEntity(new UserPasswordMatch(newUser, ""));
+        new UserMutator().updateEntity(new UserMutator.UserPasswordMatch(newUser, ""));
     }
 
     /**
@@ -944,7 +944,7 @@ public class DatabaseHandler {
      * @return the result set if it's a query, or null otherwise
      * @throws SQLException if the query is malformed
      */
-    private ResultSet runStatement(String query, boolean isQuery) throws SQLException {
+    public ResultSet runStatement(String query, boolean isQuery) throws SQLException {
         Statement statement = this.getStatement();
         assert statement != null;
         ResultSet set = null;

@@ -64,7 +64,6 @@ public class DatabaseHandlerTest {
             db.executeSchema();
         } catch (SQLException e) {
             e.printStackTrace();
-            return;
         }
     }
 
@@ -143,7 +142,7 @@ public class DatabaseHandlerTest {
         List<Edge> edges = new ArrayList<>();
         Node target = new Node("testNode",
                 0,
-                -992,
+                992,
                 "1",
                 "test_building",
                 "NODETYPE",
