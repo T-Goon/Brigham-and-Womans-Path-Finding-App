@@ -390,18 +390,6 @@ public class PathfindingMenuController implements Initializable {
             favorites.setGraphic(btnAddToFavorites);
         }
 
-        // Populate Favorites with locations from database
-        try {
-            ArrayList<String> savedFavorites = (ArrayList<String>) DatabaseHandler.getDatabaseHandler("main.db").getFavorites();
-            for (String favorite : savedFavorites) {
-                TreeItem<String> item = new TreeItem<>(favorite);
-                item.setGraphic(btnRemoveFromFavorites);
-                favorites.getChildren().add(item);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
         // Locations drop down
         TreeItem<String> locations = new TreeItem<>("Locations");
         locations.setExpanded(true);
@@ -421,7 +409,6 @@ public class PathfindingMenuController implements Initializable {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
             TreeItem<String> equivalent = treeLocations.getSelectionModel().getSelectedItem();
             if (equivalent == null) {
                 return;
@@ -460,6 +447,35 @@ public class PathfindingMenuController implements Initializable {
                 }
             });
         });
+
+        // Populate Favorites with locations from database
+        try {
+            ArrayList<String> savedFavorites = (ArrayList<String>) DatabaseHandler.getDatabaseHandler("main.db").getFavorites();
+            for (String favorite : savedFavorites) {
+                TreeItem<String> item = new TreeItem<>(favorite);
+                try {
+                    btnRemoveFromFavorites = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/misc/removeBtn.fxml")));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                // Removing from Favorites
+                btnRemoveFromFavorites.setOnAction(removeEvent -> {
+                    JFXButton itemToRemove = (JFXButton) removeEvent.getSource();
+                    TreeCell<String> treeCell = (TreeCell<String>) itemToRemove.getParent();
+                    favorites.getChildren().remove(treeCell.getTreeItem());
+                    try {
+                        DatabaseHandler.getDatabaseHandler("main.db").removeFavoriteLocation(treeCell.getTreeItem().getValue());
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                });
+                item.setGraphic(btnRemoveFromFavorites);
+                favorites.getChildren().add(item);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
