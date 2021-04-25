@@ -3,7 +3,10 @@ package edu.wpi.cs3733.D21.teamB.database;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Edge;
 import edu.wpi.cs3733.D21.teamB.pathfinding.Graph;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class EdgeMutator implements IDatabaseEntityMutator<Edge> {
 
@@ -11,6 +14,32 @@ public class EdgeMutator implements IDatabaseEntityMutator<Edge> {
 
     public EdgeMutator(DatabaseHandler db) {
         this.db = db;
+    }
+
+    /**
+     * Displays the list of edges along with their attributes.
+     *
+     * @return a map of edge IDs to actual edges
+     */
+    public Map<String, Edge> getEdges() {
+        String query = "SELECT * FROM Edges";
+        try {
+            ResultSet rs = db.runStatement(query, true);
+            Map<String, Edge> edges = new HashMap<>();
+            if (rs == null) return edges;
+            do {
+                Edge outEdge = new Edge(
+                        rs.getString("edgeID").trim(),
+                        rs.getString("startNode").trim(),
+                        rs.getString("endNode").trim()
+                );
+                edges.put(rs.getString("edgeID").trim(), outEdge);
+            } while (rs.next());
+            rs.close();
+            return edges;
+        } catch (SQLException e) {
+            return null;
+        }
     }
 
     /**
