@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.D21.teamB.entities.map;
 
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Node;
+import edu.wpi.cs3733.D21.teamB.entities.map.data.Path;
 import edu.wpi.cs3733.D21.teamB.pathfinding.Graph;
 import javafx.scene.control.TreeItem;
 import javafx.scene.shape.Circle;
@@ -47,6 +48,10 @@ public class MapCache {
     @Getter
     @Setter
     private List<String> stopsList = new ArrayList<>();
+
+    @Getter
+    @Setter
+    private Path finalPath;
 
     /**
      * Function that updates everything involved with the different locations on the map
