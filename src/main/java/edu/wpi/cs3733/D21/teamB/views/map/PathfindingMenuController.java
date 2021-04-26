@@ -28,6 +28,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
@@ -137,6 +138,9 @@ public class PathfindingMenuController implements Initializable {
 
     @FXML
     private JFXButton btnRemoveStop;
+
+    @FXML
+    private Circle pathHead;
 
     public static final double coordinateScale = 25 / 9.0;
 
@@ -346,7 +350,6 @@ public class PathfindingMenuController implements Initializable {
 
         switch (b.getId()) {
             case "btnFindPath":
-
                 md.removeAllEdges();
                 md.drawPath(txtStartLocation.getText(), txtEndLocation.getText());
                 break;
