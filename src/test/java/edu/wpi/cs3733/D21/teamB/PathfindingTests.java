@@ -6,6 +6,7 @@ import edu.wpi.cs3733.D21.teamB.entities.map.data.Edge;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Node;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Path;
 import edu.wpi.cs3733.D21.teamB.pathfinding.AStar;
+import edu.wpi.cs3733.D21.teamB.pathfinding.BFS;
 import edu.wpi.cs3733.D21.teamB.pathfinding.Graph;
 import edu.wpi.cs3733.D21.teamB.util.CSVHandler;
 import org.junit.jupiter.api.BeforeAll;
@@ -22,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PathfindingTests {
 
-    AStar astar = new AStar();
+    AStar aStar = new AStar();
 
     @BeforeAll
     static void initDB() {
@@ -77,7 +78,7 @@ public class PathfindingTests {
         expectedPath.add("bWALK01601");
         expectedPath.add("bPARK02501");
 
-        Path path = astar.findPath("bPARK00101", "bPARK02501");
+        Path path = aStar.findPath("bPARK00101", "bPARK02501");
         assertEquals(expectedPath, path.getPath());
     }
 
@@ -113,7 +114,7 @@ public class PathfindingTests {
         pathExp.add("bPARK01701");
 
 
-        Path path = astar.shortestPathToNodeInList("bWALK00101", category);
+        Path path = aStar.shortestPathToNodeInList("bWALK00101", category);
 
         assertEquals(pathExp, path.getPath());
 
@@ -121,17 +122,17 @@ public class PathfindingTests {
 
     @Test
     public void testGetEstimatedTime() {
-        Path tempPath = astar.findPath("bPARK01801", "bPARK00601");
+        Path tempPath = aStar.findPath("bPARK01801", "bPARK00601");
         String result = AStar.getEstimatedTime(tempPath);
         String expected = "5:22 min";
         assertEquals(expected, result);
 
-        tempPath = astar.findPath("FSERV00201", "GEXIT00101");
+        tempPath = aStar.findPath("FSERV00201", "GEXIT00101");
         result = AStar.getEstimatedTime(tempPath);
-        expected = "14:11 min";
+        expected = "2:55 min";
         assertEquals(expected, result);
 
-        tempPath = astar.findPath("bEXIT00401", "bEXIT00501");
+        tempPath = aStar.findPath("bEXIT00401", "bEXIT00501");
         result = AStar.getEstimatedTime(tempPath);
         expected = "22 sec";
         assertEquals(expected, result);
@@ -170,7 +171,7 @@ public class PathfindingTests {
 
         Path expectedResult = new Path(expectedPath, 2484.102858858675 + 1954.7029936098086);
 
-        Path returnedResult = astar.findPath(nodeList);
+        Path returnedResult = aStar.findPath(nodeList);
 
         assertEquals(expectedResult, returnedResult);
 
@@ -213,11 +214,35 @@ public class PathfindingTests {
 
         Path expectedLongResult = new Path(expectedLongPath, 2484.102858858675 + 848.2401435306502 + 350.0);
 
-        Path returnedLongResult = astar.findPath(longNodesList);
+        Path returnedLongResult = aStar.findPath(longNodesList);
 
         assertEquals(expectedLongResult, returnedLongResult);
 
 
     }
 
+    @Test
+    public void testBFS() {
+        LinkedList<String> expectedPath = new LinkedList<>();
+        expectedPath.add("bPARK00101");
+        expectedPath.add("bWALK00101");
+        expectedPath.add("bWALK00201");
+        expectedPath.add("bWALK00301");
+        expectedPath.add("bWALK00401");
+        expectedPath.add("bWALK00501");
+        expectedPath.add("bWALK00601");
+        expectedPath.add("bWALK00701");
+        expectedPath.add("bWALK00801");
+        expectedPath.add("bWALK01001");
+        expectedPath.add("bWALK01101");
+        expectedPath.add("bWALK01201");
+        expectedPath.add("bWALK01301");
+        expectedPath.add("bWALK01401");
+        expectedPath.add("bWALK01501");
+        expectedPath.add("bWALK01601");
+        expectedPath.add("bPARK02501");
+
+        Path path = new BFS().findPath("bPARK00101", "bPARK02501");
+        assertEquals(expectedPath, path.getPath());
+    }
 }
