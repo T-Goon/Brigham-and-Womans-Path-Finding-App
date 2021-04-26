@@ -251,4 +251,21 @@ public class PathfindingTests {
         Path path = new BFS().findPath("bPARK00101", "bPARK02501");
         assertEquals(expectedPath, path.getPath());
     }
+
+    @Test
+    public void testGetFloorPathSegment(){
+        Path testPath = new Path();
+
+        List<String> testPathList = new ArrayList<>();
+
+        testPathList.add("bPARK00101");
+        testPathList.add("bSTAI00101");
+        testPathList.add("bWALK00102");
+
+        testPath.setPath(testPathList);
+
+        List<String> expectedPathList = new ArrayList<>();
+        expectedPathList.add("bWALK00102");
+        assertEquals(expectedPathList, testPath.getFloorPathSegment("2"));
+    }
 }
