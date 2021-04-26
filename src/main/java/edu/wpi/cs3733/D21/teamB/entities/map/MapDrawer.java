@@ -46,6 +46,10 @@ public class MapDrawer implements PoppableManager {
     @Setter
     private boolean isEditing = false;
 
+    @Getter
+    @Setter
+    private boolean mobility = false;
+
     public MapDrawer(PathfindingMenuController pfmc, MapCache mc, AnchorPane nodeHolder, AnchorPane mapHolder, AnchorPane intermediateNodeHolder,
                      Label lblError, StackPane mapStack, GesturePane gpane) {
         this.pfmc = pfmc;
@@ -85,7 +89,7 @@ public class MapDrawer implements PoppableManager {
             default:
                 throw new IllegalStateException("Extra option in combo box?");
         }
-        Path wholePath = pathfinder.findPath(allStops);
+        Path wholePath = pathfinder.findPath(allStops, mobility);
 
         if (wholePath.getPath().isEmpty()) {
             lblError.setVisible(true);

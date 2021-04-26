@@ -16,10 +16,10 @@ public class DFS implements Pathfinder {
      * @param end   the ending NodeID
      * @return a stack of the path of nodeIDs from start to end
      */
-    public Path findPath(String start, String end) {
+    public Path findPath(String start, String end, boolean mobility) {
         Graph graph = Graph.getGraph();
         graph.updateGraph();
-        List<String> path = dfsHelper(start, end, new ArrayList<>(), graph);
+        List<String> path = dfsHelper(start, end, new ArrayList<>(), graph, mobility);
         double cost = graph.calculateCost(path);
         return new Path(path, cost);
     }
@@ -32,7 +32,7 @@ public class DFS implements Pathfinder {
      * @param visited list of nodeIDs already visited
      * @return a stack of the path of nodeIDs from start to end
      */
-    public static List<String> dfsHelper(String start, String end, List<String> visited, Graph graph) {
+    public static List<String> dfsHelper(String start, String end, List<String> visited, Graph graph, boolean mobility) {
         visited.add(start);
 
         // If the start equals the end, this is the recursive base case
@@ -44,10 +44,13 @@ public class DFS implements Pathfinder {
         List<String> returned = new ArrayList<>();
         for (Node neighbor : graph.getAdjNodesById(start)) {
 
+            // Deals with mobility
+            if (mobility && neighbor.getNodeType().equals("STAI")) continue;
+
             // If the neighbor is not already visited
             if (!visited.contains(neighbor.getNodeID())) {
                 // Recursively see if it is part of path
-                List<String> result = new ArrayList<>(dfsHelper(neighbor.getNodeID(), end, visited, graph));
+                List<String> result = new ArrayList<>(dfsHelper(neighbor.getNodeID(), end, visited, graph, mobility));
                 if (!result.isEmpty()) {
                     returned.add(start);
                     returned.addAll(result);
