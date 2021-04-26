@@ -45,6 +45,7 @@ public class Request implements IStoredEntity {
         CASE_MANAGER,
         EXTERNAL_TRANSPORT,
         FLORAL,
+        GIFT,
         FOOD,
         INTERNAL_TRANSPORT,
         LAUNDRY,
