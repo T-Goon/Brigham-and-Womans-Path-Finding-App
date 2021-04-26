@@ -18,6 +18,7 @@ public class DFS implements Pathfinder {
      */
     public Path findPath(String start, String end) {
         Graph graph = Graph.getGraph();
+        graph.updateGraph();
         List<String> path = dfsHelper(start, end, new ArrayList<>(), graph);
         double cost = graph.calculateCost(path);
         return new Path(path, cost);

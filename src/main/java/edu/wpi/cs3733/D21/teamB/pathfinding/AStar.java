@@ -18,6 +18,7 @@ public class AStar implements Pathfinder {
     public Path findPath(String startID, String endID) {
 
         Graph graph = Graph.getGraph();
+        graph.updateGraph();
         Node startNode = graph.getNodes().get(startID);
         Node endNode = graph.getNodes().get(endID);
 
