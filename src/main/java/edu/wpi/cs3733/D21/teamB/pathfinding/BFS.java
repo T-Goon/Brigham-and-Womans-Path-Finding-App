@@ -33,7 +33,6 @@ public class BFS implements Pathfinder {
                     p.path.add(n);
                     List<String> path = new ArrayList<>();
                     p.path.forEach(node -> path.add(node.getNodeID()));
-                    System.out.println(path);
                     return new Path(path, graph.calculateCost(path));
                 } else {
                     ArrayList<Node> nodes = new ArrayList<>(p.path);
