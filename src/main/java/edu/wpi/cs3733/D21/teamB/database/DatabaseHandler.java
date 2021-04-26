@@ -5,6 +5,7 @@ import edu.wpi.cs3733.D21.teamB.entities.map.data.Node;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.NodeType;
 import edu.wpi.cs3733.D21.teamB.entities.requests.*;
 import edu.wpi.cs3733.D21.teamB.entities.User;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.*;
 import java.util.*;
@@ -608,7 +609,7 @@ public class DatabaseHandler {
      * @return hashed password
      */
     public String passwordHash(String plaintext) {
-        return String.valueOf(plaintext.hashCode());
+        return BCrypt.hashpw(plaintext, BCrypt.gensalt());
     }
 
     /**
