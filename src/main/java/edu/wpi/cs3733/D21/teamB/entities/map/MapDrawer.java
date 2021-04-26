@@ -40,7 +40,7 @@ public class MapDrawer implements PoppableManager {
     private final GesturePane gpane;
     private final StackPane mapStack;
     private ETAPopup etaPopup;
-
+    private Circle head = new Circle(10);
     private final DatabaseHandler db = DatabaseHandler.getDatabaseHandler("main.db");
 
     @Getter
@@ -64,10 +64,11 @@ public class MapDrawer implements PoppableManager {
      */
     public void drawPath(String start, String end) {
         javafx.scene.shape.Path animationPath = new javafx.scene.shape.Path();
-        Circle head = new Circle(750);
-        nodeHolder.getChildren().add(head);
-        head.setFill(Color.BLACK);
-        head.setLayoutX(500); head.setLayoutY(500);
+        int steps=0;
+        if (!nodeHolder.getChildren().contains(head)) {
+            nodeHolder.getChildren().add(head);
+        }
+        head.setFill(Color.valueOf("#0067B1"));
         Graph.getGraph().updateGraph();
         List<String> sl = mc.getStopsList();
         Stack<String> allStops = new Stack<>();
@@ -98,18 +99,21 @@ public class MapDrawer implements PoppableManager {
         } else {
 
             for (int i = 0; i < wholePath.getPath().size() - 1; i++) {
+                steps++;
                 placeEdge(Graph.getGraph().getNodes().get(wholePath.getPath().get(i)), Graph.getGraph().getNodes().get(wholePath.getPath().get(i + 1)));
-                double x=Graph.getGraph().getNodes().get(wholePath.getPath().get(i)).getXCoord();
-                double y=Graph.getGraph().getNodes().get(wholePath.getPath().get(i)).getYCoord();
+                double x=Graph.getGraph().getNodes().get(wholePath.getPath().get(i)).getXCoord()/ PathfindingMenuController.coordinateScale;
+                double y=Graph.getGraph().getNodes().get(wholePath.getPath().get(i)).getYCoord()/ PathfindingMenuController.coordinateScale;
                 if (i==0){
-                    animationPath.getElements().add(new MoveTo(10,10));
+                    animationPath.getElements().add(new MoveTo(x,y));
                 }
                 else {
-                    animationPath.getElements().add(new LineTo(i*2, i*2));
+                    animationPath.getElements().add(new LineTo(x, y));
                 }
+
             }
+
             PathTransition pathTransition = new PathTransition();
-            pathTransition.setDuration(Duration.millis(5000));
+            pathTransition.setDuration(Duration.millis(steps*300));
             pathTransition.setNode(head);
             pathTransition.setPath(animationPath);
             pathTransition.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
