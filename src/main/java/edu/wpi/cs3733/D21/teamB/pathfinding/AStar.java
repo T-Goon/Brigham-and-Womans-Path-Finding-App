@@ -15,7 +15,7 @@ public class AStar implements Pathfinder {
      * @param endID   nodeID of the ending node
      * @return LinkedList of nodeIDs which dictates the order of nodes in the path
      */
-    public Path findPath(String startID, String endID) {
+    public Path findPath(String startID, String endID, boolean mobility) {
 
         Graph graph = Graph.getGraph();
         graph.updateGraph();
@@ -48,6 +48,9 @@ public class AStar implements Pathfinder {
             try {
                 //Check the adj nodes of the current node
                 for (Node neighbor : graph.getAdjNodesById(current.getNodeID())) {
+
+                    // Deals with mobility
+                    if (mobility && neighbor.getNodeType().equals("STAI")) continue;
 
                     //Calculate the cost of reaching the next node
                     double newCost = costSoFar.get(current.getNodeID()) + Graph.dist(current, neighbor);
@@ -103,7 +106,7 @@ public class AStar implements Pathfinder {
         Path shortestPath = new Path();
 
         for (Node dest : destinations) {
-            Path tempPath = findPath(startID, dest.getNodeID());
+            Path tempPath = findPath(startID, dest.getNodeID(), false);
             double cost = tempPath.getTotalPathCost();
             if (cost != 0 && cost < min) {
                 shortestPath = tempPath;

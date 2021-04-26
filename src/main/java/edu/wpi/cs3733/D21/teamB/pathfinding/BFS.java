@@ -17,7 +17,7 @@ public class BFS implements Pathfinder {
      * @param end   the ending NodeID
      * @return a stack of the path of nodeIDs from start to end
      */
-    public Path findPath(String start, String end) {
+    public Path findPath(String start, String end, boolean mobility) {
         Graph graph = Graph.getGraph();
         graph.updateGraph();
         Queue<Pair> queue = new LinkedList<>();
@@ -29,6 +29,10 @@ public class BFS implements Pathfinder {
             neighbors.removeAll(p.path);
 
             for (Node n : neighbors) {
+
+                // Deals with mobility
+                if (mobility && n.getNodeType().equals("STAI")) continue;
+
                 if (n.getNodeID().equals(end)) {
                     p.path.add(n);
                     List<String> path = new ArrayList<>();
