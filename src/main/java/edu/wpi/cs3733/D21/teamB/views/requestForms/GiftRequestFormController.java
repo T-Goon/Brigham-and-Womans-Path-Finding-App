@@ -103,52 +103,72 @@ public class GiftRequestFormController extends DefaultServiceRequestFormControll
         }
         validateButton();
 
-
-        RequiredFieldValidator validatorBalloons = new RequiredFieldValidator();
-        patientName.getValidators().add(validatorBalloons);
-        validatorBalloons.setMessage("Please input the patient's name!");
+        // inputting an error message to ensure that all fields are filled in or an error message pops up
+        //patient name text field
+        RequiredFieldValidator validatorName = new RequiredFieldValidator();
+        patientName.getValidators().add(validatorName);
+        validatorName.setMessage("Please input the patient's name!");
         patientName.focusedProperty().addListener((observable, oldValue, newValue) -> {
             if(!newValue){
                 patientName.validate();
             }
         });
 
-        RequiredFieldValidator validatorDeliveryDate = new RequiredFieldValidator();
-        deliveryDate.getValidators().add(validatorDeliveryDate);
-        validatorDeliveryDate.setMessage("Please input the patient's name!");
+        //location combo box
+        RequiredFieldValidator validatorLocation = new RequiredFieldValidator();
+        loc.getValidators().add(validatorLocation);
+        validatorLocation.setMessage("Please select a location for delivery!");
+        loc.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if(!newValue){
+                loc.validate();
+            }
+        });
+
+        //patient name text field
+        RequiredFieldValidator validatorDate = new RequiredFieldValidator();
+        deliveryDate.getValidators().add(validatorDate);
+        validatorDate.setMessage("Please select the date!");
         deliveryDate.focusedProperty().addListener((observable, oldValue, newValue) -> {
             if(!newValue){
                 deliveryDate.validate();
             }
         });
 
-        //start time
-        RequiredFieldValidator validatorStartTime = new RequiredFieldValidator();
-        startTime.getValidators().add(validatorStartTime);
-        validatorStartTime.setMessage("Please input the patient's name!");
+        //start time picker
+        RequiredFieldValidator validatorStart = new RequiredFieldValidator();
+        startTime.getValidators().add(validatorStart);
+        validatorStart.setMessage("Please select a start time!");
         startTime.focusedProperty().addListener((observable, oldValue, newValue) -> {
             if(!newValue){
                 startTime.validate();
             }
         });
 
-        RequiredFieldValidator validatorEndTime = new RequiredFieldValidator();
-        endTime.getValidators().add(validatorEndTime);
-        validatorEndTime.setMessage("Please input the patient's name!");
+        //end time picker
+        RequiredFieldValidator validatorEnd = new RequiredFieldValidator();
+        endTime.getValidators().add(validatorEnd);
+        validatorEnd.setMessage("Please select an end time!");
         endTime.focusedProperty().addListener((observable, oldValue, newValue) -> {
             if(!newValue){
                 endTime.validate();
             }
         });
 
+        //message text area
         RequiredFieldValidator validatorMessage = new RequiredFieldValidator();
         message.getValidators().add(validatorMessage);
-        validatorMessage.setMessage("Please input the patient's name!");
+        validatorMessage.setMessage("Please input a message!");
         message.focusedProperty().addListener((observable, oldValue, newValue) -> {
             if(!newValue){
                 message.validate();
             }
         });
+
+
+
+
+
+
     }
 
     @FXML
