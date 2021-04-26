@@ -1,6 +1,5 @@
 package edu.wpi.cs3733.D21.teamB.entities.map;
 
-import edu.wpi.cs3733.D21.teamB.entities.FloorSwitcher;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Node;
 import edu.wpi.cs3733.D21.teamB.pathfinding.Graph;
 import javafx.scene.control.TreeItem;
@@ -44,6 +43,10 @@ public class MapCache {
     @Setter
     @Getter
     private String newEdgeEnd;
+
+    @Getter
+    @Setter
+    private List<String> stopsList = new ArrayList<>();
 
     /**
      * Function that updates everything involved with the different locations on the map

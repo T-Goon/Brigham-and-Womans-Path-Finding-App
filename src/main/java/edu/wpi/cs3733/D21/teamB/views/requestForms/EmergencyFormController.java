@@ -49,7 +49,7 @@ public class EmergencyFormController implements Initializable {
             case "btnSubmit":
                 SceneSwitcher.switchFromTemp(getClass(), "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencySubmitted.fxml");
                 break;
-            case "btnCancel":
+            case "btnBack":
                 SceneSwitcher.goBack(getClass(), 1);
                 break;
             case "btnHelp":
