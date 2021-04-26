@@ -5,10 +5,11 @@ import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXRadioButton;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
 import edu.wpi.cs3733.D21.teamB.views.BasePageController;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.ToggleGroup;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ToggleGroup;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -17,6 +18,9 @@ public class CovidSurveyController extends BasePageController implements Initial
 
     @FXML
     private JFXButton btnSubmit;
+
+    @FXML
+    private JFXButton btnBack;
 
     @FXML
     private JFXCheckBox chkFever;
@@ -47,6 +51,9 @@ public class CovidSurveyController extends BasePageController implements Initial
 
     @FXML
     private JFXCheckBox chkNausea;
+
+    @FXML
+    private JFXButton btnExit;
 
     @FXML
     private JFXRadioButton btnCCYes;
@@ -80,7 +87,11 @@ public class CovidSurveyController extends BasePageController implements Initial
         final String currentPath = "/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidSurvey.fxml";
         super.handleButtonAction(e);
         JFXButton btn = (JFXButton) e.getSource();
+
         switch (btn.getId()) {
+            case "btnBack":
+                SceneSwitcher.goBack(getClass(), 1);
+                break;
             case "btnSubmit":
                 if (btnCCNo.isSelected() && btnTestNo.isSelected() && !chkCough.isSelected() && !chkChills.isSelected() && !chkAches.isSelected() && !chkFever.isSelected()
                         && !chkHeadache.isSelected() && !chkLostTaste.isSelected() && !chkNausea.isSelected() && !chkNose.isSelected() && !chkShortBreath.isSelected() && !chkSoreTht.isSelected())
@@ -88,14 +99,18 @@ public class CovidSurveyController extends BasePageController implements Initial
                 else
                     SceneSwitcher.switchFromTemp(getClass(), "/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidFormSubmittedWithSymp.fxml");
                 break;
+            case "btnExit":
+                Platform.exit();
+                break;
             case "btnEmergency":
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/teamB/views/covidSurvey/covidSurvey.fxml", "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");
                 SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
                 break;
         }
     }
 
     @FXML
-    private void validateButton() {
+    private void validateButton(){
         btnSubmit.setDisable(
                 !(btnCCYes.isSelected() || btnCCNo.isSelected()) || !(btnTestYes.isSelected() || btnTestNo.isSelected())
         );
