@@ -2,6 +2,7 @@ package edu.wpi.cs3733.D21.teamB.views.menus;
 
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXDialogLayout;
+import edu.wpi.cs3733.D21.teamB.App;
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.User;
 import edu.wpi.cs3733.D21.teamB.entities.requests.Request;
@@ -14,9 +15,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
@@ -79,9 +78,7 @@ public class ServiceRequestDatabaseController extends BasePageController impleme
         } else if (level == User.AuthenticationLevel.STAFF) {
             if (allRequests != null) {
                 for (Request request : allRequests.values()) {
-                    if (request.getEmployeeName().equals(employeeName)) {
-                        requests.put(request.getRequestID(), request);
-                    } else if (request.getSubmitter().equals(username)) {
+                    if (request.getEmployeeName().equals(employeeName) || request.getSubmitter().equals(username) || request.getRequestType().equals(Request.RequestType.EMERGENCY)) {
                         requests.put(request.getRequestID(), request);
                     }
                 }
@@ -115,10 +112,12 @@ public class ServiceRequestDatabaseController extends BasePageController impleme
             }
         }
 
+        setRowColor();
+
         if (requests != null) {
             for (Request r : requests.values()) {
                 try {
-                    tblRequests.getItems().add(new RequestWrapper(r, tblRequests));
+                    tblRequests.getItems().add(new RequestWrapper(r, tblRequests, this));
                 } catch (IOException err) {
                     err.printStackTrace();
                 }
@@ -136,6 +135,7 @@ public class ServiceRequestDatabaseController extends BasePageController impleme
                 loadHelpDialog();
                 break;
             case "btnEmergency":
+                SceneSwitcher.isEmergencyBtn = true;
                 SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
                 break;
         }
@@ -161,5 +161,28 @@ public class ServiceRequestDatabaseController extends BasePageController impleme
 
         helpWindow.show();
 
+    }
+
+    public void setRowColor() {
+        TableColumn<String, Label> tc = (TableColumn<String, Label>) tblRequests.getColumns().get(1);
+        tc.setCellFactory(column -> {
+            return new TableCell<String, Label>() {
+                @Override
+                protected void updateItem(Label item, boolean empty) {
+                    super.updateItem(item, empty);
+                    setGraphic(item);
+                    TableRow<String> currentRow = getTableRow();
+                    if (!isEmpty()) {
+                        if (item.getText().equals("Emergency")) {
+                            currentRow.setStyle("-fx-background-color: #CE2029");
+                        } else if (getTableRow().getIndex() % 2 == 0) {
+                            currentRow.setStyle("-fx-background-color: #0264AA");
+                        } else if (getTableRow().getIndex() % 2 != 0) {
+                            currentRow.setStyle("-fx-background-color: #0067B1");
+                        }
+                    }
+                }
+            };
+        });
     }
 }

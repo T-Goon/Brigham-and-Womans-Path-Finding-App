@@ -182,6 +182,14 @@ public class RequestMutator implements IDatabaseEntityMutator<Request> {
                         + "', '" + socialWorkerRequest.getTimeForArrival()
                         + "')";
                 break;
+            case EMERGENCY:
+                EmergencyRequest emergencyRequest = (EmergencyRequest) request;
+                query = "INSERT INTO EmergencyRequests VALUES " +
+                        "('" + emergencyRequest.getRequestID()
+                        + "', '" + emergencyRequest.getMedicalEmergency()
+                        + "', '" + emergencyRequest.getSecurityEmergency()
+                        + "')";
+                break;
         }
         db.runStatement(query, false);
     }
@@ -296,6 +304,12 @@ public class RequestMutator implements IDatabaseEntityMutator<Request> {
                 query = "UPDATE SocialWorkerRequests SET patientName = '" + socialWorkerRequest.getPatientName().replace("'", "''")
                         + "', timeForArrival = '" + socialWorkerRequest.getTimeForArrival()
                         + "' WHERE requestID = '" + socialWorkerRequest.getRequestID() + "'";
+                break;
+            case EMERGENCY:
+                EmergencyRequest emergencyRequest = (EmergencyRequest) request;
+                query = "UPDATE EmergencyRequests SET medicalEmergency = '" + emergencyRequest.getMedicalEmergency()
+                        + "', securityEmergency = '" + emergencyRequest.getSecurityEmergency()
+                        + "' WHERE requestID = '" + emergencyRequest.getRequestID() + "'";
                 break;
         }
         db.runStatement(query, false);
@@ -515,8 +529,22 @@ public class RequestMutator implements IDatabaseEntityMutator<Request> {
                         rs.getString("description")
                 );
                 break;
+            case EMERGENCY:
+                outRequest = new EmergencyRequest(
+                        rs.getString("medicalEmergency"),
+                        rs.getString("securityEmergency"),
+                        rs.getString("requestID"),
+                        rs.getString("requestTime"),
+                        rs.getString("requestDate"),
+                        rs.getString("complete"),
+                        rs.getString("employeeName"),
+                        rs.getString("location"),
+                        rs.getString("description")
+                );
+                break;
         }
         rs.close();
+        System.out.println(outRequest);
         return outRequest;
     }
 }
