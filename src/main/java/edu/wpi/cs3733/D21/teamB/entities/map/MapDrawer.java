@@ -1,10 +1,8 @@
 package edu.wpi.cs3733.D21.teamB.entities.map;
 
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
-
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Edge;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Node;
-import edu.wpi.cs3733.D21.teamB.entities.map.data.Path;
 import edu.wpi.cs3733.D21.teamB.pathfinding.*;
 import edu.wpi.cs3733.D21.teamB.util.Popup.PoppableManager;
 import edu.wpi.cs3733.D21.teamB.views.map.PathfindingMenuController;
@@ -26,17 +24,17 @@ import java.util.*;
 
 public class MapDrawer implements PoppableManager {
 
-    private final PathfindingMenuController pfmc;
-    private final MapCache mc;
+    private final PathfindingMenuController pathfindingMenuController;
+    private final MapCache mapCache;
     @Setter
-    private MapPathPopupManager mppm;
+    private MapPathPopupManager mapPathPopupManager;
     @Setter
-    private MapEditorPopupManager mepm;
+    private MapEditorPopupManager mapEditorPopupManager;
     private final AnchorPane nodeHolder;
     private final AnchorPane mapHolder;
     private final AnchorPane intermediateNodeHolder;
     private final Label lblError;
-    private final GesturePane gpane;
+    private final GesturePane gPane;
     private final StackPane mapStack;
     private ETAPopup etaPopup;
 
@@ -46,16 +44,16 @@ public class MapDrawer implements PoppableManager {
     @Setter
     private boolean isEditing = false;
 
-    public MapDrawer(PathfindingMenuController pfmc, MapCache mc, AnchorPane nodeHolder, AnchorPane mapHolder, AnchorPane intermediateNodeHolder,
-                     Label lblError, StackPane mapStack, GesturePane gpane) {
-        this.pfmc = pfmc;
-        this.mc = mc;
+    public MapDrawer(PathfindingMenuController pathfindingMenuController, MapCache mapCache, AnchorPane nodeHolder, AnchorPane mapHolder, AnchorPane intermediateNodeHolder,
+                     Label lblError, StackPane mapStack, GesturePane gPane) {
+        this.pathfindingMenuController = pathfindingMenuController;
+        this.mapCache = mapCache;
         this.nodeHolder = nodeHolder;
         this.mapHolder = mapHolder;
         this.intermediateNodeHolder = intermediateNodeHolder;
         this.lblError = lblError;
         this.mapStack = mapStack;
-        this.gpane = gpane;
+        this.gPane = gPane;
     }
 
     /**
@@ -63,16 +61,16 @@ public class MapDrawer implements PoppableManager {
      */
     public void drawPath(String start, String end) {
         Graph.getGraph().updateGraph();
-        List<String> sl = mc.getStopsList();
+        List<String> sl = mapCache.getStopsList();
         Stack<String> allStops = new Stack<>();
-        allStops.push(mc.makeLongToIDMap().get(end));
+        allStops.push(mapCache.makeLongToIDMap().get(end));
         for (int i = sl.size() - 1; i >= 0; i--) {
-            allStops.push(mc.makeLongToIDMap().get(sl.get(i)));
+            allStops.push(mapCache.makeLongToIDMap().get(sl.get(i)));
         }
-        allStops.push(mc.makeLongToIDMap().get(start));
+        allStops.push(mapCache.makeLongToIDMap().get(start));
 
         Pathfinder pathfinder;
-        switch (pfmc.getComboPathingType().getSelectionModel().getSelectedItem()) {
+        switch (pathfindingMenuController.getComboPathingType().getSelectionModel().getSelectedItem()) {
             case "A*":
                 pathfinder = new AStar();
                 break;
@@ -85,13 +83,13 @@ public class MapDrawer implements PoppableManager {
             default:
                 throw new IllegalStateException("Extra option in combo box?");
         }
-        Path wholePath = pathfinder.findPath(allStops);
+        mapCache.setFinalPath(pathfinder.findPath(allStops));
 
-        if (wholePath.getPath().isEmpty()) {
+        if (mapCache.getFinalPath().getPath().isEmpty()) {
             lblError.setVisible(true);
         } else {
-            for (int i = 0; i < wholePath.getPath().size() - 1; i++) {
-                placeEdge(Graph.getGraph().getNodes().get(wholePath.getPath().get(i)), Graph.getGraph().getNodes().get(wholePath.getPath().get(i + 1)));
+            for (int i = 0; i < mapCache.getFinalPath().getPath().size() - 1; i++) {
+                placeEdge(Graph.getGraph().getNodes().get(mapCache.getFinalPath().getPath().get(i)), Graph.getGraph().getNodes().get(mapCache.getFinalPath().getPath().get(i + 1)));
             }
         }
 
@@ -100,18 +98,18 @@ public class MapDrawer implements PoppableManager {
             etaPopup = null;
         }
 
-        etaPopup = mppm.createETAPopup(wholePath);
+        etaPopup = mapPathPopupManager.createETAPopup(mapCache.getFinalPath());
     }
 
     /**
      * Draws all the nodes on a given floor with the default graphic
      */
     public void drawNodesOnFloor() {
-        Map<String, List<Node>> nodes = mc.getFloorNodes();
+        Map<String, List<Node>> nodes = mapCache.getFloorNodes();
         // If the floor has no nodes, return
-        if (!nodes.containsKey(mc.getCurrentFloor())) return;
+        if (!nodes.containsKey(mapCache.getCurrentFloor())) return;
 
-        for (Node n : nodes.get(mc.getCurrentFloor())) {
+        for (Node n : nodes.get(mapCache.getCurrentFloor())) {
             if (!(n.getNodeType().equals("WALK") || n.getNodeType().equals("HALL") || n.getBuilding().equals("BTM") || n.getBuilding().equals("Shapiro"))) {
                 placeNode(n);
             }
@@ -129,7 +127,7 @@ public class MapDrawer implements PoppableManager {
 
         for (Node n : nodes.values()) {
             if ((!(n.getNodeType().equals("WALK") || n.getNodeType().equals("HALL"))) && (!n.getBuilding().equals("BTM") && !n.getBuilding().equals("Shapiro")) &&
-                    n.getFloor().equals(mc.getCurrentFloor())) {
+                    n.getFloor().equals(mapCache.getCurrentFloor())) {
                 placeAltNode(n);
             }
         }
@@ -145,7 +143,7 @@ public class MapDrawer implements PoppableManager {
 
         for (Node n : nodes.values()) {
             if ((n.getNodeType().equals("WALK") || n.getNodeType().equals("HALL")) && (!n.getBuilding().equals("BTM") &&
-                    !n.getBuilding().equals("Shapiro")) && n.getFloor().equals(mc.getCurrentFloor())) {
+                    !n.getBuilding().equals("Shapiro")) && n.getFloor().equals(mapCache.getCurrentFloor())) {
                 placeIntermediateNode(n);
             }
         }
@@ -160,8 +158,8 @@ public class MapDrawer implements PoppableManager {
             Node start = db.getNodeById(e.getStartNodeID());
             Node end = db.getNodeById(e.getEndNodeID());
 
-            if (start.getFloor().equals(mc.getCurrentFloor()) &&
-                    end.getFloor().equals(mc.getCurrentFloor()) &&
+            if (start.getFloor().equals(mapCache.getCurrentFloor()) &&
+                    end.getFloor().equals(mapCache.getCurrentFloor()) &&
                     (
                             !start.getBuilding().equals("BTM") &&
                                     !start.getBuilding().equals("Shapiro")) &&
@@ -191,11 +189,11 @@ public class MapDrawer implements PoppableManager {
             // Show graphical input for pathfinding when clicked
             i.setOnMouseClicked((MouseEvent e) -> {
                 removeAllPopups();
-                mppm.createGraphicalInputPopup(n);
+                mapPathPopupManager.createGraphicalInputPopup(n);
             });
 
             nodeHolder.getChildren().add(i);
-            mc.getNodePlaced().add(i);
+            mapCache.getNodePlaced().add(i);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -217,10 +215,10 @@ public class MapDrawer implements PoppableManager {
             c.setId(n.getNodeID() + "Icon");
 
             c.setOnMouseClicked((MouseEvent e) -> {
-                if (mc.getStartNode() != null) {
-                    mc.setNewEdgeEnd(n.getNodeID());
-                    mepm.showAddEdgePopup(e);
-                } else mepm.showEditNodePopup(n, e, false);
+                if (mapCache.getStartNode() != null) {
+                    mapCache.setNewEdgeEnd(n.getNodeID());
+                    mapEditorPopupManager.showAddEdgePopup(e);
+                } else mapEditorPopupManager.showEditNodePopup(n, e, false);
             });
 
             c.setOnMouseEntered(event -> {
@@ -231,7 +229,7 @@ public class MapDrawer implements PoppableManager {
             });
 
             nodeHolder.getChildren().add(c);
-            mc.getNodePlaced().add(c);
+            mapCache.getNodePlaced().add(c);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -251,10 +249,10 @@ public class MapDrawer implements PoppableManager {
             c.setCenterY((n.getYCoord() / PathfindingMenuController.coordinateScale));
 
             c.setOnMouseClicked(event -> {
-                if (mc.getStartNode() != null) {
-                    mc.setNewEdgeEnd(n.getNodeID());
-                    mepm.showAddEdgePopup(event);
-                } else mepm.showEditNodePopup(n, event, false);
+                if (mapCache.getStartNode() != null) {
+                    mapCache.setNewEdgeEnd(n.getNodeID());
+                    mapEditorPopupManager.showAddEdgePopup(event);
+                } else mapEditorPopupManager.showEditNodePopup(n, event, false);
             });
 
             c.setId(n.getNodeID() + "IntIcon");
@@ -267,7 +265,7 @@ public class MapDrawer implements PoppableManager {
             });
 
             intermediateNodeHolder.getChildren().add(c);
-            mc.getIntermediateNodePlaced().add(c);
+            mapCache.getIntermediateNodePlaced().add(c);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -292,7 +290,7 @@ public class MapDrawer implements PoppableManager {
 
             l.setOnMouseClicked(e -> {
                 if (isEditing) {
-                    mepm.showDelEdgePopup(start, end, mapStack);
+                    mapEditorPopupManager.showDelEdgePopup(start, end, mapStack);
                 }
             });
 
@@ -306,7 +304,7 @@ public class MapDrawer implements PoppableManager {
             l.setId(start.getNodeID() + "_" + end.getNodeID() + "Icon");
 
             mapHolder.getChildren().add(l);
-            mc.getEdgesPlaced().add(l);
+            mapCache.getEdgesPlaced().add(l);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -320,7 +318,7 @@ public class MapDrawer implements PoppableManager {
      * <p>
      */
     public void refreshEditor() {
-        mc.updateLocations();
+        mapCache.updateLocations();
         removeAllEdges();
         removeIntermediateNodes();
         removeNodes();
@@ -343,7 +341,7 @@ public class MapDrawer implements PoppableManager {
             drawAltNodesOnFloor();
             drawIntermediateNodesOnFloor();
         } else {
-            mc.updateLocations();
+            mapCache.updateLocations();
             removeAllEdges();
             removeIntermediateNodes();
             removeNodes();
@@ -355,41 +353,41 @@ public class MapDrawer implements PoppableManager {
      * Remove all the popups on the map
      */
     public void removeAllPopups() {
-        mepm.removeAllPopups();
-        mppm.removeAllPopups();
+        mapEditorPopupManager.removeAllPopups();
+        mapPathPopupManager.removeAllPopups();
 
-        gpane.setGestureEnabled(true);
+        gPane.setGestureEnabled(true);
     }
 
     /**
      * Removes any edges drawn on the map
      */
     public void removeAllEdges() {
-        mppm.removeETAPopup();
+        mapPathPopupManager.removeETAPopup();
         lblError.setVisible(false);
-        for (Line l : mc.getEdgesPlaced())
+        for (Line l : mapCache.getEdgesPlaced())
             mapHolder.getChildren().remove(l);
 
-        mc.setEdgesPlaced(new ArrayList<>());
+        mapCache.setEdgesPlaced(new ArrayList<>());
     }
 
     /**
      * Removes all nodes from the map
      */
     private void removeNodes() {
-        for (javafx.scene.Node n : mc.getNodePlaced())
+        for (javafx.scene.Node n : mapCache.getNodePlaced())
             nodeHolder.getChildren().remove(n);
 
-        mc.setNodePlaced(new ArrayList<>());
+        mapCache.setNodePlaced(new ArrayList<>());
     }
 
     /**
      * Removes all intermediate nodes from the map
      */
     private void removeIntermediateNodes() {
-        for (javafx.scene.Node n : mc.getIntermediateNodePlaced())
+        for (javafx.scene.Node n : mapCache.getIntermediateNodePlaced())
             intermediateNodeHolder.getChildren().remove(n);
 
-        mc.setIntermediateNodePlaced(new ArrayList<>());
+        mapCache.setIntermediateNodePlaced(new ArrayList<>());
     }
 }

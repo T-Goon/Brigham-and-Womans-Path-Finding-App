@@ -144,11 +144,11 @@ public class PathfindingMenuController implements Initializable {
     final FileChooser fileChooser = new FileChooser();
     final DirectoryChooser directoryChooser = new DirectoryChooser();
 
-    private final MapCache mc = new MapCache();
-    private MapDrawer md;
-    private MapEditorPopupManager mepm;
-    private MapPathPopupManager mppm;
-    private FloorSwitcher fs;
+    private final MapCache mapCache = new MapCache();
+    private MapDrawer mapDrawer;
+    private MapEditorPopupManager mapEditorPopupManager;
+    private MapPathPopupManager mapPathPopupManager;
+    private FloorSwitcher floorSwitcher;
 
     // JavaFX code **************************************************************************************
 
@@ -172,24 +172,24 @@ public class PathfindingMenuController implements Initializable {
         validateFindPathButton();
 
         //Adds all the destination names to locationNames and sort the nodes by floor
-        mc.updateLocations();
+        mapCache.updateLocations();
         try {
             populateTreeView();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        md = new MapDrawer(this, mc, nodeHolder, mapHolder, intermediateNodeHolder, lblError, mapStack, gpane);
+        mapDrawer = new MapDrawer(this, mapCache, nodeHolder, mapHolder, intermediateNodeHolder, lblError, mapStack, gpane);
 
-        mepm = new MapEditorPopupManager(md, mc, gpane, mapStack);
-        md.setMepm(mepm);
+        mapEditorPopupManager = new MapEditorPopupManager(mapDrawer, mapCache, gpane, mapStack);
+        mapDrawer.setMapEditorPopupManager(mapEditorPopupManager);
 
-        mppm = new MapPathPopupManager(md, mc, txtStartLocation, txtEndLocation, btnRemoveStop, mapStack, gpane, this, nodeHolder);
-        md.setMppm(mppm);
+        mapPathPopupManager = new MapPathPopupManager(mapDrawer, mapCache, txtStartLocation, txtEndLocation, btnRemoveStop, mapStack, gpane, this, nodeHolder);
+        mapDrawer.setMapPathPopupManager(mapPathPopupManager);
 
         // Set up floor switching
-        fs = new FloorSwitcher(md, mc, map, btnF3, btnF2, btnF1, btnFL1, btnFL2);
-        fs.switchFloor(FloorSwitcher.floor1ID);
+        floorSwitcher = new FloorSwitcher(mapDrawer, mapCache, map, btnF3, btnF2, btnF1, btnFL1, btnFL2);
+        floorSwitcher.switchFloor(FloorSwitcher.floor1ID);
 
         //test if we came from a failed covid survey
         if (SceneSwitcher.peekLastScene().equals("/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidFormSubmittedWithSymp.fxml")) {
@@ -258,7 +258,7 @@ public class PathfindingMenuController implements Initializable {
         Graph.getGraph().updateGraph();
 
         // Now delete and refresh the nodes
-        md.drawAllElements();
+        mapDrawer.drawAllElements();
     }
 
     /**
@@ -303,20 +303,20 @@ public class PathfindingMenuController implements Initializable {
 
             //For now only work on nodes that are on the first floor until multi-floor pathfinding is added
             Node tempLocation = Graph.getGraph().getNodes().get(
-                    mc.makeLongToIDMap().get(
+                    mapCache.makeLongToIDMap().get(
                             selectedItem.getValue()));
 
-            if (tempLocation.getFloor().equals(mc.getCurrentFloor())) {
+            if (tempLocation.getFloor().equals(mapCache.getCurrentFloor())) {
 
-                md.removeAllPopups();
-                if (md.isEditing())
-                    mepm.showEditNodePopup(tempLocation, mouseEvent, true);
+                mapDrawer.removeAllPopups();
+                if (mapDrawer.isEditing())
+                    mapEditorPopupManager.showEditNodePopup(tempLocation, mouseEvent, true);
                 else
-                    mppm.createGraphicalInputPopup(tempLocation);
+                    mapPathPopupManager.createGraphicalInputPopup(tempLocation);
 
             }
         } else if (!selectedItem.isLeaf()) {
-            md.removeAllPopups();
+            mapDrawer.removeAllPopups();
         }
 
         validateFindPathButton();
@@ -342,44 +342,44 @@ public class PathfindingMenuController implements Initializable {
         switch (b.getId()) {
             case "btnFindPath":
 
-                md.removeAllEdges();
-                md.drawPath(txtStartLocation.getText(), txtEndLocation.getText());
+                mapDrawer.removeAllEdges();
+                mapDrawer.drawPath(txtStartLocation.getText(), txtEndLocation.getText());
                 break;
             case "btnEditMap":
 
-                md.removeAllPopups();
-                md.removeAllEdges();
+                mapDrawer.removeAllPopups();
+                mapDrawer.removeAllEdges();
 
-                md.setEditing(!md.isEditing());
+                mapDrawer.setEditing(!mapDrawer.isEditing());
 
-                md.drawAllElements();
+                mapDrawer.drawAllElements();
                 break;
             case "btnF3":
-                md.removeAllEdges();
-                fs.switchFloor(FloorSwitcher.floor3ID);
+                mapDrawer.removeAllEdges();
+                floorSwitcher.switchFloor(FloorSwitcher.floor3ID);
                 break;
             case "btnF2":
-                md.removeAllEdges();
-                fs.switchFloor(FloorSwitcher.floor2ID);
+                mapDrawer.removeAllEdges();
+                floorSwitcher.switchFloor(FloorSwitcher.floor2ID);
                 break;
             case "btnF1":
-                md.removeAllEdges();
-                fs.switchFloor(FloorSwitcher.floor1ID);
+                mapDrawer.removeAllEdges();
+                floorSwitcher.switchFloor(FloorSwitcher.floor1ID);
                 break;
             case "btnFL1":
-                md.removeAllEdges();
-                fs.switchFloor(FloorSwitcher.floorL1ID);
+                mapDrawer.removeAllEdges();
+                floorSwitcher.switchFloor(FloorSwitcher.floorL1ID);
                 break;
             case "btnFL2":
-                md.removeAllEdges();
-                fs.switchFloor(FloorSwitcher.floorL2ID);
+                mapDrawer.removeAllEdges();
+                floorSwitcher.switchFloor(FloorSwitcher.floorL2ID);
                 break;
             case "btnRemoveStop":
-                mc.getStopsList().remove(mc.getStopsList().size() - 1);
-                displayStops(mc.getStopsList());
+                mapCache.getStopsList().remove(mapCache.getStopsList().size() - 1);
+                displayStops(mapCache.getStopsList());
 
                 // Validate button
-                btnRemoveStop.setDisable(mc.getStopsList().isEmpty());
+                btnRemoveStop.setDisable(mapCache.getStopsList().isEmpty());
 
                 break;
             case "btnBack":
@@ -439,9 +439,9 @@ public class PathfindingMenuController implements Initializable {
         rootNode.getChildren().add(locations);
 
         //Adding Categories
-        for (String category : mc.getCatNameMap().keySet()) {
+        for (String category : mapCache.getCatNameMap().keySet()) {
             TreeItem<String> categoryTreeItem = new TreeItem<>(categoryNameMap.get(category));
-            categoryTreeItem.getChildren().addAll(mc.getCatNameMap().get(category));
+            categoryTreeItem.getChildren().addAll(mapCache.getCatNameMap().get(category));
             locations.getChildren().add(categoryTreeItem);
         }
 
@@ -531,12 +531,12 @@ public class PathfindingMenuController implements Initializable {
             if (event.getClickCount() < 2) return;
 
             // if in editing mode
-            if (md.isEditing()) {
+            if (mapDrawer.isEditing()) {
 
                 // Only one window open at a time;
-                md.removeAllPopups();
+                mapDrawer.removeAllPopups();
 
-                mepm.showAddNodePopup(event);
+                mapEditorPopupManager.showAddNodePopup(event);
             }
         });
 
@@ -549,7 +549,7 @@ public class PathfindingMenuController implements Initializable {
         JFXDialogLayout helpLayout = new JFXDialogLayout();
 
         Text helpText;
-        if (!md.isEditing())
+        if (!mapDrawer.isEditing())
             helpText = new Text("Enter your start and end location and any stops graphically or using our menu selector. " +
                     "To use the graphical selection,\nsimply click on the node and click on the set button. " +
                     "To enter a location using the menu, click on the appropriate\ndrop down and choose your location. " +
@@ -604,9 +604,9 @@ public class PathfindingMenuController implements Initializable {
         treeLocations.setRoot(newRoot);
 
         //Adding the nodes
-        for (String category : mc.getCatNameMap().keySet()) {
+        for (String category : mapCache.getCatNameMap().keySet()) {
             TreeItem<String> categoryTreeItem = new TreeItem<>(categoryNameMap.get(category));
-            categoryTreeItem.getChildren().addAll(mc.getCatNameMap().get(category));
+            categoryTreeItem.getChildren().addAll(mapCache.getCatNameMap().get(category));
             List<TreeItem<String>> treeItems = categoryTreeItem.getChildren();
             for (TreeItem<String> c : treeItems) {
                 if (c.getValue().toLowerCase().contains(searchBar.toLowerCase())) {
