@@ -1,26 +1,13 @@
 package edu.wpi.cs3733.D21.teamB.pathfinding;
 
-import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Node;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Path;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Stack;
 
 public class DFS implements Pathfinder {
-
-    /**
-     * Finds the path between multiple nodes by using DFS
-     *
-     * @param nodes a Stack of the destination nodes in order. (Start, dest1, dest2, ...)
-     * @return A Path with the full and complete path through the destinations
-     */
-    public Path findPath(Stack<String> nodes) {
-        // todo implement later
-        return null;
-    }
 
     /**
      * Implementation of depth-first search given the starting nodeID.
@@ -53,25 +40,21 @@ public class DFS implements Pathfinder {
         }
 
         // Otherwise, run dfs on all the neighbors
-        List<String> result;
-        Stack<String> stack = new Stack<>();
+        List<String> returned = new ArrayList<>();
         for (Node neighbor : graph.getAdjNodesById(start)) {
-            result = new ArrayList<>();
 
             // If the neighbor is not already visited
             if (!visited.contains(neighbor.getNodeID())) {
                 // Recursively see if it is part of path
-                result.addAll(dfsHelper(neighbor.getNodeID(), end, visited, graph));
+                List<String> result = new ArrayList<>(dfsHelper(neighbor.getNodeID(), end, visited, graph));
                 if (!result.isEmpty()) {
-                    stack.push(start);
-                    for (String s : result) {
-                        stack.push(s);
-                    }
+                    returned.add(start);
+                    returned.addAll(result);
                     break;
                 }
             }
         }
 
-        return stack;
+        return returned;
     }
 }
