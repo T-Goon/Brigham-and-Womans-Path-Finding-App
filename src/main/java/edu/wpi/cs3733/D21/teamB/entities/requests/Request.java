@@ -53,7 +53,8 @@ public class Request implements IStoredEntity {
         RELIGIOUS,
         SANITATION,
         SECURITY,
-        SOCIAL_WORKER;
+        SOCIAL_WORKER,
+        EMERGENCY;
 
         public static String prettify(RequestType requestType) {
             switch (requestType) {
@@ -79,6 +80,8 @@ public class Request implements IStoredEntity {
                     return "Security";
                 case SOCIAL_WORKER:
                     return "Social Worker";
+                case EMERGENCY:
+                    return "Emergency";
                 default:
                     throw new IllegalStateException("How did we get here?");
             }
