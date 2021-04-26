@@ -364,7 +364,7 @@ public class PathfindingMenuController implements Initializable {
                 md.removeAllEdges();
                 Map<String, String> longToId = mc.makeLongToIDMap();
                 AStar astar = new AStar();
-                mapPath = astar.findPath(longToId.get(txtStartLocation.getText()), longToId.get(txtEndLocation.getText()));
+                mapPath = astar.findPath(longToId.get(txtStartLocation.getText()), longToId.get(txtEndLocation.getText()), md.isMobility());
 
                 md.drawPath(txtStartLocation.getText(), txtEndLocation.getText());
 
