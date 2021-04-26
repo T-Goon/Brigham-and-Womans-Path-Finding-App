@@ -41,7 +41,7 @@ public class RequestWrapper {
         this.date = new Label(r.getDate());
         switch (r.getProgress()) {
             case "F":
-                this.progress = new Label("Not Complete");
+                this.progress = new Label("Not Started");
                 break;
             case "P":
                 this.progress = new Label("In Progress");
@@ -59,11 +59,11 @@ public class RequestWrapper {
         DatabaseHandler db = DatabaseHandler.getDatabaseHandler("main.db");
         this.completeMenu = new ContextMenu();
         Menu menu = new Menu("Progress:");
-        MenuItem notComplete = new MenuItem("Not Complete");
+        MenuItem notComplete = new MenuItem("Not Started");
         MenuItem inProgress = new MenuItem("In Progress");
         MenuItem complete = new MenuItem("Complete");
         notComplete.setOnAction(e -> {
-            progress.setText("Not Complete");
+            progress.setText("Not Started");
             r.setProgress("F");
             try {
                 db.updateRequest(r);
