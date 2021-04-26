@@ -2,6 +2,7 @@ package edu.wpi.cs3733.D21.teamB.views.menus;
 
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXDialogLayout;
+import edu.wpi.cs3733.D21.teamB.App;
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.User;
 import edu.wpi.cs3733.D21.teamB.entities.requests.Request;
@@ -136,6 +137,7 @@ public class ServiceRequestDatabaseController extends BasePageController impleme
                 loadHelpDialog();
                 break;
             case "btnEmergency":
+                SceneSwitcher.isEmergencyBtn = true;
                 SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
                 break;
         }

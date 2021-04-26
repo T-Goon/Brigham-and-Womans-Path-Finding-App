@@ -106,6 +106,7 @@ public class DatabaseHandler {
             tables.add("LaundryRequests");
             tables.add("CaseManagerRequests");
             tables.add("SocialWorkerRequests");
+            tables.add("EmergencyRequests");
             tables.add("Requests");
             tables.add("Edges");
             tables.add("Nodes");
@@ -250,6 +251,12 @@ public class DatabaseHandler {
                 + "timeForArrival CHAR(20)," // Stored as HH:MM (24 hour time)
                 + "FOREIGN KEY (requestID) REFERENCES Requests(requestID))";
 
+        String emergencyRequestsTable = "CREATE TABLE IF NOT EXISTS EmergencyRequests("
+                + "requestID CHAR(20) PRIMARY KEY, "
+                + "medicalEmergency CHAR(20)," // Stored as T/F (no boolean data type in SQL)
+                + "securityEmergency CHAR(20)," // Stored as T/F (no boolean data type in SQL)
+                + "FOREIGN KEY (requestID) REFERENCES Requests(requestID))";
+
         String usersTable = "CREATE TABLE IF NOT EXISTS Users("
                 + "username CHAR(30) PRIMARY KEY, "
                 + "firstName CHAR(30), "
@@ -277,6 +284,7 @@ public class DatabaseHandler {
         runStatement(laundryTable, false);
         runStatement(caseManagerRequestsTable, false);
         runStatement(socialWorkerRequestsTable, false);
+        runStatement(emergencyRequestsTable, false);
         runStatement(usersTable, false);
         runStatement(jobsTable, false);
 

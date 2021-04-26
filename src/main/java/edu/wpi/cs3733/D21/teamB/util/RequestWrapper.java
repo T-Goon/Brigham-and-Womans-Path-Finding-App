@@ -156,6 +156,12 @@ public class RequestWrapper {
                     case SOCIAL_WORKER:
                         SceneSwitcher.switchScene(getClass(), "/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml", "/edu/wpi/cs3733/D21/teamB/views/requestForms/socialWorkerRequestForm.fxml");
                         break;
+                    case EMERGENCY:
+                        SceneSwitcher.isEmergencyBtn = false;
+                        SceneSwitcher.switchScene(getClass(), "/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml", "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
+                        break;
+                    default:
+                        throw new IllegalStateException("How did we get here?");
                 }
             }
         });
