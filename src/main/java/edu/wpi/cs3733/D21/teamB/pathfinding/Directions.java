@@ -118,8 +118,8 @@ public class Directions {
      * The list of instructions the user has to get through to
      * go to their destination
      *
-     * @param path
-     * @return
+     * @param path the path we want instructions for
+     * @return a list of strings where each element in the list is one instruction
      */
     public static List<String> instructions(Path path) {
         List<String> simplePath = simplifyPath(path);

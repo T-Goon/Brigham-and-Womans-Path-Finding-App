@@ -344,6 +344,7 @@ public class PathfindingTests {
         assertEquals(idExpected1, simplePath1);
     }
 
+    //tested txtDirections by using the UI
     @Test
     public void testTextDir() {
         //Center for International Medicine
