@@ -13,15 +13,12 @@ import edu.wpi.cs3733.D21.teamB.entities.map.data.Edge;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Node;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Path;
 import edu.wpi.cs3733.D21.teamB.pathfinding.AStar;
-import edu.wpi.cs3733.D21.teamB.pathfinding.Directions;
 import edu.wpi.cs3733.D21.teamB.pathfinding.Graph;
 import edu.wpi.cs3733.D21.teamB.util.CSVHandler;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
 import javafx.application.Platform;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TreeItem;
@@ -31,7 +28,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
@@ -40,7 +36,6 @@ import javafx.stage.Stage;
 import net.kurobako.gesturefx.GesturePane;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 import java.sql.SQLException;
@@ -125,7 +120,7 @@ public class PathfindingMenuController implements Initializable {
     private StackPane textDirectionsHolder;
 
     @FXML
-    private JFXToggleButton txtDirToggle;
+    private JFXButton btnTxtDir;
 
     public static final double coordinateScale = 25 / 9.0;
 
@@ -141,6 +136,8 @@ public class PathfindingMenuController implements Initializable {
     private MapEditorPopupManager mepm;
     private MapPathPopupManager mppm;
     private FloorSwitcher fs;
+
+    private Path mapPath;
 
     // JavaFX code **************************************************************************************
 
@@ -172,7 +169,7 @@ public class PathfindingMenuController implements Initializable {
         mepm = new MapEditorPopupManager(md, mc, gpane, mapStack);
         md.setMepm(mepm);
 
-        mppm = new MapPathPopupManager(md, txtStartLocation, txtEndLocation, mapStack, gpane, this, nodeHolder);
+        mppm = new MapPathPopupManager(md, txtStartLocation, txtEndLocation, mapStack, gpane, this, nodeHolder, textDirectionsHolder);
         md.setMppm(mppm);
 
         // Set up floor switching
@@ -319,9 +316,16 @@ public class PathfindingMenuController implements Initializable {
 
         switch (b.getId()) {
             case "btnFindPath":
-
                 md.removeAllEdges();
+                Map<String, String> longToId = mc.makeLongToIDMap();
+                mapPath = AStar.findPath(longToId.get(txtStartLocation.getText()), longToId.get(txtEndLocation.getText()));
+
                 md.drawPath(txtStartLocation.getText(), txtEndLocation.getText());
+
+                if(btnTxtDir.isDisable()){
+                    btnTxtDir.setDisable(false);
+                }
+
                 break;
             case "btnEditMap":
 
@@ -363,8 +367,14 @@ public class PathfindingMenuController implements Initializable {
                 break;
             case "btnHelp":
                 loadHelpDialog();
+                break;
             case "btnSearch":
                 handleItemSearched();
+                break;
+            case "btnTxtDir":
+                if(mapPath != null){
+                    mppm.createTxtDirPopup(mapPath);
+                }
                 break;
         }
     }
@@ -476,40 +486,4 @@ public class PathfindingMenuController implements Initializable {
         // If nothing is found, say "None"
         if (newRoot.getChildren().isEmpty()) newRoot.setValue("Not found!");
     }
-
-    @FXML
-    public void textDirVisibility(ActionEvent actionEvent){
-        Map<String, String> hmLongName = mc.makeLongToIDMap();
-        JFXToggleButton toggleButton = (JFXToggleButton) actionEvent.getSource();
-        VBox txtDirBox = null;
-
-        if(toggleButton.isSelected()){
-
-            try {
-                txtDirBox = FXMLLoader.load(
-                        Objects.requireNonNull(getClass().getResource("/edu/wpi/cs3733/D21/teamB/views/map/misc/showTextDir.fxml")));
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-        }
-
-        Path APath = AStar.findPath(hmLongName.get(txtStartLocation.getText()), hmLongName.get(txtEndLocation.getText()));
-        Node endNode  = Graph.getGraph().getNodes().get(hmLongName.get(txtEndLocation.getText()));
-
-        List<String> directions = Directions.inst(APath);
-
-        ObservableList<javafx.scene.Node> children = txtDirBox.getChildren();
-        Text text = (Text) children.get(0);
-
-        for(String direction : directions){
-            text.setText(direction + "\n");
-        }
-
-        txtDirBox.setLayoutX((endNode.getXCoord() / PathfindingMenuController.coordinateScale));
-        txtDirBox.setLayoutY((endNode.getYCoord() / PathfindingMenuController.coordinateScale) - (txtDirBox.getHeight()));
-
-    }
-
 }

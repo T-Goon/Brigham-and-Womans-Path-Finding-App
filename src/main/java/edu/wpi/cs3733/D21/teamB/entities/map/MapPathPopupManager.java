@@ -2,17 +2,18 @@ package edu.wpi.cs3733.D21.teamB.entities.map;
 
 import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733.D21.teamB.App;
-import edu.wpi.cs3733.D21.teamB.entities.map.data.ETAPopupData;
-import edu.wpi.cs3733.D21.teamB.entities.map.data.GraphicalInputData;
-import edu.wpi.cs3733.D21.teamB.entities.map.data.Node;
-import edu.wpi.cs3733.D21.teamB.entities.map.data.Path;
+import edu.wpi.cs3733.D21.teamB.entities.map.data.*;
 import edu.wpi.cs3733.D21.teamB.entities.map.node.GraphicalInputPopup;
+import edu.wpi.cs3733.D21.teamB.entities.map.node.TxtDirPopup;
 import edu.wpi.cs3733.D21.teamB.pathfinding.AStar;
+import edu.wpi.cs3733.D21.teamB.pathfinding.Directions;
 import edu.wpi.cs3733.D21.teamB.util.Popup.PoppableManager;
 import edu.wpi.cs3733.D21.teamB.views.map.PathfindingMenuController;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import net.kurobako.gesturefx.GesturePane;
+
+import java.util.List;
 
 public class MapPathPopupManager implements PoppableManager {
 
@@ -23,13 +24,15 @@ public class MapPathPopupManager implements PoppableManager {
     private final StackPane mapStack;
     private final AnchorPane nodeHolder;
     private final GesturePane gpane;
+    private final StackPane textDirectionsHolder;
 
     private GraphicalInputPopup giPopup;
     private ETAPopup etaPopup;
+    private TxtDirPopup txtDirPopup;
 
     public MapPathPopupManager(MapDrawer md, JFXTextField txtStartLocation, JFXTextField txtEndLocation,
                                StackPane mapStack, GesturePane gpane, PathfindingMenuController pfmc,
-                               AnchorPane nodeHolder) {
+                               AnchorPane nodeHolder, StackPane textDirectionsHolder) {
         this.md = md;
         this.txtStartLocation = txtStartLocation;
         this.txtEndLocation = txtEndLocation;
@@ -37,6 +40,7 @@ public class MapPathPopupManager implements PoppableManager {
         this.mapStack = mapStack;
         this.gpane =  gpane;
         this.nodeHolder = nodeHolder;
+        this.textDirectionsHolder = textDirectionsHolder;
     }
 
     /**
@@ -70,9 +74,23 @@ public class MapPathPopupManager implements PoppableManager {
         ETAPopupData etaPopupData = new ETAPopupData(estimatedTime, path);
         etaPopup = new ETAPopup(nodeHolder, etaPopupData);
 
+
         etaPopup.show();
 
         return etaPopup;
+    }
+
+    public TxtDirPopup createTxtDirPopup(Path path){
+
+        List<String> instructions = Directions.inst(path);
+
+        TxtDirPopupData txtDirPopupData = new TxtDirPopupData(instructions);
+        txtDirPopup = new TxtDirPopup(textDirectionsHolder, txtDirPopupData, gpane);
+
+        App.getPrimaryStage().setUserData(txtDirPopup);
+
+        txtDirPopup.show();
+        return txtDirPopup;
     }
 
     /**
@@ -93,6 +111,13 @@ public class MapPathPopupManager implements PoppableManager {
         if(giPopup != null){
             giPopup.hide();
             giPopup = null;
+        }
+    }
+
+    public void removeTxtDirPopup(){
+        if(txtDirPopup != null){
+            txtDirPopup.hide();
+            txtDirPopup = null;
         }
     }
 }

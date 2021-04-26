@@ -2,7 +2,6 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXTextField?>
-<?import com.jfoenix.controls.JFXToggleButton?>
 <?import com.jfoenix.controls.JFXTreeView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
@@ -177,8 +176,18 @@
                         </HBox>
                         <HBox prefHeight="100.0" prefWidth="200.0">
                            <children>
-                              <JFXToggleButton fx:id="txtDirToggle" onAction="#textDirVisibility" text="Text Directions" textFill="WHITE" />
+                              <JFXButton fx:id="btnTxtDir" buttonType="RAISED" disable="true" onAction="#handleButtonAction" prefWidth="9001.0" style="-fx-background-color: F6BD39;" text="Text Directions" textOverrun="CLIP">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets bottom="7.0" left="30.0" right="30.0" top="7.0" />
+                                 </padding>
+                              </JFXButton>
                            </children>
+                           <VBox.margin>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </VBox.margin>
                         </HBox>
                               <HBox VBox.vgrow="ALWAYS">
                                   <children>
