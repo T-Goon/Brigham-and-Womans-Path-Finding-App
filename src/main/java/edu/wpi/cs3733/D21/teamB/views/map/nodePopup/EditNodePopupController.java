@@ -150,13 +150,5 @@ public class EditNodePopupController implements Initializable {
         }
     }
 
-    @FXML
-    private void handleColorPicker(ActionEvent event) {
-        JFXColorPicker clr = (JFXColorPicker) event.getSource();
 
-        switch (clr.getId()) {
-            case "clrPicker":
-
-        }
-    }
 }

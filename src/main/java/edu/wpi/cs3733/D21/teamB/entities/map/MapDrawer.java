@@ -10,7 +10,7 @@ import edu.wpi.cs3733.D21.teamB.util.Popup.PoppableManager;
 import edu.wpi.cs3733.D21.teamB.views.map.PathfindingMenuController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
-import javafx.scene.image.ImageView;
+import javafx.scene.image.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
@@ -181,7 +181,25 @@ public class MapDrawer implements PoppableManager {
      */
     private void placeNode(Node n) {
         try {
+
             ImageView i = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/cs3733/D21/teamB/views/map/misc/node.fxml")));
+
+            Image image = i.getImage();
+            PixelReader reader = image.getPixelReader();
+            int w = (int) image.getWidth();
+            int h = (int) image.getHeight();
+            WritableImage wImage = new WritableImage(w, h);
+            PixelWriter writer = wImage.getPixelWriter();
+            for (int y = 0; y < h; y++) {
+                for (int x = 0; x < w; x++) {
+                    Color color = reader.getColor(x, y);
+                    if (!(color.hashCode() == 0x00000000)) {
+                        writer.setColor(x, y, n.getColor());
+                    }
+                }
+            }
+
+            i.setImage(wImage);
 
             i.setLayoutX((n.getXCoord() / PathfindingMenuController.coordinateScale) - (i.getFitWidth() / 4));
             i.setLayoutY((n.getYCoord() / PathfindingMenuController.coordinateScale) - (i.getFitHeight()));
