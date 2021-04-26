@@ -97,7 +97,6 @@ public class RequestWrapper {
         menu.getItems().add(complete);
         completeMenu.getItems().add(menu);
         progress.setContextMenu(completeMenu);
-        this.complete.setSelected(r.getComplete().equals("T"));
         this.controller = controller;
 
         //Setup context menu
