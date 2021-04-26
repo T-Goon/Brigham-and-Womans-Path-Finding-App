@@ -22,25 +22,25 @@ public class TxtDirPopup extends Popup<VBox, TxtDirPopupData> implements Poppabl
     }
 
     public void show() {
-        VBox txtDirBox = null;
+        VBox txtDirBox;
         try {
             txtDirBox = FXMLLoader.load(
                     Objects.requireNonNull(getClass().getResource("/edu/wpi/cs3733/D21/teamB/views/map/misc/showTextDir.fxml")));
 
         } catch (IOException e) {
             e.printStackTrace();
+            return;
         }
 
         StringBuilder direction = new StringBuilder();
 
-        for(String instruction: data.getInstructions()){
+        for (String instruction : data.getInstructions()) {
             direction.append(instruction).append("\n");
         }
-        Text textInstr = (Text)txtDirBox.getChildren().get(0);
+        Text textInstr = (Text) txtDirBox.getChildren().get(0);
         textInstr.setText(direction.toString());
 
         super.show(txtDirBox);
-        gpane.setGestureEnabled(false);
     }
 
 }

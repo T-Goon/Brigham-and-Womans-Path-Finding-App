@@ -15,6 +15,7 @@ import javafx.collections.MapChangeListener;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import net.kurobako.gesturefx.GesturePane;
+
 import java.util.List;
 
 import javax.swing.text.html.ImageView;
@@ -36,7 +37,7 @@ public class MapPathPopupManager implements PoppableManager {
     private ETAPopup etaPopup;
     private TxtDirPopup txtDirPopup;
 
-    public MapPathPopupManager(MapDrawer md, MapCache mc, JFXTextField txtStartLocation,JFXTextField txtEndLocation,
+    public MapPathPopupManager(MapDrawer md, MapCache mc, JFXTextField txtStartLocation, JFXTextField txtEndLocation,
                                JFXButton btnRmStop, StackPane mapStack, GesturePane gpane,
                                PathfindingMenuController pfmc, AnchorPane nodeHolder, StackPane textDirectionsHolder) {
         this.md = md;
@@ -46,7 +47,7 @@ public class MapPathPopupManager implements PoppableManager {
         this.btnRemoveStop = btnRmStop;
         this.pfmc = pfmc;
         this.mapStack = mapStack;
-        this.gpane =  gpane;
+        this.gpane = gpane;
         this.nodeHolder = nodeHolder;
         this.textDirectionsHolder = textDirectionsHolder;
     }
@@ -89,7 +90,7 @@ public class MapPathPopupManager implements PoppableManager {
         return etaPopup;
     }
 
-    public TxtDirPopup createTxtDirPopup(Path path){
+    public TxtDirPopup createTxtDirPopup(Path path) {
 
         List<String> instructions = Directions.instructions(path);
 
@@ -104,8 +105,8 @@ public class MapPathPopupManager implements PoppableManager {
     /**
      * Remove the etaPopup from the map
      */
-    public void removeETAPopup(){
-        if(etaPopup != null){
+    public void removeETAPopup() {
+        if (etaPopup != null) {
             etaPopup.hide();
             etaPopup = null;
         }
@@ -114,20 +115,12 @@ public class MapPathPopupManager implements PoppableManager {
     /**
      * Remove all popups managed my this class.
      */
-    public void removeAllPopups(){
-
-        if(giPopup != null){
+    public void removeAllPopups() {
+        if (giPopup != null) {
             giPopup.hide();
             giPopup = null;
         }
-        if(txtDirPopup != null){
-            txtDirPopup.hide();
-            txtDirPopup = null;
-        }
-    }
-
-    public void removeTxtDirPopup(){
-        if(txtDirPopup != null){
+        if (txtDirPopup != null) {
             txtDirPopup.hide();
             txtDirPopup = null;
         }

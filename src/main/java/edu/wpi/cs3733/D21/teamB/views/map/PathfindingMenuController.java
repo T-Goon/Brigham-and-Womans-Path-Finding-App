@@ -195,7 +195,7 @@ public class PathfindingMenuController implements Initializable {
         md.setMepm(mepm);
 
         mppm = new MapPathPopupManager(md, mc, txtStartLocation, txtEndLocation, btnRemoveStop, mapStack, gpane, this, nodeHolder, textDirectionsHolder);
-        mppm = new MapPathPopupManager(md, mc,  txtStartLocation, txtEndLocation, btnRemoveStop, mapStack, gpane, this, nodeHolder, textDirectionsHolder);
+        mppm = new MapPathPopupManager(md, mc, txtStartLocation, txtEndLocation, btnRemoveStop, mapStack, gpane, this, nodeHolder, textDirectionsHolder);
         md.setMppm(mppm);
 
         // Set up floor switching
@@ -359,7 +359,7 @@ public class PathfindingMenuController implements Initializable {
 
                 md.drawPath(txtStartLocation.getText(), txtEndLocation.getText());
 
-                if(btnTxtDir.isDisable()){
+                if (btnTxtDir.isDisable()) {
                     btnTxtDir.setDisable(false);
                 }
 
@@ -418,7 +418,7 @@ public class PathfindingMenuController implements Initializable {
                 break;
             case "btnTxtDir":
                 md.removeAllPopups();
-                if(mapPath != null){
+                if (mapPath != null) {
                     mppm.createTxtDirPopup(mapPath);
                 }
                 break;
