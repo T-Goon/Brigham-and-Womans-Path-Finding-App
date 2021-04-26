@@ -149,7 +149,7 @@ public class MapDrawer implements PoppableManager {
         if (!nodes.containsKey(mc.getCurrentFloor())) return;
 
         for (Node n : nodes.get(mc.getCurrentFloor())) {
-            if (!(n.getNodeType().equals("WALK") || n.getNodeType().equals("HALL") || n.getBuilding().equals("BTM") || n.getBuilding().equals("Shapiro"))) {
+            if (!(n.getNodeType().equals("WALK") || n.getNodeType().equals("HALL"))) {
                 placeNode(n);
             }
         }
@@ -165,7 +165,7 @@ public class MapDrawer implements PoppableManager {
         if (nodes.isEmpty()) return;
 
         for (Node n : nodes.values()) {
-            if ((!(n.getNodeType().equals("WALK") || n.getNodeType().equals("HALL"))) && (!n.getBuilding().equals("BTM") && !n.getBuilding().equals("Shapiro")) &&
+            if ((!(n.getNodeType().equals("WALK") || n.getNodeType().equals("HALL"))) &&
                     n.getFloor().equals(mc.getCurrentFloor())) {
                 placeAltNode(n);
             }
@@ -181,8 +181,7 @@ public class MapDrawer implements PoppableManager {
         if (nodes.isEmpty()) return;
 
         for (Node n : nodes.values()) {
-            if ((n.getNodeType().equals("WALK") || n.getNodeType().equals("HALL")) && (!n.getBuilding().equals("BTM") &&
-                    !n.getBuilding().equals("Shapiro")) && n.getFloor().equals(mc.getCurrentFloor())) {
+            if ((n.getNodeType().equals("WALK") || n.getNodeType().equals("HALL")) && n.getFloor().equals(mc.getCurrentFloor())) {
                 placeIntermediateNode(n);
             }
         }
@@ -198,14 +197,7 @@ public class MapDrawer implements PoppableManager {
             Node end = db.getNodeById(e.getEndNodeID());
 
             if (start.getFloor().equals(mc.getCurrentFloor()) &&
-                    end.getFloor().equals(mc.getCurrentFloor()) &&
-                    (
-                            !start.getBuilding().equals("BTM") &&
-                                    !start.getBuilding().equals("Shapiro")) &&
-                    (
-                            !end.getBuilding().equals("BTM") &&
-                                    !start.getBuilding().equals("Shapiro")
-                    )) {
+                    end.getFloor().equals(mc.getCurrentFloor())) {
                 placeEdge(start, end);
             }
         }
