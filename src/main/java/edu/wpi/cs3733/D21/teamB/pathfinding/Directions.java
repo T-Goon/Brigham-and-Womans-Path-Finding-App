@@ -117,9 +117,11 @@ public class Directions {
         Graph graph = Graph.getGraph();
 
         String endloc = graph.getNodes().get(idEnd).getLongName();
+        String startLoc = graph.getNodes().get(simplePath.get(0)).getLongName();
+
 
         List<String> directions = new ArrayList<>();
-        directions.add("Starting route to " + endloc);
+        directions.add("Starting route to " + endloc + " from "+ startLoc);
 
         double FT_CONST = 5000/1635;
 
