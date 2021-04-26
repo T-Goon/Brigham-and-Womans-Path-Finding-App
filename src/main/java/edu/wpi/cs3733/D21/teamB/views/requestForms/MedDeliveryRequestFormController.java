@@ -1,16 +1,8 @@
-package edu.wpi.teamB.views.requestForms;
+package edu.wpi.cs3733.D21.teamB.views.requestForms;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
-import com.jfoenix.validation.RequiredFieldValidator;
-import edu.wpi.teamB.App;
-import edu.wpi.teamB.database.DatabaseHandler;
-import edu.wpi.teamB.entities.requests.MedicineRequest;
-import edu.wpi.teamB.entities.requests.Request;
-import edu.wpi.teamB.util.SceneSwitcher;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import edu.wpi.cs3733.D21.teamB.App;
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.requests.MedicineRequest;
