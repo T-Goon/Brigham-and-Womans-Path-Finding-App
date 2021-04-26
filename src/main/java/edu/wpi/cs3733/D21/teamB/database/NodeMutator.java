@@ -4,6 +4,7 @@ import edu.wpi.cs3733.D21.teamB.entities.map.data.Edge;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Node;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.NodeType;
 import edu.wpi.cs3733.D21.teamB.pathfinding.Graph;
+import javafx.scene.paint.Color;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -40,7 +41,8 @@ public class NodeMutator implements IDatabaseEntityMutator<Node> {
                         rs.getString("building").trim(),
                         rs.getString("nodeType").trim(),
                         rs.getString("longName").trim(),
-                        rs.getString("shortName").trim()
+                        rs.getString("shortName").trim(),
+                        Color.web(rs.getString("color").trim())
                 );
                 nodes.put(rs.getString("NodeID").trim(), outNode);
             } while (rs.next());
@@ -66,6 +68,7 @@ public class NodeMutator implements IDatabaseEntityMutator<Node> {
                 + "', '" + node.getNodeType()
                 + "', '" + node.getLongName()
                 + "', '" + node.getShortName()
+                + "', '" + node.getColor().toString()
                 + "')";
         db.runStatement(query, false);
         Graph.getGraph().updateGraph();
@@ -85,6 +88,7 @@ public class NodeMutator implements IDatabaseEntityMutator<Node> {
                 + "', nodeType = '" + node.getNodeType()
                 + "', longName = '" + node.getLongName()
                 + "', shortName = '" + node.getShortName()
+                + "', color = '" + node.getColor().toString()
                 + "' WHERE nodeID = '" + node.getNodeID() + "'";
         db.runStatement(query, false);
         Graph.getGraph().updateGraph();
@@ -144,7 +148,8 @@ public class NodeMutator implements IDatabaseEntityMutator<Node> {
                     rs.getString("building").trim(),
                     rs.getString("nodeType").trim(),
                     rs.getString("longName").trim(),
-                    rs.getString("shortName").trim()
+                    rs.getString("shortName").trim(),
+                    Color.web(rs.getString("color").trim())
             );
             nodes.add(outNode);
         } while (rs.next());
@@ -170,7 +175,8 @@ public class NodeMutator implements IDatabaseEntityMutator<Node> {
                     set.getString("building").trim(),
                     set.getString("nodeType").trim(),
                     set.getString("longName").trim(),
-                    set.getString("shortName").trim()
+                    set.getString("shortName").trim(),
+                    Color.web(set.getString("color").trim())
             );
             set.close();
             return n;

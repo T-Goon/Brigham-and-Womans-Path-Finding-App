@@ -11,6 +11,8 @@ import edu.wpi.cs3733.D21.teamB.entities.map.MapEditorPopupManager;
 import edu.wpi.cs3733.D21.teamB.entities.map.MapPathPopupManager;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Edge;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Node;
+import edu.wpi.cs3733.D21.teamB.entities.map.data.Path;
+import edu.wpi.cs3733.D21.teamB.pathfinding.AStar;
 import edu.wpi.cs3733.D21.teamB.pathfinding.Graph;
 import edu.wpi.cs3733.D21.teamB.util.CSVHandler;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
@@ -28,6 +30,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
@@ -133,10 +136,19 @@ public class PathfindingMenuController implements Initializable {
     private JFXButton btnFL2;
 
     @FXML
+    private StackPane textDirectionsHolder;
+
+    @FXML
+    private JFXButton btnTxtDir;
+
+    @FXML
     private JFXTextArea txtAreaStops;
 
     @FXML
     private JFXButton btnRemoveStop;
+
+    @FXML
+    private Circle pathHead;
 
     public static final double coordinateScale = 25 / 9.0;
 
@@ -152,6 +164,8 @@ public class PathfindingMenuController implements Initializable {
     private MapEditorPopupManager mepm;
     private MapPathPopupManager mppm;
     private FloorSwitcher fs;
+
+    private Path mapPath;
 
     // JavaFX code **************************************************************************************
 
@@ -187,7 +201,8 @@ public class PathfindingMenuController implements Initializable {
         mepm = new MapEditorPopupManager(md, mc, gpane, mapStack);
         md.setMepm(mepm);
 
-        mppm = new MapPathPopupManager(md, mc, txtStartLocation, txtEndLocation, btnRemoveStop, mapStack, gpane, this, nodeHolder);
+        mppm = new MapPathPopupManager(md, mc, txtStartLocation, txtEndLocation, btnRemoveStop, mapStack, gpane, this, nodeHolder, textDirectionsHolder);
+        mppm = new MapPathPopupManager(md, mc, txtStartLocation, txtEndLocation, btnRemoveStop, mapStack, gpane, this, nodeHolder, textDirectionsHolder);
         md.setMppm(mppm);
 
         // Set up floor switching
@@ -346,9 +361,17 @@ public class PathfindingMenuController implements Initializable {
 
         switch (b.getId()) {
             case "btnFindPath":
-
                 md.removeAllEdges();
+                Map<String, String> longToId = mc.makeLongToIDMap();
+                AStar astar = new AStar();
+                mapPath = astar.findPath(longToId.get(txtStartLocation.getText()), longToId.get(txtEndLocation.getText()), md.isMobility());
+
                 md.drawPath(txtStartLocation.getText(), txtEndLocation.getText());
+
+                if (btnTxtDir.isDisable()) {
+                    btnTxtDir.setDisable(false);
+                }
+
                 break;
             case "btnEditMap":
 
@@ -401,6 +424,12 @@ public class PathfindingMenuController implements Initializable {
                 break;
             case "btnSearch":
                 handleItemSearched();
+                break;
+            case "btnTxtDir":
+                md.removeAllPopups();
+                if (mapPath != null) {
+                    mppm.createTxtDirPopup(mapPath);
+                }
                 break;
         }
     }
