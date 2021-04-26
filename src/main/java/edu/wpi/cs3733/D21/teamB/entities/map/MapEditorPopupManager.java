@@ -127,7 +127,8 @@ public class MapEditorPopupManager implements PoppableManager {
                 md,
                 c,
                 mc,
-                mapStack
+                mapStack,
+                n.getColor()
         );
 
         nmPopup = new NodeMenuPopup(mapStack, npData, gPane);

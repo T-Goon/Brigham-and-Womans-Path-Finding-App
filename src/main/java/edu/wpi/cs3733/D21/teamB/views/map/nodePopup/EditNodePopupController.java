@@ -1,15 +1,13 @@
 package edu.wpi.cs3733.D21.teamB.views.map.nodePopup;
 
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXComboBox;
-import com.jfoenix.controls.JFXRadioButton;
-import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.*;
 import edu.wpi.cs3733.D21.teamB.App;
 import edu.wpi.cs3733.D21.teamB.entities.map.node.EditNodeWindow;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.paint.Color;
 
 import java.net.URL;
 import java.util.*;
@@ -52,6 +50,9 @@ public class EditNodePopupController implements Initializable {
     @FXML
     private JFXTextField shortName;
 
+    @FXML
+    private JFXColorPicker clrPicker;
+
     private EditNodeWindow window;
 
     private Map<String, String> categoryNameMap;
@@ -91,6 +92,7 @@ public class EditNodePopupController implements Initializable {
         nodeType.getSelectionModel().select(categoryNameMap.get(window.getData().getNodeType()));
         longName.setText(window.getData().getLongName());
         shortName.setText(window.getData().getShortName());
+        clrPicker.setValue(window.getData().getColor());
     }
 
     /**
@@ -134,8 +136,9 @@ public class EditNodePopupController implements Initializable {
                 }
                 String l = longName.getText().trim();
                 String s = shortName.getText().trim();
+                Color c = clrPicker.getValue();
 
-                window.updateNode(x, y, f, b, t, l, s);
+                window.updateNode(x, y, f, b, t, l, s, c);
                 window.getData().getMd().removeAllPopups();
 
                 break;
@@ -144,6 +147,16 @@ public class EditNodePopupController implements Initializable {
                     window.getData().getMd().removeAllPopups();
                 window.hide();
                 break;
+        }
+    }
+
+    @FXML
+    private void handleColorPicker(ActionEvent event) {
+        JFXColorPicker clr = (JFXColorPicker) event.getSource();
+
+        switch (clr.getId()) {
+            case "clrPicker":
+
         }
     }
 }
