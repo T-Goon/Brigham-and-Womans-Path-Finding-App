@@ -22,7 +22,6 @@ public class Directions {
         Coord currC = new Coord(curr.getXCoord(), -curr.getYCoord());
         Coord nextC = new Coord(next.getXCoord(), -next.getYCoord());
 
-
         double aX = currC.getX() - prevC.getX();
         double aY = currC.getY() - prevC.getY();
         double firstAngle;
@@ -70,6 +69,11 @@ public class Directions {
             remainder += 360;
         }
 
+        if (remainder == 180){
+            remainder = 0;
+        }
+
+
         return remainder;
     }
 
@@ -91,7 +95,7 @@ public class Directions {
             Node nextNode = graph.getNodes().get(nextNodeID);
 
             if (prevNode != null) {
-                if ((angleBetweenEdges(prevNode, currNode, nextNode) >= 150) && (angleBetweenEdges(prevNode, currNode, nextNode) <= 210)) {
+                if ((angleBetweenEdges(prevNode, currNode, nextNode) >= -30) && (angleBetweenEdges(prevNode, currNode, nextNode) <= 30)) {
                     pathIDCopy.remove(currNode.getNodeID());
                 }
             }
@@ -145,17 +149,24 @@ public class Directions {
 
                 double turn = angleBetweenEdges(prev, curr, next);
 
-                if (turn < 150 && turn >= 80) {
+                if (turn > 70 && turn <= 110) {
                     //take a right
                     dir += "Take a right and walk " + (int)distance + " feet towards " + next.getLongName();
-                } else if (turn > 0 && turn < 80) {
+                } else if (turn > 110 && turn <= 160) {
                     //sharp right
                     dir += "Take a sharp right and walk " + (int)distance + " feet towards " + next.getLongName();
-                } else if (turn >= 210 && turn <= 280) {
+                }
+                else if(turn<= 70 && turn > 30){
+                    dir += "Take a slight right and walk " + (int)distance + " feet towards " + next.getLongName();
+                }
+                else if (turn < -70 && turn >= -110) {
                     //take a left
                     dir += "Take a left and walk " + (int)distance + " feet towards " + next.getLongName();
-                } else{// if (turn == 0 || (turn > 280 && turn <= 360)) {
+                } else if (turn < -110 && turn >= -160){
                     dir += "Take a sharp left and walk " + (int)distance + " feet towards " + next.getLongName();
+                }
+                else if(turn >= -70){
+                    dir += "Take a slight left and walk " + (int)distance + " feet towards " + next.getLongName();
                 }
                 directions.add(dir);
             }

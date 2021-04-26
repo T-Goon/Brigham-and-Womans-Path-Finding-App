@@ -226,21 +226,33 @@ public class PathfindingTests {
         Node c = new Node("bPARK01501", 3159, 3, "1", "Parking", "PARK", "Right Parking Lot Spot 5", "RLot5");
 
         double angle180 = Directions.angleBetweenEdges(a, b, c);
-        assertEquals(angle180, 180, .5);
+        assertEquals(0, angle180, .5);
+
 
         Node a1 = new Node("bPARK01501", 3159, 3159, "1", "Parking", "PARK", "Right Parking Lot Spot 5", "RLot5");
-        Node b1 = new Node("bPARK01501", 1, 3159, "1", "Parking", "PARK", "Right Parking Lot Spot 5", "RLot5");
-        Node c1 = new Node("bPARK01501", 5, 3159, "1", "Parking", "PARK", "Right Parking Lot Spot 5", "RLot5");
+        Node b1 = new Node("bPARK01501", 5, 3159, "1", "Parking", "PARK", "Right Parking Lot Spot 5", "RLot5");
+        Node c1 = new Node("bPARK01501", 1, 3159, "1", "Parking", "PARK", "Right Parking Lot Spot 5", "RLot5");
 
         angle180 = Directions.angleBetweenEdges(a1, b1, c1);
-        assertEquals(angle180, 180, .5);
+        assertEquals(0, angle180, .5);
+
 
         Node a2 = new Node("bPARK01501", 5, 5, "1", "Parking", "PARK", "Right Parking Lot Spot 5", "RLot5");
         Node b2 = new Node("bPARK01501", 8, 8, "1", "Parking", "PARK", "Right Parking Lot Spot 5", "RLot5");
         Node c2 = new Node("bPARK01501", 13, 13, "1", "Parking", "PARK", "Right Parking Lot Spot 5", "RLot5");
 
         angle180 = Directions.angleBetweenEdges(a2, b2, c2);
-        assertEquals(angle180, 180, .5);
+        assertEquals(0, angle180, .5);
+    }
+
+    @Test
+    public void testing0Angles() {
+        Node a1 = new Node("bPARK01501", 3159, 3159, "1", "Parking", "PARK", "Right Parking Lot Spot 5", "RLot5");
+        Node b1 = new Node("bPARK01501", 5, 3159, "1", "Parking", "PARK", "Right Parking Lot Spot 5", "RLot5");
+        Node c1 = new Node("bPARK01501", 1, 3159, "1", "Parking", "PARK", "Right Parking Lot Spot 5", "RLot5");
+
+        double angle0 = Directions.angleBetweenEdges(c1, b1, a1);
+        assertEquals(0, angle0, .5);
     }
 
     @Test
@@ -282,6 +294,27 @@ public class PathfindingTests {
     }
 
     @Test
+    public void testSlightRights(){
+        Node a = new Node("bPARK01501", 5, 5, "1", "Parking", "PARK", "Right Parking Lot Spot 5", "RLot5");
+        Node b = new Node("bPARK01501", 5, 3, "1", "Parking", "PARK", "Right Parking Lot Spot 5", "RLot5");
+        Node c = new Node("bPARK01501", 4, 0, "1", "Parking", "PARK", "Right Parking Lot Spot 5", "RLot5");
+
+        double slightRight = Directions.angleBetweenEdges(a, b, c);
+        assertEquals(-20, slightRight, 2);
+    }
+
+    @Test
+    public void testSlightLeft(){
+        Node a = new Node("bPARK01501", 0, 0, "1", "Parking", "PARK", "Right Parking Lot Spot 5", "RLot5");
+        Node b = new Node("bPARK01501", 0, 2, "1", "Parking", "PARK", "Right Parking Lot Spot 5", "RLot5");
+        Node c = new Node("bPARK01501", 1, 3, "1", "Parking", "PARK", "Right Parking Lot Spot 5", "RLot5");
+
+        double slightRight = Directions.angleBetweenEdges(a, b, c);
+        System.out.println(slightRight);
+        //assertEquals(-20, slightRight, 2);
+    }
+
+    @Test
     public void testSimplePath() {
         Path path = AStar.findPath("FDEPT00101", "FSERV00201");
         List<String> idExpected = new ArrayList<>();
@@ -313,6 +346,9 @@ public class PathfindingTests {
 
     @Test
     public void testTextDir() {
+        //Center for International Medicine
+        //Tower Medical Cashier
+
         Path path = AStar.findPath("FDEPT00101", "FSERV00201");
         List<String> instructions = Directions.inst(path);
 
