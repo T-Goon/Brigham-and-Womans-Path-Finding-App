@@ -9,7 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 
-public class ServiceRequestMenuController extends BasePageController {
+public class ServiceRequestMenuCreditsController extends BasePageController {
 
     private static final String VIEWS_PATH = "/edu/wpi/cs3733/D21/teamB/views/requestForms/";
 
@@ -58,9 +58,6 @@ public class ServiceRequestMenuController extends BasePageController {
     @FXML
     private VBox externalTransport;
 
-    @FXML
-    private JFXButton btnShowCredits;
-
 
     @FXML
     public void handleButtonAction(ActionEvent e) {
@@ -105,11 +102,9 @@ public class ServiceRequestMenuController extends BasePageController {
             case "btnEmergency":
                 path = VIEWS_PATH + "emergencyForm.fxml";
                 break;
-            case "bthShowCredits":
-                path = "/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestMenuCredits.fxml";
         }
 
         if (path != null)
-            SceneSwitcher.switchScene(getClass(), "/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestMenu.fxml", path);
+            SceneSwitcher.switchScene(getClass(), "/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestMenuCredits.fxml", path);
     }
 }
