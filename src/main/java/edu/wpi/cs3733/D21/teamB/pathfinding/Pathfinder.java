@@ -2,6 +2,7 @@ package edu.wpi.cs3733.D21.teamB.pathfinding;
 
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Path;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Stack;
@@ -17,9 +18,11 @@ public interface Pathfinder {
         Path retPath = new Path();
 
         while (nodes.size() > 1) {
-            String s = nodes.pop();
-            String s2 = nodes.peek();
-            Path tempPath = findPath(s, s2);
+            Path tempPath = findPath(nodes.pop(), nodes.peek());
+            if (tempPath == null) {
+                retPath.setPath(new ArrayList<>());
+                return retPath;
+            }
 
             List<String> tempPathList = tempPath.getPath();
             List<String> totalPath = retPath.getPath();
