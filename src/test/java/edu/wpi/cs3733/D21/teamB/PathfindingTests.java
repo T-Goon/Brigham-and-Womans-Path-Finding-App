@@ -84,7 +84,7 @@ public class PathfindingTests {
         expectedPath.add("bWALK01601");
         expectedPath.add("bPARK02501");
 
-        Path path = aStar.findPath("bPARK00101", "bPARK02501");
+        Path path = aStar.findPath("bPARK00101", "bPARK02501", false);
         assertEquals(expectedPath, path.getPath());
     }
 
@@ -128,17 +128,17 @@ public class PathfindingTests {
 
     @Test
     public void testGetEstimatedTime() {
-        Path tempPath = aStar.findPath("bPARK01801", "bPARK00601");
+        Path tempPath = aStar.findPath("bPARK01801", "bPARK00601", false);
         String result = AStar.getEstimatedTime(tempPath);
         String expected = "5:22 min";
         assertEquals(expected, result);
 
-        tempPath = aStar.findPath("FSERV00201", "GEXIT00101");
+        tempPath = aStar.findPath("FSERV00201", "GEXIT00101", false);
         result = AStar.getEstimatedTime(tempPath);
         expected = "2:55 min";
         assertEquals(expected, result);
 
-        tempPath = aStar.findPath("bEXIT00401", "bEXIT00501");
+        tempPath = aStar.findPath("bEXIT00401", "bEXIT00501", false);
         result = AStar.getEstimatedTime(tempPath);
         expected = "22 sec";
         assertEquals(expected, result);
@@ -177,7 +177,7 @@ public class PathfindingTests {
 
         Path expectedResult = new Path(expectedPath, 2484.102858858675 + 1954.7029936098086);
 
-        Path returnedResult = aStar.findPath(nodeList);
+        Path returnedResult = aStar.findPath(nodeList, false);
 
         assertEquals(expectedResult, returnedResult);
 
@@ -220,7 +220,7 @@ public class PathfindingTests {
 
         Path expectedLongResult = new Path(expectedLongPath, 2484.102858858675 + 848.2401435306502 + 350.0);
 
-        Path returnedLongResult = aStar.findPath(longNodesList);
+        Path returnedLongResult = aStar.findPath(longNodesList, false);
 
         assertEquals(expectedLongResult, returnedLongResult);
 
@@ -248,7 +248,7 @@ public class PathfindingTests {
         expectedPath.add("bWALK01601");
         expectedPath.add("bPARK02501");
 
-        Path path = new BFS().findPath("bPARK00101", "bPARK02501");
+        Path path = new BFS().findPath("bPARK00101", "bPARK02501", false);
         assertEquals(expectedPath, path.getPath());
     }
 }

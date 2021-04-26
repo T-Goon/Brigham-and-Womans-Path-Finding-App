@@ -98,6 +98,9 @@ public class PathfindingMenuController implements Initializable {
     private JFXTextField txtSearch;
 
     @FXML
+    private JFXCheckBox btnMobility;
+
+    @FXML
     private JFXTreeView<String> treeLocations;
 
     @FXML
@@ -211,8 +214,10 @@ public class PathfindingMenuController implements Initializable {
 
         // Set up Load and Save buttons
         btnLoad.setOnAction(event -> loadCSV());
-
         btnSave.setOnAction(event -> saveCSV());
+
+        // Set up mobility button
+        btnMobility.setOnAction(event -> md.setMobility(btnMobility.isSelected()));
 
         // Disable editing if the user is not an admin
         checkPermissions();
