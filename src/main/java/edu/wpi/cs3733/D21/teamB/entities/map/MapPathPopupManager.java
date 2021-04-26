@@ -95,10 +95,9 @@ public class MapPathPopupManager implements PoppableManager {
 
         TxtDirPopupData txtDirPopupData = new TxtDirPopupData(instructions);
         txtDirPopup = new TxtDirPopup(textDirectionsHolder, txtDirPopupData, gpane);
-
         App.getPrimaryStage().setUserData(txtDirPopup);
-
         txtDirPopup.show();
+
         return txtDirPopup;
     }
 
@@ -120,6 +119,10 @@ public class MapPathPopupManager implements PoppableManager {
         if(giPopup != null){
             giPopup.hide();
             giPopup = null;
+        }
+        if(txtDirPopup != null){
+            txtDirPopup.hide();
+            txtDirPopup = null;
         }
     }
 

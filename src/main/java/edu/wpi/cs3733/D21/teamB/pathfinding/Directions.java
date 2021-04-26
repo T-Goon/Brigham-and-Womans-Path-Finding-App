@@ -114,6 +114,14 @@ public class Directions {
         return pathIDCopy;
     }
 
+    public static int round(double rndNum){
+        if(rndNum < 25){
+            return ((int)rndNum + 4) / 5 * 5;
+        }
+        return Math.round((int)rndNum/25) * 25;
+
+    }
+
     /**ElEV, STAI
      * The list of instructions the user has to get through to
      * go to their destination
@@ -131,7 +139,7 @@ public class Directions {
         String startLoc = graph.getNodes().get(simplePath.get(0)).getLongName();
 
         List<String> directions = new ArrayList<>();
-        directions.add("Starting route to " + endloc + " from "+ startLoc);
+        directions.add("Starting route to " + endloc + " from "+ startLoc + ".");
 
         double FT_CONST = 5000/1635;
 
@@ -149,7 +157,7 @@ public class Directions {
                 Coord nextCoord = new Coord(next.getXCoord(), next.getYCoord());
                 distance = dist(currCoord, nextCoord)*FT_CONST;
                 //starting directions get the distance between the current and next and convert to feet
-                dir += "Walk " + (int)distance + " feet towards " + next.getLongName();
+                dir += "Walk about " + round(distance) + " feet towards " + next.getLongName()+ ".";
                 directions.add(dir);
             }
 
@@ -171,27 +179,27 @@ public class Directions {
                 }
                 else if (turn > 70 && turn <= 110) {
                     //take a right
-                    dir += "Take a right and walk " + (int)distance + " feet towards " + next.getLongName();
+                    dir += "Take a right and walk about " + round(distance)+ " feet towards " + next.getLongName()+ ".";
                     directions.add(dir);
                 } else if (turn > 110 && turn <= 160) {
                     //sharp right
-                    dir += "Take a sharp right and walk " + (int)distance + " feet towards " + next.getLongName();
+                    dir += "Take a sharp right and walk about " + round(distance) + " feet towards " + next.getLongName()+ ".";
                     directions.add(dir);
                 }
                 else if(turn<= 70 && turn > 30){
-                    dir += "Take a slight right and walk " + (int)distance + " feet towards " + next.getLongName();
+                    dir += "Take a slight right and walk about " + round(distance) + " feet towards " + next.getLongName()+ ".";
                     directions.add(dir);
                 }
                 else if (turn < -70 && turn >= -110) {
                     //take a left
-                    dir += "Take a left and walk " + (int)distance + " feet towards " + next.getLongName();
+                    dir += "Take a left and walk about " + round(distance)+ " feet towards " + next.getLongName()+ ".";
                     directions.add(dir);
                 } else if (turn < -110 && turn >= -160){
-                    dir += "Take a sharp left and walk " + (int)distance + " feet towards " + next.getLongName();
+                    dir += "Take a sharp left and walk about " + round(distance) + " feet towards " + next.getLongName()+ ".";
                     directions.add(dir);
                 }
                 else if(turn >= -70){
-                    dir += "Take a slight left and walk " + (int)distance + " feet towards " + next.getLongName();
+                    dir += "Take a slight left and walk about " + round(distance)+ " feet towards " + next.getLongName()+ ".";
                     directions.add(dir);
                 }
             }
@@ -200,7 +208,7 @@ public class Directions {
             curr = next;
         }
         //add that you have reached your destination
-        directions.add("You have reached your destination");
+        directions.add("You have reached your destination.");
         return directions;
     }
 }

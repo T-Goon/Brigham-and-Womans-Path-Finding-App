@@ -363,9 +363,6 @@ public class PathfindingMenuController implements Initializable {
                     btnTxtDir.setDisable(false);
                 }
 
-                mppm.removeTxtDirPopup();
-
-
                 break;
             case "btnEditMap":
 
@@ -420,6 +417,7 @@ public class PathfindingMenuController implements Initializable {
                 handleItemSearched();
                 break;
             case "btnTxtDir":
+                md.removeAllPopups();
                 if(mapPath != null){
                     mppm.createTxtDirPopup(mapPath);
                 }
