@@ -61,14 +61,22 @@ public class MapDrawer implements PoppableManager {
      */
     public void drawPath(String start, String end) {
         Graph.getGraph().updateGraph();
-        List<String> sl = mapCache.getStopsList();
+
+        Map<String, Node> nodes = Graph.getGraph().getNodes();
         Stack<String> allStops = new Stack<>();
+
+        //Get the list of stops
+        List<String> stopsList = mapCache.getStopsList();
+
+        //Create the stack of nodeIDs for the pathfinder
         allStops.push(mapCache.makeLongToIDMap().get(end));
-        for (int i = sl.size() - 1; i >= 0; i--) {
-            allStops.push(mapCache.makeLongToIDMap().get(sl.get(i)));
+
+        for (int i = stopsList.size() - 1; i >= 0; i--) {
+            allStops.push(mapCache.makeLongToIDMap().get(stopsList.get(i)));
         }
         allStops.push(mapCache.makeLongToIDMap().get(start));
 
+        //Create the required pathfinder
         Pathfinder pathfinder;
         switch (pathfindingMenuController.getComboPathingType().getSelectionModel().getSelectedItem()) {
             case "A*":
@@ -83,13 +91,17 @@ public class MapDrawer implements PoppableManager {
             default:
                 throw new IllegalStateException("Extra option in combo box?");
         }
+
+        //Set the final path in mapCache
         mapCache.setFinalPath(pathfinder.findPath(allStops));
 
         if (mapCache.getFinalPath().getPath().isEmpty()) {
             lblError.setVisible(true);
         } else {
-            for (int i = 0; i < mapCache.getFinalPath().getPath().size() - 1; i++) {
-                placeEdge(Graph.getGraph().getNodes().get(mapCache.getFinalPath().getPath().get(i)), Graph.getGraph().getNodes().get(mapCache.getFinalPath().getPath().get(i + 1)));
+            //Draw the segment of the path that is on the current floor
+            for (int i = 0; i < mapCache.getFinalPath().getFloorPathSegment(mapCache.getCurrentFloor()).size() - 1; i++) {
+                placeEdge(nodes.get(mapCache.getFinalPath().getFloorPathSegment(mapCache.getCurrentFloor()).get(i)),
+                        nodes.get(mapCache.getFinalPath().getFloorPathSegment(mapCache.getCurrentFloor()).get(i + 1)));
             }
         }
 
