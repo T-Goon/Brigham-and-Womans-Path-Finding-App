@@ -1,11 +1,8 @@
-package edu.wpi.teamB.views.covidSurvey;
+package edu.wpi.cs3733.D21.teamB.views.covidSurvey;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXRadioButton;
-import edu.wpi.teamB.util.SceneSwitcher;
-import edu.wpi.teamB.views.BasePageController;
-import javafx.application.Platform;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
 import edu.wpi.cs3733.D21.teamB.views.BasePageController;
 import javafx.event.ActionEvent;
