@@ -144,65 +144,50 @@ public class Directions {
 
         double FT_CONST = 500.0 / 1635;
 
-        Node prev = null;
-        Node curr = null;
 
         double distance;
-        String dir = "";
-        for (String id : simplePath) {
+        for (int i = 0; i < simplePath.size() - 1; i++) {
+            Node curr = graph.getNodes().get(simplePath.get(i));
+            Node next = graph.getNodes().get(simplePath.get(i + 1));
 
-            Node next = graph.getNodes().get(id);
+            Coord currCoord = new Coord(curr.getXCoord(), curr.getYCoord());
+            Coord nextCoord = new Coord(next.getXCoord(), next.getYCoord());
+            distance = dist(currCoord, nextCoord) * FT_CONST;
 
-            if (curr != null && prev == null) {
-                Coord currCoord = new Coord(curr.getXCoord(), curr.getYCoord());
-                Coord nextCoord = new Coord(next.getXCoord(), next.getYCoord());
-                distance = dist(currCoord, nextCoord) * FT_CONST;
-                //starting directions get the distance between the current and next and convert to feet
-                dir += "Walk about " + round(distance) + " feet towards " + next.getLongName() + ".";
-                directions.add(dir);
-            }
-
-            if (prev != null) {
-                dir = "";
-                Coord currCoord = new Coord(curr.getXCoord(), curr.getYCoord());
-                Coord nextCoord = new Coord(next.getXCoord(), next.getYCoord());
-                distance = dist(currCoord, nextCoord) * FT_CONST;
+            // Starting now
+            if (i == 0) {
+                // Elevator or stairs
+                if (curr.getNodeID().contains("ELEV") || curr.getNodeID().contains("STAI")) {
+                    if (next.getNodeID().contains("STAI")) directions.add("Walk to floor " + next.getFloor() + ".");
+                    else directions.add("Take the elevator to floor " + next.getFloor() + ".");
+                } else directions.add("Walk about " + round(distance) + " feet towards " + next.getLongName() + ".");
+            } else {
                 //get turn then get the dist between c and next turn blah and walk dist
-
-                double turn = angleBetweenEdges(prev, curr, next);
-                if (id.contains("STAI") || id.contains("ELEV")) {
-                    if (!curr.getLongName().contains("ELEV") || !id.contains("STAI")) {
-                        String floorNext = graph.getNodes().get(id).getFloor();
-                        dir += "Walk to floor " + floorNext;
-                        directions.add(dir);
+                double turn = angleBetweenEdges(graph.getNodes().get(simplePath.get(i - 1)), curr, next);
+                if (curr.getNodeID().contains("ELEV") || curr.getNodeID().contains("STAI")) {
+                    if (next.getNodeID().contains("STAI")) {
+                        directions.add("Walk to floor " + next.getFloor() + ".");
+                        continue;
+                    } else if (next.getNodeID().contains("ELEV")) {
+                        directions.add("Take the elevator to floor " + next.getFloor() + ".");
+                        continue;
                     }
+                }
 
-                } else if (turn > 70 && turn <= 110) {
-                    //take a right
-                    dir += "Take a right and walk about " + round(distance) + " feet towards " + next.getLongName() + ".";
-                    directions.add(dir);
+                if (turn > 70 && turn <= 110) {
+                    directions.add("Take a right and walk about " + round(distance) + " feet towards " + next.getLongName() + ".");
                 } else if (turn > 110 && turn <= 160) {
-                    //sharp right
-                    dir += "Take a sharp right and walk about " + round(distance) + " feet towards " + next.getLongName() + ".";
-                    directions.add(dir);
+                    directions.add("Take a sharp right and walk about " + round(distance) + " feet towards " + next.getLongName() + ".");
                 } else if (turn <= 70 && turn > 30) {
-                    dir += "Take a slight right and walk about " + round(distance) + " feet towards " + next.getLongName() + ".";
-                    directions.add(dir);
+                    directions.add("Take a slight right and walk about " + round(distance) + " feet towards " + next.getLongName() + ".");
                 } else if (turn < -70 && turn >= -110) {
-                    //take a left
-                    dir += "Take a left and walk about " + round(distance) + " feet towards " + next.getLongName() + ".";
-                    directions.add(dir);
+                    directions.add("Take a left and walk about " + round(distance) + " feet towards " + next.getLongName() + ".");
                 } else if (turn < -110 && turn >= -160) {
-                    dir += "Take a sharp left and walk about " + round(distance) + " feet towards " + next.getLongName() + ".";
-                    directions.add(dir);
+                    directions.add("Take a sharp left and walk about " + round(distance) + " feet towards " + next.getLongName() + ".");
                 } else if (turn >= -70) {
-                    dir += "Take a slight left and walk about " + round(distance) + " feet towards " + next.getLongName() + ".";
-                    directions.add(dir);
+                    directions.add("Take a slight left and walk about " + round(distance) + " feet towards " + next.getLongName() + ".");
                 }
             }
-
-            prev = curr;
-            curr = next;
         }
         //add that you have reached your destination
         directions.add("You have reached your destination.");
