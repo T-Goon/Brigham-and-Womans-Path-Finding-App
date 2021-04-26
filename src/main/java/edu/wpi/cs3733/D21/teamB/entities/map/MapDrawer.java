@@ -224,10 +224,12 @@ public class MapDrawer implements PoppableManager {
             });
 
             c.setOnMouseEntered(event -> {
-                if (isEditing) c.setStroke(Color.GREEN);
+                if (isEditing && !(mc.getStartNode() != null && c.getId().equals(mc.getStartNode().getId())))
+                    c.setStroke(Color.GREEN);
             });
             c.setOnMouseExited(event -> {
-                if (isEditing) c.setStroke(Color.BLACK);
+                if (isEditing && !(mc.getStartNode() != null && c.getId().equals(mc.getStartNode().getId())))
+                    c.setStroke(Color.BLACK);
             });
 
             nodeHolder.getChildren().add(c);
@@ -260,10 +262,12 @@ public class MapDrawer implements PoppableManager {
             c.setId(n.getNodeID() + "IntIcon");
 
             c.setOnMouseEntered(event -> {
-                if (isEditing) c.setStroke(Color.GREEN);
+                if (isEditing && !(mc.getStartNode() != null && c.getId().equals(mc.getStartNode().getId())))
+                    c.setStroke(Color.GREEN);
             });
             c.setOnMouseExited(event -> {
-                if (isEditing) c.setStroke(Color.BLACK);
+                if (isEditing && !(mc.getStartNode() != null && c.getId().equals(mc.getStartNode().getId())))
+                    c.setStroke(Color.BLACK);
             });
 
             intermediateNodeHolder.getChildren().add(c);
@@ -342,24 +346,27 @@ public class MapDrawer implements PoppableManager {
             drawEdgesOnFloor();
             drawAltNodesOnFloor();
             drawIntermediateNodesOnFloor();
-            if (mc.getStartNode() != null) {
-                List<javafx.scene.Node> nodes = new ArrayList<>();
-                nodes.addAll(mc.getNodePlaced());
-                nodes.addAll(mc.getIntermediateNodePlaced());
-                for (javafx.scene.Node n : nodes) {
-                    if (n.getId().equals(mc.getStartNode().getId())) {
-                        Circle c = (Circle) n;
-                        c.setStroke(Color.RED);
-                    }
-                }
-            }
-
+            redrawHighlightedNode();
         } else {
             mc.updateLocations();
             removeAllEdges();
             removeIntermediateNodes();
             removeNodes();
             drawNodesOnFloor();
+        }
+    }
+
+    private void redrawHighlightedNode() {
+        if (mc.getStartNode() != null) {
+            List<javafx.scene.Node> nodes = new ArrayList<>();
+            nodes.addAll(mc.getNodePlaced());
+            nodes.addAll(mc.getIntermediateNodePlaced());
+            for (javafx.scene.Node n : nodes) {
+                if (n.getId().equals(mc.getStartNode().getId())) {
+                    Circle c = (Circle) n;
+                    c.setStroke(Color.RED);
+                }
+            }
         }
     }
 
