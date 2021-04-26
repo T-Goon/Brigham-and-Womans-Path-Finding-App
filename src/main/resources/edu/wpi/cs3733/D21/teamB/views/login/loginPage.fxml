@@ -10,10 +10,11 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" style="-fx-background-color: #012d5a;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D21.teamB.views.login.LoginPageController">
+<AnchorPane fx:id="basePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" style="-fx-background-color: #012d5a;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D21.teamB.views.login.LoginPageController">
     <children>
         <VBox alignment="TOP_CENTER" prefHeight="600.0" prefWidth="900.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
@@ -61,6 +62,10 @@
                   </VBox>
                </children>
             </HBox>
+            <Rectangle fx:id="rect" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="200.0" stroke="BLACK" strokeType="INSIDE" width="200.0" VBox.vgrow="ALWAYS">
+               <VBox.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </VBox.margin></Rectangle>
             <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
                <children>
                   <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="400.0">
@@ -73,13 +78,9 @@
                               <Insets bottom="5.0" />
                            </VBox.margin>
                         </Text>
-                        <JFXTextField fx:id="username" focusColor="#ffffff00" maxHeight="-Infinity" maxWidth="-Infinity"
-                                      minHeight="-Infinity" minWidth="-Infinity" onAction="#validateButton"
-                                      onKeyReleased="#validateButton" prefHeight="50.0" prefWidth="400.0"
-                                      style="-fx-background-color: #0067B1; -fx-opacity: 30%; -fx-border-color: white; -fx-border-width: 3; -fx-border-radius: 3;"
-                                      stylesheets="@../../css/login.css">
+                        <JFXTextField fx:id="username" focusColor="#ffffff00" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#validateButton" onKeyReleased="#validateButton" prefHeight="50.0" prefWidth="400.0" style="-fx-background-color: #0067B1; -fx-opacity: 30%; -fx-border-color: white; -fx-border-width: 3; -fx-border-radius: 3;" stylesheets="@../../css/login.css">
                            <font>
-                              <Font size="20.0"/>
+                              <Font size="20.0" />
                            </font>
                         </JFXTextField>
                      </children>
@@ -103,14 +104,9 @@
                               <Insets bottom="5.0" />
                            </VBox.margin>
                         </Text>
-                        <JFXPasswordField fx:id="password" focusColor="#ffffff00" maxHeight="-Infinity"
-                                          maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-                                          onAction="#validateButton" onKeyReleased="#validateButton" prefHeight="50.0"
-                                          prefWidth="400.0"
-                                          style="-fx-background-color: #0067B1; -fx-opacity: 30%; -fx-border-color: white; -fx-border-width: 3; -fx-border-radius: 3;"
-                                          stylesheets="@../../css/login.css">
+                        <JFXPasswordField fx:id="password" focusColor="#ffffff00" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#validateButton" onKeyReleased="#validateButton" prefHeight="50.0" prefWidth="400.0" style="-fx-background-color: #0067B1; -fx-opacity: 30%; -fx-border-color: white; -fx-border-width: 3; -fx-border-radius: 3;" stylesheets="@../../css/login.css">
                            <font>
-                              <Font size="20.0"/>
+                              <Font size="20.0" />
                            </font>
                         </JFXPasswordField>
                      </children>
