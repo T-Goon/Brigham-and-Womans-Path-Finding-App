@@ -78,9 +78,7 @@ public class ServiceRequestDatabaseController extends BasePageController impleme
         } else if (level == User.AuthenticationLevel.STAFF) {
             if (allRequests != null) {
                 for (Request request : allRequests.values()) {
-                    if (request.getEmployeeName().equals(employeeName)) {
-                        requests.put(request.getRequestID(), request);
-                    } else if (request.getSubmitter().equals(username)) {
+                    if (request.getEmployeeName().equals(employeeName) || request.getSubmitter().equals(username) || request.getRequestType().equals(Request.RequestType.EMERGENCY)) {
                         requests.put(request.getRequestID(), request);
                     }
                 }
