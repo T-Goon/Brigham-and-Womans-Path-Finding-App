@@ -350,12 +350,26 @@ public class PathfindingTests {
         //Tower Medical Cashier
 
         Path path = AStar.findPath("FDEPT00101", "FSERV00201");
-        List<String> instructions = Directions.inst(path);
+        List<String> instructions = Directions.instructions(path);
 
         for (String inst : instructions) {
             System.out.println(inst);
         }
 
+    }
+
+
+    @Test
+    public void test() {
+        LinkedList<String> expectedPath = new LinkedList<>();
+        Path path = AStar.findPath("FDEPT00501", "BCONF00102");
+        System.out.println(path.getPath());
+
+        //FHALL00701, WELEV00L01, WELEV00L02
+        Node n = new Node("FHALL00701",1758,930,"1","Tower","HALL","Tower Elevator Entrance","Hallway F00701");
+        Node n1 = new Node("WELEV00L01",1810,930,"1","Tower","ELEV","Elevator L Floor 1","Elevator L1");
+        Node n2 = new Node("WELEV00L02",1805,925,"2","Tower","ELEV","Elevator L Floor 2","Elevator L2");
+        System.out.println(Directions.angleBetweenEdges(n, n1, n2));
     }
 
 }

@@ -1,9 +1,6 @@
 package edu.wpi.cs3733.D21.teamB.pathfinding;
-
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Node;
-
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Path;
-import edu.wpi.cs3733.D21.teamB.pathfinding.Graph;
 import edu.wpi.cs3733.D21.teamB.entities.map.Coord;
 
 import java.util.ArrayList;
@@ -11,11 +8,24 @@ import java.util.List;
 
 public class Directions {
 
-    //takes a path and returns a string
+    /**
+     * Takes in two coordinates and returns the distance euclidean distance between them
+     * @param a the first coordinate
+     * @param b the second coordinate
+     * @return the distance between them
+     */
     public static double dist(Coord a, Coord b) {
         return Math.sqrt(Math.pow((a.getX() - b.getX()), 2) + Math.pow((a.getY() - b.getY()), 2));
     }
 
+    /**
+     * Takes in 3 coordinates and calculates the angle of deviance between the line created by the prev and curr
+     * and the line created by the curr and next
+     * @param prev the users previous node
+     * @param curr the node the user is standing on now
+     * @param next the node the user is going to go to
+     * @return the angle change from their straight path
+     */
     public static double angleBetweenEdges(Node prev, Node curr, Node next) {
 
         Coord prevC = new Coord(prev.getXCoord(), -prev.getYCoord());
@@ -59,9 +69,6 @@ public class Directions {
             }
         }
 
-        System.out.println("firstAngle: " + firstAngle);
-        System.out.println("secondAngle: " + secondAngle);
-
         //deviation of the straight line
         double remainder = (firstAngle - secondAngle)%360.0;
 
@@ -78,8 +85,9 @@ public class Directions {
     }
 
     /**
-     * @param path takes in path we want instructions for
-     * @return No two consecutive are in a line
+     * Takes in a path and generates ids at where the user has made a turn
+     * @param path the path that we want to simplify
+     * @return the List of strings at where the user changes direction 
      */
     public static List<String> simplifyPath(Path path) {
 
@@ -106,11 +114,14 @@ public class Directions {
         return pathIDCopy;
     }
 
-    /**
-     * @param path pass in path we want to create instructions for
-     * @return String instructions for that path
+    /**ElEV, STAI
+     * The list of instructions the user has to get through to
+     * go to their destination
+     *
+     * @param path
+     * @return
      */
-    public static List<String> inst(Path path) {
+    public static List<String> instructions(Path path) {
         List<String> simplePath = simplifyPath(path);
 
         String idEnd = simplePath.get(simplePath.size()-1);
@@ -118,7 +129,6 @@ public class Directions {
 
         String endloc = graph.getNodes().get(idEnd).getLongName();
         String startLoc = graph.getNodes().get(simplePath.get(0)).getLongName();
-
 
         List<String> directions = new ArrayList<>();
         directions.add("Starting route to " + endloc + " from "+ startLoc);
@@ -131,6 +141,7 @@ public class Directions {
         double distance;
         String dir = "";
         for (String id : simplePath) {
+
             Node next = graph.getNodes().get(id);
 
             if (curr != null && prev == null) {
@@ -150,27 +161,39 @@ public class Directions {
                 //get turn then get the dist between c and next turn blah and walk dist
 
                 double turn = angleBetweenEdges(prev, curr, next);
+                if(id.contains("STAI") || id.contains("ELEV")){
+                    if(!curr.getLongName().contains("ELEV") || !id.contains("STAI")){
+                        String floorNext = graph.getNodes().get(id).getFloor();
+                        dir+= "Walk to floor " + floorNext;
+                        directions.add(dir);
+                    }
 
-                if (turn > 70 && turn <= 110) {
+                }
+                else if (turn > 70 && turn <= 110) {
                     //take a right
                     dir += "Take a right and walk " + (int)distance + " feet towards " + next.getLongName();
+                    directions.add(dir);
                 } else if (turn > 110 && turn <= 160) {
                     //sharp right
                     dir += "Take a sharp right and walk " + (int)distance + " feet towards " + next.getLongName();
+                    directions.add(dir);
                 }
                 else if(turn<= 70 && turn > 30){
                     dir += "Take a slight right and walk " + (int)distance + " feet towards " + next.getLongName();
+                    directions.add(dir);
                 }
                 else if (turn < -70 && turn >= -110) {
                     //take a left
                     dir += "Take a left and walk " + (int)distance + " feet towards " + next.getLongName();
+                    directions.add(dir);
                 } else if (turn < -110 && turn >= -160){
                     dir += "Take a sharp left and walk " + (int)distance + " feet towards " + next.getLongName();
+                    directions.add(dir);
                 }
                 else if(turn >= -70){
                     dir += "Take a slight left and walk " + (int)distance + " feet towards " + next.getLongName();
+                    directions.add(dir);
                 }
-                directions.add(dir);
             }
 
             prev = curr;

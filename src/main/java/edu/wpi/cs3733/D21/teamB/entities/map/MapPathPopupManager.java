@@ -82,7 +82,7 @@ public class MapPathPopupManager implements PoppableManager {
 
     public TxtDirPopup createTxtDirPopup(Path path){
 
-        List<String> instructions = Directions.inst(path);
+        List<String> instructions = Directions.instructions(path);
 
         TxtDirPopupData txtDirPopupData = new TxtDirPopupData(instructions);
         txtDirPopup = new TxtDirPopup(textDirectionsHolder, txtDirPopupData, gpane);
