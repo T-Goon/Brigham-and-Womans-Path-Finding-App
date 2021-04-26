@@ -105,7 +105,7 @@ public class ServiceRequestMenuController extends BasePageController {
             case "btnEmergency":
                 path = VIEWS_PATH + "emergencyForm.fxml";
                 break;
-            case "bthShowCredits":
+            case "btnShowCredits":
                 path = "/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestMenuCredits.fxml";
         }
 
