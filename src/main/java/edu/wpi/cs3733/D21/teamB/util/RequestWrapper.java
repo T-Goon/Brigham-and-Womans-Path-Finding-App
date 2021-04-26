@@ -1,7 +1,6 @@
 package edu.wpi.cs3733.D21.teamB.util;
 
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXCheckBox;
 import edu.wpi.cs3733.D21.teamB.App;
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.User;
@@ -28,11 +27,12 @@ public class RequestWrapper {
     private final Label type;
     private final Label time;
     private final Label date;
-    private final JFXCheckBox complete;
+    private Label progress;
     private Label employeeName;
     private final TableView parentTable;
     private final JFXButton btnEdit;
     private final JFXButton btnDel;
+    private ContextMenu completeMenu;
     private ContextMenu contextMenu;
     private final ServiceRequestDatabaseController controller;
 
@@ -41,10 +41,62 @@ public class RequestWrapper {
         this.type = new Label(Request.RequestType.prettify(r.getRequestType()));
         this.time = new Label(r.getTime());
         this.date = new Label(r.getDate());
-        this.complete = new JFXCheckBox();
+        switch (r.getProgress()) {
+            case "F":
+                this.progress = new Label("Not Started");
+                break;
+            case "P":
+                this.progress = new Label("In Progress");
+                break;
+            case "T":
+                this.progress = new Label("Complete");
+                break;
+            default:
+                throw new IllegalStateException("How did we get here?");
+        }
         this.employeeName = new Label(r.getEmployeeName());
         if (employeeName.getText().equals("null")) employeeName.setText("Nobody");
         this.parentTable = parentTable;
+
+        DatabaseHandler db = DatabaseHandler.getDatabaseHandler("main.db");
+        this.completeMenu = new ContextMenu();
+        Menu menu = new Menu("Progress:");
+        MenuItem notComplete = new MenuItem("Not Started");
+        MenuItem inProgress = new MenuItem("In Progress");
+        MenuItem complete = new MenuItem("Complete");
+        notComplete.setOnAction(e -> {
+            progress.setText("Not Started");
+            r.setProgress("F");
+            try {
+                db.updateRequest(r);
+            } catch (SQLException err) {
+                err.printStackTrace();
+            }
+        });
+        inProgress.setOnAction(e -> {
+            progress.setText("In Progress");
+            r.setProgress("P");
+            try {
+                db.updateRequest(r);
+            } catch (SQLException err) {
+                err.printStackTrace();
+            }
+        });
+        complete.setOnAction(e -> {
+            progress.setText("Complete");
+            r.setProgress("T");
+            try {
+                db.updateRequest(r);
+            } catch (SQLException err) {
+                err.printStackTrace();
+            }
+        });
+
+        menu.getItems().add(notComplete);
+        menu.getItems().add(inProgress);
+        menu.getItems().add(complete);
+        completeMenu.getItems().add(menu);
+        progress.setContextMenu(completeMenu);
         this.complete.setSelected(r.getComplete().equals("T"));
         this.controller = controller;
 
@@ -53,7 +105,6 @@ public class RequestWrapper {
         Menu assignMenu = new Menu("Assign");
         MenuItem unassignItem = new MenuItem("Unassign");
 
-        DatabaseHandler db = DatabaseHandler.getDatabaseHandler("main.db");
         List<MenuItem> staff = new ArrayList<>();
         List<User> users = db.getUsersByAuthenticationLevel(User.AuthenticationLevel.STAFF);
         if (users != null) {
@@ -105,15 +156,6 @@ public class RequestWrapper {
 
         //set context menu to the employee name label
         employeeName.setContextMenu(this.contextMenu);
-
-        complete.setOnAction(event -> {
-            r.setComplete(complete.isSelected() ? "T" : "F");
-            try {
-                db.updateRequest(r);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        });
 
         // Set up edit button
         JFXButton btnEdit = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/cs3733/D21/teamB/views/misc/tableEditBtn.fxml")));

@@ -10,12 +10,31 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Request implements IStoredEntity {
 
-    public Request(String requestID, RequestType requestType, String time, String date, String complete, String employeeName, String location, String description) {
+
+    private String requestID;
+
+    private RequestType requestType;
+
+    private String time;
+
+    private String date;
+
+    private String progress;
+
+    private String employeeName;
+
+    private String location;
+
+    private String description;
+
+    private String submitter;
+
+    public Request(String requestID, RequestType requestType, String time, String date, String progress, String employeeName, String location, String description) {
         this.requestID = requestID;
         this.requestType = requestType;
         this.time = time;
         this.date = date;
-        this.complete = complete;
+        this.progress = progress;
         this.employeeName = employeeName;
         this.location = location;
         this.description = description;
@@ -67,22 +86,4 @@ public class Request implements IStoredEntity {
             }
         }
     }
-
-    private String requestID;
-
-    private RequestType requestType;
-
-    private String time;
-
-    private String date;
-
-    private String complete;
-
-    private String employeeName;
-
-    private String location;
-
-    private String description;
-
-    private String submitter;
 }

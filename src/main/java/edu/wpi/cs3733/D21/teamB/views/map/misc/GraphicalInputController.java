@@ -25,12 +25,15 @@ public class GraphicalInputController implements Initializable {
     @FXML
     private JFXButton btnCancel;
 
-    private GraphicalInputPopup p;
+    @FXML
+    private JFXButton btnAddStop;
+
+    private GraphicalInputPopup popup;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        p = (GraphicalInputPopup) App.getPrimaryStage().getUserData();
-        nodeName.setText(p.getData().getNodeName());
+        popup = (GraphicalInputPopup) App.getPrimaryStage().getUserData();
+        nodeName.setText(popup.getData().getNodeName());
     }
 
     @FXML
@@ -39,21 +42,16 @@ public class GraphicalInputController implements Initializable {
 
         switch (btn.getId()){
             case "btnStart":
-                p.getData().getStartTxt().setText(
-                        p.getData().getNodeName()
-                );
-                p.getData().getMd().removeAllPopups();
-                p.getData().getPfmc().validateFindPathButton();
+                popup.setStart();
+                break;
+            case "btnAddStop":
+                popup.addStop();
                 break;
             case "btnEnd":
-                p.getData().getEndTxt().setText(
-                        p.getData().getNodeName()
-                );
-                p.getData().getMd().removeAllPopups();
-                p.getData().getPfmc().validateFindPathButton();
+                popup.setEnd();
                 break;
             case "btnCancel":
-                p.getData().getMd().removeAllPopups();
+                popup.getData().getMd().removeAllPopups();
                 break;
         }
     }

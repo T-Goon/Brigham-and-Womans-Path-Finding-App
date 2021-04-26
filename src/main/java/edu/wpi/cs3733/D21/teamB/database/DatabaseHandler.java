@@ -112,6 +112,7 @@ public class DatabaseHandler {
             tables.add("Nodes");
             tables.add("Jobs");
             tables.add("Users");
+            tables.add("FavoriteLocations");
         }
 
         for (String table : tables) {
@@ -269,6 +270,11 @@ public class DatabaseHandler {
                 + "job CHAR(30), "
                 + "FOREIGN KEY (username) REFERENCES Users(username))";
 
+        String favoriteLocationsTable = "CREATE TABLE IF NOT EXISTS FavoriteLocations("
+                + "username CHAR(30), "
+                + "favoriteLocation CHAR(30), "
+                + "FOREIGN KEY (username) REFERENCES Users(username))";
+
         runStatement(configuration, false);
         runStatement(nodesTable, false);
         runStatement(edgesTable, false);
@@ -287,7 +293,7 @@ public class DatabaseHandler {
         runStatement(emergencyRequestsTable, false);
         runStatement(usersTable, false);
         runStatement(jobsTable, false);
-
+        runStatement(favoriteLocationsTable, false);
     }
 
     /**
@@ -611,6 +617,34 @@ public class DatabaseHandler {
      */
     public String passwordHash(String plaintext) {
         return String.valueOf(plaintext.hashCode());
+    }
+
+    /**
+     * Adds a favorite location to FavoriteLocations
+     *
+     * @param favoriteLocation the favorite location to add
+     */
+    public void addFavoriteLocation(String favoriteLocation) throws SQLException {
+        userMutator.addFavoriteToUser(favoriteLocation);
+    }
+
+    /**
+     * Removes a favorite location from FavoriteLocations
+     *
+     * @param favoriteLocation the favorite location to remove
+     */
+    public void removeFavoriteLocation(String favoriteLocation) throws SQLException {
+        userMutator.removeFavoriteFromUser(favoriteLocation);
+    }
+
+    /**
+     * Displays the list of favorite locations
+     *
+     * @return a list of favorite locations
+     * @throws SQLException
+     */
+    public List<String> getFavorites() throws SQLException {
+        return userMutator.getFavoritesForUser();
     }
 
     /**

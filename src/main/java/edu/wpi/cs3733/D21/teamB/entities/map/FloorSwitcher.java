@@ -1,4 +1,4 @@
-package edu.wpi.cs3733.D21.teamB.entities;
+package edu.wpi.cs3733.D21.teamB.entities.map;
 
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.cs3733.D21.teamB.entities.map.MapCache;
