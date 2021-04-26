@@ -8,6 +8,7 @@ import edu.wpi.cs3733.D21.teamB.entities.map.data.Path;
 import edu.wpi.cs3733.D21.teamB.pathfinding.*;
 import edu.wpi.cs3733.D21.teamB.util.Popup.PoppableManager;
 import edu.wpi.cs3733.D21.teamB.views.map.PathfindingMenuController;
+import javafx.animation.Animation;
 import javafx.animation.PathTransition;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
@@ -116,12 +117,17 @@ public class MapDrawer implements PoppableManager {
 
             }
 
+            // Animate the last edge
+            double x=Graph.getGraph().getNodes().get(wholePath.getPath().get(wholePath.getPath().size() - 1)).getXCoord()/ PathfindingMenuController.coordinateScale;
+            double y=Graph.getGraph().getNodes().get(wholePath.getPath().get(wholePath.getPath().size() - 1)).getYCoord()/ PathfindingMenuController.coordinateScale;
+            animationPath.getElements().add(new LineTo(x, y));
+
             PathTransition pathTransition = new PathTransition();
             pathTransition.setDuration(Duration.millis(steps*300));
             pathTransition.setNode(head);
             pathTransition.setPath(animationPath);
             pathTransition.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
-            pathTransition.setCycleCount(1);
+            pathTransition.setCycleCount(Animation.INDEFINITE);
             pathTransition.setAutoReverse(false);
             pathTransition.play();
         }
