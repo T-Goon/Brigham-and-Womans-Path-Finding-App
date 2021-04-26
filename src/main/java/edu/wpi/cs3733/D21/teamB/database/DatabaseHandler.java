@@ -111,6 +111,7 @@ public class DatabaseHandler {
             tables.add("Nodes");
             tables.add("Jobs");
             tables.add("Users");
+            tables.add("FavoriteLocations");
         }
 
         for (String table : tables) {
@@ -136,6 +137,7 @@ public class DatabaseHandler {
                 + "nodeType CHAR(20), "
                 + "longName CHAR(50), "
                 + "shortName CHAR(20), "
+                + "color CHAR(20),"
                 + "CHECK (xcoord >= 0), "
                 + "CHECK (ycoord >= 0))";
 
@@ -262,6 +264,11 @@ public class DatabaseHandler {
                 + "job CHAR(30), "
                 + "FOREIGN KEY (username) REFERENCES Users(username))";
 
+        String favoriteLocationsTable = "CREATE TABLE IF NOT EXISTS FavoriteLocations("
+                + "username CHAR(30), "
+                + "favoriteLocation CHAR(30), "
+                + "FOREIGN KEY (username) REFERENCES Users(username))";
+
         runStatement(configuration, false);
         runStatement(nodesTable, false);
         runStatement(edgesTable, false);
@@ -279,7 +286,7 @@ public class DatabaseHandler {
         runStatement(socialWorkerRequestsTable, false);
         runStatement(usersTable, false);
         runStatement(jobsTable, false);
-
+        runStatement(favoriteLocationsTable, false);
     }
 
     /**
@@ -291,8 +298,8 @@ public class DatabaseHandler {
      */
     public void loadDatabaseNodes(List<Node> nodes) throws SQLException {
 
-        String query = "INSERT INTO Nodes(nodeID, xcoord, ycoord, floor, building, nodeType, longName, shortName) " +
-                "VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO Nodes(nodeID, xcoord, ycoord, floor, building, nodeType, longName, shortName, color) " +
+                "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement statement = databaseConnection.prepareStatement(query);
         if (nodes != null) {
             for (Node node : nodes) {
@@ -304,6 +311,7 @@ public class DatabaseHandler {
                 statement.setString(6, node.getNodeType());
                 statement.setString(7, node.getLongName());
                 statement.setString(8, node.getShortName());
+                statement.setString(9, node.getColor().toString());
                 statement.executeUpdate();
             }
         }
@@ -603,6 +611,34 @@ public class DatabaseHandler {
      */
     public String passwordHash(String plaintext) {
         return String.valueOf(plaintext.hashCode());
+    }
+
+    /**
+     * Adds a favorite location to FavoriteLocations
+     *
+     * @param favoriteLocation the favorite location to add
+     */
+    public void addFavoriteLocation(String favoriteLocation) throws SQLException {
+        userMutator.addFavoriteToUser(favoriteLocation);
+    }
+
+    /**
+     * Removes a favorite location from FavoriteLocations
+     *
+     * @param favoriteLocation the favorite location to remove
+     */
+    public void removeFavoriteLocation(String favoriteLocation) throws SQLException {
+        userMutator.removeFavoriteFromUser(favoriteLocation);
+    }
+
+    /**
+     * Displays the list of favorite locations
+     *
+     * @return a list of favorite locations
+     * @throws SQLException
+     */
+    public List<String> getFavorites() throws SQLException {
+        return userMutator.getFavoritesForUser();
     }
 
     /**

@@ -61,7 +61,7 @@ public class ServiceRequestDatabaseController extends BasePageController impleme
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Map<String, Request> allRequests = null;
+        Map<String, Request> allRequests;
         try {
             allRequests = DatabaseHandler.getDatabaseHandler("main.db").getRequests();
         } catch (SQLException e) {
@@ -104,7 +104,7 @@ public class ServiceRequestDatabaseController extends BasePageController impleme
                     c.setCellValueFactory(new PropertyValueFactory<>("date"));
                     break;
                 case "completeCol":
-                    c.setCellValueFactory(new PropertyValueFactory<>("complete"));
+                    c.setCellValueFactory(new PropertyValueFactory<>("progress"));
                     break;
                 case "employeeCol":
                     c.setCellValueFactory(new PropertyValueFactory<>("employeeName"));
@@ -144,7 +144,8 @@ public class ServiceRequestDatabaseController extends BasePageController impleme
     private void loadHelpDialog() {
         JFXDialogLayout helpLayout = new JFXDialogLayout();
 
-        Text helpText = new Text("To assign an employee to a request right click on the text in the 'assigned to' column and select a staff member from the context menu");
+        Text helpText = new Text("To assign an employee to a request, right click on the text in the 'Assigned To' column and select a staff member from the context menu.\n" +
+                "To set the current status of the request, right click on the text in the 'Complete' column and select the status of the request.\n");
         helpText.setFont(new Font("MS Reference Sans Serif", 14));
 
         Label headerLabel = new Label("Help");

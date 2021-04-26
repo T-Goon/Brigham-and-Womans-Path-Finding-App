@@ -29,6 +29,15 @@
                   </JFXButton>
                </children>
             </HBox>
+            <HBox>
+               <children>
+                  <JFXButton fx:id="btnAddStop" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39; -fx-background-radius: 10;" text="Add Stop" HBox.hgrow="ALWAYS">
+                     <font>
+                        <Font name="MS Reference Sans Serif" size="24.0" />
+                     </font>
+                  </JFXButton>
+               </children>
+            </HBox>
             <HBox VBox.vgrow="ALWAYS">
                <children>
                   <JFXButton fx:id="btnEnd" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39; -fx-background-radius: 10;" text="Set End Location" HBox.hgrow="ALWAYS">

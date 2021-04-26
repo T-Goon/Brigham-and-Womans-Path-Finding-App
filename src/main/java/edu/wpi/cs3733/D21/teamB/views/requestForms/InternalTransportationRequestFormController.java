@@ -1,11 +1,14 @@
 package edu.wpi.cs3733.D21.teamB.views.requestForms;
 
 import com.jfoenix.controls.*;
+import com.jfoenix.validation.RequiredFieldValidator;
 import edu.wpi.cs3733.D21.teamB.App;
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.requests.InternalTransportRequest;
 import edu.wpi.cs3733.D21.teamB.entities.requests.Request;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -75,6 +78,67 @@ public class InternalTransportationRequestFormController extends DefaultServiceR
             infectious.setSelected(internalTransportRequest.getInfectious().equals("T"));
         }
         validateButton();
+
+        //creating a pop-up error message when a text field is left empty
+        //patient name text field
+        RequiredFieldValidator validatorName = new RequiredFieldValidator();
+
+        name.getValidators().add(validatorName);
+        validatorName.setMessage("Please input the patient's name!");
+
+        name.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if(!newValue){
+                    name.validate();
+                }
+            }
+        });
+
+        //location combo box
+        RequiredFieldValidator validatorLocation = new RequiredFieldValidator();
+
+        loc.getValidators().add(validatorLocation);
+        validatorLocation.setMessage("Please select the transportation location!");
+
+        loc.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if(!newValue){
+                    loc.validate();
+                }
+            }
+        });
+
+        //transportation type combo box
+        RequiredFieldValidator validatorTransportationType = new RequiredFieldValidator();
+
+        comboTranspType.getValidators().add(validatorTransportationType);
+        validatorTransportationType.setMessage("Please select the transportation type!");
+
+        comboTranspType.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if(!newValue){
+                    comboTranspType.validate();
+                }
+            }
+        });
+
+        //description text field
+        RequiredFieldValidator validatorDescription = new RequiredFieldValidator();
+
+        description.getValidators().add(validatorDescription);
+        validatorDescription.setMessage("Please provide any additional details or type 'none'!");
+
+        description.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if(!newValue){
+                    description.validate();
+                }
+            }
+        });
     }
 
     public void handleButtonAction(ActionEvent e) {
