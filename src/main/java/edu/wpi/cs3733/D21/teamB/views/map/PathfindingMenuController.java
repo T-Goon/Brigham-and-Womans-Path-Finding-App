@@ -549,7 +549,14 @@ public class PathfindingMenuController implements Initializable {
 
         Text helpText;
         if (!md.isEditing())
-            helpText = new Text("Enter your start and end location graphically or using our menu selector. To use the graphical selection,\nsimply click on the node and click on the set button. To enter a location using the menu. Click on the appropriate\ndrop down and choose your location. The node you selected will show up on your map where you can either\nset it to your start or end location. Once both the start and end nodes are filled in you can press \"Go\" to generate your path");
+            helpText = new Text("Enter your start and end location and any stops graphically or using our menu selector. " +
+                    "To use the graphical selection,\nsimply click on the node and click on the set button. " +
+                    "To enter a location using the menu, click on the appropriate\ndrop down and choose your location. " +
+                    "The node you selected will show up on your map where you can either\nset it to your start or end location or a stop. " +
+                    "Once both the start and end nodes are filled in you can press \"Go\" to generate\nyour path. " +
+                    "If you want to remove your stops, click on the \"Remove Stop\" button. " +
+                    "Favorites can be chosen by clicking\non them in the menu selector and pressing the add button, and removed by pressing the minus button on the node.\n"
+            );
         else
             helpText = new Text("Double click to add a node. Click on a node or an edge to edit or remove them. To add a new edge click on\none of the nodes, then \"Add Edge\". Click on another node and click \"Yes\" to add the new edge or \"No\" to cancel it.");
 
