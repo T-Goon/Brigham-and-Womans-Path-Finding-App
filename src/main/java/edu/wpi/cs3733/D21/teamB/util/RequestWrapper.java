@@ -6,6 +6,7 @@ import edu.wpi.cs3733.D21.teamB.App;
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.User;
 import edu.wpi.cs3733.D21.teamB.entities.requests.Request;
+import edu.wpi.cs3733.D21.teamB.views.menus.ServiceRequestDatabaseController;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -33,8 +34,9 @@ public class RequestWrapper {
     private final JFXButton btnEdit;
     private final JFXButton btnDel;
     private ContextMenu contextMenu;
+    private final ServiceRequestDatabaseController controller;
 
-    public RequestWrapper(Request r, TableView parentTable) throws IOException {
+    public RequestWrapper(Request r, TableView parentTable, ServiceRequestDatabaseController controller) throws IOException {
         this.r = r;
         this.type = new Label(Request.RequestType.prettify(r.getRequestType()));
         this.time = new Label(r.getTime());
@@ -44,6 +46,7 @@ public class RequestWrapper {
         if (employeeName.getText().equals("null")) employeeName.setText("Nobody");
         this.parentTable = parentTable;
         this.complete.setSelected(r.getComplete().equals("T"));
+        this.controller = controller;
 
         //Setup context menu
         this.contextMenu = new ContextMenu();
@@ -69,7 +72,7 @@ public class RequestWrapper {
                     }
 
                     try {
-                        parentTable.getItems().add(0, new RequestWrapper(r, parentTable));
+                        parentTable.getItems().add(0, new RequestWrapper(r, parentTable, controller));
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -91,7 +94,7 @@ public class RequestWrapper {
             }
 
             try {
-                parentTable.getItems().add(0, new RequestWrapper(r, parentTable));
+                parentTable.getItems().add(0, new RequestWrapper(r, parentTable, controller));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -180,6 +183,7 @@ public class RequestWrapper {
                 e.printStackTrace();
             }
             parentTable.getItems().removeIf((Object o) -> ((RequestWrapper) o).r.getRequestID().equals(r.getRequestID()));
+            controller.setRowColor();
         });
 
         this.btnDel = btnDel;

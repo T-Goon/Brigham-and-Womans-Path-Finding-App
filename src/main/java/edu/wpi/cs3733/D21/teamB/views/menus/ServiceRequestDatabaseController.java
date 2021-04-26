@@ -15,9 +15,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
@@ -116,10 +114,12 @@ public class ServiceRequestDatabaseController extends BasePageController impleme
             }
         }
 
+        setRowColor();
+
         if (requests != null) {
             for (Request r : requests.values()) {
                 try {
-                    tblRequests.getItems().add(new RequestWrapper(r, tblRequests));
+                    tblRequests.getItems().add(new RequestWrapper(r, tblRequests, this));
                 } catch (IOException err) {
                     err.printStackTrace();
                 }
@@ -162,5 +162,28 @@ public class ServiceRequestDatabaseController extends BasePageController impleme
 
         helpWindow.show();
 
+    }
+
+    public void setRowColor() {
+        TableColumn<String, Label> tc = (TableColumn<String, Label>) tblRequests.getColumns().get(1);
+        tc.setCellFactory(column -> {
+            return new TableCell<String, Label>() {
+                @Override
+                protected void updateItem(Label item, boolean empty) {
+                    super.updateItem(item, empty);
+                    setGraphic(item);
+                    TableRow<String> currentRow = getTableRow();
+                    if (!isEmpty()) {
+                        if (item.getText().equals("Emergency")) {
+                            currentRow.setStyle("-fx-background-color: #CE2029");
+                        } else if (getTableRow().getIndex() % 2 == 0) {
+                            currentRow.setStyle("-fx-background-color: #0264AA");
+                        } else if (getTableRow().getIndex() % 2 != 0) {
+                            currentRow.setStyle("-fx-background-color: #0067B1");
+                        }
+                    }
+                }
+            };
+        });
     }
 }

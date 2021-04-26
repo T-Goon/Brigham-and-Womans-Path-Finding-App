@@ -81,7 +81,7 @@ public class EmergencyFormController extends DefaultServiceRequestFormController
             Date dateInfo = new Date();
 
             String requestID;
-            if (SceneSwitcher.peekLastScene().equals("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml")) {
+            if (SceneSwitcher.peekLastScene().equals("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml") && !SceneSwitcher.isEmergencyBtn) {
                 requestID = this.id;
             } else {
                 requestID = UUID.randomUUID().toString();
