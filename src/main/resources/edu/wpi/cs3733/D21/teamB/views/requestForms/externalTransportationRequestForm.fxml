@@ -153,7 +153,7 @@
                                                         <Insets top="10.0" />
                                                     </VBox.margin>
                                                 </Text>
-                                                <JFXComboBox fx:id="comboTranspType" onAction="#validateButton" prefHeight="25.0" promptText="Choose one" style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" />
+                                                <JFXComboBox fx:id="comboTranspType" onAction="#validateButton" prefHeight="25.0" prefWidth="204.0" promptText="Choose one" style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" />
                                             </children>
                                             <padding>
                                                 <Insets left="10.0" right="10.0" />
@@ -169,7 +169,7 @@
                                                 <JFXTextArea fx:id="description" onKeyReleased="#validateButton" promptText="List Optional Transportation Details" style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" />
                                             </children>
                                             <padding>
-                                                <Insets left="10.0" right="10.0" />
+                                                <Insets bottom="10.0" left="10.0" right="10.0" />
                                             </padding>
                                         </VBox>
                                         <VBox GridPane.columnIndex="1" GridPane.rowIndex="4">
@@ -182,7 +182,7 @@
                                                 <JFXTextArea fx:id="allergies" onKeyReleased="#validateButton" promptText="List Allergies" style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" />
                                             </children>
                                             <padding>
-                                                <Insets left="10.0" right="10.0" />
+                                                <Insets bottom="10.0" left="10.0" right="10.0" />
                                             </padding>
                                         </VBox>
                                     </children>
@@ -206,16 +206,13 @@
                                         <Insets left="10.0" right="10.0" />
                                     </VBox.margin>
                                 </HBox>
-                                <HBox alignment="CENTER_LEFT" prefWidth="200.0">
+                                <HBox alignment="CENTER_LEFT" prefHeight="16.0" prefWidth="800.0">
                                     <children>
                                         <HBox alignment="CENTER_LEFT" fillHeight="false" HBox.hgrow="ALWAYS">
                                             <children>
-                                                <JFXButton fx:id="btnBack" buttonType="RAISED" cancelButton="true"
-                                                           onAction="#handleButtonAction"
-                                                           style="-fx-background-color: #0067b1; -fx-background-radius: 7;"
-                                                           text="Cancel" textFill="WHITE">
+                                                <JFXButton fx:id="btnBack" buttonType="RAISED" cancelButton="true" onAction="#handleButtonAction" style="-fx-background-color: #0067b1; -fx-background-radius: 7;" text="Cancel" textFill="WHITE">
                                                     <font>
-                                                        <Font name="MS Reference Sans Serif" size="14.0"/>
+                                                        <Font name="MS Reference Sans Serif" size="14.0" />
                                                     </font>
                                                 </JFXButton>
                                             </children>

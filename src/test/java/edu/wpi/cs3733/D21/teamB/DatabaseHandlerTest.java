@@ -386,7 +386,7 @@ public class DatabaseHandlerTest {
         assertEquals("F", test1.getOccupied());
         assertEquals("12:24", test1.getTime());
         assertEquals("2021-04-02", test1.getDate());
-        assertEquals("F", test1.getComplete());
+        assertEquals("F", test1.getProgress());
         assertEquals("Bob", test1.getEmployeeName());
         assertEquals("node1", test1.getLocation());
         assertEquals("None", test1.getDescription());
@@ -403,7 +403,7 @@ public class DatabaseHandlerTest {
         assertEquals("salad", test2.getMealChoice());
         assertEquals("10:00", test2.getTime());
         assertEquals("2021-05-10", test2.getDate());
-        assertEquals("F", test2.getComplete());
+        assertEquals("F", test2.getProgress());
         assertEquals("Bob", test2.getEmployeeName());
         assertEquals("node2", test2.getLocation());
         assertEquals("test", test2.getDescription());
@@ -530,7 +530,7 @@ public class DatabaseHandlerTest {
         assertEquals("T", test1.getOccupied());
         assertEquals("13:30", test1.getTime());
         assertEquals("2021-04-18", test1.getDate());
-        assertEquals("T", test1.getComplete());
+        assertEquals("T", test1.getProgress());
         assertEquals("Mike", test1.getEmployeeName());
         assertEquals("node2", test1.getLocation());
         assertEquals("test", test1.getDescription());
@@ -547,7 +547,7 @@ public class DatabaseHandlerTest {
         assertEquals("chicken", test2.getMealChoice());
         assertEquals("10:05", test2.getTime());
         assertEquals("2021-05-30", test2.getDate());
-        assertEquals("T", test2.getComplete());
+        assertEquals("T", test2.getProgress());
         assertEquals("Mike", test2.getEmployeeName());
         assertEquals("node1", test2.getLocation());
         assertEquals("None", test2.getDescription());
