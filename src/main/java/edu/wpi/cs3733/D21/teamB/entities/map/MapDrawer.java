@@ -8,15 +8,17 @@ import edu.wpi.cs3733.D21.teamB.entities.map.data.Path;
 import edu.wpi.cs3733.D21.teamB.pathfinding.*;
 import edu.wpi.cs3733.D21.teamB.util.Popup.PoppableManager;
 import edu.wpi.cs3733.D21.teamB.views.map.PathfindingMenuController;
+import javafx.animation.Animation;
+import javafx.animation.PathTransition;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
-import javafx.scene.image.ImageView;
+import javafx.scene.image.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Line;
+import javafx.scene.shape.*;
+import javafx.util.Duration;
 import lombok.Getter;
 import lombok.Setter;
 import net.kurobako.gesturefx.GesturePane;
@@ -39,12 +41,16 @@ public class MapDrawer implements PoppableManager {
     private final GesturePane gpane;
     private final StackPane mapStack;
     private ETAPopup etaPopup;
-
+    private Circle head = new Circle(10);
     private final DatabaseHandler db = DatabaseHandler.getDatabaseHandler("main.db");
 
     @Getter
     @Setter
     private boolean isEditing = false;
+
+    @Getter
+    @Setter
+    private boolean mobility = false;
 
     public MapDrawer(PathfindingMenuController pfmc, MapCache mc, AnchorPane nodeHolder, AnchorPane mapHolder, AnchorPane intermediateNodeHolder,
                      Label lblError, StackPane mapStack, GesturePane gpane) {
@@ -62,6 +68,12 @@ public class MapDrawer implements PoppableManager {
      * Draws the path on the map
      */
     public void drawPath(String start, String end) {
+        javafx.scene.shape.Path animationPath = new javafx.scene.shape.Path();
+        int steps=0;
+        if (!nodeHolder.getChildren().contains(head)) {
+            nodeHolder.getChildren().add(head);
+        }
+        head.setFill(Color.valueOf("#0067B1"));
         Graph.getGraph().updateGraph();
         List<String> sl = mc.getStopsList();
         Stack<String> allStops = new Stack<>();
@@ -85,14 +97,39 @@ public class MapDrawer implements PoppableManager {
             default:
                 throw new IllegalStateException("Extra option in combo box?");
         }
-        Path wholePath = pathfinder.findPath(allStops);
+        Path wholePath = pathfinder.findPath(allStops, mobility);
 
         if (wholePath.getPath().isEmpty()) {
             lblError.setVisible(true);
         } else {
+
             for (int i = 0; i < wholePath.getPath().size() - 1; i++) {
+                steps++;
                 placeEdge(Graph.getGraph().getNodes().get(wholePath.getPath().get(i)), Graph.getGraph().getNodes().get(wholePath.getPath().get(i + 1)));
+                double x=Graph.getGraph().getNodes().get(wholePath.getPath().get(i)).getXCoord()/ PathfindingMenuController.coordinateScale;
+                double y=Graph.getGraph().getNodes().get(wholePath.getPath().get(i)).getYCoord()/ PathfindingMenuController.coordinateScale;
+                if (i==0){
+                    animationPath.getElements().add(new MoveTo(x,y));
+                }
+                else {
+                    animationPath.getElements().add(new LineTo(x, y));
+                }
+
             }
+
+            // Animate the last edge
+            double x=Graph.getGraph().getNodes().get(wholePath.getPath().get(wholePath.getPath().size() - 1)).getXCoord()/ PathfindingMenuController.coordinateScale;
+            double y=Graph.getGraph().getNodes().get(wholePath.getPath().get(wholePath.getPath().size() - 1)).getYCoord()/ PathfindingMenuController.coordinateScale;
+            animationPath.getElements().add(new LineTo(x, y));
+
+            PathTransition pathTransition = new PathTransition();
+            pathTransition.setDuration(Duration.millis(steps*300));
+            pathTransition.setNode(head);
+            pathTransition.setPath(animationPath);
+            pathTransition.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
+            pathTransition.setCycleCount(Animation.INDEFINITE);
+            pathTransition.setAutoReverse(false);
+            pathTransition.play();
         }
 
         if (etaPopup != null) {
@@ -181,7 +218,25 @@ public class MapDrawer implements PoppableManager {
      */
     private void placeNode(Node n) {
         try {
+
             ImageView i = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/cs3733/D21/teamB/views/map/misc/node.fxml")));
+
+            Image image = i.getImage();
+            PixelReader reader = image.getPixelReader();
+            int w = (int) image.getWidth();
+            int h = (int) image.getHeight();
+            WritableImage wImage = new WritableImage(w, h);
+            PixelWriter writer = wImage.getPixelWriter();
+            for (int y = 0; y < h; y++) {
+                for (int x = 0; x < w; x++) {
+                    Color color = reader.getColor(x, y);
+                    if (!(color.hashCode() == 0x00000000)) {
+                        writer.setColor(x, y, n.getColor());
+                    }
+                }
+            }
+
+            i.setImage(wImage);
 
             i.setLayoutX((n.getXCoord() / PathfindingMenuController.coordinateScale) - (i.getFitWidth() / 4));
             i.setLayoutY((n.getYCoord() / PathfindingMenuController.coordinateScale) - (i.getFitHeight()));

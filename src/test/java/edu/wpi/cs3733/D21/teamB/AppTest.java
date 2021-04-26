@@ -56,7 +56,7 @@ public class AppTest extends FxRobot {
         clickOn("#username");
         write("admin");
         press(KeyCode.TAB);
-        write("password");
+        write("admin");
         press(KeyCode.ENTER);
         verifyThat("Staff Directory", Node::isVisible);
         clickOn("#btnBack");

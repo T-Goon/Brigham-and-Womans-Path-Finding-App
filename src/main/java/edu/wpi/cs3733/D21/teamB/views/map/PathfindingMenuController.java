@@ -30,6 +30,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
@@ -99,6 +100,9 @@ public class PathfindingMenuController implements Initializable {
     private JFXTextField txtSearch;
 
     @FXML
+    private JFXCheckBox btnMobility;
+
+    @FXML
     private JFXTreeView<String> treeLocations;
 
     @FXML
@@ -142,6 +146,9 @@ public class PathfindingMenuController implements Initializable {
 
     @FXML
     private JFXButton btnRemoveStop;
+
+    @FXML
+    private Circle pathHead;
 
     public static final double coordinateScale = 25 / 9.0;
 
@@ -218,8 +225,10 @@ public class PathfindingMenuController implements Initializable {
 
         // Set up Load and Save buttons
         btnLoad.setOnAction(event -> loadCSV());
-
         btnSave.setOnAction(event -> saveCSV());
+
+        // Set up mobility button
+        btnMobility.setOnAction(event -> md.setMobility(btnMobility.isSelected()));
 
         // Disable editing if the user is not an admin
         checkPermissions();

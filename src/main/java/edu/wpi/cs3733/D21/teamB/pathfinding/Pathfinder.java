@@ -14,11 +14,11 @@ public interface Pathfinder {
      * @param nodes a Stack of the destination nodes in order. (Start, dest1, dest2, ...)
      * @return A Path with the full and complete path through the destinations
      */
-    default Path findPath(Stack<String> nodes) {
+    default Path findPath(Stack<String> nodes, boolean mobility) {
         Path retPath = new Path();
 
         while (nodes.size() > 1) {
-            Path tempPath = findPath(nodes.pop(), nodes.peek());
+            Path tempPath = findPath(nodes.pop(), nodes.peek(), mobility);
             if (tempPath == null) {
                 retPath.setPath(new ArrayList<>());
                 return retPath;
@@ -47,5 +47,5 @@ public interface Pathfinder {
         return retPath;
     }
 
-    Path findPath(String startID, String endID);
+    Path findPath(String startID, String endID, boolean mobility);
 }

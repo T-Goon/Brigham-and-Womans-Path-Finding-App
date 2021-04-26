@@ -137,6 +137,7 @@ public class DatabaseHandler {
                 + "nodeType CHAR(20), "
                 + "longName CHAR(50), "
                 + "shortName CHAR(20), "
+                + "color CHAR(20),"
                 + "CHECK (xcoord >= 0), "
                 + "CHECK (ycoord >= 0))";
 
@@ -297,8 +298,8 @@ public class DatabaseHandler {
      */
     public void loadDatabaseNodes(List<Node> nodes) throws SQLException {
 
-        String query = "INSERT INTO Nodes(nodeID, xcoord, ycoord, floor, building, nodeType, longName, shortName) " +
-                "VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO Nodes(nodeID, xcoord, ycoord, floor, building, nodeType, longName, shortName, color) " +
+                "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement statement = databaseConnection.prepareStatement(query);
         if (nodes != null) {
             for (Node node : nodes) {
@@ -310,6 +311,7 @@ public class DatabaseHandler {
                 statement.setString(6, node.getNodeType());
                 statement.setString(7, node.getLongName());
                 statement.setString(8, node.getShortName());
+                statement.setString(9, node.getColor().toString());
                 statement.executeUpdate();
             }
         }
