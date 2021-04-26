@@ -393,6 +393,7 @@ public class PathfindingMenuController implements Initializable {
                 break;
             case "btnHelp":
                 loadHelpDialog();
+                break;
             case "btnSearch":
                 handleItemSearched();
                 break;
