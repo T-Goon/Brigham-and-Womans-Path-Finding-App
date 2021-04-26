@@ -368,7 +368,6 @@ public class DatabaseHandlerTest {
             db.addRequest(request1);
             db.addRequest(request2);
         } catch (SQLException e) {
-            System.out.println("request fails");
             e.printStackTrace();
             return;
         }

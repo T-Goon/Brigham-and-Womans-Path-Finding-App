@@ -6,9 +6,11 @@ import edu.wpi.cs3733.D21.teamB.entities.map.data.Edge;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Node;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Path;
 import edu.wpi.cs3733.D21.teamB.pathfinding.AStar;
+import edu.wpi.cs3733.D21.teamB.pathfinding.BFS;
 import edu.wpi.cs3733.D21.teamB.pathfinding.Graph;
 import edu.wpi.cs3733.D21.teamB.util.CSVHandler;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;
@@ -21,6 +23,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 public class PathfindingTests {
+
+    AStar aStar = new AStar();
 
     @BeforeAll
     static void initDB() {
@@ -36,6 +40,11 @@ public class PathfindingTests {
         }
 
         Graph.setGraph(db);
+    }
+
+    @BeforeEach
+    public void fixGraph() {
+        Graph.getGraph().updateGraph();
     }
 
     @Test
@@ -75,7 +84,7 @@ public class PathfindingTests {
         expectedPath.add("bWALK01601");
         expectedPath.add("bPARK02501");
 
-        Path path = AStar.findPath("bPARK00101", "bPARK02501");
+        Path path = aStar.findPath("bPARK00101", "bPARK02501");
         assertEquals(expectedPath, path.getPath());
     }
 
@@ -86,9 +95,9 @@ public class PathfindingTests {
 
         List<Node> category = new ArrayList<>();
 
-        Node bPARK01501 = new Node("bPARK01501",3159,1228,"1","Parking","PARK","Right Parking Lot Spot 5","RLot5");
-        Node bPARK01601 = new Node("bPARK01601",3161,1251,"1","Parking","PARK","Right Parking Lot Spot 6","RLot6");
-        Node bPARK01701 = new Node("bPARK01701",3160,1278,"1","Parking","PARK","Right Parking Lot Spot 7","RLot7");
+        Node bPARK01501 = new Node("bPARK01501", 3159, 1228, "1", "Parking", "PARK", "Right Parking Lot Spot 5", "RLot5");
+        Node bPARK01601 = new Node("bPARK01601", 3161, 1251, "1", "Parking", "PARK", "Right Parking Lot Spot 6", "RLot6");
+        Node bPARK01701 = new Node("bPARK01701", 3160, 1278, "1", "Parking", "PARK", "Right Parking Lot Spot 7", "RLot7");
 
         category.add(bPARK01501);
         category.add(bPARK01601);
@@ -111,32 +120,32 @@ public class PathfindingTests {
         pathExp.add("bPARK01701");
 
 
-        Path path = AStar.shortestPathToNodeInList("bWALK00101", category);
+        Path path = aStar.shortestPathToNodeInList("bWALK00101", category);
 
         assertEquals(pathExp, path.getPath());
 
     }
 
     @Test
-    public void testGetEstimatedTime(){
-        Path tempPath = AStar.findPath("bPARK01801", "bPARK00601");
+    public void testGetEstimatedTime() {
+        Path tempPath = aStar.findPath("bPARK01801", "bPARK00601");
         String result = AStar.getEstimatedTime(tempPath);
         String expected = "5:22 min";
         assertEquals(expected, result);
 
-        tempPath = AStar.findPath("FSERV00201", "GEXIT00101");
+        tempPath = aStar.findPath("FSERV00201", "GEXIT00101");
         result = AStar.getEstimatedTime(tempPath);
-        expected = "14:11 min";
+        expected = "2:55 min";
         assertEquals(expected, result);
 
-        tempPath = AStar.findPath("bEXIT00401", "bEXIT00501");
+        tempPath = aStar.findPath("bEXIT00401", "bEXIT00501");
         result = AStar.getEstimatedTime(tempPath);
         expected = "22 sec";
         assertEquals(expected, result);
     }
 
     @Test
-    public void testMultipleNodePathfinding(){
+    public void testMultipleNodePathfinding() {
         Stack<String> nodeList = new Stack<>();
         nodeList.push("bPARK02501");
         nodeList.push("bEXIT00501");
@@ -166,9 +175,9 @@ public class PathfindingTests {
         expectedPath.add("bPARK02501");
 
 
-        Path expectedResult = new Path(expectedPath, 2484.102858858675+1954.7029936098086);
+        Path expectedResult = new Path(expectedPath, 2484.102858858675 + 1954.7029936098086);
 
-        Path returnedResult = AStar.findPath(nodeList);
+        Path returnedResult = aStar.findPath(nodeList);
 
         assertEquals(expectedResult, returnedResult);
 
@@ -209,13 +218,37 @@ public class PathfindingTests {
         expectedLongPath.add("FHALL01701");
         expectedLongPath.add("FDEPT00301");
 
-        Path expectedLongResult = new Path(expectedLongPath, 2484.102858858675+848.2401435306502+350.0);
+        Path expectedLongResult = new Path(expectedLongPath, 2484.102858858675 + 848.2401435306502 + 350.0);
 
-        Path returnedLongResult = AStar.findPath(longNodesList);
+        Path returnedLongResult = aStar.findPath(longNodesList);
 
         assertEquals(expectedLongResult, returnedLongResult);
 
 
     }
 
+    @Test
+    public void testBFS() {
+        LinkedList<String> expectedPath = new LinkedList<>();
+        expectedPath.add("bPARK00101");
+        expectedPath.add("bWALK00101");
+        expectedPath.add("bWALK00201");
+        expectedPath.add("bWALK00301");
+        expectedPath.add("bWALK00401");
+        expectedPath.add("bWALK00501");
+        expectedPath.add("bWALK00601");
+        expectedPath.add("bWALK00701");
+        expectedPath.add("bWALK00801");
+        expectedPath.add("bWALK01001");
+        expectedPath.add("bWALK01101");
+        expectedPath.add("bWALK01201");
+        expectedPath.add("bWALK01301");
+        expectedPath.add("bWALK01401");
+        expectedPath.add("bWALK01501");
+        expectedPath.add("bWALK01601");
+        expectedPath.add("bPARK02501");
+
+        Path path = new BFS().findPath("bPARK00101", "bPARK02501");
+        assertEquals(expectedPath, path.getPath());
+    }
 }
