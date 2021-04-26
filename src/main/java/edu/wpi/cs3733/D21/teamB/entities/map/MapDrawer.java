@@ -342,6 +342,18 @@ public class MapDrawer implements PoppableManager {
             drawEdgesOnFloor();
             drawAltNodesOnFloor();
             drawIntermediateNodesOnFloor();
+            if (mc.getStartNode() != null) {
+                List<javafx.scene.Node> nodes = new ArrayList<>();
+                nodes.addAll(mc.getNodePlaced());
+                nodes.addAll(mc.getIntermediateNodePlaced());
+                for (javafx.scene.Node n : nodes) {
+                    if (n.getId().equals(mc.getStartNode().getId())) {
+                        Circle c = (Circle) n;
+                        c.setStroke(Color.RED);
+                    }
+                }
+            }
+
         } else {
             mc.updateLocations();
             removeAllEdges();
