@@ -246,23 +246,21 @@ public class PathfindingTests {
     @Test
     public void testing90and270Angles() {
 
-        //take a left this is wrong should be 270
+        //is 270 taking a left
         Node a1 = new Node("bPARK01501", 1, 1, "1", "Parking", "PARK", "Right Parking Lot Spot 5", "RLot5");
         Node b1 = new Node("bPARK01501", 1, 0, "1", "Parking", "PARK", "Right Parking Lot Spot 5", "RLot5");
         Node c1 = new Node("bPARK01501", 0, 0, "1", "Parking", "PARK", "Right Parking Lot Spot 5", "RLot5");
 
         double angle270 = Directions.angleBetweenEdges(a1, b1, c1);
-        assertEquals(angle270, 270, 0);
+        assertEquals(-90, angle270, 0);
 
-
+        //is 270
         Node a2 = new Node("bPARK01501", 0, 0, "1", "Parking", "PARK", "Right Parking Lot Spot 5", "RLot5");
         Node b2 = new Node("bPARK01501", 0, 1, "1", "Parking", "PARK", "Right Parking Lot Spot 5", "RLot5");
         Node c2 = new Node("bPARK01501", 1, 1, "1", "Parking", "PARK", "Right Parking Lot Spot 5", "RLot5");
 
-        angle270 = Directions.angleBetweenEdges(a2, b2, c2);
-        assertEquals(angle270, 270, 0);
-
-
+        double angle270s = Directions.angleBetweenEdges(a2, b2, c2);
+        assertEquals(-90, angle270s, 0);
 
 
         //take a right
@@ -271,62 +269,16 @@ public class PathfindingTests {
         Node c = new Node("bPARK01501", 1, 0, "1", "Parking", "PARK", "Right Parking Lot Spot 5", "RLot5");
 
         double angle90 = Directions.angleBetweenEdges(a, b, c);
-        assertEquals(angle90, 90, 0);
+        assertEquals(90, angle90, 0);
 
         //take a right 90 degrees this wrong
         Node a3 = new Node("bPARK01501", 1, 0, "1", "Parking", "PARK", "Right Parking Lot Spot 5", "RLot5");
         Node b3 = new Node("bPARK01501", 1, 1, "1", "Parking", "PARK", "Right Parking Lot Spot 5", "RLot5");
         Node c3 = new Node("bPARK01501", 0, 1, "1", "Parking", "PARK", "Right Parking Lot Spot 5", "RLot5");
 
-        angle90 = Directions.angleBetweenEdges(a3, b3, c3);
-        assertEquals(angle90, 90, 0);
+        double angle90s = Directions.angleBetweenEdges(a3, b3, c3);
+        assertEquals(90, angle90s, 0);
 
-
-
-//        Node a = new Node("bPARK01501",2,5,"1","Parking","PARK","Right Parking Lot Spot 5","RLot5");
-//        Node b = new Node("bPARK01501",2,8,"1","Parking","PARK","Right Parking Lot Spot 5","RLot5");
-//        Node c = new Node("bPARK01501",5,9,"1","Parking","PARK","Right Parking Lot Spot 5","RLot5");
-//
-//        double angle270 = Directions.angleBetweenEdges(a, b, c);
-//        //take a left
-//        assertEquals(angle270, 270, 20);
-//
-//        Node a0 = new Node("bPARK01501",8,10,"1","Parking","PARK","Right Parking Lot Spot 5","RLot5");
-//        Node b0 = new Node("bPARK01501",8,8,"1","Parking","PARK","Right Parking Lot Spot 5","RLot5");
-//        Node c0 = new Node("bPARK01501",11,8,"1","Parking","PARK","Right Parking Lot Spot 5","RLot5");
-//
-//        double angle90 = Directions.angleBetweenEdges(a0, b0, c0);
-//        assertEquals(angle90, 90, .10);
-//
-//        Node a1 = new Node("bPARK01501",0,2,"1","Parking","PARK","Right Parking Lot Spot 5","RLot5");
-//        Node b1 = new Node("bPARK01501",2,2,"1","Parking","PARK","Right Parking Lot Spot 5","RLot5");
-//        Node c1 = new Node("bPARK01501",2,0,"1","Parking","PARK","Right Parking Lot Spot 5","RLot5");
-//
-//        angle270 = Directions.angleBetweenEdges(a1, b1, c1);
-//        assertEquals(angle270, 270, .10);
-//
-//        Node a2 = new Node("bPARK01501",1,1,"1","Parking","PARK","Right Parking Lot Spot 5","RLot5");
-//        Node b2 = new Node("bPARK01501",5,1,"1","Parking","PARK","Right Parking Lot Spot 5","RLot5");
-//        Node c2 = new Node("bPARK01501",5,5,"1","Parking","PARK","Right Parking Lot Spot 5","RLot5");
-//
-//        angle90 = Directions.angleBetweenEdges(a2, b2, c2);
-//        assertEquals(angle90, 90, .10);
-////
-////        Node a4 = new Node("FHALL01301",1627,825,"1","Tower","HALL","Tower Hallway 5","Hallway F01301");
-////        Node b4 = new Node("FHALL01401",1627,1029,"1","Tower","HALL","Tower Hallway 6","Hallway F01401");
-////        Node c4 = new Node("FSERV00201",1605,1029,"1","Tower","SERV","Tower Medical Cashier","Tower Cashier");
-////
-////        angle90 = Directions.angleBetweenEdges(a4, b4, c4);
-////        System.out.println(angle90);
-////        assertEquals(angle90, 270, .10);
-//
-//        Node a3 = new Node("FHALL01301",2,5,"1","Tower","HALL","Tower Hallway 5","Hallway F01301");
-//        Node b3 = new Node("FHALL01401",2,8,"1","Tower","HALL","Tower Hallway 6","Hallway F01401");
-//        Node c3 = new Node("FSERV00201",0,8,"1","Tower","SERV","Tower Medical Cashier","Tower Cashier");
-//
-//        angle90 = Directions.angleBetweenEdges(a3, b3, c3);
-//        System.out.println(angle90);
-//        assertEquals(angle90, 90, .10);
     }
 
     @Test

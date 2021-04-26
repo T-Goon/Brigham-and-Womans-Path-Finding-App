@@ -18,33 +18,59 @@ public class Directions {
 
     public static double angleBetweenEdges(Node prev, Node curr, Node next) {
 
-        //1,0
-        //1,1
-        //0,1
-        Coord prevC = new Coord(prev.getXCoord(), prev.getYCoord());
-        Coord currC = new Coord(curr.getXCoord(), curr.getYCoord());
-        Coord nextC = new Coord(next.getXCoord(), next.getYCoord());
+        Coord prevC = new Coord(prev.getXCoord(), -prev.getYCoord());
+        Coord currC = new Coord(curr.getXCoord(), -curr.getYCoord());
+        Coord nextC = new Coord(next.getXCoord(), -next.getYCoord());
 
-        //1,0
-        Coord firstTriangleCoord = new Coord(currC.getX(), prevC.getY());
 
-        //0
-        double aLen = dist(prevC, firstTriangleCoord);//prevC.getX() - firstTriangleCoord.getX();
-        //1
-        double bLen = dist(currC, firstTriangleCoord);//currC.getY() - firstTriangleCoord.getY();
-        //arctan(1/0)
-        double firstAngle = java.lang.Math.atan(bLen / aLen) * (180 / Math.PI);
+        double aX = currC.getX() - prevC.getX();
+        double aY = currC.getY() - prevC.getY();
+        double firstAngle;
 
-        //0,1
-        Coord secondTriangle = new Coord(nextC.getX(), currC.getY());
-        //1
-        double aLen1 = dist(currC,secondTriangle);//currC.getX() - secondTriangle.getX();
-        //0
-        double bLen1 = dist(nextC, secondTriangle);//nextC.getY() - secondTriangle.getY();
-        //arctan(0/1)
-        double secondAngle = 180 - java.lang.Math.atan(bLen1 / aLen1) * (180 / Math.PI);
+        if(aX != 0){
+            firstAngle = java.lang.Math.atan(aY / aX) * (180 / Math.PI);
+            if(aX<0){
+                firstAngle += 180;
+            }
+        }
+        else{
+            if(aY>0){
+                firstAngle = 90;
+            }
+            else{
+                firstAngle = -90;
+            }
+        }
 
-        return secondAngle + firstAngle;
+        double bX = nextC.getX() - currC.getX();
+        double bY = nextC.getY() - currC.getY();
+        double secondAngle;
+        if(bX != 0 ){
+            secondAngle = java.lang.Math.atan(bY / bX) * (180 / Math.PI);
+            if(bX<0){
+                secondAngle += 180;
+            }
+        }
+        else{
+            if(bY>0){
+                secondAngle = 90;
+            }
+            else{
+                secondAngle = -90;
+            }
+        }
+
+        System.out.println("firstAngle: " + firstAngle);
+        System.out.println("secondAngle: " + secondAngle);
+
+        //deviation of the straight line
+        double remainder = (firstAngle - secondAngle)%360.0;
+
+        if(remainder < -180){
+            remainder += 360;
+        }
+
+        return remainder;
     }
 
     /**
