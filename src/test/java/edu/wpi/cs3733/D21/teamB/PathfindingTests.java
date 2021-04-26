@@ -10,6 +10,7 @@ import edu.wpi.cs3733.D21.teamB.pathfinding.BFS;
 import edu.wpi.cs3733.D21.teamB.pathfinding.Graph;
 import edu.wpi.cs3733.D21.teamB.util.CSVHandler;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;
@@ -39,6 +40,11 @@ public class PathfindingTests {
         }
 
         Graph.setGraph(db);
+    }
+
+    @BeforeEach
+    public void fixGraph() {
+        Graph.getGraph().updateGraph();
     }
 
     @Test
