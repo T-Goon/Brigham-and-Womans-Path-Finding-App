@@ -1,5 +1,7 @@
 package edu.wpi.cs3733.D21.teamB.entities.map;
 
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733.D21.teamB.App;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.*;
@@ -9,17 +11,21 @@ import edu.wpi.cs3733.D21.teamB.pathfinding.AStar;
 import edu.wpi.cs3733.D21.teamB.pathfinding.Directions;
 import edu.wpi.cs3733.D21.teamB.util.Popup.PoppableManager;
 import edu.wpi.cs3733.D21.teamB.views.map.PathfindingMenuController;
+import javafx.collections.MapChangeListener;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import net.kurobako.gesturefx.GesturePane;
-
 import java.util.List;
+
+import javax.swing.text.html.ImageView;
 
 public class MapPathPopupManager implements PoppableManager {
 
     private final MapDrawer md;
+    private final MapCache mc;
     private final JFXTextField txtStartLocation;
     private final JFXTextField txtEndLocation;
+    private final JFXButton btnRemoveStop;
     private final PathfindingMenuController pfmc;
     private final StackPane mapStack;
     private final AnchorPane nodeHolder;
@@ -30,12 +36,14 @@ public class MapPathPopupManager implements PoppableManager {
     private ETAPopup etaPopup;
     private TxtDirPopup txtDirPopup;
 
-    public MapPathPopupManager(MapDrawer md, JFXTextField txtStartLocation, JFXTextField txtEndLocation,
-                               StackPane mapStack, GesturePane gpane, PathfindingMenuController pfmc,
-                               AnchorPane nodeHolder, StackPane textDirectionsHolder) {
+    public MapPathPopupManager(MapDrawer md, MapCache mc, JFXTextField txtStartLocation,JFXTextField txtEndLocation,
+                               JFXButton btnRmStop, StackPane mapStack, GesturePane gpane,
+                               PathfindingMenuController pfmc, AnchorPane nodeHolder, StackPane textDirectionsHolder) {
         this.md = md;
+        this.mc = mc;
         this.txtStartLocation = txtStartLocation;
         this.txtEndLocation = txtEndLocation;
+        this.btnRemoveStop = btnRmStop;
         this.pfmc = pfmc;
         this.mapStack = mapStack;
         this.gpane =  gpane;
@@ -50,7 +58,8 @@ public class MapPathPopupManager implements PoppableManager {
      */
     public void createGraphicalInputPopup(Node n) {
 
-        GraphicalInputData giData = new GraphicalInputData(n.getLongName(), txtStartLocation, txtEndLocation, md, pfmc);
+        GraphicalInputData giData = new GraphicalInputData(n.getLongName(), txtStartLocation, txtEndLocation,
+                btnRemoveStop, md, mc, pfmc);
 
         giPopup = new GraphicalInputPopup(mapStack, giData, gpane);
 
@@ -58,6 +67,7 @@ public class MapPathPopupManager implements PoppableManager {
 
         giPopup.show();
     }
+
 
     /**
      * Draw the estimated time dialog box
@@ -73,7 +83,6 @@ public class MapPathPopupManager implements PoppableManager {
 
         ETAPopupData etaPopupData = new ETAPopupData(estimatedTime, path);
         etaPopup = new ETAPopup(nodeHolder, etaPopupData);
-
 
         etaPopup.show();
 

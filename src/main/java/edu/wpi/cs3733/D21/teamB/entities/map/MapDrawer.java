@@ -5,8 +5,7 @@ import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Edge;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Node;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Path;
-import edu.wpi.cs3733.D21.teamB.pathfinding.AStar;
-import edu.wpi.cs3733.D21.teamB.pathfinding.Graph;
+import edu.wpi.cs3733.D21.teamB.pathfinding.*;
 import edu.wpi.cs3733.D21.teamB.util.Popup.PoppableManager;
 import edu.wpi.cs3733.D21.teamB.views.map.PathfindingMenuController;
 import javafx.fxml.FXMLLoader;
@@ -23,13 +22,11 @@ import lombok.Setter;
 import net.kurobako.gesturefx.GesturePane;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 public class MapDrawer implements PoppableManager {
 
+    private final PathfindingMenuController pfmc;
     private final MapCache mc;
     @Setter
     private MapPathPopupManager mppm;
@@ -49,8 +46,9 @@ public class MapDrawer implements PoppableManager {
     @Setter
     private boolean isEditing = false;
 
-    public MapDrawer(MapCache mc, AnchorPane nodeHolder, AnchorPane mapHolder, AnchorPane intermediateNodeHolder,
+    public MapDrawer(PathfindingMenuController pfmc, MapCache mc, AnchorPane nodeHolder, AnchorPane mapHolder, AnchorPane intermediateNodeHolder,
                      Label lblError, StackPane mapStack, GesturePane gpane) {
+        this.pfmc = pfmc;
         this.mc = mc;
         this.nodeHolder = nodeHolder;
         this.mapHolder = mapHolder;
@@ -64,31 +62,45 @@ public class MapDrawer implements PoppableManager {
      * Draws the path on the map
      */
     public void drawPath(String start, String end) {
+        Graph.getGraph().updateGraph();
+        List<String> sl = mc.getStopsList();
+        Stack<String> allStops = new Stack<>();
+        allStops.push(mc.makeLongToIDMap().get(end));
+        for (int i = sl.size() - 1; i >= 0; i--) {
+            allStops.push(mc.makeLongToIDMap().get(sl.get(i)));
+        }
+        allStops.push(mc.makeLongToIDMap().get(start));
+
+        Pathfinder pathfinder;
+        switch (pfmc.getComboPathingType().getSelectionModel().getSelectedItem()) {
+            case "A*":
+                pathfinder = new AStar();
+                break;
+            case "DFS":
+                pathfinder = new DFS();
+                break;
+            case "BFS":
+                pathfinder = new BFS();
+                break;
+            default:
+                throw new IllegalStateException("Extra option in combo box?");
+        }
+        Path wholePath = pathfinder.findPath(allStops);
+
+        if (wholePath.getPath().isEmpty()) {
+            lblError.setVisible(true);
+        } else {
+            for (int i = 0; i < wholePath.getPath().size() - 1; i++) {
+                placeEdge(Graph.getGraph().getNodes().get(wholePath.getPath().get(i)), Graph.getGraph().getNodes().get(wholePath.getPath().get(i + 1)));
+            }
+        }
+
         if (etaPopup != null) {
             etaPopup.hide();
             etaPopup = null;
         }
 
-        Map<String, Node> nodesId = Graph.getGraph().getNodes();
-        Map<String, String> hmLongName = mc.makeLongToIDMap();
-        Path aStarPath = AStar.findPath(hmLongName.get(start), hmLongName.get(end));
-
-        List<String> AstarPath = aStarPath.getPath();
-
-        if (AstarPath.isEmpty()) {
-            lblError.setVisible(true);
-        } else {
-            Node prev = null;
-            for (String loc : AstarPath) {
-                if ((prev != null) && (loc != null)) {
-                    Node curr = nodesId.get(loc);
-                    placeEdge(prev, curr);
-                }
-                prev = nodesId.get(loc);
-            }
-        }
-
-        etaPopup = mppm.createETAPopup(aStarPath);
+        etaPopup = mppm.createETAPopup(wholePath);
     }
 
     /**

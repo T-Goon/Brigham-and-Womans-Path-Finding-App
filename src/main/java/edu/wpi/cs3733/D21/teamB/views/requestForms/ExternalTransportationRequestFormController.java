@@ -1,11 +1,14 @@
 package edu.wpi.cs3733.D21.teamB.views.requestForms;
 
 import com.jfoenix.controls.*;
+import com.jfoenix.validation.RequiredFieldValidator;
 import edu.wpi.cs3733.D21.teamB.App;
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.requests.ExternalTransportRequest;
 import edu.wpi.cs3733.D21.teamB.entities.requests.Request;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -86,6 +89,97 @@ public class ExternalTransportationRequestFormController extends DefaultServiceR
             outNetwork.setSelected(externalTransportRequest.getOutNetwork().equals("T"));
         }
         validateButton();
+
+        //creating a pop-up error message when a text field is left empty
+        //name text field
+        RequiredFieldValidator validatorName = new RequiredFieldValidator();
+
+        name.getValidators().add(validatorName);
+        validatorName.setMessage("Please input the patient's name!");
+
+        name.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if(!newValue){
+                    name.validate();
+                }
+            }
+        });
+
+        //location combo box
+        RequiredFieldValidator validatorLocation = new RequiredFieldValidator();
+
+        loc.getValidators().add(validatorLocation);
+        validatorLocation.setMessage("Please input the current location!");
+
+        loc.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if(!newValue){
+                    loc.validate();
+                }
+            }
+        });
+
+        //destination text field
+        RequiredFieldValidator validatorDestination = new RequiredFieldValidator();
+
+        destination.getValidators().add(validatorDestination);
+        validatorDestination.setMessage("Please input the destination address!");
+
+        destination.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if(!newValue){
+                    destination.validate();
+                }
+            }
+        });
+
+        //transportation type combo box
+        RequiredFieldValidator validatorType = new RequiredFieldValidator();
+
+        comboTranspType.getValidators().add(validatorType);
+        validatorType.setMessage("Please select the transportation type!");
+
+        comboTranspType.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if(!newValue){
+                    comboTranspType.validate();
+                }
+            }
+        });
+
+        //transportation details text field
+        RequiredFieldValidator validatorDescription = new RequiredFieldValidator();
+
+        description.getValidators().add(validatorDescription);
+        validatorDescription.setMessage("Please input transportation details!");
+
+        description.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if(!newValue){
+                    description.validate();
+                }
+            }
+        });
+
+        //allergies text field
+        RequiredFieldValidator validatorAllergies = new RequiredFieldValidator();
+
+        allergies.getValidators().add(validatorAllergies);
+        validatorAllergies.setMessage("Please input any allergies or input 'none'!");
+
+        allergies.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if(!newValue){
+                    allergies.validate();
+                }
+            }
+        });
     }
 
     public void handleButtonAction(ActionEvent e) {

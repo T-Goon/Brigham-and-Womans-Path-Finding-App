@@ -6,43 +6,7 @@ import edu.wpi.cs3733.D21.teamB.entities.map.data.Path;
 
 import java.util.*;
 
-public class AStar {
-
-    /**
-     * Finds the path between multiple nodes
-     *
-     * @param nodes a Stack of the destination nodes in order. (Start, dest1, dest2, ...)
-     * @return A Path with the full and complete path through the destinations
-     */
-    public static Path findPath(Stack<String> nodes) {
-        Path retPath = new Path();
-        while (nodes.size() > 1) {
-            //Get the path for this segment of the total path
-            Path tempPath = findPath(nodes.pop(), nodes.peek());
-
-            List<String> tempPathList = tempPath.getPath();
-            List<String> totalPath = retPath.getPath();
-
-            //If the return path is not initialized, initialize it
-            if (totalPath == null) {
-                totalPath = new LinkedList<>();
-            }
-
-            //remove the start node from any path other than the first one in order to avoid doubling nodes in the path
-            if (totalPath.size() > 0) {
-                tempPathList.remove(0);
-            }
-
-            //add this segment's path to the return path
-            totalPath.addAll(tempPathList);
-            retPath.setPath(totalPath);
-
-            //Add this path segment to total path cost
-            retPath.setTotalPathCost(retPath.getTotalPathCost() + tempPath.getTotalPathCost());
-        }
-        return retPath;
-    }
-
+public class AStar implements Pathfinder {
 
     /**
      * Main pathfinding algorithm used to find a path between two nodes.
@@ -51,9 +15,10 @@ public class AStar {
      * @param endID   nodeID of the ending node
      * @return LinkedList of nodeIDs which dictates the order of nodes in the path
      */
-    public static Path findPath(String startID, String endID) {
+    public Path findPath(String startID, String endID) {
 
         Graph graph = Graph.getGraph();
+        graph.updateGraph();
         Node startNode = graph.getNodes().get(startID);
         Node endNode = graph.getNodes().get(endID);
 
@@ -122,7 +87,7 @@ public class AStar {
             currentID = cameFrom.get(currentID);
         }
 
-        return new Path(ret, costSoFar.get(current.getNodeID()));
+        return new Path(ret, graph.calculateCost(ret));
     }
 
     /**
@@ -132,7 +97,7 @@ public class AStar {
      * @return The shortest path from the starting node to any of the nodes in the destinations list
      * to it
      */
-    public static Path shortestPathToNodeInList(String startID, List<Node> destinations) {
+    public Path shortestPathToNodeInList(String startID, List<Node> destinations) {
 
         double min = Double.MAX_VALUE;
         Path shortestPath = new Path();
@@ -149,7 +114,7 @@ public class AStar {
     }
 
     /**
-     * Calculates the estimated time it would take to walk a certan path
+     * Calculates the estimated time it would take to walk a certain path
      *
      * @param path the given Path
      * @return the estimated time string to put in the box
