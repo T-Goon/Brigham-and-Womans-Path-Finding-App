@@ -1,14 +1,12 @@
 package edu.wpi.cs3733.D21.teamB.entities.map;
 
 import com.jfoenix.controls.JFXButton;
-import edu.wpi.cs3733.D21.teamB.entities.map.MapCache;
-import edu.wpi.cs3733.D21.teamB.entities.map.MapDrawer;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class FloorSwitcher {
-    private final MapDrawer md;
-    private final MapCache mc;
+    private final MapDrawer mapDrawer;
+    private final MapCache mapCache;
     private final ImageView map;
 
     private final JFXButton btnF3;
@@ -31,9 +29,9 @@ public class FloorSwitcher {
     public final static String floorL1ID = "L1";
     public final static String floorL2ID = "L2";
 
-    public FloorSwitcher(MapDrawer md, MapCache mc, ImageView map, JFXButton btnF3, JFXButton btnF2, JFXButton btnF1, JFXButton btnFL1, JFXButton btnFL2) {
-        this.md = md;
-        this.mc = mc;
+    public FloorSwitcher(MapDrawer mapDrawer, MapCache mapCache, ImageView map, JFXButton btnF3, JFXButton btnF2, JFXButton btnF1, JFXButton btnFL1, JFXButton btnFL2) {
+        this.mapDrawer = mapDrawer;
+        this.mapCache = mapCache;
         this.map = map;
         this.btnF3 = btnF3;
         this.btnF2 = btnF2;
@@ -52,33 +50,49 @@ public class FloorSwitcher {
         switch (floor) {
             case floor3ID:
                 map.setImage(new Image(floor3Path));
-                mc.setCurrentFloor(floor3ID);
-                md.drawAllElements();
+                mapCache.setCurrentFloor(floor3ID);
+                mapDrawer.drawAllElements();
                 highlightFloorButton(floor3ID);
+
+                if(mapCache.getFinalPath()!=null){
+                    mapDrawer.drawPath(mapCache.getFinalPath());
+                }
                 break;
             case floor2ID:
                 map.setImage(new Image(floor2Path));
-                mc.setCurrentFloor(floor2ID);
-                md.drawAllElements();
+                mapCache.setCurrentFloor(floor2ID);
+                mapDrawer.drawAllElements();
                 highlightFloorButton(floor2ID);
+                if(mapCache.getFinalPath()!=null){
+                    mapDrawer.drawPath(mapCache.getFinalPath());
+                }
                 break;
             case floor1ID:
                 map.setImage(new Image(floor1Path));
-                mc.setCurrentFloor(floor1ID);
-                md.drawAllElements();
+                mapCache.setCurrentFloor(floor1ID);
+                mapDrawer.drawAllElements();
                 highlightFloorButton(floor1ID);
+                if(mapCache.getFinalPath()!=null){
+                    mapDrawer.drawPath(mapCache.getFinalPath());
+                }
                 break;
             case floorL1ID:
                 map.setImage(new Image(floorL1Path));
-                mc.setCurrentFloor(floorL1ID);
-                md.drawAllElements();
+                mapCache.setCurrentFloor(floorL1ID);
+                mapDrawer.drawAllElements();
                 highlightFloorButton(floorL1ID);
+                if(mapCache.getFinalPath()!=null){
+                    mapDrawer.drawPath(mapCache.getFinalPath());
+                }
                 break;
             case floorL2ID:
                 map.setImage(new Image(floorL2Path));
-                mc.setCurrentFloor(floorL2ID);
-                md.drawAllElements();
+                mapCache.setCurrentFloor(floorL2ID);
+                mapDrawer.drawAllElements();
                 highlightFloorButton(floorL2ID);
+                if(mapCache.getFinalPath()!=null){
+                    mapDrawer.drawPath(mapCache.getFinalPath());
+                }
                 break;
             default:
                 System.err.println("NO FLOOR! AAAAAAAAAAAAHHHHHHHHHHH!!!!!!!!!!!!!");

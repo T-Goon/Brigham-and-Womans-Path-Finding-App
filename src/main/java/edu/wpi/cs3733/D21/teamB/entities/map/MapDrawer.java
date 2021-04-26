@@ -3,6 +3,7 @@ package edu.wpi.cs3733.D21.teamB.entities.map;
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Edge;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Node;
+import edu.wpi.cs3733.D21.teamB.entities.map.data.Path;
 import edu.wpi.cs3733.D21.teamB.pathfinding.*;
 import edu.wpi.cs3733.D21.teamB.util.Popup.PoppableManager;
 import edu.wpi.cs3733.D21.teamB.views.map.PathfindingMenuController;
@@ -57,24 +58,51 @@ public class MapDrawer implements PoppableManager {
     }
 
     /**
-     * Draws the path on the map
+     * Draw a path on the map fiven a Path object
+     * @param path The path to draw
+     */
+    public void drawPath(Path path){
+        Map<String, Node> nodes = Graph.getGraph().getNodes();
+
+        if (mapCache.getFinalPath().getPath().isEmpty()) {
+            lblError.setVisible(true);
+        } else {
+            //Draw the segment of the path that is on the current floor
+            for (int i = 0; i < mapCache.getFinalPath().getFloorPathSegment(mapCache.getCurrentFloor()).size() - 1; i++) {
+                placeEdge(nodes.get(mapCache.getFinalPath().getFloorPathSegment(mapCache.getCurrentFloor()).get(i)),
+                        nodes.get(mapCache.getFinalPath().getFloorPathSegment(mapCache.getCurrentFloor()).get(i + 1)));
+            }
+        }
+
+        if (etaPopup != null) {
+            etaPopup.hide();
+            etaPopup = null;
+        }
+
+        etaPopup = mapPathPopupManager.createETAPopup(mapCache.getFinalPath());
+    }
+
+    /**
+     * Draws the path on the map given a start and an end node
+     * @param start Long name of the start node
+     * @param end Long name of the end node
      */
     public void drawPath(String start, String end) {
         Graph.getGraph().updateGraph();
+        Map<String, String> longToIDMap = mapCache.getMapLongToID();
 
-        Map<String, Node> nodes = Graph.getGraph().getNodes();
         Stack<String> allStops = new Stack<>();
 
         //Get the list of stops
         List<String> stopsList = mapCache.getStopsList();
 
         //Create the stack of nodeIDs for the pathfinder
-        allStops.push(mapCache.makeLongToIDMap().get(end));
+        allStops.push(longToIDMap.get(end));
 
         for (int i = stopsList.size() - 1; i >= 0; i--) {
-            allStops.push(mapCache.makeLongToIDMap().get(stopsList.get(i)));
+            allStops.push(longToIDMap.get(stopsList.get(i)));
         }
-        allStops.push(mapCache.makeLongToIDMap().get(start));
+        allStops.push(longToIDMap.get(start));
 
         //Create the required pathfinder
         Pathfinder pathfinder;
@@ -95,22 +123,7 @@ public class MapDrawer implements PoppableManager {
         //Set the final path in mapCache
         mapCache.setFinalPath(pathfinder.findPath(allStops));
 
-        if (mapCache.getFinalPath().getPath().isEmpty()) {
-            lblError.setVisible(true);
-        } else {
-            //Draw the segment of the path that is on the current floor
-            for (int i = 0; i < mapCache.getFinalPath().getFloorPathSegment(mapCache.getCurrentFloor()).size() - 1; i++) {
-                placeEdge(nodes.get(mapCache.getFinalPath().getFloorPathSegment(mapCache.getCurrentFloor()).get(i)),
-                        nodes.get(mapCache.getFinalPath().getFloorPathSegment(mapCache.getCurrentFloor()).get(i + 1)));
-            }
-        }
-
-        if (etaPopup != null) {
-            etaPopup.hide();
-            etaPopup = null;
-        }
-
-        etaPopup = mapPathPopupManager.createETAPopup(mapCache.getFinalPath());
+        drawPath(mapCache.getFinalPath());
     }
 
     /**

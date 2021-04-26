@@ -31,6 +31,8 @@ public class MapCache {
     @Getter
     @Setter
     private String currentFloor = FloorSwitcher.floor1ID;
+
+    @Getter
     private Map<String, String> mapLongToID = new HashMap<>();
     @Getter
     private final Map<String, List<TreeItem<String>>> catNameMap = new HashMap<>();
