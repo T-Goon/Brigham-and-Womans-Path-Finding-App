@@ -41,8 +41,6 @@ public class LoginPageController extends BasePageController implements Initializ
     @FXML
     private AnchorPane basePane;
 
-    @FXML
-    private Rectangle rect;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -63,11 +61,6 @@ public class LoginPageController extends BasePageController implements Initializ
 
     @FXML
     public void handleButtonAction(ActionEvent e) {
-
-        TranslateTransition tt = new TranslateTransition(Duration.millis(2000), rect);
-        tt.setByX(200);
-        tt.setCycleCount(4);
-        tt.setAutoReverse(true);
         final String currentPath = "/edu/wpi/cs3733/D21/teamB/views/login/loginPage.fxml";
         super.handleButtonAction(e);
         JFXButton btn = (JFXButton) e.getSource();
@@ -76,8 +69,7 @@ public class LoginPageController extends BasePageController implements Initializ
                 handleLoginSubmit();
                 break;
             case "btnEmergency":
-                tt.play();
-                //SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
+                SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
                 break;
         }
     }

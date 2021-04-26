@@ -8,6 +8,7 @@ import edu.wpi.cs3733.D21.teamB.entities.map.data.Path;
 import edu.wpi.cs3733.D21.teamB.pathfinding.*;
 import edu.wpi.cs3733.D21.teamB.util.Popup.PoppableManager;
 import edu.wpi.cs3733.D21.teamB.views.map.PathfindingMenuController;
+import javafx.animation.PathTransition;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
@@ -15,8 +16,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Line;
+import javafx.scene.shape.*;
+import javafx.util.Duration;
 import lombok.Getter;
 import lombok.Setter;
 import net.kurobako.gesturefx.GesturePane;
@@ -62,6 +63,11 @@ public class MapDrawer implements PoppableManager {
      * Draws the path on the map
      */
     public void drawPath(String start, String end) {
+        javafx.scene.shape.Path animationPath = new javafx.scene.shape.Path();
+        Circle head = new Circle(750);
+        nodeHolder.getChildren().add(head);
+        head.setFill(Color.BLACK);
+        head.setLayoutX(500); head.setLayoutY(500);
         Graph.getGraph().updateGraph();
         List<String> sl = mc.getStopsList();
         Stack<String> allStops = new Stack<>();
@@ -90,9 +96,26 @@ public class MapDrawer implements PoppableManager {
         if (wholePath.getPath().isEmpty()) {
             lblError.setVisible(true);
         } else {
+
             for (int i = 0; i < wholePath.getPath().size() - 1; i++) {
                 placeEdge(Graph.getGraph().getNodes().get(wholePath.getPath().get(i)), Graph.getGraph().getNodes().get(wholePath.getPath().get(i + 1)));
+                double x=Graph.getGraph().getNodes().get(wholePath.getPath().get(i)).getXCoord();
+                double y=Graph.getGraph().getNodes().get(wholePath.getPath().get(i)).getYCoord();
+                if (i==0){
+                    animationPath.getElements().add(new MoveTo(10,10));
+                }
+                else {
+                    animationPath.getElements().add(new LineTo(i*2, i*2));
+                }
             }
+            PathTransition pathTransition = new PathTransition();
+            pathTransition.setDuration(Duration.millis(5000));
+            pathTransition.setNode(head);
+            pathTransition.setPath(animationPath);
+            pathTransition.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
+            pathTransition.setCycleCount(1);
+            pathTransition.setAutoReverse(false);
+            pathTransition.play();
         }
 
         if (etaPopup != null) {
