@@ -64,31 +64,44 @@ public class MapDrawer implements PoppableManager {
      * Draws the path on the map
      */
     public void drawPath(String start, String end) {
+        List<String> sl = mc.getStopsList();
+        ArrayList<String> allStops = new ArrayList<>();
+        allStops.add(start);
+        allStops.addAll(sl);
+        allStops.add(end);
+
+        Path wholePath = new Path();
+        wholePath.setPath(new ArrayList<>());
+
+        for (int i = 0; i < allStops.size()-1; i++) {
+            Map<String, Node> nodesId = Graph.getGraph().getNodes();
+            Map<String, String> hmLongName = mc.makeLongToIDMap();
+            Path aStarPath = AStar.findPath(hmLongName.get(allStops.get(i)), hmLongName.get(allStops.get(i+1)));
+
+            List<String> AstarPath = aStarPath.getPath();
+            wholePath.getPath().addAll(AstarPath);
+            wholePath.setTotalPathCost(wholePath.getTotalPathCost()+aStarPath.getTotalPathCost());
+
+            if (AstarPath.isEmpty()) {
+                lblError.setVisible(true);
+            } else {
+                Node prev = null;
+                for (String loc : AstarPath) {
+                    if ((prev != null) && (loc != null)) {
+                        Node curr = nodesId.get(loc);
+                        placeEdge(prev, curr);
+                    }
+                    prev = nodesId.get(loc);
+                }
+            }
+        }
+
         if (etaPopup != null) {
             etaPopup.hide();
             etaPopup = null;
         }
 
-        Map<String, Node> nodesId = Graph.getGraph().getNodes();
-        Map<String, String> hmLongName = mc.makeLongToIDMap();
-        Path aStarPath = AStar.findPath(hmLongName.get(start), hmLongName.get(end));
-
-        List<String> AstarPath = aStarPath.getPath();
-
-        if (AstarPath.isEmpty()) {
-            lblError.setVisible(true);
-        } else {
-            Node prev = null;
-            for (String loc : AstarPath) {
-                if ((prev != null) && (loc != null)) {
-                    Node curr = nodesId.get(loc);
-                    placeEdge(prev, curr);
-                }
-                prev = nodesId.get(loc);
-            }
-        }
-
-        etaPopup = mppm.createETAPopup(aStarPath);
+        etaPopup = mppm.createETAPopup(wholePath);
     }
 
     /**
