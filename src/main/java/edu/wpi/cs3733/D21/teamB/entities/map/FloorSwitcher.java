@@ -53,7 +53,6 @@ public class FloorSwitcher {
                 mapCache.setCurrentFloor(floor3ID);
                 mapDrawer.drawAllElements();
                 highlightFloorButton(floor3ID);
-
                 if(mapCache.getFinalPath()!=null){
                     mapDrawer.drawPath(mapCache.getFinalPath());
                 }
