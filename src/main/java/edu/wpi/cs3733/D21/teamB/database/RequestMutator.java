@@ -59,7 +59,7 @@ public class RequestMutator implements IDatabaseEntityMutator<Request> {
                 + "', '" + request.getRequestType()
                 + "', '" + request.getDate()
                 + "', '" + request.getTime()
-                + "', '" + request.getComplete()
+                + "', '" + request.getProgress()
                 + "', '" + request.getEmployeeName()
                 + "', '" + request.getLocation()
                 + "', '" + request.getDescription().replace("'", "''")
@@ -182,6 +182,27 @@ public class RequestMutator implements IDatabaseEntityMutator<Request> {
                         + "', '" + languageRequest.getTimeForArrival()
                         + "')";
                 break;
+            case GIFT:
+                GiftRequest giftRequest = (GiftRequest) request;
+                query = "INSERT INTO GiftRequests VALUES " +
+                        "('" + giftRequest.getRequestID()
+                        + "', '" + giftRequest.getPatientName().replace("'", "''")
+                        + "', '" + giftRequest.getDeliveryDate()
+                        + "', '" + giftRequest.getStartTime()
+                        + "', '" + giftRequest.getEndTime()
+                        + "', '" + giftRequest.getWantsBalloons()
+                        + "', '" + giftRequest.getWantsTeddyBear()
+                        + "', '" + giftRequest.getWantsChocolate()
+                        + "')";
+                break;
+            case EMERGENCY:
+                EmergencyRequest emergencyRequest = (EmergencyRequest) request;
+                query = "INSERT INTO EmergencyRequests VALUES " +
+                        "('" + emergencyRequest.getRequestID()
+                        + "', '" + emergencyRequest.getMedicalEmergency()
+                        + "', '" + emergencyRequest.getSecurityEmergency()
+                        + "')";
+                break;
         }
         db.runStatement(query, false);
     }
@@ -195,7 +216,7 @@ public class RequestMutator implements IDatabaseEntityMutator<Request> {
         String query = "UPDATE Requests SET requestType = '" + request.getRequestType()
                 + "', requestDate = '" + request.getDate()
                 + "', requestTime = '" + request.getTime()
-                + "', complete = '" + request.getComplete()
+                + "', complete = '" + request.getProgress()
                 + "', employeeName = '" + request.getEmployeeName()
                 + "', location = '" + request.getLocation().replace("'", "''")
                 + "', description = '" + request.getDescription().replace("'", "''")
@@ -296,6 +317,23 @@ public class RequestMutator implements IDatabaseEntityMutator<Request> {
                 query = "UPDATE SocialWorkerRequests SET patientName = '" + languageRequest.getPatientName().replace("'", "''")
                         + "', timeForArrival = '" + languageRequest.getTimeForArrival()
                         + "' WHERE requestID = '" + languageRequest.getRequestID() + "'";
+                break;
+            case GIFT:
+                GiftRequest giftRequest = (GiftRequest) request;
+                query = "UPDATE GiftRequests SET patientName = '" + giftRequest.getPatientName().replace("'", "''")
+                        + "', deliveryDate = '" + giftRequest.getDeliveryDate()
+                        + "', startTime = '" + giftRequest.getStartTime()
+                        + "', endTime = '" + giftRequest.getEndTime()
+                        + "', wantsBalloons = '" + giftRequest.getWantsBalloons()
+                        + "', wantsTeddyBear = '" + giftRequest.getWantsTeddyBear()
+                        + "', wantsChocolate = '" + giftRequest.getWantsChocolate()
+                        + "' WHERE requestID = '" + giftRequest.getRequestID() + "'";
+                break;
+            case EMERGENCY:
+                EmergencyRequest emergencyRequest = (EmergencyRequest) request;
+                query = "UPDATE EmergencyRequests SET medicalEmergency = '" + emergencyRequest.getMedicalEmergency()
+                        + "', securityEmergency = '" + emergencyRequest.getSecurityEmergency()
+                        + "' WHERE requestID = '" + emergencyRequest.getRequestID() + "'";
                 break;
         }
         db.runStatement(query, false);
@@ -515,6 +553,39 @@ public class RequestMutator implements IDatabaseEntityMutator<Request> {
                         rs.getString("description")
                 );
                 break;
+            case GIFT:
+                outRequest = new GiftRequest(
+                        rs.getString("patientName"),
+                        rs.getString("deliveryDate"),
+                        rs.getString("startTime"),
+                        rs.getString("endTime"),
+                        rs.getString("wantsBalloons"),
+                        rs.getString("wantsTeddyBear"),
+                        rs.getString("wantsChocolate"),
+                        rs.getString("requestID"),
+                        rs.getString("requestTime"),
+                        rs.getString("requestDate"),
+                        rs.getString("complete"),
+                        rs.getString("employeeName"),
+                        rs.getString("location"),
+                        rs.getString("description")
+                );
+                break;
+            case EMERGENCY:
+                outRequest = new EmergencyRequest(
+                        rs.getString("medicalEmergency"),
+                        rs.getString("securityEmergency"),
+                        rs.getString("requestID"),
+                        rs.getString("requestTime"),
+                        rs.getString("requestDate"),
+                        rs.getString("complete"),
+                        rs.getString("employeeName"),
+                        rs.getString("location"),
+                        rs.getString("description")
+                );
+                break;
+            default:
+                throw new IllegalStateException("How did we get here???????????");
         }
         rs.close();
         return outRequest;

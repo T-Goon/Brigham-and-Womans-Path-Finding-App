@@ -10,12 +10,31 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Request implements IStoredEntity {
 
-    public Request(String requestID, RequestType requestType, String time, String date, String complete, String employeeName, String location, String description) {
+
+    private String requestID;
+
+    private RequestType requestType;
+
+    private String time;
+
+    private String date;
+
+    private String progress;
+
+    private String employeeName;
+
+    private String location;
+
+    private String description;
+
+    private String submitter;
+
+    public Request(String requestID, RequestType requestType, String time, String date, String progress, String employeeName, String location, String description) {
         this.requestID = requestID;
         this.requestType = requestType;
         this.time = time;
         this.date = date;
-        this.complete = complete;
+        this.progress = progress;
         this.employeeName = employeeName;
         this.location = location;
         this.description = description;
@@ -26,6 +45,7 @@ public class Request implements IStoredEntity {
         CASE_MANAGER,
         EXTERNAL_TRANSPORT,
         FLORAL,
+        GIFT,
         FOOD,
         INTERNAL_TRANSPORT,
         LAUNDRY,
@@ -34,7 +54,8 @@ public class Request implements IStoredEntity {
         RELIGIOUS,
         SANITATION,
         SECURITY,
-        SOCIAL_WORKER;
+        SOCIAL_WORKER,
+        EMERGENCY;
 
         public static String prettify(RequestType requestType) {
             switch (requestType) {
@@ -60,27 +81,13 @@ public class Request implements IStoredEntity {
                     return "Security";
                 case SOCIAL_WORKER:
                     return "Social Worker";
+                case GIFT:
+                    return "Gift";
+                case EMERGENCY:
+                    return "Emergency";
                 default:
                     throw new IllegalStateException("How did we get here?");
             }
         }
     }
-
-    private String requestID;
-
-    private RequestType requestType;
-
-    private String time;
-
-    private String date;
-
-    private String complete;
-
-    private String employeeName;
-
-    private String location;
-
-    private String description;
-
-    private String submitter;
 }

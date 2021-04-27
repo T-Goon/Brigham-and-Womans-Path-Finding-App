@@ -77,11 +77,15 @@ public class App extends Application {
             }
 
             try {
-                db.addUser(new User("admin", "Professor", "X", User.AuthenticationLevel.ADMIN, null), "password");
-                db.addUser(new User("staff", "Mike", "Bedard", User.AuthenticationLevel.STAFF, null), "password");
-                db.addUser(new User("d", "Dan", "Druff", User.AuthenticationLevel.STAFF, null), "d");
+
+                //Required users
+                db.addUser(new User("admin", "Professor", "X", User.AuthenticationLevel.ADMIN, null), "admin");
+                db.addUser(new User("staff", "Mike", "Bedard", User.AuthenticationLevel.STAFF, null), "staff");
+                db.addUser(new User("guest", "T", "Goon", User.AuthenticationLevel.PATIENT, null), "guest");
+
+                //Additional test users
+                db.addUser(new User("d", "Dan", "Druff", User.AuthenticationLevel.ADMIN, null), "d");
                 db.addUser(new User("j", "Joe", "Mama", User.AuthenticationLevel.STAFF, null), "j");
-                db.addUser(new User("guest", "T", "Goon", User.AuthenticationLevel.GUEST, null), "password");
             } catch (SQLException e) {
                 e.printStackTrace();
             }
