@@ -16,7 +16,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import net.kurobako.gesturefx.GesturePane;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.text.html.ImageView;
 
@@ -92,7 +94,15 @@ public class MapPathPopupManager implements PoppableManager {
 
     public TxtDirPopup createTxtDirPopup(Path path) {
 
-        List<String> instructions = Directions.instructions(path);
+        Map<String, String> longToId = mc.makeLongToIDMap();
+
+        List<String> ids = new ArrayList<>();
+
+        for(String longName : mc.getStopsList()){
+            ids.add(longToId.get(longName));
+        }
+
+        List<String> instructions = Directions.instructions(path, ids);
 
         TxtDirPopupData txtDirPopupData = new TxtDirPopupData(instructions);
         txtDirPopup = new TxtDirPopup(textDirectionsHolder, txtDirPopupData, gpane);

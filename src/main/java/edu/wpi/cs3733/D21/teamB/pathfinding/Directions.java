@@ -130,7 +130,7 @@ public class Directions {
      * @param path the path we want instructions for
      * @return a list of strings where each element in the list is one instruction
      */
-    public static List<String> instructions(Path path) {
+    public static List<String> instructions(Path path, List<String> stopIDs) {
         List<String> simplePath = simplifyPath(path);
 
         String idEnd = simplePath.get(simplePath.size() - 1);
@@ -162,6 +162,9 @@ public class Directions {
                     else directions.add("Take the elevator to floor " + next.getFloor() + ".");
                 } else directions.add("Walk about " + round(distance) + " feet towards " + next.getLongName() + ".");
             } else {
+                if(stopIDs.contains(curr.getNodeID())){
+                    directions.add("You have arrived at your stop, "+ curr.getLongName() + ".");
+                }
                 //get turn then get the dist between c and next turn blah and walk dist
                 double turn = angleBetweenEdges(graph.getNodes().get(simplePath.get(i - 1)), curr, next);
                 if (curr.getNodeID().contains("ELEV") || curr.getNodeID().contains("STAI") || curr.getLongName().contains("elevator")) {
