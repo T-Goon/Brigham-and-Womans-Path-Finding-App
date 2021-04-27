@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import jdk.nashorn.internal.objects.annotations.Getter;
 import net.kurobako.gesturefx.GesturePane;
 
 import java.io.IOException;
@@ -16,9 +17,15 @@ public class TxtDirPopup extends Popup<VBox, TxtDirPopupData> implements Poppabl
 
     private final GesturePane gpane;
 
+    private final StringBuilder directions = new StringBuilder();
+
     public TxtDirPopup(Pane parent, TxtDirPopupData data, GesturePane gpane) {
         super(parent, data);
         this.gpane = gpane;
+
+        for (String instruction : data.getInstructions()) {
+            directions.append(instruction).append("\n");
+        }
     }
 
     public void show() {
@@ -32,15 +39,14 @@ public class TxtDirPopup extends Popup<VBox, TxtDirPopupData> implements Poppabl
             return;
         }
 
-        StringBuilder direction = new StringBuilder();
-
-        for (String instruction : data.getInstructions()) {
-            direction.append(instruction).append("\n");
-        }
-        Text textInstr = (Text) txtDirBox.getChildren().get(0);
-        textInstr.setText(direction.toString());
-
         super.show(txtDirBox);
     }
 
+    /**
+     * Get the text directions
+     * @return the directions
+     */
+    public String getDirections() {
+        return directions.toString();
+    }
 }

@@ -1,15 +1,13 @@
 package edu.wpi.cs3733.D21.teamB.entities.map;
 
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
-
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Edge;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Node;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Path;
 import edu.wpi.cs3733.D21.teamB.pathfinding.*;
 import edu.wpi.cs3733.D21.teamB.util.Popup.PoppableManager;
 import edu.wpi.cs3733.D21.teamB.views.map.PathfindingMenuController;
-import javafx.animation.Animation;
-import javafx.animation.PathTransition;
+import javafx.animation.*;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.effect.ColorAdjust;
@@ -19,7 +17,10 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.*;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
+import javafx.scene.shape.LineTo;
+import javafx.scene.shape.MoveTo;
 import javafx.util.Duration;
 import lombok.Getter;
 import lombok.Setter;
@@ -435,6 +436,27 @@ public class MapDrawer implements PoppableManager {
             e.printStackTrace();
         }
     }
+
+    //attempting to animate the drawing of the path
+    public void animateLine(Line line){
+        line.getStrokeDashArray().setAll(5d, 5d, 5d, 5d);
+        line.setStrokeWidth(2);
+
+        final double maxOffSet = line.getStrokeDashArray().stream().reduce(0d, (a, b) -> a + b);
+
+        Timeline timeline =
+                new Timeline(
+                        new KeyFrame(
+                                Duration.ZERO,
+                                new KeyValue(line.strokeDashOffsetProperty(), maxOffSet, Interpolator.LINEAR)),
+                        new KeyFrame(
+                                Duration.seconds(1),
+                                new KeyValue(line.strokeDashOffsetProperty(), 0, Interpolator.LINEAR)));
+
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        timeline.play();
+    }
+
 
     /**
      * Draws an edge between 2 points on the map.
