@@ -107,6 +107,9 @@
                                              <padding>
                                                 <Insets left="10.0" right="10.0" />
                                              </padding>
+                                             <VBox.margin>
+                                                <Insets top="5.0" />
+                                             </VBox.margin>
                                           </VBox>
                                           <VBox prefHeight="83.0" prefWidth="798.0">
                                              <children>
@@ -123,20 +126,23 @@
                                           </VBox>
                                           <HBox>
                                              <children>
-                                                <VBox>
+                                                <VBox prefHeight="44.0" prefWidth="268.0">
                                                    <children>
                                                       <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Time for Arrival:">
                                                          <font>
                                                             <Font size="14.0" />
                                                          </font>
                                                       </Text>
-                                                      <JFXTimePicker fx:id="timeForArrival" defaultColor="#012d5a" editable="true" onAction="#validateButton" style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" stylesheets="@../../css/dateTimeFix.css" />
+                                                      <JFXTimePicker fx:id="timeForArrival" defaultColor="#012d5a" editable="true" onAction="#validateButton" prefHeight="25.0" prefWidth="253.0" style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" stylesheets="@../../css/dateTimeFix.css" />
                                                    </children>
                                                    <padding>
                                                       <Insets left="10.0" right="10.0" />
                                                    </padding>
                                                 </VBox>
                                              </children>
+                                             <VBox.margin>
+                                                <Insets top="5.0" />
+                                             </VBox.margin>
                                           </HBox>
                                           <VBox maxHeight="1.7976931348623157E308" prefWidth="673.0">
                                              <children>
@@ -154,6 +160,9 @@
                                              <padding>
                                                 <Insets left="10.0" right="10.0" />
                                              </padding>
+                                             <VBox.margin>
+                                                <Insets top="5.0" />
+                                             </VBox.margin>
                                           </VBox>
                                           <HBox alignment="CENTER_LEFT" prefWidth="200.0">
                                              <children>
@@ -181,7 +190,7 @@
                                                 <Insets left="10.0" right="10.0" />
                                              </padding>
                                              <VBox.margin>
-                                                <Insets bottom="10.0" />
+                                                <Insets bottom="10.0" top="5.0" />
                                              </VBox.margin>
                                           </HBox>
                                        </children>
