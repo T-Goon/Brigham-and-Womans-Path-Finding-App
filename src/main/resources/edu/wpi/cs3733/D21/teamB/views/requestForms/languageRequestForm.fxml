@@ -168,7 +168,7 @@
                                              <children>
                                                 <HBox alignment="CENTER_LEFT" fillHeight="false" HBox.hgrow="ALWAYS">
                                                    <children>
-                                                      <JFXButton fx:id="btnBack1" alignment="CENTER" buttonType="RAISED" cancelButton="true" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#handleButtonAction" prefHeight="56" prefWidth="56" style="-fx-background-color: #0067B1; -fx-background-radius: 50%;" text="🡰" textAlignment="CENTER" textFill="WHITE">
+                                                      <JFXButton fx:id="btnBack" alignment="CENTER" buttonType="RAISED" cancelButton="true" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#handleButtonAction" prefHeight="56" prefWidth="56" style="-fx-background-color: #0067B1; -fx-background-radius: 50%;" text="🡰" textAlignment="CENTER" textFill="WHITE">
                                                          <font>
                                                             <Font size="27.0" />
                                                          </font>
@@ -180,7 +180,7 @@
                                                 </HBox>
                                                 <HBox alignment="CENTER" fillHeight="false" spacing="10.0" HBox.hgrow="ALWAYS">
                                                    <children>
-                                                      <JFXButton fx:id="btnSubmit1" buttonType="RAISED" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39; -fx-background-radius: 7;" text="Submit">
+                                                      <JFXButton fx:id="btnSubmit" buttonType="RAISED" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39; -fx-background-radius: 7;" text="Submit">
                                                          <font>
                                                             <Font name="MS Reference Sans Serif" size="20.0" />
                                                          </font>
@@ -189,7 +189,7 @@
                                                 </HBox>
                                                 <HBox alignment="CENTER_RIGHT" fillHeight="false" spacing="10.0" HBox.hgrow="ALWAYS">
                                                    <children>
-                                                      <JFXButton fx:id="btnHelp1" buttonType="RAISED" maxHeight="56.0" maxWidth="56.0" minHeight="-Infinity" minWidth="-Infinity" onAction="#handleButtonAction" prefHeight="56.0" prefWidth="56.0" style="-fx-background-color: #9A9999; -fx-background-radius: 50%;" text="?" textFill="WHITE">
+                                                      <JFXButton fx:id="btnHelp" buttonType="RAISED" maxHeight="56.0" maxWidth="56.0" minHeight="-Infinity" minWidth="-Infinity" onAction="#handleButtonAction" prefHeight="56.0" prefWidth="56.0" style="-fx-background-color: #9A9999; -fx-background-radius: 50%;" text="?" textFill="WHITE">
                                                          <font>
                                                             <Font name="MS Reference Sans Serif" size="27.0" />
                                                          </font>
