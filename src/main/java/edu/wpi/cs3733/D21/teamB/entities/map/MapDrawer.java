@@ -458,4 +458,12 @@ public class MapDrawer implements PoppableManager {
 
         mc.setIntermediateNodePlaced(new ArrayList<>());
     }
+
+    /**
+     * Redraws all nodes
+     */
+    public void redrawNodes() {
+        removeNodes();
+        drawNodesOnFloor();
+    }
 }
