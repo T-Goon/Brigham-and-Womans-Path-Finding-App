@@ -54,7 +54,7 @@ public class ReligiousRequestFormController extends DefaultServiceRequestFormCon
 
         if (SceneSwitcher.peekLastScene().equals("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml")) {
             this.id = (String) App.getPrimaryStage().getUserData();
-            ReligiousRequest religiousRequest = null;
+            ReligiousRequest religiousRequest;
             try {
                 religiousRequest = (ReligiousRequest) DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(id, Request.RequestType.RELIGIOUS);
             } catch (SQLException e) {
@@ -85,12 +85,9 @@ public class ReligiousRequestFormController extends DefaultServiceRequestFormCon
         name.getValidators().add(validatorName);
         validatorName.setMessage("Please input the patient's name!");
 
-        name.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(!newValue){
-                    name.validate();
-                }
+        name.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                name.validate();
             }
         });
 
@@ -100,12 +97,9 @@ public class ReligiousRequestFormController extends DefaultServiceRequestFormCon
         loc.getValidators().add(validatorLocation);
         validatorLocation.setMessage("Please select the location for the request!");
 
-        loc.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(!newValue){
-                    loc.validate();
-                }
+        loc.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                loc.validate();
             }
         });
 
@@ -115,12 +109,9 @@ public class ReligiousRequestFormController extends DefaultServiceRequestFormCon
         date.getValidators().add(validatorDate);
         validatorDate.setMessage("Please select the date!");
 
-        date.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(!newValue){
-                    date.validate();
-                }
+        date.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                date.validate();
             }
         });
 
@@ -130,12 +121,9 @@ public class ReligiousRequestFormController extends DefaultServiceRequestFormCon
         startTime.getValidators().add(validatorStartTime);
         validatorStartTime.setMessage("Please select the start time!");
 
-        startTime.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(!newValue){
-                    startTime.validate();
-                }
+        startTime.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                startTime.validate();
             }
         });
 
@@ -145,12 +133,9 @@ public class ReligiousRequestFormController extends DefaultServiceRequestFormCon
         endTime.getValidators().add(validatorEndTime);
         validatorEndTime.setMessage("Please select the end time!");
 
-        endTime.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(!newValue){
-                    endTime.validate();
-                }
+        endTime.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                endTime.validate();
             }
         });
 
@@ -160,12 +145,9 @@ public class ReligiousRequestFormController extends DefaultServiceRequestFormCon
         faith.getValidators().add(validatorFaith);
         validatorFaith.setMessage("Please input the faith/denomination for the request!");
 
-        faith.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(!newValue){
-                    faith.validate();
-                }
+        faith.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                faith.validate();
             }
         });
 
@@ -175,12 +157,9 @@ public class ReligiousRequestFormController extends DefaultServiceRequestFormCon
         description.getValidators().add(validatorDescription);
         validatorDescription.setMessage("Please input any relevant information or type 'none'!");
 
-        description.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(!newValue){
-                    description.validate();
-                }
+        description.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                description.validate();
             }
         });
     }

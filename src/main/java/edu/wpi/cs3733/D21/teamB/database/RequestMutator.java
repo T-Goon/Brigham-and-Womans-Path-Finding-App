@@ -398,7 +398,7 @@ public class RequestMutator implements IDatabaseEntityMutator<Request> {
     public Request getSpecificRequestById(String requestID, Request.RequestType requestType) throws SQLException {
         String tableName = Request.RequestType.prettify(requestType).replaceAll("\\s", "") + "Requests";
         String query = "SELECT * FROM Requests LEFT JOIN " + tableName + " ON Requests.requestID = " + tableName + ".requestID WHERE Requests.requestID = '" + requestID + "'";
-        Request outRequest = null;
+        Request outRequest;
         ResultSet rs = db.runStatement(query, true);
         if (rs == null) return null;
         switch (requestType) {

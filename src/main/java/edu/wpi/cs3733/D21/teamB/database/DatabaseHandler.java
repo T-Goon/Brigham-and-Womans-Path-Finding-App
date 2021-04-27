@@ -675,7 +675,7 @@ public class DatabaseHandler {
      * Displays the list of favorite locations
      *
      * @return a list of favorite locations
-     * @throws SQLException
+     * @throws SQLException if the DB is malformed
      */
     public List<String> getFavorites() throws SQLException {
         return userMutator.getFavoritesForUser();

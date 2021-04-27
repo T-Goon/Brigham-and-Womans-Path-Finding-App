@@ -7,8 +7,6 @@ import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.requests.Request;
 import edu.wpi.cs3733.D21.teamB.entities.requests.LanguageRequest;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -29,7 +27,7 @@ public class LanguageRequestFormController extends DefaultServiceRequestFormCont
     private JFXTextField patientName;
 
     @FXML
-    private JFXComboBox loc;
+    private JFXComboBox<Label> loc;
 
     @FXML
     private JFXComboBox<Label> language;
@@ -45,7 +43,7 @@ public class LanguageRequestFormController extends DefaultServiceRequestFormCont
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        super.initialize(location,resources);
+        super.initialize(location, resources);
 
         language.getItems().add(new Label("Chinese"));
         language.getItems().add(new Label("French"));
@@ -55,7 +53,7 @@ public class LanguageRequestFormController extends DefaultServiceRequestFormCont
 
         if (SceneSwitcher.peekLastScene().equals("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml")) {
             this.id = (String) App.getPrimaryStage().getUserData();
-            LanguageRequest languageRequest = null;
+            LanguageRequest languageRequest;
             try {
                 languageRequest = (LanguageRequest) DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(id, Request.RequestType.LANGUAGE);
             } catch (SQLException e) {
@@ -98,12 +96,9 @@ public class LanguageRequestFormController extends DefaultServiceRequestFormCont
         patientName.getValidators().add(validatorName);
         validatorName.setMessage("Please input the patient's name!");
 
-        patientName.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(!newValue){
-                    patientName.validate();
-                }
+        patientName.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                patientName.validate();
             }
         });
 
@@ -112,12 +107,9 @@ public class LanguageRequestFormController extends DefaultServiceRequestFormCont
         loc.getValidators().add(validatorLocation);
         validatorLocation.setMessage("Please select the location!");
 
-        loc.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(!newValue){
-                    loc.validate();
-                }
+        loc.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                loc.validate();
             }
         });
 
@@ -126,15 +118,10 @@ public class LanguageRequestFormController extends DefaultServiceRequestFormCont
         language.getValidators().add(validatorLanguage);
         validatorLanguage.setMessage("Please select a language!");
 
-        language.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(!newValue){
-                    language.validate();
-                }
+        language.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                language.validate();
             }
-
-
         });
 
         RequiredFieldValidator validatorTimeForArrival = new RequiredFieldValidator();
@@ -142,12 +129,9 @@ public class LanguageRequestFormController extends DefaultServiceRequestFormCont
         timeForArrival.getValidators().add(validatorTimeForArrival);
         validatorTimeForArrival.setMessage("Please select the time of arrival!");
 
-        timeForArrival.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(!newValue){
-                    timeForArrival.validate();
-                }
+        timeForArrival.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                timeForArrival.validate();
             }
         });
 
@@ -157,12 +141,9 @@ public class LanguageRequestFormController extends DefaultServiceRequestFormCont
         message.getValidators().add(validatorMessage);
         validatorMessage.setMessage("Please input any additional details or type 'none' !");
 
-        message.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(!newValue){
-                    message.validate();
-                }
+        message.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                message.validate();
             }
         });
     }
@@ -220,7 +201,7 @@ public class LanguageRequestFormController extends DefaultServiceRequestFormCont
     }
 
     @FXML
-    private void validateButton(){
+    private void validateButton() {
         btnSubmit.setDisable(
                 patientName.getText().isEmpty() || loc.getValue() == null || timeForArrival.getValue() == null ||
                         message.getText().isEmpty()

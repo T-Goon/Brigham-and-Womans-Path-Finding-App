@@ -9,7 +9,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import net.kurobako.gesturefx.GesturePane;
 
-import javax.swing.text.html.ImageView;
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;

@@ -330,7 +330,7 @@ public class MapDrawer implements PoppableManager {
         line.getStrokeDashArray().setAll(5d, 5d, 5d, 5d);
         line.setStrokeWidth(2);
 
-        final double maxOffSet = line.getStrokeDashArray().stream().reduce(0d, (a, b) -> a + b);
+        final double maxOffSet = line.getStrokeDashArray().stream().reduce(0d, Double::sum);
 
         Timeline timeline =
                 new Timeline(

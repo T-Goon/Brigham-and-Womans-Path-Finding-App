@@ -44,7 +44,7 @@ public class CaseManagerRequestFormController extends DefaultServiceRequestFormC
 
         if (SceneSwitcher.peekLastScene().equals("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml")) {
             this.id = (String) App.getPrimaryStage().getUserData();
-            CaseManagerRequest caseManagerRequest = null;
+            CaseManagerRequest caseManagerRequest;
             try {
                 caseManagerRequest = (CaseManagerRequest) DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(id, Request.RequestType.CASE_MANAGER);
             } catch (SQLException e) {
@@ -67,12 +67,9 @@ public class CaseManagerRequestFormController extends DefaultServiceRequestFormC
         patientName.getValidators().add(validatorPatientName);
         validatorPatientName.setMessage("Please input the patient's name!");
 
-        patientName.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(!newValue){
-                    patientName.validate();
-                }
+        patientName.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                patientName.validate();
             }
         });
 
@@ -82,12 +79,9 @@ public class CaseManagerRequestFormController extends DefaultServiceRequestFormC
         loc.getValidators().add(validatorLocation);
         validatorLocation.setMessage("Please select the location!");
 
-        loc.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(!newValue){
-                    loc.validate();
-                }
+        loc.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                loc.validate();
             }
         });
 
@@ -97,12 +91,9 @@ public class CaseManagerRequestFormController extends DefaultServiceRequestFormC
         timeForArrival.getValidators().add(validatorArrivalTime);
         validatorArrivalTime.setMessage("Please select the time for arrival!");
 
-        timeForArrival.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(!newValue){
-                    timeForArrival.validate();
-                }
+        timeForArrival.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                timeForArrival.validate();
             }
         });
 
@@ -112,12 +103,9 @@ public class CaseManagerRequestFormController extends DefaultServiceRequestFormC
         messageForCaseManager.getValidators().add(validatorMessage);
         validatorMessage.setMessage("Please input a message for the case manager or type 'none'!");
 
-        messageForCaseManager.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(!newValue){
-                    messageForCaseManager.validate();
-                }
+        messageForCaseManager.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                messageForCaseManager.validate();
             }
         });
     }

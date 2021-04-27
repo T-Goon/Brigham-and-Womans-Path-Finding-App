@@ -6,8 +6,6 @@ import edu.wpi.cs3733.D21.teamB.util.Popup.Popup;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
-import jdk.nashorn.internal.objects.annotations.Getter;
 import net.kurobako.gesturefx.GesturePane;
 
 import java.io.IOException;
