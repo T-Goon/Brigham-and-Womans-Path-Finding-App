@@ -253,6 +253,17 @@ public class DatabaseHandler {
                 + "timeForArrival CHAR(20)," // Stored as HH:MM (24 hour time)
                 + "FOREIGN KEY (requestID) REFERENCES Requests(requestID))";
 
+        String giftRequestsTable = "CREATE TABLE IF NOT EXISTS GiftRequests("
+                + "requestID CHAR(20) PRIMARY KEY, "
+                + "patientName CHAR(30), "
+                + "deliveryDate CHAR(10), " // Stored as YYYY-MM-DD
+                + "startTime CHAR(5), " // Stored as HH:MM (24 hour time)
+                + "endTime CHAR(5), " // Stored as HH:MM (24 hour time)
+                + "wantsBalloons CHAR(1), " // Stored as T/F (no boolean data type in SQL)
+                + "wantsTeddyBear CHAR(1), " // Stored as T/F (no boolean data type in SQL)
+                + "wantsChocolate CHAR(1), " // Stored as T/F (no boolean data type in SQL)
+                + "FOREIGN KEY (requestID) REFERENCES Requests(requestID))";
+
         String emergencyRequestsTable = "CREATE TABLE IF NOT EXISTS EmergencyRequests("
                 + "requestID CHAR(20) PRIMARY KEY, "
                 + "medicalEmergency CHAR(20)," // Stored as T/F (no boolean data type in SQL)
@@ -291,6 +302,7 @@ public class DatabaseHandler {
         runStatement(laundryTable, false);
         runStatement(caseManagerRequestsTable, false);
         runStatement(socialWorkerRequestsTable, false);
+        runStatement(giftRequestsTable, false);
         runStatement(emergencyRequestsTable, false);
         runStatement(usersTable, false);
         runStatement(jobsTable, false);
