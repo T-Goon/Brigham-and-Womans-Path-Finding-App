@@ -41,7 +41,7 @@ public class MapDrawer implements PoppableManager {
     private final GesturePane gpane;
     private final StackPane mapStack;
     private ETAPopup etaPopup;
-    private Circle head = new Circle(10);
+    private final Circle head = new Circle(10);
     private final DatabaseHandler db = DatabaseHandler.getDatabaseHandler("main.db");
 
     @Getter
@@ -69,7 +69,7 @@ public class MapDrawer implements PoppableManager {
      */
     public void drawPath(String start, String end) {
         javafx.scene.shape.Path animationPath = new javafx.scene.shape.Path();
-        int steps=0;
+        int steps = 0;
         if (!nodeHolder.getChildren().contains(head)) {
             nodeHolder.getChildren().add(head);
         }
@@ -106,24 +106,23 @@ public class MapDrawer implements PoppableManager {
             for (int i = 0; i < wholePath.getPath().size() - 1; i++) {
                 steps++;
                 placeEdge(Graph.getGraph().getNodes().get(wholePath.getPath().get(i)), Graph.getGraph().getNodes().get(wholePath.getPath().get(i + 1)));
-                double x=Graph.getGraph().getNodes().get(wholePath.getPath().get(i)).getXCoord()/ PathfindingMenuController.coordinateScale;
-                double y=Graph.getGraph().getNodes().get(wholePath.getPath().get(i)).getYCoord()/ PathfindingMenuController.coordinateScale;
-                if (i==0){
-                    animationPath.getElements().add(new MoveTo(x,y));
-                }
-                else {
+                double x = Graph.getGraph().getNodes().get(wholePath.getPath().get(i)).getXCoord() / PathfindingMenuController.coordinateScale;
+                double y = Graph.getGraph().getNodes().get(wholePath.getPath().get(i)).getYCoord() / PathfindingMenuController.coordinateScale;
+                if (i == 0) {
+                    animationPath.getElements().add(new MoveTo(x, y));
+                } else {
                     animationPath.getElements().add(new LineTo(x, y));
                 }
 
             }
 
             // Animate the last edge
-            double x=Graph.getGraph().getNodes().get(wholePath.getPath().get(wholePath.getPath().size() - 1)).getXCoord()/ PathfindingMenuController.coordinateScale;
-            double y=Graph.getGraph().getNodes().get(wholePath.getPath().get(wholePath.getPath().size() - 1)).getYCoord()/ PathfindingMenuController.coordinateScale;
+            double x = Graph.getGraph().getNodes().get(wholePath.getPath().get(wholePath.getPath().size() - 1)).getXCoord() / PathfindingMenuController.coordinateScale;
+            double y = Graph.getGraph().getNodes().get(wholePath.getPath().get(wholePath.getPath().size() - 1)).getYCoord() / PathfindingMenuController.coordinateScale;
             animationPath.getElements().add(new LineTo(x, y));
 
             PathTransition pathTransition = new PathTransition();
-            pathTransition.setDuration(Duration.millis(steps*300));
+            pathTransition.setDuration(Duration.millis(steps * 300));
             pathTransition.setNode(head);
             pathTransition.setPath(animationPath);
             pathTransition.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
