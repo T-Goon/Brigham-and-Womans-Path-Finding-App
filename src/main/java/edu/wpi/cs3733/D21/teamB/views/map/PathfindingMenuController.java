@@ -40,6 +40,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import lombok.Data;
 import lombok.Getter;
+import lombok.Setter;
 import net.kurobako.gesturefx.GesturePane;
 
 import java.io.File;
@@ -164,6 +165,8 @@ public class PathfindingMenuController extends BasePageController implements Ini
     private MapPathPopupManager mppm;
     private FloorSwitcher fs;
 
+    @Setter
+    @Getter
     private Path mapPath;
 
     // JavaFX code **************************************************************************************
@@ -423,16 +426,10 @@ public class PathfindingMenuController extends BasePageController implements Ini
         switch (b.getId()) {
             case "btnFindPath":
                 md.removeAllEdges();
-                Map<String, String> longToId = mc.makeLongToIDMap();
-                AStar astar = new AStar();
-                mapPath = astar.findPath(longToId.get(txtStartLocation.getText()), longToId.get(txtEndLocation.getText()), md.isMobility());
-
                 md.drawPath(txtStartLocation.getText(), txtEndLocation.getText());
-
                 if (btnTxtDir.isDisable()) {
                     btnTxtDir.setDisable(false);
                 }
-
                 break;
             case "btnEditMap":
 

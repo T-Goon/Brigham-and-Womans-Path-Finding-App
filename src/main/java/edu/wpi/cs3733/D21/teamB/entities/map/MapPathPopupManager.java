@@ -105,7 +105,7 @@ public class MapPathPopupManager implements PoppableManager {
         List<String> instructions = Directions.instructions(path, ids);
 
         TxtDirPopupData txtDirPopupData = new TxtDirPopupData(instructions);
-        txtDirPopup = new TxtDirPopup(textDirectionsHolder, txtDirPopupData, gpane);
+        txtDirPopup = new TxtDirPopup(textDirectionsHolder, txtDirPopupData);
         App.getPrimaryStage().setUserData(txtDirPopup);
         txtDirPopup.show();
 

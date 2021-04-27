@@ -162,8 +162,8 @@ public class Directions {
                     else directions.add("Take the elevator to floor " + next.getFloor() + ".");
                 } else directions.add("Walk about " + round(distance) + " feet towards " + next.getLongName() + ".");
             } else {
-                if(stopIDs.contains(curr.getNodeID())){
-                    directions.add("You have arrived at your stop, "+ curr.getLongName() + ".");
+                if (stopIDs.contains(curr.getNodeID())) {
+                    directions.add("You have arrived at your stop, " + curr.getLongName() + ".");
                 }
                 //get turn then get the dist between c and next turn blah and walk dist
                 double turn = angleBetweenEdges(graph.getNodes().get(simplePath.get(i - 1)), curr, next);

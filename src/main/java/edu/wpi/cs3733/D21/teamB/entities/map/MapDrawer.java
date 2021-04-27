@@ -99,6 +99,7 @@ public class MapDrawer implements PoppableManager {
                 throw new IllegalStateException("Extra option in combo box?");
         }
         Path wholePath = pathfinder.findPath(allStops, mobility);
+        pfmc.setMapPath(wholePath);
 
         if (wholePath.getPath().isEmpty()) {
             lblError.setVisible(true);
