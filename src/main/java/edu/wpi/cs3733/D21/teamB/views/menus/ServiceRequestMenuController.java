@@ -110,8 +110,10 @@ public class ServiceRequestMenuController extends BasePageController {
                 break;
             case "btnGiftDelivery":
                 path = VIEWS_PATH + "giftRequestForm.fxml";
+                break;
             case "btnShowCredits":
                 path = "/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestMenuCredits.fxml";
+                break;
         }
 
         if (path != null)

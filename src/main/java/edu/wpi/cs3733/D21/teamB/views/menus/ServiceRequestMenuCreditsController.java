@@ -107,9 +107,10 @@ public class ServiceRequestMenuCreditsController extends BasePageController {
                 break;
             case "btnGiftDelivery":
                 path = VIEWS_PATH + "giftRequestForm.fxml";
+                break;
         }
 
         if (path != null)
-            SceneSwitcher.switchScene(getClass(), "/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestMenuCredits.fxml", path);
+            SceneSwitcher.switchFromTemp(getClass(), path);
     }
 }
