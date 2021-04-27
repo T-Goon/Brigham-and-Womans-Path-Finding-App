@@ -320,18 +320,14 @@ public class RequestMutator implements IDatabaseEntityMutator<Request> {
                 break;
             case GIFT:
                 GiftRequest giftRequest = (GiftRequest) request;
-                query = "UPDATE FloralRequests SET patientName = '" + giftRequest.getPatientName().replace("'", "''")
+                query = "UPDATE GiftRequests SET patientName = '" + giftRequest.getPatientName().replace("'", "''")
                         + "', deliveryDate = '" + giftRequest.getDeliveryDate()
                         + "', startTime = '" + giftRequest.getStartTime()
                         + "', endTime = '" + giftRequest.getEndTime()
-                        + "', wantsRoses = '" + giftRequest.getWantsRoses()
-                        + "', wantsTulips = '" + giftRequest.getWantsTulips()
-                        + "', wantsDaisies = '" + giftRequest.getWantsDaisies()
-                        + "', wantsLilies = '" + giftRequest.getWantsLilies()
-                        + "', wantsSunflowers = '" + giftRequest.getWantsSunflowers()
-                        + "', wantsCarnations = '" + giftRequest.getWantsCarnations()
-                        + "', wantsOrchids = '" + giftRequest.getWantsOrchids()
-                        + "' WHERE requestID = '" + v.getRequestID() + "'";
+                        + "', wantsBalloons = '" + giftRequest.getWantsBalloons()
+                        + "', wantsTeddyBear = '" + giftRequest.getWantsTeddyBear()
+                        + "', wantsChocolate = '" + giftRequest.getWantsChocolate()
+                        + "' WHERE requestID = '" + giftRequest.getRequestID() + "'";
                 break;
             case EMERGENCY:
                 EmergencyRequest emergencyRequest = (EmergencyRequest) request;
