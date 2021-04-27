@@ -81,7 +81,7 @@ public class App extends Application {
                 //Required users
                 db.addUser(new User("admin", "Professor", "X", User.AuthenticationLevel.ADMIN, null), "admin");
                 db.addUser(new User("staff", "Mike", "Bedard", User.AuthenticationLevel.STAFF, null), "staff");
-                db.addUser(new User("guest", "T", "Goon", User.AuthenticationLevel.GUEST, null), "guest");
+                db.addUser(new User("guest", "T", "Goon", User.AuthenticationLevel.PATIENT, null), "guest");
 
                 //Additional test users
                 db.addUser(new User("d", "Dan", "Druff", User.AuthenticationLevel.ADMIN, null), "d");
