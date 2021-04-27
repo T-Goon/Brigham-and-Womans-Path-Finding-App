@@ -337,31 +337,40 @@ public class PathfindingMenuController extends BasePageController implements Ini
             md.removeAllPopups();
         }
 
-        if (!selectedItem.isLeaf() && !selectedItem.getValue().equals("Locations") && !selectedItem.getValue().equals("Favorites")) {
-            String category = selectedItem.getValue();
-            NodeType nt = NodeType.deprettify(category);
+        if (!selectedItem.isLeaf()) {
             HashMap<String, List<Node>> floorNodes = (HashMap<String, List<Node>>) mc.getFloorNodes();
 
-            // Change node color back to original color
-            if (!colors.isEmpty()) {
+            if (selectedItem.getValue().equals("Locations")) {
                 for (Node node : floorNodes.get(mc.getCurrentFloor())) {
-                    if (colors.containsKey(node.getNodeID())) {
-                        node.setColor(colors.get(node.getNodeID()));
-                    }
-                }
-                colors.clear();
-            }
-
-            // Change node color to gray
-            for (Node node : floorNodes.get(mc.getCurrentFloor())) {
-                if (!node.getNodeType().equals(nt.toString())) {
-                    Color color = Color.web("#9A9999");
-                    if (node.getColor() == null) {
-                        colors.put(node.getNodeID(), Color.web("#012D5A"));
-                    } else {
-                        colors.put(node.getNodeID(), node.getColor());
-                    }
+                    Color color = Color.web("#012D5A");
+                    colors.put(node.getNodeID(), color);
                     node.setColor(color);
+                }
+            } else {
+                // Change node color back to original color
+                String category = selectedItem.getValue();
+                NodeType nt = NodeType.deprettify(category);
+
+                if (!colors.isEmpty()) {
+                    for (Node node : floorNodes.get(mc.getCurrentFloor())) {
+                        if (colors.containsKey(node.getNodeID())) {
+                            node.setColor(colors.get(node.getNodeID()));
+                        }
+                    }
+                    colors.clear();
+                }
+
+                // Change node color to gray
+                for (Node node : floorNodes.get(mc.getCurrentFloor())) {
+                    if (!node.getNodeType().equals(nt.toString())) {
+                        Color color = Color.web("#9A9999");
+                        if (node.getColor() == null) {
+                            colors.put(node.getNodeID(), Color.web("#012D5A"));
+                        } else {
+                            colors.put(node.getNodeID(), node.getColor());
+                        }
+                        node.setColor(color);
+                    }
                 }
             }
 
