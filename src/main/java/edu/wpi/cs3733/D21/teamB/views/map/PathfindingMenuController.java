@@ -16,7 +16,7 @@ import edu.wpi.cs3733.D21.teamB.pathfinding.AStar;
 import edu.wpi.cs3733.D21.teamB.pathfinding.Graph;
 import edu.wpi.cs3733.D21.teamB.util.CSVHandler;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
-import javafx.application.Platform;
+import edu.wpi.cs3733.D21.teamB.views.BasePageController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -48,7 +48,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @SuppressWarnings("unchecked")
-public class PathfindingMenuController implements Initializable {
+public class PathfindingMenuController extends BasePageController implements Initializable {
 
     @FXML
     private JFXTextField txtStartLocation;
@@ -72,13 +72,7 @@ public class PathfindingMenuController implements Initializable {
     private JFXButton btnFindPath;
 
     @FXML
-    private JFXButton btnBack;
-
-    @FXML
     private JFXButton btnEmergency;
-
-    @FXML
-    private JFXButton btnExit;
 
     @FXML
     private Label lblError;
@@ -356,7 +350,8 @@ public class PathfindingMenuController implements Initializable {
      * @param e the action event being handled
      */
     @FXML
-    private void handleButtonAction(ActionEvent e) {
+    public void handleButtonAction(ActionEvent e) {
+        super.handleButtonAction(e);
         JFXButton b = (JFXButton) e.getSource();
 
         switch (b.getId()) {
@@ -409,12 +404,6 @@ public class PathfindingMenuController implements Initializable {
                 // Validate button
                 btnRemoveStop.setDisable(mc.getStopsList().isEmpty());
 
-                break;
-            case "btnBack":
-                SceneSwitcher.goBack(getClass(), 1);
-                break;
-            case "btnExit":
-                Platform.exit();
                 break;
             case "btnEmergency":
                 SceneSwitcher.switchScene(getClass(), "/edu/wpi/cs3733/D21/teamB/views/map/pathfindingMenu.fxml", "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");

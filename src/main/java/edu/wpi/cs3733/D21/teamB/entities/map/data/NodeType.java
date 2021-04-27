@@ -7,6 +7,8 @@ public enum NodeType {
     ELEV,
     DEPT,
     CONF,
+    HALL,
+    WALK,
     INFO,
     RETL,
     BATH,

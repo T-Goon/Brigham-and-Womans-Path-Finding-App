@@ -2,7 +2,6 @@ package edu.wpi.cs3733.D21.teamB.database;
 
 import edu.wpi.cs3733.D21.teamB.entities.IStoredEntity;
 import edu.wpi.cs3733.D21.teamB.entities.User;
-import edu.wpi.cs3733.D21.teamB.entities.map.data.Node;
 import edu.wpi.cs3733.D21.teamB.entities.requests.Request;
 import lombok.AllArgsConstructor;
 
