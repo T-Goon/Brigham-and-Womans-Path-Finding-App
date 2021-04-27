@@ -4,18 +4,19 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733.D21.teamB.App;
-import edu.wpi.cs3733.D21.teamB.entities.map.data.ETAPopupData;
-import edu.wpi.cs3733.D21.teamB.entities.map.data.GraphicalInputData;
-import edu.wpi.cs3733.D21.teamB.entities.map.data.Node;
-import edu.wpi.cs3733.D21.teamB.entities.map.data.Path;
+import edu.wpi.cs3733.D21.teamB.entities.map.data.*;
 import edu.wpi.cs3733.D21.teamB.entities.map.node.GraphicalInputPopup;
+import edu.wpi.cs3733.D21.teamB.entities.map.node.TxtDirPopup;
 import edu.wpi.cs3733.D21.teamB.pathfinding.AStar;
+import edu.wpi.cs3733.D21.teamB.pathfinding.Directions;
 import edu.wpi.cs3733.D21.teamB.util.Popup.PoppableManager;
 import edu.wpi.cs3733.D21.teamB.views.map.PathfindingMenuController;
 import javafx.collections.MapChangeListener;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import net.kurobako.gesturefx.GesturePane;
+
+import java.util.List;
 
 import javax.swing.text.html.ImageView;
 
@@ -30,13 +31,15 @@ public class MapPathPopupManager implements PoppableManager {
     private final StackPane mapStack;
     private final AnchorPane nodeHolder;
     private final GesturePane gpane;
+    private final StackPane textDirectionsHolder;
 
     private GraphicalInputPopup giPopup;
     private ETAPopup etaPopup;
+    private TxtDirPopup txtDirPopup;
 
     public MapPathPopupManager(MapDrawer md, MapCache mc, JFXTextField txtStartLocation, JFXTextField txtEndLocation,
                                JFXButton btnRmStop, StackPane mapStack, GesturePane gpane,
-                               PathfindingMenuController pfmc, AnchorPane nodeHolder) {
+                               PathfindingMenuController pfmc, AnchorPane nodeHolder, StackPane textDirectionsHolder) {
         this.md = md;
         this.mc = mc;
         this.txtStartLocation = txtStartLocation;
@@ -44,8 +47,9 @@ public class MapPathPopupManager implements PoppableManager {
         this.btnRemoveStop = btnRmStop;
         this.pfmc = pfmc;
         this.mapStack = mapStack;
-        this.gpane =  gpane;
+        this.gpane = gpane;
         this.nodeHolder = nodeHolder;
+        this.textDirectionsHolder = textDirectionsHolder;
     }
 
     /**
@@ -86,11 +90,23 @@ public class MapPathPopupManager implements PoppableManager {
         return etaPopup;
     }
 
+    public TxtDirPopup createTxtDirPopup(Path path) {
+
+        List<String> instructions = Directions.instructions(path);
+
+        TxtDirPopupData txtDirPopupData = new TxtDirPopupData(instructions);
+        txtDirPopup = new TxtDirPopup(textDirectionsHolder, txtDirPopupData, gpane);
+        App.getPrimaryStage().setUserData(txtDirPopup);
+        txtDirPopup.show();
+
+        return txtDirPopup;
+    }
+
     /**
      * Remove the etaPopup from the map
      */
-    public void removeETAPopup(){
-        if(etaPopup != null){
+    public void removeETAPopup() {
+        if (etaPopup != null) {
             etaPopup.hide();
             etaPopup = null;
         }
@@ -99,11 +115,14 @@ public class MapPathPopupManager implements PoppableManager {
     /**
      * Remove all popups managed my this class.
      */
-    public void removeAllPopups(){
-
-        if(giPopup != null){
+    public void removeAllPopups() {
+        if (giPopup != null) {
             giPopup.hide();
             giPopup = null;
+        }
+        if (txtDirPopup != null) {
+            txtDirPopup.hide();
+            txtDirPopup = null;
         }
     }
 }

@@ -146,7 +146,6 @@ public class AStar implements Pathfinder {
 
             return min + ":" + String.format("%02d", sec) + " min";
         }
-
     }
 
 }
