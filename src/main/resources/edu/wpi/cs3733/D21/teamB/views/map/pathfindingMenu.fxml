@@ -272,9 +272,9 @@
                         <Insets bottom="5.0" top="5.0" />
                      </padding>
                       </VBox>
-                  <StackPane VBox.vgrow="ALWAYS">
+                  <StackPane fx:id="textDirectionsHolder" alignment="TOP_LEFT" VBox.vgrow="ALWAYS">
                      <children>
-                        <StackPane fx:id="textDirectionsHolder" alignment="TOP_RIGHT">
+                        <StackPane alignment="TOP_RIGHT">
                            <children>
                                   <StackPane fx:id="mapStack">
                                       <children>

@@ -164,8 +164,6 @@ public class PathfindingMenuController extends BasePageController implements Ini
     private MapPathPopupManager mapPathPopupManager;
     private FloorSwitcher floorSwitcher;
 
-    private Path mapPath;
-
     // JavaFX code **************************************************************************************
 
     @Override
@@ -393,10 +391,6 @@ public class PathfindingMenuController extends BasePageController implements Ini
         switch (b.getId()) {
             case "btnFindPath":
                 mapDrawer.removeAllEdges();
-                Map<String, String> longToId = mapCache.makeLongToIDMap();
-                AStar astar = new AStar();
-                mapPath = astar.findPath(longToId.get(txtStartLocation.getText()), longToId.get(txtEndLocation.getText()), mapDrawer.isMobility());
-
                 mapDrawer.drawPath(txtStartLocation.getText(), txtEndLocation.getText());
 
                 if (btnTxtDir.isDisable()) {
@@ -452,8 +446,8 @@ public class PathfindingMenuController extends BasePageController implements Ini
                 break;
             case "btnTxtDir":
                 mapDrawer.removeAllPopups();
-                if (mapPath != null) {
-                    mapPathPopupManager.createTxtDirPopup(mapPath);
+                if (mapCache.getFinalPath() != null) {
+                    mapPathPopupManager.createTxtDirPopup(mapCache.getFinalPath());
                 }
                 break;
         }
