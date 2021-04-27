@@ -5,6 +5,7 @@ import edu.wpi.cs3733.D21.teamB.entities.User;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Node;
 import edu.wpi.cs3733.D21.teamB.entities.requests.Request;
 import lombok.AllArgsConstructor;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -203,7 +204,8 @@ public class UserMutator implements IDatabaseEntityMutator<UserMutator.UserPassw
             rs.close();
 
             // Make sure the hashed password matches
-            if (!db.passwordHash(password).equals(storedHash)) return null;
+            if (!BCrypt.checkpw(password, storedHash)) return null;
+
             User outUser = this.getUserByUsername(username);
             DatabaseHandler.AuthenticationUser = outUser;
             return outUser;
