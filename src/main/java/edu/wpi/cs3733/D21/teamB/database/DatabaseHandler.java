@@ -5,6 +5,7 @@ import edu.wpi.cs3733.D21.teamB.entities.map.data.Node;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.NodeType;
 import edu.wpi.cs3733.D21.teamB.entities.requests.*;
 import edu.wpi.cs3733.D21.teamB.entities.User;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.*;
 import java.util.*;
@@ -25,6 +26,7 @@ public class DatabaseHandler {
 
     //State
     static User AuthenticationUser = new User(null, null, null, User.AuthenticationLevel.GUEST, null);
+    private final String salt = BCrypt.gensalt();
 
     private DatabaseHandler() {
         nodeMutator = new NodeMutator(this);
@@ -407,6 +409,14 @@ public class DatabaseHandler {
     }
 
     /**
+     * Retreive all users in database
+     * @return List of users in database
+     */
+    public List<User> getUsers(){
+        return userMutator.getUsers();
+    }
+
+    /**
      * @param username username to query by
      * @return User object with that username, or null if that user doesn't exist
      */
@@ -450,9 +460,9 @@ public class DatabaseHandler {
         userMutator.deauthenticate();
     }
 
-    /*
+    /**
      * @return the User that is currently logged in
-     */
+     **/
     public User getAuthenticationUser() {
         return DatabaseHandler.AuthenticationUser;
     }
@@ -630,7 +640,7 @@ public class DatabaseHandler {
      * @return hashed password
      */
     public String passwordHash(String plaintext) {
-        return String.valueOf(plaintext.hashCode());
+        return BCrypt.hashpw(plaintext, salt);
     }
 
     /**

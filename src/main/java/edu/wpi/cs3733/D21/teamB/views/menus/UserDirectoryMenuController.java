@@ -34,14 +34,21 @@ public class UserDirectoryMenuController extends BasePageController implements I
     @FXML
     private JFXButton btnEmergency;
 
+    @FXML
+    private JFXButton btnUsers;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        if (DatabaseHandler.getDatabaseHandler("main.db").getAuthenticationUser().isAtLeast(User.AuthenticationLevel.STAFF)) {
+        if (DatabaseHandler.getDatabaseHandler("main.db").getAuthenticationUser().isAtLeast(User.AuthenticationLevel.ADMIN)) {
+            directoryText.setText("Admin Directory");
+            buttonPane.getChildren().remove(0);
+        } else if (DatabaseHandler.getDatabaseHandler("main.db").getAuthenticationUser().isAtLeast(User.AuthenticationLevel.STAFF)) {
             directoryText.setText("Staff Directory");
+            buttonPane.getChildren().remove(4);
             buttonPane.getChildren().remove(0);
         } else {
             directoryText.setText("Patient Directory");
-            buttonPane.getChildren().remove(2, 4);
+            buttonPane.getChildren().remove(2, 5);
         }
     }
 
@@ -62,6 +69,9 @@ public class UserDirectoryMenuController extends BasePageController implements I
                 break;
             case "btnDatabase":
                 SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml");
+                break;
+            case "btnUsers":
+                SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/cs3733/D21/teamB/views/menus/userInformationDatabase.fxml");
                 break;
             case "btnEmergency":
                 SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
