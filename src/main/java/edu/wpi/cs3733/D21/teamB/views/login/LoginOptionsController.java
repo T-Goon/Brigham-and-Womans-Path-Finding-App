@@ -9,7 +9,10 @@ import javafx.fxml.FXML;
 public class LoginOptionsController extends BasePageController {
 
     @FXML
-    private JFXButton btnStaff;
+    public JFXButton btnLogin;
+
+    @FXML
+    public JFXButton btnRegister;
 
     @FXML
     private JFXButton btnCovid;
@@ -23,8 +26,11 @@ public class LoginOptionsController extends BasePageController {
         super.handleButtonAction(e);
         JFXButton btn = (JFXButton) e.getSource();
         switch (btn.getId()) {
-            case "btnStaff":
+            case "btnLogin":
                 SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/cs3733/D21/teamB/views/login/loginPage.fxml");
+                break;
+            case "btnRegister":
+                SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/cs3733/D21/teamB/views/login/registerPage.fxml");
                 break;
             case "btnDirections":
                 SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/cs3733/D21/teamB/views/map/pathfindingMenu.fxml");

@@ -1,22 +1,26 @@
 package edu.wpi.cs3733.D21.teamB.entities.map;
 
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
+
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Edge;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Node;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Path;
 import edu.wpi.cs3733.D21.teamB.pathfinding.*;
 import edu.wpi.cs3733.D21.teamB.util.Popup.PoppableManager;
 import edu.wpi.cs3733.D21.teamB.views.map.PathfindingMenuController;
+import javafx.animation.Animation;
+import javafx.animation.PathTransition;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.ImageView;
+import javafx.scene.image.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Line;
+import javafx.scene.shape.*;
+import javafx.util.Duration;
 import lombok.Getter;
 import lombok.Setter;
 import net.kurobako.gesturefx.GesturePane;
@@ -39,12 +43,16 @@ public class MapDrawer implements PoppableManager {
     private final GesturePane gPane;
     private final StackPane mapStack;
     private ETAPopup etaPopup;
-
+    private final Circle head = new Circle(10);
     private final DatabaseHandler db = DatabaseHandler.getDatabaseHandler("main.db");
 
     @Getter
     @Setter
     private boolean isEditing = false;
+
+    @Getter
+    @Setter
+    private boolean mobility = false;
 
     public MapDrawer(PathfindingMenuController pathfindingMenuController, MapCache mapCache, AnchorPane nodeHolder, AnchorPane mapHolder, AnchorPane intermediateNodeHolder,
                      Label lblError, StackPane mapStack, GesturePane gPane) {
@@ -141,6 +149,12 @@ public class MapDrawer implements PoppableManager {
      * @param end Long name of the end node
      */
     public void drawPath(String start, String end) {
+        javafx.scene.shape.Path animationPath = new javafx.scene.shape.Path();
+        int steps = 0;
+        if (!nodeHolder.getChildren().contains(head)) {
+            nodeHolder.getChildren().add(head);
+        }
+        head.setFill(Color.valueOf("#0067B1"));
         Graph.getGraph().updateGraph();
         Map<String, String> longToIDMap = mapCache.getMapLongToID();
 
@@ -172,9 +186,41 @@ public class MapDrawer implements PoppableManager {
             default:
                 throw new IllegalStateException("Extra option in combo box?");
         }
+        Path wholePath = pathfinder.findPath(allStops, mobility);
 
         //Set the final path in mapCache
         mapCache.setFinalPath(pathfinder.findPath(allStops));
+        if (wholePath.getPath().isEmpty()) {
+            lblError.setVisible(true);
+        } else {
+
+            for (int i = 0; i < wholePath.getPath().size() - 1; i++) {
+                steps++;
+                placeEdge(Graph.getGraph().getNodes().get(wholePath.getPath().get(i)), Graph.getGraph().getNodes().get(wholePath.getPath().get(i + 1)));
+                double x = Graph.getGraph().getNodes().get(wholePath.getPath().get(i)).getXCoord() / PathfindingMenuController.coordinateScale;
+                double y = Graph.getGraph().getNodes().get(wholePath.getPath().get(i)).getYCoord() / PathfindingMenuController.coordinateScale;
+                if (i == 0) {
+                    animationPath.getElements().add(new MoveTo(x, y));
+                } else {
+                    animationPath.getElements().add(new LineTo(x, y));
+                }
+
+            }
+
+            // Animate the last edge
+            double x = Graph.getGraph().getNodes().get(wholePath.getPath().get(wholePath.getPath().size() - 1)).getXCoord() / PathfindingMenuController.coordinateScale;
+            double y = Graph.getGraph().getNodes().get(wholePath.getPath().get(wholePath.getPath().size() - 1)).getYCoord() / PathfindingMenuController.coordinateScale;
+            animationPath.getElements().add(new LineTo(x, y));
+
+            PathTransition pathTransition = new PathTransition();
+            pathTransition.setDuration(Duration.millis(steps * 300));
+            pathTransition.setNode(head);
+            pathTransition.setPath(animationPath);
+            pathTransition.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
+            pathTransition.setCycleCount(Animation.INDEFINITE);
+            pathTransition.setAutoReverse(false);
+            pathTransition.play();
+        }
 
         drawPath(mapCache.getFinalPath());
     }
@@ -187,8 +233,8 @@ public class MapDrawer implements PoppableManager {
         // If the floor has no nodes, return
         if (!nodes.containsKey(mapCache.getCurrentFloor())) return;
 
-        for (Node n : nodes.get(mapCache.getCurrentFloor())) {
-            if (!(n.getNodeType().equals("WALK") || n.getNodeType().equals("HALL") || n.getBuilding().equals("BTM") || n.getBuilding().equals("Shapiro"))) {
+        for (Node n : nodes.get(mc.getCurrentFloor())) {
+            if (!(n.getNodeType().equals("WALK") || n.getNodeType().equals("HALL"))) {
                 placeNode(n);
             }
         }
@@ -204,8 +250,8 @@ public class MapDrawer implements PoppableManager {
         if (nodes.isEmpty()) return;
 
         for (Node n : nodes.values()) {
-            if ((!(n.getNodeType().equals("WALK") || n.getNodeType().equals("HALL"))) && (!n.getBuilding().equals("BTM") && !n.getBuilding().equals("Shapiro")) &&
-                    n.getFloor().equals(mapCache.getCurrentFloor())) {
+            if ((!(n.getNodeType().equals("WALK") || n.getNodeType().equals("HALL"))) &&
+                    n.getFloor().equals(mc.getCurrentFloor())) {
                 placeAltNode(n);
             }
         }
@@ -220,8 +266,7 @@ public class MapDrawer implements PoppableManager {
         if (nodes.isEmpty()) return;
 
         for (Node n : nodes.values()) {
-            if ((n.getNodeType().equals("WALK") || n.getNodeType().equals("HALL")) && (!n.getBuilding().equals("BTM") &&
-                    !n.getBuilding().equals("Shapiro")) && n.getFloor().equals(mapCache.getCurrentFloor())) {
+            if ((n.getNodeType().equals("WALK") || n.getNodeType().equals("HALL")) && n.getFloor().equals(mc.getCurrentFloor())) {
                 placeIntermediateNode(n);
             }
         }
@@ -236,15 +281,8 @@ public class MapDrawer implements PoppableManager {
             Node start = db.getNodeById(e.getStartNodeID());
             Node end = db.getNodeById(e.getEndNodeID());
 
-            if (start.getFloor().equals(mapCache.getCurrentFloor()) &&
-                    end.getFloor().equals(mapCache.getCurrentFloor()) &&
-                    (
-                            !start.getBuilding().equals("BTM") &&
-                                    !start.getBuilding().equals("Shapiro")) &&
-                    (
-                            !end.getBuilding().equals("BTM") &&
-                                    !start.getBuilding().equals("Shapiro")
-                    )) {
+            if (start.getFloor().equals(mc.getCurrentFloor()) &&
+                    end.getFloor().equals(mc.getCurrentFloor())) {
                 placeEdge(start, end);
             }
         }
@@ -257,7 +295,25 @@ public class MapDrawer implements PoppableManager {
      */
     private void placeNode(Node n) {
         try {
+
             ImageView i = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/cs3733/D21/teamB/views/map/misc/node.fxml")));
+
+            Image image = i.getImage();
+            PixelReader reader = image.getPixelReader();
+            int w = (int) image.getWidth();
+            int h = (int) image.getHeight();
+            WritableImage wImage = new WritableImage(w, h);
+            PixelWriter writer = wImage.getPixelWriter();
+            for (int y = 0; y < h; y++) {
+                for (int x = 0; x < w; x++) {
+                    Color color = reader.getColor(x, y);
+                    if (!(color.hashCode() == 0x00000000)) {
+                        writer.setColor(x, y, n.getColor());
+                    }
+                }
+            }
+
+            i.setImage(wImage);
 
             i.setLayoutX((n.getXCoord() / PathfindingMenuController.coordinateScale) - (i.getFitWidth() / 4));
             i.setLayoutY((n.getYCoord() / PathfindingMenuController.coordinateScale) - (i.getFitHeight()));
@@ -300,10 +356,12 @@ public class MapDrawer implements PoppableManager {
             });
 
             c.setOnMouseEntered(event -> {
-                if (isEditing) c.setStroke(Color.GREEN);
+                if (isEditing && !(mc.getStartNode() != null && c.getId().equals(mc.getStartNode().getId())))
+                    c.setStroke(Color.GREEN);
             });
             c.setOnMouseExited(event -> {
-                if (isEditing) c.setStroke(Color.BLACK);
+                if (isEditing && !(mc.getStartNode() != null && c.getId().equals(mc.getStartNode().getId())))
+                    c.setStroke(Color.BLACK);
             });
 
             nodeHolder.getChildren().add(c);
@@ -336,10 +394,12 @@ public class MapDrawer implements PoppableManager {
             c.setId(n.getNodeID() + "IntIcon");
 
             c.setOnMouseEntered(event -> {
-                if (isEditing) c.setStroke(Color.GREEN);
+                if (isEditing && !(mc.getStartNode() != null && c.getId().equals(mc.getStartNode().getId())))
+                    c.setStroke(Color.GREEN);
             });
             c.setOnMouseExited(event -> {
-                if (isEditing) c.setStroke(Color.BLACK);
+                if (isEditing && !(mc.getStartNode() != null && c.getId().equals(mc.getStartNode().getId())))
+                    c.setStroke(Color.BLACK);
             });
 
             intermediateNodeHolder.getChildren().add(c);
@@ -418,12 +478,27 @@ public class MapDrawer implements PoppableManager {
             drawEdgesOnFloor();
             drawAltNodesOnFloor();
             drawIntermediateNodesOnFloor();
+            redrawHighlightedNode();
         } else {
             mapCache.updateLocations();
             removeAllEdges();
             removeIntermediateNodes();
             removeNodes();
             drawNodesOnFloor();
+        }
+    }
+
+    private void redrawHighlightedNode() {
+        if (mc.getStartNode() != null) {
+            List<javafx.scene.Node> nodes = new ArrayList<>();
+            nodes.addAll(mc.getNodePlaced());
+            nodes.addAll(mc.getIntermediateNodePlaced());
+            for (javafx.scene.Node n : nodes) {
+                if (n.getId().equals(mc.getStartNode().getId())) {
+                    Circle c = (Circle) n;
+                    c.setStroke(Color.RED);
+                }
+            }
         }
     }
 
@@ -474,5 +549,13 @@ public class MapDrawer implements PoppableManager {
             intermediateNodeHolder.getChildren().remove(n);
 
         mapCache.setIntermediateNodePlaced(new ArrayList<>());
+    }
+
+    /**
+     * Redraws all nodes
+     */
+    public void redrawNodes() {
+        removeNodes();
+        drawNodesOnFloor();
     }
 }
