@@ -1,5 +1,11 @@
 package edu.wpi.cs3733.D21.teamB.entities.requests;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+
 public class SocialWorkerRequest extends Request{
     private String patientName;
     private String timeForArrival;
