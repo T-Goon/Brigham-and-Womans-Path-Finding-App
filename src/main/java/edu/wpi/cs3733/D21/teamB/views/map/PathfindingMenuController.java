@@ -11,6 +11,8 @@ import edu.wpi.cs3733.D21.teamB.entities.map.MapEditorPopupManager;
 import edu.wpi.cs3733.D21.teamB.entities.map.MapPathPopupManager;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Edge;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Node;
+import edu.wpi.cs3733.D21.teamB.entities.map.data.Path;
+import edu.wpi.cs3733.D21.teamB.pathfinding.AStar;
 import edu.wpi.cs3733.D21.teamB.pathfinding.Graph;
 import edu.wpi.cs3733.D21.teamB.util.CSVHandler;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
@@ -28,6 +30,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
@@ -91,6 +94,9 @@ public class PathfindingMenuController extends BasePageController implements Ini
     private JFXTextField txtSearch;
 
     @FXML
+    private JFXCheckBox btnMobility;
+
+    @FXML
     private JFXTreeView<String> treeLocations;
 
     @FXML
@@ -124,10 +130,19 @@ public class PathfindingMenuController extends BasePageController implements Ini
     private JFXButton btnFL2;
 
     @FXML
+    private StackPane textDirectionsHolder;
+
+    @FXML
+    private JFXButton btnTxtDir;
+
+    @FXML
     private JFXTextArea txtAreaStops;
 
     @FXML
     private JFXButton btnRemoveStop;
+
+    @FXML
+    private Circle pathHead;
 
     public static final double coordinateScale = 25 / 9.0;
 
@@ -143,6 +158,8 @@ public class PathfindingMenuController extends BasePageController implements Ini
     private MapEditorPopupManager mepm;
     private MapPathPopupManager mppm;
     private FloorSwitcher fs;
+
+    private Path mapPath;
 
     // JavaFX code **************************************************************************************
 
@@ -178,7 +195,8 @@ public class PathfindingMenuController extends BasePageController implements Ini
         mepm = new MapEditorPopupManager(md, mc, gpane, mapStack);
         md.setMepm(mepm);
 
-        mppm = new MapPathPopupManager(md, mc, txtStartLocation, txtEndLocation, btnRemoveStop, mapStack, gpane, this, nodeHolder);
+        mppm = new MapPathPopupManager(md, mc, txtStartLocation, txtEndLocation, btnRemoveStop, mapStack, gpane, this, nodeHolder, textDirectionsHolder);
+        mppm = new MapPathPopupManager(md, mc, txtStartLocation, txtEndLocation, btnRemoveStop, mapStack, gpane, this, nodeHolder, textDirectionsHolder);
         md.setMppm(mppm);
 
         // Set up floor switching
@@ -201,8 +219,10 @@ public class PathfindingMenuController extends BasePageController implements Ini
 
         // Set up Load and Save buttons
         btnLoad.setOnAction(event -> loadCSV());
-
         btnSave.setOnAction(event -> saveCSV());
+
+        // Set up mobility button
+        btnMobility.setOnAction(event -> md.setMobility(btnMobility.isSelected()));
 
         // Disable editing if the user is not an admin
         checkPermissions();
@@ -336,9 +356,17 @@ public class PathfindingMenuController extends BasePageController implements Ini
 
         switch (b.getId()) {
             case "btnFindPath":
-
                 md.removeAllEdges();
+                Map<String, String> longToId = mc.makeLongToIDMap();
+                AStar astar = new AStar();
+                mapPath = astar.findPath(longToId.get(txtStartLocation.getText()), longToId.get(txtEndLocation.getText()), md.isMobility());
+
                 md.drawPath(txtStartLocation.getText(), txtEndLocation.getText());
+
+                if (btnTxtDir.isDisable()) {
+                    btnTxtDir.setDisable(false);
+                }
+
                 break;
             case "btnEditMap":
 
@@ -385,6 +413,12 @@ public class PathfindingMenuController extends BasePageController implements Ini
                 break;
             case "btnSearch":
                 handleItemSearched();
+                break;
+            case "btnTxtDir":
+                md.removeAllPopups();
+                if (mapPath != null) {
+                    mppm.createTxtDirPopup(mapPath);
+                }
                 break;
         }
     }

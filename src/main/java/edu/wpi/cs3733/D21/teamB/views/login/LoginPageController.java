@@ -3,15 +3,23 @@ package edu.wpi.cs3733.D21.teamB.views.login;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
+import edu.wpi.cs3733.D21.teamB.App;
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.User;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
 import edu.wpi.cs3733.D21.teamB.views.BasePageController;
+import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
+import javafx.util.Duration;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -30,8 +38,13 @@ public class LoginPageController extends BasePageController implements Initializ
     @FXML
     private Label error;
 
+    @FXML
+    private AnchorPane basePane;
+
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
         //Add event listeners to the text boxes so user can submit by pressing enter
         username.setOnKeyPressed(event -> {
             if (event.getCode().equals(KeyCode.ENTER) && !areFormsEmpty()) {

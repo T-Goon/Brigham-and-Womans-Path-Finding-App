@@ -36,6 +36,7 @@ public class MapEditorPopupManager implements PoppableManager {
 
     /**
      * Show the popup to add a node
+     *
      * @param event The mouse event that triggered the popup to be shown.
      */
     public void showAddNodePopup(MouseEvent event) {
@@ -125,7 +126,8 @@ public class MapEditorPopupManager implements PoppableManager {
                 md,
                 c,
                 mc,
-                mapStack
+                mapStack,
+                n.getColor()
         );
 
         nmPopup = new NodeMenuPopup(mapStack, npData, gPane);

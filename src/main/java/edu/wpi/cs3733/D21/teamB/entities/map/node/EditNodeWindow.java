@@ -12,6 +12,7 @@ import edu.wpi.cs3733.D21.teamB.util.Popup.Window;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -26,7 +27,7 @@ public class EditNodeWindow extends Window<VBox, NodeMenuPopupData, VBox> implem
         super(parent, data, previous);
     }
 
-    public void updateNode(int x, int y, String floor, String building, String type, String longName, String shortName) {
+    public void updateNode(int x, int y, String floor, String building, String type, String longName, String shortName, Color color) {
 
         // if the node types are different, delete and remake so the nodeID is up to date
         DatabaseHandler db = DatabaseHandler.getDatabaseHandler("main.db");
@@ -73,7 +74,7 @@ public class EditNodeWindow extends Window<VBox, NodeMenuPopupData, VBox> implem
 
             // Construct the id
             String aNodeId = "b" + type + String.format("%3s", index).replace(' ', '0') + String.format("%2s", floor).replace(' ', '0');
-            Node node = new Node(aNodeId, x, y, floor, building, type, longName, shortName);
+            Node node = new Node(aNodeId, x, y, floor, building, type, longName, shortName, color);
 
             // Add the node and all of the edges back
             try {
@@ -96,7 +97,8 @@ public class EditNodeWindow extends Window<VBox, NodeMenuPopupData, VBox> implem
                     building,
                     type,
                     longName,
-                    shortName);
+                    shortName,
+                    color);
 
             // Update database and graph
             try {
