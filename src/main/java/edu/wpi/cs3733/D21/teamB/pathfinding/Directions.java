@@ -157,18 +157,18 @@ public class Directions {
             // Starting now
             if (i == 0) {
                 // Elevator or stairs
-                if (curr.getNodeID().contains("ELEV") || curr.getNodeID().contains("STAI")) {
+                if (curr.getNodeID().contains("ELEV") || curr.getNodeID().contains("STAI") || curr.getLongName().contains("elevator")) {
                     if (next.getNodeID().contains("STAI")) directions.add("Walk to floor " + next.getFloor() + ".");
                     else directions.add("Take the elevator to floor " + next.getFloor() + ".");
                 } else directions.add("Walk about " + round(distance) + " feet towards " + next.getLongName() + ".");
             } else {
                 //get turn then get the dist between c and next turn blah and walk dist
                 double turn = angleBetweenEdges(graph.getNodes().get(simplePath.get(i - 1)), curr, next);
-                if (curr.getNodeID().contains("ELEV") || curr.getNodeID().contains("STAI")) {
+                if (curr.getNodeID().contains("ELEV") || curr.getNodeID().contains("STAI") || curr.getLongName().contains("elevator")) {
                     if (next.getNodeID().contains("STAI")) {
                         directions.add("Walk to floor " + next.getFloor() + ".");
                         continue;
-                    } else if (next.getNodeID().contains("ELEV")) {
+                    } else if (next.getNodeID().contains("ELEV") || next.getLongName().contains("elevator")) {
                         directions.add("Take the elevator to floor " + next.getFloor() + ".");
                         continue;
                     }
