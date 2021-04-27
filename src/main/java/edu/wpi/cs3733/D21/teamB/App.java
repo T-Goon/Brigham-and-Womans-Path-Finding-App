@@ -2,9 +2,7 @@ package edu.wpi.cs3733.D21.teamB;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Objects;
+import java.util.*;
 
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.User;
@@ -55,7 +53,6 @@ public class App extends Application {
 
             // If the database is uninitialized, fill it with the csv files
             try {
-                db.resetDatabase(new ArrayList<>(Collections.singleton("Users")));
                 db.executeSchema();
                 if (!db.isInitialized()) {
                     SceneSwitcher.switchFromTemp(getClass(), "/edu/wpi/cs3733/D21/teamB/views/login/databaseInit.fxml");
@@ -77,15 +74,19 @@ public class App extends Application {
             }
 
             try {
+                HashMap<User,String> requiredUsers = new HashMap<User,String>();
 
                 //Required users
-                db.addUser(new User("admin", "Professor", "X", User.AuthenticationLevel.ADMIN, null), "admin");
-                db.addUser(new User("staff", "Mike", "Bedard", User.AuthenticationLevel.STAFF, null), "staff");
-                db.addUser(new User("guest", "T", "Goon", User.AuthenticationLevel.GUEST, null), "guest");
+                requiredUsers.put(new User("admin", "Professor", "X", User.AuthenticationLevel.ADMIN, null), "admin");
+                requiredUsers.put(new User("staff", "Mike", "Bedard", User.AuthenticationLevel.STAFF, null), "staff");
+                requiredUsers.put(new User("guest", "T", "Goon", User.AuthenticationLevel.PATIENT, null), "guest");
 
-                //Additional test users
-                db.addUser(new User("d", "Dan", "Druff", User.AuthenticationLevel.ADMIN, null), "d");
-                db.addUser(new User("j", "Joe", "Mama", User.AuthenticationLevel.STAFF, null), "j");
+                for(User u : requiredUsers.keySet()){
+                   if(db.getUserByUsername(u.getUsername()) == null){
+                       db.addUser(u,requiredUsers.get(u));
+                   }
+                }
+
             } catch (SQLException e) {
                 e.printStackTrace();
             }

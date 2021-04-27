@@ -11,12 +11,13 @@ import edu.wpi.cs3733.D21.teamB.entities.map.MapEditorPopupManager;
 import edu.wpi.cs3733.D21.teamB.entities.map.MapPathPopupManager;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Edge;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Node;
+import edu.wpi.cs3733.D21.teamB.entities.map.data.NodeType;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Path;
 import edu.wpi.cs3733.D21.teamB.pathfinding.AStar;
 import edu.wpi.cs3733.D21.teamB.pathfinding.Graph;
 import edu.wpi.cs3733.D21.teamB.util.CSVHandler;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
-import javafx.application.Platform;
+import edu.wpi.cs3733.D21.teamB.views.BasePageController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -30,12 +31,14 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import lombok.Data;
 import lombok.Getter;
 import net.kurobako.gesturefx.GesturePane;
 
@@ -48,7 +51,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @SuppressWarnings("unchecked")
-public class PathfindingMenuController implements Initializable {
+public class PathfindingMenuController extends BasePageController implements Initializable {
 
     @FXML
     private JFXTextField txtStartLocation;
@@ -72,13 +75,7 @@ public class PathfindingMenuController implements Initializable {
     private JFXButton btnFindPath;
 
     @FXML
-    private JFXButton btnBack;
-
-    @FXML
     private JFXButton btnEmergency;
-
-    @FXML
-    private JFXButton btnExit;
 
     @FXML
     private Label lblError;
@@ -154,6 +151,8 @@ public class PathfindingMenuController implements Initializable {
 
     private final Map<String, String> categoryNameMap = new HashMap<>();
 
+    private final HashMap<String, Color> colors = new HashMap<>();
+
     private final DatabaseHandler db = DatabaseHandler.getDatabaseHandler("main.db");
 
     final FileChooser fileChooser = new FileChooser();
@@ -201,7 +200,6 @@ public class PathfindingMenuController implements Initializable {
         mepm = new MapEditorPopupManager(md, mc, gpane, mapStack);
         md.setMepm(mepm);
 
-        mppm = new MapPathPopupManager(md, mc, txtStartLocation, txtEndLocation, btnRemoveStop, mapStack, gpane, this, nodeHolder, textDirectionsHolder);
         mppm = new MapPathPopupManager(md, mc, txtStartLocation, txtEndLocation, btnRemoveStop, mapStack, gpane, this, nodeHolder, textDirectionsHolder);
         md.setMppm(mppm);
 
@@ -339,6 +337,37 @@ public class PathfindingMenuController implements Initializable {
             md.removeAllPopups();
         }
 
+        if (!selectedItem.isLeaf() && !selectedItem.getValue().equals("Locations") && !selectedItem.getValue().equals("Favorites")) {
+            String category = selectedItem.getValue();
+            NodeType nt = NodeType.deprettify(category);
+            HashMap<String, List<Node>> floorNodes = (HashMap<String, List<Node>>) mc.getFloorNodes();
+
+            // Change node color back to original color
+            if (!colors.isEmpty()) {
+                for (Node node : floorNodes.get(mc.getCurrentFloor())) {
+                    if (colors.containsKey(node.getNodeID())) {
+                        node.setColor(colors.get(node.getNodeID()));
+                    }
+                }
+                colors.clear();
+            }
+
+            // Change node color to gray
+            for (Node node : floorNodes.get(mc.getCurrentFloor())) {
+                if (!node.getNodeType().equals(nt.toString())) {
+                    Color color = Color.web("#9A9999");
+                    if (node.getColor() == null) {
+                        colors.put(node.getNodeID(), Color.web("#012D5A"));
+                    } else {
+                        colors.put(node.getNodeID(), node.getColor());
+                    }
+                    node.setColor(color);
+                }
+            }
+
+            md.redrawNodes();
+        }
+
         validateFindPathButton();
     }
 
@@ -356,7 +385,8 @@ public class PathfindingMenuController implements Initializable {
      * @param e the action event being handled
      */
     @FXML
-    private void handleButtonAction(ActionEvent e) {
+    public void handleButtonAction(ActionEvent e) {
+        super.handleButtonAction(e);
         JFXButton b = (JFXButton) e.getSource();
 
         switch (b.getId()) {
@@ -409,12 +439,6 @@ public class PathfindingMenuController implements Initializable {
                 // Validate button
                 btnRemoveStop.setDisable(mc.getStopsList().isEmpty());
 
-                break;
-            case "btnBack":
-                SceneSwitcher.goBack(getClass(), 1);
-                break;
-            case "btnExit":
-                Platform.exit();
                 break;
             case "btnEmergency":
                 SceneSwitcher.switchScene(getClass(), "/edu/wpi/cs3733/D21/teamB/views/map/pathfindingMenu.fxml", "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
