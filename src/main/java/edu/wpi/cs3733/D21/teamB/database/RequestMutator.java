@@ -182,6 +182,19 @@ public class RequestMutator implements IDatabaseEntityMutator<Request> {
                         + "', '" + socialWorkerRequest.getTimeForArrival()
                         + "')";
                 break;
+            case GIFT:
+                GiftRequest giftRequest = (GiftRequest) request;
+                query = "INSERT INTO GiftRequests VALUES " +
+                        "('" + giftRequest.getRequestID()
+                        + "', '" + giftRequest.getPatientName().replace("'", "''")
+                        + "', '" + giftRequest.getDeliveryDate()
+                        + "', '" + giftRequest.getStartTime()
+                        + "', '" + giftRequest.getEndTime()
+                        + "', '" + giftRequest.getWantsBalloons()
+                        + "', '" + giftRequest.getWantsTeddyBear()
+                        + "', '" + giftRequest.getWantsChocolate()
+                        + "')";
+                break;
             case EMERGENCY:
                 EmergencyRequest emergencyRequest = (EmergencyRequest) request;
                 query = "INSERT INTO EmergencyRequests VALUES " +
@@ -304,6 +317,17 @@ public class RequestMutator implements IDatabaseEntityMutator<Request> {
                 query = "UPDATE SocialWorkerRequests SET patientName = '" + socialWorkerRequest.getPatientName().replace("'", "''")
                         + "', timeForArrival = '" + socialWorkerRequest.getTimeForArrival()
                         + "' WHERE requestID = '" + socialWorkerRequest.getRequestID() + "'";
+                break;
+            case GIFT:
+                GiftRequest giftRequest = (GiftRequest) request;
+                query = "UPDATE GiftRequests SET patientName = '" + giftRequest.getPatientName().replace("'", "''")
+                        + "', deliveryDate = '" + giftRequest.getDeliveryDate()
+                        + "', startTime = '" + giftRequest.getStartTime()
+                        + "', endTime = '" + giftRequest.getEndTime()
+                        + "', wantsBalloons = '" + giftRequest.getWantsBalloons()
+                        + "', wantsTeddyBear = '" + giftRequest.getWantsTeddyBear()
+                        + "', wantsChocolate = '" + giftRequest.getWantsChocolate()
+                        + "' WHERE requestID = '" + giftRequest.getRequestID() + "'";
                 break;
             case EMERGENCY:
                 EmergencyRequest emergencyRequest = (EmergencyRequest) request;
@@ -529,6 +553,24 @@ public class RequestMutator implements IDatabaseEntityMutator<Request> {
                         rs.getString("description")
                 );
                 break;
+            case GIFT:
+                outRequest = new GiftRequest(
+                        rs.getString("patientName"),
+                        rs.getString("deliveryDate"),
+                        rs.getString("startTime"),
+                        rs.getString("endTime"),
+                        rs.getString("wantsBalloons"),
+                        rs.getString("wantsTeddyBear"),
+                        rs.getString("wantsChocolate"),
+                        rs.getString("requestID"),
+                        rs.getString("requestTime"),
+                        rs.getString("requestDate"),
+                        rs.getString("complete"),
+                        rs.getString("employeeName"),
+                        rs.getString("location"),
+                        rs.getString("description")
+                );
+                break;
             case EMERGENCY:
                 outRequest = new EmergencyRequest(
                         rs.getString("medicalEmergency"),
@@ -542,9 +584,10 @@ public class RequestMutator implements IDatabaseEntityMutator<Request> {
                         rs.getString("description")
                 );
                 break;
+            default:
+                throw new IllegalStateException("How did we get here???????????");
         }
         rs.close();
-        System.out.println(outRequest);
         return outRequest;
     }
 }
