@@ -227,7 +227,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
         btnSave.setOnAction(event -> saveCSV());
 
         // Set up mobility button
-        btnMobility.setOnAction(event -> md.setMobility(btnMobility.isSelected()));
+        btnMobility.setOnAction(event -> mapDrawer.setMobility(btnMobility.isSelected()));
 
         // Disable editing if the user is not an admin
         checkPermissions();
@@ -341,11 +341,11 @@ public class PathfindingMenuController extends BasePageController implements Ini
         if (!selectedItem.isLeaf() && !selectedItem.getValue().equals("Locations") && !selectedItem.getValue().equals("Favorites")) {
             String category = selectedItem.getValue();
             NodeType nt = NodeType.deprettify(category);
-            HashMap<String, List<Node>> floorNodes = (HashMap<String, List<Node>>) mc.getFloorNodes();
+            HashMap<String, List<Node>> floorNodes = (HashMap<String, List<Node>>) mapCache.getFloorNodes();
 
             // Change node color back to original color
             if (!colors.isEmpty()) {
-                for (Node node : floorNodes.get(mc.getCurrentFloor())) {
+                for (Node node : floorNodes.get(mapCache.getCurrentFloor())) {
                     if (colors.containsKey(node.getNodeID())) {
                         node.setColor(colors.get(node.getNodeID()));
                     }
@@ -354,7 +354,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
             }
 
             // Change node color to gray
-            for (Node node : floorNodes.get(mc.getCurrentFloor())) {
+            for (Node node : floorNodes.get(mapCache.getCurrentFloor())) {
                 if (!node.getNodeType().equals(nt.toString())) {
                     Color color = Color.web("#9A9999");
                     if (node.getColor() == null) {
@@ -366,7 +366,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
                 }
             }
 
-            md.redrawNodes();
+            mapDrawer.redrawNodes();
         }
 
         validateFindPathButton();
@@ -392,12 +392,12 @@ public class PathfindingMenuController extends BasePageController implements Ini
 
         switch (b.getId()) {
             case "btnFindPath":
-                md.removeAllEdges();
-                Map<String, String> longToId = mc.makeLongToIDMap();
+                mapDrawer.removeAllEdges();
+                Map<String, String> longToId = mapCache.makeLongToIDMap();
                 AStar astar = new AStar();
-                mapPath = astar.findPath(longToId.get(txtStartLocation.getText()), longToId.get(txtEndLocation.getText()), md.isMobility());
+                mapPath = astar.findPath(longToId.get(txtStartLocation.getText()), longToId.get(txtEndLocation.getText()), mapDrawer.isMobility());
 
-                md.drawPath(txtStartLocation.getText(), txtEndLocation.getText());
+                mapDrawer.drawPath(txtStartLocation.getText(), txtEndLocation.getText());
 
                 if (btnTxtDir.isDisable()) {
                     btnTxtDir.setDisable(false);
@@ -451,9 +451,9 @@ public class PathfindingMenuController extends BasePageController implements Ini
                 handleItemSearched();
                 break;
             case "btnTxtDir":
-                md.removeAllPopups();
+                mapDrawer.removeAllPopups();
                 if (mapPath != null) {
-                    mppm.createTxtDirPopup(mapPath);
+                    mapPathPopupManager.createTxtDirPopup(mapPath);
                 }
                 break;
         }
