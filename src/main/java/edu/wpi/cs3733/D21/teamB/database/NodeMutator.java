@@ -117,14 +117,14 @@ public class NodeMutator implements IDatabaseEntityMutator<Node> {
         String query = "SELECT DISTINCT * FROM Edges WHERE startNode = '" + nodeID + "' OR endNode = '" + nodeID + "'";
         List<Edge> edges = new ArrayList<>();
         ResultSet set = db.runStatement(query, true);
-        while (set.next()) {
+        do {
             Edge outEdge = new Edge(
                     set.getString("edgeID").trim(),
                     set.getString("startNode").trim(),
                     set.getString("endNode").trim()
             );
             edges.add(outEdge);
-        }
+        } while (set.next());
         set.close();
         return edges;
     }
@@ -167,6 +167,7 @@ public class NodeMutator implements IDatabaseEntityMutator<Node> {
         try {
             String query = "SELECT * FROM Nodes WHERE nodeID = '" + ID + "'";
             ResultSet set = db.runStatement(query, true);
+            if (set == null) return null;
             Node n = new Node(
                     set.getString("nodeID").trim(),
                     set.getInt("xcoord"),
