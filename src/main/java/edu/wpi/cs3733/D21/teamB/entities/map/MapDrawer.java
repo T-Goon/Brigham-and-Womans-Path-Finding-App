@@ -78,35 +78,39 @@ public class MapDrawer implements PoppableManager {
                         nodes.get(currentFloorPath.get(i + 1)));
             }
 
-            int floorChangeNodeIndex = mapCache.getFinalPath().getPath().indexOf(currentFloorPath.get(currentFloorPath.size()-1));
+            if(!currentFloorPath.isEmpty()) {
+                int floorChangeNodeIndex = mapCache.getFinalPath().getPath().indexOf(currentFloorPath.get(currentFloorPath.size() - 1));
 
-            if(floorChangeNodeIndex != mapCache.getFinalPath().getPath().size()-1){
-                String nextNode = mapCache.getFinalPath().getPath().get(floorChangeNodeIndex+1);
+                if (floorChangeNodeIndex != mapCache.getFinalPath().getPath().size() - 1) {
+                    String nextNode = mapCache.getFinalPath().getPath().get(floorChangeNodeIndex + 1);
 
-                String floorString = nextNode.substring(nextNode.length()-2);
+                    String floorString = nextNode.substring(nextNode.length() - 2);
 
-                int currentFloorVal = Node.floorAsInt(mapCache.getCurrentFloor());
-                int nextFloorVal = Node.floorAsInt(floorString);
+                    int currentFloorVal = Node.floorAsInt(mapCache.getCurrentFloor());
+                    int nextFloorVal = Node.floorAsInt(floorString);
 
-                if(nextFloorVal>currentFloorVal){
-                    //Going UP
-                    String floorChangeNodeID = mapCache.getFinalPath().getPath().get(floorChangeNodeIndex);
-                    for(javafx.scene.Node img: mapCache.getNodePlaced()){
-                        if(img.getId().equals(floorChangeNodeID+"Icon")){
-                            img.setEffect(new ColorAdjust(-0.5,0,0,0));
+                    if (nextFloorVal > currentFloorVal) {
+                        //Going UP
+                        String floorChangeNodeID = mapCache.getFinalPath().getPath().get(floorChangeNodeIndex);
+                        for (javafx.scene.Node img : mapCache.getNodePlaced()) {
+                            if (img.getId().equals(floorChangeNodeID + "Icon")) {
+                                img.setEffect(new ColorAdjust(-0.5, 0, 0, 0));
+                                mapCache.getEditedNodes().add(img);
+                            }
+                        }
+                    } else {
+                        //Going Down
+                        String floorChangeNodeID = mapCache.getFinalPath().getPath().get(floorChangeNodeIndex);
+                        for (javafx.scene.Node img : mapCache.getNodePlaced()) {
+                            if (img.getId().equals(floorChangeNodeID + "Icon")) {
+                                img.setEffect(new ColorAdjust(0.8, 1, 0, 0));
+                                mapCache.getEditedNodes().add(img);
+
+                            }
                         }
                     }
-                }else{
-                    //Going Down
-                    String floorChangeNodeID = mapCache.getFinalPath().getPath().get(floorChangeNodeIndex);
-                    for(javafx.scene.Node img: mapCache.getNodePlaced()){
-                        if(img.getId().equals(floorChangeNodeID+"Icon")){
-                            img.setEffect(new ColorAdjust(0.8,1,0,0));
 
-                        }
-                    }
                 }
-
             }
 
 
@@ -433,6 +437,13 @@ public class MapDrawer implements PoppableManager {
         lblError.setVisible(false);
         for (Line l : mapCache.getEdgesPlaced())
             mapHolder.getChildren().remove(l);
+
+        if(!mapCache.getEditedNodes().isEmpty()){
+            for(javafx.scene.Node node: mapCache.getEditedNodes()){
+                node.setEffect(null);
+            }
+            mapCache.getEditedNodes().clear();
+        }
 
         mapCache.setEdgesPlaced(new ArrayList<>());
     }
