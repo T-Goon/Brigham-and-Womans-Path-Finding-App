@@ -53,12 +53,14 @@ public class EditUserController extends BasePageController implements Initializa
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        for (User.AuthenticationLevel level : User.AuthenticationLevel.values()) {
-            authenticationLevel.getItems().add(new Label(level.toString()));
-        }
+        authenticationLevel.getItems().add(new Label(User.AuthenticationLevel.ADMIN.toString()));
+        authenticationLevel.getItems().add(new Label(User.AuthenticationLevel.STAFF.toString()));
+        authenticationLevel.getItems().add(new Label(User.AuthenticationLevel.PATIENT.toString()));
+
         for (Request.RequestType r : Request.RequestType.values()) {
             job.getItems().add(new Label(Request.RequestType.prettify(r)));
         }
+        job.getItems().add(new Label("None"));
 
         User u = (User) App.getPrimaryStage().getUserData();
         username.setText(u.getUsername());
@@ -67,7 +69,14 @@ public class EditUserController extends BasePageController implements Initializa
         int i = 0;
         if (!u.getJobs().isEmpty()) {
             for (Label label : job.getItems()) {
-                if (label.getText() == Request.RequestType.prettify(u.getJobs().get(0))) {
+                if (label.getText().equals(Request.RequestType.prettify(u.getJobs().get(0)))) {
+                    job.getSelectionModel().select(i);
+                }
+                i++;
+            }
+        } else {
+            for (Label label : job.getItems()) {
+                if (label.getText().equals(Request.RequestType.prettify(u.getJobs().get(0)))) {
                     job.getSelectionModel().select(i);
                 }
                 i++;
@@ -75,14 +84,13 @@ public class EditUserController extends BasePageController implements Initializa
         }
         i = 0;
         for (Label label : authenticationLevel.getItems()) {
-            if (label.getText() == u.getAuthenticationLevel().toString()) {
+            if (label.getText().equals(u.getAuthenticationLevel().toString())) {
                 authenticationLevel.getSelectionModel().select(i);
             }
             i++;
         }
 
         validateButtons();
-
     }
 
     public void handleButtonAction(ActionEvent actionEvent) {
@@ -105,11 +113,11 @@ public class EditUserController extends BasePageController implements Initializa
 
             try {
                 if (SceneSwitcher.addingUser) {
-                    DatabaseHandler.getDatabaseHandler("main.db").addUser(uUpdated,password.getText());
+                    DatabaseHandler.getDatabaseHandler("main.db").addUser(uUpdated, password.getText());
                 } else {
                     DatabaseHandler.getDatabaseHandler("main.db").updateUser(uUpdated);
                 }
-            } catch (SQLException throwables) {
+            } catch (SQLException e) {
                 throw new IllegalStateException("Username not found when updating; This should never happen");
             }
             SceneSwitcher.goBack(getClass(), 1);

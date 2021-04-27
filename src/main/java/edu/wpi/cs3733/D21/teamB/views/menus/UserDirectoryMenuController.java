@@ -39,12 +39,16 @@ public class UserDirectoryMenuController extends BasePageController implements I
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        if (DatabaseHandler.getDatabaseHandler("main.db").getAuthenticationUser().isAtLeast(User.AuthenticationLevel.STAFF)) {
+        if (DatabaseHandler.getDatabaseHandler("main.db").getAuthenticationUser().isAtLeast(User.AuthenticationLevel.ADMIN)) {
+            directoryText.setText("Admin Directory");
+            buttonPane.getChildren().remove(0);
+        } else if (DatabaseHandler.getDatabaseHandler("main.db").getAuthenticationUser().isAtLeast(User.AuthenticationLevel.STAFF)) {
             directoryText.setText("Staff Directory");
+            buttonPane.getChildren().remove(4);
             buttonPane.getChildren().remove(0);
         } else {
             directoryText.setText("Patient Directory");
-            buttonPane.getChildren().remove(2, 4);
+            buttonPane.getChildren().remove(2, 5);
         }
     }
 
