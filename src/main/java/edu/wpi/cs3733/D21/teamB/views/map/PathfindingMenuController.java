@@ -11,6 +11,7 @@ import edu.wpi.cs3733.D21.teamB.entities.map.MapEditorPopupManager;
 import edu.wpi.cs3733.D21.teamB.entities.map.MapPathPopupManager;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Edge;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Node;
+import edu.wpi.cs3733.D21.teamB.entities.map.data.NodeType;
 import edu.wpi.cs3733.D21.teamB.pathfinding.Graph;
 import edu.wpi.cs3733.D21.teamB.util.CSVHandler;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
@@ -28,12 +29,14 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import lombok.Data;
 import lombok.Getter;
 import net.kurobako.gesturefx.GesturePane;
 
@@ -326,6 +329,24 @@ public class PathfindingMenuController implements Initializable {
             }
         } else if (!selectedItem.isLeaf()) {
             md.removeAllPopups();
+        }
+
+        if (!selectedItem.isLeaf()) {
+            String category = selectedItem.getValue();
+            NodeType nt = NodeType.deprettify(category);
+            try {
+                List<Node> selectedNodes = DatabaseHandler.getDatabaseHandler("main.db").getNodesByCategory(nt);
+                Map<String, Node> allNodes = DatabaseHandler.getDatabaseHandler("main.db").getNodes();
+                for (Node node : allNodes.values()) {
+                    if (!selectedNodes.contains(node)) {
+                        Color color = Color.web("#9A9999");
+                        node.setColor(color);
+                        md.redrawNodes();
+                    }
+                }
+            } catch (SQLException exception) {
+                exception.printStackTrace();
+            }
         }
 
         validateFindPathButton();
