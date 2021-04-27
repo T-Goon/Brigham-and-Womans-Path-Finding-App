@@ -26,6 +26,7 @@ public class DatabaseHandler {
 
     //State
     static User AuthenticationUser = new User(null, null, null, User.AuthenticationLevel.GUEST, null);
+    private final String salt = BCrypt.gensalt();
 
     private DatabaseHandler() {
         nodeMutator = new NodeMutator(this);
@@ -639,7 +640,7 @@ public class DatabaseHandler {
      * @return hashed password
      */
     public String passwordHash(String plaintext) {
-        return BCrypt.hashpw(plaintext, BCrypt.gensalt());
+        return BCrypt.hashpw(plaintext, salt);
     }
 
     /**

@@ -64,8 +64,6 @@ public class Request implements IStoredEntity {
                     return "External Transport";
                 case FLORAL:
                     return "Floral";
-                case GIFT:
-                    return "Gift";
                 case FOOD:
                     return "Food";
                 case INTERNAL_TRANSPORT:
