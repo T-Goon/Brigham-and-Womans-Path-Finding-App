@@ -2,12 +2,16 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXPasswordField?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -78,53 +82,51 @@
                                         <Insets top="10.0" />
                                     </VBox.margin>
                                     <children>
-                                            <VBox>
-                                                <children>
+                              <GridPane>
+                                <columnConstraints>
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="30.0" minWidth="10.0" prefWidth="1.0" />
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                                 <children>
                                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Username">
-                                                        <VBox.margin>
-                                                            <Insets left="5.0" />
-                                                        </VBox.margin>
                                        <font>
                                           <Font size="14.0" />
                                        </font>
                                                     </Text>
-                                                    <JFXTextField fx:id="username" onKeyReleased="#validateButton" style="-fx-background-color: #e5e5e5; -fx-background-radius: 7;" unFocusColor="#f0f0f0" />
-                                                </children>
-                                            </VBox>
-                              <HBox>
-                                 <children>
-                                                  <VBox prefHeight="68.0" prefWidth="409.0">
-                                                      <children>
-                                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="First Name">
-                                                              <font>
-                                                                  <Font size="14.0" />
-                                                              </font>
-                                                              <VBox.margin>
-                                                                  <Insets left="5.0" />
-                                                              </VBox.margin>
-                                                          </Text>
-                                          <JFXTextField fx:id="firstName" onKeyReleased="#validateButton" style="-fx-background-color: #e5e5e5; -fx-background-radius: 7;" unFocusColor="#f0f0f0">
-                                             <VBox.margin>
-                                                <Insets right="10.0" />
-                                             </VBox.margin>
-                                          </JFXTextField>
-                                                      </children>
-                                                  </VBox>
-                                    <VBox prefHeight="68.0" prefWidth="409.0">
+                                                    <JFXTextField fx:id="username" onKeyReleased="#validateButtons" style="-fx-background-color: #e5e5e5; -fx-background-radius: 7;" unFocusColor="#f0f0f0" GridPane.rowIndex="1" />
+                                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="First Name" GridPane.rowIndex="2">
+                                                        <font>
+                                                            <Font size="14.0" />
+                                                        </font>
+                                                    </Text>
+                                    <JFXTextField fx:id="firstName" onKeyReleased="#validateButtons" style="-fx-background-color: #e5e5e5; -fx-background-radius: 7;" unFocusColor="#f0f0f0" GridPane.rowIndex="3" />
+                                    <VBox GridPane.columnIndex="2" GridPane.rowIndex="1">
                                        <children>
-                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Last Name">
-                                             <font>
-                                                <Font size="14.0" />
-                                             </font>
-                                             <VBox.margin>
-                                                <Insets left="5.0" />
-                                             </VBox.margin>
-                                          </Text>
-                                          <JFXTextField fx:id="lastName" onKeyReleased="#validateButton" style="-fx-background-color: #e5e5e5; -fx-background-radius: 7;" unFocusColor="#f0f0f0" />
+                                          <JFXPasswordField fx:id="password" focusColor="#ffffff00" style="-fx-background-color: #e5e5e5; -fx-background-radius: 7;" unFocusColor="WHITE" />
                                        </children>
                                     </VBox>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Last Name" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                    </Text>
+                                    <JFXTextField fx:id="lastName" onKeyReleased="#validateButtons" style="-fx-background-color: #e5e5e5; -fx-background-radius: 7;" unFocusColor="#f0f0f0" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Password" GridPane.columnIndex="2">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                    </Text>
                                  </children>
-                              </HBox>
+                              </GridPane>
+                              <HBox />
+                              <HBox />
                               <HBox>
                                  <children>
                                                 <VBox prefHeight="53.0" prefWidth="574.0">
@@ -137,7 +139,7 @@
                                                 <Font size="14.0" />
                                              </font>
                                                         </Text>
-                                          <JFXComboBox fx:id="authenticationLevel" onHiding="#validateButton" prefHeight="25.0" prefWidth="136.0" />
+                                          <JFXComboBox fx:id="authenticationLevel" onHiding="#validateButtons" prefHeight="25.0" prefWidth="136.0" />
                                                     </children>
                                                 </VBox>
                                     <VBox prefHeight="53.0" prefWidth="574.0">
@@ -150,27 +152,33 @@
                                                 <Font size="14.0" />
                                              </font>
                                           </Text>
-                                          <JFXComboBox fx:id="job" onHiding="#validateButton" prefHeight="25.0" prefWidth="136.0" />
+                                          <JFXComboBox fx:id="job" onHiding="#validateButtons" prefHeight="25.0" prefWidth="136.0" />
                                        </children>
+                                       <HBox.margin>
+                                          <Insets />
+                                       </HBox.margin>
                                     </VBox>
                                  </children>
+                                 <VBox.margin>
+                                    <Insets top="20.0" />
+                                 </VBox.margin>
                               </HBox>
                                         <HBox alignment="CENTER_LEFT" prefHeight="152.0" prefWidth="800.0">
                                             <children>
                                                 <VBox alignment="CENTER_LEFT" prefHeight="110.0" prefWidth="418.0">
-                                                    <children>
-                                                        <JFXButton fx:id="btnCancel" buttonType="RAISED" onAction="#handleButtonAction" prefHeight="31.0" prefWidth="92.0" style="-fx-background-color: #0067b1; -fx-background-radius: 7;" text="Cancel" textFill="WHITE">
-                                                            <font>
-                                                                <Font name="MS Reference Sans Serif" size="14.0" />
-                                                            </font>
-                                                            <VBox.margin>
-                                                                <Insets left="20.0" />
-                                                            </VBox.margin>
-                                                        </JFXButton>
-                                                    </children>
                                                     <HBox.margin>
                                                         <Insets />
                                                     </HBox.margin>
+                                       <children>
+                                          <JFXButton fx:id="btnBack" alignment="CENTER" buttonType="RAISED" cancelButton="true" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#handleButtonAction" prefHeight="56" prefWidth="56" style="-fx-background-color: #0067B1; -fx-background-radius: 50%;" text="🡰" textAlignment="CENTER" textFill="WHITE">
+                                             <font>
+                                                <Font size="27.0" />
+                                             </font>
+                                             <padding>
+                                                <Insets top="1.0" />
+                                             </padding>
+                                          </JFXButton>
+                                       </children>
                                                 </VBox>
                                                 <VBox alignment="CENTER" prefHeight="110.0" prefWidth="400.0">
                                                     <children>
@@ -183,7 +191,7 @@
                                                 </VBox>
                                                 <VBox alignment="CENTER_RIGHT" prefHeight="110.0" prefWidth="367.0" spacing="10.0" HBox.hgrow="ALWAYS">
                                                     <children>
-                                                        <JFXButton fx:id="btnHelp" buttonType="RAISED" onAction="#handleButtonAction" prefHeight="42.0" prefWidth="38.0" style="-fx-background-color: #9E9E9E; -fx-background-radius: 100%;" text="?" textFill="WHITE">
+                                                        <JFXButton fx:id="btnHelp" buttonType="RAISED" onAction="#handleButtonAction" prefHeight="42.0" prefWidth="42.0" style="-fx-background-color: #9E9E9E; -fx-background-radius: 100%;" text="?" textFill="WHITE">
                                                             <VBox.margin>
                                                                 <Insets right="20.0" />
                                                             </VBox.margin>

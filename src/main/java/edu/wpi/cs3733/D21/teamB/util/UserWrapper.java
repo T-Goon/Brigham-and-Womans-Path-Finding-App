@@ -56,6 +56,7 @@ public class UserWrapper {
             public void handle(ActionEvent event) {
                 Stage stage = App.getPrimaryStage();
                 stage.setUserData(u);
+                SceneSwitcher.addingUser = false;
                 SceneSwitcher.switchScene(getClass(), "/edu/wpi/cs3733/D21/teamB/views/menus/userInformationDatabase.fxml", "/edu/wpi/cs3733/D21/teamB/views/menus/editUserMenu.fxml");
             }
         });
@@ -77,5 +78,8 @@ public class UserWrapper {
         });
 
         this.btnDel = btnDel;
+        if(u.getUsername().equals(DatabaseHandler.getDatabaseHandler("main.db").getAuthenticationUser().getUsername())){
+            this.btnDel.setDisable(true);
+        }
     }
 }

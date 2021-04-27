@@ -3,10 +3,13 @@ package edu.wpi.cs3733.D21.teamB.views.menus;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXDialogLayout;
+import edu.wpi.cs3733.D21.teamB.App;
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.User;
+import edu.wpi.cs3733.D21.teamB.entities.requests.Request;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
 import edu.wpi.cs3733.D21.teamB.util.UserWrapper;
+import edu.wpi.cs3733.D21.teamB.views.BasePageController;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -19,14 +22,16 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
 @SuppressWarnings("unchecked") // Added so Java doesn't get mad at the raw use of TableView that is necessary
-public class UserInformationDatabaseController implements Initializable {
+public class UserInformationDatabaseController extends BasePageController implements Initializable {
     @FXML
     private JFXButton btnBack;
 
@@ -35,6 +40,9 @@ public class UserInformationDatabaseController implements Initializable {
 
     @FXML
     private JFXButton btnEmergency;
+
+    @FXML
+    private JFXButton btnAdd;
 
     @FXML
     private TableView tblStaff;
@@ -99,18 +107,18 @@ public class UserInformationDatabaseController implements Initializable {
     }
 
     @FXML
-    private void handleButtonAction(ActionEvent e) {
+    public void handleButtonAction(ActionEvent e) {
         JFXButton btn = (JFXButton) e.getSource();
-
+        super.handleButtonAction(e);
         switch (btn.getId()) {
-            case "btnBack":
-                SceneSwitcher.goBack(getClass(), 1);
-                break;
-            case "btnExit":
-                Platform.exit();
-                break;
             case "btnEmergency":
-                SceneSwitcher.switchScene(getClass(),"/edu/wpi/cs3733/D21/teamB/views/menus/UserInformationDatabaseController.fxml", "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
+                SceneSwitcher.switchScene(getClass(),"/edu/wpi/cs3733/D21/teamB/views/menus/userInformationDatabase.fxml", "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
+                break;
+            case "btnAdd":
+                Stage stage = App.getPrimaryStage();
+                stage.setUserData(new User("","","", User.AuthenticationLevel.PATIENT,new ArrayList<Request.RequestType>()));
+                SceneSwitcher.addingUser = true;
+                SceneSwitcher.switchScene(getClass(),"/edu/wpi/cs3733/D21/teamB/views/menus/userInformationDatabase.fxml", "/edu/wpi/cs3733/D21/teamB/views/menus/editUserMenu.fxml");
                 break;
             case "btnHelp":
                 loadHelpDialog();

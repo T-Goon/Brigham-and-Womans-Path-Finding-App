@@ -34,13 +34,16 @@ public class EditUserController extends BasePageController implements Initializa
     private JFXTextField lastName;
 
     @FXML
+    private JFXPasswordField password;
+
+    @FXML
     private JFXComboBox<Label> authenticationLevel;
 
     @FXML
     private JFXComboBox<Label> job;
 
     @FXML
-    private JFXButton btnCancel;
+    private JFXButton btnBack;
 
     @FXML
     private JFXButton btnHelp;
@@ -62,23 +65,23 @@ public class EditUserController extends BasePageController implements Initializa
         firstName.setText(u.getFirstName());
         lastName.setText(u.getLastName());
         int i = 0;
-        if(!u.getJobs().isEmpty()){
-            for(Label label: job.getItems()) {
-                if (label.getText() == u.getJobs().get(0).toString()) {
+        if (!u.getJobs().isEmpty()) {
+            for (Label label : job.getItems()) {
+                if (label.getText() == Request.RequestType.prettify(u.getJobs().get(0))) {
                     job.getSelectionModel().select(i);
                 }
+                i++;
             }
-            i++;
         }
         i = 0;
-        for(Label label: authenticationLevel.getItems()){
-            if( label.getText() == u.getAuthenticationLevel().toString()){
+        for (Label label : authenticationLevel.getItems()) {
+            if (label.getText() == u.getAuthenticationLevel().toString()) {
                 authenticationLevel.getSelectionModel().select(i);
             }
             i++;
         }
 
-        validateButton();
+        validateButtons();
 
     }
 
@@ -93,29 +96,36 @@ public class EditUserController extends BasePageController implements Initializa
             String uLastName = lastName.getText();
             User.AuthenticationLevel uAuthLevel = User.AuthenticationLevel.valueOf(authenticationLevel.getValue().getText());
             List<Request.RequestType> uJobs = new ArrayList<Request.RequestType>();
-            if(job.getValue() != null) {
+            if (job.getValue() != null) {
                 Request.RequestType uJob = Request.RequestType.uglify(job.getValue().getText());
                 uJobs.add(uJob);
             }
 
-            User uUpdated = new User(uUsername,uFirstName,uLastName,uAuthLevel,uJobs);
+            User uUpdated = new User(uUsername, uFirstName, uLastName, uAuthLevel, uJobs);
 
             try {
-                DatabaseHandler.getDatabaseHandler("main.db").updateUser(uUpdated);
+                if (SceneSwitcher.addingUser) {
+                    DatabaseHandler.getDatabaseHandler("main.db").addUser(uUpdated,password.getText());
+                } else {
+                    DatabaseHandler.getDatabaseHandler("main.db").updateUser(uUpdated);
+                }
             } catch (SQLException throwables) {
                 throw new IllegalStateException("Username not found when updating; This should never happen");
             }
-            SceneSwitcher.goBack(getClass(),1);
+            SceneSwitcher.goBack(getClass(), 1);
         } else if (btn.getId().equals("btnCancel")) {
-            SceneSwitcher.goBack(getClass(),1);
+            SceneSwitcher.goBack(getClass(), 1);
         }
     }
 
     @FXML
-    private void validateButton(){
+    private void validateButtons() {
         btnSubmit.setDisable(
                 username.getText().isEmpty() || firstName.getText().isEmpty() || lastName.getText().isEmpty() ||
                         authenticationLevel.getValue() == null
         );
+
+        username.setDisable(!SceneSwitcher.addingUser);
+        password.setDisable(!SceneSwitcher.addingUser);
     }
 }

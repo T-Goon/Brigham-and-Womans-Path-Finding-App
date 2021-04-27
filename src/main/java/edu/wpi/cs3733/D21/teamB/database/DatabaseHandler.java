@@ -446,9 +446,9 @@ public class DatabaseHandler {
         userMutator.deauthenticate();
     }
 
-    /*
+    /**
      * @return the User that is currently logged in
-     */
+     **/
     public User getAuthenticationUser() {
         return DatabaseHandler.AuthenticationUser;
     }

@@ -64,6 +64,8 @@ public class Request implements IStoredEntity {
                     return "External Transport";
                 case FLORAL:
                     return "Floral";
+                case GIFT:
+                    return "Gift";
                 case FOOD:
                     return "Food";
                 case INTERNAL_TRANSPORT:
@@ -95,6 +97,8 @@ public class Request implements IStoredEntity {
                     return EXTERNAL_TRANSPORT;
                 case "Floral":
                     return FLORAL;
+                case "Gift":
+                    return GIFT;
                 case "Food":
                     return FOOD;
                 case "Internal Transport":
@@ -111,6 +115,8 @@ public class Request implements IStoredEntity {
                     return SECURITY;
                 case "Social Worker":
                     return SOCIAL_WORKER;
+                case "Emergency":
+                    return EMERGENCY;
                 default:
                     throw new IllegalArgumentException("Enum string not valid");
             }

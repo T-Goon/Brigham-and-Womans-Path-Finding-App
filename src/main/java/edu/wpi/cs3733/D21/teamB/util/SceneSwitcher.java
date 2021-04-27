@@ -13,7 +13,9 @@ public class SceneSwitcher {
 
     private static final Stack<String> stack = new Stack<>();
 
+    //State variables
     public static boolean isEmergencyBtn;
+    public static boolean addingUser;
 
     public static String peekLastScene(){
         return stack.peek();
