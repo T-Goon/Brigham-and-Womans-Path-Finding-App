@@ -45,7 +45,7 @@ public class SocialWorkerRequestFormController extends DefaultServiceRequestForm
 
         if (SceneSwitcher.peekLastScene().equals("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml")) {
             this.id = (String) App.getPrimaryStage().getUserData();
-            SocialWorkerRequest socialWorkerRequest = null;
+            SocialWorkerRequest socialWorkerRequest;
             try {
                 socialWorkerRequest = (SocialWorkerRequest) DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(id, Request.RequestType.SOCIAL_WORKER);
             } catch (SQLException e) {
@@ -68,12 +68,9 @@ public class SocialWorkerRequestFormController extends DefaultServiceRequestForm
         patientName.getValidators().add(validatorName);
         validatorName.setMessage("Please input the patient's name!");
 
-        patientName.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(!newValue){
-                    patientName.validate();
-                }
+        patientName.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                patientName.validate();
             }
         });
 
@@ -83,12 +80,9 @@ public class SocialWorkerRequestFormController extends DefaultServiceRequestForm
         loc.getValidators().add(validatorLocation);
         validatorLocation.setMessage("Please select the location!");
 
-        loc.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(!newValue){
-                    loc.validate();
-                }
+        loc.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                loc.validate();
             }
         });
 
@@ -98,12 +92,9 @@ public class SocialWorkerRequestFormController extends DefaultServiceRequestForm
         timeForArrival.getValidators().add(validatorArrivalTime);
         validatorArrivalTime.setMessage("Please select an arrival time!");
 
-        timeForArrival.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(!newValue){
-                    timeForArrival.validate();
-                }
+        timeForArrival.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                timeForArrival.validate();
             }
         });
 
@@ -113,12 +104,9 @@ public class SocialWorkerRequestFormController extends DefaultServiceRequestForm
         messageForSocialWorker.getValidators().add(validatorMessage);
         validatorMessage.setMessage("Please input a message or type 'none'!");
 
-        messageForSocialWorker.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(!newValue){
-                    messageForSocialWorker.validate();
-                }
+        messageForSocialWorker.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                messageForSocialWorker.validate();
             }
         });
     }

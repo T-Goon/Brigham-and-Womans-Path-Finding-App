@@ -58,7 +58,7 @@ public class LaundryRequestFormController extends DefaultServiceRequestFormContr
 
         if (SceneSwitcher.peekLastScene().equals("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml")) {
             this.id = (String) App.getPrimaryStage().getUserData();
-            LaundryRequest laundryRequest = null;
+            LaundryRequest laundryRequest;
             try {
                 laundryRequest = (LaundryRequest) DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(id, Request.RequestType.LAUNDRY);
             } catch (SQLException e) {
@@ -106,12 +106,9 @@ public class LaundryRequestFormController extends DefaultServiceRequestFormContr
         loc.getValidators().add(validatorLocation);
         validatorLocation.setMessage("Please select a location!");
 
-        loc.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(!newValue){
-                    loc.validate();
-                }
+        loc.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                loc.validate();
             }
         });
 
@@ -121,12 +118,9 @@ public class LaundryRequestFormController extends DefaultServiceRequestFormContr
         comboTypeService.getValidators().add(validatorTypeOfService);
         validatorTypeOfService.setMessage("Please select a type of service!");
 
-        comboTypeService.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(!newValue){
-                    comboTypeService.validate();
-                }
+        comboTypeService.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                comboTypeService.validate();
             }
         });
 
@@ -136,12 +130,9 @@ public class LaundryRequestFormController extends DefaultServiceRequestFormContr
         comboSizeService.getValidators().add(validatorSizeOfService);
         validatorSizeOfService.setMessage("Please select the size of the service!");
 
-        comboSizeService.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(!newValue){
-                    comboSizeService.validate();
-                }
+        comboSizeService.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                comboSizeService.validate();
             }
         });
 
@@ -151,12 +142,9 @@ public class LaundryRequestFormController extends DefaultServiceRequestFormContr
         description.getValidators().add(validatorDescription);
         validatorDescription.setMessage("Please input a description or type 'none'!");
 
-        description.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(!newValue){
-                    description.validate();
-                }
+        description.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                description.validate();
             }
         });
     }

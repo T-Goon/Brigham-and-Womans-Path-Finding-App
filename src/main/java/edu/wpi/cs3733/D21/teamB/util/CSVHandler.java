@@ -4,8 +4,6 @@ package edu.wpi.cs3733.D21.teamB.util;
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Edge;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Node;
-import edu.wpi.cs3733.D21.teamB.entities.map.data.NodeType;
-import javafx.scene.paint.Color;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;

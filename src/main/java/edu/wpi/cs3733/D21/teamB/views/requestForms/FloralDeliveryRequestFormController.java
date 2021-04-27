@@ -77,7 +77,7 @@ public class FloralDeliveryRequestFormController extends DefaultServiceRequestFo
 
         if (SceneSwitcher.peekLastScene().equals("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml")) {
             this.id = (String) App.getPrimaryStage().getUserData();
-            FloralRequest floralRequest = null;
+            FloralRequest floralRequest;
             try {
                 floralRequest = (FloralRequest) DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(id, Request.RequestType.FLORAL);
             } catch (SQLException e) {
@@ -104,7 +104,7 @@ public class FloralDeliveryRequestFormController extends DefaultServiceRequestFo
             carnations.setSelected(floralRequest.getWantsCarnations().equals("T"));
             orchids.setSelected(floralRequest.getWantsOrchids().equals("T"));
 
-            ArrayList<JFXCheckBox> checkBoxes = new ArrayList<JFXCheckBox>();
+            ArrayList<JFXCheckBox> checkBoxes = new ArrayList<>();
             checkBoxes.add(roses);
             checkBoxes.add(tulips);
             checkBoxes.add(daisies);
@@ -130,12 +130,9 @@ public class FloralDeliveryRequestFormController extends DefaultServiceRequestFo
         patientName.getValidators().add(validatorName);
         validatorName.setMessage("Please input the patient's name!");
 
-        patientName.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(!newValue){
-                    patientName.validate();
-                }
+        patientName.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                patientName.validate();
             }
         });
 
@@ -145,12 +142,9 @@ public class FloralDeliveryRequestFormController extends DefaultServiceRequestFo
         loc.getValidators().add(validatorLocation);
         validatorLocation.setMessage("Please select the location for delivery!");
 
-        loc.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(!newValue){
-                    loc.validate();
-                }
+        loc.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                loc.validate();
             }
         });
 
@@ -160,12 +154,9 @@ public class FloralDeliveryRequestFormController extends DefaultServiceRequestFo
         deliveryDate.getValidators().add(validatorDate);
         validatorDate.setMessage("Please select the date for delivery!");
 
-        deliveryDate.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(!newValue){
-                    deliveryDate.validate();
-                }
+        deliveryDate.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                deliveryDate.validate();
             }
         });
 
@@ -175,12 +166,9 @@ public class FloralDeliveryRequestFormController extends DefaultServiceRequestFo
         startTime.getValidators().add(validatorStartTime);
         validatorStartTime.setMessage("Please select the start time!");
 
-        startTime.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(!newValue){
-                    startTime.validate();
-                }
+        startTime.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                startTime.validate();
             }
         });
 
@@ -190,12 +178,9 @@ public class FloralDeliveryRequestFormController extends DefaultServiceRequestFo
         endTime.getValidators().add(validatorEndTime);
         validatorEndTime.setMessage("Please select the end time!");
 
-        endTime.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(!newValue){
-                    endTime.validate();
-                }
+        endTime.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                endTime.validate();
             }
         });
 
@@ -205,12 +190,9 @@ public class FloralDeliveryRequestFormController extends DefaultServiceRequestFo
         message.getValidators().add(validatorMessage);
         validatorMessage.setMessage("Please input a message!");
 
-        message.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(!newValue){
-                    message.validate();
-                }
+        message.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                message.validate();
             }
         });
 
