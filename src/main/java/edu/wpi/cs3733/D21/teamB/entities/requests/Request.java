@@ -88,5 +88,38 @@ public class Request implements IStoredEntity {
                     throw new IllegalStateException("How did we get here?");
             }
         }
+
+        public static RequestType uglify(String string) throws IllegalArgumentException {
+            switch (string) {
+                case "Case Manager":
+                    return CASE_MANAGER;
+                case "External Transport":
+                    return EXTERNAL_TRANSPORT;
+                case "Floral":
+                    return FLORAL;
+                case "Gift":
+                    return GIFT;
+                case "Food":
+                    return FOOD;
+                case "Internal Transport":
+                    return INTERNAL_TRANSPORT;
+                case "Laundry":
+                    return LAUNDRY;
+                case "Medicine":
+                    return MEDICINE;
+                case "Religious":
+                    return RELIGIOUS;
+                case "Sanitation":
+                    return SANITATION;
+                case "Security":
+                    return SECURITY;
+                case "Social Worker":
+                    return SOCIAL_WORKER;
+                case "Emergency":
+                    return EMERGENCY;
+                default:
+                    throw new IllegalArgumentException("Enum string not valid");
+            }
+        }
     }
 }

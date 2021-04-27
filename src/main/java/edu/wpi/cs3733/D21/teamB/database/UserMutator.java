@@ -4,6 +4,7 @@ import edu.wpi.cs3733.D21.teamB.entities.IStoredEntity;
 import edu.wpi.cs3733.D21.teamB.entities.User;
 import edu.wpi.cs3733.D21.teamB.entities.requests.Request;
 import lombok.AllArgsConstructor;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -78,6 +79,29 @@ public class UserMutator implements IDatabaseEntityMutator<UserMutator.UserPassw
         String deleteUser = "DELETE FROM Users WHERE (username = '" + username + "')";
         db.runStatement(deleteJobs, false);
         db.runStatement(deleteUser, false);
+    }
+
+    /**
+     * Get all users in database
+     * @return List of User objects in table
+     */
+
+    public List<User> getUsers() {
+        try {
+            String query = "SELECT username FROM users";
+            ResultSet rs = db.runStatement(query, true);
+            List<User> outUsers = new ArrayList<>();
+            if (rs == null) return outUsers;
+            do {
+                String username = rs.getString("username");
+                outUsers.add(this.getUserByUsername(username));
+            } while (rs.next());
+            rs.close();
+            return outUsers;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     /**
@@ -179,7 +203,8 @@ public class UserMutator implements IDatabaseEntityMutator<UserMutator.UserPassw
             rs.close();
 
             // Make sure the hashed password matches
-            if (!db.passwordHash(password).equals(storedHash)) return null;
+            if (!BCrypt.checkpw(password, storedHash)) return null;
+
             User outUser = this.getUserByUsername(username);
             DatabaseHandler.AuthenticationUser = outUser;
             return outUser;
