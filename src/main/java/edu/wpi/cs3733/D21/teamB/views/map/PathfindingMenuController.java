@@ -339,31 +339,53 @@ public class PathfindingMenuController extends BasePageController implements Ini
 
         if (!selectedItem.isLeaf()) {
             HashMap<String, List<Node>> floorNodes = (HashMap<String, List<Node>>) mc.getFloorNodes();
+            String category = selectedItem.getValue();
+
+            // Change node color back to original color
+            if (!colors.isEmpty()) {
+                for (Node node : floorNodes.get(mc.getCurrentFloor())) {
+                    if (colors.containsKey(node.getNodeID())) {
+                        node.setColor(colors.get(node.getNodeID()));
+                    }
+                }
+                colors.clear();
+            }
 
             if (selectedItem.getValue().equals("Locations")) {
                 for (Node node : floorNodes.get(mc.getCurrentFloor())) {
-                    Color color = Color.web("#012D5A");
+                    Color color = node.getColor();
                     colors.put(node.getNodeID(), color);
                     node.setColor(color);
                 }
-            } else {
-                // Change node color back to original color
-                String category = selectedItem.getValue();
-                NodeType nt = NodeType.deprettify(category);
+            } else if (selectedItem.getValue().equals("Favorites")) {
+                try {
+                    List<String> favorites = DatabaseHandler.getDatabaseHandler("main.db").getFavorites();
+                    Map<String, String> longNames = mc.makeLongToIDMap();
+                    Color color = Color.web("#9A9999");
 
-                if (!colors.isEmpty()) {
+                    // Put original node color in map and set node color to gray
                     for (Node node : floorNodes.get(mc.getCurrentFloor())) {
-                        if (colors.containsKey(node.getNodeID())) {
-                            node.setColor(colors.get(node.getNodeID()));
+                        colors.put(node.getNodeID(), node.getColor());
+                        node.setColor(color);
+                    }
+                    for (String location : favorites) {
+                        String nodeID = longNames.get(location);
+                        for (Node node : floorNodes.get(mc.getCurrentFloor())) {
+                            if (node.getNodeID().equals(nodeID)) {
+                                node.setColor(colors.get(node.getNodeID()));
+                                colors.remove(node.getNodeID());
+                            }
                         }
                     }
-                    colors.clear();
+                } catch (SQLException e) {
+                    e.printStackTrace();
                 }
-
+            } else {
                 // Change node color to gray
+                NodeType nt = NodeType.deprettify(category);
+                Color color = Color.web("#9A9999");
                 for (Node node : floorNodes.get(mc.getCurrentFloor())) {
                     if (!node.getNodeType().equals(nt.toString())) {
-                        Color color = Color.web("#9A9999");
                         if (node.getColor() == null) {
                             colors.put(node.getNodeID(), Color.web("#012D5A"));
                         } else {
