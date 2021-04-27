@@ -6,12 +6,16 @@ import edu.wpi.cs3733.D21.teamB.views.BasePageController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 
-public class ServiceRequestMenuController extends BasePageController {
+public class ServiceRequestMenuCreditsController extends BasePageController {
 
     private static final String VIEWS_PATH = "/edu/wpi/cs3733/D21/teamB/views/requestForms/";
+
+    @FXML
+    public JFXButton btnShowCredits;
 
     @FXML
     private FlowPane flowpane;
@@ -47,10 +51,10 @@ public class ServiceRequestMenuController extends BasePageController {
     private JFXButton btnCaseManager;
 
     @FXML
-    private JFXButton btnGiftDelivery;
+    private JFXButton btnSocialWorker;
 
     @FXML
-    private JFXButton btnSocialWorker;
+    private JFXButton btnGiftDelivery;
 
     @FXML
     private VBox medicineDelivery;
@@ -61,12 +65,6 @@ public class ServiceRequestMenuController extends BasePageController {
     @FXML
     private VBox externalTransport;
 
-    @FXML
-    private JFXButton btnShowCredits;
-
-
-    @FXML
-    private JFXButton btnLanguageInterpreter;
 
     @FXML
     public void handleButtonAction(ActionEvent e) {
@@ -114,15 +112,13 @@ public class ServiceRequestMenuController extends BasePageController {
             case "btnGiftDelivery":
                 path = VIEWS_PATH + "giftRequestForm.fxml";
                 break;
-            case "btnLanguageInterpreter":
-                path = VIEWS_PATH + "languageRequestForm.fxml";
-                break;
             case "btnShowCredits":
-                path = "/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestMenuCredits.fxml";
-                break;
+            case "btnBack":
+                SceneSwitcher.goBack(getClass(), 1);
+                return;
         }
 
         if (path != null)
-            SceneSwitcher.switchScene(getClass(), "/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestMenu.fxml", path);
+            SceneSwitcher.switchFromTemp(getClass(), path);
     }
 }

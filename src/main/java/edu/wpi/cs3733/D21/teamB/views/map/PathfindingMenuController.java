@@ -336,10 +336,9 @@ public class PathfindingMenuController extends BasePageController implements Ini
             md.removeAllPopups();
         }
 
-        if (!selectedItem.isLeaf() && !selectedItem.getValue().equals("Locations") && !selectedItem.getValue().equals("Favorites")) {
-            String category = selectedItem.getValue();
-            NodeType nt = NodeType.deprettify(category);
+        if (!selectedItem.isLeaf()) {
             HashMap<String, List<Node>> floorNodes = (HashMap<String, List<Node>>) mc.getFloorNodes();
+            String category = selectedItem.getValue();
 
             // Change node color back to original color
             if (!colors.isEmpty()) {
@@ -351,16 +350,48 @@ public class PathfindingMenuController extends BasePageController implements Ini
                 colors.clear();
             }
 
-            // Change node color to gray
-            for (Node node : floorNodes.get(mc.getCurrentFloor())) {
-                if (!node.getNodeType().equals(nt.toString())) {
-                    Color color = Color.web("#9A9999");
-                    if (node.getColor() == null) {
-                        colors.put(node.getNodeID(), Color.web("#012D5A"));
-                    } else {
-                        colors.put(node.getNodeID(), node.getColor());
-                    }
+            if (selectedItem.getValue().equals("Locations")) {
+                for (Node node : floorNodes.get(mc.getCurrentFloor())) {
+                    Color color = node.getColor();
+                    colors.put(node.getNodeID(), color);
                     node.setColor(color);
+                }
+            } else if (selectedItem.getValue().equals("Favorites")) {
+                try {
+                    List<String> favorites = DatabaseHandler.getDatabaseHandler("main.db").getFavorites();
+                    Map<String, String> longNames = mc.makeLongToIDMap();
+                    Color color = Color.web("#9A9999");
+
+                    // Put original node color in map and set node color to gray
+                    for (Node node : floorNodes.get(mc.getCurrentFloor())) {
+                        colors.put(node.getNodeID(), node.getColor());
+                        node.setColor(color);
+                    }
+                    for (String location : favorites) {
+                        String nodeID = longNames.get(location);
+                        for (Node node : floorNodes.get(mc.getCurrentFloor())) {
+                            if (node.getNodeID().equals(nodeID)) {
+                                node.setColor(colors.get(node.getNodeID()));
+                                colors.remove(node.getNodeID());
+                            }
+                        }
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                // Change node color to gray
+                NodeType nt = NodeType.deprettify(category);
+                Color color = Color.web("#9A9999");
+                for (Node node : floorNodes.get(mc.getCurrentFloor())) {
+                    if (!node.getNodeType().equals(nt.toString())) {
+                        if (node.getColor() == null) {
+                            colors.put(node.getNodeID(), Color.web("#012D5A"));
+                        } else {
+                            colors.put(node.getNodeID(), node.getColor());
+                        }
+                        node.setColor(color);
+                    }
                 }
             }
 
