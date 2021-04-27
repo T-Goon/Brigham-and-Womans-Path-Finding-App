@@ -544,7 +544,6 @@ public class RequestMutator implements IDatabaseEntityMutator<Request> {
                 break;
         }
         rs.close();
-        System.out.println(outRequest);
         return outRequest;
     }
 }

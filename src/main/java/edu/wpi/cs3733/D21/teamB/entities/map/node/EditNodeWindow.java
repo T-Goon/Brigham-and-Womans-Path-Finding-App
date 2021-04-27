@@ -37,7 +37,7 @@ public class EditNodeWindow extends Window<VBox, NodeMenuPopupData, VBox> implem
             try {
                 List<Edge> edges = db.getAdjacentEdgesOfNode(data.getNodeID());
                 for (Edge e : edges) {
-                    if (!e.getStartNodeID().equals(data.getNodeID()))
+                    if (e.getStartNodeID().equals(data.getNodeID()))
                         savedOtherEdgeIDs.add(e.getEndNodeID());
                     else savedOtherEdgeIDs.add(e.getStartNodeID());
                 }
