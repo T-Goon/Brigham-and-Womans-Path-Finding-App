@@ -27,13 +27,13 @@ public class RequestWrapper {
     private final Label type;
     private final Label time;
     private final Label date;
-    private Label progress;
-    private Label employeeName;
+    private final Label progress;
+    private final Label employeeName;
     private final TableView parentTable;
     private final JFXButton btnEdit;
     private final JFXButton btnDel;
-    private ContextMenu completeMenu;
-    private ContextMenu contextMenu;
+    private final ContextMenu completeMenu;
+    private final ContextMenu contextMenu;
     private final ServiceRequestDatabaseController controller;
 
     public RequestWrapper(Request r, TableView parentTable, ServiceRequestDatabaseController controller) throws IOException {
