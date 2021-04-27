@@ -10,8 +10,6 @@ import edu.wpi.cs3733.D21.teamB.views.map.PathfindingMenuController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.effect.ColorAdjust;
-import javafx.scene.effect.Effect;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -114,17 +112,15 @@ public class MapDrawer implements PoppableManager {
             }
 
 
-            System.out.println();
 
+            if (etaPopup != null) {
+                etaPopup.hide();
+                etaPopup = null;
+            }
 
+            etaPopup = mapPathPopupManager.createETAPopup(new Path(currentFloorPath, Graph.getGraph().calculateCost(currentFloorPath)));
         }
 
-        if (etaPopup != null) {
-            etaPopup.hide();
-            etaPopup = null;
-        }
-
-        etaPopup = mapPathPopupManager.createETAPopup(mapCache.getFinalPath());
     }
 
     /**
