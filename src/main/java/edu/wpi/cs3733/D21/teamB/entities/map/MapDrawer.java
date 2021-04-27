@@ -97,52 +97,54 @@ public class MapDrawer implements PoppableManager {
             //If there is a path segment on this floor
             if(!currentFloorPath.isEmpty()) {
 
-                //Get the last index of node on this floor
-                int floorChangeNodeIndex = mapCache.getFinalPath().getPath().indexOf(currentFloorPath.get(currentFloorPath.size() - 1));
+                // head if path is only one node
+                if(currentFloorPath.size() == 1){
+                    nodeHolder.getChildren().remove(head);
+                }
 
-                //If there is another node after this floor
-                if (floorChangeNodeIndex != mapCache.getFinalPath().getPath().size() - 1) {
-                    //Get the nodeID of the node that is on the next floor
-                    String nextNode = mapCache.getFinalPath().getPath().get(floorChangeNodeIndex + 1);
+                // List of nodes in path
+                List<String> pathNodes = mapCache.getFinalPath().getPath();
+                // Map of nodes in the graph
+                Map<String, Node> graph = Graph.getGraph().getNodes();
 
-                    //Get the floor that the next node is on
-                    String floorString = nextNode.substring(nextNode.length() - 2);
+                for(int i=0; i<pathNodes.size()-1; i++){
+                    Node startNode = graph.get(pathNodes.get(i));
+                    Node endNode = graph.get(pathNodes.get(i+1));
+                    int startFloorNum = FloorSwitcher.floorIDtoInt(startNode.getFloor());
+                    int endFloorNum = FloorSwitcher.floorIDtoInt(endNode.getFloor());
 
-                    //Convert the floor strings to int values
-                    int currentFloorVal = Node.floorAsInt(mapCache.getCurrentFloor());
-                    int nextFloorVal = Node.floorAsInt(floorString);
+                    // 2 nodes are on different floors
+                    if(!startNode.getFloor().equals(endNode.getFloor())) {
 
-                    //If going up or down
-                    if (nextFloorVal > currentFloorVal) {
-                        //Going UP
-
-                        //Update the node icon to green to indicate that the user must go up
-                        String floorChangeNodeID = mapCache.getFinalPath().getPath().get(floorChangeNodeIndex);
+                        // Look for the image of the node on the map
                         for (javafx.scene.Node img : mapCache.getNodePlaced()) {
-                            if (img.getId().equals(floorChangeNodeID + "Icon")) {
-                                // change image
+
+                            // Change the image of the node
+                            if (img.getId().equals(startNode.getNodeID() + "Icon")) {
                                 ImageView view = (ImageView) img;
-                                view.setImage(new Image("/edu/wpi/cs3733/D21/teamB/images/maps/up.png"));
+
+                                if(startFloorNum > endFloorNum){
+                                    view.setImage(new Image("/edu/wpi/cs3733/D21/teamB/images/maps/down.png"));
+                                } else{
+                                    view.setImage(new Image("/edu/wpi/cs3733/D21/teamB/images/maps/up.png"));
+                                }
+
+                                mapCache.getEditedNodes().add(img);
+                            } else if (img.getId().equals(endNode.getNodeID() + "Icon")) {
+                                ImageView view = (ImageView) img;
+
+                                if(startFloorNum > endFloorNum){
+                                    view.setImage(new Image("/edu/wpi/cs3733/D21/teamB/images/maps/down.png"));
+                                } else{
+                                    view.setImage(new Image("/edu/wpi/cs3733/D21/teamB/images/maps/up.png"));
+                                }
 
                                 mapCache.getEditedNodes().add(img);
                             }
-                        }
-                    } else {
-                        //Going Down
 
-                        //Update the node icon to red to indicate that the user must go down
-                        String floorChangeNodeID = mapCache.getFinalPath().getPath().get(floorChangeNodeIndex);
-                        for (javafx.scene.Node img : mapCache.getNodePlaced()) {
-                            if (img.getId().equals(floorChangeNodeID + "Icon")) {
-                                // change image
-                                ImageView view = (ImageView) img;
-                                view.setImage(new Image("/edu/wpi/cs3733/D21/teamB/images/maps/down.png"));
-
-                                mapCache.getEditedNodes().add(img);
-
-                            }
                         }
                     }
+
                 }
 
                 // Animate the path
