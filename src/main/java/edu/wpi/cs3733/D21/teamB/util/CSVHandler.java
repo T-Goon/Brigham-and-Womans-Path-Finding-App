@@ -4,6 +4,8 @@ package edu.wpi.cs3733.D21.teamB.util;
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Edge;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Node;
+import edu.wpi.cs3733.D21.teamB.entities.map.data.NodeType;
+import javafx.scene.paint.Color;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -34,7 +36,11 @@ public class CSVHandler {
         for (String line : lines) {
             line = line.replace("\r", "");
             String[] values = line.split(",");
-            list.add(new Node(values[0], Integer.parseInt(values[1]), Integer.parseInt(values[2]), values[3], values[4], values[5], values[6], values[7]));
+
+
+
+            list.add(new Node(values[0], Integer.parseInt(values[1]), Integer.parseInt(values[2]), values[3], values[4],
+                    values[5], values[6], values[7], ColorPalette.getColorOfNodeType(values[5])));
         }
 
         return list;
