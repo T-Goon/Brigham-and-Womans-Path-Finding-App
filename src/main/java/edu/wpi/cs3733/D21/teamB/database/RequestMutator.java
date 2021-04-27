@@ -175,7 +175,7 @@ public class RequestMutator implements IDatabaseEntityMutator<Request> {
                         + "')";
                 break;
             case SOCIAL_WORKER:
-                languageRequest languageRequest = (languageRequest) request;
+                LanguageRequest languageRequest = (LanguageRequest) request;
                 query = "INSERT INTO SocialWorkerRequests VALUES " +
                         "('" + languageRequest.getRequestID()
                         + "', '" + languageRequest.getPatientName().replace("'", "''")
@@ -313,7 +313,7 @@ public class RequestMutator implements IDatabaseEntityMutator<Request> {
                         + "' WHERE requestID = '" + caseManagerRequest.getRequestID() + "'";
                 break;
             case SOCIAL_WORKER:
-                languageRequest languageRequest = (languageRequest) request;
+                LanguageRequest languageRequest = (LanguageRequest) request;
                 query = "UPDATE SocialWorkerRequests SET patientName = '" + languageRequest.getPatientName().replace("'", "''")
                         + "', timeForArrival = '" + languageRequest.getTimeForArrival()
                         + "' WHERE requestID = '" + languageRequest.getRequestID() + "'";
@@ -541,7 +541,7 @@ public class RequestMutator implements IDatabaseEntityMutator<Request> {
                 );
                 break;
             case SOCIAL_WORKER:
-                outRequest = new languageRequest(
+                outRequest = new LanguageRequest(
                         rs.getString("patientName"),
                         rs.getString("timeForArrival"),
                         rs.getString("requestID"),
@@ -550,7 +550,8 @@ public class RequestMutator implements IDatabaseEntityMutator<Request> {
                         rs.getString("complete"),
                         rs.getString("employeeName"),
                         rs.getString("location"),
-                        rs.getString("description")
+                        rs.getString("description"),
+                        rs.getString("language")
                 );
                 break;
             case GIFT:

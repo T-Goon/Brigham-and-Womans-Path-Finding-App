@@ -8,8 +8,9 @@ import com.jfoenix.validation.RequiredFieldValidator;
 import edu.wpi.cs3733.D21.teamB.App;
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.requests.Request;
-import edu.wpi.cs3733.D21.teamB.entities.requests.languageRequest;
+import edu.wpi.cs3733.D21.teamB.entities.requests.LanguageRequest;
 
+import edu.wpi.cs3733.D21.teamB.entities.requests.SocialWorkerRequest;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -45,9 +46,9 @@ public class SocialWorkerRequestFormController extends DefaultServiceRequestForm
 
         if (SceneSwitcher.peekLastScene().equals("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml")) {
             this.id = (String) App.getPrimaryStage().getUserData();
-            languageRequest languageRequest = null;
+            LanguageRequest languageRequest = null;
             try {
-                languageRequest = (languageRequest) DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(id, Request.RequestType.SOCIAL_WORKER);
+                languageRequest = (LanguageRequest) DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(id, Request.RequestType.SOCIAL_WORKER);
             } catch (SQLException e) {
                 e.printStackTrace();
                 return;
@@ -159,7 +160,7 @@ public class SocialWorkerRequestFormController extends DefaultServiceRequestForm
                 employeeName = null;
             }
 
-            languageRequest request = new languageRequest(givenPatientName, givenTimeForArrival,
+            SocialWorkerRequest request = new SocialWorkerRequest(givenPatientName, givenTimeForArrival,
                     requestID, time, date, complete, employeeName, getLocation(), givenDescription);
 
             try {
