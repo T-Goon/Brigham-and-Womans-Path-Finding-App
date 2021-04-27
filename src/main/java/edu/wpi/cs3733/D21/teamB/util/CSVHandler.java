@@ -37,10 +37,55 @@ public class CSVHandler {
             line = line.replace("\r", "");
             String[] values = line.split(",");
 
+            Color color = null;
+            switch(values[5]){
+                case "SERV":
+                    color = Color.web("1B5E20");
+                    break;
+                case "REST":
+                    color = Color.web("880E4F");
+                    break;
+                case "LABS":
+                    color = Color.web("E91E63");
+                    break;
+                case "ELEV":
+                    color = Color.web("4A148C");
+                    break;
+                case "DEPT":
+                    color = Color.web("006064");
+                    break;
+                case "CONF":
+                    color = Color.web("00897B");
+                    break;
+                case "HALL":
+                    color = Color.web("012D5A");
+                    break;
+                case "WALK":
+                    color = Color.web("26C6DA");
+                    break;
+                case "INFO":
+                    color = Color.web("212121");
+                    break;
+                case "RETL":
+                    color = Color.web("FFEB3B");
+                    break;
+                case "BATH":
+                    color = Color.web("66BB6A");
+                    break;
+                case "EXIT":
+                    color = Color.web("B71C1C");
+                    break;
+                case "STAI":
+                    color = Color.web("BF360C");
+                    break;
+                case "PARK":
+                    color = Color.web("5D4037");
+                    break;
+                default:
+                    throw new IllegalArgumentException("How did we get here?");
+            }
 
-
-            list.add(new Node(values[0], Integer.parseInt(values[1]), Integer.parseInt(values[2]), values[3], values[4],
-                    values[5], values[6], values[7], ColorPalette.getColorOfNodeType(values[5])));
+            list.add(new Node(values[0], Integer.parseInt(values[1]), Integer.parseInt(values[2]), values[3], values[4], values[5], values[6], values[7], color));
         }
 
         return list;
