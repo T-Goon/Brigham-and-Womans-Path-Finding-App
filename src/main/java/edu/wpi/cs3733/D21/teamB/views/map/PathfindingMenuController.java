@@ -333,7 +333,7 @@ public class PathfindingMenuController implements Initializable {
             md.removeAllPopups();
         }
 
-        if (!selectedItem.isLeaf()) {
+        if (!selectedItem.isLeaf() && !selectedItem.getValue().equals("Locations") && !selectedItem.getValue().equals("Favorites")) {
             String category = selectedItem.getValue();
             NodeType nt = NodeType.deprettify(category);
             HashMap<String, List<Node>> floorNodes = (HashMap<String, List<Node>>) mc.getFloorNodes();
@@ -351,7 +351,7 @@ public class PathfindingMenuController implements Initializable {
                 if (!node.getNodeType().equals(nt.toString())) {
                     Color color = Color.web("#9A9999");
                     if (node.getColor() == null) {
-                        colors.put(node, Color.web("012D5A"));
+                        colors.put(node, Color.web("#012D5A"));
                     } else {
                         colors.put(node, node.getColor());
                     }
