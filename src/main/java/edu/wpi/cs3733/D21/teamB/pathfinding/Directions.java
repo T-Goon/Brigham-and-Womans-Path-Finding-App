@@ -188,7 +188,7 @@ public class Directions {
                     directions.add("Take a left and walk about " + round(distance) + " feet towards " + next.getLongName() + ".");
                 } else if (turn < -110 && turn >= -160) {
                     directions.add("Take a sharp left and walk about " + round(distance) + " feet towards " + next.getLongName() + ".");
-                } else if (turn >= -70) {
+                } else if (turn >= -70 && turn <= -30) {
                     directions.add("Take a slight left and walk about " + round(distance) + " feet towards " + next.getLongName() + ".");
                 } else {
                     directions.add("Turn around and walk about " + round(distance) + " feet towards " + next.getLongName() + ".");
