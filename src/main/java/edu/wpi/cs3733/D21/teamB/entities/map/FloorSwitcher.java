@@ -54,7 +54,7 @@ public class FloorSwitcher {
                 mapDrawer.drawAllElements();
                 highlightFloorButton(floor3ID);
                 if(mapCache.getFinalPath()!=null){
-                    mapDrawer.drawPath(mapCache.getFinalPath());
+                    mapDrawer.drawPathOther();
                 }
                 break;
             case floor2ID:
@@ -63,7 +63,7 @@ public class FloorSwitcher {
                 mapDrawer.drawAllElements();
                 highlightFloorButton(floor2ID);
                 if(mapCache.getFinalPath()!=null){
-                    mapDrawer.drawPath(mapCache.getFinalPath());
+                    mapDrawer.drawPathOther();
                 }
                 break;
             case floor1ID:
@@ -72,7 +72,7 @@ public class FloorSwitcher {
                 mapDrawer.drawAllElements();
                 highlightFloorButton(floor1ID);
                 if(mapCache.getFinalPath()!=null){
-                    mapDrawer.drawPath(mapCache.getFinalPath());
+                    mapDrawer.drawPathOther();
                 }
                 break;
             case floorL1ID:
@@ -81,7 +81,7 @@ public class FloorSwitcher {
                 mapDrawer.drawAllElements();
                 highlightFloorButton(floorL1ID);
                 if(mapCache.getFinalPath()!=null){
-                    mapDrawer.drawPath(mapCache.getFinalPath());
+                    mapDrawer.drawPathOther();
                 }
                 break;
             case floorL2ID:
@@ -90,7 +90,7 @@ public class FloorSwitcher {
                 mapDrawer.drawAllElements();
                 highlightFloorButton(floorL2ID);
                 if(mapCache.getFinalPath()!=null){
-                    mapDrawer.drawPath(mapCache.getFinalPath());
+                    mapDrawer.drawPathOther();
                 }
                 break;
             default:

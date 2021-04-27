@@ -333,18 +333,18 @@
                                                      </ImageView>
                                                      <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2">
                                                          <image>
-                                                             <Image url="@../../images/maps/node.png" />
+                                                             <Image url="@../../images/maps/up.png" />
                                                          </image>
                                                          <effect>
-                                                             <ColorAdjust hue="-0.5" />
+                                                             <ColorAdjust />
                                                          </effect>
                                                      </ImageView>
                                                      <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="3">
                                                          <image>
-                                                             <Image url="@../../images/maps/node.png" />
+                                                             <Image url="@../../images/maps/down.png" />
                                                          </image>
                                                          <effect>
-                                                             <ColorAdjust brightness="0.25" hue="0.8" saturation="1.0" />
+                                                             <ColorAdjust />
                                                          </effect>
                                                      </ImageView>
                                                      <Text layoutX="10.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Location" GridPane.columnIndex="1" GridPane.rowIndex="1">

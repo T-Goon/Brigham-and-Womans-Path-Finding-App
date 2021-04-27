@@ -67,10 +67,9 @@ public class MapDrawer implements PoppableManager {
     }
 
     /**
-     * Draw a path on the map fiven a Path object
-     * @param path The path to draw
+     * New path drawing method
      */
-    public void drawPath(Path path){
+    public void drawPathOther(){
         Map<String, Node> nodes = Graph.getGraph().getNodes();
 
         javafx.scene.shape.Path animationPath = new javafx.scene.shape.Path();
@@ -109,7 +108,6 @@ public class MapDrawer implements PoppableManager {
                     //Get the floor that the next node is on
                     String floorString = nextNode.substring(nextNode.length() - 2);
 
-
                     //Convert the floor strings to int values
                     int currentFloorVal = Node.floorAsInt(mapCache.getCurrentFloor());
                     int nextFloorVal = Node.floorAsInt(floorString);
@@ -122,7 +120,9 @@ public class MapDrawer implements PoppableManager {
                         String floorChangeNodeID = mapCache.getFinalPath().getPath().get(floorChangeNodeIndex);
                         for (javafx.scene.Node img : mapCache.getNodePlaced()) {
                             if (img.getId().equals(floorChangeNodeID + "Icon")) {
-                                img.setEffect(new ColorAdjust(-0.5, 0, 0, 0));
+                                ImageView view = (ImageView) img;
+                                view.setImage(new Image("/edu/wpi/cs3733/D21/teamB/images/maps/up.png"));
+//                                img.setEffect(new ColorAdjust(-0.5, 0, 0, 0));
                                 mapCache.getEditedNodes().add(img);
                             }
                         }
@@ -133,7 +133,9 @@ public class MapDrawer implements PoppableManager {
                         String floorChangeNodeID = mapCache.getFinalPath().getPath().get(floorChangeNodeIndex);
                         for (javafx.scene.Node img : mapCache.getNodePlaced()) {
                             if (img.getId().equals(floorChangeNodeID + "Icon")) {
-                                img.setEffect(new ColorAdjust(0.8, 1, 0, 0));
+                                ImageView view = (ImageView) img;
+                                view.setImage(new Image("/edu/wpi/cs3733/D21/teamB/images/maps/down.png"));
+//                                img.setEffect(new ColorAdjust(0.8, 1, 0, 0));
                                 mapCache.getEditedNodes().add(img);
 
                             }
@@ -227,7 +229,7 @@ public class MapDrawer implements PoppableManager {
         //Set the final path in mapCache
         mapCache.setFinalPath(pathfinder.findPath(allStops, mobility));
 
-        drawPath(mapCache.getFinalPath());
+        drawPathOther();
     }
 
     /**
