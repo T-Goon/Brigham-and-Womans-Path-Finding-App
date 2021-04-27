@@ -12,7 +12,7 @@ public class LanguageRequest extends Request {
     private String language;
 
     public LanguageRequest(String language, String patientName, String timeForArrival, String requestID, String time, String date, String complete, String employeeName, String location, String description) {
-        super(requestID, RequestType.SOCIAL_WORKER, time, date, complete, employeeName, location, description);
+        super(requestID, RequestType.LANGUAGE, time, date, complete, employeeName, location, description);
         this.patientName = patientName;
         this.timeForArrival = timeForArrival;
         this.language = language;

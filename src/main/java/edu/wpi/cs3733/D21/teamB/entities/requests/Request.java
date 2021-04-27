@@ -83,6 +83,8 @@ public class Request implements IStoredEntity {
                     return "Social Worker";
                 case GIFT:
                     return "Gift";
+                case LANGUAGE:
+                    return "Language Interpretation";
                 case EMERGENCY:
                     return "Emergency";
                 default:
@@ -116,6 +118,8 @@ public class Request implements IStoredEntity {
                     return SECURITY;
                 case "Social Worker":
                     return SOCIAL_WORKER;
+                case "Language Interpretation":
+                    return LANGUAGE; 
                 case "Emergency":
                     return EMERGENCY;
                 default:
