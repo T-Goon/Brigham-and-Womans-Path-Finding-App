@@ -82,6 +82,8 @@ public class Request implements IStoredEntity {
                     return "Security";
                 case SOCIAL_WORKER:
                     return "Social Worker";
+                case GIFT:
+                    return "Gift";
                 case EMERGENCY:
                     return "Emergency";
                 default:

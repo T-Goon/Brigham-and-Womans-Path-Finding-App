@@ -20,6 +20,7 @@ public class GiftRequest extends Request{
     public GiftRequest(String patientName, String deliveryDate, String startTime, String endTime,
                          String wantsBalloons, String wantsTeddyBear, String wantsChocolate, String requestID,
                          String time, String date, String complete, String employeeName, String location, String description) {
+
         super(requestID, RequestType.GIFT, time, date, complete, employeeName, location, description);
         this.patientName = patientName;
         this.deliveryDate = deliveryDate;
