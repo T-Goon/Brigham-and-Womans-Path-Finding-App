@@ -130,4 +130,26 @@ public class FloorSwitcher {
 
         currentlySelected.setStyle("-fx-border-color: RED; -fx-border-width: 3; -fx-background-color:  F6BD39;");
     }
+
+    /**
+     * Converts a floor id to a int.
+     * @param floorID A floor id.
+     * @return An int that represents the placement of the floor
+     */
+    public static int floorIDtoInt(String floorID) {
+        switch (floorID) {
+            case floor3ID:
+                return 3;
+            case floor2ID:
+                return 2;
+            case floor1ID:
+                return 1;
+            case floorL1ID:
+                return -1;
+            case floorL2ID:
+                return -2;
+            default:
+                throw new IllegalArgumentException("NO FLOOR! AAAAAAAAAAAAHHHHHHHHHHH!!!!!!!!!!!!!");
+        }
+    }
 }

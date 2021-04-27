@@ -153,6 +153,7 @@ public class MapDrawer implements PoppableManager {
                             }
                         }
                     }
+
                 }
 
                 // Animate the path
