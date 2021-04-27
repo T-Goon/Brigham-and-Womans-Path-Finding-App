@@ -58,7 +58,7 @@ public class MapCache {
 
         floorNodes.remove(currentFloor);
         for (Node n : Graph.getGraph().getNodes().values()) {
-            if (!(n.getNodeType().equals("WALK") || n.getNodeType().equals("HALL")|| n.getBuilding().equals("BTM") || n.getBuilding().equals("Shapiro"))) {
+            if (!(n.getNodeType().equals("WALK") || n.getNodeType().equals("HALL"))) {
                 //Populate Category map for TreeView
 
                 //This if statement is temporary for iteration 1 where pathfinding is only needed for the first floor

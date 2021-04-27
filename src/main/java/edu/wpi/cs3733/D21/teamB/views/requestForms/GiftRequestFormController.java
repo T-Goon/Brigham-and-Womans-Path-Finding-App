@@ -61,15 +61,19 @@ public class GiftRequestFormController extends DefaultServiceRequestFormControll
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location, resources);
 
-        if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml")) {
+        if (SceneSwitcher.peekLastScene().equals("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml")) {
+
             this.id = (String) App.getPrimaryStage().getUserData();
             GiftRequest giftRequest;
+
             try {
                 giftRequest = (GiftRequest) DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(id, Request.RequestType.GIFT);
             } catch (SQLException e) {
                 e.printStackTrace();
                 return;
             }
+
+            assert giftRequest != null;
             patientName.setText(giftRequest.getPatientName());
             getLocationIndex(giftRequest.getLocation());
             String date = giftRequest.getDeliveryDate();
@@ -86,12 +90,10 @@ public class GiftRequestFormController extends DefaultServiceRequestFormControll
             teddyBear.setSelected(giftRequest.getWantsTeddyBear().equals("T"));
             chocolate.setSelected(giftRequest.getWantsChocolate().equals("T"));
 
-
             ArrayList<JFXCheckBox> checkBoxes = new ArrayList<>();
             checkBoxes.add(balloons);
             checkBoxes.add(teddyBear);
             checkBoxes.add(chocolate);
-
 
             double price = 0;
             for (JFXCheckBox checkBox : checkBoxes) {
@@ -103,49 +105,63 @@ public class GiftRequestFormController extends DefaultServiceRequestFormControll
         }
         validateButton();
 
-
-        RequiredFieldValidator validatorBalloons = new RequiredFieldValidator();
-        patientName.getValidators().add(validatorBalloons);
-        validatorBalloons.setMessage("Please input the patient's name!");
+        // inputting an error message to ensure that all fields are filled in or an error message pops up
+        //patient name text field
+        RequiredFieldValidator validatorName = new RequiredFieldValidator();
+        patientName.getValidators().add(validatorName);
+        validatorName.setMessage("Please input the patient's name!");
         patientName.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            if(!newValue){
+            if (!newValue) {
                 patientName.validate();
             }
         });
 
-        RequiredFieldValidator validatorDeliveryDate = new RequiredFieldValidator();
-        deliveryDate.getValidators().add(validatorDeliveryDate);
-        validatorDeliveryDate.setMessage("Please input the patient's name!");
+        //location combo box
+        RequiredFieldValidator validatorLocation = new RequiredFieldValidator();
+        loc.getValidators().add(validatorLocation);
+        validatorLocation.setMessage("Please select a location for delivery!");
+        loc.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                loc.validate();
+            }
+        });
+
+        //patient name text field
+        RequiredFieldValidator validatorDate = new RequiredFieldValidator();
+        deliveryDate.getValidators().add(validatorDate);
+        validatorDate.setMessage("Please select the date!");
         deliveryDate.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            if(!newValue){
+            if (!newValue) {
                 deliveryDate.validate();
             }
         });
 
-        //start time
-        RequiredFieldValidator validatorStartTime = new RequiredFieldValidator();
-        startTime.getValidators().add(validatorStartTime);
-        validatorStartTime.setMessage("Please input the patient's name!");
+        //start time picker
+        RequiredFieldValidator validatorStart = new RequiredFieldValidator();
+        startTime.getValidators().add(validatorStart);
+        validatorStart.setMessage("Please select a start time!");
         startTime.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            if(!newValue){
+            if (!newValue) {
                 startTime.validate();
             }
         });
 
-        RequiredFieldValidator validatorEndTime = new RequiredFieldValidator();
-        endTime.getValidators().add(validatorEndTime);
-        validatorEndTime.setMessage("Please input the patient's name!");
+        //end time picker
+        RequiredFieldValidator validatorEnd = new RequiredFieldValidator();
+        endTime.getValidators().add(validatorEnd);
+        validatorEnd.setMessage("Please select an end time!");
         endTime.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            if(!newValue){
+            if (!newValue) {
                 endTime.validate();
             }
         });
 
+        //message text area
         RequiredFieldValidator validatorMessage = new RequiredFieldValidator();
         message.getValidators().add(validatorMessage);
-        validatorMessage.setMessage("Please input the patient's name!");
+        validatorMessage.setMessage("Please input a message!");
         message.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            if(!newValue){
+            if (!newValue) {
                 message.validate();
             }
         });
@@ -186,7 +202,7 @@ public class GiftRequestFormController extends DefaultServiceRequestFormControll
             Date dateInfo = new Date();
 
             String requestID;
-            if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml"))
+            if (SceneSwitcher.peekLastScene().equals("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml"))
                 requestID = this.id;
             else requestID = UUID.randomUUID().toString();
 
@@ -196,7 +212,7 @@ public class GiftRequestFormController extends DefaultServiceRequestFormControll
             String givenDescription = message.getText();
 
             String employeeName;
-            if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml")) {
+            if (SceneSwitcher.peekLastScene().equals("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml")) {
                 try {
                     employeeName = DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(this.id, Request.RequestType.GIFT).getEmployeeName();
                 } catch (SQLException err) {
@@ -212,7 +228,7 @@ public class GiftRequestFormController extends DefaultServiceRequestFormControll
                     requestID, time, date, complete, employeeName, getLocation(), givenDescription);
 
             try {
-                if (SceneSwitcher.peekLastScene().equals("/edu/wpi/teamB/views/menus/serviceRequestDatabase.fxml"))
+                if (SceneSwitcher.peekLastScene().equals("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml"))
                     DatabaseHandler.getDatabaseHandler("main.db").updateRequest(request);
                 else DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
             } catch (SQLException err) {
