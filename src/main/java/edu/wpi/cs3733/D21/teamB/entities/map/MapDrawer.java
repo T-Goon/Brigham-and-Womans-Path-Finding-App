@@ -87,8 +87,12 @@ public class MapDrawer implements PoppableManager {
 
             //Draw the segment of the path that is on the current floor
             for (int i = 0; i < currentFloorPath.size() - 1; i++) {
-                placeEdge(nodes.get(currentFloorPath.get(i)),
-                        nodes.get(currentFloorPath.get(i + 1)));
+
+                //Test if the edge you are trying to place is valid
+                if(Graph.getGraph().verifyEdge(currentFloorPath.get(i), currentFloorPath.get(i+1))) {
+                    placeEdge(nodes.get(currentFloorPath.get(i)),
+                            nodes.get(currentFloorPath.get(i + 1)));
+                }
             }
 
             //If there is a path segment on this floor
@@ -140,7 +144,6 @@ public class MapDrawer implements PoppableManager {
 
                 for (int i = 0; i < currentFloorPath.size() - 1; i++) {
                     steps++;
-                    placeEdge(Graph.getGraph().getNodes().get(currentFloorPath.get(i)), Graph.getGraph().getNodes().get(currentFloorPath.get(i + 1)));
                     double x = Graph.getGraph().getNodes().get(currentFloorPath.get(i)).getXCoord() / PathfindingMenuController.coordinateScale;
                     double y = Graph.getGraph().getNodes().get(currentFloorPath.get(i)).getYCoord() / PathfindingMenuController.coordinateScale;
                     if (i == 0) {
