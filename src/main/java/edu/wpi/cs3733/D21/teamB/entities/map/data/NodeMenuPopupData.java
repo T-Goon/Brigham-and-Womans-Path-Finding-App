@@ -3,6 +3,7 @@ package edu.wpi.cs3733.D21.teamB.entities.map.data;
 import edu.wpi.cs3733.D21.teamB.entities.map.MapCache;
 import edu.wpi.cs3733.D21.teamB.entities.map.MapDrawer;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,4 +24,5 @@ public class NodeMenuPopupData {
     private final Circle circle;
     private final MapCache mc;
     private final StackPane mapStack;
+    private final Color color;
 }

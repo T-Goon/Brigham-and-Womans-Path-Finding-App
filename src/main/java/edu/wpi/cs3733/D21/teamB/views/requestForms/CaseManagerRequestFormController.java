@@ -4,11 +4,14 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXTimePicker;
+import com.jfoenix.validation.RequiredFieldValidator;
 import edu.wpi.cs3733.D21.teamB.App;
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.requests.CaseManagerRequest;
 import edu.wpi.cs3733.D21.teamB.entities.requests.Request;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -56,6 +59,67 @@ public class CaseManagerRequestFormController extends DefaultServiceRequestFormC
             messageForCaseManager.setText(caseManagerRequest.getDescription());
         }
         validateButton();
+
+        //creating a pop-up error message when a text field is left empty
+        //patientName text field
+        RequiredFieldValidator validatorPatientName = new RequiredFieldValidator();
+
+        patientName.getValidators().add(validatorPatientName);
+        validatorPatientName.setMessage("Please input the patient's name!");
+
+        patientName.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if(!newValue){
+                    patientName.validate();
+                }
+            }
+        });
+
+        //location combo box
+        RequiredFieldValidator validatorLocation = new RequiredFieldValidator();
+
+        loc.getValidators().add(validatorLocation);
+        validatorLocation.setMessage("Please select the location!");
+
+        loc.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if(!newValue){
+                    loc.validate();
+                }
+            }
+        });
+
+        //arrival time picker
+        RequiredFieldValidator validatorArrivalTime = new RequiredFieldValidator();
+
+        timeForArrival.getValidators().add(validatorArrivalTime);
+        validatorArrivalTime.setMessage("Please select the time for arrival!");
+
+        timeForArrival.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if(!newValue){
+                    timeForArrival.validate();
+                }
+            }
+        });
+
+        //message text field
+        RequiredFieldValidator validatorMessage = new RequiredFieldValidator();
+
+        messageForCaseManager.getValidators().add(validatorMessage);
+        validatorMessage.setMessage("Please input a message for the case manager or type 'none'!");
+
+        messageForCaseManager.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if(!newValue){
+                    messageForCaseManager.validate();
+                }
+            }
+        });
     }
 
     public void handleButtonAction(ActionEvent e) {

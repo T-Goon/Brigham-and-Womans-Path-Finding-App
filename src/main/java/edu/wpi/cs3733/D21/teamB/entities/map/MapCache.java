@@ -1,6 +1,5 @@
 package edu.wpi.cs3733.D21.teamB.entities.map;
 
-import edu.wpi.cs3733.D21.teamB.entities.FloorSwitcher;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Node;
 import edu.wpi.cs3733.D21.teamB.pathfinding.Graph;
 import javafx.scene.control.TreeItem;
@@ -45,6 +44,10 @@ public class MapCache {
     @Getter
     private String newEdgeEnd;
 
+    @Getter
+    @Setter
+    private List<String> stopsList = new ArrayList<>();
+
     /**
      * Function that updates everything involved with the different locations on the map
      * - Tree View
@@ -55,7 +58,7 @@ public class MapCache {
 
         floorNodes.remove(currentFloor);
         for (Node n : Graph.getGraph().getNodes().values()) {
-            if (!(n.getNodeType().equals("WALK") || n.getNodeType().equals("HALL")|| n.getBuilding().equals("BTM") || n.getBuilding().equals("Shapiro"))) {
+            if (!(n.getNodeType().equals("WALK") || n.getNodeType().equals("HALL"))) {
                 //Populate Category map for TreeView
 
                 //This if statement is temporary for iteration 1 where pathfinding is only needed for the first floor

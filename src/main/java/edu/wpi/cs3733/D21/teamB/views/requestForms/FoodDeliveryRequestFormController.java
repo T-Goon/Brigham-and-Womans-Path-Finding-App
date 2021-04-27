@@ -4,11 +4,14 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXTimePicker;
+import com.jfoenix.validation.RequiredFieldValidator;
 import edu.wpi.cs3733.D21.teamB.App;
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.requests.FoodRequest;
 import edu.wpi.cs3733.D21.teamB.entities.requests.Request;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -60,12 +63,88 @@ public class FoodDeliveryRequestFormController extends DefaultServiceRequestForm
             description.setText(foodRequest.getDescription());
         }
         validateButton();
+
+        //creating a pop-up error message when a text field is left empty
+        //patient name text field
+        RequiredFieldValidator validatorName = new RequiredFieldValidator();
+
+        name.getValidators().add(validatorName);
+        validatorName.setMessage("Please input the patient's name!");
+
+        name.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if(!newValue){
+                    name.validate();
+                }
+            }
+        });
+
+        //location combo box
+        RequiredFieldValidator validatorLocation = new RequiredFieldValidator();
+
+        loc.getValidators().add(validatorLocation);
+        validatorLocation.setMessage("Please select the location for delivery!");
+
+        loc.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if(!newValue){
+                    loc.validate();
+                }
+            }
+        });
+
+        //meal choice text field
+        RequiredFieldValidator validatorMealChoice = new RequiredFieldValidator();
+
+        mealChoice.getValidators().add(validatorMealChoice);
+        validatorMealChoice.setMessage("Please input your meal choice!");
+
+        mealChoice.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if(!newValue){
+                    mealChoice.validate();
+                }
+            }
+        });
+
+        //arrival time picker
+        RequiredFieldValidator validatorArrival = new RequiredFieldValidator();
+
+        arrivalTime.getValidators().add(validatorArrival);
+        validatorArrival.setMessage("Please select your desired arrival time!");
+
+        arrivalTime.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if(!newValue){
+                    arrivalTime.validate();
+                }
+            }
+        });
+
+        //extra information
+        RequiredFieldValidator validatorExtra = new RequiredFieldValidator();
+
+        description.getValidators().add(validatorExtra);
+        validatorExtra.setMessage("Please input any additional information or type 'none'!");
+
+        description.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if(!newValue){
+                    description.validate();
+                }
+            }
+        });
     }
 
-    public void handleButtonAction(ActionEvent e) {
-        super.handleButtonAction(e);
+    public void handleButtonAction(ActionEvent actionEvent) {
+        super.handleButtonAction(actionEvent);
 
-        JFXButton btn = (JFXButton) e.getSource();
+        JFXButton btn = (JFXButton) actionEvent.getSource();
         if (btn.getId().equals("btnSubmit")) {
 
             String givenPatientName = name.getText();
@@ -92,8 +171,8 @@ public class FoodDeliveryRequestFormController extends DefaultServiceRequestForm
             if (SceneSwitcher.peekLastScene().equals("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml")) {
                 try {
                     employeeName = DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(this.id, Request.RequestType.FOOD).getEmployeeName();
-                } catch (SQLException err) {
-                    err.printStackTrace();
+                } catch (SQLException e) {
+                    e.printStackTrace();
                     return;
                 }
             } else {
@@ -107,8 +186,8 @@ public class FoodDeliveryRequestFormController extends DefaultServiceRequestForm
                 if (SceneSwitcher.peekLastScene().equals("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml"))
                     DatabaseHandler.getDatabaseHandler("main.db").updateRequest(request);
                 else DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
-            } catch (SQLException err) {
-                err.printStackTrace();
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
         }
     }

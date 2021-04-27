@@ -3,7 +3,7 @@ package edu.wpi.cs3733.D21.teamB.views.map;
 import com.jfoenix.controls.*;
 import edu.wpi.cs3733.D21.teamB.App;
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
-import edu.wpi.cs3733.D21.teamB.entities.FloorSwitcher;
+import edu.wpi.cs3733.D21.teamB.entities.map.FloorSwitcher;
 import edu.wpi.cs3733.D21.teamB.entities.User;
 import edu.wpi.cs3733.D21.teamB.entities.map.MapCache;
 import edu.wpi.cs3733.D21.teamB.entities.map.MapDrawer;
@@ -11,14 +11,19 @@ import edu.wpi.cs3733.D21.teamB.entities.map.MapEditorPopupManager;
 import edu.wpi.cs3733.D21.teamB.entities.map.MapPathPopupManager;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Edge;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Node;
+import edu.wpi.cs3733.D21.teamB.entities.map.data.NodeType;
+import edu.wpi.cs3733.D21.teamB.entities.map.data.Path;
+import edu.wpi.cs3733.D21.teamB.pathfinding.AStar;
 import edu.wpi.cs3733.D21.teamB.pathfinding.Graph;
 import edu.wpi.cs3733.D21.teamB.util.CSVHandler;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
-import javafx.application.Platform;
+import edu.wpi.cs3733.D21.teamB.views.BasePageController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -26,24 +31,27 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import lombok.Data;
+import lombok.Getter;
 import net.kurobako.gesturefx.GesturePane;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.sql.SQLException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class PathfindingMenuController implements Initializable {
+@SuppressWarnings("unchecked")
+public class PathfindingMenuController extends BasePageController implements Initializable {
 
     @FXML
     private JFXTextField txtStartLocation;
@@ -67,13 +75,7 @@ public class PathfindingMenuController implements Initializable {
     private JFXButton btnFindPath;
 
     @FXML
-    private JFXButton btnBack;
-
-    @FXML
     private JFXButton btnEmergency;
-
-    @FXML
-    private JFXButton btnExit;
 
     @FXML
     private Label lblError;
@@ -88,7 +90,14 @@ public class PathfindingMenuController implements Initializable {
     private JFXButton btnSave;
 
     @FXML
+    @Getter
+    private JFXComboBox<String> comboPathingType;
+
+    @FXML
     private JFXTextField txtSearch;
+
+    @FXML
+    private JFXCheckBox btnMobility;
 
     @FXML
     private JFXTreeView<String> treeLocations;
@@ -101,6 +110,12 @@ public class PathfindingMenuController implements Initializable {
 
     @FXML
     private StackPane stackContainer;
+
+    @FXML
+    private JFXButton btnAddToFavorites;
+
+    @FXML
+    private JFXButton btnRemoveFromFavorites;
 
     @FXML
     private JFXButton btnF3;
@@ -117,9 +132,26 @@ public class PathfindingMenuController implements Initializable {
     @FXML
     private JFXButton btnFL2;
 
+    @FXML
+    private StackPane textDirectionsHolder;
+
+    @FXML
+    private JFXButton btnTxtDir;
+
+    @FXML
+    private JFXTextArea txtAreaStops;
+
+    @FXML
+    private JFXButton btnRemoveStop;
+
+    @FXML
+    private Circle pathHead;
+
     public static final double coordinateScale = 25 / 9.0;
 
     private final Map<String, String> categoryNameMap = new HashMap<>();
+
+    private final HashMap<String, Color> colors = new HashMap<>();
 
     private final DatabaseHandler db = DatabaseHandler.getDatabaseHandler("main.db");
 
@@ -131,6 +163,8 @@ public class PathfindingMenuController implements Initializable {
     private MapEditorPopupManager mepm;
     private MapPathPopupManager mppm;
     private FloorSwitcher fs;
+
+    private Path mapPath;
 
     // JavaFX code **************************************************************************************
 
@@ -155,14 +189,18 @@ public class PathfindingMenuController implements Initializable {
 
         //Adds all the destination names to locationNames and sort the nodes by floor
         mc.updateLocations();
-        populateTreeView();
+        try {
+            populateTreeView();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        md = new MapDrawer(mc, nodeHolder, mapHolder, intermediateNodeHolder, lblError, mapStack, gpane);
+        md = new MapDrawer(this, mc, nodeHolder, mapHolder, intermediateNodeHolder, lblError, mapStack, gpane);
 
         mepm = new MapEditorPopupManager(md, mc, gpane, mapStack);
         md.setMepm(mepm);
 
-        mppm = new MapPathPopupManager(md, txtStartLocation, txtEndLocation, mapStack, gpane, this, nodeHolder);
+        mppm = new MapPathPopupManager(md, mc, txtStartLocation, txtEndLocation, btnRemoveStop, mapStack, gpane, this, nodeHolder, textDirectionsHolder);
         md.setMppm(mppm);
 
         // Set up floor switching
@@ -185,8 +223,10 @@ public class PathfindingMenuController implements Initializable {
 
         // Set up Load and Save buttons
         btnLoad.setOnAction(event -> loadCSV());
-
         btnSave.setOnAction(event -> saveCSV());
+
+        // Set up mobility button
+        btnMobility.setOnAction(event -> md.setMobility(btnMobility.isSelected()));
 
         // Disable editing if the user is not an admin
         checkPermissions();
@@ -196,6 +236,13 @@ public class PathfindingMenuController implements Initializable {
             if (!newValue.matches(" a-zA-Z0-9\\-"))
                 txtSearch.setText(newValue.replaceAll("[^ a-zA-Z0-9\\-]", ""));
         });
+
+        // Set up the pathing type combo box
+        comboPathingType.getItems().add("A*");
+        comboPathingType.getItems().add("DFS");
+        comboPathingType.getItems().add("BFS");
+        comboPathingType.getSelectionModel().select(Graph.getGraph().getPathingTypeIndex());
+        comboPathingType.setOnAction(e -> Graph.getGraph().setPathingTypeIndex(comboPathingType.getSelectionModel().getSelectedIndex()));
     }
 
     /**
@@ -255,6 +302,7 @@ public class PathfindingMenuController implements Initializable {
         btnEditMap.setVisible(db.getAuthenticationUser().isAtLeast(User.AuthenticationLevel.ADMIN));
         btnLoad.setVisible(db.getAuthenticationUser().isAtLeast(User.AuthenticationLevel.ADMIN));
         btnSave.setVisible(db.getAuthenticationUser().isAtLeast(User.AuthenticationLevel.ADMIN));
+        comboPathingType.setVisible(db.getAuthenticationUser().isAtLeast(User.AuthenticationLevel.ADMIN));
     }
 
     /**
@@ -268,7 +316,7 @@ public class PathfindingMenuController implements Initializable {
         TreeItem<String> selectedItem = treeLocations.getSelectionModel().getSelectedItem();
         if (selectedItem == null) return;
 
-        if (selectedItem.isLeaf()) {
+        if (!selectedItem.getValue().equals("Favorites") && selectedItem.isLeaf()) {
             //Selected item is a valid location
 
             //For now only work on nodes that are on the first floor until multi-floor pathfinding is added
@@ -285,6 +333,39 @@ public class PathfindingMenuController implements Initializable {
                     mppm.createGraphicalInputPopup(tempLocation);
 
             }
+        } else if (!selectedItem.isLeaf()) {
+            md.removeAllPopups();
+        }
+
+        if (!selectedItem.isLeaf() && !selectedItem.getValue().equals("Locations") && !selectedItem.getValue().equals("Favorites")) {
+            String category = selectedItem.getValue();
+            NodeType nt = NodeType.deprettify(category);
+            HashMap<String, List<Node>> floorNodes = (HashMap<String, List<Node>>) mc.getFloorNodes();
+
+            // Change node color back to original color
+            if (!colors.isEmpty()) {
+                for (Node node : floorNodes.get(mc.getCurrentFloor())) {
+                    if (colors.containsKey(node.getNodeID())) {
+                        node.setColor(colors.get(node.getNodeID()));
+                    }
+                }
+                colors.clear();
+            }
+
+            // Change node color to gray
+            for (Node node : floorNodes.get(mc.getCurrentFloor())) {
+                if (!node.getNodeType().equals(nt.toString())) {
+                    Color color = Color.web("#9A9999");
+                    if (node.getColor() == null) {
+                        colors.put(node.getNodeID(), Color.web("#012D5A"));
+                    } else {
+                        colors.put(node.getNodeID(), node.getColor());
+                    }
+                    node.setColor(color);
+                }
+            }
+
+            md.redrawNodes();
         }
 
         validateFindPathButton();
@@ -304,14 +385,23 @@ public class PathfindingMenuController implements Initializable {
      * @param e the action event being handled
      */
     @FXML
-    private void handleButtonAction(ActionEvent e) {
+    public void handleButtonAction(ActionEvent e) {
+        super.handleButtonAction(e);
         JFXButton b = (JFXButton) e.getSource();
 
         switch (b.getId()) {
             case "btnFindPath":
-
                 md.removeAllEdges();
+                Map<String, String> longToId = mc.makeLongToIDMap();
+                AStar astar = new AStar();
+                mapPath = astar.findPath(longToId.get(txtStartLocation.getText()), longToId.get(txtEndLocation.getText()), md.isMobility());
+
                 md.drawPath(txtStartLocation.getText(), txtEndLocation.getText());
+
+                if (btnTxtDir.isDisable()) {
+                    btnTxtDir.setDisable(false);
+                }
+
                 break;
             case "btnEditMap":
 
@@ -342,37 +432,150 @@ public class PathfindingMenuController implements Initializable {
                 md.removeAllEdges();
                 fs.switchFloor(FloorSwitcher.floorL2ID);
                 break;
-            case "btnBack":
-                SceneSwitcher.goBack(getClass(), 1);
-                break;
-            case "btnExit":
-                Platform.exit();
+            case "btnRemoveStop":
+                mc.getStopsList().remove(mc.getStopsList().size() - 1);
+                displayStops(mc.getStopsList());
+
+                // Validate button
+                btnRemoveStop.setDisable(mc.getStopsList().isEmpty());
+
                 break;
             case "btnEmergency":
                 SceneSwitcher.switchScene(getClass(), "/edu/wpi/cs3733/D21/teamB/views/map/pathfindingMenu.fxml", "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
                 break;
             case "btnHelp":
                 loadHelpDialog();
+                break;
             case "btnSearch":
                 handleItemSearched();
+                break;
+            case "btnTxtDir":
+                md.removeAllPopups();
+                if (mapPath != null) {
+                    mppm.createTxtDirPopup(mapPath);
+                }
                 break;
         }
     }
 
     /**
+     * Display the stops in the textArea
+     *
+     * @param stopsList List of node longnames
+     */
+    public void displayStops(List<String> stopsList) {
+        StringBuilder stops = new StringBuilder();
+
+        for (String s : stopsList) {
+            stops.append(s).append("\n");
+        }
+
+        txtAreaStops.setText(stops.toString());
+    }
+
+    /**
      * Populates the tree view with nodes and categories
      */
-    private void populateTreeView() {
+    private void populateTreeView() throws IOException {
         //Populating TreeView
-        TreeItem<String> rootNode = new TreeItem<>("Locations");
-        rootNode.setExpanded(true);
+        btnAddToFavorites = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/cs3733/D21/teamB/views/misc/addBtn.fxml")));
+        TreeItem<String> rootNode = new TreeItem<>("Root");
         treeLocations.setRoot(rootNode);
+        treeLocations.setShowRoot(false);
+
+        // Favorites drop down
+        TreeItem<String> favorites = new TreeItem<>("Favorites");
+        if (DatabaseHandler.getDatabaseHandler("main.db").getAuthenticationUser().isAtLeast(User.AuthenticationLevel.PATIENT)) {
+            favorites.setExpanded(true);
+            rootNode.getChildren().add(favorites);
+            favorites.setGraphic(btnAddToFavorites);
+        }
+
+        // Locations drop down
+        TreeItem<String> locations = new TreeItem<>("Locations");
+        locations.setExpanded(true);
+        rootNode.getChildren().add(locations);
 
         //Adding Categories
         for (String category : mc.getCatNameMap().keySet()) {
             TreeItem<String> categoryTreeItem = new TreeItem<>(categoryNameMap.get(category));
             categoryTreeItem.getChildren().addAll(mc.getCatNameMap().get(category));
-            rootNode.getChildren().add(categoryTreeItem);
+            locations.getChildren().add(categoryTreeItem);
+        }
+
+        // Adding to Favorites
+        btnAddToFavorites.setOnAction(addEvent -> {
+            try {
+                btnRemoveFromFavorites = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/cs3733/D21/teamB/views/misc/removeBtn.fxml")));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            TreeItem<String> equivalent = treeLocations.getSelectionModel().getSelectedItem();
+            if (equivalent == null) {
+                return;
+            }
+            String text = equivalent.getValue();
+            TreeItem<String> itemToAdd = new TreeItem<>(text);
+
+            boolean contains = false;
+
+            for (TreeItem<String> item : favorites.getChildren()) {
+                if (item.getValue().equals(equivalent.getValue())) {
+                    contains = true;
+                    break;
+                }
+            }
+
+            if (!contains && equivalent.isLeaf() && !text.equals("Favorites")) {
+                itemToAdd.setGraphic(btnRemoveFromFavorites);
+                favorites.getChildren().add(itemToAdd);
+                try {
+                    DatabaseHandler.getDatabaseHandler("main.db").addFavoriteLocation(itemToAdd.getValue());
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            // Removing from Favorites
+            btnRemoveFromFavorites.setOnAction(removeEvent -> {
+                JFXButton itemToRemove = (JFXButton) removeEvent.getSource();
+                TreeCell<String> treeCell = (TreeCell<String>) itemToRemove.getParent();
+                favorites.getChildren().remove(treeCell.getTreeItem());
+                try {
+                    DatabaseHandler.getDatabaseHandler("main.db").removeFavoriteLocation(treeCell.getTreeItem().getValue());
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            });
+        });
+
+        // Populate Favorites with locations from database
+        try {
+            ArrayList<String> savedFavorites = (ArrayList<String>) DatabaseHandler.getDatabaseHandler("main.db").getFavorites();
+            for (String favorite : savedFavorites) {
+                TreeItem<String> item = new TreeItem<>(favorite);
+                try {
+                    btnRemoveFromFavorites = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/cs3733/D21/teamB/views/misc/removeBtn.fxml")));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                // Removing from Favorites
+                btnRemoveFromFavorites.setOnAction(removeEvent -> {
+                    JFXButton itemToRemove = (JFXButton) removeEvent.getSource();
+                    TreeCell<String> treeCell = (TreeCell<String>) itemToRemove.getParent();
+                    favorites.getChildren().remove(treeCell.getTreeItem());
+                    try {
+                        DatabaseHandler.getDatabaseHandler("main.db").removeFavoriteLocation(treeCell.getTreeItem().getValue());
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                });
+                item.setGraphic(btnRemoveFromFavorites);
+                favorites.getChildren().add(item);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
@@ -405,7 +608,14 @@ public class PathfindingMenuController implements Initializable {
 
         Text helpText;
         if (!md.isEditing())
-            helpText = new Text("Enter your start and end location graphically or using our menu selector. To use the graphical selection,\nsimply click on the node and click on the set button. To enter a location using the menu. Click on the appropriate\ndrop down and choose your location. The node you selected will show up on your map where you can either\nset it to your start or end location. Once both the start and end nodes are filled in you can press \"Go\" to generate your path");
+            helpText = new Text("Enter your start and end location and any stops graphically or using our menu selector. " +
+                    "To use the graphical selection,\nsimply click on the node and click on the set button. " +
+                    "To enter a location using the menu, click on the appropriate\ndrop down and choose your location. " +
+                    "The node you selected will show up on your map where you can either\nset it to your start or end location or a stop. " +
+                    "Once both the start and end nodes are filled in you can press \"Go\" to generate\nyour path. " +
+                    "If you want to remove your stops, click on the \"Remove Stop\" button. " +
+                    "Favorites can be chosen by clicking\non them in the menu selector and pressing the add button, and removed by pressing the minus button on the node.\n"
+            );
         else
             helpText = new Text("Double click to add a node. Click on a node or an edge to edit or remove them. To add a new edge click on\none of the nodes, then \"Add Edge\". Click on another node and click \"Yes\" to add the new edge or \"No\" to cancel it.");
 
@@ -426,7 +636,7 @@ public class PathfindingMenuController implements Initializable {
     }
 
     @FXML
-    private void handleKeysPressedSearchBar(KeyEvent e) {
+    private void handleKeysPressedSearchBar(KeyEvent e) throws IOException {
         String regex = "[ a-zA-Z0-9\\-]+";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(e.getText());

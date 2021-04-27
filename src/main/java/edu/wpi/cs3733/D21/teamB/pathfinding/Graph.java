@@ -4,6 +4,7 @@ import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Edge;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Node;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.*;
 
@@ -18,8 +19,13 @@ public class Graph {
 
     private final DatabaseHandler db;
 
+    @Getter
+    @Setter
+    private int pathingTypeIndex;
+
     private Graph() {
         this.db = DatabaseHandler.getDatabaseHandler("main.db");
+        pathingTypeIndex = 0;
         updateGraph();
     }
 
@@ -92,5 +98,25 @@ public class Graph {
         double dist = Math.sqrt(Math.pow((start.getXCoord() - end.getXCoord()), 2) + Math.pow((start.getYCoord() - end.getYCoord()), 2));
         dist += Math.abs(end.getFloorAsInt() - start.getFloorAsInt()) * 5000;
         return dist;
+    }
+
+    /**
+     * Calculates the cost of a path.
+     *
+     * @param path the list of nodeIDs
+     * @return the cost of the path
+     */
+    public double calculateCost(List<String> path) {
+        if (path == null || path.isEmpty()) return 0;
+        double cost = 0;
+        for (int i = 0; i < path.size() - 1; i++) {
+            Node start = db.getNodeById(path.get(i));
+            Node end = db.getNodeById(path.get(i + 1));
+
+            if (start.getFloor().equals(end.getFloor()))
+                cost += dist(start, end);
+            else cost += 408.75625 * Math.abs(end.getFloorAsInt() - start.getFloorAsInt());
+        }
+        return cost;
     }
 }

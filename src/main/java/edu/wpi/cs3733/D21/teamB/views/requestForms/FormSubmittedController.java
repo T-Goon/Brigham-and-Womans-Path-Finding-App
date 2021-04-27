@@ -12,6 +12,12 @@ public class FormSubmittedController {
     private JFXButton btnReturn;
 
     @FXML
+    private JFXButton btnEmergency;
+
+    @FXML
+    private JFXButton btnExit;
+
+    @FXML
     private void handleButtonAction(ActionEvent e) {
 
         JFXButton btn = (JFXButton) e.getSource();

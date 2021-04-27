@@ -5,6 +5,7 @@ import edu.wpi.cs3733.D21.teamB.entities.map.data.Node;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.NodeType;
 import edu.wpi.cs3733.D21.teamB.entities.requests.*;
 import edu.wpi.cs3733.D21.teamB.entities.User;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.*;
 import java.util.*;
@@ -25,6 +26,7 @@ public class DatabaseHandler {
 
     //State
     static User AuthenticationUser = new User(null, null, null, User.AuthenticationLevel.GUEST, null);
+    private final String salt = BCrypt.gensalt();
 
     private DatabaseHandler() {
         nodeMutator = new NodeMutator(this);
@@ -106,11 +108,13 @@ public class DatabaseHandler {
             tables.add("LaundryRequests");
             tables.add("CaseManagerRequests");
             tables.add("SocialWorkerRequests");
+            tables.add("EmergencyRequests");
             tables.add("Requests");
             tables.add("Edges");
             tables.add("Nodes");
             tables.add("Jobs");
             tables.add("Users");
+            tables.add("FavoriteLocations");
         }
 
         for (String table : tables) {
@@ -136,6 +140,7 @@ public class DatabaseHandler {
                 + "nodeType CHAR(20), "
                 + "longName CHAR(50), "
                 + "shortName CHAR(20), "
+                + "color CHAR(20),"
                 + "CHECK (xcoord >= 0), "
                 + "CHECK (ycoord >= 0))";
 
@@ -250,6 +255,23 @@ public class DatabaseHandler {
                 + "timeForArrival CHAR(20)," // Stored as HH:MM (24 hour time)
                 + "FOREIGN KEY (requestID) REFERENCES Requests(requestID))";
 
+        String giftRequestsTable = "CREATE TABLE IF NOT EXISTS GiftRequests("
+                + "requestID CHAR(20) PRIMARY KEY, "
+                + "patientName CHAR(30), "
+                + "deliveryDate CHAR(10), " // Stored as YYYY-MM-DD
+                + "startTime CHAR(5), " // Stored as HH:MM (24 hour time)
+                + "endTime CHAR(5), " // Stored as HH:MM (24 hour time)
+                + "wantsBalloons CHAR(1), " // Stored as T/F (no boolean data type in SQL)
+                + "wantsTeddyBear CHAR(1), " // Stored as T/F (no boolean data type in SQL)
+                + "wantsChocolate CHAR(1), " // Stored as T/F (no boolean data type in SQL)
+                + "FOREIGN KEY (requestID) REFERENCES Requests(requestID))";
+
+        String emergencyRequestsTable = "CREATE TABLE IF NOT EXISTS EmergencyRequests("
+                + "requestID CHAR(20) PRIMARY KEY, "
+                + "medicalEmergency CHAR(20)," // Stored as T/F (no boolean data type in SQL)
+                + "securityEmergency CHAR(20)," // Stored as T/F (no boolean data type in SQL)
+                + "FOREIGN KEY (requestID) REFERENCES Requests(requestID))";
+
         String usersTable = "CREATE TABLE IF NOT EXISTS Users("
                 + "username CHAR(30) PRIMARY KEY, "
                 + "firstName CHAR(30), "
@@ -260,6 +282,11 @@ public class DatabaseHandler {
         String jobsTable = "CREATE TABLE IF NOT EXISTS Jobs("
                 + "username CHAR(30), "
                 + "job CHAR(30), "
+                + "FOREIGN KEY (username) REFERENCES Users(username))";
+
+        String favoriteLocationsTable = "CREATE TABLE IF NOT EXISTS FavoriteLocations("
+                + "username CHAR(30), "
+                + "favoriteLocation CHAR(30), "
                 + "FOREIGN KEY (username) REFERENCES Users(username))";
 
         runStatement(configuration, false);
@@ -277,9 +304,11 @@ public class DatabaseHandler {
         runStatement(laundryTable, false);
         runStatement(caseManagerRequestsTable, false);
         runStatement(socialWorkerRequestsTable, false);
+        runStatement(giftRequestsTable, false);
+        runStatement(emergencyRequestsTable, false);
         runStatement(usersTable, false);
         runStatement(jobsTable, false);
-
+        runStatement(favoriteLocationsTable, false);
     }
 
     /**
@@ -291,8 +320,8 @@ public class DatabaseHandler {
      */
     public void loadDatabaseNodes(List<Node> nodes) throws SQLException {
 
-        String query = "INSERT INTO Nodes(nodeID, xcoord, ycoord, floor, building, nodeType, longName, shortName) " +
-                "VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO Nodes(nodeID, xcoord, ycoord, floor, building, nodeType, longName, shortName, color) " +
+                "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement statement = databaseConnection.prepareStatement(query);
         if (nodes != null) {
             for (Node node : nodes) {
@@ -304,6 +333,7 @@ public class DatabaseHandler {
                 statement.setString(6, node.getNodeType());
                 statement.setString(7, node.getLongName());
                 statement.setString(8, node.getShortName());
+                statement.setString(9, node.getColor().toString());
                 statement.executeUpdate();
             }
         }
@@ -379,6 +409,14 @@ public class DatabaseHandler {
     }
 
     /**
+     * Retreive all users in database
+     * @return List of users in database
+     */
+    public List<User> getUsers(){
+        return userMutator.getUsers();
+    }
+
+    /**
      * @param username username to query by
      * @return User object with that username, or null if that user doesn't exist
      */
@@ -422,9 +460,9 @@ public class DatabaseHandler {
         userMutator.deauthenticate();
     }
 
-    /*
+    /**
      * @return the User that is currently logged in
-     */
+     **/
     public User getAuthenticationUser() {
         return DatabaseHandler.AuthenticationUser;
     }
@@ -602,7 +640,35 @@ public class DatabaseHandler {
      * @return hashed password
      */
     public String passwordHash(String plaintext) {
-        return String.valueOf(plaintext.hashCode());
+        return BCrypt.hashpw(plaintext, salt);
+    }
+
+    /**
+     * Adds a favorite location to FavoriteLocations
+     *
+     * @param favoriteLocation the favorite location to add
+     */
+    public void addFavoriteLocation(String favoriteLocation) throws SQLException {
+        userMutator.addFavoriteToUser(favoriteLocation);
+    }
+
+    /**
+     * Removes a favorite location from FavoriteLocations
+     *
+     * @param favoriteLocation the favorite location to remove
+     */
+    public void removeFavoriteLocation(String favoriteLocation) throws SQLException {
+        userMutator.removeFavoriteFromUser(favoriteLocation);
+    }
+
+    /**
+     * Displays the list of favorite locations
+     *
+     * @return a list of favorite locations
+     * @throws SQLException
+     */
+    public List<String> getFavorites() throws SQLException {
+        return userMutator.getFavoritesForUser();
     }
 
     /**
