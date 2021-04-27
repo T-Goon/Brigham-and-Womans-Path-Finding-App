@@ -59,7 +59,7 @@ public class ExternalTransportationRequestFormController extends DefaultServiceR
 
         if (SceneSwitcher.peekLastScene().equals("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml")) {
             this.id = (String) App.getPrimaryStage().getUserData();
-            ExternalTransportRequest externalTransportRequest = null;
+            ExternalTransportRequest externalTransportRequest;
             try {
                 externalTransportRequest = (ExternalTransportRequest) DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(id, Request.RequestType.EXTERNAL_TRANSPORT);
             } catch (SQLException e) {
@@ -97,12 +97,9 @@ public class ExternalTransportationRequestFormController extends DefaultServiceR
         name.getValidators().add(validatorName);
         validatorName.setMessage("Please input the patient's name!");
 
-        name.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(!newValue){
-                    name.validate();
-                }
+        name.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                name.validate();
             }
         });
 
@@ -112,12 +109,9 @@ public class ExternalTransportationRequestFormController extends DefaultServiceR
         loc.getValidators().add(validatorLocation);
         validatorLocation.setMessage("Please input the current location!");
 
-        loc.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(!newValue){
-                    loc.validate();
-                }
+        loc.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                loc.validate();
             }
         });
 
@@ -127,12 +121,9 @@ public class ExternalTransportationRequestFormController extends DefaultServiceR
         destination.getValidators().add(validatorDestination);
         validatorDestination.setMessage("Please input the destination address!");
 
-        destination.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(!newValue){
-                    destination.validate();
-                }
+        destination.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                destination.validate();
             }
         });
 
@@ -142,12 +133,9 @@ public class ExternalTransportationRequestFormController extends DefaultServiceR
         comboTranspType.getValidators().add(validatorType);
         validatorType.setMessage("Please select the transportation type!");
 
-        comboTranspType.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(!newValue){
-                    comboTranspType.validate();
-                }
+        comboTranspType.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                comboTranspType.validate();
             }
         });
 
@@ -157,12 +145,9 @@ public class ExternalTransportationRequestFormController extends DefaultServiceR
         description.getValidators().add(validatorDescription);
         validatorDescription.setMessage("Please input transportation details!");
 
-        description.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(!newValue){
-                    description.validate();
-                }
+        description.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                description.validate();
             }
         });
 
@@ -172,12 +157,9 @@ public class ExternalTransportationRequestFormController extends DefaultServiceR
         allergies.getValidators().add(validatorAllergies);
         validatorAllergies.setMessage("Please input any allergies or input 'none'!");
 
-        allergies.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(!newValue){
-                    allergies.validate();
-                }
+        allergies.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                allergies.validate();
             }
         });
     }

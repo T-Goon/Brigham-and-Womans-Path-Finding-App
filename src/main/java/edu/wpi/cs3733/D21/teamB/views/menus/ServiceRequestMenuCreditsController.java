@@ -112,6 +112,9 @@ public class ServiceRequestMenuCreditsController extends BasePageController {
             case "btnGiftDelivery":
                 path = VIEWS_PATH + "giftRequestForm.fxml";
                 break;
+            case "btnLanguageInterpreter":
+                path = VIEWS_PATH + "languageRequestForm.fxml";
+                break;
             case "btnShowCredits":
             case "btnBack":
                 SceneSwitcher.goBack(getClass(), 1);

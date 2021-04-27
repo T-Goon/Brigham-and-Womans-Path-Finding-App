@@ -66,6 +66,9 @@ public class ServiceRequestMenuController extends BasePageController {
 
 
     @FXML
+    private JFXButton btnLanguageInterpreter;
+
+    @FXML
     public void handleButtonAction(ActionEvent e) {
         super.handleButtonAction(e);
         Button btn = (Button) e.getSource();
@@ -110,6 +113,9 @@ public class ServiceRequestMenuController extends BasePageController {
                 break;
             case "btnGiftDelivery":
                 path = VIEWS_PATH + "giftRequestForm.fxml";
+                break;
+            case "btnLanguageInterpreter":
+                path = VIEWS_PATH + "languageRequestForm.fxml";
                 break;
             case "btnShowCredits":
                 path = "/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestMenuCredits.fxml";

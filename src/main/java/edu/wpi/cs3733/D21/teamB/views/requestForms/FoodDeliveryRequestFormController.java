@@ -47,7 +47,7 @@ public class FoodDeliveryRequestFormController extends DefaultServiceRequestForm
 
         if (SceneSwitcher.peekLastScene().equals("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml")) {
             this.id = (String) App.getPrimaryStage().getUserData();
-            FoodRequest foodRequest = null;
+            FoodRequest foodRequest;
             try {
                 foodRequest = (FoodRequest) DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(id, Request.RequestType.FOOD);
             } catch (SQLException e) {
@@ -71,12 +71,9 @@ public class FoodDeliveryRequestFormController extends DefaultServiceRequestForm
         name.getValidators().add(validatorName);
         validatorName.setMessage("Please input the patient's name!");
 
-        name.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(!newValue){
-                    name.validate();
-                }
+        name.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                name.validate();
             }
         });
 
@@ -86,12 +83,9 @@ public class FoodDeliveryRequestFormController extends DefaultServiceRequestForm
         loc.getValidators().add(validatorLocation);
         validatorLocation.setMessage("Please select the location for delivery!");
 
-        loc.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(!newValue){
-                    loc.validate();
-                }
+        loc.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                loc.validate();
             }
         });
 
@@ -101,12 +95,9 @@ public class FoodDeliveryRequestFormController extends DefaultServiceRequestForm
         mealChoice.getValidators().add(validatorMealChoice);
         validatorMealChoice.setMessage("Please input your meal choice!");
 
-        mealChoice.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(!newValue){
-                    mealChoice.validate();
-                }
+        mealChoice.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                mealChoice.validate();
             }
         });
 
@@ -116,12 +107,9 @@ public class FoodDeliveryRequestFormController extends DefaultServiceRequestForm
         arrivalTime.getValidators().add(validatorArrival);
         validatorArrival.setMessage("Please select your desired arrival time!");
 
-        arrivalTime.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(!newValue){
-                    arrivalTime.validate();
-                }
+        arrivalTime.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                arrivalTime.validate();
             }
         });
 
@@ -131,12 +119,9 @@ public class FoodDeliveryRequestFormController extends DefaultServiceRequestForm
         description.getValidators().add(validatorExtra);
         validatorExtra.setMessage("Please input any additional information or type 'none'!");
 
-        description.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(!newValue){
-                    description.validate();
-                }
+        description.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                description.validate();
             }
         });
     }

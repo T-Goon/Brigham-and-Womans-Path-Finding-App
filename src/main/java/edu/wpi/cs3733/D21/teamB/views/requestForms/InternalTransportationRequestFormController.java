@@ -86,12 +86,9 @@ public class InternalTransportationRequestFormController extends DefaultServiceR
         name.getValidators().add(validatorName);
         validatorName.setMessage("Please input the patient's name!");
 
-        name.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(!newValue){
-                    name.validate();
-                }
+        name.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                name.validate();
             }
         });
 
@@ -101,12 +98,9 @@ public class InternalTransportationRequestFormController extends DefaultServiceR
         loc.getValidators().add(validatorLocation);
         validatorLocation.setMessage("Please select the transportation location!");
 
-        loc.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(!newValue){
-                    loc.validate();
-                }
+        loc.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                loc.validate();
             }
         });
 
@@ -116,12 +110,9 @@ public class InternalTransportationRequestFormController extends DefaultServiceR
         comboTranspType.getValidators().add(validatorTransportationType);
         validatorTransportationType.setMessage("Please select the transportation type!");
 
-        comboTranspType.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(!newValue){
-                    comboTranspType.validate();
-                }
+        comboTranspType.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                comboTranspType.validate();
             }
         });
 
@@ -131,12 +122,9 @@ public class InternalTransportationRequestFormController extends DefaultServiceR
         description.getValidators().add(validatorDescription);
         validatorDescription.setMessage("Please provide any additional details or type 'none'!");
 
-        description.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(!newValue){
-                    description.validate();
-                }
+        description.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                description.validate();
             }
         });
     }

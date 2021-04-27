@@ -10,7 +10,6 @@
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -24,7 +23,7 @@
     <children>
         <StackPane fx:id="stackContainer" layoutY="-28.083261489868164" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
-                <VBox layoutY="28.083261489868164" style="-fx-background-color: #012d5a;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                <VBox style="-fx-background-color: #012d5a;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <children>
                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #FFFFFF;">
                             <children>
@@ -70,192 +69,183 @@
                                 </VBox>
                             </children>
                         </HBox>
-                        <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" prefWidth="900.0" style="-fx-background-color: #012d5a;" VBox.vgrow="ALWAYS">
-                            <content>
-                                <VBox style="-fx-background-color: #012d5a;">
-                                    <children>
-                                        <VBox alignment="TOP_CENTER" prefHeight="472.0" prefWidth="898.0" style="-fx-background-color: #012d5a;">
-                                            <children>
-                                                <VBox alignment="TOP_CENTER" spacing="15.0" style="-fx-background-color: #FFFFFF;" VBox.vgrow="NEVER">
-                                                    <VBox.margin>
-                                                        <Insets bottom="10.0" left="50.0" right="50.0" top="10.0" />
-                                                    </VBox.margin>
-                                                    <children>
-                                                        <Text fill="#0067b1" strokeType="OUTSIDE" strokeWidth="0.0" text="Gift Request Form">
-                                                            <font>
-                                                                <Font name="MS Reference Sans Serif" size="25.0" />
-                                                            </font>
-                                                        </Text>
-                                                        <VBox>
-                                                            <children>
-                                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Name:">
-                                                                    <font>
-                                                                        <Font size="14.0" />
-                                                                    </font>
-                                                                </Text>
-                                                                <JFXTextField fx:id="patientName" onKeyReleased="#validateButton" promptText="Ex. &quot;Jane Doe&quot;" style="-fx-background-color: #e5e5e5; -fx-background-radius: 7;" unFocusColor="#f0f0f000" />
-                                                            </children>
-                                                            <padding>
-                                                                <Insets left="10.0" right="10.0" />
-                                                            </padding>
-                                                        </VBox>
-                                                        <VBox>
-                                                            <children>
-                                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Location:">
-                                                                    <font>
-                                                                        <Font size="14.0" />
-                                                                    </font>
-                                                                </Text>
-                                                                <JFXComboBox fx:id="loc" maxWidth="1.7976931348623157E308" style="-fx-background-color: #e5e5e5; -fx-background-radius: 7;" unFocusColor="WHITE" />
-                                                            </children>
-                                                            <padding>
-                                                                <Insets left="10.0" right="10.0" top="5.0" />
-                                                            </padding>
-                                             <VBox.margin>
-                                                <Insets />
-                                             </VBox.margin>
-                                                        </VBox>
-                                                        <HBox>
-                                                            <children>
-                                                                <VBox prefHeight="44.0" prefWidth="263.0">
-                                                                    <children>
-                                                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Date of Delivery:">
-                                                                            <font>
-                                                                                <Font size="14.0" />
-                                                                            </font>
-                                                                        </Text>
-                                                                        <JFXDatePicker fx:id="deliveryDate" defaultColor="#012d5a" onAction="#validateButton" prefHeight="25.0" prefWidth="227.0" style="-fx-background-radius: 7; -fx-background-color: e5e5e5;">
-                                                                            <stylesheets>
-                                                                                <URL value="@../../css/dateTimeFix.css" />
-                                                                            </stylesheets>
-                                                                        </JFXDatePicker>
-                                                                    </children>
-                                                                    <padding>
-                                                                        <Insets left="10.0" right="10.0" />
-                                                                    </padding>
-                                                                </VBox>
-                                                                <VBox prefHeight="44.0" prefWidth="254.0">
-                                                                    <children>
-                                                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Start Time:">
-                                                                            <font>
-                                                                                <Font size="14.0" />
-                                                                            </font>
-                                                                        </Text>
-                                                                        <JFXTimePicker fx:id="startTime" defaultColor="#012d5a" onAction="#validateButton" prefHeight="25.0" prefWidth="231.0" style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" stylesheets="@../../css/dateTimeFix.css" />
-                                                                    </children>
-                                                                    <padding>
-                                                                        <Insets left="10.0" right="10.0" />
-                                                                    </padding>
-                                                                </VBox>
-                                                                <VBox prefHeight="44.0" prefWidth="264.0">
-                                                                    <children>
-                                                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="End Time:">
-                                                                            <font>
-                                                                                <Font size="14.0" />
-                                                                            </font>
-                                                                        </Text>
-                                                                        <JFXTimePicker fx:id="endTime" defaultColor="#012d5a" onAction="#validateButton" prefHeight="25.0" prefWidth="230.0" style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" stylesheets="@../../css/dateTimeFix.css" />
-                                                                    </children>
-                                                                    <padding>
-                                                                        <Insets left="10.0" right="10.0" />
-                                                                    </padding>
-                                                                </VBox>
-                                                            </children>
-                                             <padding>
-                                                <Insets top="5.0" />
-                                             </padding>
-                                                        </HBox>
-                                                        <VBox maxHeight="1.7976931348623157E308" prefWidth="673.0">
-                                                            <children>
-                                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Message:">
-                                                                    <font>
-                                                                        <Font size="14.0" />
-                                                                    </font>
-                                                                </Text>
-                                                                <JFXTextArea fx:id="message" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onKeyReleased="#validateButton" prefWidth="653.0" promptText="Please include a message" style="-fx-background-radius: 7; -fx-background-color: e5e5e5;" unFocusColor="#4d4d4d00" VBox.vgrow="NEVER">
-                                                                    <font>
-                                                                        <Font name="MS Reference Sans Serif" size="14.0" />
-                                                                    </font>
-                                                                </JFXTextArea>
-                                                            </children>
-                                                            <padding>
-                                                                <Insets left="10.0" right="10.0" top="5.0" />
-                                                            </padding>
-                                                        </VBox>
-                                                        <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="20.0">
-                                                            <children>
-                                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Gifts: " HBox.hgrow="ALWAYS">
-                                                                    <font>
-                                                                        <Font size="14.0" />
-                                                                    </font>
-                                                                </Text>
-                                                                <HBox alignment="CENTER_LEFT" fillHeight="false" spacing="10.0" HBox.hgrow="ALWAYS">
-                                                                    <children>
-                                                                        <JFXCheckBox fx:id="balloons" alignment="CENTER" onAction="#updatePrice" text="Balloons ($0.50 each)">
-                                                         <HBox.margin>
-                                                            <Insets />
-                                                         </HBox.margin>
-                                                         <padding>
-                                                            <Insets right="30.0" />
-                                                         </padding>
-                                                      </JFXCheckBox>
-                                                                        <JFXCheckBox fx:id="teddyBear" onAction="#updatePrice" text="Teddy Bear ($2 each)">
-                                                         <HBox.margin>
-                                                            <Insets right="30.0" />
-                                                         </HBox.margin>
-                                                      </JFXCheckBox>
-                                                                        <JFXCheckBox fx:id="chocolate" onAction="#updatePrice" text="Chocolate ($1 each)">
-                                                         <padding>
-                                                            <Insets right="30.0" />
-                                                         </padding>
-                                                      </JFXCheckBox>
-                                                                    </children>
+                          <VBox style="-fx-background-color: #012d5a;">
+                              <children>
+                                  <VBox alignment="TOP_CENTER" prefHeight="472.0" prefWidth="898.0" style="-fx-background-color: #012d5a;">
+                                      <children>
+                                          <VBox alignment="TOP_CENTER" spacing="15.0" style="-fx-background-color: #FFFFFF;" VBox.vgrow="NEVER">
+                                              <VBox.margin>
+                                                  <Insets bottom="10.0" left="50.0" right="50.0" top="10.0" />
+                                              </VBox.margin>
+                                              <children>
+                                                  <Text fill="#0067b1" strokeType="OUTSIDE" strokeWidth="0.0" text="Gift Request Form">
+                                                      <font>
+                                                          <Font name="MS Reference Sans Serif" size="25.0" />
+                                                      </font>
+                                                  </Text>
+                                                  <VBox>
+                                                      <children>
+                                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Name:">
+                                                              <font>
+                                                                  <Font size="14.0" />
+                                                              </font>
+                                                          </Text>
+                                                          <JFXTextField fx:id="patientName" onKeyReleased="#validateButton" promptText="Ex. &quot;Jane Doe&quot;" style="-fx-background-color: #e5e5e5; -fx-background-radius: 7;" unFocusColor="#f0f0f000" />
+                                                      </children>
+                                                      <padding>
+                                                          <Insets left="10.0" right="10.0" />
+                                                      </padding>
+                                                  </VBox>
+                                                  <VBox>
+                                                      <children>
+                                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Location:">
+                                                              <font>
+                                                                  <Font size="14.0" />
+                                                              </font>
+                                                          </Text>
+                                                          <JFXComboBox fx:id="loc" maxWidth="1.7976931348623157E308" style="-fx-background-color: #e5e5e5; -fx-background-radius: 7;" unFocusColor="WHITE" />
+                                                      </children>
+                                                      <padding>
+                                                          <Insets left="10.0" right="10.0" top="5.0" />
+                                                      </padding>
+                                       <VBox.margin>
+                                          <Insets />
+                                       </VBox.margin>
+                                                  </VBox>
+                                                  <HBox>
+                                                      <children>
+                                                          <VBox prefHeight="44.0" prefWidth="263.0">
+                                                              <children>
+                                                                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Date of Delivery:">
+                                                                      <font>
+                                                                          <Font size="14.0" />
+                                                                      </font>
+                                                                  </Text>
+                                                                  <JFXDatePicker fx:id="deliveryDate" defaultColor="#012d5a" onAction="#validateButton" prefHeight="25.0" prefWidth="227.0" style="-fx-background-radius: 7; -fx-background-color: e5e5e5;">
+                                                                      <stylesheets>
+                                                                          <URL value="@../../css/dateTimeFix.css" />
+                                                                      </stylesheets>
+                                                                  </JFXDatePicker>
+                                                              </children>
+                                                              <padding>
+                                                                  <Insets left="10.0" right="10.0" />
+                                                              </padding>
+                                                          </VBox>
+                                                          <VBox prefHeight="44.0" prefWidth="254.0">
+                                                              <children>
+                                                                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Start Time:">
+                                                                      <font>
+                                                                          <Font size="14.0" />
+                                                                      </font>
+                                                                  </Text>
+                                                                  <JFXTimePicker fx:id="startTime" defaultColor="#012d5a" onAction="#validateButton" prefHeight="25.0" prefWidth="231.0" style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" stylesheets="@../../css/dateTimeFix.css" />
+                                                              </children>
+                                                              <padding>
+                                                                  <Insets left="10.0" right="10.0" />
+                                                              </padding>
+                                                          </VBox>
+                                                          <VBox prefHeight="44.0" prefWidth="264.0">
+                                                              <children>
+                                                                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="End Time:">
+                                                                      <font>
+                                                                          <Font size="14.0" />
+                                                                      </font>
+                                                                  </Text>
+                                                                  <JFXTimePicker fx:id="endTime" defaultColor="#012d5a" onAction="#validateButton" prefHeight="25.0" prefWidth="230.0" style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" stylesheets="@../../css/dateTimeFix.css" />
+                                                              </children>
+                                                              <padding>
+                                                                  <Insets left="10.0" right="10.0" />
+                                                              </padding>
+                                                          </VBox>
+                                                      </children>
+                                       <padding>
+                                          <Insets top="5.0" />
+                                       </padding>
+                                                  </HBox>
+                                                  <VBox maxHeight="1.7976931348623157E308" prefWidth="673.0">
+                                                      <children>
+                                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Message:">
+                                                              <font>
+                                                                  <Font size="14.0" />
+                                                              </font>
+                                                          </Text>
+                                                          <JFXTextArea fx:id="message" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onKeyReleased="#validateButton" prefWidth="653.0" promptText="Please include a message" style="-fx-background-radius: 7; -fx-background-color: e5e5e5;" unFocusColor="#4d4d4d00" VBox.vgrow="NEVER">
+                                                              <font>
+                                                                  <Font name="MS Reference Sans Serif" size="14.0" />
+                                                              </font>
+                                                          </JFXTextArea>
+                                                      </children>
+                                                      <padding>
+                                                          <Insets left="10.0" right="10.0" top="5.0" />
+                                                      </padding>
+                                                  </VBox>
+                                                  <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="20.0">
+                                                      <children>
+                                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Gifts: " HBox.hgrow="ALWAYS">
+                                                              <font>
+                                                                  <Font size="14.0" />
+                                                              </font>
+                                                          </Text>
+                                                          <HBox alignment="CENTER_LEFT" fillHeight="false" spacing="10.0" HBox.hgrow="ALWAYS">
+                                                              <children>
+                                                                  <JFXCheckBox fx:id="balloons" alignment="CENTER" onAction="#updatePrice" text="Balloons ($0.50 each)">
+                                                   <HBox.margin>
+                                                      <Insets />
+                                                   </HBox.margin>
                                                    <padding>
                                                       <Insets right="30.0" />
                                                    </padding>
-                                                                </HBox>
-                                                            </children>
-                                                            <VBox.margin>
-                                                                <Insets left="10.0" right="10.0" />
-                                                            </VBox.margin>
+                                                </JFXCheckBox>
+                                                                  <JFXCheckBox fx:id="teddyBear" onAction="#updatePrice" text="Teddy Bear ($2 each)">
+                                                   <HBox.margin>
+                                                      <Insets right="30.0" />
+                                                   </HBox.margin>
+                                                </JFXCheckBox>
+                                                                  <JFXCheckBox fx:id="chocolate" onAction="#updatePrice" text="Chocolate ($1 each)">
+                                                   <padding>
+                                                      <Insets right="30.0" />
+                                                   </padding>
+                                                </JFXCheckBox>
+                                                              </children>
                                              <padding>
-                                                <Insets top="7.0" />
+                                                <Insets right="30.0" />
                                              </padding>
-                                                        </HBox>
-                                                        <HBox alignment="CENTER_LEFT" prefHeight="17.0" prefWidth="546.0">
-                                                            <children>
-                                                                <Label fx:id="totalPrice" text="Total Price: $0.00" textOverrun="CLIP">
-                                                                    <font>
-                                                                        <Font size="14.0" />
-                                                                    </font>
-                                                                </Label>
-                                                            </children>
-                                                            <opaqueInsets>
-                                                                <Insets />
-                                                            </opaqueInsets>
-                                                            <padding>
-                                                                <Insets left="10.0" right="10.0" />
-                                                            </padding>
-                                                        </HBox>
-                                                    </children>
+                                                          </HBox>
+                                                      </children>
+                                                      <VBox.margin>
+                                                          <Insets left="10.0" right="10.0" />
+                                                      </VBox.margin>
                                        <padding>
-                                          <Insets bottom="10.0" />
+                                          <Insets top="7.0" />
                                        </padding>
-                                                </VBox>
-                                            </children>
-                                 <VBox.margin>
-                                    <Insets />
-                                 </VBox.margin>
-                                        </VBox>
-                                        <HBox fx:id="helpHolder" alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
-                                            <VBox.margin>
-                                                <Insets left="50.0" right="50.0" top="10.0" />
-                                            </VBox.margin>
-                                        </HBox>
-                                    </children>
-                                </VBox>
-                            </content>
-                        </ScrollPane>
+                                                  </HBox>
+                                                  <HBox alignment="CENTER_LEFT" prefHeight="17.0" prefWidth="546.0">
+                                                      <children>
+                                                          <Label fx:id="totalPrice" text="Total Price: $0.00" textOverrun="CLIP">
+                                                              <font>
+                                                                  <Font size="14.0" />
+                                                              </font>
+                                                          </Label>
+                                                      </children>
+                                                      <opaqueInsets>
+                                                          <Insets />
+                                                      </opaqueInsets>
+                                                      <padding>
+                                                          <Insets left="10.0" right="10.0" />
+                                                      </padding>
+                                                  </HBox>
+                                              </children>
+                                 <padding>
+                                    <Insets bottom="10.0" />
+                                 </padding>
+                                          </VBox>
+                                      </children>
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                                  </VBox>
+                              </children>
+                          </VBox>
                     </children>
                 </VBox>
             <HBox alignment="CENTER_LEFT" fillHeight="false" maxHeight="-Infinity" prefWidth="200.0" StackPane.alignment="BOTTOM_CENTER">
