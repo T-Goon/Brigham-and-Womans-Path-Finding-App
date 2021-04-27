@@ -149,6 +149,8 @@ public class PathfindingMenuController implements Initializable {
 
     private final Map<String, String> categoryNameMap = new HashMap<>();
 
+    private final HashMap<Node, Color> colors = new HashMap<>();
+
     private final DatabaseHandler db = DatabaseHandler.getDatabaseHandler("main.db");
 
     final FileChooser fileChooser = new FileChooser();
@@ -334,19 +336,30 @@ public class PathfindingMenuController implements Initializable {
         if (!selectedItem.isLeaf()) {
             String category = selectedItem.getValue();
             NodeType nt = NodeType.deprettify(category);
-            try {
-                List<Node> selectedNodes = DatabaseHandler.getDatabaseHandler("main.db").getNodesByCategory(nt);
-                Map<String, Node> allNodes = DatabaseHandler.getDatabaseHandler("main.db").getNodes();
-                for (Node node : allNodes.values()) {
-                    if (!selectedNodes.contains(node)) {
-                        Color color = Color.web("#9A9999");
-                        node.setColor(color);
-                        md.redrawNodes();
-                    }
+            HashMap<String, List<Node>> floorNodes = (HashMap<String, List<Node>>) mc.getFloorNodes();
+
+            // Change node color back to original color
+            if (!colors.isEmpty()) {
+                for (Node node : colors.keySet()) {
+                    node.setColor(colors.get(node));
                 }
-            } catch (SQLException exception) {
-                exception.printStackTrace();
+                colors.clear();
             }
+
+            // Change node color to gray
+            for (Node node : floorNodes.get(mc.getCurrentFloor())) {
+                if (!node.getNodeType().equals(nt.toString())) {
+                    Color color = Color.web("#9A9999");
+                    if (node.getColor() == null) {
+                        colors.put(node, Color.web("012D5A"));
+                    } else {
+                        colors.put(node, node.getColor());
+                    }
+                    node.setColor(color);
+                }
+            }
+
+            md.redrawNodes();
         }
 
         validateFindPathButton();
