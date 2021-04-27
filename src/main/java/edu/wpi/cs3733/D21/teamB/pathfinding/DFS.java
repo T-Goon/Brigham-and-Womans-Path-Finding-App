@@ -3,9 +3,7 @@ package edu.wpi.cs3733.D21.teamB.pathfinding;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Node;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Path;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class DFS implements Pathfinder {
 
@@ -19,46 +17,33 @@ public class DFS implements Pathfinder {
     public Path findPath(String start, String end, boolean mobility) {
         Graph graph = Graph.getGraph();
         graph.updateGraph();
-        List<String> path = dfsHelper(start, end, new ArrayList<>(), graph, mobility);
-        double cost = graph.calculateCost(path);
-        return new Path(path, cost);
-    }
+        Stack<Pair> stack = new Stack<>();
+        stack.push(new Pair(start, new ArrayList<>(Collections.singleton(graph.getNodes().get(start)))));
 
-    /**
-     * DFS helper function.
-     *
-     * @param start   the current starting nodeID
-     * @param end     the final nodeID
-     * @param visited list of nodeIDs already visited
-     * @return a stack of the path of nodeIDs from start to end
-     */
-    public static List<String> dfsHelper(String start, String end, List<String> visited, Graph graph, boolean mobility) {
-        visited.add(start);
+        while (!stack.isEmpty()) {
+            Pair p = stack.pop();
+            List<Node> neighbors = graph.getAdjNodesById(p.getCurrent());
+            neighbors.removeAll(p.getPath());
 
-        // If the start equals the end, this is the recursive base case
-        if (start.equals(end)) {
-            return Collections.singletonList(start);
-        }
+            for (Node n : neighbors) {
 
-        // Otherwise, run dfs on all the neighbors
-        List<String> returned = new ArrayList<>();
-        for (Node neighbor : graph.getAdjNodesById(start)) {
+                // Deals with mobility
+                if (mobility && n.getNodeType().equals("STAI")) continue;
 
-            // Deals with mobility
-            if (mobility && neighbor.getNodeType().equals("STAI")) continue;
-
-            // If the neighbor is not already visited
-            if (!visited.contains(neighbor.getNodeID())) {
-                // Recursively see if it is part of path
-                List<String> result = new ArrayList<>(dfsHelper(neighbor.getNodeID(), end, visited, graph, mobility));
-                if (!result.isEmpty()) {
-                    returned.add(start);
-                    returned.addAll(result);
-                    break;
+                if (n.getNodeID().equals(end)) {
+                    p.getPath().add(n);
+                    List<String> path = new ArrayList<>();
+                    p.getPath().forEach(node -> path.add(node.getNodeID()));
+                    return new Path(path, graph.calculateCost(path));
+                } else {
+                    ArrayList<Node> nodes = new ArrayList<>(p.getPath());
+                    nodes.add(n);
+                    stack.push(new Pair(n.getNodeID(), nodes));
                 }
             }
         }
 
-        return returned;
+        return null;
     }
+
 }

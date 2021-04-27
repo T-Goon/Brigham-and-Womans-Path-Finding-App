@@ -25,8 +25,8 @@ public class BFS implements Pathfinder {
 
         while (!queue.isEmpty()) {
             Pair p = queue.remove();
-            List<Node> neighbors = graph.getAdjNodesById(p.current);
-            neighbors.removeAll(p.path);
+            List<Node> neighbors = graph.getAdjNodesById(p.getCurrent());
+            neighbors.removeAll(p.getPath());
 
             for (Node n : neighbors) {
 
@@ -34,12 +34,12 @@ public class BFS implements Pathfinder {
                 if (mobility && n.getNodeType().equals("STAI")) continue;
 
                 if (n.getNodeID().equals(end)) {
-                    p.path.add(n);
+                    p.getPath().add(n);
                     List<String> path = new ArrayList<>();
-                    p.path.forEach(node -> path.add(node.getNodeID()));
+                    p.getPath().forEach(node -> path.add(node.getNodeID()));
                     return new Path(path, graph.calculateCost(path));
                 } else {
-                    ArrayList<Node> nodes = new ArrayList<>(p.path);
+                    ArrayList<Node> nodes = new ArrayList<>(p.getPath());
                     nodes.add(n);
                     queue.add(new Pair(n.getNodeID(), nodes));
                 }
@@ -47,13 +47,5 @@ public class BFS implements Pathfinder {
         }
 
         return null;
-    }
-
-    @Getter
-    @Setter
-    @AllArgsConstructor
-    private static class Pair {
-        private String current;
-        private ArrayList<Node> path;
     }
 }
