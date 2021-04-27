@@ -29,6 +29,7 @@ public class Request implements IStoredEntity {
         FOOD,
         INTERNAL_TRANSPORT,
         LAUNDRY,
+        LANGUAGE,
         MEDICINE,
         RELIGIOUS,
         SANITATION,

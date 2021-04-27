@@ -1,15 +1,14 @@
 package edu.wpi.cs3733.D21.teamB.views.requestForms;
 
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXTextArea;
-import com.jfoenix.controls.JFXTextField;
-import com.jfoenix.controls.JFXTimePicker;
+import com.jfoenix.controls.*;
+import com.jfoenix.validation.RequiredFieldValidator;
 import edu.wpi.cs3733.D21.teamB.App;
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.requests.Request;
 import edu.wpi.cs3733.D21.teamB.entities.requests.languageRequest;
-
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -23,16 +22,22 @@ import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.UUID;
 
-public class SocialWorkerRequestFormController extends DefaultServiceRequestFormController implements Initializable {
+public class languageRequestFormController extends DefaultServiceRequestFormController implements Initializable {
 
     @FXML
     private JFXTextField patientName;
 
     @FXML
+    private JFXComboBox loc;
+
+    @FXML
+    private JFXComboBox language;
+
+    @FXML
     private JFXTimePicker timeForArrival;
 
     @FXML
-    private JFXTextArea messageForSocialWorker;
+    private JFXTextArea message;
 
     private String id;
 
@@ -44,7 +49,7 @@ public class SocialWorkerRequestFormController extends DefaultServiceRequestForm
             this.id = (String) App.getPrimaryStage().getUserData();
             languageRequest languageRequest = null;
             try {
-                languageRequest = (languageRequest) DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(id, Request.RequestType.SOCIAL_WORKER);
+                languageRequest = (languageRequest) DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(id, Request.RequestType.LANGUAGE);
             } catch (SQLException e) {
                 e.printStackTrace();
                 return;
@@ -54,9 +59,82 @@ public class SocialWorkerRequestFormController extends DefaultServiceRequestForm
             String time = languageRequest.getTimeForArrival();
             LocalTime lt = LocalTime.of(Integer.parseInt(time.substring(0, 2)), Integer.parseInt(time.substring(3, 5)));
             timeForArrival.setValue(lt);
-            messageForSocialWorker.setText(languageRequest.getDescription());
+            message.setText(languageRequest.getDescription());
         }
         validateButton();
+
+        RequiredFieldValidator validatorName = new RequiredFieldValidator();
+
+        patientName.getValidators().add(validatorName);
+        validatorName.setMessage("Please input the patient's name!");
+
+        patientName.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if(!newValue){
+                    patientName.validate();
+                }
+            }
+        });
+
+        RequiredFieldValidator validatorLocation = new RequiredFieldValidator();
+
+        loc.getValidators().add(validatorLocation);
+        validatorLocation.setMessage("Please input the patient's name!");
+
+        loc.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if(!newValue){
+                    loc.validate();
+                }
+            }
+        });
+
+        RequiredFieldValidator validatorLanguage = new RequiredFieldValidator();
+
+        language.getValidators().add(validatorLanguage);
+        validatorLanguage.setMessage("Please input the patient's name!");
+
+        language.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if(!newValue){
+                    language.validate();
+                }
+            }
+
+
+        });
+
+        RequiredFieldValidator validatorTimeForArrival = new RequiredFieldValidator();
+
+        timeForArrival.getValidators().add(validatorTimeForArrival);
+        validatorTimeForArrival.setMessage("Please input the patient's name!");
+
+        timeForArrival.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if(!newValue){
+                    timeForArrival.validate();
+                }
+            }
+        });
+
+
+        RequiredFieldValidator validatorMessage = new RequiredFieldValidator();
+
+        message.getValidators().add(validatorMessage);
+        validatorMessage.setMessage("Please input the patient's name!");
+
+        message.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if(!newValue){
+                    message.validate();
+                }
+            }
+        });
     }
 
     public void handleButtonAction(ActionEvent e) {
@@ -81,12 +159,12 @@ public class SocialWorkerRequestFormController extends DefaultServiceRequestForm
             String time = timeFormat.format(dateInfo); // Stored as HH:MM (24 hour time)
             String date = dateFormat.format(dateInfo); // Stored as YYYY-MM-DD
             String complete = "F";
-            String givenDescription = messageForSocialWorker.getText();
+            String givenDescription = message.getText();
 
             String employeeName;
             if (SceneSwitcher.peekLastScene().equals("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml")) {
                 try {
-                    employeeName = DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(this.id, Request.RequestType.SOCIAL_WORKER).getEmployeeName();
+                    employeeName = DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(this.id, Request.RequestType.LANGUAGE).getEmployeeName();
                 } catch (SQLException err) {
                     err.printStackTrace();
                     return;
@@ -114,7 +192,7 @@ public class SocialWorkerRequestFormController extends DefaultServiceRequestForm
     private void validateButton(){
         btnSubmit.setDisable(
                 patientName.getText().isEmpty() || loc.getValue() == null || timeForArrival.getValue() == null ||
-                messageForSocialWorker.getText().isEmpty()
+                        message.getText().isEmpty()
         );
     }
 }

@@ -175,11 +175,11 @@ public class RequestMutator implements IDatabaseEntityMutator<Request> {
                         + "')";
                 break;
             case SOCIAL_WORKER:
-                SocialWorkerRequest socialWorkerRequest = (SocialWorkerRequest) request;
+                languageRequest languageRequest = (languageRequest) request;
                 query = "INSERT INTO SocialWorkerRequests VALUES " +
-                        "('" + socialWorkerRequest.getRequestID()
-                        + "', '" + socialWorkerRequest.getPatientName().replace("'", "''")
-                        + "', '" + socialWorkerRequest.getTimeForArrival()
+                        "('" + languageRequest.getRequestID()
+                        + "', '" + languageRequest.getPatientName().replace("'", "''")
+                        + "', '" + languageRequest.getTimeForArrival()
                         + "')";
                 break;
         }
@@ -292,10 +292,10 @@ public class RequestMutator implements IDatabaseEntityMutator<Request> {
                         + "' WHERE requestID = '" + caseManagerRequest.getRequestID() + "'";
                 break;
             case SOCIAL_WORKER:
-                SocialWorkerRequest socialWorkerRequest = (SocialWorkerRequest) request;
-                query = "UPDATE SocialWorkerRequests SET patientName = '" + socialWorkerRequest.getPatientName().replace("'", "''")
-                        + "', timeForArrival = '" + socialWorkerRequest.getTimeForArrival()
-                        + "' WHERE requestID = '" + socialWorkerRequest.getRequestID() + "'";
+                languageRequest languageRequest = (languageRequest) request;
+                query = "UPDATE SocialWorkerRequests SET patientName = '" + languageRequest.getPatientName().replace("'", "''")
+                        + "', timeForArrival = '" + languageRequest.getTimeForArrival()
+                        + "' WHERE requestID = '" + languageRequest.getRequestID() + "'";
                 break;
         }
         db.runStatement(query, false);
@@ -503,7 +503,7 @@ public class RequestMutator implements IDatabaseEntityMutator<Request> {
                 );
                 break;
             case SOCIAL_WORKER:
-                outRequest = new SocialWorkerRequest(
+                outRequest = new languageRequest(
                         rs.getString("patientName"),
                         rs.getString("timeForArrival"),
                         rs.getString("requestID"),
