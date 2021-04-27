@@ -72,16 +72,16 @@ public class MapDrawer implements PoppableManager {
     public void drawPathOther(){
         Map<String, Node> nodes = Graph.getGraph().getNodes();
 
-        javafx.scene.shape.Path animationPath = new javafx.scene.shape.Path();
-        int steps = 0;
         if (!nodeHolder.getChildren().contains(head)) {
             nodeHolder.getChildren().add(head);
         }
         head.setFill(Color.valueOf("#0067B1"));
 
         if (mapCache.getFinalPath().getPath().isEmpty()) {
+            // There is no path
             lblError.setVisible(true);
         } else {
+            // There is a path
             List<String> currentFloorPath = mapCache.getFinalPath().getFloorPathSegment(mapCache.getCurrentFloor());
 
             //Draw the segment of the path that is on the current floor
@@ -120,9 +120,10 @@ public class MapDrawer implements PoppableManager {
                         String floorChangeNodeID = mapCache.getFinalPath().getPath().get(floorChangeNodeIndex);
                         for (javafx.scene.Node img : mapCache.getNodePlaced()) {
                             if (img.getId().equals(floorChangeNodeID + "Icon")) {
+                                // change image
                                 ImageView view = (ImageView) img;
                                 view.setImage(new Image("/edu/wpi/cs3733/D21/teamB/images/maps/up.png"));
-//                                img.setEffect(new ColorAdjust(-0.5, 0, 0, 0));
+
                                 mapCache.getEditedNodes().add(img);
                             }
                         }
@@ -133,46 +134,21 @@ public class MapDrawer implements PoppableManager {
                         String floorChangeNodeID = mapCache.getFinalPath().getPath().get(floorChangeNodeIndex);
                         for (javafx.scene.Node img : mapCache.getNodePlaced()) {
                             if (img.getId().equals(floorChangeNodeID + "Icon")) {
+                                // change image
                                 ImageView view = (ImageView) img;
                                 view.setImage(new Image("/edu/wpi/cs3733/D21/teamB/images/maps/down.png"));
-//                                img.setEffect(new ColorAdjust(0.8, 1, 0, 0));
+
                                 mapCache.getEditedNodes().add(img);
 
                             }
                         }
                     }
-
                 }
 
-                for (int i = 0; i < currentFloorPath.size() - 1; i++) {
-                    steps++;
-                    double x = Graph.getGraph().getNodes().get(currentFloorPath.get(i)).getXCoord() / PathfindingMenuController.coordinateScale;
-                    double y = Graph.getGraph().getNodes().get(currentFloorPath.get(i)).getYCoord() / PathfindingMenuController.coordinateScale;
-                    if (i == 0) {
-                        animationPath.getElements().add(new MoveTo(x, y));
-                    } else {
-                        animationPath.getElements().add(new LineTo(x, y));
-                    }
-
-                }
-
-                // Animate the last edge
-                double x = Graph.getGraph().getNodes().get(currentFloorPath.get(currentFloorPath.size() - 1)).getXCoord() / PathfindingMenuController.coordinateScale;
-                double y = Graph.getGraph().getNodes().get(currentFloorPath.get(currentFloorPath.size() - 1)).getYCoord() / PathfindingMenuController.coordinateScale;
-                animationPath.getElements().add(new LineTo(x, y));
-
-                PathTransition pathTransition = new PathTransition();
-                pathTransition.setDuration(Duration.millis(steps * 300));
-                pathTransition.setNode(head);
-                pathTransition.setPath(animationPath);
-                pathTransition.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
-                pathTransition.setCycleCount(Animation.INDEFINITE);
-                pathTransition.setAutoReverse(false);
-                pathTransition.play();
+                // Animate the path
+                animatePath(currentFloorPath);
 
             } else{
-                animationPath = new javafx.scene.shape.Path();
-                steps = 0;
                 nodeHolder.getChildren().remove(head);
             }
 
@@ -187,6 +163,47 @@ public class MapDrawer implements PoppableManager {
         }
 
     }
+
+    /**
+     * Animates the head on the path
+     * @param currentFloorPath List of node ids for nodes on the floor
+     */
+    private void animatePath(List<String> currentFloorPath){
+        javafx.scene.shape.Path animationPath = new javafx.scene.shape.Path();
+        int steps = 0;
+
+        // Place head at first node
+        animationPath.getElements().add(new MoveTo(
+                Graph.getGraph().getNodes().get(currentFloorPath.get(0)).getXCoord() / PathfindingMenuController.coordinateScale,
+                Graph.getGraph().getNodes().get(currentFloorPath.get(0)).getYCoord() / PathfindingMenuController.coordinateScale));
+
+        for (int i = 0; i < currentFloorPath.size() - 1; i++) {
+            steps++;
+            double x = Graph.getGraph().getNodes().get(currentFloorPath.get(i+1)).getXCoord() / PathfindingMenuController.coordinateScale;
+            double y = Graph.getGraph().getNodes().get(currentFloorPath.get(i+1)).getYCoord() / PathfindingMenuController.coordinateScale;
+
+            if (Graph.getGraph().verifyEdge(currentFloorPath.get(i), currentFloorPath.get(i + 1))) {
+                // Valid edge move along it
+                animationPath.getElements().add(new LineTo(x, y));
+
+            } else if(i != currentFloorPath.size() - 2){
+                // Teleport to the next section of the path
+                animationPath.getElements().add(new MoveTo(x, y));
+            }
+
+        }
+
+        PathTransition pathTransition = new PathTransition();
+        pathTransition.setDuration(Duration.millis(steps * 300));
+        pathTransition.setNode(head);
+        pathTransition.setPath(animationPath);
+        pathTransition.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
+        pathTransition.setCycleCount(Animation.INDEFINITE);
+        pathTransition.setAutoReverse(false);
+        pathTransition.play();
+
+        }
+
 
     /**
      * Draws the path on the map given a start and an end node
