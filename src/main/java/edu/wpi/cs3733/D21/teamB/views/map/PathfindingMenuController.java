@@ -157,7 +157,7 @@ public class PathfindingMenuController implements Initializable {
 
     private final Map<String, String> categoryNameMap = new HashMap<>();
 
-    private final HashMap<Node, Color> colors = new HashMap<>();
+    private final HashMap<String, Color> colors = new HashMap<>();
 
     private final DatabaseHandler db = DatabaseHandler.getDatabaseHandler("main.db");
 
@@ -350,8 +350,10 @@ public class PathfindingMenuController implements Initializable {
 
             // Change node color back to original color
             if (!colors.isEmpty()) {
-                for (Node node : colors.keySet()) {
-                    node.setColor(colors.get(node));
+                for (Node node : floorNodes.get(mc.getCurrentFloor())) {
+                    if (colors.containsKey(node.getNodeID())) {
+                        node.setColor(colors.get(node.getNodeID()));
+                    }
                 }
                 colors.clear();
             }
@@ -361,9 +363,9 @@ public class PathfindingMenuController implements Initializable {
                 if (!node.getNodeType().equals(nt.toString())) {
                     Color color = Color.web("#9A9999");
                     if (node.getColor() == null) {
-                        colors.put(node, Color.web("#012D5A"));
+                        colors.put(node.getNodeID(), Color.web("#012D5A"));
                     } else {
-                        colors.put(node, node.getColor());
+                        colors.put(node.getNodeID(), node.getColor());
                     }
                     node.setColor(color);
                 }
