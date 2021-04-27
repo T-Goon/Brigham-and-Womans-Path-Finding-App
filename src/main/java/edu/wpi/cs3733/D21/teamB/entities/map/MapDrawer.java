@@ -67,7 +67,7 @@ public class MapDrawer implements PoppableManager {
     }
 
     /**
-     * New path drawing method
+     * Draw's the path stored in the mapCache
      */
     public void drawPath(){
         Map<String, Node> nodes = Graph.getGraph().getNodes();
@@ -99,44 +99,57 @@ public class MapDrawer implements PoppableManager {
             //If there is a path segment on this floor
             if(!currentFloorPath.isEmpty()) {
 
-                //Get the last index of node on this floor
-                int floorChangeNodeIndex = mapCache.getFinalPath().getPath().indexOf(currentFloorPath.get(currentFloorPath.size() - 1));
+                List<String> floorChangeNodes = new ArrayList<>();
 
-                //If there is another node after this floor
-                if (floorChangeNodeIndex != mapCache.getFinalPath().getPath().size() - 1) {
-                    //Get the nodeID of the node that is on the next floor
-                    String nextNode = mapCache.getFinalPath().getPath().get(floorChangeNodeIndex + 1);
+                //Populate list with all of the nodes on the floor where the user must change floors
+                for(int i=0; i<currentFloorPath.size()-1; i++){
+                    if(!Graph.getGraph().verifyEdge(currentFloorPath.get(i), currentFloorPath.get(i+1))){
+                        floorChangeNodes.add(currentFloorPath.get(i));
+                    }
+                }
+                floorChangeNodes.add(currentFloorPath.get(currentFloorPath.size()-1));
 
-                    //Get the floor that the next node is on
-                    String floorString = nextNode.substring(nextNode.length() - 2);
+                //Should update all the floor change nodes' color
+                for(String node: floorChangeNodes){
+                    //Get the last index of node on this floor
+                    int floorChangeNodeIndex = mapCache.getFinalPath().getPath().indexOf(node);
+
+                    //If there is another node after this floor
+                    if (floorChangeNodeIndex != mapCache.getFinalPath().getPath().size() - 1) {
+                        //Get the nodeID of the node that is on the next floor
+                        String nextNode = mapCache.getFinalPath().getPath().get(floorChangeNodeIndex + 1);
+
+                        //Get the floor that the next node is on
+                        String floorString = nextNode.substring(nextNode.length() - 2);
 
 
-                    //Convert the floor strings to int values
-                    int currentFloorVal = Node.floorAsInt(mapCache.getCurrentFloor());
-                    int nextFloorVal = Node.floorAsInt(floorString);
+                        //Convert the floor strings to int values
+                        int currentFloorVal = Node.floorAsInt(mapCache.getCurrentFloor());
+                        int nextFloorVal = Node.floorAsInt(floorString);
 
-                    //If going up or down
-                    if (nextFloorVal > currentFloorVal) {
-                        //Going UP
+                        //If going up or down
+                        if (nextFloorVal > currentFloorVal) {
+                            //Going UP
 
-                        //Update the node icon to green to indicate that the user must go up
-                        String floorChangeNodeID = mapCache.getFinalPath().getPath().get(floorChangeNodeIndex);
-                        for (javafx.scene.Node img : mapCache.getNodePlaced()) {
-                            if (img.getId().equals(floorChangeNodeID + "Icon")) {
-                                img.setEffect(new ColorAdjust(-0.5, 0, 0, 0));
-                                mapCache.getEditedNodes().add(img);
+                            //Update the node icon to green to indicate that the user must go up
+                            String floorChangeNodeID = mapCache.getFinalPath().getPath().get(floorChangeNodeIndex);
+                            for (javafx.scene.Node img : mapCache.getNodePlaced()) {
+                                if (img.getId().equals(floorChangeNodeID + "Icon")) {
+                                    img.setEffect(new ColorAdjust(-0.5, 0, 0, 0));
+                                    mapCache.getEditedNodes().add(img);
+                                }
                             }
-                        }
-                    } else {
-                        //Going Down
+                        } else {
+                            //Going Down
 
-                        //Update the node icon to red to indicate that the user must go down
-                        String floorChangeNodeID = mapCache.getFinalPath().getPath().get(floorChangeNodeIndex);
-                        for (javafx.scene.Node img : mapCache.getNodePlaced()) {
-                            if (img.getId().equals(floorChangeNodeID + "Icon")) {
-                                img.setEffect(new ColorAdjust(0.8, 1, 0, 0));
-                                mapCache.getEditedNodes().add(img);
+                            //Update the node icon to red to indicate that the user must go down
+                            String floorChangeNodeID = mapCache.getFinalPath().getPath().get(floorChangeNodeIndex);
+                            for (javafx.scene.Node img : mapCache.getNodePlaced()) {
+                                if (img.getId().equals(floorChangeNodeID + "Icon")) {
+                                    img.setEffect(new ColorAdjust(0.8, 1, 0, 0));
+                                    mapCache.getEditedNodes().add(img);
 
+                                }
                             }
                         }
                     }
