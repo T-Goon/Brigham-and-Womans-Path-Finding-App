@@ -594,8 +594,8 @@ bWALK00101,568,1894,1,Parking,WALK,Left Parking Lot Walkway,Llot Walk
 bWALK00201,575,1688,1,Parking,WALK,Francis Street Left Walkway,FrancisWalk
 bWALK00301,918,1701,1,Parking,WALK,Francis Street Biney Street Intersection Left,FrancisBineyIntLeft
 bWALK00401,1101,1710,1,Parking,WALK,Francis Street Biney Street Intersection Right,FrancisBineyIntRight
-bWALK00501,1735,1678,1,Parking,WALK,Francis Vining Intersection Bottom Left,FrancisViningIntBotLeft
-bWALK00601,1738,1545,1,Parking,WALK,Francis Vining Intersection Top Left,FrancisViningIntTopLeft
+bWALK00501,1760,1678,1,Parking,WALK,Francis Vining Intersection Bottom Left,FrancisViningIntBotLeft
+bWALK00601,1760,1545,1,Parking,WALK,Francis Vining Intersection Top Left,FrancisViningIntTopLeft
 bWALK00701,1992,1538,1,Parking,WALK,Francis Vining Intersection Top Right,FrancisViningIntTopRight
 bWALK00801,2147,1535,1,Parking,WALK,Francis Drop Off Sidewalk 1,FrancisDrop1
 bWALK00901,2142,1451,1,Parking,WALK,Francis Drop Off Sidewalk 2,FrancisDrop2
