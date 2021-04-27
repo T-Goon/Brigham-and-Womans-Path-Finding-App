@@ -708,11 +708,15 @@ public class DatabaseHandlerTest {
         User user2 = new User("testuser2","Testing2","User2", User.AuthenticationLevel.STAFF, Collections.singletonList(Request.RequestType.INTERNAL_TRANSPORT));
         User user3 = new User("testuser3","Testing3","User3", User.AuthenticationLevel.STAFF, new ArrayList<>());
 
-        db.addUser(user1, "p1");
-        db.addUser(user2, "p2");
-        db.addUser(user3, "p3");
+        try {
+            db.addUser(user1, "p1");
+            db.addUser(user2, "p2");
+            db.addUser(user3, "p3");
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
 
-        Collection<User> set1 = db.getUsers().values();
+        Collection<User> set1 = db.getUsers();
 
         assertEquals(3,set1.size());
         assert(set1.contains(user1));

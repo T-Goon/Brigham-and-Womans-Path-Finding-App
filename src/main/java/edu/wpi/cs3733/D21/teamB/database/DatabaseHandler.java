@@ -385,6 +385,14 @@ public class DatabaseHandler {
     }
 
     /**
+     * Retreive all users in database
+     * @return List of users in database
+     */
+    public List<User> getUsers(){
+        return userMutator.getUsers();
+    }
+
+    /**
      * @param username username to query by
      * @return User object with that username, or null if that user doesn't exist
      */

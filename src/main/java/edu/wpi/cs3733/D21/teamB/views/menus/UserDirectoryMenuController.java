@@ -34,6 +34,9 @@ public class UserDirectoryMenuController extends BasePageController implements I
     @FXML
     private JFXButton btnEmergency;
 
+    @FXML
+    private JFXButton btnUsers;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         if (DatabaseHandler.getDatabaseHandler("main.db").getAuthenticationUser().isAtLeast(User.AuthenticationLevel.STAFF)) {
@@ -62,6 +65,9 @@ public class UserDirectoryMenuController extends BasePageController implements I
                 break;
             case "btnDatabase":
                 SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml");
+                break;
+            case "btnUsers":
+                SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/cs3733/D21/teamB/views/menus/userInformationDatabase.fxml");
                 break;
             case "btnEmergency":
                 SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");

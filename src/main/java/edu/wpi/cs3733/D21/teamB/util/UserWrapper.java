@@ -1,11 +1,10 @@
-package edu.wpi.teamB.util;
+package edu.wpi.cs3733.D21.teamB.util;
 
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXCheckBox;
-import edu.wpi.teamB.App;
-import edu.wpi.teamB.database.DatabaseHandler;
-import edu.wpi.teamB.entities.User;
-import edu.wpi.teamB.entities.requests.Request;
+import edu.wpi.cs3733.D21.teamB.App;
+import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
+import edu.wpi.cs3733.D21.teamB.entities.User;
+import edu.wpi.cs3733.D21.teamB.entities.requests.Request;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -14,8 +13,7 @@ import javafx.stage.Stage;
 import lombok.Getter;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.SQLException;
 import java.util.Objects;
 
 @Getter
@@ -50,7 +48,7 @@ public class UserWrapper {
         this.parentTable = parentTable;
 
         // Set up edit button
-        JFXButton btnEdit = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/misc/tableEditBtn.fxml")));
+        JFXButton btnEdit = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/cs3733/D21/teamB/views/misc/tableEditBtn.fxml")));
         btnEdit.setId(u.getUsername() + "EditBtn");
 
         btnEdit.setOnAction(new EventHandler<ActionEvent>() {
@@ -58,7 +56,7 @@ public class UserWrapper {
             public void handle(ActionEvent event) {
                 Stage stage = App.getPrimaryStage();
                 stage.setUserData(u);
-                SceneSwitcher.switchScene(getClass(), "this is broken", "this is broken");
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/cs3733/D21/teamB/views/menus/userInformationDatabase.fxml", "/edu/wpi/cs3733/D21/teamB/views/menus/editUserMenu.fxml");
             }
         });
 
@@ -66,11 +64,15 @@ public class UserWrapper {
         this.btnEdit = btnEdit;
 
         // Set up delete button
-        JFXButton btnDel = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/teamB/views/misc/tableDelBtn.fxml")));
+        JFXButton btnDel = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/cs3733/D21/teamB/views/misc/tableDelBtn.fxml")));
         btnDel.setId(u.getUsername() + "DelBtn");
 
         btnDel.setOnAction(event -> {
-            DatabaseHandler.getDatabaseHandler("main.db").deleteUser(u.getUsername());
+            try {
+                DatabaseHandler.getDatabaseHandler("main.db").deleteUser(u.getUsername());
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
             parentTable.getItems().removeIf((Object o) -> ((UserWrapper) o).u.getUsername().equals(u.getUsername()));
         });
 

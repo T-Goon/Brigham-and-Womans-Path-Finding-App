@@ -82,6 +82,29 @@ public class UserMutator implements IDatabaseEntityMutator<UserMutator.UserPassw
     }
 
     /**
+     * Get all users in database
+     * @return List of User objects in table
+     */
+
+    public List<User> getUsers() {
+        try {
+            String query = "SELECT username FROM users";
+            ResultSet rs = db.runStatement(query, true);
+            List<User> outUsers = new ArrayList<>();
+            if (rs == null) return outUsers;
+            do {
+                String username = rs.getString("username");
+                outUsers.add(this.getUserByUsername(username));
+            } while (rs.next());
+            rs.close();
+            return outUsers;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
      * @param username username to query by
      * @return User object with that username, or null if that user doesn't exist
      */

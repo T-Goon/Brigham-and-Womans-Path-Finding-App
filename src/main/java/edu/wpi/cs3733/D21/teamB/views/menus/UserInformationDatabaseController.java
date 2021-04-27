@@ -1,14 +1,12 @@
-package edu.wpi.teamB.views.menus;
+package edu.wpi.cs3733.D21.teamB.views.menus;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXDialogLayout;
-import edu.wpi.teamB.database.DatabaseHandler;
-import edu.wpi.teamB.entities.User;
-import edu.wpi.teamB.entities.requests.Request;
-import edu.wpi.teamB.util.RequestWrapper;
-import edu.wpi.teamB.util.SceneSwitcher;
-import edu.wpi.teamB.util.UserWrapper;
+import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
+import edu.wpi.cs3733.D21.teamB.entities.User;
+import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
+import edu.wpi.cs3733.D21.teamB.util.UserWrapper;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -24,7 +22,7 @@ import javafx.scene.text.Text;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Map;
+import java.util.List;
 import java.util.ResourceBundle;
 
 @SuppressWarnings("unchecked") // Added so Java doesn't get mad at the raw use of TableView that is necessary
@@ -64,7 +62,7 @@ public class UserInformationDatabaseController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Map<String, User> users = DatabaseHandler.getDatabaseHandler("main.db").getUsers();
+        List<User> users = DatabaseHandler.getDatabaseHandler("main.db").getUsers();
         ObservableList<TableColumn<String, Label>> cols = tblStaff.getColumns();
         for (TableColumn<String, Label> c : cols) {
             switch (c.getId()) {
@@ -90,7 +88,7 @@ public class UserInformationDatabaseController implements Initializable {
         }
 
         if (users != null) {
-            for (User u : users.values()) {
+            for (User u : users) {
                 try {
                     tblStaff.getItems().add(new UserWrapper(u , tblStaff));
                 } catch (IOException err) {
@@ -112,7 +110,7 @@ public class UserInformationDatabaseController implements Initializable {
                 Platform.exit();
                 break;
             case "btnEmergency":
-                SceneSwitcher.switchToTemp(getClass(), "/edu/wpi/teamB/views/requestForms/emergencyForm.fxml");
+                SceneSwitcher.switchScene(getClass(),"/edu/wpi/cs3733/D21/teamB/views/menus/UserInformationDatabaseController.fxml", "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
                 break;
             case "btnHelp":
                 loadHelpDialog();
