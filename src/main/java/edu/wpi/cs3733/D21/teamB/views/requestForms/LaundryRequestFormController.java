@@ -46,7 +46,7 @@ public class LaundryRequestFormController extends DefaultServiceRequestFormContr
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        super.initialize(location,resources);
+        super.initialize(location, resources);
 
         comboTypeService.getItems().add(new Label("Regular Cycle"));
         comboTypeService.getItems().add(new Label("Delicate Cycle"));
@@ -205,10 +205,9 @@ public class LaundryRequestFormController extends DefaultServiceRequestFormContr
     }
 
     @FXML
-    private void validateButton(){
+    private void validateButton() {
         btnSubmit.setDisable(
-            loc.getValue() == null || comboSizeService.getValue() == null || comboTypeService.getValue() == null ||
-            description.getText().isEmpty()
+                loc.getValue() == null || comboSizeService.getValue() == null || comboTypeService.getValue() == null || description.getText().isEmpty()
         );
     }
 }
