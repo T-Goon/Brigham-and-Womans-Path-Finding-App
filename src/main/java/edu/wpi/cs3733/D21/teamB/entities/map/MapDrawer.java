@@ -100,6 +100,10 @@ public class MapDrawer implements PoppableManager {
             //If there is a path segment on this floor
             if(!currentFloorPath.isEmpty()) {
 
+                if(currentFloorPath.size() == 1){
+                    nodeHolder.getChildren().remove(head);
+                }
+
                 List<String> floorChangeNodes = new ArrayList<>();
 
                 //Populate list with all of the nodes on the floor where the user must change floors
