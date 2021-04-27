@@ -89,7 +89,7 @@ public class Directions {
      * @param path the path that we want to simplify
      * @return the List of strings at where the user changes direction
      */
-    public static List<String> simplifyPath(Path path) {
+    public static List<String> simplifyPath(Path path, List<String> stopIDs) {
 
         List<String> pathID = path.getPath();
         List<String> pathIDCopy = new ArrayList<>(pathID);
@@ -103,7 +103,8 @@ public class Directions {
             Node nextNode = graph.getNodes().get(nextNodeID);
 
             if (prevNode != null) {
-                if ((angleBetweenEdges(prevNode, currNode, nextNode) >= -30) && (angleBetweenEdges(prevNode, currNode, nextNode) <= 30)) {
+                if (!stopIDs.contains(prevNode.getNodeID()) && !stopIDs.contains(currNode.getNodeID()) && !stopIDs.contains(nextNodeID) &&
+                        (angleBetweenEdges(prevNode, currNode, nextNode) >= -30) && (angleBetweenEdges(prevNode, currNode, nextNode) <= 30)) {
                     pathIDCopy.remove(currNode.getNodeID());
                 }
             }
@@ -131,16 +132,16 @@ public class Directions {
      * @return a list of strings where each element in the list is one instruction
      */
     public static List<String> instructions(Path path, List<String> stopIDs) {
-        List<String> simplePath = simplifyPath(path);
+        List<String> simplePath = simplifyPath(path, stopIDs);
 
         String idEnd = simplePath.get(simplePath.size() - 1);
         Graph graph = Graph.getGraph();
 
-        String endloc = graph.getNodes().get(idEnd).getLongName();
+        String endLoc = graph.getNodes().get(idEnd).getLongName();
         String startLoc = graph.getNodes().get(simplePath.get(0)).getLongName();
 
         List<String> directions = new ArrayList<>();
-        directions.add("Starting route to " + endloc + " from " + startLoc + ":");
+        directions.add("Starting route from " + startLoc + " to " + endLoc + ":");
 
         double FT_CONST = 500.0 / 1635;
 
@@ -189,6 +190,8 @@ public class Directions {
                     directions.add("Take a sharp left and walk about " + round(distance) + " feet towards " + next.getLongName() + ".");
                 } else if (turn >= -70) {
                     directions.add("Take a slight left and walk about " + round(distance) + " feet towards " + next.getLongName() + ".");
+                } else {
+                    directions.add("Turn around and walk about " + round(distance) + " feet towards " + next.getLongName() + ".");
                 }
             }
         }
