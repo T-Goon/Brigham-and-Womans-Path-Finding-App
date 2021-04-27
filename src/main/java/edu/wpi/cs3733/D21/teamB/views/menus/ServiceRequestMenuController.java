@@ -47,6 +47,9 @@ public class ServiceRequestMenuController extends BasePageController {
     private JFXButton btnCaseManager;
 
     @FXML
+    private JFXButton btnGiftDelivery;
+
+    @FXML
     private JFXButton btnSocialWorker;
 
     @FXML
@@ -105,6 +108,8 @@ public class ServiceRequestMenuController extends BasePageController {
             case "btnEmergency":
                 path = VIEWS_PATH + "emergencyForm.fxml";
                 break;
+            case "btnGiftDelivery":
+                path = VIEWS_PATH + "giftRequestForm.fxml.";
             case "btnShowCredits":
                 path = "/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestMenuCredits.fxml";
         }

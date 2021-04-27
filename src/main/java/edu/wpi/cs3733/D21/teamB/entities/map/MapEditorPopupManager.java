@@ -36,6 +36,7 @@ public class MapEditorPopupManager implements PoppableManager {
 
     /**
      * Show the popup to add a node
+     *
      * @param event The mouse event that triggered the popup to be shown.
      */
     public void showAddNodePopup(MouseEvent event) {
@@ -70,14 +71,12 @@ public class MapEditorPopupManager implements PoppableManager {
     public void showAddEdgePopup(MouseEvent event) {
         // Only one window open at a time
         md.removeAllPopups();
-
         AddEdgePopupData data = new AddEdgePopupData(mc, md);
-
         aePopup = new AddEdgePopup(mapStack, data);
-
         App.getPrimaryStage().setUserData(aePopup);
-
-        aePopup.show();
+        Circle c = (Circle) event.getSource();
+        if (c.getId().equals(mc.getStartNode().getId())) aePopup.reset();
+        else aePopup.show();
     }
 
     /**
@@ -127,7 +126,8 @@ public class MapEditorPopupManager implements PoppableManager {
                 md,
                 c,
                 mc,
-                mapStack
+                mapStack,
+                n.getColor()
         );
 
         nmPopup = new NodeMenuPopup(mapStack, npData, gPane);
