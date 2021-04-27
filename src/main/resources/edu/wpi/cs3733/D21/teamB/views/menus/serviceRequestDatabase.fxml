@@ -78,8 +78,8 @@
                                                 <TableColumn fx:id="timeCol" prefWidth="100.0" text="Time" />
                                                 <TableColumn fx:id="dateCol" prefWidth="100.0" text="Date" />
                                                 <TableColumn fx:id="completeCol" minWidth="80.0" prefWidth="100.0" text="Complete" />
-                                                <TableColumn fx:id="employeeCol" minWidth="80.0" prefWidth="250.0" text="Assigned To" />
-                                                <TableColumn fx:id="delCol" minWidth="80.0" prefWidth="-1.0" />
+                                                <TableColumn fx:id="employeeCol" minWidth="80.0" prefWidth="204.0" text="Assigned To" />
+                                                <TableColumn fx:id="delCol" minWidth="74.0" prefWidth="89.0" />
                                             </columns>
                                         </TableView>
                                     </content>
