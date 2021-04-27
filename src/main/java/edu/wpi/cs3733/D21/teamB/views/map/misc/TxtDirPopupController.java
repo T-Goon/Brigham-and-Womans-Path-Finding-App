@@ -6,6 +6,7 @@ import edu.wpi.cs3733.D21.teamB.entities.map.node.TxtDirPopup;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.text.Text;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -15,11 +16,16 @@ public class TxtDirPopupController  implements Initializable {
     @FXML
     private JFXButton btnClose;
 
-    private TxtDirPopup window;
+    @FXML
+    private Text text;
+
+    private TxtDirPopup popup;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        window = (TxtDirPopup) App.getPrimaryStage().getUserData();
+        popup = (TxtDirPopup) App.getPrimaryStage().getUserData();
+
+        text.setText(popup.getDirections());
     }
 
     @FXML
@@ -27,7 +33,7 @@ public class TxtDirPopupController  implements Initializable {
         JFXButton btn = (JFXButton) e.getSource();
 
         if ("btnClose".equals(btn.getId())) {
-            window.hide();
+            popup.hide();
         }
     }
 
