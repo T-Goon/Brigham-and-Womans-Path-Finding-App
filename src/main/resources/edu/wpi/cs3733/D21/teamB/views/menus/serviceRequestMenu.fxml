@@ -13,7 +13,7 @@
 
 <VBox alignment="CENTER" spacing="20.0" style="-fx-background-color: #012d5a;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D21.teamB.views.menus.ServiceRequestMenuController">
    <children>
-      <HBox alignment="CENTER" style="-fx-background-color: #FFFFFF;" VBox.vgrow="ALWAYS">
+      <HBox alignment="CENTER" prefHeight="195.0" prefWidth="542.0" style="-fx-background-color: #FFFFFF;" VBox.vgrow="ALWAYS">
          <children>
             <VBox>
                <HBox.margin>
