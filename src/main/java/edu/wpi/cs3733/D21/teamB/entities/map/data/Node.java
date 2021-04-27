@@ -67,4 +67,28 @@ public class Node implements Comparable<Node>, IStoredEntity {
     public int compareTo(Node o) {
         return Double.compare(this.fVal, o.getFVal());
     }
+
+    public static int floorAsInt(String floorString){
+        switch(floorString){
+            case "L2":
+                return 0;
+            case "L1":
+                return 1;
+            case "1":
+                return 2;
+            case "2":
+                return 3;
+            case "3":
+                return 4;
+            case "01":
+                return 2;
+            case "02":
+                return 3;
+            case "03":
+                return 4;
+            default:
+                return -1;
+        }
+    }
+
 }

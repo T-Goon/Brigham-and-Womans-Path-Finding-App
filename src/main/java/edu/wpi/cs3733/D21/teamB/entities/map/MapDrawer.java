@@ -11,6 +11,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.Effect;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -69,11 +70,49 @@ public class MapDrawer implements PoppableManager {
         if (mapCache.getFinalPath().getPath().isEmpty()) {
             lblError.setVisible(true);
         } else {
+            List<String> currentFloorPath = mapCache.getFinalPath().getFloorPathSegment(mapCache.getCurrentFloor());
+
             //Draw the segment of the path that is on the current floor
-            for (int i = 0; i < mapCache.getFinalPath().getFloorPathSegment(mapCache.getCurrentFloor()).size() - 1; i++) {
-                placeEdge(nodes.get(mapCache.getFinalPath().getFloorPathSegment(mapCache.getCurrentFloor()).get(i)),
-                        nodes.get(mapCache.getFinalPath().getFloorPathSegment(mapCache.getCurrentFloor()).get(i + 1)));
+            for (int i = 0; i < currentFloorPath.size() - 1; i++) {
+                placeEdge(nodes.get(currentFloorPath.get(i)),
+                        nodes.get(currentFloorPath.get(i + 1)));
             }
+
+            int floorChangeNodeIndex = mapCache.getFinalPath().getPath().indexOf(currentFloorPath.get(currentFloorPath.size()-1));
+
+            if(floorChangeNodeIndex != mapCache.getFinalPath().getPath().size()-1){
+                String nextNode = mapCache.getFinalPath().getPath().get(floorChangeNodeIndex+1);
+
+                String floorString = nextNode.substring(nextNode.length()-2);
+
+                int currentFloorVal = Node.floorAsInt(mapCache.getCurrentFloor());
+                int nextFloorVal = Node.floorAsInt(floorString);
+
+                if(nextFloorVal>currentFloorVal){
+                    //Going UP
+                    String floorChangeNodeID = mapCache.getFinalPath().getPath().get(floorChangeNodeIndex);
+                    for(javafx.scene.Node img: mapCache.getNodePlaced()){
+                        if(img.getId().equals(floorChangeNodeID+"Icon")){
+                            img.setEffect(new ColorAdjust(-0.5,0,0,0));
+                        }
+                    }
+                }else{
+                    //Going Down
+                    String floorChangeNodeID = mapCache.getFinalPath().getPath().get(floorChangeNodeIndex);
+                    for(javafx.scene.Node img: mapCache.getNodePlaced()){
+                        if(img.getId().equals(floorChangeNodeID+"Icon")){
+                            img.setEffect(new ColorAdjust(0.8,1,0,0));
+
+                        }
+                    }
+                }
+
+            }
+
+
+            System.out.println();
+
+
         }
 
         if (etaPopup != null) {
