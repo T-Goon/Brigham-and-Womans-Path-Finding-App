@@ -69,7 +69,7 @@ public class MapDrawer implements PoppableManager {
     /**
      * New path drawing method
      */
-    public void drawPathOther(){
+    public void drawPath(){
         Map<String, Node> nodes = Graph.getGraph().getNodes();
 
         javafx.scene.shape.Path animationPath = new javafx.scene.shape.Path();
@@ -243,7 +243,7 @@ public class MapDrawer implements PoppableManager {
         //Set the final path in mapCache
         mapCache.setFinalPath(pathfinder.findPath(allStops, mobility));
 
-        drawPathOther();
+        drawPath();
     }
 
     /**
