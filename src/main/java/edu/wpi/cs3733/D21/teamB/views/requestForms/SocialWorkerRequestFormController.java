@@ -8,7 +8,7 @@ import com.jfoenix.validation.RequiredFieldValidator;
 import edu.wpi.cs3733.D21.teamB.App;
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.requests.Request;
-import edu.wpi.cs3733.D21.teamB.entities.requests.languageRequest;
+import edu.wpi.cs3733.D21.teamB.entities.requests.SocialWorkerRequest;
 
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
 import javafx.beans.value.ChangeListener;
@@ -45,19 +45,19 @@ public class SocialWorkerRequestFormController extends DefaultServiceRequestForm
 
         if (SceneSwitcher.peekLastScene().equals("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml")) {
             this.id = (String) App.getPrimaryStage().getUserData();
-            languageRequest languageRequest = null;
+            SocialWorkerRequest socialWorkerRequest = null;
             try {
-                languageRequest = (languageRequest) DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(id, Request.RequestType.SOCIAL_WORKER);
+                socialWorkerRequest = (SocialWorkerRequest) DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(id, Request.RequestType.SOCIAL_WORKER);
             } catch (SQLException e) {
                 e.printStackTrace();
                 return;
             }
-            patientName.setText(languageRequest.getPatientName());
-            getLocationIndex(languageRequest.getLocation());
-            String time = languageRequest.getTimeForArrival();
+            patientName.setText(socialWorkerRequest.getPatientName());
+            getLocationIndex(socialWorkerRequest.getLocation());
+            String time = socialWorkerRequest.getTimeForArrival();
             LocalTime lt = LocalTime.of(Integer.parseInt(time.substring(0, 2)), Integer.parseInt(time.substring(3, 5)));
             timeForArrival.setValue(lt);
-            messageForSocialWorker.setText(languageRequest.getDescription());
+            messageForSocialWorker.setText(socialWorkerRequest.getDescription());
         }
         validateButton();
 
@@ -159,7 +159,7 @@ public class SocialWorkerRequestFormController extends DefaultServiceRequestForm
                 employeeName = null;
             }
 
-            languageRequest request = new languageRequest(givenPatientName, givenTimeForArrival,
+            SocialWorkerRequest request = new SocialWorkerRequest(givenPatientName, givenTimeForArrival,
                     requestID, time, date, complete, employeeName, getLocation(), givenDescription);
 
             try {

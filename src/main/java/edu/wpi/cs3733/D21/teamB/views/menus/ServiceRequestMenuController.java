@@ -62,6 +62,9 @@ public class ServiceRequestMenuController extends BasePageController {
     private VBox externalTransport;
 
     @FXML
+    private JFXButton btnLanguageInterpreter;
+
+    @FXML
     public void handleButtonAction(ActionEvent e) {
         super.handleButtonAction(e);
         Button btn = (Button) e.getSource();
@@ -109,6 +112,10 @@ public class ServiceRequestMenuController extends BasePageController {
                 break;
             case "btnGiftDelivery":
                 path = VIEWS_PATH + "giftRequestForm.fxml.";
+                break;
+            case "btnLanguageInterpreter":
+                path = VIEWS_PATH + "languageRequestForm.fxml";
+                break;
         }
 
         if (path != null)

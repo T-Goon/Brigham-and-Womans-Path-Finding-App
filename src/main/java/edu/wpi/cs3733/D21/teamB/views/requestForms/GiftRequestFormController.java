@@ -29,19 +29,19 @@ import java.util.UUID;
 public class GiftRequestFormController extends DefaultServiceRequestFormController implements Initializable {
 
     @FXML
-    private JFXTextField patientName; //checked
+    private JFXTextField patientName;
 
     @FXML
-    private JFXDatePicker deliveryDate; //checked
+    private JFXDatePicker deliveryDate;
 
     @FXML
-    private JFXTimePicker startTime; //checked
+    private JFXTimePicker startTime;
 
     @FXML
-    private JFXTimePicker endTime; //checked
+    private JFXTimePicker endTime;
 
     @FXML
-    private JFXTextArea message; //checked
+    private JFXTextArea message;
 
     @FXML
     private Label totalPrice;

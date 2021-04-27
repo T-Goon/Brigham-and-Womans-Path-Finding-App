@@ -16,7 +16,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="basePane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D21.teamB.views.requestForms.SocialWorkerRequestFormController">
+<AnchorPane fx:id="basePane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D21.teamB.views.requestForms.LanguageRequestFormController">
    <children>
       <StackPane fx:id="stackContainer" layoutY="-28.083261489868164" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -107,6 +107,9 @@
                                              <padding>
                                                 <Insets left="10.0" right="10.0" />
                                              </padding>
+                                             <VBox.margin>
+                                                <Insets top="5.0" />
+                                             </VBox.margin>
                                           </VBox>
                                           <VBox prefHeight="83.0" prefWidth="798.0">
                                              <children>
@@ -115,7 +118,7 @@
                                                       <Font size="14.0" />
                                                    </font>
                                                 </Text>
-                                                <JFXComboBox prefHeight="27.0" prefWidth="774.0" style="-fx-background-color: #e5e5e5; -fx-background-radius: 7;" unFocusColor="#f2f2f2" />
+                                                <JFXComboBox fx:id="language" prefHeight="27.0" prefWidth="774.0" promptText="choose one" style="-fx-background-color: #e5e5e5; -fx-background-radius: 7;" unFocusColor="#f2f2f2" />
                                              </children>
                                              <padding>
                                                 <Insets left="10.0" top="10.0" />
@@ -123,20 +126,23 @@
                                           </VBox>
                                           <HBox>
                                              <children>
-                                                <VBox>
+                                                <VBox prefHeight="44.0" prefWidth="268.0">
                                                    <children>
                                                       <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Time for Arrival:">
                                                          <font>
                                                             <Font size="14.0" />
                                                          </font>
                                                       </Text>
-                                                      <JFXTimePicker fx:id="timeForArrival" defaultColor="#012d5a" editable="true" onAction="#validateButton" style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" stylesheets="@../../css/dateTimeFix.css" />
+                                                      <JFXTimePicker fx:id="timeForArrival" defaultColor="#012d5a" editable="true" onAction="#validateButton" prefHeight="25.0" prefWidth="253.0" style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" stylesheets="@../../css/dateTimeFix.css" />
                                                    </children>
                                                    <padding>
                                                       <Insets left="10.0" right="10.0" />
                                                    </padding>
                                                 </VBox>
                                              </children>
+                                             <VBox.margin>
+                                                <Insets top="5.0" />
+                                             </VBox.margin>
                                           </HBox>
                                           <VBox maxHeight="1.7976931348623157E308" prefWidth="673.0">
                                              <children>
@@ -145,7 +151,7 @@
                                                       <Font size="14.0" />
                                                    </font>
                                                 </Text>
-                                                <JFXTextArea fx:id="messageForSocialWorker" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onKeyReleased="#validateButton" prefHeight="120.0" prefWidth="778.0" promptText="Ex. &quot;I would feel more comfortable with a female interpreter.&quot;" style="-fx-background-radius: 7; -fx-background-color: e5e5e5;" unFocusColor="#4d4d4d00" VBox.vgrow="NEVER">
+                                                <JFXTextArea fx:id="message" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onKeyReleased="#validateButton" prefHeight="120.0" prefWidth="778.0" promptText="Ex. &quot;I would feel more comfortable with a female interpreter.&quot;" style="-fx-background-radius: 7; -fx-background-color: e5e5e5;" unFocusColor="#4d4d4d00" VBox.vgrow="NEVER">
                                                    <font>
                                                       <Font name="MS Reference Sans Serif" size="14.0" />
                                                    </font>
@@ -154,6 +160,9 @@
                                              <padding>
                                                 <Insets left="10.0" right="10.0" />
                                              </padding>
+                                             <VBox.margin>
+                                                <Insets top="5.0" />
+                                             </VBox.margin>
                                           </VBox>
                                           <HBox alignment="CENTER_LEFT" prefWidth="200.0">
                                              <children>
@@ -181,7 +190,7 @@
                                                 <Insets left="10.0" right="10.0" />
                                              </padding>
                                              <VBox.margin>
-                                                <Insets bottom="10.0" />
+                                                <Insets bottom="10.0" top="5.0" />
                                              </VBox.margin>
                                           </HBox>
                                        </children>

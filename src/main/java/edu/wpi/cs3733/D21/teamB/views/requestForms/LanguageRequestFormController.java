@@ -5,13 +5,14 @@ import com.jfoenix.validation.RequiredFieldValidator;
 import edu.wpi.cs3733.D21.teamB.App;
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.requests.Request;
-import edu.wpi.cs3733.D21.teamB.entities.requests.languageRequest;
+import edu.wpi.cs3733.D21.teamB.entities.requests.LanguageRequest;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -22,7 +23,7 @@ import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.UUID;
 
-public class languageRequestFormController extends DefaultServiceRequestFormController implements Initializable {
+public class LanguageRequestFormController extends DefaultServiceRequestFormController implements Initializable {
 
     @FXML
     private JFXTextField patientName;
@@ -31,7 +32,7 @@ public class languageRequestFormController extends DefaultServiceRequestFormCont
     private JFXComboBox loc;
 
     @FXML
-    private JFXComboBox language;
+    private JFXComboBox<Label> language;
 
     @FXML
     private JFXTimePicker timeForArrival;
@@ -41,15 +42,22 @@ public class languageRequestFormController extends DefaultServiceRequestFormCont
 
     private String id;
 
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location,resources);
 
+        language.getItems().add(new Label("Chinese"));
+        language.getItems().add(new Label("French"));
+        language.getItems().add(new Label("Russian"));
+        language.getItems().add(new Label("Spanish"));
+        language.getItems().add(new Label("Vietnamese"));
+
         if (SceneSwitcher.peekLastScene().equals("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml")) {
             this.id = (String) App.getPrimaryStage().getUserData();
-            languageRequest languageRequest = null;
+            LanguageRequest languageRequest = null;
             try {
-                languageRequest = (languageRequest) DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(id, Request.RequestType.LANGUAGE);
+                languageRequest = (LanguageRequest) DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(id, Request.RequestType.LANGUAGE);
             } catch (SQLException e) {
                 e.printStackTrace();
                 return;
@@ -60,6 +68,28 @@ public class languageRequestFormController extends DefaultServiceRequestFormCont
             LocalTime lt = LocalTime.of(Integer.parseInt(time.substring(0, 2)), Integer.parseInt(time.substring(3, 5)));
             timeForArrival.setValue(lt);
             message.setText(languageRequest.getDescription());
+
+            getLocationIndex(languageRequest.getLocation());
+            int indexType = -1;
+
+            switch (languageRequest.getLanguage()) {
+                case "Chinese":
+                    indexType = 0;
+                    break;
+                case "French":
+                    indexType = 1;
+                    break;
+                case "Russian":
+                    indexType = 2;
+                    break;
+                case "Spanish":
+                    indexType = 3;
+                    break;
+                case "Vietnamese":
+                    indexType = 4;
+                    break;
+            }
+            language.getSelectionModel().select(indexType);
         }
         validateButton();
 
@@ -80,7 +110,7 @@ public class languageRequestFormController extends DefaultServiceRequestFormCont
         RequiredFieldValidator validatorLocation = new RequiredFieldValidator();
 
         loc.getValidators().add(validatorLocation);
-        validatorLocation.setMessage("Please input the patient's name!");
+        validatorLocation.setMessage("Please select the location!");
 
         loc.focusedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
@@ -94,7 +124,7 @@ public class languageRequestFormController extends DefaultServiceRequestFormCont
         RequiredFieldValidator validatorLanguage = new RequiredFieldValidator();
 
         language.getValidators().add(validatorLanguage);
-        validatorLanguage.setMessage("Please input the patient's name!");
+        validatorLanguage.setMessage("Please select a language!");
 
         language.focusedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
@@ -110,7 +140,7 @@ public class languageRequestFormController extends DefaultServiceRequestFormCont
         RequiredFieldValidator validatorTimeForArrival = new RequiredFieldValidator();
 
         timeForArrival.getValidators().add(validatorTimeForArrival);
-        validatorTimeForArrival.setMessage("Please input the patient's name!");
+        validatorTimeForArrival.setMessage("Please select the time of arrival!");
 
         timeForArrival.focusedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
@@ -125,7 +155,7 @@ public class languageRequestFormController extends DefaultServiceRequestFormCont
         RequiredFieldValidator validatorMessage = new RequiredFieldValidator();
 
         message.getValidators().add(validatorMessage);
-        validatorMessage.setMessage("Please input the patient's name!");
+        validatorMessage.setMessage("Please input any additional details or type 'none' !");
 
         message.focusedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
@@ -143,6 +173,7 @@ public class languageRequestFormController extends DefaultServiceRequestFormCont
         JFXButton btn = (JFXButton) e.getSource();
         if (btn.getId().equals("btnSubmit")) {
             String givenPatientName = patientName.getText();
+            String languageChosen = language.getValue().getText();
             String givenTimeForArrival = timeForArrival.getValue().toString();
 
             DateFormat timeFormat = new SimpleDateFormat("HH:mm");
@@ -173,7 +204,7 @@ public class languageRequestFormController extends DefaultServiceRequestFormCont
                 employeeName = null;
             }
 
-            languageRequest request = new languageRequest(givenPatientName, givenTimeForArrival,
+            LanguageRequest request = new LanguageRequest(languageChosen, givenPatientName, givenTimeForArrival,
                     requestID, time, date, complete, employeeName, getLocation(), givenDescription);
 
             try {

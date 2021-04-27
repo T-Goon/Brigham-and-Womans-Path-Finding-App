@@ -174,8 +174,18 @@ public class RequestMutator implements IDatabaseEntityMutator<Request> {
                         + "', '" + caseManagerRequest.getTimeForArrival()
                         + "')";
                 break;
+
             case SOCIAL_WORKER:
-                languageRequest languageRequest = (languageRequest) request;
+                SocialWorkerRequest socialWorkerRequest = (SocialWorkerRequest) request;
+                query = "INSERT INTO CaseManagerRequests VALUES " +
+                        "('" + socialWorkerRequest.getRequestID()
+                        + "', '" + socialWorkerRequest.getPatientName().replace("'", "''")
+                        + "', '" + socialWorkerRequest.getTimeForArrival()
+                        + "')";
+                break;
+
+            case LANGUAGE:
+                LanguageRequest languageRequest = (LanguageRequest) request;
                 query = "INSERT INTO SocialWorkerRequests VALUES " +
                         "('" + languageRequest.getRequestID()
                         + "', '" + languageRequest.getPatientName().replace("'", "''")
@@ -312,8 +322,16 @@ public class RequestMutator implements IDatabaseEntityMutator<Request> {
                         + "', timeForArrival = '" + caseManagerRequest.getTimeForArrival()
                         + "' WHERE requestID = '" + caseManagerRequest.getRequestID() + "'";
                 break;
+
             case SOCIAL_WORKER:
-                languageRequest languageRequest = (languageRequest) request;
+                SocialWorkerRequest socialWorkerRequest = (SocialWorkerRequest) request;
+                query = "UPDATE CaseManagerRequests SET patientName = '" + socialWorkerRequest.getPatientName().replace("'", "''")
+                        + "', timeForArrival = '" + socialWorkerRequest.getTimeForArrival()
+                        + "' WHERE requestID = '" + socialWorkerRequest.getRequestID() + "'";
+                break;
+
+            case LANGUAGE:
+                LanguageRequest languageRequest = (LanguageRequest) request;
                 query = "UPDATE SocialWorkerRequests SET patientName = '" + languageRequest.getPatientName().replace("'", "''")
                         + "', timeForArrival = '" + languageRequest.getTimeForArrival()
                         + "' WHERE requestID = '" + languageRequest.getRequestID() + "'";
@@ -540,8 +558,9 @@ public class RequestMutator implements IDatabaseEntityMutator<Request> {
                         rs.getString("description")
                 );
                 break;
+
             case SOCIAL_WORKER:
-                outRequest = new languageRequest(
+                outRequest = new SocialWorkerRequest(
                         rs.getString("patientName"),
                         rs.getString("timeForArrival"),
                         rs.getString("requestID"),
@@ -551,6 +570,21 @@ public class RequestMutator implements IDatabaseEntityMutator<Request> {
                         rs.getString("employeeName"),
                         rs.getString("location"),
                         rs.getString("description")
+                );
+                break;
+
+            case LANGUAGE:
+                outRequest = new LanguageRequest(
+                        rs.getString("patientName"),
+                        rs.getString("timeForArrival"),
+                        rs.getString("requestID"),
+                        rs.getString("requestTime"),
+                        rs.getString("requestDate"),
+                        rs.getString("complete"),
+                        rs.getString("employeeName"),
+                        rs.getString("location"),
+                        rs.getString("description"),
+                        rs.getString("language")
                 );
                 break;
             case GIFT:

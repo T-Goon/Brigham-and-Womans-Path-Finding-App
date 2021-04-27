@@ -43,8 +43,10 @@ dependencies {
             'net.kurobako:gesturefx:0.6.0',
     )
     implementation 'junit:junit:4.12'
+    implementation group: 'org.mindrot', name: 'jbcrypt', version: '0.4'
 //These are test dependencies. These are only used for running verification tasks via Gradle.
     testCompile(
+            'org.mindrot:jbcrypt:0.4',
             "org.testfx:testfx-core:4.0.16-alpha",
             'org.junit.jupiter:junit-jupiter:5.6.0',
             'org.testfx:testfx-junit5:4.0.16-alpha',
