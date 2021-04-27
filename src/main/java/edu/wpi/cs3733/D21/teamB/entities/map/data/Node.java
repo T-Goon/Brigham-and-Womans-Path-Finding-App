@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.D21.teamB.entities.map.data;
 
 import edu.wpi.cs3733.D21.teamB.entities.IStoredEntity;
+import javafx.scene.paint.Color;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,6 +18,10 @@ public class Node implements Comparable<Node>, IStoredEntity {
     private final String longName;
     private final String shortName;
 
+    @Setter
+    @Getter
+    private Color color;
+
     @EqualsAndHashCode.Exclude
     @Setter
     private double fVal;
@@ -30,6 +35,19 @@ public class Node implements Comparable<Node>, IStoredEntity {
         this.nodeType = nodeType;
         this.longName = longName;
         this.shortName = shortName;
+        this.color = Color.web("012D5A");
+    }
+
+    public Node(String nodeID, int xCoord, int yCoord, String floor, String building, String nodeType, String longName, String shortName, Color color) {
+        this.nodeID = nodeID;
+        this.xCoord = xCoord;
+        this.yCoord = yCoord;
+        this.floor = floor;
+        this.building = building;
+        this.nodeType = nodeType;
+        this.longName = longName;
+        this.shortName = shortName;
+        this.color = color;
     }
 
     public int getFloorAsInt(){

@@ -106,6 +106,7 @@ public class DatabaseHandler {
             tables.add("LaundryRequests");
             tables.add("CaseManagerRequests");
             tables.add("SocialWorkerRequests");
+            tables.add("EmergencyRequests");
             tables.add("Requests");
             tables.add("Edges");
             tables.add("Nodes");
@@ -137,6 +138,7 @@ public class DatabaseHandler {
                 + "nodeType CHAR(20), "
                 + "longName CHAR(50), "
                 + "shortName CHAR(20), "
+                + "color CHAR(20),"
                 + "CHECK (xcoord >= 0), "
                 + "CHECK (ycoord >= 0))";
 
@@ -251,6 +253,12 @@ public class DatabaseHandler {
                 + "timeForArrival CHAR(20)," // Stored as HH:MM (24 hour time)
                 + "FOREIGN KEY (requestID) REFERENCES Requests(requestID))";
 
+        String emergencyRequestsTable = "CREATE TABLE IF NOT EXISTS EmergencyRequests("
+                + "requestID CHAR(20) PRIMARY KEY, "
+                + "medicalEmergency CHAR(20)," // Stored as T/F (no boolean data type in SQL)
+                + "securityEmergency CHAR(20)," // Stored as T/F (no boolean data type in SQL)
+                + "FOREIGN KEY (requestID) REFERENCES Requests(requestID))";
+
         String usersTable = "CREATE TABLE IF NOT EXISTS Users("
                 + "username CHAR(30) PRIMARY KEY, "
                 + "firstName CHAR(30), "
@@ -283,6 +291,7 @@ public class DatabaseHandler {
         runStatement(laundryTable, false);
         runStatement(caseManagerRequestsTable, false);
         runStatement(socialWorkerRequestsTable, false);
+        runStatement(emergencyRequestsTable, false);
         runStatement(usersTable, false);
         runStatement(jobsTable, false);
         runStatement(favoriteLocationsTable, false);
@@ -297,8 +306,8 @@ public class DatabaseHandler {
      */
     public void loadDatabaseNodes(List<Node> nodes) throws SQLException {
 
-        String query = "INSERT INTO Nodes(nodeID, xcoord, ycoord, floor, building, nodeType, longName, shortName) " +
-                "VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO Nodes(nodeID, xcoord, ycoord, floor, building, nodeType, longName, shortName, color) " +
+                "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement statement = databaseConnection.prepareStatement(query);
         if (nodes != null) {
             for (Node node : nodes) {
@@ -310,6 +319,7 @@ public class DatabaseHandler {
                 statement.setString(6, node.getNodeType());
                 statement.setString(7, node.getLongName());
                 statement.setString(8, node.getShortName());
+                statement.setString(9, node.getColor().toString());
                 statement.executeUpdate();
             }
         }
