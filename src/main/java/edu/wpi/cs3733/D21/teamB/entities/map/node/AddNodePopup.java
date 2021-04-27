@@ -3,13 +3,11 @@ package edu.wpi.cs3733.D21.teamB.entities.map.node;
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.AddNodePopupData;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Node;
-import edu.wpi.cs3733.D21.teamB.util.ColorPalette;
 import edu.wpi.cs3733.D21.teamB.util.Popup.Poppable;
 import edu.wpi.cs3733.D21.teamB.util.Popup.Popup;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -52,7 +50,7 @@ public class AddNodePopup extends Popup<VBox, AddNodePopupData> implements Poppa
      */
     public void addNode(String nodeID, int x, int y, String floor, String building, String type, String longName, String shortName){
 
-        Node aNode = new Node(nodeID, x, y, floor, building, type, longName, shortName, ColorPalette.getColorOfNodeType(type));
+        Node aNode = new Node(nodeID, x, y, floor, building, type, longName, shortName);
 
         try {
             DatabaseHandler.getDatabaseHandler("main.db").addNode(aNode);
