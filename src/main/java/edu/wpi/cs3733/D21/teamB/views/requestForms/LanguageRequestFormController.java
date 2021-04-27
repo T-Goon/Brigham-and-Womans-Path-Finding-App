@@ -42,15 +42,6 @@ public class LanguageRequestFormController extends DefaultServiceRequestFormCont
 
     private String id;
 
-    protected void getLocationIndex(String nodeID) {
-        for (int i = 0; i < nodesList.size(); i++) {
-            if (nodesList.get(i).getNodeID().equals(nodeID)) {
-                loc.getSelectionModel().select(i);
-                return;
-            }
-        }
-    }
-
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -119,7 +110,7 @@ public class LanguageRequestFormController extends DefaultServiceRequestFormCont
         RequiredFieldValidator validatorLocation = new RequiredFieldValidator();
 
         loc.getValidators().add(validatorLocation);
-        validatorLocation.setMessage("Please input the patient's name!");
+        validatorLocation.setMessage("Please select the location!");
 
         loc.focusedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
@@ -133,7 +124,7 @@ public class LanguageRequestFormController extends DefaultServiceRequestFormCont
         RequiredFieldValidator validatorLanguage = new RequiredFieldValidator();
 
         language.getValidators().add(validatorLanguage);
-        validatorLanguage.setMessage("Please input the patient's name!");
+        validatorLanguage.setMessage("Please select a language!");
 
         language.focusedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
@@ -149,7 +140,7 @@ public class LanguageRequestFormController extends DefaultServiceRequestFormCont
         RequiredFieldValidator validatorTimeForArrival = new RequiredFieldValidator();
 
         timeForArrival.getValidators().add(validatorTimeForArrival);
-        validatorTimeForArrival.setMessage("Please input the patient's name!");
+        validatorTimeForArrival.setMessage("Please select the time of arrival!");
 
         timeForArrival.focusedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
@@ -164,7 +155,7 @@ public class LanguageRequestFormController extends DefaultServiceRequestFormCont
         RequiredFieldValidator validatorMessage = new RequiredFieldValidator();
 
         message.getValidators().add(validatorMessage);
-        validatorMessage.setMessage("Please input the patient's name!");
+        validatorMessage.setMessage("Please input any additional details or type 'none' !");
 
         message.focusedProperty().addListener(new ChangeListener<Boolean>() {
             @Override

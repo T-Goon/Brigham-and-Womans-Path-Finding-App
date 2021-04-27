@@ -16,7 +16,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="basePane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D21.teamB.views.requestForms.SocialWorkerRequestFormController">
+<AnchorPane fx:id="basePane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D21.teamB.views.requestForms.LanguageRequestFormController">
    <children>
       <StackPane fx:id="stackContainer" layoutY="-28.083261489868164" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -118,7 +118,7 @@
                                                       <Font size="14.0" />
                                                    </font>
                                                 </Text>
-                                                <JFXComboBox prefHeight="27.0" prefWidth="774.0" style="-fx-background-color: #e5e5e5; -fx-background-radius: 7;" unFocusColor="#f2f2f2" />
+                                                <JFXComboBox fx:id="language" prefHeight="27.0" prefWidth="774.0" promptText="choose one" style="-fx-background-color: #e5e5e5; -fx-background-radius: 7;" unFocusColor="#f2f2f2" />
                                              </children>
                                              <padding>
                                                 <Insets left="10.0" top="10.0" />
@@ -151,7 +151,7 @@
                                                       <Font size="14.0" />
                                                    </font>
                                                 </Text>
-                                                <JFXTextArea fx:id="messageForSocialWorker" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onKeyReleased="#validateButton" prefHeight="120.0" prefWidth="778.0" promptText="Ex. &quot;I would feel more comfortable with a female interpreter.&quot;" style="-fx-background-radius: 7; -fx-background-color: e5e5e5;" unFocusColor="#4d4d4d00" VBox.vgrow="NEVER">
+                                                <JFXTextArea fx:id="message" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onKeyReleased="#validateButton" prefHeight="120.0" prefWidth="778.0" promptText="Ex. &quot;I would feel more comfortable with a female interpreter.&quot;" style="-fx-background-radius: 7; -fx-background-color: e5e5e5;" unFocusColor="#4d4d4d00" VBox.vgrow="NEVER">
                                                    <font>
                                                       <Font name="MS Reference Sans Serif" size="14.0" />
                                                    </font>

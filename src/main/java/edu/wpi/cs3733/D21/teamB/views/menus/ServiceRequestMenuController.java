@@ -112,6 +112,7 @@ public class ServiceRequestMenuController extends BasePageController {
                 break;
             case "btnGiftDelivery":
                 path = VIEWS_PATH + "giftRequestForm.fxml.";
+                break;
             case "btnLanguageInterpreter":
                 path = VIEWS_PATH + "languageRequestForm.fxml";
                 break;

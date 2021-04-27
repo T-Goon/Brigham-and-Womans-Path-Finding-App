@@ -247,7 +247,7 @@
                         </VBox>
                         <VBox alignment="CENTER" style="-fx-background-color: #012d5a;">
                            <children>
-                              <JFXButton fx:id="btnGiftDelivery" contentDisplay="GRAPHIC_ONLY" minHeight="160.0" minWidth="160.0" onAction="#handleButtonAction" ripplerFill="WHITE" style="-fx-background-color: #F6BD39; -fx-background-radius: 7%;" text="Case Manager" VBox.vgrow="ALWAYS">
+                              <JFXButton fx:id="btnGiftDelivery" contentDisplay="GRAPHIC_ONLY" minHeight="160.0" minWidth="160.0" onAction="#handleButtonAction" ripplerFill="WHITE" style="-fx-background-color: #F6BD39; -fx-background-radius: 7%;" text="Gift Delivery" VBox.vgrow="ALWAYS">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
@@ -266,7 +266,7 @@
                         </VBox>
                         <VBox alignment="CENTER" style="-fx-background-color: #012d5a;">
                            <children>
-                              <JFXButton fx:id="btnLanguageInterpreter" contentDisplay="GRAPHIC_ONLY" minHeight="160.0" minWidth="160.0" onAction="#handleButtonAction" ripplerFill="WHITE" style="-fx-background-color: #F6BD39; -fx-background-radius: 7%;" text="Case Manager" VBox.vgrow="ALWAYS">
+                              <JFXButton fx:id="btnLanguageInterpreter" contentDisplay="GRAPHIC_ONLY" minHeight="160.0" minWidth="160.0" onAction="#handleButtonAction" ripplerFill="WHITE" style="-fx-background-color: #F6BD39; -fx-background-radius: 7%;" text="Language Interpreter" VBox.vgrow="ALWAYS">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
