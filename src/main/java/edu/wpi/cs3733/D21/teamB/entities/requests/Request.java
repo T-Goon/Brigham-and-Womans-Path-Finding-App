@@ -89,8 +89,8 @@ public class Request implements IStoredEntity {
             }
         }
 
-        public static RequestType uglify(String string) throws IllegalArgumentException{
-            switch (string){
+        public static RequestType uglify(String string) throws IllegalArgumentException {
+            switch (string) {
                 case "Case Manager":
                     return CASE_MANAGER;
                 case "External Transport":

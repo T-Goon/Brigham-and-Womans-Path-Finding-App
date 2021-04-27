@@ -76,7 +76,7 @@ public class EditUserController extends BasePageController implements Initializa
             }
         } else {
             for (Label label : job.getItems()) {
-                if (label.getText().equals(Request.RequestType.prettify(u.getJobs().get(0)))) {
+                if (label.getText().equals("None")) {
                     job.getSelectionModel().select(i);
                 }
                 i++;
@@ -103,10 +103,14 @@ public class EditUserController extends BasePageController implements Initializa
             String uFirstName = firstName.getText();
             String uLastName = lastName.getText();
             User.AuthenticationLevel uAuthLevel = User.AuthenticationLevel.valueOf(authenticationLevel.getValue().getText());
-            List<Request.RequestType> uJobs = new ArrayList<Request.RequestType>();
+            List<Request.RequestType> uJobs = new ArrayList<>();
             if (job.getValue() != null) {
-                Request.RequestType uJob = Request.RequestType.uglify(job.getValue().getText());
-                uJobs.add(uJob);
+                if (job.getValue().getText().equals("None")) {
+                    uJobs = new ArrayList<>();
+                } else {
+                    Request.RequestType uJob = Request.RequestType.uglify(job.getValue().getText());
+                    uJobs.add(uJob);
+                }
             }
 
             User uUpdated = new User(uUsername, uFirstName, uLastName, uAuthLevel, uJobs);

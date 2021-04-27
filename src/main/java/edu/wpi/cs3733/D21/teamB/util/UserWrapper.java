@@ -24,7 +24,7 @@ public class UserWrapper {
     private final Label username;
     private final Label firstName;
     private final Label lastName;
-    private  Label employeeName;
+    private Label employeeName;
     private final TableView parentTable;
     private final JFXButton btnEdit;
     private final JFXButton btnDel;
@@ -35,16 +35,16 @@ public class UserWrapper {
         this.firstName = new Label(u.getFirstName());
         this.lastName = new Label(u.getLastName());
         StringBuilder jobsBuilder = new StringBuilder();
-        for(Request.RequestType job : u.getJobs()){
+        for (Request.RequestType job : u.getJobs()) {
             jobsBuilder.append(Request.RequestType.prettify(job));
             jobsBuilder.append(", ");
         }
-        if(jobsBuilder.length()>=2){
-            jobsBuilder.deleteCharAt(jobsBuilder.length()-1);
-            jobsBuilder.deleteCharAt(jobsBuilder.length()-1);
+        if (jobsBuilder.length() >= 2) {
+            jobsBuilder.deleteCharAt(jobsBuilder.length() - 1);
+            jobsBuilder.deleteCharAt(jobsBuilder.length() - 1);
         }
         this.employeeName = new Label(jobsBuilder.toString());
-        if (employeeName.getText().equals("null")) employeeName.setText("No responsibilities");
+        if (employeeName.getText().equals("")) employeeName.setText("No responsibilities");
         this.parentTable = parentTable;
 
         // Set up edit button
@@ -78,7 +78,7 @@ public class UserWrapper {
         });
 
         this.btnDel = btnDel;
-        if(u.getUsername().equals(DatabaseHandler.getDatabaseHandler("main.db").getAuthenticationUser().getUsername())){
+        if (u.getUsername().equals(DatabaseHandler.getDatabaseHandler("main.db").getAuthenticationUser().getUsername())) {
             this.btnDel.setDisable(true);
         }
     }
