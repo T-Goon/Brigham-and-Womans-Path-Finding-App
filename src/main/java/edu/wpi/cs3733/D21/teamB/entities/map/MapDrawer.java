@@ -76,19 +76,30 @@ public class MapDrawer implements PoppableManager {
                         nodes.get(currentFloorPath.get(i + 1)));
             }
 
+            //If there is a path segment on this floor
             if(!currentFloorPath.isEmpty()) {
+
+                //Get the last index of node on this floor
                 int floorChangeNodeIndex = mapCache.getFinalPath().getPath().indexOf(currentFloorPath.get(currentFloorPath.size() - 1));
 
+                //If there is another node after this floor
                 if (floorChangeNodeIndex != mapCache.getFinalPath().getPath().size() - 1) {
+                    //Get the nodeID of the node that is on the next floor
                     String nextNode = mapCache.getFinalPath().getPath().get(floorChangeNodeIndex + 1);
 
+                    //Get the floor that the next node is on
                     String floorString = nextNode.substring(nextNode.length() - 2);
 
+
+                    //Convert the floor strings to int values
                     int currentFloorVal = Node.floorAsInt(mapCache.getCurrentFloor());
                     int nextFloorVal = Node.floorAsInt(floorString);
 
+                    //If going up or down
                     if (nextFloorVal > currentFloorVal) {
                         //Going UP
+
+                        //Update the node icon to green to indicate that the user must go up
                         String floorChangeNodeID = mapCache.getFinalPath().getPath().get(floorChangeNodeIndex);
                         for (javafx.scene.Node img : mapCache.getNodePlaced()) {
                             if (img.getId().equals(floorChangeNodeID + "Icon")) {
@@ -98,6 +109,8 @@ public class MapDrawer implements PoppableManager {
                         }
                     } else {
                         //Going Down
+
+                        //Update the node icon to red to indicate that the user must go down
                         String floorChangeNodeID = mapCache.getFinalPath().getPath().get(floorChangeNodeIndex);
                         for (javafx.scene.Node img : mapCache.getNodePlaced()) {
                             if (img.getId().equals(floorChangeNodeID + "Icon")) {
@@ -111,13 +124,12 @@ public class MapDrawer implements PoppableManager {
                 }
             }
 
-
-
             if (etaPopup != null) {
                 etaPopup.hide();
                 etaPopup = null;
             }
 
+            //Creates the eta popup for this floor only
             etaPopup = mapPathPopupManager.createETAPopup(new Path(currentFloorPath, Graph.getGraph().calculateCost(currentFloorPath)));
         }
 
