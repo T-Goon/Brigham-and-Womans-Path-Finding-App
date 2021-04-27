@@ -12,6 +12,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -44,6 +45,12 @@ public class languageRequestFormController extends DefaultServiceRequestFormCont
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location,resources);
+
+        language.getItems().add(new Label("Chinese"));
+        language.getItems().add(new Label("French"));
+        language.getItems().add(new Label("Russian"));
+        language.getItems().add(new Label("Spanish"));
+        language.getItems().add(new Label("Vietnamese"));
 
         if (SceneSwitcher.peekLastScene().equals("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml")) {
             this.id = (String) App.getPrimaryStage().getUserData();
