@@ -43,7 +43,7 @@ public class MapDrawer implements PoppableManager {
     private final GesturePane gPane;
     private final StackPane mapStack;
     private ETAPopup etaPopup;
-    private final Circle head = new Circle(5);
+    private Circle head = new Circle(5);
     private final DatabaseHandler db = DatabaseHandler.getDatabaseHandler("main.db");
 
     @Getter
@@ -189,7 +189,6 @@ public class MapDrawer implements PoppableManager {
      * @param end Long name of the end node
      */
     public void drawPath(String start, String end) {
-
         Graph.getGraph().updateGraph();
         Map<String, String> longToIDMap = mapCache.getMapLongToID();
 
@@ -482,6 +481,8 @@ public class MapDrawer implements PoppableManager {
             drawAltNodesOnFloor();
             drawIntermediateNodesOnFloor();
             redrawHighlightedNode();
+            nodeHolder.getChildren().remove(head);
+
         } else {
             mapCache.updateLocations();
             removeAllEdges();

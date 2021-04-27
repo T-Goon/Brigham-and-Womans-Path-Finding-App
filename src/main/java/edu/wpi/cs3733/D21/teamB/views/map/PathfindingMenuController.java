@@ -404,6 +404,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
                 mapDrawer.removeAllEdges();
 
                 mapDrawer.setEditing(!mapDrawer.isEditing());
+                btnFindPath.setDisable(!btnFindPath.isDisable());
 
                 mapDrawer.drawAllElements();
                 break;
