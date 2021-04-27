@@ -108,6 +108,8 @@ public class DatabaseHandler {
             tables.add("LaundryRequests");
             tables.add("CaseManagerRequests");
             tables.add("SocialWorkerRequests");
+            tables.add("GiftRequests");
+            tables.add("LanguageRequests");
             tables.add("EmergencyRequests");
             tables.add("Requests");
             tables.add("Edges");
@@ -266,6 +268,13 @@ public class DatabaseHandler {
                 + "wantsChocolate CHAR(1), " // Stored as T/F (no boolean data type in SQL)
                 + "FOREIGN KEY (requestID) REFERENCES Requests(requestID))";
 
+        String languageRequestsTable = "CREATE TABLE IF NOT EXISTS LanguageInterpretationRequests("
+                + "requestID CHAR(20) PRIMARY KEY, "
+                + "patientName CHAR(30), "
+                + "language CHAR(30), "
+                + "arrivalTime CHAR(5), " // Stored as HH:MM (24 hour time)
+                + "FOREIGN KEY (requestID) REFERENCES Requests(requestID))";
+
         String emergencyRequestsTable = "CREATE TABLE IF NOT EXISTS EmergencyRequests("
                 + "requestID CHAR(20) PRIMARY KEY, "
                 + "medicalEmergency CHAR(20)," // Stored as T/F (no boolean data type in SQL)
@@ -305,6 +314,7 @@ public class DatabaseHandler {
         runStatement(caseManagerRequestsTable, false);
         runStatement(socialWorkerRequestsTable, false);
         runStatement(giftRequestsTable, false);
+        runStatement(languageRequestsTable, false);
         runStatement(emergencyRequestsTable, false);
         runStatement(usersTable, false);
         runStatement(jobsTable, false);
@@ -665,7 +675,7 @@ public class DatabaseHandler {
      * Displays the list of favorite locations
      *
      * @return a list of favorite locations
-     * @throws SQLException
+     * @throws SQLException if the DB is malformed
      */
     public List<String> getFavorites() throws SQLException {
         return userMutator.getFavoritesForUser();

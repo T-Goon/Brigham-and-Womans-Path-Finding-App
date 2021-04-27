@@ -262,7 +262,7 @@
                         </VBox>
                         <VBox alignment="CENTER" style="-fx-background-color: #012d5a;">
                            <children>
-                              <JFXButton fx:id="btnGiftDelivery" contentDisplay="GRAPHIC_ONLY" minHeight="160.0" minWidth="160.0" onAction="#handleButtonAction" ripplerFill="WHITE" style="-fx-background-color: #F6BD39; -fx-background-radius: 7%;" text="Case Manager" VBox.vgrow="ALWAYS">
+                              <JFXButton fx:id="btnGiftDelivery" contentDisplay="GRAPHIC_ONLY" minHeight="160.0" minWidth="160.0" onAction="#handleButtonAction" ripplerFill="WHITE" style="-fx-background-color: #F6BD39; -fx-background-radius: 7%;" text="Gift Delivery" VBox.vgrow="ALWAYS">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
@@ -270,6 +270,29 @@
                                     <ImageView fitHeight="129.0" fitWidth="136.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@../../images/requestForms/giftIcon.png" />
+                                          <Image url="@../../images/requestForms/giftIcon.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                                 <VBox.margin>
+                                    <Insets top="16.0" />
+                                 </VBox.margin>
+                              </JFXButton>
+                           </children>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                        </VBox>
+                        <VBox alignment="CENTER" style="-fx-background-color: #012d5a;">
+                           <children>
+                              <JFXButton fx:id="btnLanguageInterpreter" contentDisplay="GRAPHIC_ONLY" minHeight="160.0" minWidth="160.0" onAction="#handleButtonAction" ripplerFill="WHITE" style="-fx-background-color: #F6BD39; -fx-background-radius: 7%;" text="Language Interpreter" VBox.vgrow="ALWAYS">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                                 <graphic>
+                                    <ImageView fitHeight="151.0" fitWidth="137.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../images/requestForms/languageInterpreterIcon.png" />
                                        </image>
                                     </ImageView>
                                  </graphic>

@@ -50,7 +50,7 @@ public class EmergencyFormController extends DefaultServiceRequestFormController
 
         if (SceneSwitcher.peekLastScene().equals("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml")) {
             this.id = (String) App.getPrimaryStage().getUserData();
-            EmergencyRequest emergencyRequest = null;
+            EmergencyRequest emergencyRequest;
             try {
                 emergencyRequest = (EmergencyRequest) DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(id, Request.RequestType.EMERGENCY);
             } catch (SQLException e) {

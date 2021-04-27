@@ -203,6 +203,9 @@ public class RequestWrapper {
                     case GIFT:
                         SceneSwitcher.switchScene(getClass(), "/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml", "/edu/wpi/cs3733/D21/teamB/views/requestForms/giftRequestForm.fxml");
                         break;
+                    case LANGUAGE:
+                        SceneSwitcher.switchScene(getClass(), "/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml", "/edu/wpi/cs3733/D21/teamB/views/requestForms/languageRequestForm.fxml");
+                        break;
                     case EMERGENCY:
                         SceneSwitcher.isEmergencyBtn = false;
                         SceneSwitcher.switchScene(getClass(), "/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml", "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");

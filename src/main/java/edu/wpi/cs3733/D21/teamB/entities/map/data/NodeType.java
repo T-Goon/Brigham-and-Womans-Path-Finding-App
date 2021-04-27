@@ -1,7 +1,5 @@
 package edu.wpi.cs3733.D21.teamB.entities.map.data;
 
-import edu.wpi.cs3733.D21.teamB.entities.requests.Request;
-
 public enum NodeType {
     SERV,
     REST,

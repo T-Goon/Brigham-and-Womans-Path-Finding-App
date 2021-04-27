@@ -1,7 +1,6 @@
 package edu.wpi.cs3733.D21.teamB.entities.map;
 
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733.D21.teamB.App;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.*;
@@ -11,14 +10,11 @@ import edu.wpi.cs3733.D21.teamB.pathfinding.AStar;
 import edu.wpi.cs3733.D21.teamB.pathfinding.Directions;
 import edu.wpi.cs3733.D21.teamB.util.Popup.PoppableManager;
 import edu.wpi.cs3733.D21.teamB.views.map.PathfindingMenuController;
-import javafx.collections.MapChangeListener;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import net.kurobako.gesturefx.GesturePane;
 
 import java.util.List;
-
-import javax.swing.text.html.ImageView;
 
 public class MapPathPopupManager implements PoppableManager {
 

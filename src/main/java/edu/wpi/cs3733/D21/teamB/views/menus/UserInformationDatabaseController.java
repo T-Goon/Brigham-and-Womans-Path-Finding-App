@@ -10,7 +10,6 @@ import edu.wpi.cs3733.D21.teamB.entities.requests.Request;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
 import edu.wpi.cs3733.D21.teamB.util.UserWrapper;
 import edu.wpi.cs3733.D21.teamB.views.BasePageController;
-import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -116,7 +115,7 @@ public class UserInformationDatabaseController extends BasePageController implem
                 break;
             case "btnAdd":
                 Stage stage = App.getPrimaryStage();
-                stage.setUserData(new User("","","", User.AuthenticationLevel.PATIENT,new ArrayList<Request.RequestType>()));
+                stage.setUserData(new User("", "", "", User.AuthenticationLevel.PATIENT, new ArrayList<>()));
                 SceneSwitcher.addingUser = true;
                 SceneSwitcher.switchScene(getClass(),"/edu/wpi/cs3733/D21/teamB/views/menus/userInformationDatabase.fxml", "/edu/wpi/cs3733/D21/teamB/views/menus/editUserMenu.fxml");
                 break;
