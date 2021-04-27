@@ -6,12 +6,16 @@ import edu.wpi.cs3733.D21.teamB.views.BasePageController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 
 public class ServiceRequestMenuCreditsController extends BasePageController {
 
     private static final String VIEWS_PATH = "/edu/wpi/cs3733/D21/teamB/views/requestForms/";
+
+    @FXML
+    public JFXButton btnShowCredits;
 
     @FXML
     private FlowPane flowpane;
@@ -108,6 +112,10 @@ public class ServiceRequestMenuCreditsController extends BasePageController {
             case "btnGiftDelivery":
                 path = VIEWS_PATH + "giftRequestForm.fxml";
                 break;
+            case "btnShowCredits":
+            case "btnBack":
+                SceneSwitcher.goBack(getClass(), 1);
+                return;
         }
 
         if (path != null)

@@ -25,7 +25,7 @@
                <children>
                   <ImageView fitHeight="114.0" fitWidth="314.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../images/general/hospitalLogo.png" />
+                        <Image url="@../../images/general/hospitalLogo.png"/>
                      </image>
                   </ImageView>
                   <JFXButton fx:id="btnEmergency" buttonType="RAISED" onAction="#handleButtonAction" style="-fx-background-color: #CE2029;" text="EMERGENCY" textFill="WHITE">
@@ -196,7 +196,7 @@
                                      </ImageView>
                                   </graphic>
                                   <VBox.margin>
-                                     <Insets bottom="16.0" left="16.0" right="16.0"/>
+                                     <Insets/>
                                   </VBox.margin>
                                </JFXButton>
                            </children>
@@ -207,32 +207,40 @@
                         <VBox fx:id="externalTransport" alignment="CENTER">
                            <children>
                                <JFXButton fx:id="btnExtTransp" contentDisplay="GRAPHIC_ONLY" minHeight="160.0" minWidth="160.0" onAction="#handleButtonAction" ripplerFill="WHITE" style="-fx-background-color: #F6BD39; -fx-background-radius: 7%;" text="External Transportation" VBox.vgrow="ALWAYS">
-                                   <font>
-                                       <Font size="14.0" />
-                                   </font>
-                                   <graphic>
-                                       <ImageView fitHeight="140.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true">
-                                           <image>
-                                               <Image url="@../../images/requestForms/externalTransportIcon.png" />
-                                           </image>
-                                       </ImageView>
-                                   </graphic>
-                              </JFXButton>
+                                  <font>
+                                     <Font size="14.0"/>
+                                  </font>
+                                  <graphic>
+                                     <ImageView fitHeight="140.0" fitWidth="140.0" pickOnBounds="true"
+                                                preserveRatio="true">
+                                        <image>
+                                           <Image url="@../../images/requestForms/externalTransportIcon.png"/>
+                                        </image>
+                                     </ImageView>
+                                  </graphic>
+                                  <VBox.margin>
+                                     <Insets top="16.0"/>
+                                  </VBox.margin>
+                               </JFXButton>
                            </children>
                         </VBox>
                         <VBox alignment="CENTER">
                            <children>
                               <JFXButton fx:id="btnReligiousRequest" contentDisplay="GRAPHIC_ONLY" minHeight="160.0" minWidth="160.0" onAction="#handleButtonAction" ripplerFill="WHITE" style="-fx-background-color: #F6BD39; -fx-background-radius: 7%;" text="Religious Service" VBox.vgrow="ALWAYS">
                                  <font>
-                                    <Font size="14.0" />
+                                    <Font size="14.0"/>
                                  </font>
                                  <graphic>
-                                    <ImageView fitHeight="140.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView fitHeight="140.0" fitWidth="140.0" pickOnBounds="true"
+                                               preserveRatio="true">
                                        <image>
-                                          <Image url="@../../images/requestForms/religiousIcon.png" />
+                                          <Image url="@../../images/requestForms/religiousIcon.png"/>
                                        </image>
                                     </ImageView>
                                  </graphic>
+                                 <VBox.margin>
+                                    <Insets top="16.0"/>
+                                 </VBox.margin>
                               </JFXButton>
                            </children>
                         </VBox>
@@ -240,15 +248,19 @@
                            <children>
                               <JFXButton fx:id="btnCaseManager" contentDisplay="GRAPHIC_ONLY" minHeight="160.0" minWidth="160.0" onAction="#handleButtonAction" ripplerFill="WHITE" style="-fx-background-color: #F6BD39; -fx-background-radius: 7%;" text="Case Manager" VBox.vgrow="ALWAYS">
                                  <font>
-                                    <Font size="14.0" />
+                                    <Font size="14.0"/>
                                  </font>
                                  <graphic>
-                                    <ImageView fitHeight="140.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView fitHeight="140.0" fitWidth="140.0" pickOnBounds="true"
+                                               preserveRatio="true">
                                        <image>
-                                          <Image url="@../../images/requestForms/caseManagerIcon.png" />
+                                          <Image url="@../../images/requestForms/caseManagerIcon.png"/>
                                        </image>
                                     </ImageView>
                                  </graphic>
+                                 <VBox.margin>
+                                    <Insets top="16.0"/>
+                                 </VBox.margin>
                               </JFXButton>
                            </children>
                            <opaqueInsets>
@@ -259,15 +271,19 @@
                            <children>
                               <JFXButton fx:id="btnGiftDelivery" contentDisplay="GRAPHIC_ONLY" minHeight="160.0" minWidth="160.0" onAction="#handleButtonAction" ripplerFill="WHITE" style="-fx-background-color: #F6BD39; -fx-background-radius: 7%;" text="Case Manager" VBox.vgrow="ALWAYS">
                                  <font>
-                                    <Font size="14.0" />
+                                    <Font size="14.0"/>
                                  </font>
                                  <graphic>
-                                    <ImageView fitHeight="129.0" fitWidth="136.0" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView fitHeight="129.0" fitWidth="136.0" pickOnBounds="true"
+                                               preserveRatio="true">
                                        <image>
-                                          <Image url="@../../images/requestForms/giftIcon.png" />
+                                          <Image url="@../../images/requestForms/giftIcon.png"/>
                                        </image>
                                     </ImageView>
                                  </graphic>
+                                 <VBox.margin>
+                                    <Insets top="16.0"/>
+                                 </VBox.margin>
                               </JFXButton>
                            </children>
                            <opaqueInsets>
