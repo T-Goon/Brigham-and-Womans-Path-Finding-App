@@ -136,17 +136,14 @@
                         </HBox>
                               <HBox alignment="CENTER" minHeight="36.0">
                                   <children>
-                                      <Label fx:id="lblError"
-                                             style="-fx-background-color: #CE2029; -fx-background-radius: 7;"
-                                             text="Path could not be found between the selected locations!"
-                                             textAlignment="CENTER" textFill="WHITE" visible="false" wrapText="true">
+                                      <Label fx:id="lblError" style="-fx-background-color: #CE2029; -fx-background-radius: 7;" text="Path could not be found between the selected locations!" textAlignment="CENTER" textFill="WHITE" visible="false" wrapText="true">
                                           <font>
-                                              <Font name="MS Reference Sans Serif" size="14.0"/>
+                                              <Font name="MS Reference Sans Serif" size="14.0" />
                                           </font>
                                       </Label>
                                   </children>
                                   <VBox.margin>
-                                      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                                      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                   </VBox.margin>
                               </HBox>
                         <HBox>
@@ -338,17 +335,17 @@
                                                          <image>
                                                              <Image url="@../../images/maps/node.png" />
                                                          </image>
-                                                         <effect>
-                                                             <ColorAdjust hue="-0.5" />
-                                                         </effect>
+                                                   <effect>
+                                                      <ColorAdjust brightness="0.93" contrast="0.76" hue="-0.5" />
+                                                   </effect>
                                                      </ImageView>
                                                      <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="3">
                                                          <image>
                                                              <Image url="@../../images/maps/node.png" />
                                                          </image>
-                                                         <effect>
-                                                             <ColorAdjust brightness="0.25" hue="0.8" saturation="1.0" />
-                                                         </effect>
+                                                   <effect>
+                                                      <ColorAdjust brightness="0.67" contrast="0.71" hue="0.76" />
+                                                   </effect>
                                                      </ImageView>
                                                      <Text layoutX="10.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Location" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                                          <font>

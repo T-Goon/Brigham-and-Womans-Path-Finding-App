@@ -10,8 +10,6 @@ import edu.wpi.cs3733.D21.teamB.views.map.PathfindingMenuController;
 import javafx.animation.*;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
-import javafx.scene.effect.ColorAdjust;
-import javafx.scene.image.ImageView;
 import javafx.scene.image.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -136,12 +134,6 @@ public class MapDrawer implements PoppableManager {
 
                             //Update the node icon to green to indicate that the user must go up
                             String floorChangeNodeID = mapCache.getFinalPath().getPath().get(floorChangeNodeIndex);
-//                            for (javafx.scene.Node img : mapCache.getNodePlaced()) {
-//                                if (img.getId().equals(floorChangeNodeID + "Icon")) {
-//                                    img.setEffect(new ColorAdjust(-0.5, 0, 0, 0));
-//                                    mapCache.getEditedNodes().add(img);
-//                                }
-//                            }
                             for (Node n : mapCache.getFloorNodes().get(mapCache.getCurrentFloor())) {
                                 if (n.getNodeID().equals(floorChangeNodeID.substring(0, 10))) {
                                     n.setColor(Color.web("00ff00"));
@@ -154,13 +146,6 @@ public class MapDrawer implements PoppableManager {
 
                             //Update the node icon to red to indicate that the user must go down
                             String floorChangeNodeID = mapCache.getFinalPath().getPath().get(floorChangeNodeIndex);
-//                            for (javafx.scene.Node img : mapCache.getNodePlaced()) {
-//                                if (img.getId().equals(floorChangeNodeID + "Icon")) {
-//                                    img.setEffect(new ColorAdjust(0.8, 1, 0, 0));
-//                                    mapCache.getEditedNodes().add(img);
-//
-//                                }
-//                            }
 
                             for (Node n : mapCache.getFloorNodes().get(mapCache.getCurrentFloor())) {
                                 if (n.getNodeID().equals(floorChangeNodeID.substring(0, 10))) {

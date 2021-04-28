@@ -154,6 +154,7 @@ public class AddNodePopupController implements Initializable {
 
                 List<Integer> indexes = new ArrayList<>();
 
+                assert nodes != null;
                 nodes.forEach(node -> {
                     if (node.getNodeID().startsWith("b"))
                         indexes.add(

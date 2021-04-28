@@ -342,8 +342,6 @@ public class PathfindingTests {
         Node c = new Node("bPARK01501", 1, 3, "1", "Parking", "PARK", "Right Parking Lot Spot 5", "RLot5");
 
         double slightRight = Directions.angleBetweenEdges(a, b, c);
-        //System.out.println(slightRight);
-        //assertEquals(-20, slightRight, 2);
     }
 
 //    @Test
@@ -377,47 +375,5 @@ public class PathfindingTests {
 //    }
 
     //tested txtDirections by using the UI
-//    @Test
-//    public void testTextDir() {
-//        //Center for International Medicine
-//        //Tower Medical Cashier
-//
-//        Path path = AStar.findPath("FDEPT00101", "FSERV00201");
-//        List<String> instructions = Directions.instructions(path);
-//
-//        for (String inst : instructions) {
-//            System.out.println(inst);
-//        }
-//
-//    }
-
-//
-//    @Test
-//    public void test() {
-//        LinkedList<String> expectedPath = new LinkedList<>();
-//        Path path = AStar.findPath("FDEPT00501", "BCONF00102");
-//        System.out.println(path.getPath());
-//
-//        //FHALL00701, WELEV00L01, WELEV00L02
-//        Node n = new Node("FHALL00701",1758,930,"1","Tower","HALL","Tower Elevator Entrance","Hallway F00701");
-//        Node n1 = new Node("WELEV00L01",1810,930,"1","Tower","ELEV","Elevator L Floor 1","Elevator L1");
-//        Node n2 = new Node("WELEV00L02",1805,925,"2","Tower","ELEV","Elevator L Floor 2","Elevator L2");
-//        System.out.println(Directions.angleBetweenEdges(n, n1, n2));
-//    }
-
-//    @Test
-//    public void rounding(){
-//
-//        int result = Directions.round(25.5);
-//        assertEquals(25, result);
-//
-//        result = Directions.round(12.1);
-//        assertEquals(15, result);
-//
-//        result = Directions.round(303.3);
-//        assertEquals(300 , result);
-//
-//
-//    }
 
 }
