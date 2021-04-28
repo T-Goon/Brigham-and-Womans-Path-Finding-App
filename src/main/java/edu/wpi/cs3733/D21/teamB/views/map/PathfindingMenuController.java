@@ -542,11 +542,20 @@ public class PathfindingMenuController extends BasePageController implements Ini
                 break;
             case "btnBack":
                 // Reset all the colors of the nodes
-                for(String floor : mapCache.getFloorNodes().keySet()){
-                    for(Node n : mapCache.getFloorNodes().get(floor)){
-                        n.setColor(Color.web("012D5A"));
+                if(!colors.isEmpty()) {
+                    for (String floor : mapCache.getFloorNodes().keySet()) {
+                        for (Node n : mapCache.getFloorNodes().get(floor)) {
+
+                            for (String id : colors.keySet()) {
+                                colors.get(id);
+                                if(n.getNodeID().equals(id))
+                                    n.setColor(colors.get(id));
+                            }
+
+                        }
                     }
                 }
+
                 break;
             case "btnTxtDir":
                 mapDrawer.removeAllPopups();
