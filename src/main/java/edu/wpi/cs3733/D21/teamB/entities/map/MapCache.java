@@ -72,15 +72,13 @@ public class MapCache {
                 //Populate Category map for TreeView
 
                 //This if statement is temporary for iteration 1 where pathfinding is only needed for the first floor
-                if(n.getFloor().equals(currentFloor)) {
-                    if (!catNameMap.containsKey(n.getNodeType())) {
-                        ArrayList<TreeItem<String>> tempList = new ArrayList<>();
-                        TreeItem<String> tempItem = new TreeItem<>(n.getLongName());
-                        tempList.add(tempItem);
-                        catNameMap.put(n.getNodeType(), tempList);
-                    } else {
-                        catNameMap.get(n.getNodeType()).add(new TreeItem<>(n.getLongName()));
-                    }
+                if (!catNameMap.containsKey(n.getNodeType())) {
+                    ArrayList<TreeItem<String>> tempList = new ArrayList<>();
+                    TreeItem<String> tempItem = new TreeItem<>(n.getLongName());
+                    tempList.add(tempItem);
+                    catNameMap.put(n.getNodeType(), tempList);
+                } else {
+                    catNameMap.get(n.getNodeType()).add(new TreeItem<>(n.getLongName()));
                 }
 
             }
