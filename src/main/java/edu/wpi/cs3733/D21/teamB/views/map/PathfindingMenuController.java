@@ -175,7 +175,6 @@ public class PathfindingMenuController extends BasePageController implements Ini
         categoryNameMap.put("CONF", "Conference Rooms");
         categoryNameMap.put("INFO", "Information Locations");
         categoryNameMap.put("RETL", "Retail Locations");
-        categoryNameMap.put("BATH", "Bathroom");
         categoryNameMap.put("EXIT", "Entrances");
         categoryNameMap.put("STAI", "Stairs");
         categoryNameMap.put("PARK", "Parking Spots");

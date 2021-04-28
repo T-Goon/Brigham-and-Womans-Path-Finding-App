@@ -467,7 +467,7 @@ HSTAI00102,2060,880,2,Tower,STAI,Stairwell 1 Floor 2,Stairwell 0102
 HHALL00402,1875,1025,2,Tower,HALL,Hallway Connector 4 Floor 2,Hallway H00402
 HHALL00502,1825,1025,2,Tower,HALL,Hallway Connector 5 Floor 2,Hallway H00502
 HRETL00202,1615,1025,2,Tower,RETL,Vending Machine Floor 2?,Vending Machine
-HBATH00102,1605,1008,2,Tower,BATH,Bathroom 1 Tower Floor 2,Bathroom 0102
+HREST00102,1605,1008,2,Tower,REST,Bathroom 1 Tower Floor 2,Bathroom 0102
 HRETL00302,1825,1080,2,Tower,RETL,Gift Shop Tower Floor 2,Gift Shop
 HHALL00602,1775,1080,2,Tower,HALL,Hallway Connector 6 Floor 2,Hallway H00602
 HHALL00702,1740,1165,2,Tower,HALL,Hallway Connector 7 Floor 2,Hallway H00702
@@ -491,14 +491,14 @@ HHALL00803,1735,865,3,Tower,HALL,Hallway Connector 8 Floor 3,Hallway H00803
 HSERV00103,1750,865,3,Tower,SERV,Nursing Room,Nursing Room
 HHALL00903,1735,820,3,Tower,HALL,Hallway Connector 9 Floor 3,Hallway H00903
 HHALL01003,1785,820,3,Tower,HALL,Hallway Connector 10 Floor 3,Hallway H01003
-HBATH00103,1785,830,3,Tower,BATH,Bathroom 1 Tower Floor 3,Bathroom 0103
+HREST00103,1785,830,3,Tower,REST,Bathroom 1 Tower Floor 3,Bathroom 0103
 HHALL01103,1690,820,3,Tower,HALL,Hallway Connector 11 Floor 3,Hallway H01103
 HDEPT00203,1690,830,3,Tower,DEPT,MICU 3BC Waiting Room,MICU 3BC WR
 HHALL01203,1600,820,3,Tower,HALL,Hallway Connector 12 Floor 3,Hallway H01203
 HHALL01303,1600,1030,3,Tower,HALL,Hallway Connector 13 Floor 3,Hallway H01303
 HHALL01403,1735,1030,3,Tower,HALL,Hallway Connector 14 Floor 3,Hallway H01403
 HHALL01503,1735,985,3,Tower,HALL,Hallway Connector 15 Floor 3,Hallway H01503
-HBATH00203,1750,985,3,Tower,BATH,Bathroom 2 Tower Floor 3,Bathroom 0203
+HREST00203,1750,985,3,Tower,REST,Bathroom 2 Tower Floor 3,Bathroom 0203
 IHALL00103,2255,1290,3,45 Francis,HALL,Hallway Node 1,H1
 IHALL00203,2323,1290,3,45 Francis,HALL,Hallway Node 2,H2
 IHALL00303,2448,1290,3,45 Francis,HALL,Hallway Node 3,H3
