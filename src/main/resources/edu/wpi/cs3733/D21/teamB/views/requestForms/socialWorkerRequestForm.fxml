@@ -74,7 +74,7 @@
                                             <children>
                                                 <VBox alignment="TOP_CENTER" spacing="15.0" style="-fx-background-color: #FFFFFF;" VBox.vgrow="NEVER">
                                                     <VBox.margin>
-                                                        <Insets bottom="10.0" left="50.0" right="50.0" top="10.0" />
+                                                        <Insets bottom="30.0" left="50.0" right="50.0" top="10.0" />
                                                     </VBox.margin>
                                                     <children>
                                                         <Text fill="#0067b1" strokeType="OUTSIDE" strokeWidth="0.0" text="Social Worker Request Form">
@@ -137,14 +137,14 @@
                                                 <Insets top="8.0" />
                                              </padding>
                                                         </HBox>
-                                                        <VBox maxHeight="1.7976931348623157E308" prefWidth="673.0">
+                                                        <VBox maxHeight="1.7976931348623157E308" prefHeight="173.0" prefWidth="798.0">
                                                             <children>
                                                                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Message for Social Worker:">
                                                                     <font>
                                                                         <Font size="14.0" />
                                                                     </font>
                                                                 </Text>
-                                                                <JFXTextArea fx:id="messageForSocialWorker" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onKeyReleased="#validateButton" prefWidth="653.0" promptText="Ex. &quot;I would like to talk about my discharge.&quot;" style="-fx-background-radius: 7; -fx-background-color: e5e5e5;" unFocusColor="#4d4d4d00" VBox.vgrow="NEVER">
+                                                                <JFXTextArea fx:id="messageForSocialWorker" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onKeyReleased="#validateButton" prefHeight="114.0" prefWidth="778.0" promptText="Ex. &quot;I would like to talk about my discharge.&quot;" style="-fx-background-radius: 7; -fx-background-color: e5e5e5;" unFocusColor="#4d4d4d00" VBox.vgrow="NEVER">
                                                                     <font>
                                                                         <Font name="MS Reference Sans Serif" size="14.0" />
                                                                     </font>
