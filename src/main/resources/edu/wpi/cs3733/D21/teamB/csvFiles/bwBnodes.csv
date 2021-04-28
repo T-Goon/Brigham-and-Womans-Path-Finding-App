@@ -108,7 +108,7 @@ BSTAI01002,2238,932,2,45 Francis,STAI,Staircase Intersection 10 Level 2,Stair B1
 BHALL03302,2782,1280,2,45 Francis,HALL,Hallway Intersection 33 Level 2,Hallway B3302
 BHALL03402,2166,1028,2,45 Francis,HALL,Hallway Intersection 34 Level 2,Hallway B3402
 BHALL03502,2246,1028,2,45 Francis,HALL,Hallway Intersection 35 Level 2,Hallway B3502
-BDEPT00102,2260,786,2,45 Francis,DEPT,Comprehensive Breast Heath,DEPT B0102
+BDEPT00102,2260,786,2,45 Francis,DEPT,Comprehensive Breast Health,DEPT B0102
 BHALL03602,2279,762,2,45 Francis,HALL,Hallway Intersection 36 Level 2,Hallway B3602
 BHALL03702,2322,641,2,45 Francis,HALL,Hallway Intersection 37 Level 2,Hallway B3702
 BHALL04102,2678,1067,2,45 Francis,HALL,Hallway Intersection 41 Level 2,Hallway B04102
@@ -594,8 +594,8 @@ bWALK00101,568,1894,1,Parking,WALK,Left Parking Lot Walkway,Llot Walk
 bWALK00201,575,1688,1,Parking,WALK,Francis Street Left Walkway,FrancisWalk
 bWALK00301,918,1701,1,Parking,WALK,Francis Street Biney Street Intersection Left,FrancisBineyIntLeft
 bWALK00401,1101,1710,1,Parking,WALK,Francis Street Biney Street Intersection Right,FrancisBineyIntRight
-bWALK00501,1735,1678,1,Parking,WALK,Francis Vining Intersection Bottom Left,FrancisViningIntBotLeft
-bWALK00601,1738,1545,1,Parking,WALK,Francis Vining Intersection Top Left,FrancisViningIntTopLeft
+bWALK00501,1760,1678,1,Parking,WALK,Francis Vining Intersection Bottom Left,FrancisViningIntBotLeft
+bWALK00601,1760,1545,1,Parking,WALK,Francis Vining Intersection Top Left,FrancisViningIntTopLeft
 bWALK00701,1992,1538,1,Parking,WALK,Francis Vining Intersection Top Right,FrancisViningIntTopRight
 bWALK00801,2147,1535,1,Parking,WALK,Francis Drop Off Sidewalk 1,FrancisDrop1
 bWALK00901,2142,1451,1,Parking,WALK,Francis Drop Off Sidewalk 2,FrancisDrop2

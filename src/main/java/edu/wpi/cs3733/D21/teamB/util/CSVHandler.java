@@ -34,11 +34,7 @@ public class CSVHandler {
         for (String line : lines) {
             line = line.replace("\r", "");
             String[] values = line.split(",");
-
-
-
-            list.add(new Node(values[0], Integer.parseInt(values[1]), Integer.parseInt(values[2]), values[3], values[4],
-                    values[5], values[6], values[7], ColorPalette.getColorOfNodeType(values[5])));
+            list.add(new Node(values[0], Integer.parseInt(values[1]), Integer.parseInt(values[2]), values[3], values[4], values[5], values[6], values[7]));
         }
 
         return list;

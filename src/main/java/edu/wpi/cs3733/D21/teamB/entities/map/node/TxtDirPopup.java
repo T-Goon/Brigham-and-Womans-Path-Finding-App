@@ -6,20 +6,16 @@ import edu.wpi.cs3733.D21.teamB.util.Popup.Popup;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import net.kurobako.gesturefx.GesturePane;
 
 import java.io.IOException;
 import java.util.Objects;
 
 public class TxtDirPopup extends Popup<VBox, TxtDirPopupData> implements Poppable {
 
-    private final GesturePane gpane;
-
     private final StringBuilder directions = new StringBuilder();
 
-    public TxtDirPopup(Pane parent, TxtDirPopupData data, GesturePane gpane) {
+    public TxtDirPopup(Pane parent, TxtDirPopupData data) {
         super(parent, data);
-        this.gpane = gpane;
 
         for (String instruction : data.getInstructions()) {
             directions.append(instruction).append("\n");
