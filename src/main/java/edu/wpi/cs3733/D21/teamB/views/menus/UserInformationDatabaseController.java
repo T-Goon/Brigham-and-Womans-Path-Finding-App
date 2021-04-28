@@ -6,7 +6,6 @@ import com.jfoenix.controls.JFXDialogLayout;
 import edu.wpi.cs3733.D21.teamB.App;
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.User;
-import edu.wpi.cs3733.D21.teamB.entities.requests.Request;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
 import edu.wpi.cs3733.D21.teamB.util.UserWrapper;
 import edu.wpi.cs3733.D21.teamB.views.BasePageController;
