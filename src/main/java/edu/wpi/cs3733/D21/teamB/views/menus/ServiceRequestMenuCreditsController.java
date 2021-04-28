@@ -64,6 +64,9 @@ public class ServiceRequestMenuCreditsController extends BasePageController {
     @FXML
     private VBox externalTransport;
 
+    @FXML
+    private JFXButton btnLanguageInterpreter;
+
 
     @FXML
     public void handleButtonAction(ActionEvent e) {
