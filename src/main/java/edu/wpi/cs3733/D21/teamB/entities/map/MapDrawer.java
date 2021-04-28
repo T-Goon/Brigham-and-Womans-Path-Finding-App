@@ -42,7 +42,8 @@ public class MapDrawer implements PoppableManager {
     private final GesturePane gPane;
     private final StackPane mapStack;
     private ETAPopup etaPopup;
-    private Circle head = new Circle(5);
+    @Getter
+    private final Circle head = new Circle(5);
     private final DatabaseHandler db = DatabaseHandler.getHandler();
 
     @Getter
