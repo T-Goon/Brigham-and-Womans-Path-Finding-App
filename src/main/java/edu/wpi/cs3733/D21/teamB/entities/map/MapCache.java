@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class MapCache {
 
@@ -78,7 +79,10 @@ public class MapCache {
                     tempList.add(tempItem);
                     catNameMap.put(n.getNodeType(), tempList);
                 } else {
-                    catNameMap.get(n.getNodeType()).add(new TreeItem<>(n.getLongName()));
+                    if(catNameMap.get(n.getNodeType()).stream().filter(item->item.getValue().equals(n.getLongName())).collect(Collectors.toList()).isEmpty()){
+
+                        catNameMap.get(n.getNodeType()).add(new TreeItem<>(n.getLongName()));
+                    }
                 }
 
             }
