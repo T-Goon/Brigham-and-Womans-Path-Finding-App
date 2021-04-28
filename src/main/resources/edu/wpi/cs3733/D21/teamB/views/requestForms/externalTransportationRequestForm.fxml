@@ -102,10 +102,7 @@
                                                         <Font size="14.0" />
                                                     </font>
                                                 </Text>
-                                    <JFXComboBox fx:id="loc" maxWidth="1.7976931348623157E308"
-                                                 onAction="#validateButton"
-                                                 style="-fx-background-color: #e5e5e5; -fx-background-radius: 7;"
-                                                 unFocusColor="WHITE"/>
+                                    <JFXComboBox fx:id="loc" maxWidth="1.7976931348623157E308" onAction="#validateButton" style="-fx-background-color: #e5e5e5; -fx-background-radius: 7;" unFocusColor="WHITE" />
                                             </children>
                                             <padding>
                                                 <Insets left="10.0" right="10.0" />
@@ -121,11 +118,7 @@
                                                         <Font size="14.0" />
                                                     </font>
                                                 </Text>
-                                                <JFXTextField fx:id="name" onAction="#validateButton"
-                                                              onKeyReleased="#validateButton" prefHeight="25.0"
-                                                              promptText="Ex. &quot;Jane Doe&quot;"
-                                                              style="-fx-background-color: e5e5e5; -fx-background-radius: 7;"
-                                                              unFocusColor="#4d4d4d00"/>
+                                                <JFXTextField fx:id="name" onAction="#validateButton" onKeyReleased="#validateButton" prefHeight="25.0" promptText="Ex. &quot;Jane Doe&quot;" style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" />
                                             </children>
                                             <padding>
                                                 <Insets left="10.0" right="10.0" />
@@ -144,11 +137,7 @@
                                                         <Insets top="10.0" />
                                                     </VBox.margin>
                                                 </Text>
-                                                <JFXTextField fx:id="destination" onAction="#validateButton"
-                                                              onKeyReleased="#validateButton"
-                                                              promptText="Ex. &quot;123 Hospital St&quot;"
-                                                              style="-fx-background-color: e5e5e5; -fx-background-radius: 7;"
-                                                              unFocusColor="#4d4d4d00"/>
+                                                <JFXTextField fx:id="destination" onAction="#validateButton" onKeyReleased="#validateButton" promptText="Ex. &quot;123 Hospital St&quot;" style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" />
                                             </children>
                                             <padding>
                                                 <Insets left="10.0" right="10.0" />
@@ -245,7 +234,7 @@
                   </HBox>
                   <HBox alignment="CENTER" fillHeight="false" spacing="10.0" HBox.hgrow="ALWAYS">
                      <children>
-                        <JFXButton fx:id="btnSubmit" buttonType="RAISED" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39; -fx-background-radius: 7;" text="Submit">
+                        <JFXButton fx:id="btnSubmit" buttonType="RAISED" onAction="#handleButtonAction" prefHeight="60.0" prefWidth="150.0" style="-fx-background-color: #F6BD39; -fx-background-radius: 7;" text="Submit">
                            <font>
                               <Font name="MS Reference Sans Serif" size="20.0" />
                            </font>
