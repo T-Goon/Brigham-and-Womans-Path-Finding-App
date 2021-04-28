@@ -70,7 +70,7 @@ public class MapDrawer implements PoppableManager {
     /**
      * Draw's the path stored in the mapCache
      */
-    public void drawPath(){
+    public void drawPath() {
         Map<String, Node> nodes = Graph.getGraph().getNodes();
 
         if (!nodeHolder.getChildren().contains(head)) {
@@ -89,31 +89,31 @@ public class MapDrawer implements PoppableManager {
             for (int i = 0; i < currentFloorPath.size() - 1; i++) {
 
                 //Test if the edge you are trying to place is valid
-                if(Graph.getGraph().verifyEdge(currentFloorPath.get(i), currentFloorPath.get(i+1))) {
+                if (Graph.getGraph().verifyEdge(currentFloorPath.get(i), currentFloorPath.get(i + 1))) {
                     placeEdge(nodes.get(currentFloorPath.get(i)),
                             nodes.get(currentFloorPath.get(i + 1)));
                 }
             }
 
             //If there is a path segment on this floor
-            if(!currentFloorPath.isEmpty()) {
+            if (!currentFloorPath.isEmpty()) {
 
-                if(currentFloorPath.size() == 1){
+                if (currentFloorPath.size() == 1) {
                     nodeHolder.getChildren().remove(head);
                 }
 
                 List<String> floorChangeNodes = new ArrayList<>();
 
                 //Populate list with all of the nodes on the floor where the user must change floors
-                for(int i=0; i<currentFloorPath.size()-1; i++){
-                    if(!Graph.getGraph().verifyEdge(currentFloorPath.get(i), currentFloorPath.get(i+1))){
+                for (int i = 0; i < currentFloorPath.size() - 1; i++) {
+                    if (!Graph.getGraph().verifyEdge(currentFloorPath.get(i), currentFloorPath.get(i + 1))) {
                         floorChangeNodes.add(currentFloorPath.get(i));
                     }
                 }
-                floorChangeNodes.add(currentFloorPath.get(currentFloorPath.size()-1));
+                floorChangeNodes.add(currentFloorPath.get(currentFloorPath.size() - 1));
 
                 //Should update all the floor change nodes' color
-                for(String node: floorChangeNodes){
+                for (String node : floorChangeNodes) {
                     //Get the last index of node on this floor
                     int floorChangeNodeIndex = mapCache.getFinalPath().getPath().indexOf(node);
 
@@ -177,7 +177,7 @@ public class MapDrawer implements PoppableManager {
                 // Animate the path
                 animatePath(currentFloorPath);
 
-            } else{
+            } else {
                 nodeHolder.getChildren().remove(head);
             }
 
@@ -195,9 +195,10 @@ public class MapDrawer implements PoppableManager {
 
     /**
      * Animates the head on the path
+     *
      * @param currentFloorPath List of node ids for nodes on the floor
      */
-    private void animatePath(List<String> currentFloorPath){
+    private void animatePath(List<String> currentFloorPath) {
         javafx.scene.shape.Path animationPath = new javafx.scene.shape.Path();
         int steps = 0;
 
@@ -208,14 +209,14 @@ public class MapDrawer implements PoppableManager {
 
         for (int i = 0; i < currentFloorPath.size() - 1; i++) {
             steps++;
-            double x = Graph.getGraph().getNodes().get(currentFloorPath.get(i+1)).getXCoord() / PathfindingMenuController.coordinateScale;
-            double y = Graph.getGraph().getNodes().get(currentFloorPath.get(i+1)).getYCoord() / PathfindingMenuController.coordinateScale;
+            double x = Graph.getGraph().getNodes().get(currentFloorPath.get(i + 1)).getXCoord() / PathfindingMenuController.coordinateScale;
+            double y = Graph.getGraph().getNodes().get(currentFloorPath.get(i + 1)).getYCoord() / PathfindingMenuController.coordinateScale;
 
             if (Graph.getGraph().verifyEdge(currentFloorPath.get(i), currentFloorPath.get(i + 1))) {
                 // Valid edge move along it
                 animationPath.getElements().add(new LineTo(x, y));
 
-            } else if(i != currentFloorPath.size() - 2){
+            } else if (i != currentFloorPath.size() - 2) {
                 // Teleport to the next section of the path
                 animationPath.getElements().add(new MoveTo(x, y));
             }
@@ -231,13 +232,14 @@ public class MapDrawer implements PoppableManager {
         pathTransition.setAutoReverse(false);
         pathTransition.play();
 
-        }
+    }
 
 
     /**
      * Draws the path on the map given a start and an end node
+     *
      * @param start Long name of the start node
-     * @param end Long name of the end node
+     * @param end   Long name of the end node
      */
     public void drawPath(String start, String end) {
         Graph.getGraph().updateGraph();
@@ -464,7 +466,7 @@ public class MapDrawer implements PoppableManager {
     }
 
     //attempting to animate the drawing of the path
-    public void animateLine(Line line){
+    public void animateLine(Line line) {
         line.getStrokeDashArray().setAll(5d, 5d, 5d, 5d);
         line.setStrokeWidth(2);
 
@@ -516,7 +518,7 @@ public class MapDrawer implements PoppableManager {
             l.setId(start.getNodeID() + "_" + end.getNodeID() + "Icon");
 
             mapHolder.getChildren().add(l);
-            mapCache.getEdgesPlaced().add(l);
+            mc.getEdgesPlaced().add(l);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -597,8 +599,8 @@ public class MapDrawer implements PoppableManager {
         for (Line l : mapCache.getEdgesPlaced())
             mapHolder.getChildren().remove(l);
 
-        if(!mapCache.getEditedNodes().isEmpty()){
-            for(Node node: mapCache.getEditedNodes()){
+        if (!mapCache.getEditedNodes().isEmpty()) {
+            for (Node node : mapCache.getEditedNodes()) {
                 node.setColor(Color.web("012D5A"));
             }
             mapCache.getEditedNodes().clear();

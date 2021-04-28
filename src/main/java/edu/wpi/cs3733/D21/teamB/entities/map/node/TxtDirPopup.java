@@ -13,13 +13,10 @@ import java.util.Objects;
 
 public class TxtDirPopup extends Popup<VBox, TxtDirPopupData> implements Poppable {
 
-    private final GesturePane gpane;
-
     private final StringBuilder directions = new StringBuilder();
 
-    public TxtDirPopup(Pane parent, TxtDirPopupData data, GesturePane gpane) {
+    public TxtDirPopup(Pane parent, TxtDirPopupData data) {
         super(parent, data);
-        this.gpane = gpane;
 
         for (String instruction : data.getInstructions()) {
             directions.append(instruction).append("\n");

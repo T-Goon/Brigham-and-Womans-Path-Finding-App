@@ -39,6 +39,7 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import lombok.Getter;
+import lombok.Setter;
 import net.kurobako.gesturefx.GesturePane;
 
 import java.io.File;
