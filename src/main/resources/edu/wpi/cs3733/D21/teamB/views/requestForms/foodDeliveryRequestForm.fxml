@@ -92,11 +92,16 @@
                                           <Font size="14.0" />
                                        </font>
                                                     </Text>
-                                                    <JFXTextField fx:id="name" onKeyReleased="#validateButton" prefHeight="26.0" prefWidth="780.0" promptText="Ex. &quot;Jane Doe&quot;" style="-fx-background-color: #e5e5e5; -fx-background-radius: 7;" unFocusColor="#f0f0f0">
-                                       <VBox.margin>
-                                          <Insets />
-                                       </VBox.margin>
-                                    </JFXTextField>
+                                                    <JFXTextField fx:id="name" onAction="#validateButton"
+                                                                  onKeyReleased="#validateButton" prefHeight="26.0"
+                                                                  prefWidth="780.0"
+                                                                  promptText="Ex. &quot;Jane Doe&quot;"
+                                                                  style="-fx-background-color: #e5e5e5; -fx-background-radius: 7;"
+                                                                  unFocusColor="#f0f0f0">
+                                                        <VBox.margin>
+                                                            <Insets/>
+                                                        </VBox.margin>
+                                                    </JFXTextField>
                                                 </children>
                                  <VBox.margin>
                                     <Insets bottom="10.0" />
@@ -112,11 +117,14 @@
                                                             <Insets left="5.0" />
                                                         </VBox.margin>
                                                     </Text>
-                                    <JFXComboBox fx:id="loc" maxWidth="1.7976931348623157E308" style="-fx-background-color: #e5e5e5; -fx-background-radius: 7;" unFocusColor="#ffffff00">
-                                       <VBox.margin>
-                                          <Insets />
-                                       </VBox.margin>
-                                    </JFXComboBox>
+                                                    <JFXComboBox fx:id="loc" maxWidth="1.7976931348623157E308"
+                                                                 onAction="#validateButton"
+                                                                 style="-fx-background-color: #e5e5e5; -fx-background-radius: 7;"
+                                                                 unFocusColor="#ffffff00">
+                                                        <VBox.margin>
+                                                            <Insets/>
+                                                        </VBox.margin>
+                                                    </JFXComboBox>
                                                 </children>
                                  <VBox.margin>
                                     <Insets bottom="10.0" />
@@ -135,7 +143,11 @@
                                           <Font size="14.0" />
                                        </font>
                                                   </Text>
-                                    <JFXTextField fx:id="mealChoice" onKeyReleased="#validateButton" promptText="Ex. &quot;Chicken Sandwich&quot;" style="-fx-background-color: #e5e5e5; -fx-background-radius: 7;" unFocusColor="#f0f0f0" />
+                                                  <JFXTextField fx:id="mealChoice" onAction="#validateButton"
+                                                                onKeyReleased="#validateButton"
+                                                                promptText="Ex. &quot;Chicken Sandwich&quot;"
+                                                                style="-fx-background-color: #e5e5e5; -fx-background-radius: 7;"
+                                                                unFocusColor="#f0f0f0"/>
                                               </children>
                                  <VBox.margin>
                                     <Insets bottom="10.0" />
