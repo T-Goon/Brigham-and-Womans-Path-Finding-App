@@ -321,15 +321,13 @@ public class PathfindingMenuController extends BasePageController implements Ini
                     mapCache.makeLongToIDMap().get(
                             selectedItem.getValue()));
 
-            if (tempLocation.getFloor().equals(mapCache.getCurrentFloor())) {
 
-                mapDrawer.removeAllPopups();
-                if (mapDrawer.isEditing())
-                    mapEditorPopupManager.showEditNodePopup(tempLocation, mouseEvent, true);
-                else
-                    mapPathPopupManager.createGraphicalInputPopup(tempLocation);
+            mapDrawer.removeAllPopups();
+            if (mapDrawer.isEditing())
+                mapEditorPopupManager.showEditNodePopup(tempLocation, mouseEvent, true);
+            else
+                mapPathPopupManager.createGraphicalInputPopup(tempLocation);
 
-            }
         } else if (!selectedItem.isLeaf()) {
             mapDrawer.removeAllPopups();
         }
