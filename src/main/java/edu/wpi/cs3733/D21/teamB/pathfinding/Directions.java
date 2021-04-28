@@ -103,7 +103,7 @@ public class Directions {
             Node nextNode = graph.getNodes().get(nextNodeID);
 
             if (prevNode != null) {
-                if (!stopIDs.contains(prevNode.getNodeID()) && !stopIDs.contains(currNode.getNodeID()) && !stopIDs.contains(nextNodeID) &&
+                if (!stopIDs.contains(prevNode.getNodeID()) && !stopIDs.contains(currNode.getNodeID()) && !stopIDs.contains(nextNodeID) && prevNode.getFloor().equals(currNode.getFloor()) && currNode.getFloor().equals(nextNode.getFloor()) &&
                         (angleBetweenEdges(prevNode, currNode, nextNode) >= -30) && (angleBetweenEdges(prevNode, currNode, nextNode) <= 30)) {
                     pathIDCopy.remove(currNode.getNodeID());
                 }
