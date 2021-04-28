@@ -344,12 +344,9 @@ public class PathfindingMenuController extends BasePageController implements Ini
             // Change node color back to original color
             if (!colors.isEmpty()) {
                 for (Node node : floorNodes.get(mapCache.getCurrentFloor())) {
-                    for(Node editNode : mapCache.getEditedNodes()){
-
-                        if (colors.containsKey(node.getNodeID()) && !editNode.getNodeID().equals(node.getNodeID())) {
+                        if (colors.containsKey(node.getNodeID())) {
                             node.setColor(colors.get(node.getNodeID()));
                         }
-                    }
                 }
                 colors.clear();
             }
@@ -374,20 +371,25 @@ public class PathfindingMenuController extends BasePageController implements Ini
 
                     // Put original node color in map and set node color to gray
                     for (Node node : floorNodes.get(mapCache.getCurrentFloor())) {
-                        for (Node editedNode: mapCache.getEditedNodes()) {
-                            if (!editedNode.getNodeID().equals(node.getNodeID())) {
-                                colors.put(node.getNodeID(), node.getColor());
-                                node.setColor(color);
-                            }
-                        }
+                        colors.put(node.getNodeID(), node.getColor());
+                        node.setColor(color);
+
                     }
+
                     for (String location : favorites) {
                         String nodeID = longNames.get(location);
                         for (Node node : floorNodes.get(mapCache.getCurrentFloor())) {
+
                             for (Node editedNode: mapCache.getEditedNodes()) {
-                                if (node.getNodeID().equals(nodeID) && !editedNode.getNodeID().equals(node.getNodeID())) {
-                                    node.setColor(colors.get(node.getNodeID()));
-                                    colors.remove(node.getNodeID());
+
+                                if (node.getNodeID().equals(nodeID) || editedNode.getNodeID().equals(node.getNodeID())) {
+
+                                    if(colors.get(node.getNodeID()) != null){
+                                        node.setColor(colors.get(node.getNodeID()));
+                                        colors.remove(node.getNodeID());
+
+                                    }
+
                                 }
                             }
                         }
@@ -395,23 +397,32 @@ public class PathfindingMenuController extends BasePageController implements Ini
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
+
             } else {
                 // Change node color to gray
                 NodeType nt = NodeType.deprettify(category);
-                Color color = Color.web("#9A9999");
+                Color grey = Color.web("#9A9999");
+
+                // Put original node color in map and set node color to gray
+                for (Node node : floorNodes.get(mapCache.getCurrentFloor())) {
+
+                    colors.put(node.getNodeID(), node.getColor());
+                    node.setColor(grey);
+
+                }
+
                 for (Node node : floorNodes.get(mapCache.getCurrentFloor())) {
 
                     for (Node editedNode: mapCache.getEditedNodes()) {
 
-                        if (!node.getNodeType().equals(nt.toString()) && !editedNode.getNodeID().equals(node.getNodeID())) {
-                            if (node.getColor() == null) {
-                                colors.put(node.getNodeID(), Color.web("#012D5A"));
-                            } else {
-                                colors.put(node.getNodeID(), node.getColor());
+                        if (node.getNodeType().equals(nt.toString()) || editedNode.getNodeID().equals(node.getNodeID())) {
+
+                            if(colors.get(node.getNodeID()) != null){
+                                node.setColor(colors.get(node.getNodeID()));
+                                colors.remove(node.getNodeID());
+
                             }
-                            node.setColor(color);
-                        }else
-                            System.out.println("worked");
+                        }
 
                     }
                 }
