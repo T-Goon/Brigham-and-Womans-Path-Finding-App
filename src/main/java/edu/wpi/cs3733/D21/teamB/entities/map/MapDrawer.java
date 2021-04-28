@@ -79,6 +79,7 @@ public class MapDrawer implements PoppableManager {
         if (mapCache.getFinalPath().getPath().isEmpty()) {
             // There is no path
             lblError.setVisible(true);
+            nodeHolder.getChildren().remove(head);
         } else {
             // There is a path
             List<String> currentFloorPath = mapCache.getFinalPath().getFloorPathSegment(mapCache.getCurrentFloor());
