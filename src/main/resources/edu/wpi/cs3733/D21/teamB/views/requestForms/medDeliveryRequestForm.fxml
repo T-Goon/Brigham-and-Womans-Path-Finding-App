@@ -82,7 +82,11 @@
                                                 <Font name="MS Reference Sans Serif" size="14.0" />
                                             </font>
                                         </Text>
-                                        <JFXTextField fx:id="name" onKeyReleased="#validateButton" promptText="Ex. &quot;Jane Doe&quot;" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f0f0f000" />
+                                        <JFXTextField fx:id="name" onAction="#validateButton"
+                                                      onKeyReleased="#validateButton"
+                                                      promptText="Ex. &quot;Jane Doe&quot;"
+                                                      style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;"
+                                                      unFocusColor="#f0f0f000"/>
                                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Location:">
                                             <VBox.margin>
                                                 <Insets top="20.0" />
@@ -91,7 +95,10 @@
                                                 <Font name="MS Reference Sans Serif" size="14.0" />
                                             </font>
                                         </Text>
-                              <JFXComboBox fx:id="loc" maxWidth="1.7976931348623157E308" style="-fx-background-color: #e5e5e5; -fx-background-radius: 7;" unFocusColor="WHITE" />
+                                        <JFXComboBox fx:id="loc" maxWidth="1.7976931348623157E308"
+                                                     onAction="#validateButton"
+                                                     style="-fx-background-color: #e5e5e5; -fx-background-radius: 7;"
+                                                     unFocusColor="WHITE"/>
                                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Medicine Name:">
                                             <VBox.margin>
                                                 <Insets top="20.0" />
@@ -100,7 +107,11 @@
                                                 <Font name="MS Reference Sans Serif" size="14.0" />
                                             </font>
                                         </Text>
-                                        <JFXTextField fx:id="medName" onKeyReleased="#validateButton" promptText="Ex. &quot;Diazepam&quot;" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f0f0f000" />
+                                        <JFXTextField fx:id="medName" onAction="#validateButton"
+                                                      onKeyReleased="#validateButton"
+                                                      promptText="Ex. &quot;Diazepam&quot;"
+                                                      style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;"
+                                                      unFocusColor="#f0f0f000"/>
                                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Reason for Request:">
                                             <VBox.margin>
                                                 <Insets top="20.0" />
