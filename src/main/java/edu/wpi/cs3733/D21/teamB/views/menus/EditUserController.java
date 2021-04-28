@@ -54,6 +54,12 @@ public class EditUserController extends BasePageController implements Initializa
     @FXML
     private StackPane stackContainer;
 
+    @FXML
+    private Text bigText;
+
+    @FXML
+    private Text smallText;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         authenticationLevel.getItems().add(new Label(User.AuthenticationLevel.ADMIN.toString()));
@@ -66,6 +72,10 @@ public class EditUserController extends BasePageController implements Initializa
         job.getItems().add(new Label("None"));
 
         User u = (User) App.getPrimaryStage().getUserData();
+        if (u.getUsername().equals("")) {
+            bigText.setText("Add User Form");
+            smallText.setText("Add User");
+        }
         username.setText(u.getUsername());
         firstName.setText(u.getFirstName());
         lastName.setText(u.getLastName());
