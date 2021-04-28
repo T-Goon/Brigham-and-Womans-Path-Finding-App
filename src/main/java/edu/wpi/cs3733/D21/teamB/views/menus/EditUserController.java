@@ -143,7 +143,7 @@ public class EditUserController extends BasePageController implements Initializa
     private void loadHelpDialog() {
         JFXDialogLayout helpLayout = new JFXDialogLayout();
 
-        Text helpText = new Text("Please fill out this form completely. Once each field is full, you can submit the form and the user will be added.\\nIf you wish to end your request early, click the back button.");
+        Text helpText = new Text("Please fill out this form completely. Once each field is full, you can submit the form and the user will be added.\nIf you wish to end your request early, click the back button.");
         helpText.setFont(new Font("MS Reference Sans Serif", 14));
 
         Label headerLabel = new Label("Help");
