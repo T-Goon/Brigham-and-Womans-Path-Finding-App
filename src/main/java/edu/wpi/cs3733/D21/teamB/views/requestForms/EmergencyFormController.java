@@ -39,9 +39,6 @@ public class EmergencyFormController extends DefaultServiceRequestFormController
     @FXML
     private JFXButton btnBack;
 
-    @FXML
-    private JFXButton btnHelp;
-
     private String id;
 
     @Override

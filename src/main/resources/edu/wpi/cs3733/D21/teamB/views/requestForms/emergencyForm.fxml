@@ -162,21 +162,13 @@
                            <font>
                               <Font name="MS Reference Sans Serif" size="29.0" />
                            </font>
-                        </JFXButton>
-                     </children>
-                  </HBox>
-                  <HBox alignment="CENTER_RIGHT" fillHeight="false" spacing="10.0" HBox.hgrow="ALWAYS">
-                     <children>
-                        <JFXButton fx:id="btnHelp" buttonType="RAISED" maxHeight="56.0" maxWidth="56.0" minHeight="-Infinity" minWidth="-Infinity" onAction="#handleButtonAction" prefHeight="56.0" prefWidth="56.0" style="-fx-background-color: #9A9999; -fx-background-radius: 50%;" text="?" textFill="WHITE">
-                           <font>
-                              <Font name="MS Reference Sans Serif" size="27.0" />
-                           </font>
                            <HBox.margin>
-                              <Insets />
+                              <Insets right="56.0" />
                            </HBox.margin>
                         </JFXButton>
                      </children>
                   </HBox>
+                  <HBox alignment="CENTER_RIGHT" fillHeight="false" spacing="10.0" HBox.hgrow="ALWAYS" />
                </children>
                <padding>
                   <Insets left="15.0" right="15.0" />
