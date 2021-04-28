@@ -333,7 +333,8 @@ public class PathfindingMenuController extends BasePageController implements Ini
             mapDrawer.removeAllPopups();
         }
 
-        if (!selectedItem.isLeaf()) {
+        // Stuff for node coloring
+        if (!selectedItem.isLeaf() && !mapDrawer.isEditing()) {
             HashMap<String, List<Node>> floorNodes = (HashMap<String, List<Node>>) mapCache.getFloorNodes();
             String category = selectedItem.getValue();
 
