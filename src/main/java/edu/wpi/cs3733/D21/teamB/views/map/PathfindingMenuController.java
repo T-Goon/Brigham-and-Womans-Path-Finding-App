@@ -500,6 +500,8 @@ public class PathfindingMenuController extends BasePageController implements Ini
                 mapDrawer.setEditing(!mapDrawer.isEditing());
                 btnFindPath.setDisable(!btnFindPath.isDisable());
 
+                mapCache.setFinalPath(null);
+
                 mapDrawer.drawAllElements();
                 break;
             case "btnF3":
