@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Getter
 public class Graph {
@@ -118,5 +119,17 @@ public class Graph {
             else cost += 408.75625 * Math.abs(end.getFloorAsInt() - start.getFloorAsInt());
         }
         return cost;
+    }
+
+    /**
+     * Verify's if the two nodes you are trying to connect are actually connected
+     * @param startID NodeID of the first node
+     * @param endID NodeID of the second node
+     * @return boolean if the nodes are connected by an edge
+     */
+    public boolean verifyEdge(String startID, String endID){
+        List<Node> adjList = getAdjNodesById(startID).stream().filter(node -> node.getNodeID().equals(endID)).collect(Collectors.toList());
+
+        return !adjList.isEmpty();
     }
 }

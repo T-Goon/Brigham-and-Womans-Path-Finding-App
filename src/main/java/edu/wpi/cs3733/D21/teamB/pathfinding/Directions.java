@@ -89,7 +89,7 @@ public class Directions {
      * @param path the path that we want to simplify
      * @return the List of strings at where the user changes direction
      */
-    public static List<String> simplifyPath(Path path) {
+    public static List<String> simplifyPath(Path path, List<String> stopIDs) {
 
         List<String> pathID = path.getPath();
         List<String> pathIDCopy = new ArrayList<>(pathID);
@@ -103,7 +103,8 @@ public class Directions {
             Node nextNode = graph.getNodes().get(nextNodeID);
 
             if (prevNode != null) {
-                if ((angleBetweenEdges(prevNode, currNode, nextNode) >= -30) && (angleBetweenEdges(prevNode, currNode, nextNode) <= 30)) {
+                if (!stopIDs.contains(prevNode.getNodeID()) && !stopIDs.contains(currNode.getNodeID()) && !stopIDs.contains(nextNodeID) &&
+                        (angleBetweenEdges(prevNode, currNode, nextNode) >= -30) && (angleBetweenEdges(prevNode, currNode, nextNode) <= 30)) {
                     pathIDCopy.remove(currNode.getNodeID());
                 }
             }
@@ -130,17 +131,17 @@ public class Directions {
      * @param path the path we want instructions for
      * @return a list of strings where each element in the list is one instruction
      */
-    public static List<String> instructions(Path path) {
-        List<String> simplePath = simplifyPath(path);
+    public static List<String> instructions(Path path, List<String> stopIDs) {
+        List<String> simplePath = simplifyPath(path, stopIDs);
 
         String idEnd = simplePath.get(simplePath.size() - 1);
         Graph graph = Graph.getGraph();
 
-        String endloc = graph.getNodes().get(idEnd).getLongName();
+        String endLoc = graph.getNodes().get(idEnd).getLongName();
         String startLoc = graph.getNodes().get(simplePath.get(0)).getLongName();
 
         List<String> directions = new ArrayList<>();
-        directions.add("Starting route to " + endloc + " from " + startLoc + ":");
+        directions.add("Starting route from " + startLoc + " to " + endLoc + ":");
 
         double FT_CONST = 500.0 / 1635;
 
@@ -157,18 +158,21 @@ public class Directions {
             // Starting now
             if (i == 0) {
                 // Elevator or stairs
-                if (curr.getNodeID().contains("ELEV") || curr.getNodeID().contains("STAI")) {
+                if (curr.getNodeID().contains("ELEV") || curr.getNodeID().contains("STAI") || curr.getLongName().contains("elevator")) {
                     if (next.getNodeID().contains("STAI")) directions.add("Walk to floor " + next.getFloor() + ".");
                     else directions.add("Take the elevator to floor " + next.getFloor() + ".");
                 } else directions.add("Walk about " + round(distance) + " feet towards " + next.getLongName() + ".");
             } else {
+                if (stopIDs.contains(curr.getNodeID())) {
+                    directions.add("You have arrived at your stop, " + curr.getLongName() + ".");
+                }
                 //get turn then get the dist between c and next turn blah and walk dist
                 double turn = angleBetweenEdges(graph.getNodes().get(simplePath.get(i - 1)), curr, next);
-                if (curr.getNodeID().contains("ELEV") || curr.getNodeID().contains("STAI")) {
+                if (curr.getNodeID().contains("ELEV") || curr.getNodeID().contains("STAI") || curr.getLongName().contains("elevator")) {
                     if (next.getNodeID().contains("STAI")) {
                         directions.add("Walk to floor " + next.getFloor() + ".");
                         continue;
-                    } else if (next.getNodeID().contains("ELEV")) {
+                    } else if (next.getNodeID().contains("ELEV") || next.getLongName().contains("elevator")) {
                         directions.add("Take the elevator to floor " + next.getFloor() + ".");
                         continue;
                     }
@@ -184,8 +188,10 @@ public class Directions {
                     directions.add("Take a left and walk about " + round(distance) + " feet towards " + next.getLongName() + ".");
                 } else if (turn < -110 && turn >= -160) {
                     directions.add("Take a sharp left and walk about " + round(distance) + " feet towards " + next.getLongName() + ".");
-                } else if (turn >= -70) {
+                } else if (turn >= -70 && turn <= -30) {
                     directions.add("Take a slight left and walk about " + round(distance) + " feet towards " + next.getLongName() + ".");
+                } else {
+                    directions.add("Turn around and walk about " + round(distance) + " feet towards " + next.getLongName() + ".");
                 }
             }
         }

@@ -4,6 +4,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -22,5 +23,25 @@ public class Path {
         this.totalPathCost = cost;
     }
 
+    public List<String> getFloorPathSegment(String floor){
+        List<String> ret = new ArrayList<>();
 
+        for(String nodeID: path){
+
+            String floorFromID = nodeID.substring(nodeID.length()-2);
+
+            //parses 01, 02, and 03 down to 1, 2, or 3
+            if(floorFromID.charAt(0)=='0'){
+                floorFromID = floorFromID.substring(1);
+            }
+
+            //Use the last two digits of the nodeID to test for floor
+            if(floorFromID.equals(floor)){
+                ret.add(nodeID);
+            }
+        }
+
+        return ret;
+
+    }
 }

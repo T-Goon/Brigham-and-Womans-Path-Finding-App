@@ -11,6 +11,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.layout.StackPane;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -48,6 +51,15 @@ public class EditUserController extends BasePageController implements Initializa
     @FXML
     private JFXButton btnSubmit;
 
+    @FXML
+    private StackPane stackContainer;
+
+    @FXML
+    private Text bigText;
+
+    @FXML
+    private Text smallText;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         authenticationLevel.getItems().add(new Label(User.AuthenticationLevel.ADMIN.toString()));
@@ -60,6 +72,10 @@ public class EditUserController extends BasePageController implements Initializa
         job.getItems().add(new Label("None"));
 
         User u = (User) App.getPrimaryStage().getUserData();
+        if (u.getUsername().equals("")) {
+            bigText.setText("Add User Form");
+            smallText.setText("Add User");
+        }
         username.setText(u.getUsername());
         firstName.setText(u.getFirstName());
         lastName.setText(u.getLastName());
@@ -94,37 +110,65 @@ public class EditUserController extends BasePageController implements Initializa
         super.handleButtonAction(actionEvent);
 
         JFXButton btn = (JFXButton) actionEvent.getSource();
-        if (btn.getId().equals("btnSubmit")) {
-
-            String uUsername = username.getText();
-            String uFirstName = firstName.getText();
-            String uLastName = lastName.getText();
-            User.AuthenticationLevel uAuthLevel = User.AuthenticationLevel.valueOf(authenticationLevel.getValue().getText());
-            List<Request.RequestType> uJobs = new ArrayList<>();
-            if (job.getValue() != null) {
-                if (job.getValue().getText().equals("None")) {
-                    uJobs = new ArrayList<>();
-                } else {
-                    Request.RequestType uJob = Request.RequestType.uglify(job.getValue().getText());
-                    uJobs.add(uJob);
+        switch (btn.getId()) {
+            case "btnSubmit":
+                String uUsername = username.getText();
+                String uFirstName = firstName.getText();
+                String uLastName = lastName.getText();
+                User.AuthenticationLevel uAuthLevel = User.AuthenticationLevel.valueOf(authenticationLevel.getValue().getText());
+                List<Request.RequestType> uJobs = new ArrayList<>();
+                if (job.getValue() != null) {
+                    if (job.getValue().getText().equals("None")) {
+                        uJobs = new ArrayList<>();
+                    } else {
+                        Request.RequestType uJob = Request.RequestType.uglify(job.getValue().getText());
+                        uJobs.add(uJob);
+                    }
                 }
-            }
+                User uUpdated = new User(uUsername, uFirstName, uLastName, uAuthLevel, uJobs);
 
-            User uUpdated = new User(uUsername, uFirstName, uLastName, uAuthLevel, uJobs);
-
-            try {
-                if (SceneSwitcher.addingUser) {
-                    DatabaseHandler.getDatabaseHandler("main.db").addUser(uUpdated, password.getText());
-                } else {
-                    DatabaseHandler.getDatabaseHandler("main.db").updateUser(uUpdated);
+                try {
+                    if (SceneSwitcher.addingUser) {
+                        DatabaseHandler.getDatabaseHandler("main.db").addUser(uUpdated, password.getText());
+                    } else {
+                        DatabaseHandler.getDatabaseHandler("main.db").updateUser(uUpdated);
+                    }
+                } catch (SQLException e) {
+                    throw new IllegalStateException("Username not found when updating; This should never happen");
                 }
-            } catch (SQLException e) {
-                throw new IllegalStateException("Username not found when updating; This should never happen");
-            }
-            SceneSwitcher.goBack(getClass(), 1);
-        } else if (btn.getId().equals("btnCancel")) {
-            SceneSwitcher.goBack(getClass(), 1);
+                SceneSwitcher.goBack(getClass(), 1);
+                break;
+            case "btnCancel":
+                SceneSwitcher.goBack(getClass(), 1);
+                break;
+            case "btnHelp":
+                loadHelpDialog();
+                break;
+            case "btnEmergency":
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/cs3733/D21/teamB/views/menus/editUserMenu.fxml", "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
+                break;
         }
+    }
+
+    private void loadHelpDialog() {
+        JFXDialogLayout helpLayout = new JFXDialogLayout();
+
+        Text helpText = new Text("Please fill out this form completely. Once each field is full, you can submit the form and the user will be added.\nIf you wish to end your request early, click the back button.");
+        helpText.setFont(new Font("MS Reference Sans Serif", 14));
+
+        Label headerLabel = new Label("Help");
+        headerLabel.setFont(new Font("MS Reference Sans Serif", 18));
+
+        helpLayout.setHeading(headerLabel);
+        helpLayout.setBody(helpText);
+        JFXDialog helpWindow = new JFXDialog(stackContainer, helpLayout, JFXDialog.DialogTransition.CENTER);
+
+        JFXButton button = new JFXButton("Close");
+        button.setOnAction(event -> helpWindow.close());
+        helpLayout.setActions(button);
+
+        helpWindow.show();
+
     }
 
     @FXML

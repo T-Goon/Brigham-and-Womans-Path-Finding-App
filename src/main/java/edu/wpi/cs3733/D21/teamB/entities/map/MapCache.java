@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.D21.teamB.entities.map;
 
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Node;
+import edu.wpi.cs3733.D21.teamB.entities.map.data.Path;
 import edu.wpi.cs3733.D21.teamB.pathfinding.Graph;
 import javafx.scene.control.TreeItem;
 import javafx.scene.shape.Circle;
@@ -22,6 +23,9 @@ public class MapCache {
     @Setter
     private List<javafx.scene.Node> nodePlaced = new ArrayList<>();
     @Getter
+    private List<Node> editedNodes = new ArrayList<>();
+
+    @Getter
     @Setter
     private List<javafx.scene.Node> intermediateNodePlaced = new ArrayList<>();
 
@@ -30,6 +34,8 @@ public class MapCache {
     @Getter
     @Setter
     private String currentFloor = FloorSwitcher.floor1ID;
+
+    @Getter
     private Map<String, String> mapLongToID = new HashMap<>();
     @Getter
     private final Map<String, List<TreeItem<String>>> catNameMap = new HashMap<>();
@@ -47,6 +53,10 @@ public class MapCache {
     @Getter
     @Setter
     private List<String> stopsList = new ArrayList<>();
+
+    @Getter
+    @Setter
+    private Path finalPath;
 
     /**
      * Function that updates everything involved with the different locations on the map
