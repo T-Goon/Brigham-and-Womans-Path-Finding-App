@@ -376,22 +376,40 @@ public class PathfindingMenuController extends BasePageController implements Ini
 
                     }
 
-                    for (String location : favorites) {
-                        String nodeID = longNames.get(location);
-                        for (Node node : floorNodes.get(mapCache.getCurrentFloor())) {
+                    // TODO this is very bad
+                    if(!mapCache.getEditedNodes().isEmpty()) {
+                        for (String location : favorites) {
+                            String nodeID = longNames.get(location);
+                            for (Node node : floorNodes.get(mapCache.getCurrentFloor())) {
 
-                            for (Node editedNode: mapCache.getEditedNodes()) {
+                                for (Node editedNode : mapCache.getEditedNodes()) {
 
-                                if (node.getNodeID().equals(nodeID) || editedNode.getNodeID().equals(node.getNodeID())) {
+                                    if (node.getNodeID().equals(nodeID) || editedNode.getNodeID().equals(node.getNodeID())) {
 
-                                    if(colors.get(node.getNodeID()) != null){
-                                        node.setColor(colors.get(node.getNodeID()));
-                                        colors.remove(node.getNodeID());
+                                        if (colors.get(node.getNodeID()) != null) {
+                                            node.setColor(colors.get(node.getNodeID()));
+                                            colors.remove(node.getNodeID());
+
+                                        }
 
                                     }
-
                                 }
                             }
+
+                        }
+                    } else{
+                        for (String location : favorites) {
+                            String nodeID = longNames.get(location);
+                            for (Node node : floorNodes.get(mapCache.getCurrentFloor())) {
+                                    if (node.getNodeID().equals(nodeID)) {
+
+                                        if (colors.get(node.getNodeID()) != null) {
+                                            node.setColor(colors.get(node.getNodeID()));
+                                            colors.remove(node.getNodeID());
+                                        }
+                                    }
+                            }
+
                         }
                     }
                 } catch (SQLException e) {
@@ -411,13 +429,27 @@ public class PathfindingMenuController extends BasePageController implements Ini
 
                 }
 
-                for (Node node : floorNodes.get(mapCache.getCurrentFloor())) {
+                if(!mapCache.getEditedNodes().isEmpty()) {
+                    for (Node node : floorNodes.get(mapCache.getCurrentFloor())) {
 
-                    for (Node editedNode: mapCache.getEditedNodes()) {
+                        for (Node editedNode : mapCache.getEditedNodes()) {
 
-                        if (node.getNodeType().equals(nt.toString()) || editedNode.getNodeID().equals(node.getNodeID())) {
+                            if (node.getNodeType().equals(nt.toString()) || editedNode.getNodeID().equals(node.getNodeID())) {
 
-                            if(colors.get(node.getNodeID()) != null){
+                                if (colors.get(node.getNodeID()) != null) {
+                                    node.setColor(colors.get(node.getNodeID()));
+                                    colors.remove(node.getNodeID());
+
+                                }
+                            }
+
+                        }
+                    }
+                }else{
+                    for (Node node : floorNodes.get(mapCache.getCurrentFloor())) {
+                        if (node.getNodeType().equals(nt.toString())) {
+
+                            if (colors.get(node.getNodeID()) != null) {
                                 node.setColor(colors.get(node.getNodeID()));
                                 colors.remove(node.getNodeID());
 
@@ -450,6 +482,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
     @FXML
     public void handleButtonAction(ActionEvent e) {
         super.handleButtonAction(e);
+
         JFXButton b = (JFXButton) e.getSource();
 
         switch (b.getId()) {
@@ -510,6 +543,9 @@ public class PathfindingMenuController extends BasePageController implements Ini
             case "btnSearch":
                 handleItemSearched();
                 break;
+            case "btnBack":
+                mapCache.updateLocations();
+                break;
             case "btnTxtDir":
                 mapDrawer.removeAllPopups();
                 if (mapCache.getFinalPath() != null) {
@@ -517,6 +553,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
                 }
                 break;
         }
+
     }
 
     /**

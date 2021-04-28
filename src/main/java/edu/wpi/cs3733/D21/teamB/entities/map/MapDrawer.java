@@ -518,7 +518,7 @@ public class MapDrawer implements PoppableManager {
             l.setId(start.getNodeID() + "_" + end.getNodeID() + "Icon");
 
             mapHolder.getChildren().add(l);
-            mc.getEdgesPlaced().add(l);
+            mapCache.getEdgesPlaced().add(l);
 
         } catch (IOException e) {
             e.printStackTrace();
