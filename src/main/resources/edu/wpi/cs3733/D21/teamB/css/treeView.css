@@ -53,7 +53,7 @@ JFXTreeView{
 
 .scroll-bar:horizontal .thumb,
 .scroll-bar:vertical .thumb {
-    -fx-background-color:derive(black,90.0%);
+    -fx-background-color:derive(#012d5a,90.0%);
     -fx-background-insets:2.0, 0.0, 0.0;
     -fx-background-radius: 2.0em;
 }

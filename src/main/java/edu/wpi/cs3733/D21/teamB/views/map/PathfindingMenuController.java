@@ -779,18 +779,16 @@ public class PathfindingMenuController extends BasePageController implements Ini
         treeLocations.setRoot(newRoot);
 
         //Adding the nodes
-        for (String category : mapCache.getCatNameMap().keySet()) {
-            TreeItem<String> categoryTreeItem = new TreeItem<>(categoryNameMap.get(category));
-            categoryTreeItem.getChildren().addAll(mapCache.getCatNameMap().get(category));
-            List<TreeItem<String>> treeItems = categoryTreeItem.getChildren();
-            for (TreeItem<String> c : treeItems) {
-                if (c.getValue().toLowerCase().contains(searchBar.toLowerCase())) {
-                    newRoot.getChildren().add(c);
-                }
+        for (Node n : Graph.getGraph().getNodes().values()) {
+            if (n.getLongName().toLowerCase().contains(searchBar.toLowerCase())) {
+                newRoot.getChildren().add(new TreeItem<>(n.getLongName()));
             }
         }
 
         // If nothing is found, say "None"
-        if (newRoot.getChildren().isEmpty()) newRoot.setValue("Not found!");
+        if (newRoot.getChildren().isEmpty()) {
+            newRoot.setValue("No results!");
+            treeLocations.setShowRoot(true);
+        }
     }
 }
