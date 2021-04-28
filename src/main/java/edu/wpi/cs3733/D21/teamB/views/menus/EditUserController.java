@@ -7,13 +7,10 @@ import edu.wpi.cs3733.D21.teamB.entities.User;
 import edu.wpi.cs3733.D21.teamB.entities.requests.Request;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
 import edu.wpi.cs3733.D21.teamB.views.BasePageController;
-import edu.wpi.cs3733.D21.teamB.views.requestForms.DefaultServiceRequestFormController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.Label;
-import javafx.scene.text.Text;
 
 import java.net.URL;
 import java.sql.SQLException;

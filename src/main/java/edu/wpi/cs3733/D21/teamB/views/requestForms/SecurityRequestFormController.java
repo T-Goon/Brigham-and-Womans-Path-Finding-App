@@ -48,7 +48,7 @@ public class SecurityRequestFormController extends DefaultServiceRequestFormCont
 
         if (SceneSwitcher.peekLastScene().equals("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml")) {
             this.id = (String) App.getPrimaryStage().getUserData();
-            SecurityRequest securityRequest = null;
+            SecurityRequest securityRequest;
             try {
                 securityRequest = (SecurityRequest) DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(id, Request.RequestType.SECURITY);
             } catch (SQLException e) {
@@ -70,12 +70,9 @@ public class SecurityRequestFormController extends DefaultServiceRequestFormCont
         assignedTo.getValidators().add(validatorAssignedTo);
         validatorAssignedTo.setMessage("Please assign the request!");
 
-        assignedTo.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(!newValue){
-                    assignedTo.validate();
-                }
+        assignedTo.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                assignedTo.validate();
             }
         });
 
@@ -85,12 +82,9 @@ public class SecurityRequestFormController extends DefaultServiceRequestFormCont
         loc.getValidators().add(validatorLocation);
         validatorLocation.setMessage("Please select the location!");
 
-        loc.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(!newValue){
-                    loc.validate();
-                }
+        loc.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                loc.validate();
             }
         });
 
@@ -100,12 +94,9 @@ public class SecurityRequestFormController extends DefaultServiceRequestFormCont
         comboUrgency.getValidators().add(validatorUrgency);
         validatorUrgency.setMessage("Please select the urgency!");
 
-        comboUrgency.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(!newValue){
-                    comboUrgency.validate();
-                }
+        comboUrgency.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                comboUrgency.validate();
             }
         });
 
@@ -115,12 +106,9 @@ public class SecurityRequestFormController extends DefaultServiceRequestFormCont
         description.getValidators().add(validatorDescription);
         validatorDescription.setMessage("Please provide relevant information or type 'none'!");
 
-        description.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(!newValue){
-                    description.validate();
-                }
+        description.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                description.validate();
             }
         });
     }

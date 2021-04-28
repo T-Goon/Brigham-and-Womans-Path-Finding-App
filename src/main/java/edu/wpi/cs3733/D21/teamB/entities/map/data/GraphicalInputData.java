@@ -1,7 +1,6 @@
 package edu.wpi.cs3733.D21.teamB.entities.map.data;
 
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733.D21.teamB.entities.map.MapCache;
 import edu.wpi.cs3733.D21.teamB.entities.map.MapDrawer;

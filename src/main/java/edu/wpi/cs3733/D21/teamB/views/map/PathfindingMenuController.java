@@ -38,7 +38,6 @@ import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import lombok.Data;
 import lombok.Getter;
 import net.kurobako.gesturefx.GesturePane;
 
@@ -454,13 +453,14 @@ public class PathfindingMenuController extends BasePageController implements Ini
 
         switch (b.getId()) {
             case "btnFindPath":
+                Map<String, String> longToId = mapCache.makeLongToIDMap();
                 mapDrawer.removeAllEdges();
                 mapDrawer.drawPath(txtStartLocation.getText(), txtEndLocation.getText());
 
-                if (btnTxtDir.isDisable()) {
-                    btnTxtDir.setDisable(false);
-                }
 
+                floorSwitcher.switchFloor(DatabaseHandler.getDatabaseHandler("main.db").getNodeById(longToId.get(txtStartLocation.getText())).getFloor());
+                mapDrawer.drawPath(txtStartLocation.getText(), txtEndLocation.getText());
+                btnTxtDir.setDisable(false);
                 break;
             case "btnEditMap":
 

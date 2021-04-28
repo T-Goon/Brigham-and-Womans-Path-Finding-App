@@ -2,7 +2,6 @@ package edu.wpi.cs3733.D21.teamB.views.menus;
 
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXDialogLayout;
-import edu.wpi.cs3733.D21.teamB.App;
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.User;
 import edu.wpi.cs3733.D21.teamB.entities.requests.Request;
@@ -67,7 +66,7 @@ public class ServiceRequestDatabaseController extends BasePageController impleme
             e.printStackTrace();
             return;
         }
-        Map<String, Request> requests = new HashMap<String, Request>();
+        Map<String, Request> requests = new HashMap<>();
 
         User user = DatabaseHandler.getDatabaseHandler("main.db").getAuthenticationUser();
         User.AuthenticationLevel level = user.getAuthenticationLevel();
@@ -165,24 +164,22 @@ public class ServiceRequestDatabaseController extends BasePageController impleme
 
     public void setRowColor() {
         TableColumn<String, Label> tc = (TableColumn<String, Label>) tblRequests.getColumns().get(1);
-        tc.setCellFactory(column -> {
-            return new TableCell<String, Label>() {
-                @Override
-                protected void updateItem(Label item, boolean empty) {
-                    super.updateItem(item, empty);
-                    setGraphic(item);
-                    TableRow<String> currentRow = getTableRow();
-                    if (!isEmpty()) {
-                        if (item.getText().equals("Emergency")) {
-                            currentRow.setStyle("-fx-background-color: #CE2029");
-                        } else if (getTableRow().getIndex() % 2 == 0) {
-                            currentRow.setStyle("-fx-background-color: #0264AA");
-                        } else if (getTableRow().getIndex() % 2 != 0) {
-                            currentRow.setStyle("-fx-background-color: #0067B1");
-                        }
+        tc.setCellFactory(column -> new TableCell<String, Label>() {
+            @Override
+            protected void updateItem(Label item, boolean empty) {
+                super.updateItem(item, empty);
+                setGraphic(item);
+                TableRow<String> currentRow = getTableRow();
+                if (!isEmpty()) {
+                    if (item.getText().equals("Emergency")) {
+                        currentRow.setStyle("-fx-background-color: #CE2029");
+                    } else if (getTableRow().getIndex() % 2 == 0) {
+                        currentRow.setStyle("-fx-background-color: #0264AA");
+                    } else if (getTableRow().getIndex() % 2 != 0) {
+                        currentRow.setStyle("-fx-background-color: #0067B1");
                     }
                 }
-            };
+            }
         });
     }
 }

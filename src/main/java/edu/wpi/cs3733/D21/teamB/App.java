@@ -74,7 +74,7 @@ public class App extends Application {
             }
 
             try {
-                HashMap<User,String> requiredUsers = new HashMap<User,String>();
+                HashMap<User, String> requiredUsers = new HashMap<>();
 
                 //Required users
                 requiredUsers.put(new User("admin", "Professor", "X", User.AuthenticationLevel.ADMIN, null), "admin");

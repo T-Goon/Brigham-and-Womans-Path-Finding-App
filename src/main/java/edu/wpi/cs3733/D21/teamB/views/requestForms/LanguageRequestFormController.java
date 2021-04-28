@@ -1,20 +1,16 @@
 package edu.wpi.cs3733.D21.teamB.views.requestForms;
 
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXTextArea;
-import com.jfoenix.controls.JFXTextField;
-import com.jfoenix.controls.JFXTimePicker;
+import com.jfoenix.controls.*;
 import com.jfoenix.validation.RequiredFieldValidator;
 import edu.wpi.cs3733.D21.teamB.App;
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
-import edu.wpi.cs3733.D21.teamB.entities.requests.CaseManagerRequest;
 import edu.wpi.cs3733.D21.teamB.entities.requests.Request;
+import edu.wpi.cs3733.D21.teamB.entities.requests.LanguageRequest;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -25,47 +21,80 @@ import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.UUID;
 
-public class CaseManagerRequestFormController extends DefaultServiceRequestFormController implements Initializable {
+public class LanguageRequestFormController extends DefaultServiceRequestFormController implements Initializable {
 
     @FXML
     private JFXTextField patientName;
 
     @FXML
+    private JFXComboBox<Label> loc;
+
+    @FXML
+    private JFXComboBox<Label> language;
+
+    @FXML
     private JFXTimePicker timeForArrival;
 
     @FXML
-    private JFXTextArea messageForCaseManager;
+    private JFXTextArea message;
 
     private String id;
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location, resources);
 
+        language.getItems().add(new Label("Chinese"));
+        language.getItems().add(new Label("French"));
+        language.getItems().add(new Label("Russian"));
+        language.getItems().add(new Label("Spanish"));
+        language.getItems().add(new Label("Vietnamese"));
+
         if (SceneSwitcher.peekLastScene().equals("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml")) {
             this.id = (String) App.getPrimaryStage().getUserData();
-            CaseManagerRequest caseManagerRequest;
+            LanguageRequest languageRequest;
             try {
-                caseManagerRequest = (CaseManagerRequest) DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(id, Request.RequestType.CASE_MANAGER);
+                languageRequest = (LanguageRequest) DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(id, Request.RequestType.LANGUAGE);
             } catch (SQLException e) {
                 e.printStackTrace();
                 return;
             }
-            patientName.setText(caseManagerRequest.getPatientName());
-            getLocationIndex(caseManagerRequest.getLocation());
-            String time = caseManagerRequest.getTimeForArrival();
+            patientName.setText(languageRequest.getPatientName());
+            getLocationIndex(languageRequest.getLocation());
+            String time = languageRequest.getTimeForArrival();
             LocalTime lt = LocalTime.of(Integer.parseInt(time.substring(0, 2)), Integer.parseInt(time.substring(3, 5)));
             timeForArrival.setValue(lt);
-            messageForCaseManager.setText(caseManagerRequest.getDescription());
+            message.setText(languageRequest.getDescription());
+
+            getLocationIndex(languageRequest.getLocation());
+            int indexType = -1;
+
+            switch (languageRequest.getLanguage()) {
+                case "Chinese":
+                    indexType = 0;
+                    break;
+                case "French":
+                    indexType = 1;
+                    break;
+                case "Russian":
+                    indexType = 2;
+                    break;
+                case "Spanish":
+                    indexType = 3;
+                    break;
+                case "Vietnamese":
+                    indexType = 4;
+                    break;
+            }
+            language.getSelectionModel().select(indexType);
         }
         validateButton();
 
-        //creating a pop-up error message when a text field is left empty
-        //patientName text field
-        RequiredFieldValidator validatorPatientName = new RequiredFieldValidator();
+        RequiredFieldValidator validatorName = new RequiredFieldValidator();
 
-        patientName.getValidators().add(validatorPatientName);
-        validatorPatientName.setMessage("Please input the patient's name!");
+        patientName.getValidators().add(validatorName);
+        validatorName.setMessage("Please input the patient's name!");
 
         patientName.focusedProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue) {
@@ -73,7 +102,6 @@ public class CaseManagerRequestFormController extends DefaultServiceRequestFormC
             }
         });
 
-        //location combo box
         RequiredFieldValidator validatorLocation = new RequiredFieldValidator();
 
         loc.getValidators().add(validatorLocation);
@@ -85,11 +113,21 @@ public class CaseManagerRequestFormController extends DefaultServiceRequestFormC
             }
         });
 
-        //arrival time picker
-        RequiredFieldValidator validatorArrivalTime = new RequiredFieldValidator();
+        RequiredFieldValidator validatorLanguage = new RequiredFieldValidator();
 
-        timeForArrival.getValidators().add(validatorArrivalTime);
-        validatorArrivalTime.setMessage("Please select the time for arrival!");
+        language.getValidators().add(validatorLanguage);
+        validatorLanguage.setMessage("Please select a language!");
+
+        language.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                language.validate();
+            }
+        });
+
+        RequiredFieldValidator validatorTimeForArrival = new RequiredFieldValidator();
+
+        timeForArrival.getValidators().add(validatorTimeForArrival);
+        validatorTimeForArrival.setMessage("Please select the time of arrival!");
 
         timeForArrival.focusedProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue) {
@@ -97,24 +135,26 @@ public class CaseManagerRequestFormController extends DefaultServiceRequestFormC
             }
         });
 
-        //message text field
+
         RequiredFieldValidator validatorMessage = new RequiredFieldValidator();
 
-        messageForCaseManager.getValidators().add(validatorMessage);
-        validatorMessage.setMessage("Please input a message for the case manager or type 'none'!");
+        message.getValidators().add(validatorMessage);
+        validatorMessage.setMessage("Please input any additional details or type 'none' !");
 
-        messageForCaseManager.focusedProperty().addListener((observable, oldValue, newValue) -> {
+        message.focusedProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue) {
-                messageForCaseManager.validate();
+                message.validate();
             }
         });
     }
 
     public void handleButtonAction(ActionEvent e) {
         super.handleButtonAction(e);
+
         JFXButton btn = (JFXButton) e.getSource();
         if (btn.getId().equals("btnSubmit")) {
             String givenPatientName = patientName.getText();
+            String languageChosen = language.getValue().getText();
             String givenTimeForArrival = timeForArrival.getValue().toString();
 
             DateFormat timeFormat = new SimpleDateFormat("HH:mm");
@@ -131,12 +171,12 @@ public class CaseManagerRequestFormController extends DefaultServiceRequestFormC
             String time = timeFormat.format(dateInfo); // Stored as HH:MM (24 hour time)
             String date = dateFormat.format(dateInfo); // Stored as YYYY-MM-DD
             String complete = "F";
-            String givenDescription = messageForCaseManager.getText();
+            String givenDescription = message.getText();
 
             String employeeName;
             if (SceneSwitcher.peekLastScene().equals("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml")) {
                 try {
-                    employeeName = DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(this.id, Request.RequestType.CASE_MANAGER).getEmployeeName();
+                    employeeName = DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(this.id, Request.RequestType.LANGUAGE).getEmployeeName();
                 } catch (SQLException err) {
                     err.printStackTrace();
                     return;
@@ -145,13 +185,15 @@ public class CaseManagerRequestFormController extends DefaultServiceRequestFormC
                 employeeName = null;
             }
 
-            CaseManagerRequest request = new CaseManagerRequest(givenPatientName, givenTimeForArrival,
+            LanguageRequest request = new LanguageRequest(languageChosen, givenPatientName, givenTimeForArrival,
                     requestID, time, date, complete, employeeName, getLocation(), givenDescription);
 
             try {
-                if (SceneSwitcher.peekLastScene().equals("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml"))
+                if (SceneSwitcher.peekLastScene().equals("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml")) {
                     DatabaseHandler.getDatabaseHandler("main.db").updateRequest(request);
-                else DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
+                } else {
+                    DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
+                }
             } catch (SQLException err) {
                 err.printStackTrace();
             }
@@ -162,7 +204,7 @@ public class CaseManagerRequestFormController extends DefaultServiceRequestFormC
     private void validateButton() {
         btnSubmit.setDisable(
                 patientName.getText().isEmpty() || loc.getValue() == null || timeForArrival.getValue() == null ||
-                        messageForCaseManager.getText().isEmpty()
+                        message.getText().isEmpty()
         );
     }
 }

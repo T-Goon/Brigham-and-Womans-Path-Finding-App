@@ -42,7 +42,7 @@ public class MedDeliveryRequestFormController extends DefaultServiceRequestFormC
 
         if (SceneSwitcher.peekLastScene().equals("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml")) {
             this.id = (String) App.getPrimaryStage().getUserData();
-            MedicineRequest medicineRequest = null;
+            MedicineRequest medicineRequest;
             try {
                 medicineRequest = (MedicineRequest) DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(id, Request.RequestType.MEDICINE);
             } catch (SQLException e) {
@@ -63,12 +63,9 @@ public class MedDeliveryRequestFormController extends DefaultServiceRequestFormC
         name.getValidators().add(validatorName);
         validatorName.setMessage("Please input the patient's name!");
 
-        name.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(!newValue){
-                    name.validate();
-                }
+        name.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                name.validate();
             }
         });
 
@@ -78,12 +75,9 @@ public class MedDeliveryRequestFormController extends DefaultServiceRequestFormC
         loc.getValidators().add(validatorLocation);
         validatorLocation.setMessage("Please select the location for delivery!");
 
-        loc.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(!newValue){
-                    loc.validate();
-                }
+        loc.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                loc.validate();
             }
         });
 
@@ -93,12 +87,9 @@ public class MedDeliveryRequestFormController extends DefaultServiceRequestFormC
         medName.getValidators().add(validatorMedName);
         validatorMedName.setMessage("Please input the medicine name!");
 
-        medName.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(!newValue){
-                    medName.validate();
-                }
+        medName.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                medName.validate();
             }
         });
 
@@ -108,12 +99,9 @@ public class MedDeliveryRequestFormController extends DefaultServiceRequestFormC
         reason.getValidators().add(validatorReason);
         validatorReason.setMessage("Please input the reason for the request!");
 
-        reason.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(!newValue){
-                    reason.validate();
-                }
+        reason.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                reason.validate();
             }
         });
     }
