@@ -28,7 +28,7 @@ public class App extends Application {
     @Override
     public void init() {
         System.out.println("Starting Up");
-        db = DatabaseHandler.getDatabaseHandler("main.db");
+        db = DatabaseHandler.getHandler();
     }
 
     @Override
@@ -103,7 +103,7 @@ public class App extends Application {
     public void stop() {
         if (dbThread != null)
             dbThread.stop();
-        DatabaseHandler.getDatabaseHandler("main.db").shutdown();
+        DatabaseHandler.getHandler().shutdown();
         System.out.println("Shutting Down");
     }
 }

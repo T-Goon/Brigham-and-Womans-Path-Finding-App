@@ -129,9 +129,9 @@ public class EditUserController extends BasePageController implements Initializa
 
                 try {
                     if (SceneSwitcher.addingUser) {
-                        DatabaseHandler.getDatabaseHandler("main.db").addUser(uUpdated, password.getText());
+                        DatabaseHandler.getHandler().addUser(uUpdated, password.getText());
                     } else {
-                        DatabaseHandler.getDatabaseHandler("main.db").updateUser(uUpdated);
+                        DatabaseHandler.getHandler().updateUser(uUpdated);
                     }
                 } catch (SQLException e) {
                     throw new IllegalStateException("Username not found when updating; This should never happen");

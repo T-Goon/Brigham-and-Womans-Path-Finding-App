@@ -54,7 +54,7 @@ public class ReligiousRequestFormController extends DefaultServiceRequestFormCon
             this.id = (String) App.getPrimaryStage().getUserData();
             ReligiousRequest religiousRequest;
             try {
-                religiousRequest = (ReligiousRequest) DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(id, Request.RequestType.RELIGIOUS);
+                religiousRequest = (ReligiousRequest) DatabaseHandler.getHandler().getSpecificRequestById(id, Request.RequestType.RELIGIOUS);
             } catch (SQLException e) {
                 e.printStackTrace();
                 return;
@@ -194,7 +194,7 @@ public class ReligiousRequestFormController extends DefaultServiceRequestFormCon
             String employeeName;
             if (SceneSwitcher.peekLastScene().equals("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml")) {
                 try {
-                    employeeName = DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(this.id, Request.RequestType.RELIGIOUS).getEmployeeName();
+                    employeeName = DatabaseHandler.getHandler().getSpecificRequestById(this.id, Request.RequestType.RELIGIOUS).getEmployeeName();
                 } catch (SQLException err) {
                     err.printStackTrace();
                     return;
@@ -208,9 +208,9 @@ public class ReligiousRequestFormController extends DefaultServiceRequestFormCon
 
             try {
                 if (SceneSwitcher.peekLastScene().equals("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml")) {
-                    DatabaseHandler.getDatabaseHandler("main.db").updateRequest(request);
+                    DatabaseHandler.getHandler().updateRequest(request);
                 } else {
-                    DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
+                    DatabaseHandler.getHandler().addRequest(request);
                 }
             } catch (SQLException err) {
                 err.printStackTrace();

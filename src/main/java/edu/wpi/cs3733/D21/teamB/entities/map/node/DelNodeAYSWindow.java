@@ -24,7 +24,7 @@ public class DelNodeAYSWindow extends Window<VBox, NodeMenuPopupData, VBox> impl
      */
     public void delNode() {
         try {
-            DatabaseHandler.getDatabaseHandler("main.db").removeNode( data.getNodeID() );
+            DatabaseHandler.getHandler().removeNode(data.getNodeID());
         } catch (SQLException e) { e.printStackTrace(); }
 
         data.getMd().removeAllPopups();

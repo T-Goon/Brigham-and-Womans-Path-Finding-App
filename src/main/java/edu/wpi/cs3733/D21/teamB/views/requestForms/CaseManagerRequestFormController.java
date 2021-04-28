@@ -44,7 +44,7 @@ public class CaseManagerRequestFormController extends DefaultServiceRequestFormC
             this.id = (String) App.getPrimaryStage().getUserData();
             CaseManagerRequest caseManagerRequest;
             try {
-                caseManagerRequest = (CaseManagerRequest) DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(id, Request.RequestType.CASE_MANAGER);
+                caseManagerRequest = (CaseManagerRequest) DatabaseHandler.getHandler().getSpecificRequestById(id, Request.RequestType.CASE_MANAGER);
             } catch (SQLException e) {
                 e.printStackTrace();
                 return;
@@ -134,7 +134,7 @@ public class CaseManagerRequestFormController extends DefaultServiceRequestFormC
             String employeeName;
             if (SceneSwitcher.peekLastScene().equals("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml")) {
                 try {
-                    employeeName = DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(this.id, Request.RequestType.CASE_MANAGER).getEmployeeName();
+                    employeeName = DatabaseHandler.getHandler().getSpecificRequestById(this.id, Request.RequestType.CASE_MANAGER).getEmployeeName();
                 } catch (SQLException err) {
                     err.printStackTrace();
                     return;
@@ -148,8 +148,8 @@ public class CaseManagerRequestFormController extends DefaultServiceRequestFormC
 
             try {
                 if (SceneSwitcher.peekLastScene().equals("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml"))
-                    DatabaseHandler.getDatabaseHandler("main.db").updateRequest(request);
-                else DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
+                    DatabaseHandler.getHandler().updateRequest(request);
+                else DatabaseHandler.getHandler().addRequest(request);
             } catch (SQLException err) {
                 err.printStackTrace();
             }
