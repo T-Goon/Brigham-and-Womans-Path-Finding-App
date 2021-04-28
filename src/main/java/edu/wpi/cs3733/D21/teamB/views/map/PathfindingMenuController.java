@@ -426,12 +426,9 @@ public class PathfindingMenuController extends BasePageController implements Ini
                 AStar astar = new AStar();
                 mapPath = astar.findPath(longToId.get(txtStartLocation.getText()), longToId.get(txtEndLocation.getText()), md.isMobility());
 
+                fs.switchFloor(DatabaseHandler.getDatabaseHandler("main.db").getNodeById(longToId.get(txtStartLocation.getText())).getFloor());
                 md.drawPath(txtStartLocation.getText(), txtEndLocation.getText());
-
-                if (btnTxtDir.isDisable()) {
-                    btnTxtDir.setDisable(false);
-                }
-
+                btnTxtDir.setDisable(false);
                 break;
             case "btnEditMap":
 
