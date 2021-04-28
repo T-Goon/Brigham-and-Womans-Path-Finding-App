@@ -115,12 +115,9 @@
                                                 <Font size="14.0" />
                                              </font>
                                           </Text>
-                                          <JFXComboBox fx:id="language" prefHeight="27.0" prefWidth="999999.0"
-                                                       promptText="Choose one"
-                                                       style="-fx-background-color: #e5e5e5; -fx-background-radius: 7;"
-                                                       unFocusColor="#f2f2f2">
+                                          <JFXComboBox fx:id="language" prefHeight="27.0" prefWidth="999999.0" promptText="Choose one" style="-fx-background-color: #e5e5e5; -fx-background-radius: 7;" unFocusColor="#f2f2f2">
                                               <VBox.margin>
-                                                  <Insets right="10.0"/>
+                                                  <Insets right="10.0" />
                                               </VBox.margin>
                                           </JFXComboBox>
                                        </children>
@@ -162,7 +159,7 @@
                                           </JFXTextArea>
                                        </children>
                                        <padding>
-                                          <Insets left="10.0" right="10.0" />
+                                          <Insets bottom="20.0" left="10.0" right="10.0" />
                                        </padding>
                                        <VBox.margin>
                                           <Insets top="5.0" />
