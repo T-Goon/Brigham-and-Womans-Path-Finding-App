@@ -25,7 +25,7 @@ public class Graph {
     private int pathingTypeIndex;
 
     private Graph() {
-        this.db = DatabaseHandler.getDatabaseHandler("main.db");
+        this.db = DatabaseHandler.getHandler();
         pathingTypeIndex = 0;
         updateGraph();
     }

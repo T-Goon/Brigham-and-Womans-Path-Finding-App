@@ -59,7 +59,7 @@ public class SanitationRequestFormController extends DefaultServiceRequestFormCo
             this.id = (String) App.getPrimaryStage().getUserData();
             SanitationRequest sanitationRequest;
             try {
-                sanitationRequest = (SanitationRequest) DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(id, Request.RequestType.SANITATION);
+                sanitationRequest = (SanitationRequest) DatabaseHandler.getHandler().getSpecificRequestById(id, Request.RequestType.SANITATION);
             } catch (SQLException e) {
                 e.printStackTrace();
                 return;
@@ -186,7 +186,7 @@ public class SanitationRequestFormController extends DefaultServiceRequestFormCo
             String employeeName;
             if (SceneSwitcher.peekLastScene().equals("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml")) {
                 try {
-                    employeeName = DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(this.id, Request.RequestType.SANITATION).getEmployeeName();
+                    employeeName = DatabaseHandler.getHandler().getSpecificRequestById(this.id, Request.RequestType.SANITATION).getEmployeeName();
                 } catch (SQLException err) {
                     err.printStackTrace();
                     return;
@@ -200,9 +200,9 @@ public class SanitationRequestFormController extends DefaultServiceRequestFormCo
 
             try {
                 if (SceneSwitcher.peekLastScene().equals("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml")) {
-                    DatabaseHandler.getDatabaseHandler("main.db").updateRequest(request);
+                    DatabaseHandler.getHandler().updateRequest(request);
                 } else {
-                    DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
+                    DatabaseHandler.getHandler().addRequest(request);
                 }
             } catch (SQLException err) {
                 err.printStackTrace();

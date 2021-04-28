@@ -59,7 +59,7 @@ public class ExternalTransportationRequestFormController extends DefaultServiceR
             this.id = (String) App.getPrimaryStage().getUserData();
             ExternalTransportRequest externalTransportRequest;
             try {
-                externalTransportRequest = (ExternalTransportRequest) DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(id, Request.RequestType.EXTERNAL_TRANSPORT);
+                externalTransportRequest = (ExternalTransportRequest) DatabaseHandler.getHandler().getSpecificRequestById(id, Request.RequestType.EXTERNAL_TRANSPORT);
             } catch (SQLException e) {
                 e.printStackTrace();
                 return;
@@ -188,7 +188,7 @@ public class ExternalTransportationRequestFormController extends DefaultServiceR
             String complete = "F";
             String givenDescription = description.getText();
 
-            DatabaseHandler db = DatabaseHandler.getDatabaseHandler("main.db");
+            DatabaseHandler db = DatabaseHandler.getHandler();
             String employeeName;
             if (SceneSwitcher.peekLastScene().equals("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml")) {
                 try {

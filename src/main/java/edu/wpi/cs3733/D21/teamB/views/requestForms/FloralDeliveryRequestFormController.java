@@ -77,7 +77,7 @@ public class FloralDeliveryRequestFormController extends DefaultServiceRequestFo
             this.id = (String) App.getPrimaryStage().getUserData();
             FloralRequest floralRequest;
             try {
-                floralRequest = (FloralRequest) DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(id, Request.RequestType.FLORAL);
+                floralRequest = (FloralRequest) DatabaseHandler.getHandler().getSpecificRequestById(id, Request.RequestType.FLORAL);
             } catch (SQLException e) {
                 e.printStackTrace();
                 return;
@@ -251,7 +251,7 @@ public class FloralDeliveryRequestFormController extends DefaultServiceRequestFo
             String employeeName;
             if (SceneSwitcher.peekLastScene().equals("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml")) {
                 try {
-                    employeeName = DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(this.id, Request.RequestType.FLORAL).getEmployeeName();
+                    employeeName = DatabaseHandler.getHandler().getSpecificRequestById(this.id, Request.RequestType.FLORAL).getEmployeeName();
                 } catch (SQLException err) {
                     err.printStackTrace();
                     return;
@@ -266,8 +266,8 @@ public class FloralDeliveryRequestFormController extends DefaultServiceRequestFo
 
             try {
                 if (SceneSwitcher.peekLastScene().equals("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml"))
-                    DatabaseHandler.getDatabaseHandler("main.db").updateRequest(request);
-                else DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
+                    DatabaseHandler.getHandler().updateRequest(request);
+                else DatabaseHandler.getHandler().addRequest(request);
             } catch (SQLException err) {
                 err.printStackTrace();
             }

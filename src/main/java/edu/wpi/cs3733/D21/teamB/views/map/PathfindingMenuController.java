@@ -150,7 +150,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
 
     private final HashMap<String, Color> colors = new HashMap<>();
 
-    private final DatabaseHandler db = DatabaseHandler.getDatabaseHandler("main.db");
+    private final DatabaseHandler db = DatabaseHandler.getHandler();
 
     final FileChooser fileChooser = new FileChooser();
     final DirectoryChooser directoryChooser = new DirectoryChooser();
@@ -363,7 +363,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
 
             } else if (selectedItem.getValue().equals("Favorites")) {
                 try {
-                    List<String> favorites = DatabaseHandler.getDatabaseHandler("main.db").getFavorites();
+                    List<String> favorites = DatabaseHandler.getHandler().getFavorites();
                     Map<String, String> longNames = mapCache.makeLongToIDMap();
                     Color color = Color.web("#9A9999");
 
@@ -488,7 +488,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
                 mapDrawer.drawPath(txtStartLocation.getText(), txtEndLocation.getText());
 
 
-                floorSwitcher.switchFloor(DatabaseHandler.getDatabaseHandler("main.db").getNodeById(longToId.get(txtStartLocation.getText())).getFloor());
+                floorSwitcher.switchFloor(DatabaseHandler.getHandler().getNodeById(longToId.get(txtStartLocation.getText())).getFloor());
                 mapDrawer.drawPath(txtStartLocation.getText(), txtEndLocation.getText());
                 btnTxtDir.setDisable(false);
                 break;
@@ -585,7 +585,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
 
         // Favorites drop down
         TreeItem<String> favorites = new TreeItem<>("Favorites");
-        if (DatabaseHandler.getDatabaseHandler("main.db").getAuthenticationUser().isAtLeast(User.AuthenticationLevel.PATIENT)) {
+        if (DatabaseHandler.getHandler().getAuthenticationUser().isAtLeast(User.AuthenticationLevel.PATIENT)) {
             favorites.setExpanded(true);
             rootNode.getChildren().add(favorites);
             favorites.setGraphic(btnAddToFavorites);
@@ -630,7 +630,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
                 itemToAdd.setGraphic(btnRemoveFromFavorites);
                 favorites.getChildren().add(itemToAdd);
                 try {
-                    DatabaseHandler.getDatabaseHandler("main.db").addFavoriteLocation(itemToAdd.getValue());
+                    DatabaseHandler.getHandler().addFavoriteLocation(itemToAdd.getValue());
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -642,7 +642,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
                 TreeCell<String> treeCell = (TreeCell<String>) itemToRemove.getParent();
                 favorites.getChildren().remove(treeCell.getTreeItem());
                 try {
-                    DatabaseHandler.getDatabaseHandler("main.db").removeFavoriteLocation(treeCell.getTreeItem().getValue());
+                    DatabaseHandler.getHandler().removeFavoriteLocation(treeCell.getTreeItem().getValue());
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -651,7 +651,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
 
         // Populate Favorites with locations from database
         try {
-            ArrayList<String> savedFavorites = (ArrayList<String>) DatabaseHandler.getDatabaseHandler("main.db").getFavorites();
+            ArrayList<String> savedFavorites = (ArrayList<String>) DatabaseHandler.getHandler().getFavorites();
             for (String favorite : savedFavorites) {
                 TreeItem<String> item = new TreeItem<>(favorite);
                 try {
@@ -666,7 +666,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
                     TreeCell<String> treeCell = (TreeCell<String>) itemToRemove.getParent();
                     favorites.getChildren().remove(treeCell.getTreeItem());
                     try {
-                        DatabaseHandler.getDatabaseHandler("main.db").removeFavoriteLocation(treeCell.getTreeItem().getValue());
+                        DatabaseHandler.getHandler().removeFavoriteLocation(treeCell.getTreeItem().getValue());
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
@@ -707,7 +707,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
         JFXDialogLayout helpLayout = new JFXDialogLayout();
 
         Text helpText;
-        if (!mapDrawer.isEditing() &&  DatabaseHandler.getDatabaseHandler("main").getAuthenticationUser().isAtLeast(User.AuthenticationLevel.PATIENT)) {
+        if (!mapDrawer.isEditing() && DatabaseHandler.getHandler().getAuthenticationUser().isAtLeast(User.AuthenticationLevel.PATIENT)) {
             helpText = new Text("Enter your start and end location and any stops graphically or using our menu selector. " +
                     "To use the graphical selection,\nsimply click on the node and click on the set button. " +
                     "To enter a location using the menu, click on the appropriate\ndrop down and choose your location. " +

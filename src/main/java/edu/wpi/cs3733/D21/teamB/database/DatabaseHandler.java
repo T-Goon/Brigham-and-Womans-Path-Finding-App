@@ -36,16 +36,27 @@ public class DatabaseHandler {
     }
 
     /**
+     * @return the main database
+     */
+    public static DatabaseHandler getHandler() {
+        return getDatabaseHandler("main.db");
+    }
+
+    /**
      * @param dbURL the path to the database (should default to "main.db")
      * @return the database handler
      */
     public static DatabaseHandler getDatabaseHandler(String dbURL) {
+        if (!dbURL.equals("main.db") && !dbURL.equals("test.db"))
+            throw new IllegalArgumentException("Illegal database type!");
+
         if (handler == null) {
             handler = new DatabaseHandler();
             handler.databaseURL = URL_BASE + dbURL;
             handler.databaseConnection = handler.getConnection();
         } else if (!(URL_BASE + dbURL).equals(handler.databaseURL)) {
             // If switching between main.db and test.db, shut down the old database and start
+            System.out.println(URL_BASE + dbURL);
             handler.shutdown();
             handler = new DatabaseHandler();
             handler.databaseURL = URL_BASE + dbURL;

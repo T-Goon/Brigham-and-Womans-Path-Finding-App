@@ -88,7 +88,7 @@ public class RegisterPageController extends BasePageController implements Initia
     }
 
     private void handleRegisterSubmit() {
-        DatabaseHandler db = DatabaseHandler.getDatabaseHandler("main.db");
+        DatabaseHandler db = DatabaseHandler.getHandler();
         if (db.getUserByUsername(username.getText()) != null) {
             error.setText("Username is already taken!");
             error.setVisible(true);

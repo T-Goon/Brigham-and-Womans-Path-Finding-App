@@ -42,7 +42,7 @@ public class MedDeliveryRequestFormController extends DefaultServiceRequestFormC
             this.id = (String) App.getPrimaryStage().getUserData();
             MedicineRequest medicineRequest;
             try {
-                medicineRequest = (MedicineRequest) DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(id, Request.RequestType.MEDICINE);
+                medicineRequest = (MedicineRequest) DatabaseHandler.getHandler().getSpecificRequestById(id, Request.RequestType.MEDICINE);
             } catch (SQLException e) {
                 e.printStackTrace();
                 return;
@@ -132,7 +132,7 @@ public class MedDeliveryRequestFormController extends DefaultServiceRequestFormC
             String employeeName;
             if (SceneSwitcher.peekLastScene().equals("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml")) {
                 try {
-                    employeeName = DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(this.id, Request.RequestType.MEDICINE).getEmployeeName();
+                    employeeName = DatabaseHandler.getHandler().getSpecificRequestById(this.id, Request.RequestType.MEDICINE).getEmployeeName();
                 } catch (SQLException err) {
                     err.printStackTrace();
                     return;
@@ -146,9 +146,9 @@ public class MedDeliveryRequestFormController extends DefaultServiceRequestFormC
 
             try {
                 if (SceneSwitcher.peekLastScene().equals("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml")) {
-                    DatabaseHandler.getDatabaseHandler("main.db").updateRequest(request);
+                    DatabaseHandler.getHandler().updateRequest(request);
                 } else {
-                    DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
+                    DatabaseHandler.getHandler().addRequest(request);
                 }
             } catch (SQLException err) {
                 err.printStackTrace();

@@ -48,7 +48,7 @@ public class SecurityRequestFormController extends DefaultServiceRequestFormCont
             this.id = (String) App.getPrimaryStage().getUserData();
             SecurityRequest securityRequest;
             try {
-                securityRequest = (SecurityRequest) DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(id, Request.RequestType.SECURITY);
+                securityRequest = (SecurityRequest) DatabaseHandler.getHandler().getSpecificRequestById(id, Request.RequestType.SECURITY);
             } catch (SQLException e) {
                 e.printStackTrace();
                 return;
@@ -147,9 +147,9 @@ public class SecurityRequestFormController extends DefaultServiceRequestFormCont
 
             try {
                 if (SceneSwitcher.peekLastScene().equals("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml")) {
-                    DatabaseHandler.getDatabaseHandler("main.db").updateRequest(request);
+                    DatabaseHandler.getHandler().updateRequest(request);
                 } else {
-                    DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
+                    DatabaseHandler.getHandler().addRequest(request);
                 }
             } catch (SQLException err) {
                 err.printStackTrace();

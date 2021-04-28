@@ -70,7 +70,7 @@ public class UserWrapper {
 
         btnDel.setOnAction(event -> {
             try {
-                DatabaseHandler.getDatabaseHandler("main.db").deleteUser(u.getUsername());
+                DatabaseHandler.getHandler().deleteUser(u.getUsername());
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
@@ -78,7 +78,7 @@ public class UserWrapper {
         });
 
         this.btnDel = btnDel;
-        if (u.getUsername().equals(DatabaseHandler.getDatabaseHandler("main.db").getAuthenticationUser().getUsername())) {
+        if (u.getUsername().equals(DatabaseHandler.getHandler().getAuthenticationUser().getUsername())) {
             this.btnDel.setDisable(true);
         }
     }

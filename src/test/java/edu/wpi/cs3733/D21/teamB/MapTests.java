@@ -34,7 +34,7 @@ public class MapTests extends FxRobot{
             // Wait for the database to finish initializing
         }
 
-        DatabaseHandler db = DatabaseHandler.getDatabaseHandler("main.db");
+        DatabaseHandler db = DatabaseHandler.getHandler();
         List<edu.wpi.cs3733.D21.teamB.entities.map.data.Node> nodes = CSVHandler.loadCSVNodes("/edu/wpi/cs3733/D21/teamB/csvFiles/bwBnodes.csv");
         List<Edge> edges = CSVHandler.loadCSVEdges("/edu/wpi/cs3733/D21/teamB/csvFiles/bwBedges.csv");
 

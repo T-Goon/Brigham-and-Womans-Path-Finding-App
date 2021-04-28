@@ -47,7 +47,7 @@ public class FoodDeliveryRequestFormController extends DefaultServiceRequestForm
             this.id = (String) App.getPrimaryStage().getUserData();
             FoodRequest foodRequest;
             try {
-                foodRequest = (FoodRequest) DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(id, Request.RequestType.FOOD);
+                foodRequest = (FoodRequest) DatabaseHandler.getHandler().getSpecificRequestById(id, Request.RequestType.FOOD);
             } catch (SQLException e) {
                 e.printStackTrace();
                 return;
@@ -153,7 +153,7 @@ public class FoodDeliveryRequestFormController extends DefaultServiceRequestForm
             String employeeName;
             if (SceneSwitcher.peekLastScene().equals("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml")) {
                 try {
-                    employeeName = DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(this.id, Request.RequestType.FOOD).getEmployeeName();
+                    employeeName = DatabaseHandler.getHandler().getSpecificRequestById(this.id, Request.RequestType.FOOD).getEmployeeName();
                 } catch (SQLException e) {
                     e.printStackTrace();
                     return;
@@ -167,8 +167,8 @@ public class FoodDeliveryRequestFormController extends DefaultServiceRequestForm
 
             try {
                 if (SceneSwitcher.peekLastScene().equals("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml"))
-                    DatabaseHandler.getDatabaseHandler("main.db").updateRequest(request);
-                else DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
+                    DatabaseHandler.getHandler().updateRequest(request);
+                else DatabaseHandler.getHandler().addRequest(request);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
