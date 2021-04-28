@@ -61,7 +61,7 @@ public abstract class DefaultServiceRequestFormController extends BasePageContro
             justClicked = false;
         });
 
-        Map<String, Node> nodes = DatabaseHandler.getDatabaseHandler("main.db").getNodes();
+        Map<String, Node> nodes = DatabaseHandler.getHandler().getNodes();
 
         // TODO should probably sort
         for (Node n : nodes.values()) {

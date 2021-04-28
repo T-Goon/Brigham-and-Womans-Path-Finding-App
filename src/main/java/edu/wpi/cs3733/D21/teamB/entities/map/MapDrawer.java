@@ -43,7 +43,7 @@ public class MapDrawer implements PoppableManager {
     private final StackPane mapStack;
     private ETAPopup etaPopup;
     private Circle head = new Circle(5);
-    private final DatabaseHandler db = DatabaseHandler.getDatabaseHandler("main.db");
+    private final DatabaseHandler db = DatabaseHandler.getHandler();
 
     @Getter
     @Setter

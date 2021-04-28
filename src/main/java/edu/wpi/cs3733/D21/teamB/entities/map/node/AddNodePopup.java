@@ -53,7 +53,7 @@ public class AddNodePopup extends Popup<VBox, AddNodePopupData> implements Poppa
         Node aNode = new Node(nodeID, x, y, floor, building, type, longName, shortName);
 
         try {
-            DatabaseHandler.getDatabaseHandler("main.db").addNode(aNode);
+            DatabaseHandler.getHandler().addNode(aNode);
         } catch (SQLException e) { e.printStackTrace(); }
 
         // Refresh map editor

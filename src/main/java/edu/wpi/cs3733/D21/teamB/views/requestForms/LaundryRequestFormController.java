@@ -58,7 +58,7 @@ public class LaundryRequestFormController extends DefaultServiceRequestFormContr
             this.id = (String) App.getPrimaryStage().getUserData();
             LaundryRequest laundryRequest;
             try {
-                laundryRequest = (LaundryRequest) DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(id, Request.RequestType.LAUNDRY);
+                laundryRequest = (LaundryRequest) DatabaseHandler.getHandler().getSpecificRequestById(id, Request.RequestType.LAUNDRY);
             } catch (SQLException e) {
                 e.printStackTrace();
                 return;
@@ -178,7 +178,7 @@ public class LaundryRequestFormController extends DefaultServiceRequestFormContr
             String employeeName;
             if (SceneSwitcher.peekLastScene().equals("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml")) {
                 try {
-                    employeeName = DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(this.id, Request.RequestType.LAUNDRY).getEmployeeName();
+                    employeeName = DatabaseHandler.getHandler().getSpecificRequestById(this.id, Request.RequestType.LAUNDRY).getEmployeeName();
                 } catch (SQLException err) {
                     err.printStackTrace();
                     return;
@@ -192,9 +192,9 @@ public class LaundryRequestFormController extends DefaultServiceRequestFormContr
 
             try {
                 if (SceneSwitcher.peekLastScene().equals("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml")) {
-                    DatabaseHandler.getDatabaseHandler("main.db").updateRequest(request);
+                    DatabaseHandler.getHandler().updateRequest(request);
                 } else {
-                    DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
+                    DatabaseHandler.getHandler().addRequest(request);
                 }
             } catch (SQLException err) {
                 err.printStackTrace();

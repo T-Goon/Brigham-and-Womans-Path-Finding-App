@@ -52,7 +52,7 @@ public class EmergencyFormController extends DefaultServiceRequestFormController
             this.id = (String) App.getPrimaryStage().getUserData();
             EmergencyRequest emergencyRequest;
             try {
-                emergencyRequest = (EmergencyRequest) DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(id, Request.RequestType.EMERGENCY);
+                emergencyRequest = (EmergencyRequest) DatabaseHandler.getHandler().getSpecificRequestById(id, Request.RequestType.EMERGENCY);
             } catch (SQLException e) {
                 e.printStackTrace();
                 return;
@@ -96,7 +96,7 @@ public class EmergencyFormController extends DefaultServiceRequestFormController
             if (SceneSwitcher.peekLastScene().equals("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml")) {
                 try {
                     if (!SceneSwitcher.isEmergencyBtn) {
-                        employeeName = DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(this.id, Request.RequestType.EMERGENCY).getEmployeeName();
+                        employeeName = DatabaseHandler.getHandler().getSpecificRequestById(this.id, Request.RequestType.EMERGENCY).getEmployeeName();
                     } else {
                         employeeName = "Nobody";
                     }
@@ -113,8 +113,8 @@ public class EmergencyFormController extends DefaultServiceRequestFormController
 
             try {
                 if (SceneSwitcher.peekLastScene().equals("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml") && !SceneSwitcher.isEmergencyBtn)
-                    DatabaseHandler.getDatabaseHandler("main.db").updateRequest(request);
-                else DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
+                    DatabaseHandler.getHandler().updateRequest(request);
+                else DatabaseHandler.getHandler().addRequest(request);
             } catch (SQLException err) {
                 err.printStackTrace();
             }

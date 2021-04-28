@@ -55,7 +55,7 @@ public class LanguageRequestFormController extends DefaultServiceRequestFormCont
             this.id = (String) App.getPrimaryStage().getUserData();
             LanguageRequest languageRequest;
             try {
-                languageRequest = (LanguageRequest) DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(id, Request.RequestType.LANGUAGE);
+                languageRequest = (LanguageRequest) DatabaseHandler.getHandler().getSpecificRequestById(id, Request.RequestType.LANGUAGE);
             } catch (SQLException e) {
                 e.printStackTrace();
                 return;
@@ -176,7 +176,7 @@ public class LanguageRequestFormController extends DefaultServiceRequestFormCont
             String employeeName;
             if (SceneSwitcher.peekLastScene().equals("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml")) {
                 try {
-                    employeeName = DatabaseHandler.getDatabaseHandler("main.db").getSpecificRequestById(this.id, Request.RequestType.LANGUAGE).getEmployeeName();
+                    employeeName = DatabaseHandler.getHandler().getSpecificRequestById(this.id, Request.RequestType.LANGUAGE).getEmployeeName();
                 } catch (SQLException err) {
                     err.printStackTrace();
                     return;
@@ -190,9 +190,9 @@ public class LanguageRequestFormController extends DefaultServiceRequestFormCont
 
             try {
                 if (SceneSwitcher.peekLastScene().equals("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml")) {
-                    DatabaseHandler.getDatabaseHandler("main.db").updateRequest(request);
+                    DatabaseHandler.getHandler().updateRequest(request);
                 } else {
-                    DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
+                    DatabaseHandler.getHandler().addRequest(request);
                 }
             } catch (SQLException err) {
                 err.printStackTrace();

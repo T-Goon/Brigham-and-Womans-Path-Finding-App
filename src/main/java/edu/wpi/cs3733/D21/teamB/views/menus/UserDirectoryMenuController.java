@@ -39,10 +39,10 @@ public class UserDirectoryMenuController extends BasePageController implements I
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        if (DatabaseHandler.getDatabaseHandler("main.db").getAuthenticationUser().isAtLeast(User.AuthenticationLevel.ADMIN)) {
+        if (DatabaseHandler.getHandler().getAuthenticationUser().isAtLeast(User.AuthenticationLevel.ADMIN)) {
             directoryText.setText("Admin Directory");
             buttonPane.getChildren().remove(0);
-        } else if (DatabaseHandler.getDatabaseHandler("main.db").getAuthenticationUser().isAtLeast(User.AuthenticationLevel.STAFF)) {
+        } else if (DatabaseHandler.getHandler().getAuthenticationUser().isAtLeast(User.AuthenticationLevel.STAFF)) {
             directoryText.setText("Staff Directory");
             buttonPane.getChildren().remove(4);
             buttonPane.getChildren().remove(0);
@@ -77,7 +77,7 @@ public class UserDirectoryMenuController extends BasePageController implements I
                 SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
                 break;
             case "btnBack":
-                DatabaseHandler.getDatabaseHandler("main.db").deauthenticate();
+                DatabaseHandler.getHandler().deauthenticate();
                 break;
         }
     }

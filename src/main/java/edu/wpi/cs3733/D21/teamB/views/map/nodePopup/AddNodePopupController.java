@@ -147,7 +147,7 @@ public class AddNodePopupController implements Initializable {
                 List<Node> nodes = null;
 
                 try {
-                    nodes = DatabaseHandler.getDatabaseHandler("main.db").getNodesByCategory(NodeType.valueOf(t));
+                    nodes = DatabaseHandler.getHandler().getNodesByCategory(NodeType.valueOf(t));
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }

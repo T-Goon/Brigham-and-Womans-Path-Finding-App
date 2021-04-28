@@ -61,14 +61,14 @@ public class ServiceRequestDatabaseController extends BasePageController impleme
     public void initialize(URL location, ResourceBundle resources) {
         Map<String, Request> allRequests;
         try {
-            allRequests = DatabaseHandler.getDatabaseHandler("main.db").getRequests();
+            allRequests = DatabaseHandler.getHandler().getRequests();
         } catch (SQLException e) {
             e.printStackTrace();
             return;
         }
         Map<String, Request> requests = new HashMap<>();
 
-        User user = DatabaseHandler.getDatabaseHandler("main.db").getAuthenticationUser();
+        User user = DatabaseHandler.getHandler().getAuthenticationUser();
         User.AuthenticationLevel level = user.getAuthenticationLevel();
         String username = user.getUsername();
         String employeeName = user.getFirstName() + " " + user.getLastName();

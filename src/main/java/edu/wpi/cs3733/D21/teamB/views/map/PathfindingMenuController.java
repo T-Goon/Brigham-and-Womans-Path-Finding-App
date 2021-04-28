@@ -150,7 +150,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
 
     private final HashMap<String, Color> colors = new HashMap<>();
 
-    private final DatabaseHandler db = DatabaseHandler.getDatabaseHandler("main.db");
+    private final DatabaseHandler db = DatabaseHandler.getHandler();
 
     final FileChooser fileChooser = new FileChooser();
     final DirectoryChooser directoryChooser = new DirectoryChooser();
@@ -363,7 +363,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
 
             } else if (selectedItem.getValue().equals("Favorites")) {
                 try {
-                    List<String> favorites = DatabaseHandler.getDatabaseHandler("main.db").getFavorites();
+                    List<String> favorites = DatabaseHandler.getHandler().getFavorites();
                     Map<String, String> longNames = mapCache.makeLongToIDMap();
                     Color color = Color.web("#9A9999");
 
@@ -488,7 +488,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
                 mapDrawer.drawPath(txtStartLocation.getText(), txtEndLocation.getText());
 
 
-                floorSwitcher.switchFloor(DatabaseHandler.getDatabaseHandler("main.db").getNodeById(longToId.get(txtStartLocation.getText())).getFloor());
+                floorSwitcher.switchFloor(DatabaseHandler.getHandler().getNodeById(longToId.get(txtStartLocation.getText())).getFloor());
                 mapDrawer.drawPath(txtStartLocation.getText(), txtEndLocation.getText());
                 btnTxtDir.setDisable(false);
                 break;
@@ -587,7 +587,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
 
         // Favorites drop down
         TreeItem<String> favorites = new TreeItem<>("Favorites");
-        if (DatabaseHandler.getDatabaseHandler("main.db").getAuthenticationUser().isAtLeast(User.AuthenticationLevel.PATIENT)) {
+        if (DatabaseHandler.getHandler().getAuthenticationUser().isAtLeast(User.AuthenticationLevel.PATIENT)) {
             favorites.setExpanded(true);
             rootNode.getChildren().add(favorites);
             favorites.setGraphic(btnAddToFavorites);
@@ -632,7 +632,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
                 itemToAdd.setGraphic(btnRemoveFromFavorites);
                 favorites.getChildren().add(itemToAdd);
                 try {
-                    DatabaseHandler.getDatabaseHandler("main.db").addFavoriteLocation(itemToAdd.getValue());
+                    DatabaseHandler.getHandler().addFavoriteLocation(itemToAdd.getValue());
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -644,7 +644,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
                 TreeCell<String> treeCell = (TreeCell<String>) itemToRemove.getParent();
                 favorites.getChildren().remove(treeCell.getTreeItem());
                 try {
-                    DatabaseHandler.getDatabaseHandler("main.db").removeFavoriteLocation(treeCell.getTreeItem().getValue());
+                    DatabaseHandler.getHandler().removeFavoriteLocation(treeCell.getTreeItem().getValue());
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -653,7 +653,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
 
         // Populate Favorites with locations from database
         try {
-            ArrayList<String> savedFavorites = (ArrayList<String>) DatabaseHandler.getDatabaseHandler("main.db").getFavorites();
+            ArrayList<String> savedFavorites = (ArrayList<String>) DatabaseHandler.getHandler().getFavorites();
             for (String favorite : savedFavorites) {
                 TreeItem<String> item = new TreeItem<>(favorite);
                 try {
@@ -668,7 +668,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
                     TreeCell<String> treeCell = (TreeCell<String>) itemToRemove.getParent();
                     favorites.getChildren().remove(treeCell.getTreeItem());
                     try {
-                        DatabaseHandler.getDatabaseHandler("main.db").removeFavoriteLocation(treeCell.getTreeItem().getValue());
+                        DatabaseHandler.getHandler().removeFavoriteLocation(treeCell.getTreeItem().getValue());
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
@@ -709,7 +709,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
         JFXDialogLayout helpLayout = new JFXDialogLayout();
 
         Text helpText;
-        if (!mapDrawer.isEditing())
+        if (!mapDrawer.isEditing() && DatabaseHandler.getHandler().getAuthenticationUser().isAtLeast(User.AuthenticationLevel.PATIENT)) {
             helpText = new Text("Enter your start and end location and any stops graphically or using our menu selector. " +
                     "To use the graphical selection,\nsimply click on the node and click on the set button. " +
                     "To enter a location using the menu, click on the appropriate\ndrop down and choose your location. " +
@@ -718,8 +718,15 @@ public class PathfindingMenuController extends BasePageController implements Ini
                     "If you want to remove your stops, click on the \"Remove Stop\" button. " +
                     "Favorites can be chosen by clicking\non them in the menu selector and pressing the add button, and removed by pressing the minus button on the node.\n"
             );
-        else
-            helpText = new Text("Double click to add a node. Click on a node or an edge to edit or remove them. To add a new edge click on\none of the nodes, then \"Add Edge\". Click on another node and click \"Yes\" to add the new edge or \"No\" to cancel it.");
+        } else if (!mapDrawer.isEditing()) {
+            helpText = new Text("Enter your start and end location and any stops graphically or using our menu selector. " +
+                    "To use the graphical selection,\nsimply click on the node and click on the set button. " +
+                    "To enter a location using the menu, click on the appropriate\ndrop down and choose your location. " +
+                    "The node you selected will show up on your map where you can either\nset it to your start or end location or a stop. " +
+                    "Once both the start and end nodes are filled in you can press \"Go\" to generate\nyour path. " +
+                    "If you want to remove your stops, click on the \"Remove Stop\" button.\n"
+            );
+        } else helpText = new Text("Double click to add a node. Click on a node or an edge to edit or remove them. To add a new edge click on\none of the nodes, then \"Add Edge\". Click on another node and click \"Yes\" to add the new edge or \"No\" to cancel it.");
 
         helpText.setFont(new Font("MS Reference Sans Serif", 14));
 

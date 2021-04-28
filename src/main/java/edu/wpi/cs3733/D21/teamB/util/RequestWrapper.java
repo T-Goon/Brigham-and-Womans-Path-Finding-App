@@ -58,7 +58,7 @@ public class RequestWrapper {
         if (employeeName.getText().equals("null")) employeeName.setText("Nobody");
         this.parentTable = parentTable;
 
-        DatabaseHandler db = DatabaseHandler.getDatabaseHandler("main.db");
+        DatabaseHandler db = DatabaseHandler.getHandler();
         this.completeMenu = new ContextMenu();
         Menu menu = new Menu("Progress:");
         MenuItem notComplete = new MenuItem("Not Started");

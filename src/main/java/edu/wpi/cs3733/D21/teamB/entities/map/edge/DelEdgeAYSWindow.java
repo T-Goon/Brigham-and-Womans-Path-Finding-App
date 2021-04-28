@@ -26,7 +26,7 @@ public class DelEdgeAYSWindow extends Window<VBox, DelEdgePopupData, VBox> imple
      */
     public void deleteEdge() {
         try {
-            DatabaseHandler.getDatabaseHandler("main.db").removeEdge(
+            DatabaseHandler.getHandler().removeEdge(
                     data.getStart().getNodeID() + "_" +
                             data.getEnd().getNodeID()
             );

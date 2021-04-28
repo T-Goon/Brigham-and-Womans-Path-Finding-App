@@ -30,7 +30,7 @@ public class EditNodeWindow extends Window<VBox, NodeMenuPopupData, VBox> implem
     public void updateNode(int x, int y, String floor, String building, String type, String longName, String shortName, Color color) {
 
         // if the node types are different, delete and remake so the nodeID is up to date
-        DatabaseHandler db = DatabaseHandler.getDatabaseHandler("main.db");
+        DatabaseHandler db = DatabaseHandler.getHandler();
         if (!data.getNodeType().equals(type)) {
 
             List<String> savedOtherEdgeIDs = new ArrayList<>();

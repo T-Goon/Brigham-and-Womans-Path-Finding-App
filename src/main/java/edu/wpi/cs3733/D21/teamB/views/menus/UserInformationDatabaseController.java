@@ -68,7 +68,7 @@ public class UserInformationDatabaseController extends BasePageController implem
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        List<User> users = DatabaseHandler.getDatabaseHandler("main.db").getUsers();
+        List<User> users = DatabaseHandler.getHandler().getUsers();
         ObservableList<TableColumn<String, Label>> cols = tblStaff.getColumns();
         for (TableColumn<String, Label> c : cols) {
             switch (c.getId()) {

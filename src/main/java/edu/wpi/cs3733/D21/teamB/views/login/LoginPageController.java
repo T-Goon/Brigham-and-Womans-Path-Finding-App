@@ -71,7 +71,7 @@ public class LoginPageController extends BasePageController implements Initializ
      * Handles the login submit process
      */
     private void handleLoginSubmit() {
-        DatabaseHandler db = DatabaseHandler.getDatabaseHandler("main.db");
+        DatabaseHandler db = DatabaseHandler.getHandler();
         User user = db.authenticate(username.getText(), password.getText());
         if (user == null) {
             error.setText("Username or password does not exist!");
