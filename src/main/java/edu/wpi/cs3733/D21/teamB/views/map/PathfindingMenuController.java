@@ -344,8 +344,11 @@ public class PathfindingMenuController extends BasePageController implements Ini
             // Change node color back to original color
             if (!colors.isEmpty()) {
                 for (Node node : floorNodes.get(mapCache.getCurrentFloor())) {
-                    if (colors.containsKey(node.getNodeID())) {
-                        node.setColor(colors.get(node.getNodeID()));
+                    for(Node editNode : mapCache.getEditedNodes()){
+
+                        if (colors.containsKey(node.getNodeID()) && !editNode.getNodeID().equals(node.getNodeID())) {
+                            node.setColor(colors.get(node.getNodeID()));
+                        }
                     }
                 }
                 colors.clear();
@@ -353,10 +356,16 @@ public class PathfindingMenuController extends BasePageController implements Ini
 
             if (selectedItem.getValue().equals("Locations")) {
                 for (Node node : floorNodes.get(mapCache.getCurrentFloor())) {
-                    Color color = node.getColor();
-                    colors.put(node.getNodeID(), color);
-                    node.setColor(color);
+                    for (Node editedNode: mapCache.getEditedNodes()) {
+
+                        if (!editedNode.getNodeID().equals(node.getNodeID())) {
+                            Color color = node.getColor();
+                            colors.put(node.getNodeID(), color);
+                            node.setColor(color);
+                        }
+                    }
                 }
+
             } else if (selectedItem.getValue().equals("Favorites")) {
                 try {
                     List<String> favorites = DatabaseHandler.getDatabaseHandler("main.db").getFavorites();
@@ -365,15 +374,21 @@ public class PathfindingMenuController extends BasePageController implements Ini
 
                     // Put original node color in map and set node color to gray
                     for (Node node : floorNodes.get(mapCache.getCurrentFloor())) {
-                        colors.put(node.getNodeID(), node.getColor());
-                        node.setColor(color);
+                        for (Node editedNode: mapCache.getEditedNodes()) {
+                            if (!editedNode.getNodeID().equals(node.getNodeID())) {
+                                colors.put(node.getNodeID(), node.getColor());
+                                node.setColor(color);
+                            }
+                        }
                     }
                     for (String location : favorites) {
                         String nodeID = longNames.get(location);
                         for (Node node : floorNodes.get(mapCache.getCurrentFloor())) {
-                            if (node.getNodeID().equals(nodeID)) {
-                                node.setColor(colors.get(node.getNodeID()));
-                                colors.remove(node.getNodeID());
+                            for (Node editedNode: mapCache.getEditedNodes()) {
+                                if (node.getNodeID().equals(nodeID) && !editedNode.getNodeID().equals(node.getNodeID())) {
+                                    node.setColor(colors.get(node.getNodeID()));
+                                    colors.remove(node.getNodeID());
+                                }
                             }
                         }
                     }
@@ -385,13 +400,19 @@ public class PathfindingMenuController extends BasePageController implements Ini
                 NodeType nt = NodeType.deprettify(category);
                 Color color = Color.web("#9A9999");
                 for (Node node : floorNodes.get(mapCache.getCurrentFloor())) {
-                    if (!node.getNodeType().equals(nt.toString())) {
-                        if (node.getColor() == null) {
-                            colors.put(node.getNodeID(), Color.web("#012D5A"));
-                        } else {
-                            colors.put(node.getNodeID(), node.getColor());
-                        }
-                        node.setColor(color);
+
+                    for (Node editedNode: mapCache.getEditedNodes()) {
+
+                        if (!node.getNodeType().equals(nt.toString()) && !editedNode.getNodeID().equals(node.getNodeID())) {
+                            if (node.getColor() == null) {
+                                colors.put(node.getNodeID(), Color.web("#012D5A"));
+                            } else {
+                                colors.put(node.getNodeID(), node.getColor());
+                            }
+                            node.setColor(color);
+                        }else
+                            System.out.println("worked");
+
                     }
                 }
             }

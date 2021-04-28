@@ -73,8 +73,6 @@ public class MapDrawer implements PoppableManager {
     public void drawPath(){
         Map<String, Node> nodes = Graph.getGraph().getNodes();
 
-        javafx.scene.shape.Path animationPath = new javafx.scene.shape.Path();
-        int steps = 0;
         if (!nodeHolder.getChildren().contains(head)) {
             nodeHolder.getChildren().add(head);
         }
@@ -138,10 +136,17 @@ public class MapDrawer implements PoppableManager {
 
                             //Update the node icon to green to indicate that the user must go up
                             String floorChangeNodeID = mapCache.getFinalPath().getPath().get(floorChangeNodeIndex);
-                            for (javafx.scene.Node img : mapCache.getNodePlaced()) {
-                                if (img.getId().equals(floorChangeNodeID + "Icon")) {
-                                    img.setEffect(new ColorAdjust(-0.5, 0, 0, 0));
-                                    mapCache.getEditedNodes().add(img);
+//                            for (javafx.scene.Node img : mapCache.getNodePlaced()) {
+//                                if (img.getId().equals(floorChangeNodeID + "Icon")) {
+//                                    img.setEffect(new ColorAdjust(-0.5, 0, 0, 0));
+//                                    mapCache.getEditedNodes().add(img);
+//                                }
+//                            }
+                            for (Node n : mapCache.getFloorNodes().get(mapCache.getCurrentFloor())) {
+                                if (n.getNodeID().equals(floorChangeNodeID.substring(0, 10))) {
+                                    n.setColor(Color.web("00ff00"));
+
+                                    mapCache.getEditedNodes().add(n);
                                 }
                             }
                         } else {
@@ -149,11 +154,19 @@ public class MapDrawer implements PoppableManager {
 
                             //Update the node icon to red to indicate that the user must go down
                             String floorChangeNodeID = mapCache.getFinalPath().getPath().get(floorChangeNodeIndex);
-                            for (javafx.scene.Node img : mapCache.getNodePlaced()) {
-                                if (img.getId().equals(floorChangeNodeID + "Icon")) {
-                                    img.setEffect(new ColorAdjust(0.8, 1, 0, 0));
-                                    mapCache.getEditedNodes().add(img);
+//                            for (javafx.scene.Node img : mapCache.getNodePlaced()) {
+//                                if (img.getId().equals(floorChangeNodeID + "Icon")) {
+//                                    img.setEffect(new ColorAdjust(0.8, 1, 0, 0));
+//                                    mapCache.getEditedNodes().add(img);
+//
+//                                }
+//                            }
 
+                            for (Node n : mapCache.getFloorNodes().get(mapCache.getCurrentFloor())) {
+                                if (n.getNodeID().equals(floorChangeNodeID.substring(0, 10))) {
+                                    n.setColor(Color.web("ff0000"));
+
+                                    mapCache.getEditedNodes().add(n);
                                 }
                             }
                         }
@@ -175,7 +188,7 @@ public class MapDrawer implements PoppableManager {
 
             //Creates the eta popup for this floor only
             etaPopup = mapPathPopupManager.createETAPopup(new Path(currentFloorPath, Graph.getGraph().calculateCost(currentFloorPath)));
-
+            redrawNodes();
         }
 
     }
@@ -585,10 +598,11 @@ public class MapDrawer implements PoppableManager {
             mapHolder.getChildren().remove(l);
 
         if(!mapCache.getEditedNodes().isEmpty()){
-            for(javafx.scene.Node node: mapCache.getEditedNodes()){
-                node.setEffect(null);
+            for(Node node: mapCache.getEditedNodes()){
+                node.setColor(Color.web("012D5A"));
             }
             mapCache.getEditedNodes().clear();
+            redrawNodes();
         }
 
         mapCache.setEdgesPlaced(new ArrayList<>());

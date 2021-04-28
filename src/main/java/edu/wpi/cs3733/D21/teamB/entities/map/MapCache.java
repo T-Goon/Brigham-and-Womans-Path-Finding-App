@@ -23,7 +23,7 @@ public class MapCache {
     @Setter
     private List<javafx.scene.Node> nodePlaced = new ArrayList<>();
     @Getter
-    private List<javafx.scene.Node> editedNodes = new ArrayList<>();
+    private List<Node> editedNodes = new ArrayList<>();
 
     @Getter
     @Setter
