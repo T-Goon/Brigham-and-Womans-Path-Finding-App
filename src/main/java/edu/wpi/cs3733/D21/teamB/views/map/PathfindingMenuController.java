@@ -479,8 +479,6 @@ public class PathfindingMenuController extends BasePageController implements Ini
      */
     @FXML
     public void handleButtonAction(ActionEvent e) {
-        super.handleButtonAction(e);
-
         JFXButton b = (JFXButton) e.getSource();
 
         switch (b.getId()) {
@@ -542,7 +540,12 @@ public class PathfindingMenuController extends BasePageController implements Ini
                 handleItemSearched();
                 break;
             case "btnBack":
-                mapCache.updateLocations();
+                // Reset all the colors of the nodes
+                for(String floor : mapCache.getFloorNodes().keySet()){
+                    for(Node n : mapCache.getFloorNodes().get(floor)){
+                        n.setColor(Color.web("012D5A"));
+                    }
+                }
                 break;
             case "btnTxtDir":
                 mapDrawer.removeAllPopups();
@@ -552,6 +555,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
                 break;
         }
 
+        super.handleButtonAction(e);
     }
 
     /**
