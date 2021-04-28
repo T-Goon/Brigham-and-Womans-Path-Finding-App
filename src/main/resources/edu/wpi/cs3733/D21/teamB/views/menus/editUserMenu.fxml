@@ -154,7 +154,7 @@
                 </VBox>
                   <HBox alignment="BOTTOM_CENTER" fillHeight="false" prefHeight="152.0" prefWidth="800.0" StackPane.alignment="BOTTOM_CENTER">
                       <children>
-                          <VBox alignment="CENTER_LEFT" prefHeight="110.0" prefWidth="418.0">
+                          <VBox alignment="CENTER_LEFT" prefHeight="110.0" prefWidth="9999.0">
                               <HBox.margin>
                                   <Insets />
                               </HBox.margin>
@@ -169,16 +169,16 @@
                                   </JFXButton>
                               </children>
                           </VBox>
-                          <VBox alignment="CENTER" prefHeight="110.0" prefWidth="400.0">
+                          <VBox alignment="CENTER" prefHeight="110.0" prefWidth="9999.0">
                               <children>
-                                  <JFXButton fx:id="btnSubmit" buttonType="RAISED" onAction="#handleButtonAction" prefHeight="60.0" prefWidth="150.0" style="-fx-background-color: #F6BD39; -fx-background-radius: 7;" text="Submit">
+                                  <JFXButton fx:id="btnSubmit" buttonType="RAISED" onAction="#handleButtonAction" prefHeight="60.0" style="-fx-background-color: #F6BD39; -fx-background-radius: 7;" text="Submit">
                                       <font>
                                           <Font name="MS Reference Sans Serif" size="20.0" />
                                       </font>
                                   </JFXButton>
                               </children>
                           </VBox>
-                          <VBox alignment="CENTER_RIGHT" prefHeight="110.0" prefWidth="367.0" spacing="10.0" HBox.hgrow="ALWAYS">
+                          <VBox alignment="CENTER_RIGHT" prefHeight="110.0" prefWidth="9999.0" spacing="10.0" HBox.hgrow="ALWAYS">
                               <children>
                                   <JFXButton fx:id="btnHelp" buttonType="RAISED" onAction="#handleButtonAction" prefHeight="42.0" prefWidth="42.0" style="-fx-background-color: #9E9E9E; -fx-background-radius: 100%;" text="?" textFill="WHITE">
                                       <VBox.margin>
