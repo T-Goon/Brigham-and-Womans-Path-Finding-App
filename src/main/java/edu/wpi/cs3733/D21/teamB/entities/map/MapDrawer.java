@@ -20,11 +20,13 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 import javafx.util.Duration;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import net.kurobako.gesturefx.GesturePane;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.*;
 
 public class MapDrawer implements PoppableManager {
@@ -45,6 +47,8 @@ public class MapDrawer implements PoppableManager {
     @Getter
     private final Circle head = new Circle(5);
     private final DatabaseHandler db = DatabaseHandler.getHandler();
+    private final List<LineDir> lines = new ArrayList<>();
+    private boolean notFirst = true;
 
     @Getter
     @Setter
@@ -191,13 +195,13 @@ public class MapDrawer implements PoppableManager {
 
         // Place head at first node
         animationPath.getElements().add(new MoveTo(
-                Graph.getGraph().getNodes().get(currentFloorPath.get(0)).getXCoord() / PathfindingMenuController.coordinateScale,
-                Graph.getGraph().getNodes().get(currentFloorPath.get(0)).getYCoord() / PathfindingMenuController.coordinateScale));
+                Graph.getGraph().getNodes().get(currentFloorPath.get(0)).getXCoord() / PathfindingMenuController.COORDINATE_SCALE,
+                Graph.getGraph().getNodes().get(currentFloorPath.get(0)).getYCoord() / PathfindingMenuController.COORDINATE_SCALE));
 
         for (int i = 0; i < currentFloorPath.size() - 1; i++) {
             steps++;
-            double x = Graph.getGraph().getNodes().get(currentFloorPath.get(i + 1)).getXCoord() / PathfindingMenuController.coordinateScale;
-            double y = Graph.getGraph().getNodes().get(currentFloorPath.get(i + 1)).getYCoord() / PathfindingMenuController.coordinateScale;
+            double x = Graph.getGraph().getNodes().get(currentFloorPath.get(i + 1)).getXCoord() / PathfindingMenuController.COORDINATE_SCALE;
+            double y = Graph.getGraph().getNodes().get(currentFloorPath.get(i + 1)).getYCoord() / PathfindingMenuController.COORDINATE_SCALE;
 
             if (Graph.getGraph().verifyEdge(currentFloorPath.get(i), currentFloorPath.get(i + 1))) {
                 // Valid edge move along it
@@ -357,15 +361,17 @@ public class MapDrawer implements PoppableManager {
 
             i.setImage(wImage);
 
-            i.setLayoutX((n.getXCoord() / PathfindingMenuController.coordinateScale) - (i.getFitWidth() / 4));
-            i.setLayoutY((n.getYCoord() / PathfindingMenuController.coordinateScale) - (i.getFitHeight()));
+            i.setLayoutX((n.getXCoord() / PathfindingMenuController.COORDINATE_SCALE) - (i.getFitWidth() / 4));
+            i.setLayoutY((n.getYCoord() / PathfindingMenuController.COORDINATE_SCALE) - (i.getFitHeight()));
 
             i.setId(n.getNodeID() + "Icon");
 
             // Show graphical input for pathfinding when clicked
             i.setOnMouseClicked((MouseEvent e) -> {
-                removeAllPopups();
-                mapPathPopupManager.createGraphicalInputPopup(n);
+                if (e.isStillSincePress()) {
+                    removeAllPopups();
+                    mapPathPopupManager.createGraphicalInputPopup(n);
+                }
             });
 
             nodeHolder.getChildren().add(i);
@@ -385,17 +391,21 @@ public class MapDrawer implements PoppableManager {
         try {
             Circle c = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/cs3733/D21/teamB/views/map/misc/nodeAlt.fxml")));
 
-            c.setLayoutX((n.getXCoord() / PathfindingMenuController.coordinateScale));
-            c.setLayoutY((n.getYCoord() / PathfindingMenuController.coordinateScale));
+            c.setCenterX((n.getXCoord() / PathfindingMenuController.COORDINATE_SCALE));
+            c.setCenterY((n.getYCoord() / PathfindingMenuController.COORDINATE_SCALE));
 
             c.setId(n.getNodeID() + "Icon");
 
             c.setOnMouseClicked((MouseEvent e) -> {
-                if (mapCache.getStartNode() != null) {
-                    mapCache.setNewEdgeEnd(n.getNodeID());
-                    mapEditorPopupManager.showAddEdgePopup(e);
-                } else mapEditorPopupManager.showEditNodePopup(n, e, false);
+                if (e.isStillSincePress()) { // If it's a still click, open up the popup
+                    if (mapCache.getStartNode() != null) {
+                        mapCache.setNewEdgeEnd(n.getNodeID());
+                        mapEditorPopupManager.showAddEdgePopup(e);
+                    } else mapEditorPopupManager.showEditNodePopup(n, e, false);
+                }
             });
+
+            setUpDrag(c, n);
 
             c.setOnMouseEntered(event -> {
                 if (isEditing && !(mapCache.getStartNode() != null && c.getId().equals(mapCache.getStartNode().getId())))
@@ -423,15 +433,8 @@ public class MapDrawer implements PoppableManager {
         try {
             Circle c = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/cs3733/D21/teamB/views/map/misc/intermediateNode.fxml")));
 
-            c.setCenterX((n.getXCoord() / PathfindingMenuController.coordinateScale));
-            c.setCenterY((n.getYCoord() / PathfindingMenuController.coordinateScale));
-
-            c.setOnMouseClicked(event -> {
-                if (mapCache.getStartNode() != null) {
-                    mapCache.setNewEdgeEnd(n.getNodeID());
-                    mapEditorPopupManager.showAddEdgePopup(event);
-                } else mapEditorPopupManager.showEditNodePopup(n, event, false);
-            });
+            c.setCenterX((n.getXCoord() / PathfindingMenuController.COORDINATE_SCALE));
+            c.setCenterY((n.getYCoord() / PathfindingMenuController.COORDINATE_SCALE));
 
             c.setId(n.getNodeID() + "IntIcon");
 
@@ -443,6 +446,17 @@ public class MapDrawer implements PoppableManager {
                 if (isEditing && !(mapCache.getStartNode() != null && c.getId().equals(mapCache.getStartNode().getId())))
                     c.setStroke(Color.BLACK);
             });
+
+            c.setOnMouseClicked((MouseEvent e) -> {
+                if (e.isStillSincePress()) {
+                    if (mapCache.getStartNode() != null) { // If it's a still click, open up the popup
+                        mapCache.setNewEdgeEnd(n.getNodeID());
+                        mapEditorPopupManager.showAddEdgePopup(e);
+                    } else mapEditorPopupManager.showEditNodePopup(n, e, false);
+                }
+            });
+
+            setUpDrag(c, n);
 
             intermediateNodeHolder.getChildren().add(c);
             mapCache.getIntermediateNodePlaced().add(c);
@@ -483,11 +497,11 @@ public class MapDrawer implements PoppableManager {
         try {
             Line l = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/cs3733/D21/teamB/views/map/misc/edge.fxml")));
 
-            l.setStartX(start.getXCoord() / PathfindingMenuController.coordinateScale);
-            l.setStartY(start.getYCoord() / PathfindingMenuController.coordinateScale);
+            l.setStartX(start.getXCoord() / PathfindingMenuController.COORDINATE_SCALE);
+            l.setStartY(start.getYCoord() / PathfindingMenuController.COORDINATE_SCALE);
 
-            l.setEndX(end.getXCoord() / PathfindingMenuController.coordinateScale);
-            l.setEndY(end.getYCoord() / PathfindingMenuController.coordinateScale);
+            l.setEndX(end.getXCoord() / PathfindingMenuController.COORDINATE_SCALE);
+            l.setEndY(end.getYCoord() / PathfindingMenuController.COORDINATE_SCALE);
 
             l.setOnMouseClicked(e -> {
                 if (isEditing) {
@@ -623,5 +637,81 @@ public class MapDrawer implements PoppableManager {
     public void redrawNodes() {
         removeNodes();
         drawNodesOnFloor();
+    }
+
+    /**
+     * Sets up dragging for each node
+     *
+     * @param c the circle being dragged
+     * @param n the node related to the circle
+     */
+    private void setUpDrag(Circle c, Node n) {
+        // Update coordinates of circle and edges when dragged
+        c.setOnMouseDragged(e -> {
+            String nodeID = c.getId().substring(0, 10);
+            if (notFirst) { // Creates the list of lines to update only the first time it's dragged
+                lines.clear();
+                for (javafx.scene.Node node : mapHolder.getChildren()) {
+                    if (node.getId().contains(nodeID)) {
+                        String startID = node.getId().substring(0, 10);
+                        String endID = node.getId().substring(11, 21);
+                        lines.add(new LineDir((Line) node, startID, endID));
+                    }
+                }
+                notFirst = false;
+            }
+
+            // Update node
+            gPane.setGestureEnabled(false);
+
+            // Constrains the nodes to make sure they can't be above the max coordinate or below the min
+            c.setCenterX(e.getX() > (PathfindingMenuController.MAX_X / PathfindingMenuController.COORDINATE_SCALE) ? (PathfindingMenuController.MAX_X / PathfindingMenuController.COORDINATE_SCALE) : e.getX() < 0 ? 0 : e.getX());
+            c.setCenterY(e.getY() > (PathfindingMenuController.MAX_Y / PathfindingMenuController.COORDINATE_SCALE) ? (PathfindingMenuController.MAX_Y / PathfindingMenuController.COORDINATE_SCALE) : e.getY() < 0 ? 0 : e.getY());
+
+            // Update lines
+            for (LineDir line : lines) {
+                if (line.getStartID().equals(nodeID)) {
+                    line.getLine().setStartX(c.getCenterX());
+                    line.getLine().setStartY(c.getCenterY());
+                } else {
+                    line.getLine().setEndX(c.getCenterX());
+                    line.getLine().setEndY(c.getCenterY());
+                }
+            }
+        });
+
+        // Update coordinates of the actual node in the database when the drag is done
+        c.setOnMouseReleased(e -> {
+            if (!e.isStillSincePress()) {
+                n.setXCoord((int) (c.getCenterX() * PathfindingMenuController.COORDINATE_SCALE));
+                n.setYCoord((int) (c.getCenterY() * PathfindingMenuController.COORDINATE_SCALE));
+                gPane.setGestureEnabled(true);
+                try {
+                    db.updateNode(n);
+                } catch (SQLException err) {
+                    err.printStackTrace();
+                }
+                refreshEditor();
+                notFirst = true;
+            }
+        });
+    }
+
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    private static class LineDir {
+        private Line line;
+        private String startID;
+        private String endID;
+
+        @Override
+        public String toString() {
+            return "LineDir{" +
+                    "line=" + line +
+                    ", startID='" + startID + '\'' +
+                    ", endID='" + endID + '\'' +
+                    '}';
+        }
     }
 }

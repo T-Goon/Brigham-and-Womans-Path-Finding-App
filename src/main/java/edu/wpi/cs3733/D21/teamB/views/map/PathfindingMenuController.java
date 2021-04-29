@@ -144,7 +144,9 @@ public class PathfindingMenuController extends BasePageController implements Ini
     @FXML
     private Circle pathHead;
 
-    public static final double coordinateScale = 25 / 9.0;
+    public static final double COORDINATE_SCALE = 25 / 9.0;
+    public static final int MAX_X = 5000;
+    public static final int MAX_Y = 3400;
 
     private final Map<String, String> categoryNameMap = new HashMap<>();
 

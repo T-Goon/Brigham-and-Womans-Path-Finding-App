@@ -3,6 +3,7 @@ package edu.wpi.cs3733.D21.teamB.views.map.nodePopup;
 import com.jfoenix.controls.*;
 import edu.wpi.cs3733.D21.teamB.App;
 import edu.wpi.cs3733.D21.teamB.entities.map.node.EditNodeWindow;
+import edu.wpi.cs3733.D21.teamB.views.map.PathfindingMenuController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -98,18 +99,23 @@ public class EditNodePopupController implements Initializable {
     /**
      * Make sure input is valid
      *
-     * @throws NumberFormatException when floor, xCoord, or yCoord is not a number
+     * @throws NumberFormatException when xCoord or yCoord is not a number
      */
     @FXML
     private void validateButton() throws NumberFormatException {
-        btnUpdate.setDisable(building.getText().trim().isEmpty() || nodeType.getValue().trim().isEmpty()
+        boolean disable = building.getText().trim().isEmpty() || (nodeType.getValue() == null || nodeType.getValue().trim().isEmpty())
                 || longName.getText().trim().isEmpty() || shortName.getText().trim().isEmpty() || floor.getText().trim().isEmpty()
-                || xCoord.getText().trim().isEmpty() || yCoord.getText().trim().isEmpty());
+                || xCoord.getText().trim().isEmpty() || yCoord.getText().trim().isEmpty();
+
+        if (disable) {
+            btnUpdate.setDisable(true);
+            return;
+        }
 
         try {
             int xCoord = Integer.parseInt(this.xCoord.getText().trim());
             int yCoord = Integer.parseInt(this.yCoord.getText().trim());
-            btnUpdate.setDisable(xCoord < 0 || yCoord < 0);
+            btnUpdate.setDisable(xCoord < 0 || yCoord < 0 || xCoord > PathfindingMenuController.MAX_X || yCoord > PathfindingMenuController.MAX_Y);
         } catch (NumberFormatException notInt) {
             btnUpdate.setDisable(true);
         }

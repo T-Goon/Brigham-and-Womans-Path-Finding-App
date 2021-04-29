@@ -56,7 +56,6 @@ public class DatabaseHandler {
             handler.databaseConnection = handler.getConnection();
         } else if (!(URL_BASE + dbURL).equals(handler.databaseURL)) {
             // If switching between main.db and test.db, shut down the old database and start
-            System.out.println(URL_BASE + dbURL);
             handler.shutdown();
             handler = new DatabaseHandler();
             handler.databaseURL = URL_BASE + dbURL;
@@ -154,8 +153,8 @@ public class DatabaseHandler {
                 + "longName CHAR(50), "
                 + "shortName CHAR(20), "
                 + "color CHAR(20),"
-                + "CHECK (xcoord >= 0), "
-                + "CHECK (ycoord >= 0))";
+                + "CHECK (xcoord >= 0 AND xcoord <= 5000), "
+                + "CHECK (ycoord >= 0 AND ycoord <= 3400))";
 
         String edgesTable = "CREATE TABLE IF NOT EXISTS Edges("
                 + "edgeID CHAR(30) PRIMARY KEY, "
