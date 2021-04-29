@@ -321,7 +321,7 @@
                                  <Insets top="1.0" />
                               </padding>
                               <HBox.margin>
-                                 <Insets bottom="14.0" left="14.0" />
+                                 <Insets bottom="15.0" left="14.0" />
                               </HBox.margin>
                            </JFXButton>
                         </HBox>
