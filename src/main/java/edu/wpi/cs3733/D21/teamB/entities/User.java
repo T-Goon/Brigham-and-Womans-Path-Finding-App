@@ -20,6 +20,14 @@ public class User implements IStoredEntity {
         GUEST
     }
 
+    public enum CovidStatus {
+        UNCHECKED,
+        PENDING,
+        DANGEROUS,
+        SAFE
+    }
+
+
     private String username;
 
     private String firstName;
@@ -29,6 +37,12 @@ public class User implements IStoredEntity {
     private AuthenticationLevel authenticationLevel;
 
     private List<Request.RequestType> jobs;
+
+    private CovidStatus covidStatus;
+
+    public User (String username, String firstName, String lastName, AuthenticationLevel authenticationLevel, List<Request.RequestType> jobs){
+        this(username,firstName,lastName,authenticationLevel,jobs,CovidStatus.UNCHECKED);
+    }
 
     public boolean addJob(Request.RequestType job){
        if(jobs.contains(job)){
