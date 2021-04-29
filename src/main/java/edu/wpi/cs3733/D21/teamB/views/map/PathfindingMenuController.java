@@ -12,6 +12,7 @@ import edu.wpi.cs3733.D21.teamB.entities.map.MapPathPopupManager;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Edge;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Node;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.NodeType;
+import edu.wpi.cs3733.D21.teamB.entities.map.node.GraphicalInputPopup;
 import edu.wpi.cs3733.D21.teamB.pathfinding.Graph;
 import edu.wpi.cs3733.D21.teamB.util.CSVHandler;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
@@ -100,6 +101,9 @@ public class PathfindingMenuController extends BasePageController implements Ini
     private JFXTreeView<String> treeLocations;
 
     @FXML
+    private TreeItem<String> favorites;
+
+    @FXML
     private StackPane mapStack;
 
     @FXML
@@ -107,12 +111,6 @@ public class PathfindingMenuController extends BasePageController implements Ini
 
     @FXML
     private StackPane stackContainer;
-
-    @FXML
-    private JFXButton btnAddToFavorites;
-
-    @FXML
-    private JFXButton btnRemoveFromFavorites;
 
     @FXML
     private JFXButton btnF3;
@@ -588,17 +586,15 @@ public class PathfindingMenuController extends BasePageController implements Ini
      */
     private void populateTreeView() throws IOException {
         //Populating TreeView
-        btnAddToFavorites = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/cs3733/D21/teamB/views/misc/addBtn.fxml")));
         TreeItem<String> rootNode = new TreeItem<>("Root");
         treeLocations.setRoot(rootNode);
         treeLocations.setShowRoot(false);
 
         // Favorites drop down
-        TreeItem<String> favorites = new TreeItem<>("Favorites");
+        favorites = new TreeItem<>("Favorites");
         if (DatabaseHandler.getHandler().getAuthenticationUser().isAtLeast(User.AuthenticationLevel.PATIENT)) {
             favorites.setExpanded(true);
             rootNode.getChildren().add(favorites);
-            favorites.setGraphic(btnAddToFavorites);
         }
 
         // Locations drop down
@@ -613,80 +609,31 @@ public class PathfindingMenuController extends BasePageController implements Ini
             locations.getChildren().add(categoryTreeItem);
         }
 
-        // Adding to Favorites
-        btnAddToFavorites.setOnAction(addEvent -> {
-            try {
-                btnRemoveFromFavorites = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/cs3733/D21/teamB/views/misc/removeBtn.fxml")));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            TreeItem<String> equivalent = treeLocations.getSelectionModel().getSelectedItem();
-            if (equivalent == null) {
-                return;
-            }
-            String text = equivalent.getValue();
-            TreeItem<String> itemToAdd = new TreeItem<>(text);
+        populateFavorites();
+    }
 
-            boolean contains = false;
-
-            for (TreeItem<String> item : favorites.getChildren()) {
-                if (item.getValue().equals(equivalent.getValue())) {
-                    contains = true;
-                    break;
-                }
-            }
-
-            if (!contains && equivalent.isLeaf() && !text.equals("Favorites")) {
-                itemToAdd.setGraphic(btnRemoveFromFavorites);
-                favorites.getChildren().add(itemToAdd);
-                try {
-                    DatabaseHandler.getHandler().addFavoriteLocation(itemToAdd.getValue());
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            // Removing from Favorites
-            btnRemoveFromFavorites.setOnAction(removeEvent -> {
-                JFXButton itemToRemove = (JFXButton) removeEvent.getSource();
-                TreeCell<String> treeCell = (TreeCell<String>) itemToRemove.getParent();
-                favorites.getChildren().remove(treeCell.getTreeItem());
-                try {
-                    DatabaseHandler.getHandler().removeFavoriteLocation(treeCell.getTreeItem().getValue());
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            });
-        });
-
-        // Populate Favorites with locations from database
+    /**
+     * Populates the tree view with favorite locations from the database
+     */
+    public void populateFavorites() {
         try {
             ArrayList<String> savedFavorites = (ArrayList<String>) DatabaseHandler.getHandler().getFavorites();
             for (String favorite : savedFavorites) {
                 TreeItem<String> item = new TreeItem<>(favorite);
-                try {
-                    btnRemoveFromFavorites = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/cs3733/D21/teamB/views/misc/removeBtn.fxml")));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                // Removing from Favorites
-                btnRemoveFromFavorites.setOnAction(removeEvent -> {
-                    JFXButton itemToRemove = (JFXButton) removeEvent.getSource();
-                    TreeCell<String> treeCell = (TreeCell<String>) itemToRemove.getParent();
-                    favorites.getChildren().remove(treeCell.getTreeItem());
-                    try {
-                        DatabaseHandler.getHandler().removeFavoriteLocation(treeCell.getTreeItem().getValue());
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
-                });
-                item.setGraphic(btnRemoveFromFavorites);
                 favorites.getChildren().add(item);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Getter for favorites
+     *
+     * @return favorites
+     */
+    public TreeItem<String> getFavorites() {
+        return favorites;
     }
 
     /**
