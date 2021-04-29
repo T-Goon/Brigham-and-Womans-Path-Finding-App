@@ -48,6 +48,9 @@ public class MapDrawer implements PoppableManager {
     private final Circle head = new Circle(5);
     private final DatabaseHandler db = DatabaseHandler.getHandler();
     private final List<LineDir> lines = new ArrayList<>();
+
+    @Getter
+    private final List<Circle> aligned = new ArrayList<>();
     private boolean notFirst = true;
 
     @Getter
@@ -396,25 +399,8 @@ public class MapDrawer implements PoppableManager {
 
             c.setId(n.getNodeID() + "Icon");
 
-            c.setOnMouseClicked((MouseEvent e) -> {
-                if (e.isStillSincePress()) { // If it's a still click, open up the popup
-                    if (mapCache.getStartNode() != null) {
-                        mapCache.setNewEdgeEnd(n.getNodeID());
-                        mapEditorPopupManager.showAddEdgePopup(e);
-                    } else mapEditorPopupManager.showEditNodePopup(n, e, false);
-                }
-            });
-
+            setUpNode(c, n);
             setUpDrag(c, n);
-
-            c.setOnMouseEntered(event -> {
-                if (isEditing && !(mapCache.getStartNode() != null && c.getId().equals(mapCache.getStartNode().getId())))
-                    c.setStroke(Color.GREEN);
-            });
-            c.setOnMouseExited(event -> {
-                if (isEditing && !(mapCache.getStartNode() != null && c.getId().equals(mapCache.getStartNode().getId())))
-                    c.setStroke(Color.BLACK);
-            });
 
             nodeHolder.getChildren().add(c);
             mapCache.getNodePlaced().add(c);
@@ -438,24 +424,7 @@ public class MapDrawer implements PoppableManager {
 
             c.setId(n.getNodeID() + "IntIcon");
 
-            c.setOnMouseEntered(event -> {
-                if (isEditing && !(mapCache.getStartNode() != null && c.getId().equals(mapCache.getStartNode().getId())))
-                    c.setStroke(Color.GREEN);
-            });
-            c.setOnMouseExited(event -> {
-                if (isEditing && !(mapCache.getStartNode() != null && c.getId().equals(mapCache.getStartNode().getId())))
-                    c.setStroke(Color.BLACK);
-            });
-
-            c.setOnMouseClicked((MouseEvent e) -> {
-                if (e.isStillSincePress()) {
-                    if (mapCache.getStartNode() != null) { // If it's a still click, open up the popup
-                        mapCache.setNewEdgeEnd(n.getNodeID());
-                        mapEditorPopupManager.showAddEdgePopup(e);
-                    } else mapEditorPopupManager.showEditNodePopup(n, e, false);
-                }
-            });
-
+            setUpNode(c, n);
             setUpDrag(c, n);
 
             intermediateNodeHolder.getChildren().add(c);
@@ -567,6 +536,9 @@ public class MapDrawer implements PoppableManager {
         }
     }
 
+    /**
+     * Redraws the highlighted node on the map
+     */
     private void redrawHighlightedNode() {
         if (mapCache.getStartNode() != null) {
             List<javafx.scene.Node> nodes = new ArrayList<>();
@@ -640,6 +612,36 @@ public class MapDrawer implements PoppableManager {
     }
 
     /**
+     * Sets up the color changing and being clicked on properties for each circle
+     *
+     * @param c the circle
+     * @param n the node associated with the circle
+     */
+    private void setUpNode(Circle c, Node n) {
+        c.setOnMouseEntered(event -> {
+            if (isEditing && !aligned.contains(c) && !(mapCache.getStartNode() != null && c.getId().equals(mapCache.getStartNode().getId())))
+                c.setStroke(Color.GREEN);
+        });
+        c.setOnMouseExited(event -> {
+            if (isEditing && !aligned.contains(c) && !(mapCache.getStartNode() != null && c.getId().equals(mapCache.getStartNode().getId())))
+                c.setStroke(Color.BLACK);
+        });
+
+        c.setOnMouseClicked((MouseEvent e) -> {
+            if (e.isStillSincePress()) { // If it's a still click, open up the popup
+                if (e.isControlDown()) { // if control clicking, add it to the list of highlighted circles
+                    c.setStroke(Color.RED);
+                    if (!aligned.contains(c)) aligned.add(c);
+                    else aligned.remove(c);
+                } else if (mapCache.getStartNode() != null) {
+                    mapCache.setNewEdgeEnd(n.getNodeID());
+                    mapEditorPopupManager.showAddEdgePopup(e);
+                } else mapEditorPopupManager.showEditNodePopup(n, e, false);
+            }
+        });
+    }
+
+    /**
      * Sets up dragging for each node
      *
      * @param c the circle being dragged
@@ -648,6 +650,9 @@ public class MapDrawer implements PoppableManager {
     private void setUpDrag(Circle c, Node n) {
         // Update coordinates of circle and edges when dragged
         c.setOnMouseDragged(e -> {
+            // If control is pressed, don't drag
+            if (e.isControlDown()) return;
+
             String nodeID = c.getId().substring(0, 10);
             if (notFirst) { // Creates the list of lines to update only the first time it's dragged
                 lines.clear();
@@ -682,7 +687,7 @@ public class MapDrawer implements PoppableManager {
 
         // Update coordinates of the actual node in the database when the drag is done
         c.setOnMouseReleased(e -> {
-            if (!e.isStillSincePress()) {
+            if (!e.isStillSincePress() && !e.isControlDown()) {
                 n.setXCoord((int) (c.getCenterX() * PathfindingMenuController.COORDINATE_SCALE));
                 n.setYCoord((int) (c.getCenterY() * PathfindingMenuController.COORDINATE_SCALE));
                 gPane.setGestureEnabled(true);

@@ -240,6 +240,13 @@ public class PathfindingMenuController extends BasePageController implements Ini
         comboPathingType.getItems().add("BFS");
         comboPathingType.getSelectionModel().select(Graph.getGraph().getPathingTypeIndex());
         comboPathingType.setOnAction(e -> Graph.getGraph().setPathingTypeIndex(comboPathingType.getSelectionModel().getSelectedIndex()));
+
+        // Set up control-click functionality for aligning nodes
+        gpane.setOnKeyReleased(e -> {
+            if (e.getCode() == KeyCode.CONTROL && !mapDrawer.getAligned().isEmpty()) {
+                mapEditorPopupManager.showAlignNodePopup(mapDrawer);
+            }
+        });
     }
 
     /**
