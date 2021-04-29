@@ -295,7 +295,7 @@ public class DatabaseHandler {
 
         String covidSurveyRequestsTable = "CREATE TABLE IF NOT EXISTS CovidSurvey("
                 + "requestID CHAR(20) PRIMARY KEY, "
-                + "username CHAR(30)"
+                + "username CHAR(30), "
                 + "status CHAR(10) CHECK (status in ('UNCHECKED','PENDING','DANGEROUS', 'SAFE')), "
                 + "fever CHAR(1) CHECK (fever in ('T','F')), "
                 + "chills CHAR(1) CHECK (chills in ('T','F')), "
@@ -308,7 +308,7 @@ public class DatabaseHandler {
                 + "nausea CHAR(1) CHECK (nausea in ('T','F')), "
                 + "closeContact CHAR(1) CHECK (closeContact in ('T','F')), "
                 + "positiveTest CHAR(1) CHECK (positiveTest in ('T','F')), "
-                + "FOREIGN KEY (username) REFERENCES Users(username), "
+                //+ "FOREIGN KEY (username) REFERENCES Users(username), " TODO enable once we figure out how to handle guest users here.
                 + "FOREIGN KEY (requestID) REFERENCES Requests(requestID))";
 
         String usersTable = "CREATE TABLE IF NOT EXISTS Users("
