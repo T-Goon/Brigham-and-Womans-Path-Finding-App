@@ -664,7 +664,7 @@ public class DatabaseHandlerTest {
     @Test
     public void testUpdateUser() {
         User user = new User("testuser", "Testing", "User", User.AuthenticationLevel.STAFF, Collections.singletonList(Request.RequestType.CASE_MANAGER));
-        User altuser = new User("testuser", "Alternate", "User", User.AuthenticationLevel.ADMIN, Collections.singletonList(Request.RequestType.FOOD));
+        User altuser = new User("testuser", "Alternate", "User", User.AuthenticationLevel.ADMIN, User.CovidStatus.SAFE, Collections.singletonList(Request.RequestType.FOOD));
         try {
             db.addUser(user, "password");
         } catch (SQLException e) {
