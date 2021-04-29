@@ -609,8 +609,9 @@ public class DatabaseHandlerTest {
         User authentication = db.authenticate("testuser", "password");
         assertEquals(authentication, user);
         assertEquals(db.getAuthenticationUser(), authentication);
+        db.deauthenticate();
         assertNull(db.authenticate("testuser", "pasword"));
-        assertEquals(db.getAuthenticationUser(), new User(null, null, null, User.AuthenticationLevel.GUEST, null));
+        assertEquals(new User(null, null, null, User.AuthenticationLevel.GUEST, null),db.getAuthenticationUser());
     }
 
     @Test
