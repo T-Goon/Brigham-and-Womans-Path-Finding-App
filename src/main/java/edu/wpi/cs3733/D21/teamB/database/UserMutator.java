@@ -195,7 +195,6 @@ public class UserMutator implements IDatabaseEntityMutator<UserMutator.UserPassw
      */
     public User authenticate(String username, String password) {
         try {
-            db.deauthenticate();
             String query = "SELECT passwordHash FROM Users WHERE (username = '" + username + "')";
             ResultSet rs = db.runStatement(query, true);
             if (rs == null) return null;
@@ -206,24 +205,11 @@ public class UserMutator implements IDatabaseEntityMutator<UserMutator.UserPassw
             if (!BCrypt.checkpw(password, storedHash)) return null;
 
             User outUser = this.getUserByUsername(username);
-            DatabaseHandler.AuthenticationUser = outUser;
             return outUser;
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
         }
-    }
-
-    /**
-     * Sets authentication level to guest
-     *
-     * @return if the user successfully lowered their authentication level (false if already guest)
-     */
-    public boolean deauthenticate() {
-        if (DatabaseHandler.AuthenticationUser.getAuthenticationLevel() != User.AuthenticationLevel.GUEST) {
-            DatabaseHandler.AuthenticationUser = new User(null, null, null, User.AuthenticationLevel.GUEST, null);
-            return true;
-        } else return false;
     }
 
     public void addFavoriteToUser(String favoriteLocation) throws SQLException {

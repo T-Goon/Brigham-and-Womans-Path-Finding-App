@@ -7,6 +7,7 @@ import edu.wpi.cs3733.D21.teamB.entities.requests.*;
 import edu.wpi.cs3733.D21.teamB.entities.User;
 import org.mindrot.jbcrypt.BCrypt;
 
+import javax.xml.crypto.Data;
 import java.sql.*;
 import java.util.*;
 
@@ -25,7 +26,7 @@ public class DatabaseHandler {
     private final UserMutator userMutator;
 
     //State
-    static User AuthenticationUser = new User(null, null, null, User.AuthenticationLevel.GUEST, null);
+    private static User AuthenticationUser = new User(null, null, null, User.AuthenticationLevel.GUEST, null);
     private final String salt = BCrypt.gensalt();
 
     private DatabaseHandler() {
@@ -417,6 +418,10 @@ public class DatabaseHandler {
      */
     public void updateUser(User newUser) throws SQLException {
         userMutator.updateEntity(new UserMutator.UserPasswordMatch(newUser, ""));
+        //Make sure state is accurately reflective
+        if(newUser.getUsername().equals(this.getAuthenticationUser().getUsername())){
+            DatabaseHandler.AuthenticationUser = newUser;
+        }
     }
 
     /**
@@ -468,17 +473,22 @@ public class DatabaseHandler {
     /**
      * @param username Claimed username of authenticator
      * @param password Claimed plaintext password of authenticator
-     * @return If authentication is successful, return the User object representing the authenticated user, or null if not found
+     * @return If authentication is successful, return the User object representing the authenticated user, or null if not found. Also modifies the state to update authenticated User.
      */
     public User authenticate(String username, String password) {
-        return userMutator.authenticate(username, password);
+        User attempt =  userMutator.authenticate(username, password);
+        if(attempt != null){
+            this.deauthenticate();
+            DatabaseHandler.AuthenticationUser = attempt;
+        }
+        return attempt;
     }
 
     /**
      * Sets authentication level to guest
      */
     public void deauthenticate() {
-        userMutator.deauthenticate();
+        DatabaseHandler.AuthenticationUser = new User(null, null, null, User.AuthenticationLevel.GUEST, null);
     }
 
     /**
