@@ -341,16 +341,16 @@ public class PathfindingMenuController extends BasePageController implements Ini
             // Change node color back to original color
             if (!colors.isEmpty()) {
                 for (Node node : floorNodes.get(mapCache.getCurrentFloor())) {
-                        if (colors.containsKey(node.getNodeID())) {
-                            node.setColor(colors.get(node.getNodeID()));
-                        }
+                    if (colors.containsKey(node.getNodeID())) {
+                        node.setColor(colors.get(node.getNodeID()));
+                    }
                 }
                 colors.clear();
             }
 
             if (selectedItem.getValue().equals("Locations")) {
                 for (Node node : floorNodes.get(mapCache.getCurrentFloor())) {
-                    for (Node editedNode: mapCache.getEditedNodes()) {
+                    for (Node editedNode : mapCache.getEditedNodes()) {
 
                         if (!editedNode.getNodeID().equals(node.getNodeID())) {
                             Color color = node.getColor();
@@ -374,7 +374,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
                     }
 
                     // TODO this is very bad
-                    if(!mapCache.getEditedNodes().isEmpty()) {
+                    if (!mapCache.getEditedNodes().isEmpty()) {
                         for (String location : favorites) {
                             String nodeID = longNames.get(location);
                             for (Node node : floorNodes.get(mapCache.getCurrentFloor())) {
@@ -394,17 +394,17 @@ public class PathfindingMenuController extends BasePageController implements Ini
                             }
 
                         }
-                    } else{
+                    } else {
                         for (String location : favorites) {
                             String nodeID = longNames.get(location);
                             for (Node node : floorNodes.get(mapCache.getCurrentFloor())) {
-                                    if (node.getNodeID().equals(nodeID)) {
+                                if (node.getNodeID().equals(nodeID)) {
 
-                                        if (colors.get(node.getNodeID()) != null) {
-                                            node.setColor(colors.get(node.getNodeID()));
-                                            colors.remove(node.getNodeID());
-                                        }
+                                    if (colors.get(node.getNodeID()) != null) {
+                                        node.setColor(colors.get(node.getNodeID()));
+                                        colors.remove(node.getNodeID());
                                     }
+                                }
                             }
 
                         }
@@ -426,7 +426,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
 
                 }
 
-                if(!mapCache.getEditedNodes().isEmpty()) {
+                if (!mapCache.getEditedNodes().isEmpty()) {
                     for (Node node : floorNodes.get(mapCache.getCurrentFloor())) {
 
                         for (Node editedNode : mapCache.getEditedNodes()) {
@@ -442,7 +442,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
 
                         }
                     }
-                }else{
+                } else {
                     for (Node node : floorNodes.get(mapCache.getCurrentFloor())) {
                         if (node.getNodeType().equals(nt.toString())) {
 
@@ -542,13 +542,13 @@ public class PathfindingMenuController extends BasePageController implements Ini
                 break;
             case "btnBack":
                 // Reset all the colors of the nodes
-                if(!colors.isEmpty()) {
+                if (!colors.isEmpty()) {
                     for (String floor : mapCache.getFloorNodes().keySet()) {
                         for (Node n : mapCache.getFloorNodes().get(floor)) {
 
                             for (String id : colors.keySet()) {
                                 colors.get(id);
-                                if(n.getNodeID().equals(id))
+                                if (n.getNodeID().equals(id))
                                     n.setColor(colors.get(id));
                             }
 
@@ -734,7 +734,8 @@ public class PathfindingMenuController extends BasePageController implements Ini
                     "Once both the start and end nodes are filled in you can press \"Go\" to generate\nyour path. " +
                     "If you want to remove your stops, click on the \"Remove Stop\" button.\n"
             );
-        } else helpText = new Text("Double click to add a node. Click on a node or an edge to edit or remove them. To add a new edge click on\none of the nodes, then \"Add Edge\". Click on another node and click \"Yes\" to add the new edge or \"No\" to cancel it.");
+        } else
+            helpText = new Text("Double click to add a node. Click on a node or an edge to edit or remove them. To add a new edge click on\none of the nodes, then \"Add Edge\". Click on another node and click \"Yes\" to add the new edge or \"No\" to cancel it.");
 
         helpText.setFont(new Font("MS Reference Sans Serif", 14));
 
@@ -780,7 +781,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
 
         //Adding the nodes
         for (Node n : Graph.getGraph().getNodes().values()) {
-            if (n.getLongName().toLowerCase().contains(searchBar.toLowerCase())) {
+            if (!n.getNodeType().equals(NodeType.WALK.name()) && !n.getNodeType().equals(NodeType.HALL.name()) && n.getLongName().toLowerCase().contains(searchBar.toLowerCase())) {
                 newRoot.getChildren().add(new TreeItem<>(n.getLongName()));
             }
         }
