@@ -12,17 +12,14 @@ import edu.wpi.cs3733.D21.teamB.entities.map.MapPathPopupManager;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Edge;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Node;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.NodeType;
-import edu.wpi.cs3733.D21.teamB.entities.map.node.GraphicalInputPopup;
 import edu.wpi.cs3733.D21.teamB.pathfinding.Graph;
 import edu.wpi.cs3733.D21.teamB.util.CSVHandler;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
 import edu.wpi.cs3733.D21.teamB.views.BasePageController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
-import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -48,7 +45,6 @@ import java.sql.SQLException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-@SuppressWarnings("unchecked")
 public class PathfindingMenuController extends BasePageController implements Initializable {
 
     @FXML
@@ -178,11 +174,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
 
         //Adds all the destination names to locationNames and sort the nodes by floor
         mapCache.updateLocations();
-        try {
-            populateTreeView();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        populateTreeView();
 
         // Class that draws things on the map
         mapDrawer = new MapDrawer(this, mapCache, nodeHolder, mapHolder, intermediateNodeHolder, lblError, mapStack, gpane);
@@ -596,7 +588,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
     /**
      * Populates the tree view with nodes and categories
      */
-    private void populateTreeView() throws IOException {
+    private void populateTreeView() {
         //Populating TreeView
         TreeItem<String> rootNode = new TreeItem<>("Root");
         treeLocations.setRoot(rootNode);

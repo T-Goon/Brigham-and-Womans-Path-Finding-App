@@ -79,7 +79,7 @@ public class MapCache {
                     tempList.add(tempItem);
                     catNameMap.put(n.getNodeType(), tempList);
                 } else {
-                    if(catNameMap.get(n.getNodeType()).stream().filter(item->item.getValue().equals(n.getLongName())).collect(Collectors.toList()).isEmpty()){
+                    if (catNameMap.get(n.getNodeType()).stream().filter(item -> item.getValue().equals(n.getLongName())).count() == 0) {
 
                         catNameMap.get(n.getNodeType()).add(new TreeItem<>(n.getLongName()));
                     }
