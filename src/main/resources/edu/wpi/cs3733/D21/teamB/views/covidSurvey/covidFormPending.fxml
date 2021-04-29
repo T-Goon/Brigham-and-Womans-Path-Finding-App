@@ -10,14 +10,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0"
-            prefWidth="900.0" style="-fx-background-color: #012d5a;" xmlns="http://javafx.com/javafx/8.0.171"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="edu.wpi.cs3733.D21.teamB.views.covidSurvey.CovidSubmittedWithSympController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #012d5a;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D21.teamB.views.covidSurvey.CovidFormPendingController">
     <children>
-        <VBox alignment="TOP_CENTER" layoutX="220.0" layoutY="27.0" prefHeight="200.0" prefWidth="100.0"
-              AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
-              AnchorPane.topAnchor="0.0">
+        <VBox alignment="TOP_CENTER" layoutX="220.0" layoutY="27.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #FFFFFF;">
                <children>
@@ -27,12 +22,9 @@
                      </HBox.margin>
                      <children>
                         <ImageView fitHeight="114.0" fitWidth="314.0" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@../../images/general/hospitalLogo.png"/>
-                            </image>
-                            <HBox.margin>
-                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
-                            </HBox.margin>
+                           <image>
+                              <Image url="@../../images/general/hospitalLogo.png" />
+                           </image>
                         </ImageView>
                         <JFXButton fx:id="btnEmergency" buttonType="RAISED" onAction="#handleButtonAction" style="-fx-background-color: #CE2029;" text="EMERGENCY" textFill="WHITE">
                            <font>
@@ -79,7 +71,7 @@
                         <Font name="MS Reference Sans Serif" size="24.0" />
                     </font>
                 </Text>
-            <Text boundsType="LOGICAL_VERTICAL_CENTER" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Please remember to follow the CDC's guidelines for social distancing when entering the hospital." textAlignment="CENTER" wrappingWidth="827.94921875" VBox.vgrow="ALWAYS">
+            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Your access is pending approval by a hospital worker">
                <font>
                   <Font name="MS Reference Sans Serif" size="24.0" />
                </font>
@@ -92,18 +84,25 @@
                         <Font name="MS Reference Sans Serif" size="18.0" />
                     </font>
                     <VBox.margin>
-                        <Insets top="20.0" />
+                        <Insets top="30.0" />
                     </VBox.margin>
                 </JFXButton>
+            <HBox alignment="BOTTOM_LEFT" VBox.vgrow="ALWAYS">
+               <padding>
+                  <Insets bottom="15.0" left="15.0" />
+               </padding>
+               <children>
+                  <JFXButton fx:id="btnBack" alignment="CENTER" buttonType="RAISED" cancelButton="true" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#handleButtonAction" prefHeight="56" prefWidth="56" style="-fx-background-color: #0067B1; -fx-background-radius: 50%;" text="🡰" textAlignment="CENTER" textFill="WHITE">
+                     <font>
+                        <Font size="27.0" />
+                     </font>
+                     <padding>
+                        <Insets top="1.0" />
+                     </padding>
+                  </JFXButton>
+               </children>
+            </HBox>
             </children>
         </VBox>
-      <JFXButton fx:id="btnBack" alignment="CENTER" buttonType="RAISED" cancelButton="true" contentDisplay="CENTER" layoutX="15.0" layoutY="529.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#handleButtonAction" prefHeight="56" prefWidth="56" style="-fx-background-color: #0067B1; -fx-background-radius: 50%;" text="🡰" textAlignment="CENTER" textFill="WHITE" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0">
-         <font>
-            <Font size="27.0" />
-         </font>
-         <padding>
-            <Insets top="1.0" />
-         </padding>
-      </JFXButton>
     </children>
 </AnchorPane>

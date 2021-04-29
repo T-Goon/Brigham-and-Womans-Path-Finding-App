@@ -32,8 +32,6 @@ public class CovidSurveyRequest extends Request {
 
         private String hadPositiveTest;
 
-        private String username;
-
         private User.CovidStatus status;
 
     public CovidSurveyRequest( String requestID,
@@ -43,6 +41,7 @@ public class CovidSurveyRequest extends Request {
                                String employeeName,
                                String location,
                                String description,
+                               String submitter,
                                User.CovidStatus status,
                                String symptomFever,
                                String symptomChills,
@@ -56,7 +55,7 @@ public class CovidSurveyRequest extends Request {
                                String symptomNausea,
                                String hadCloseContact,
                                String hadPositiveTest) {
-        super(requestID, RequestType.COVID, time, date, complete, employeeName, location, description);
+        super(requestID, RequestType.COVID, time, date, complete, employeeName, location, description, submitter);
         this.status = status;
         this.symptomFever = symptomFever;
         this.symptomChills = symptomChills;

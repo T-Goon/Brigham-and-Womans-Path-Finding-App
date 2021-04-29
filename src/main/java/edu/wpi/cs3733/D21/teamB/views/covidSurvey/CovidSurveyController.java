@@ -6,6 +6,7 @@ import com.jfoenix.controls.JFXRadioButton;
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.User;
 import edu.wpi.cs3733.D21.teamB.entities.requests.CovidSurveyRequest;
+import edu.wpi.cs3733.D21.teamB.entities.requests.Request;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
 import edu.wpi.cs3733.D21.teamB.views.BasePageController;
 import edu.wpi.cs3733.D21.teamB.views.requestForms.DefaultServiceRequestFormController;
@@ -82,6 +83,9 @@ public class CovidSurveyController extends DefaultServiceRequestFormController i
     @FXML
     private ToggleGroup testGroup;
 
+    //State (per-view)
+    private CovidSurveyRequest request;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location,resources);
@@ -89,13 +93,49 @@ public class CovidSurveyController extends DefaultServiceRequestFormController i
         btnCCNo.setToggleGroup(ccGroup);
         btnTestYes.setToggleGroup(testGroup);
         btnTestNo.setToggleGroup(testGroup);
-        btnSubmit.setDisable(true);
+
+        request = null;
+        try {
+            for(Request r : DatabaseHandler.getHandler().getRequests().values()){
+                if(r.getRequestType().equals(Request.RequestType.COVID)){
+                    CovidSurveyRequest cr = (CovidSurveyRequest) DatabaseHandler.getHandler().getSpecificRequestById(r.getRequestID(), Request.RequestType.COVID);
+                    if(cr.getSubmitter().equals(DatabaseHandler.getDatabaseHandler("main.db").getAuthenticationUser().getUsername())){
+                        request = cr;
+                    }else if(DatabaseHandler.getHandler().getAuthenticationUser().getAuthenticationLevel().equals(User.AuthenticationLevel.GUEST)){
+                        if(r.getSubmitter().equals("null")){
+                            request = cr;
+                        }
+                    }
+                }
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        if(request != null){
+            getLocationIndex(request.getLocation());
+            chkFever.setSelected(request.getSymptomFever().equals("T"));
+            chkChills.setSelected(request.getSymptomChills().equals("T"));
+            chkCough.setSelected(request.getSymptomCough().equals("T"));
+            chkShortBreath.setSelected(request.getSymptomShortBreath().equals("T"));
+            chkSoreTht.setSelected(request.getSymptomSoreTht().equals("T"));
+            chkHeadache.setSelected(request.getSymptomHeadache().equals("T"));
+            chkAches.setSelected(request.getSymptomAches().equals("T"));
+            chkNose.setSelected(request.getSymptomNose().equals("T"));
+            chkLostTaste.setSelected(request.getSymptomLostTaste().equals("T"));
+            chkNausea.setSelected(request.getSymptomNausea().equals("T"));
+            btnCCYes.setSelected(request.getHadCloseContact().equals("T"));
+            btnCCNo.setSelected(!request.getHadCloseContact().equals("T"));
+            btnTestYes.setSelected(request.getHadPositiveTest().equals("T"));
+            btnTestNo.setSelected(!request.getHadPositiveTest().equals("T"));
+        }
+
+        this.validateButton();
     }
 
     @FXML
     public void handleButtonAction(ActionEvent e) {
         final String currentPath = "/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidSurvey.fxml";
-        super.handleButtonAction(e);
         JFXButton btn = (JFXButton) e.getSource();
 
         switch (btn.getId()) {
@@ -104,7 +144,8 @@ public class CovidSurveyController extends DefaultServiceRequestFormController i
                 break;
             case "btnSubmit":
                 this.handleSubmission();
-                break;
+                SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidFormPending.fxml");
+                return; // Don't go to form submission view from superclass
             case "btnExit":
                 Platform.exit();
                 break;
@@ -112,19 +153,29 @@ public class CovidSurveyController extends DefaultServiceRequestFormController i
                 SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
                 break;
         }
+        super.handleButtonAction(e);
     }
 
     private void handleSubmission(){
         DateFormat timeFormat = new SimpleDateFormat("HH:mm");
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date dateInfo = new Date();
-        CovidSurveyRequest request = new CovidSurveyRequest(UUID.randomUUID().toString(),
+
+        String id = UUID.randomUUID().toString();
+        if(request != null){
+            id = request.getRequestID();
+        }
+        String username = DatabaseHandler.getHandler().getAuthenticationUser().getUsername();
+        if(username == null) username = "null";
+
+        CovidSurveyRequest newRequest = new CovidSurveyRequest( id ,
                 timeFormat.format(dateInfo),
                 dateFormat.format(dateInfo),
                 "F",
                 null,
                 getLocation(),
                 "",
+                username,
                 User.CovidStatus.PENDING,
                 chkFever.isSelected() ? "T" : "F",
                 chkCough.isSelected() ? "T" : "F",
@@ -141,23 +192,20 @@ public class CovidSurveyController extends DefaultServiceRequestFormController i
                 );
 
         try {
-            DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
+            if(request == null){
+                DatabaseHandler.getDatabaseHandler("main.db").addRequest(newRequest);
+            }else{
+                DatabaseHandler.getDatabaseHandler("main.db").updateRequest(newRequest);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-//        if (btnCCNo.isSelected() && btnTestNo.isSelected() && !chkCough.isSelected() && !chkChills.isSelected() && !chkAches.isSelected() && !chkFever.isSelected()
-//                && !chkHeadache.isSelected() && !chkLostTaste.isSelected() && !chkNausea.isSelected() && !chkNose.isSelected() && !chkShortBreath.isSelected() && !chkSoreTht.isSelected())
-//            SceneSwitcher.switchFromTemp(getClass(), "/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidFormSubmittedNoSymp.fxml");
-//        else
-//            SceneSwitcher.switchFromTemp(getClass(), "/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidFormSubmittedWithSymp.fxml");
-
     }
 
     @FXML
     private void validateButton(){
         btnSubmit.setDisable(
-                !(btnCCYes.isSelected() || btnCCNo.isSelected()) || !(btnTestYes.isSelected() || btnTestNo.isSelected()) &&
+                !(btnCCYes.isSelected() || btnCCNo.isSelected()) || !(btnTestYes.isSelected() || btnTestNo.isSelected()) || loc.getValue() == null
         );
     }
 }

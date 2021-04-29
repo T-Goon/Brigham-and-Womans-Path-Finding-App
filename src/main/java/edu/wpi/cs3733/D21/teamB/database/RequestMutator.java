@@ -665,6 +665,7 @@ public class RequestMutator implements IDatabaseEntityMutator<Request> {
                         rs.getString("employeeName"),
                         rs.getString("location"),
                         rs.getString("description"),
+                        rs.getString("submitter"),
                         User.CovidStatus.valueOf(rs.getString("status")),
                         rs.getString("fever"),
                         rs.getString("chills"),
