@@ -6,7 +6,7 @@ import edu.wpi.cs3733.D21.teamB.views.BasePageController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
-public class CovidFormPendingController extends BasePageController {
+public class CovidFormAcceptedController extends BasePageController {
 
     @FXML
     private JFXButton btnDirections;
@@ -19,7 +19,7 @@ public class CovidFormPendingController extends BasePageController {
 
     @FXML
     public void handleButtonAction(ActionEvent e) {
-        final String currentPath = "/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidFormPending.fxml";
+        final String currentPath = "/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidFormAccepted.fxml";
         JFXButton btn = (JFXButton) e.getSource();
         switch (btn.getId()) {
             case "btnBack":
