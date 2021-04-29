@@ -76,6 +76,7 @@ public class MapDrawer implements PoppableManager {
     public void drawPath() {
         Map<String, Node> nodes = Graph.getGraph().getNodes();
 
+        // Head color for the animation
         if (!nodeHolder.getChildren().contains(head)) {
             nodeHolder.getChildren().add(head);
         }
@@ -88,6 +89,8 @@ public class MapDrawer implements PoppableManager {
         } else {
             // There is a path
             List<String> currentFloorPath = mapCache.getFinalPath().getFloorPathSegment(mapCache.getCurrentFloor());
+
+            colorStartEndNode();
 
             //Draw the segment of the path that is on the current floor
             for (int i = 0; i < currentFloorPath.size() - 1; i++) {
@@ -182,6 +185,27 @@ public class MapDrawer implements PoppableManager {
             redrawNodes();
         }
 
+    }
+
+    /**
+     * Color the start and end nodes of the path
+     */
+    private void colorStartEndNode() {
+        Path path = mapCache.getFinalPath();
+
+        for (String floor : mapCache.getFloorNodes().keySet()) {
+            for (Node n : mapCache.getFloorNodes().get(floor)) {
+                if(path.getPath().get(0).equals(n.getNodeID())){
+                    mapCache.getEditedNodes().add(n);
+
+                    n.setColor(Color.web("ffff00"));
+                } else if(path.getPath().get(path.getPath().size()-1).equals(n.getNodeID())){
+                    mapCache.getEditedNodes().add(n);
+
+                    n.setColor(Color.web("ff00ff"));
+                }
+            }
+        }
     }
 
     /**
@@ -465,27 +489,6 @@ public class MapDrawer implements PoppableManager {
             e.printStackTrace();
         }
     }
-
-    //attempting to animate the drawing of the path
-    public void animateLine(Line line) {
-        line.getStrokeDashArray().setAll(5d, 5d, 5d, 5d);
-        line.setStrokeWidth(2);
-
-        final double maxOffSet = line.getStrokeDashArray().stream().reduce(0d, Double::sum);
-
-        Timeline timeline =
-                new Timeline(
-                        new KeyFrame(
-                                Duration.ZERO,
-                                new KeyValue(line.strokeDashOffsetProperty(), maxOffSet, Interpolator.LINEAR)),
-                        new KeyFrame(
-                                Duration.seconds(1),
-                                new KeyValue(line.strokeDashOffsetProperty(), 0, Interpolator.LINEAR)));
-
-        timeline.setCycleCount(Timeline.INDEFINITE);
-        timeline.play();
-    }
-
 
     /**
      * Draws an edge between 2 points on the map.
