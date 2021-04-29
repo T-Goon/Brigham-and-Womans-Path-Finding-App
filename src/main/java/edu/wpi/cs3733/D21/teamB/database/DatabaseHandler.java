@@ -56,7 +56,6 @@ public class DatabaseHandler {
             handler.databaseConnection = handler.getConnection();
         } else if (!(URL_BASE + dbURL).equals(handler.databaseURL)) {
             // If switching between main.db and test.db, shut down the old database and start
-            System.out.println(URL_BASE + dbURL);
             handler.shutdown();
             handler = new DatabaseHandler();
             handler.databaseURL = URL_BASE + dbURL;

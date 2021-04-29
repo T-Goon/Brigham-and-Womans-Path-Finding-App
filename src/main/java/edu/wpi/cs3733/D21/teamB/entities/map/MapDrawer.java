@@ -20,6 +20,7 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 import javafx.util.Duration;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import net.kurobako.gesturefx.GesturePane;
@@ -46,6 +47,8 @@ public class MapDrawer implements PoppableManager {
     @Getter
     private final Circle head = new Circle(5);
     private final DatabaseHandler db = DatabaseHandler.getHandler();
+    private final List<LineDir> lines = new ArrayList<>();
+    private boolean notFirst = true;
 
     @Getter
     @Setter
@@ -394,7 +397,7 @@ public class MapDrawer implements PoppableManager {
             c.setId(n.getNodeID() + "Icon");
 
             c.setOnMouseClicked((MouseEvent e) -> {
-                if (e.isStillSincePress()) {
+                if (e.isStillSincePress()) { // If it's a still click, open up the popup
                     if (mapCache.getStartNode() != null) {
                         mapCache.setNewEdgeEnd(n.getNodeID());
                         mapEditorPopupManager.showAddEdgePopup(e);
@@ -402,23 +405,48 @@ public class MapDrawer implements PoppableManager {
                 }
             });
 
-            // Update coordinates of node when dragged
+            // Update coordinates of circle and edges when dragged
             c.setOnMouseDragged(e -> {
+                String nodeID = c.getId().substring(0, 10);
+                if (notFirst) { // Creates the list of lines to update only the first time it's dragged
+                    lines.clear();
+                    for (javafx.scene.Node node : mapHolder.getChildren()) {
+                        if (node.getId().contains(nodeID)) {
+                            String startID = node.getId().substring(0, 10);
+                            String endID = node.getId().substring(11, 21);
+                            lines.add(new LineDir((Line) node, startID, endID));
+                        }
+                    }
+                    notFirst = false;
+                } else {
+                    for (LineDir line : lines) {
+                        if (line.getStartID().equals(nodeID)) {
+                            line.getLine().setStartX(e.getX());
+                            line.getLine().setStartY(e.getY());
+                        } else {
+                            line.getLine().setEndX(e.getX());
+                            line.getLine().setEndY(e.getY());
+                        }
+                    }
+                }
                 gPane.setGestureEnabled(false);
                 c.setCenterX(e.getX());
                 c.setCenterY(e.getY());
             });
 
+            // Update coordinates of the actual node in the database when the drag is done
             c.setOnMouseReleased(e -> {
                 if (!e.isStillSincePress()) {
                     n.setXCoord((int) (c.getCenterX() * PathfindingMenuController.coordinateScale));
                     n.setYCoord((int) (c.getCenterY() * PathfindingMenuController.coordinateScale));
+                    gPane.setGestureEnabled(true);
                     try {
                         db.updateNode(n);
                     } catch (SQLException err) {
                         err.printStackTrace();
                     }
-                    gPane.setGestureEnabled(true);
+                    refreshEditor();
+                    notFirst = true;
                 }
             });
 
@@ -464,31 +492,55 @@ public class MapDrawer implements PoppableManager {
 
             c.setOnMouseClicked((MouseEvent e) -> {
                 if (e.isStillSincePress()) {
-                    if (mapCache.getStartNode() != null) {
+                    if (mapCache.getStartNode() != null) { // If it's a still click, open up the popup
                         mapCache.setNewEdgeEnd(n.getNodeID());
                         mapEditorPopupManager.showAddEdgePopup(e);
                     } else mapEditorPopupManager.showEditNodePopup(n, e, false);
                 }
             });
 
-            // Update coordinates of node when dragged
+            // Update coordinates of circle and edges when dragged
             c.setOnMouseDragged(e -> {
+                String nodeID = c.getId().substring(0, 10);
+                if (notFirst) { // Creates the list of lines to update only the first time it's dragged
+                    lines.clear();
+                    for (javafx.scene.Node node : mapHolder.getChildren()) {
+                        if (node.getId().contains(nodeID)) {
+                            String startID = node.getId().substring(0, 10);
+                            String endID = node.getId().substring(11, 21);
+                            lines.add(new LineDir((Line) node, startID, endID));
+                        }
+                    }
+                    notFirst = false;
+                } else {
+                    for (LineDir line : lines) {
+                        if (line.getStartID().equals(nodeID)) {
+                            line.getLine().setStartX(e.getX());
+                            line.getLine().setStartY(e.getY());
+                        } else {
+                            line.getLine().setEndX(e.getX());
+                            line.getLine().setEndY(e.getY());
+                        }
+                    }
+                }
                 gPane.setGestureEnabled(false);
                 c.setCenterX(e.getX());
                 c.setCenterY(e.getY());
             });
 
+            // Update coordinates of the actual node in the database when the drag is done
             c.setOnMouseReleased(e -> {
                 if (!e.isStillSincePress()) {
                     n.setXCoord((int) (c.getCenterX() * PathfindingMenuController.coordinateScale));
                     n.setYCoord((int) (c.getCenterY() * PathfindingMenuController.coordinateScale));
-                    System.out.println(n.getXCoord() + " " + n.getYCoord());
+                    gPane.setGestureEnabled(true);
                     try {
                         db.updateNode(n);
                     } catch (SQLException err) {
                         err.printStackTrace();
                     }
-                    gPane.setGestureEnabled(true);
+                    refreshEditor();
+                    notFirst = true;
                 }
             });
 
@@ -671,5 +723,23 @@ public class MapDrawer implements PoppableManager {
     public void redrawNodes() {
         removeNodes();
         drawNodesOnFloor();
+    }
+
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    private static class LineDir {
+        private Line line;
+        private String startID;
+        private String endID;
+
+        @Override
+        public String toString() {
+            return "LineDir{" +
+                    "line=" + line +
+                    ", startID='" + startID + '\'' +
+                    ", endID='" + endID + '\'' +
+                    '}';
+        }
     }
 }
