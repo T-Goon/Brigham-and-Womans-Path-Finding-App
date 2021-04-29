@@ -298,6 +298,7 @@ public class DatabaseHandler {
                 + "firstName CHAR(30), "
                 + "lastName CHAR(30), "
                 + "authenticationLevel CHAR(30) CHECK (authenticationLevel in ('ADMIN','STAFF','PATIENT', 'GUEST')), "
+                + "covidStatus CHAR(10) CHECK (covidStatus in ('UNCHECKED','PENDING','DANGEROUS', 'SAFE')), "
                 + "passwordHash CHAR(30))";
 
         String jobsTable = "CREATE TABLE IF NOT EXISTS Jobs("

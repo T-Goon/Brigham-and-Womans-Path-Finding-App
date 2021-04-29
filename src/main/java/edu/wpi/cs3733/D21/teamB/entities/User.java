@@ -36,12 +36,13 @@ public class User implements IStoredEntity {
 
     private AuthenticationLevel authenticationLevel;
 
-    private List<Request.RequestType> jobs;
-
     private CovidStatus covidStatus;
 
+    private List<Request.RequestType> jobs;
+
+
     public User (String username, String firstName, String lastName, AuthenticationLevel authenticationLevel, List<Request.RequestType> jobs){
-        this(username,firstName,lastName,authenticationLevel,jobs,CovidStatus.UNCHECKED);
+        this(username,firstName,lastName,authenticationLevel,CovidStatus.UNCHECKED,jobs);
     }
 
     public boolean addJob(Request.RequestType job){

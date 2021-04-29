@@ -29,6 +29,7 @@ public class UserMutator implements IDatabaseEntityMutator<UserMutator.UserPassw
                 + "', '" + user.user.getFirstName()
                 + "', '" + user.user.getLastName()
                 + "', '" + user.user.getAuthenticationLevel().toString()
+                + "', '" + user.user.getCovidStatus().toString()
                 + "', '" + hash
                 + "')";
         db.runStatement(query, false);
@@ -54,11 +55,12 @@ public class UserMutator implements IDatabaseEntityMutator<UserMutator.UserPassw
                 "firstName = '" + newUser.user.getFirstName() + "'," +
                 "lastName = '" + newUser.user.getLastName() + "'," +
                 "authenticationLevel = '" + newUser.user.getAuthenticationLevel().toString() + "'" +
+                "covidStatus = '" + newUser.user.getCovidStatus().toString() + "'" +
                 "WHERE (username = '" + newUser.user.getUsername() + "')";
         String deleteJobs = "DELETE FROM Jobs WHERE (username = '" + newUser.user.getUsername() + "')";
         if (db.getUserByUsername(newUser.user.getUsername()) != null) {
-            db.runStatement(updateUser, false);
             db.runStatement(deleteJobs, false);
+            db.runStatement(updateUser, false);
             for (Request.RequestType job : newUser.user.getJobs()) {
                 String query = "INSERT INTO Jobs VALUES " +
                         "('" + newUser.user.getUsername()
@@ -128,6 +130,7 @@ public class UserMutator implements IDatabaseEntityMutator<UserMutator.UserPassw
                     rs.getString("firstName"),
                     rs.getString("lastName"),
                     User.AuthenticationLevel.valueOf(rs.getString("authenticationLevel")),
+                    User.CovidStatus.valueOf(rs.getString("covidStatus")),
                     jobs
             );
             rs.close();
