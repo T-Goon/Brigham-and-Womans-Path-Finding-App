@@ -80,7 +80,6 @@ public class AddNodePopupController implements Initializable {
         categoryNameMap.put("CONF", "Conference Rooms");
         categoryNameMap.put("INFO", "Information Locations");
         categoryNameMap.put("RETL", "Retail Locations");
-        categoryNameMap.put("BATH", "Bathrooms");
         categoryNameMap.put("EXIT", "Entrances");
         categoryNameMap.put("STAI", "Stairs");
         categoryNameMap.put("PARK", "Parking Spots");
