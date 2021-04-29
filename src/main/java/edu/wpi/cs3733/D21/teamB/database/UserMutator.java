@@ -54,7 +54,7 @@ public class UserMutator implements IDatabaseEntityMutator<UserMutator.UserPassw
                 "SET username = '" + newUser.user.getUsername() + "'," +
                 "firstName = '" + newUser.user.getFirstName() + "'," +
                 "lastName = '" + newUser.user.getLastName() + "'," +
-                "authenticationLevel = '" + newUser.user.getAuthenticationLevel().toString() + "'" +
+                "authenticationLevel = '" + newUser.user.getAuthenticationLevel().toString() + "'," +
                 "covidStatus = '" + newUser.user.getCovidStatus().toString() + "'" +
                 "WHERE (username = '" + newUser.user.getUsername() + "')";
         String deleteJobs = "DELETE FROM Jobs WHERE (username = '" + newUser.user.getUsername() + "')";

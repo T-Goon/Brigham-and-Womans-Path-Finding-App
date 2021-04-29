@@ -88,6 +88,7 @@ public class CovidSurveyController extends DefaultServiceRequestFormController i
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
         super.initialize(location,resources);
         btnCCYes.setToggleGroup(ccGroup);
         btnCCNo.setToggleGroup(ccGroup);
@@ -144,6 +145,12 @@ public class CovidSurveyController extends DefaultServiceRequestFormController i
                 break;
             case "btnSubmit":
                 this.handleSubmission();
+                DatabaseHandler.getHandler().getAuthenticationUser().setCovidStatus(User.CovidStatus.PENDING);
+                try {
+                    DatabaseHandler.getHandler().updateUser(DatabaseHandler.getHandler().getAuthenticationUser());
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
                 SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidFormPending.fxml");
                 return; // Don't go to form submission view from superclass
             case "btnExit":

@@ -59,7 +59,18 @@ public class UserDirectoryMenuController extends BasePageController implements I
         JFXButton btn = (JFXButton) e.getSource();
         switch (btn.getId()) {
             case "btnCovid":
-                SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidSurvey.fxml");
+                switch (DatabaseHandler.getHandler().getAuthenticationUser().getCovidStatus()) {
+                    case UNCHECKED:
+                        SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidSurvey.fxml");
+                        break;
+                    case PENDING:
+                        SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidFormPending.fxml");
+                        SceneSwitcher.pushPath("/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidSurvey.fxml");
+                        break;
+                    default:
+                        SceneSwitcher.switchScene(getClass(),currentPath,"/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidFormAccepted.fxml");
+                        break;
+                }
                 break;
             case "btnDirections":
                 SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/cs3733/D21/teamB/views/map/pathfindingMenu.fxml");

@@ -438,7 +438,7 @@ public class DatabaseHandler {
     public void updateUser(User newUser) throws SQLException {
         userMutator.updateEntity(new UserMutator.UserPasswordMatch(newUser, ""));
         //Make sure state is accurately reflective
-        if(newUser.getUsername().equals(this.getAuthenticationUser().getUsername())){
+        if(newUser.getUsername() != null && newUser.getUsername().equals(this.getAuthenticationUser().getUsername())) {
             DatabaseHandler.AuthenticationUser = newUser;
         }
     }

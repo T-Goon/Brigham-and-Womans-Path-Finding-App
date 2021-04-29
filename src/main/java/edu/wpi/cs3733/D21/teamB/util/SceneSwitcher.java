@@ -44,6 +44,7 @@ public class SceneSwitcher {
             System.err.println("Path \"" + path + "\" is malformed or nonexistent!");
             e.printStackTrace();
         }
+        System.out.println(stack.toString());
     }
 
 
@@ -78,5 +79,15 @@ public class SceneSwitcher {
             System.err.println("Path \"" + path + "\" is malformed or nonexistent!");
             e.printStackTrace();
         }
+        System.out.println(stack.toString());
+    }
+
+    /**
+     * Adds a page to the stack (useful for injecting a page between the next page's back button and this one)
+     *
+     * @param path the path to the FXML file to push
+     */
+    public static void pushPath(String path){
+        stack.push(path);
     }
 }

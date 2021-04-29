@@ -58,7 +58,7 @@
                   </VBox>
                </children>
             </HBox>
-                <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                <ImageView blendMode="GREEN" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                     <image>
                         <Image url="@../../images/checkmark.png" />
                     </image>
@@ -71,7 +71,7 @@
                         <Font name="MS Reference Sans Serif" size="24.0" />
                     </font>
                 </Text>
-            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Your access is pending approval by a hospital worker">
+            <Text fx:id="statusReadout" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Thank you for your patience">
                <font>
                   <Font name="MS Reference Sans Serif" size="24.0" />
                </font>
