@@ -151,6 +151,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
     // Map of category short name to category long name, REST -> Restroom
     private final Map<String, String> categoryNameMap = new HashMap<>();
 
+    // NodeID -> original color of nodes that have benn turned grey
     private final HashMap<String, Color> colors = new HashMap<>();
 
     private final DatabaseHandler db = DatabaseHandler.getHandler();
@@ -163,6 +164,8 @@ public class PathfindingMenuController extends BasePageController implements Ini
     private MapEditorPopupManager mapEditorPopupManager;
     private MapPathPopupManager mapPathPopupManager;
     private FloorSwitcher floorSwitcher;
+
+    private static final Color grey = Color.web("#9A9999");
 
     // JavaFX code **************************************************************************************
 
@@ -202,7 +205,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
         checkFromCovidSurvey();
 
         // Set up map for editing mode if the user is an admin
-        if(db.getAuthenticationUser().getAuthenticationLevel().equals(User.AuthenticationLevel.ADMIN))
+        if (db.getAuthenticationUser().getAuthenticationLevel().equals(User.AuthenticationLevel.ADMIN))
             initMapForEditing();
 
         // Set up Load and Save buttons for csv
@@ -300,7 +303,6 @@ public class PathfindingMenuController extends BasePageController implements Ini
         if (!selectedItem.getValue().equals("Favorites") && selectedItem.isLeaf()) {
             //Selected item is a valid location
 
-            //For now only work on nodes that are on the first floor until multi-floor pathfinding is added
             Node tempLocation = Graph.getGraph().getNodes().get(
                     mapCache.makeLongToIDMap().get(
                             selectedItem.getValue()));
@@ -318,133 +320,155 @@ public class PathfindingMenuController extends BasePageController implements Ini
 
         // Stuff for node coloring
         if (!selectedItem.isLeaf() && !mapDrawer.isEditing()) {
-            HashMap<String, List<Node>> floorNodes = (HashMap<String, List<Node>>) mapCache.getFloorNodes();
-            String category = selectedItem.getValue();
-
 
             // Change node color back to original color
-            if (!colors.isEmpty()) {
-                for (Node node : floorNodes.get(mapCache.getCurrentFloor())) {
-                    if (colors.containsKey(node.getNodeID())) {
-                        node.setColor(colors.get(node.getNodeID()));
-                    }
-                }
-                colors.clear();
-            }
+            revertAllNodeColors();
 
-            if (selectedItem.getValue().equals("Locations")) {
-                for (Node node : floorNodes.get(mapCache.getCurrentFloor())) {
-                    for (Node editedNode : mapCache.getEditedNodes()) {
-
-                        if (!editedNode.getNodeID().equals(node.getNodeID())) {
-                            Color color = node.getColor();
-                            colors.put(node.getNodeID(), color);
-                            node.setColor(color);
-                        }
-                    }
-                }
-
-            } else if (selectedItem.getValue().equals("Favorites")) {
-                try {
-                    List<String> favorites = DatabaseHandler.getHandler().getFavorites();
-                    Map<String, String> longNames = mapCache.makeLongToIDMap();
-                    Color color = Color.web("#9A9999");
-
-                    // Put original node color in map and set node color to gray
-                    for (Node node : floorNodes.get(mapCache.getCurrentFloor())) {
-                        colors.put(node.getNodeID(), node.getColor());
-                        node.setColor(color);
-
-                    }
-
-                    // TODO this is very bad
-                    if (!mapCache.getEditedNodes().isEmpty()) {
-                        for (String location : favorites) {
-                            String nodeID = longNames.get(location);
-                            for (Node node : floorNodes.get(mapCache.getCurrentFloor())) {
-
-                                for (Node editedNode : mapCache.getEditedNodes()) {
-
-                                    if (node.getNodeID().equals(nodeID) || editedNode.getNodeID().equals(node.getNodeID())) {
-
-                                        if (colors.get(node.getNodeID()) != null) {
-                                            node.setColor(colors.get(node.getNodeID()));
-                                            colors.remove(node.getNodeID());
-
-                                        }
-
-                                    }
-                                }
-                            }
-
-                        }
-                    } else {
-                        for (String location : favorites) {
-                            String nodeID = longNames.get(location);
-                            for (Node node : floorNodes.get(mapCache.getCurrentFloor())) {
-                                if (node.getNodeID().equals(nodeID)) {
-
-                                    if (colors.get(node.getNodeID()) != null) {
-                                        node.setColor(colors.get(node.getNodeID()));
-                                        colors.remove(node.getNodeID());
-                                    }
-                                }
-                            }
-
-                        }
-                    }
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-
-            } else {
-                // Change node color to gray
-                NodeType nt = NodeType.deprettify(category);
-                Color grey = Color.web("#9A9999");
+            if (selectedItem.getValue().equals("Favorites")) {
 
                 // Put original node color in map and set node color to gray
-                for (Node node : floorNodes.get(mapCache.getCurrentFloor())) {
+                colorAllNodesGrey();
 
-                    colors.put(node.getNodeID(), node.getColor());
-                    node.setColor(grey);
+                // Change the color of the favorite nodes back to their original color
+                // Also change the color of the nodes marked for floor swapping in pathfinding
+                revertFavoriteNodeColors();
 
-                }
+            } else if(!selectedItem.getValue().equals("Locations") && !selectedItem.getValue().equals("Favorites")){
+                // Put original node color in map and set all node colors to gray
+                colorAllNodesGrey();
 
-                if (!mapCache.getEditedNodes().isEmpty()) {
-                    for (Node node : floorNodes.get(mapCache.getCurrentFloor())) {
-
-                        for (Node editedNode : mapCache.getEditedNodes()) {
-
-                            if (node.getNodeType().equals(nt.toString()) || editedNode.getNodeID().equals(node.getNodeID())) {
-
-                                if (colors.get(node.getNodeID()) != null) {
-                                    node.setColor(colors.get(node.getNodeID()));
-                                    colors.remove(node.getNodeID());
-
-                                }
-                            }
-
-                        }
-                    }
-                } else {
-                    for (Node node : floorNodes.get(mapCache.getCurrentFloor())) {
-                        if (node.getNodeType().equals(nt.toString())) {
-
-                            if (colors.get(node.getNodeID()) != null) {
-                                node.setColor(colors.get(node.getNodeID()));
-                                colors.remove(node.getNodeID());
-
-                            }
-                        }
-
-                    }
-                }
+                // Revert the colors of the nodes that are in the selected category
+                revertCategoryNodeColors(selectedItem);
             }
 
             mapDrawer.redrawNodes();
         }
 
         validateFindPathButton();
+    }
+
+    /**
+     * Revert the colors of the nodes that are in the selected category
+     * @param selectedItem Selected item in the tree view. Not a leaf
+     */
+    private void revertCategoryNodeColors(TreeItem<String> selectedItem){
+        String category = selectedItem.getValue();
+        Map<String, List<Node>> floorNodes = mapCache.getFloorNodes();
+        NodeType nt = NodeType.deprettify(category);
+
+        for (Node node : floorNodes.get(mapCache.getCurrentFloor())) {
+
+            if (!mapCache.getEditedNodes().isEmpty()) {
+                // There are nodes on the floor colored for path finding
+                for (Node editedNode : mapCache.getEditedNodes()) {
+
+                    if (node.getNodeType().equals(nt.toString()) || editedNode.getNodeID().equals(node.getNodeID())) {
+
+                        if (colors.get(node.getNodeID()) != null) {
+                            node.setColor(colors.get(node.getNodeID()));
+                            colors.remove(node.getNodeID());
+
+                        }
+                    }
+
+                }
+            } else{
+                // There are no nodes on the floor for path finding
+                if (node.getNodeType().equals(nt.toString())) {
+
+                    if (colors.get(node.getNodeID()) != null) {
+                        node.setColor(colors.get(node.getNodeID()));
+                        colors.remove(node.getNodeID());
+
+                    }
+                }
+
+            }
+
+        }
+    }
+
+    /**
+     * Revert the colors of the favorite nodes to the original colors
+     */
+    private void revertFavoriteNodeColors(){
+        List<String> favorites = null;
+
+        try {
+            favorites = DatabaseHandler.getHandler().getFavorites();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        Map<String, String> longNames = mapCache.makeLongToIDMap();
+        Map<String, List<Node>> floorNodes = mapCache.getFloorNodes();
+
+        // Change the color of the favorite nodes back to their original color
+        // Also change the color of the nodes marked for floor swapping in pathfinding
+        assert favorites != null;
+        for (String location : favorites) {
+
+            String nodeID = longNames.get(location);
+            for (Node node : floorNodes.get(mapCache.getCurrentFloor())) {
+
+                if (!mapCache.getEditedNodes().isEmpty()) {
+                    // There are colored nodes for swapping floors
+                    for (Node editedNode : mapCache.getEditedNodes()) {
+
+                        if (node.getNodeID().equals(nodeID) || editedNode.getNodeID().equals(node.getNodeID())) {
+
+                            if (colors.get(node.getNodeID()) != null) {
+                                node.setColor(colors.get(node.getNodeID()));
+                                colors.remove(node.getNodeID());
+
+                            }
+
+                        }
+                    }
+                } else {
+                    // There are no colored nodes for swapping floors
+                    if (node.getNodeID().equals(nodeID)) {
+
+                        if (colors.get(node.getNodeID()) != null) {
+                            node.setColor(colors.get(node.getNodeID()));
+                            colors.remove(node.getNodeID());
+                        }
+                    }
+                }
+
+            }
+        }
+    }
+
+    /**
+     * Make all the nodes grey on the map
+     */
+    private void colorAllNodesGrey(){
+
+        for (Node node : mapCache.getFloorNodes().get(mapCache.getCurrentFloor())) {
+
+            colors.put(node.getNodeID(), node.getColor());
+            node.setColor(grey);
+
+        }
+    }
+
+    /**
+     * Revert the colors of all nodes to their original color
+     */
+    private void revertAllNodeColors(){
+        Map<String, List<Node>> floorNodes = mapCache.getFloorNodes();
+
+        if (!colors.isEmpty()) {
+
+            for (Node node : floorNodes.get(mapCache.getCurrentFloor())) {
+                if (colors.containsKey(node.getNodeID())) {
+                    node.setColor(colors.get(node.getNodeID()));
+                }
+            }
+
+            colors.clear();
+        }
     }
 
     /**
@@ -780,7 +804,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
     /**
      * Initialize the map of category short names to category long names
      */
-    private void initCategoriesMap(){
+    private void initCategoriesMap() {
         categoryNameMap.put("SERV", "Services");
         categoryNameMap.put("REST", "Restrooms");
         categoryNameMap.put("LABS", "Lab Rooms");
@@ -797,7 +821,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
     /**
      * Checks if the last scene was the covid survey and fill in proper directions based on results
      */
-    private void checkFromCovidSurvey(){
+    private void checkFromCovidSurvey() {
         //test if we came from a failed covid survey
         if (SceneSwitcher.peekLastScene().equals("/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidFormSubmittedWithSymp.fxml")) {
             txtEndLocation.setText("Emergency Department Entrance");
@@ -815,7 +839,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
     /**
      * Set up the combo boxes to choose between the different pathfinding algorithms
      */
-    private void setUpPathfindingChoices(){
+    private void setUpPathfindingChoices() {
         comboPathingType.getItems().add("A*");
         comboPathingType.getItems().add("DFS");
         comboPathingType.getItems().add("BFS");
