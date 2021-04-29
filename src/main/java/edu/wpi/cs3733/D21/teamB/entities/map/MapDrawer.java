@@ -405,50 +405,7 @@ public class MapDrawer implements PoppableManager {
                 }
             });
 
-            // Update coordinates of circle and edges when dragged
-            c.setOnMouseDragged(e -> {
-                String nodeID = c.getId().substring(0, 10);
-                if (notFirst) { // Creates the list of lines to update only the first time it's dragged
-                    lines.clear();
-                    for (javafx.scene.Node node : mapHolder.getChildren()) {
-                        if (node.getId().contains(nodeID)) {
-                            String startID = node.getId().substring(0, 10);
-                            String endID = node.getId().substring(11, 21);
-                            lines.add(new LineDir((Line) node, startID, endID));
-                        }
-                    }
-                    notFirst = false;
-                } else {
-                    for (LineDir line : lines) {
-                        if (line.getStartID().equals(nodeID)) {
-                            line.getLine().setStartX(e.getX());
-                            line.getLine().setStartY(e.getY());
-                        } else {
-                            line.getLine().setEndX(e.getX());
-                            line.getLine().setEndY(e.getY());
-                        }
-                    }
-                }
-                gPane.setGestureEnabled(false);
-                c.setCenterX(e.getX());
-                c.setCenterY(e.getY());
-            });
-
-            // Update coordinates of the actual node in the database when the drag is done
-            c.setOnMouseReleased(e -> {
-                if (!e.isStillSincePress()) {
-                    n.setXCoord((int) (c.getCenterX() * PathfindingMenuController.coordinateScale));
-                    n.setYCoord((int) (c.getCenterY() * PathfindingMenuController.coordinateScale));
-                    gPane.setGestureEnabled(true);
-                    try {
-                        db.updateNode(n);
-                    } catch (SQLException err) {
-                        err.printStackTrace();
-                    }
-                    refreshEditor();
-                    notFirst = true;
-                }
-            });
+            setUpDrag(c, n);
 
             c.setOnMouseEntered(event -> {
                 if (isEditing && !(mapCache.getStartNode() != null && c.getId().equals(mapCache.getStartNode().getId())))
@@ -499,50 +456,7 @@ public class MapDrawer implements PoppableManager {
                 }
             });
 
-            // Update coordinates of circle and edges when dragged
-            c.setOnMouseDragged(e -> {
-                String nodeID = c.getId().substring(0, 10);
-                if (notFirst) { // Creates the list of lines to update only the first time it's dragged
-                    lines.clear();
-                    for (javafx.scene.Node node : mapHolder.getChildren()) {
-                        if (node.getId().contains(nodeID)) {
-                            String startID = node.getId().substring(0, 10);
-                            String endID = node.getId().substring(11, 21);
-                            lines.add(new LineDir((Line) node, startID, endID));
-                        }
-                    }
-                    notFirst = false;
-                } else {
-                    for (LineDir line : lines) {
-                        if (line.getStartID().equals(nodeID)) {
-                            line.getLine().setStartX(e.getX());
-                            line.getLine().setStartY(e.getY());
-                        } else {
-                            line.getLine().setEndX(e.getX());
-                            line.getLine().setEndY(e.getY());
-                        }
-                    }
-                }
-                gPane.setGestureEnabled(false);
-                c.setCenterX(e.getX());
-                c.setCenterY(e.getY());
-            });
-
-            // Update coordinates of the actual node in the database when the drag is done
-            c.setOnMouseReleased(e -> {
-                if (!e.isStillSincePress()) {
-                    n.setXCoord((int) (c.getCenterX() * PathfindingMenuController.coordinateScale));
-                    n.setYCoord((int) (c.getCenterY() * PathfindingMenuController.coordinateScale));
-                    gPane.setGestureEnabled(true);
-                    try {
-                        db.updateNode(n);
-                    } catch (SQLException err) {
-                        err.printStackTrace();
-                    }
-                    refreshEditor();
-                    notFirst = true;
-                }
-            });
+            setUpDrag(c, n);
 
             intermediateNodeHolder.getChildren().add(c);
             mapCache.getIntermediateNodePlaced().add(c);
@@ -723,6 +637,76 @@ public class MapDrawer implements PoppableManager {
     public void redrawNodes() {
         removeNodes();
         drawNodesOnFloor();
+    }
+
+    /**
+     * Sets up dragging for each node
+     *
+     * @param c the circle being dragged
+     * @param n the node related to the circle
+     */
+    private void setUpDrag(Circle c, Node n) {
+        // Update coordinates of circle and edges when dragged
+        c.setOnMouseDragged(e -> {
+            String nodeID = c.getId().substring(0, 10);
+            if (notFirst) { // Creates the list of lines to update only the first time it's dragged
+                lines.clear();
+                for (javafx.scene.Node node : mapHolder.getChildren()) {
+                    if (node.getId().contains(nodeID)) {
+                        String startID = node.getId().substring(0, 10);
+                        String endID = node.getId().substring(11, 21);
+                        lines.add(new LineDir((Line) node, startID, endID));
+                    }
+                }
+                notFirst = false;
+            }
+
+            // Update node
+            gPane.setGestureEnabled(false);
+            if ((e.getX() * PathfindingMenuController.coordinateScale) >= 0 && (e.getY() * PathfindingMenuController.coordinateScale) >= 0) {
+                c.setCenterX(e.getX());
+                c.setCenterY(e.getY());
+            } else if ((e.getX() * PathfindingMenuController.coordinateScale) >= 0) {
+                c.setCenterX(e.getX());
+                c.setCenterY(0);
+            } else if ((e.getY() * PathfindingMenuController.coordinateScale) >= 0) {
+                c.setCenterX(0);
+                c.setCenterY(e.getY());
+            } else {
+                c.setCenterX(0);
+                c.setCenterY(0);
+            }
+
+            // Update lines
+            for (LineDir line : lines) {
+                if (line.getStartID().equals(nodeID)) {
+                    line.getLine().setStartX(c.getCenterX());
+                    line.getLine().setStartY(c.getCenterY());
+                } else {
+                    line.getLine().setEndX(c.getCenterX());
+                    line.getLine().setEndY(c.getCenterY());
+                }
+            }
+        });
+
+        // todo make sure don't go off the bottom of the map
+        // todo figure out max width/height, add check constraints to database
+
+        // Update coordinates of the actual node in the database when the drag is done
+        c.setOnMouseReleased(e -> {
+            if (!e.isStillSincePress()) {
+                n.setXCoord((int) (c.getCenterX() * PathfindingMenuController.coordinateScale));
+                n.setYCoord((int) (c.getCenterY() * PathfindingMenuController.coordinateScale));
+                gPane.setGestureEnabled(true);
+                try {
+                    db.updateNode(n);
+                } catch (SQLException err) {
+                    err.printStackTrace();
+                }
+                refreshEditor();
+                notFirst = true;
+            }
+        });
     }
 
     @Getter
