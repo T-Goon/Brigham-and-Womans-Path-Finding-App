@@ -3,6 +3,9 @@ package edu.wpi.cs3733.D21.teamB.views.covidSurvey;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXRadioButton;
+import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
+import edu.wpi.cs3733.D21.teamB.entities.User;
+import edu.wpi.cs3733.D21.teamB.entities.requests.CovidSurveyRequest;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
 import edu.wpi.cs3733.D21.teamB.views.BasePageController;
 import javafx.application.Platform;
@@ -12,7 +15,12 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.ToggleGroup;
 
 import java.net.URL;
+import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.ResourceBundle;
+import java.util.UUID;
 
 public class CovidSurveyController extends BasePageController implements Initializable {
 
@@ -93,12 +101,7 @@ public class CovidSurveyController extends BasePageController implements Initial
                 SceneSwitcher.goBack(getClass(), 1);
                 break;
             case "btnSubmit":
-                if (btnCCNo.isSelected() && btnTestNo.isSelected() && !chkCough.isSelected() && !chkChills.isSelected() && !chkAches.isSelected() && !chkFever.isSelected()
-                        && !chkHeadache.isSelected() && !chkLostTaste.isSelected() && !chkNausea.isSelected() && !chkNose.isSelected() && !chkShortBreath.isSelected() && !chkSoreTht.isSelected())
-                    SceneSwitcher.switchFromTemp(getClass(), "/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidFormSubmittedNoSymp.fxml");
-                else
-                    SceneSwitcher.switchFromTemp(getClass(), "/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidFormSubmittedWithSymp.fxml");
-                break;
+                this.handleSubmission();
             case "btnExit":
                 Platform.exit();
                 break;
@@ -106,6 +109,46 @@ public class CovidSurveyController extends BasePageController implements Initial
                 SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
                 break;
         }
+    }
+
+    private void handleSubmission(){
+        DateFormat timeFormat = new SimpleDateFormat("HH:mm");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date dateInfo = new Date();
+        CovidSurveyRequest request = new CovidSurveyRequest(UUID.randomUUID().toString(),
+                timeFormat.format(dateInfo),
+                dateFormat.format(dateInfo),
+                "F",
+                null,
+                null,
+                "",
+                DatabaseHandler.getHandler().getAuthenticationUser().getUsername(),
+                User.CovidStatus.PENDING,
+                chkFever.isSelected() ? "T" : "F",
+                chkCough.isSelected() ? "T" : "F",
+                chkShortBreath.isSelected() ? "T" : "F",
+                chkSoreTht.isSelected() ? "T" : "F",
+                chkHeadache.isSelected() ? "T" : "F",
+                chkAches.isSelected() ? "T" : "F",
+                chkNose.isSelected() ? "T" : "F",
+                chkLostTaste.isSelected() ? "T" : "F",
+                chkNausea.isSelected() ? "T" : "F",
+                btnCCYes.isSelected() ? "T" : "F",
+                btnTestYes.isSelected() ? "T" : "F"
+                );
+
+        try {
+            DatabaseHandler.getDatabaseHandler("main.db").addRequest(request);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        if (btnCCNo.isSelected() && btnTestNo.isSelected() && !chkCough.isSelected() && !chkChills.isSelected() && !chkAches.isSelected() && !chkFever.isSelected()
+                && !chkHeadache.isSelected() && !chkLostTaste.isSelected() && !chkNausea.isSelected() && !chkNose.isSelected() && !chkShortBreath.isSelected() && !chkSoreTht.isSelected())
+            SceneSwitcher.switchFromTemp(getClass(), "/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidFormSubmittedNoSymp.fxml");
+        else
+            SceneSwitcher.switchFromTemp(getClass(), "/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidFormSubmittedWithSymp.fxml");
+
     }
 
     @FXML

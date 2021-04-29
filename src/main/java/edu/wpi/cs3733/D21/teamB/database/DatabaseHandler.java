@@ -296,6 +296,7 @@ public class DatabaseHandler {
         String covidSurveyRequestsTable = "CREATE TABLE IF NOT EXISTS CovidSurvey("
                 + "requestID CHAR(20) PRIMARY KEY, "
                 + "username CHAR(30)"
+                + "status CHAR(10) CHECK (status in ('UNCHECKED','PENDING','DANGEROUS', 'SAFE')), "
                 + "fever CHAR(1) CHECK (fever in ('T','F')), "
                 + "chills CHAR(1) CHECK (chills in ('T','F')), "
                 + "cough CHAR(1) CHECK (cough in ('T','F')), "

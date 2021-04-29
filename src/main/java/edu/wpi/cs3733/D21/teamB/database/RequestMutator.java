@@ -219,6 +219,7 @@ public class RequestMutator implements IDatabaseEntityMutator<Request> {
                 query = "INSERT INTO EmergencyRequests VALUES " +
                         "('" + covidSurveyRequest.getRequestID()
                         + "', '" + covidSurveyRequest.getUsername()
+                        + "', '" + covidSurveyRequest.getStatus().toString()
                         + "', '" + covidSurveyRequest.getSymptomFever()
                         + "', '" + covidSurveyRequest.getSymptomChills()
                         + "', '" + covidSurveyRequest.getSymptomCough()
@@ -376,6 +377,7 @@ public class RequestMutator implements IDatabaseEntityMutator<Request> {
             case COVID:
                 CovidSurveyRequest covidSurveyRequest = (CovidSurveyRequest) request;
                 query = "UPDATE EmergencyRequests SET username = '" + covidSurveyRequest.getUsername()
+                        + "', status = '" + covidSurveyRequest.getStatus().toString()
                         + "', fever = '" + covidSurveyRequest.getSymptomFever()
                         + "', chills = '" + covidSurveyRequest.getSymptomChills()
                         + "', cough = '" + covidSurveyRequest.getSymptomCough()
@@ -664,6 +666,7 @@ public class RequestMutator implements IDatabaseEntityMutator<Request> {
                         rs.getString("location"),
                         rs.getString("description"),
                         rs.getString("username"),
+                        User.CovidStatus.valueOf(rs.getString("status")),
                         rs.getString("fever"),
                         rs.getString("chills"),
                         rs.getString("cough"),

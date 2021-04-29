@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.D21.teamB.entities.requests;
 
+import edu.wpi.cs3733.D21.teamB.entities.User;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -33,6 +34,8 @@ public class CovidSurveyRequest extends Request {
 
         private String username;
 
+        private User.CovidStatus status;
+
     public CovidSurveyRequest( String requestID,
                                String time,
                                String date,
@@ -41,6 +44,7 @@ public class CovidSurveyRequest extends Request {
                                String location,
                                String description,
                                String username,
+                               User.CovidStatus status,
                                String symptomFever,
                                String symptomCough,
                                String symptomShortBreath,
@@ -54,6 +58,7 @@ public class CovidSurveyRequest extends Request {
                                String hadPositiveTest) {
         super(requestID, RequestType.COVID, time, date, complete, employeeName, location, description);
         this.username = username;
+        this.status = status;
         this.symptomFever = symptomFever;
         this.symptomCough = symptomCough;
         this.symptomSoreTht = symptomSoreTht;
