@@ -10,8 +10,10 @@ import lombok.Setter;
 @EqualsAndHashCode
 public class Node implements Comparable<Node>, IStoredEntity {
     private final String nodeID;
-    private final int xCoord;
-    private final int yCoord;
+    @Setter
+    private int xCoord;
+    @Setter
+    private int yCoord;
     private final String floor;
     private final String building;
     private final String nodeType;

@@ -25,6 +25,7 @@ import lombok.Setter;
 import net.kurobako.gesturefx.GesturePane;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.*;
 
 public class MapDrawer implements PoppableManager {
@@ -364,8 +365,10 @@ public class MapDrawer implements PoppableManager {
 
             // Show graphical input for pathfinding when clicked
             i.setOnMouseClicked((MouseEvent e) -> {
-                removeAllPopups();
-                mapPathPopupManager.createGraphicalInputPopup(n);
+                if (e.isStillSincePress()) {
+                    removeAllPopups();
+                    mapPathPopupManager.createGraphicalInputPopup(n);
+                }
             });
 
             nodeHolder.getChildren().add(i);
@@ -385,16 +388,38 @@ public class MapDrawer implements PoppableManager {
         try {
             Circle c = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/cs3733/D21/teamB/views/map/misc/nodeAlt.fxml")));
 
-            c.setLayoutX((n.getXCoord() / PathfindingMenuController.coordinateScale));
-            c.setLayoutY((n.getYCoord() / PathfindingMenuController.coordinateScale));
+            c.setCenterX((n.getXCoord() / PathfindingMenuController.coordinateScale));
+            c.setCenterY((n.getYCoord() / PathfindingMenuController.coordinateScale));
 
             c.setId(n.getNodeID() + "Icon");
 
             c.setOnMouseClicked((MouseEvent e) -> {
-                if (mapCache.getStartNode() != null) {
-                    mapCache.setNewEdgeEnd(n.getNodeID());
-                    mapEditorPopupManager.showAddEdgePopup(e);
-                } else mapEditorPopupManager.showEditNodePopup(n, e, false);
+                if (e.isStillSincePress()) {
+                    if (mapCache.getStartNode() != null) {
+                        mapCache.setNewEdgeEnd(n.getNodeID());
+                        mapEditorPopupManager.showAddEdgePopup(e);
+                    } else mapEditorPopupManager.showEditNodePopup(n, e, false);
+                }
+            });
+
+            // Update coordinates of node when dragged
+            c.setOnMouseDragged(e -> {
+                gPane.setGestureEnabled(false);
+                c.setCenterX(e.getX());
+                c.setCenterY(e.getY());
+            });
+
+            c.setOnMouseReleased(e -> {
+                if (!e.isStillSincePress()) {
+                    n.setXCoord((int) (c.getCenterX() * PathfindingMenuController.coordinateScale));
+                    n.setYCoord((int) (c.getCenterY() * PathfindingMenuController.coordinateScale));
+                    try {
+                        db.updateNode(n);
+                    } catch (SQLException err) {
+                        err.printStackTrace();
+                    }
+                    gPane.setGestureEnabled(true);
+                }
             });
 
             c.setOnMouseEntered(event -> {
@@ -426,13 +451,6 @@ public class MapDrawer implements PoppableManager {
             c.setCenterX((n.getXCoord() / PathfindingMenuController.coordinateScale));
             c.setCenterY((n.getYCoord() / PathfindingMenuController.coordinateScale));
 
-            c.setOnMouseClicked(event -> {
-                if (mapCache.getStartNode() != null) {
-                    mapCache.setNewEdgeEnd(n.getNodeID());
-                    mapEditorPopupManager.showAddEdgePopup(event);
-                } else mapEditorPopupManager.showEditNodePopup(n, event, false);
-            });
-
             c.setId(n.getNodeID() + "IntIcon");
 
             c.setOnMouseEntered(event -> {
@@ -442,6 +460,36 @@ public class MapDrawer implements PoppableManager {
             c.setOnMouseExited(event -> {
                 if (isEditing && !(mapCache.getStartNode() != null && c.getId().equals(mapCache.getStartNode().getId())))
                     c.setStroke(Color.BLACK);
+            });
+
+            c.setOnMouseClicked((MouseEvent e) -> {
+                if (e.isStillSincePress()) {
+                    if (mapCache.getStartNode() != null) {
+                        mapCache.setNewEdgeEnd(n.getNodeID());
+                        mapEditorPopupManager.showAddEdgePopup(e);
+                    } else mapEditorPopupManager.showEditNodePopup(n, e, false);
+                }
+            });
+
+            // Update coordinates of node when dragged
+            c.setOnMouseDragged(e -> {
+                gPane.setGestureEnabled(false);
+                c.setCenterX(e.getX());
+                c.setCenterY(e.getY());
+            });
+
+            c.setOnMouseReleased(e -> {
+                if (!e.isStillSincePress()) {
+                    n.setXCoord((int) (c.getCenterX() * PathfindingMenuController.coordinateScale));
+                    n.setYCoord((int) (c.getCenterY() * PathfindingMenuController.coordinateScale));
+                    System.out.println(n.getXCoord() + " " + n.getYCoord());
+                    try {
+                        db.updateNode(n);
+                    } catch (SQLException err) {
+                        err.printStackTrace();
+                    }
+                    gPane.setGestureEnabled(true);
+                }
             });
 
             intermediateNodeHolder.getChildren().add(c);
