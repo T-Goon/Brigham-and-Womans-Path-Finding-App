@@ -217,7 +217,7 @@
                                       <Insets left="10.0" right="10.0" />
                                   </padding>
                               </HBox>
-                              <HBox VBox.vgrow="ALWAYS">
+                              <HBox maxHeight="-Infinity" VBox.vgrow="ALWAYS">
                                   <children>
                                       <VBox alignment="BOTTOM_LEFT" HBox.hgrow="ALWAYS">
                                           <children>
@@ -269,7 +269,7 @@
                               </HBox>
                           </children>
                      <padding>
-                        <Insets bottom="5.0" top="5.0" />
+                        <Insets top="5.0" />
                      </padding>
                       </VBox>
                   <StackPane fx:id="textDirectionsHolder" alignment="TOP_LEFT" VBox.vgrow="ALWAYS">
