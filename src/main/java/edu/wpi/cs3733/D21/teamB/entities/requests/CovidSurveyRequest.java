@@ -7,29 +7,31 @@ import lombok.Setter;
 @Setter
 public class CovidSurveyRequest extends Request {
 
-        private boolean symptomFever;
+        private String symptomFever;
 
-        private boolean symptomChills;
+        private String symptomChills;
 
-        private boolean symptomCough;
+        private String symptomCough;
 
-        private boolean symptomShortBreath;
+        private String symptomShortBreath;
 
-        private boolean symptomSoreTht;
+        private String symptomSoreTht;
 
-        private boolean symptomHeadache;
+        private String symptomHeadache;
 
-        private boolean symptomAches;
+        private String symptomAches;
 
-        private boolean symptomNose;
+        private String symptomNose;
 
-        private boolean symptomLostTaste;
+        private String symptomLostTaste;
 
-        private boolean symptomNausea;
+        private String symptomNausea;
 
-        private boolean hadCloseContact;
+        private String hadCloseContact;
 
-        private boolean hadPositiveTest;
+        private String hadPositiveTest;
+
+        private String username;
 
     public CovidSurveyRequest( String requestID,
                                String time,
@@ -38,18 +40,20 @@ public class CovidSurveyRequest extends Request {
                                String employeeName,
                                String location,
                                String description,
-                               boolean symptomFever,
-                               boolean symptomCough,
-                               boolean symptomShortBreath,
-                               boolean symptomSoreTht,
-                               boolean symptomHeadache,
-                               boolean symptomAches,
-                               boolean symptomNose,
-                               boolean symptomLostTaste,
-                               boolean symptomNausea,
-                               boolean hadCloseContact,
-                               boolean hadPositiveTest) {
+                               String username,
+                               String symptomFever,
+                               String symptomCough,
+                               String symptomShortBreath,
+                               String symptomSoreTht,
+                               String symptomHeadache,
+                               String symptomAches,
+                               String symptomNose,
+                               String symptomLostTaste,
+                               String symptomNausea,
+                               String hadCloseContact,
+                               String hadPositiveTest) {
         super(requestID, RequestType.COVID, time, date, complete, employeeName, location, description);
+        this.username = username;
         this.symptomFever = symptomFever;
         this.symptomCough = symptomCough;
         this.symptomSoreTht = symptomSoreTht;
