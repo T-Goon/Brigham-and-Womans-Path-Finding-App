@@ -44,6 +44,7 @@ dependencies {
     )
     implementation 'junit:junit:4.12'
     implementation group: 'org.mindrot', name: 'jbcrypt', version: '0.4'
+    implementation 'com.dlsc:GMapsFX:8.0.0'
 //These are test dependencies. These are only used for running verification tasks via Gradle.
     testCompile(
             'org.mindrot:jbcrypt:0.4',
