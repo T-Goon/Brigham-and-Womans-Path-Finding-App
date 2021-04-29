@@ -148,6 +148,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
     public static final int MAX_X = 5000;
     public static final int MAX_Y = 3400;
 
+    // Map of category short name to category long name, REST -> Restroom
     private final Map<String, String> categoryNameMap = new HashMap<>();
 
     private final HashMap<String, Color> colors = new HashMap<>();
@@ -169,18 +170,9 @@ public class PathfindingMenuController extends BasePageController implements Ini
     public void initialize(URL location, ResourceBundle resources) {
 
         //Add better category names to a hash map
-        categoryNameMap.put("SERV", "Services");
-        categoryNameMap.put("REST", "Restrooms");
-        categoryNameMap.put("LABS", "Lab Rooms");
-        categoryNameMap.put("ELEV", "Elevators");
-        categoryNameMap.put("DEPT", "Departments");
-        categoryNameMap.put("CONF", "Conference Rooms");
-        categoryNameMap.put("INFO", "Information Locations");
-        categoryNameMap.put("RETL", "Retail Locations");
-        categoryNameMap.put("EXIT", "Entrances");
-        categoryNameMap.put("STAI", "Stairs");
-        categoryNameMap.put("PARK", "Parking Spots");
+        initCategoriesMap();
 
+        // Disable the find path button
         validateFindPathButton();
 
         //Adds all the destination names to locationNames and sort the nodes by floor
@@ -191,11 +183,14 @@ public class PathfindingMenuController extends BasePageController implements Ini
             e.printStackTrace();
         }
 
+        // Class that draws things on the map
         mapDrawer = new MapDrawer(this, mapCache, nodeHolder, mapHolder, intermediateNodeHolder, lblError, mapStack, gpane);
 
+        // Class that handles the popups for the map editor
         mapEditorPopupManager = new MapEditorPopupManager(mapDrawer, mapCache, gpane, mapStack);
         mapDrawer.setMapEditorPopupManager(mapEditorPopupManager);
 
+        // Class that handles the popups for the path finding
         mapPathPopupManager = new MapPathPopupManager(mapDrawer, mapCache, txtStartLocation, txtEndLocation, btnRemoveStop, mapStack, gpane, this, nodeHolder, textDirectionsHolder);
         mapDrawer.setMapPathPopupManager(mapPathPopupManager);
 
@@ -203,26 +198,18 @@ public class PathfindingMenuController extends BasePageController implements Ini
         floorSwitcher = new FloorSwitcher(mapDrawer, mapCache, map, btnF3, btnF2, btnF1, btnFL1, btnFL2);
         floorSwitcher.switchFloor(FloorSwitcher.floor1ID);
 
-        //test if we came from a failed covid survey
-        if (SceneSwitcher.peekLastScene().equals("/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidFormSubmittedWithSymp.fxml")) {
-            txtEndLocation.setText("Emergency Department Entrance");
-            SceneSwitcher.popLastScene();
-        }
+        // Fill in proper fields if the last scene is the covid survey
+        checkFromCovidSurvey();
 
-        //test if we came from a not failed covid survey
-        if (SceneSwitcher.peekLastScene().equals("/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidFormSubmittedNoSymp.fxml")) {
-            txtEndLocation.setText("75 Francis Lobby Entrance");
-            SceneSwitcher.popLastScene();
-        }
+        // Set up map for editing mode if the user is an admin
+        if(db.getAuthenticationUser().getAuthenticationLevel().equals(User.AuthenticationLevel.ADMIN))
+            initMapForEditing();
 
-        initMapForEditing();
-
-        // Set up Load and Save buttons
+        // Set up Load and Save buttons for csv
         btnLoad.setOnAction(event -> loadCSV());
-
         btnSave.setOnAction(event -> saveCSV());
 
-        // Set up mobility button
+        // Set up limited mobility toggles
         btnMobility.setOnAction(event -> mapDrawer.setMobility(btnMobility.isSelected()));
 
         // Disable editing if the user is not an admin
@@ -235,11 +222,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
         });
 
         // Set up the pathing type combo box
-        comboPathingType.getItems().add("A*");
-        comboPathingType.getItems().add("DFS");
-        comboPathingType.getItems().add("BFS");
-        comboPathingType.getSelectionModel().select(Graph.getGraph().getPathingTypeIndex());
-        comboPathingType.setOnAction(e -> Graph.getGraph().setPathingTypeIndex(comboPathingType.getSelectionModel().getSelectedIndex()));
+        setUpPathfindingChoices();
     }
 
     /**
@@ -792,5 +775,51 @@ public class PathfindingMenuController extends BasePageController implements Ini
             newRoot.setValue("No results!");
             treeLocations.setShowRoot(true);
         }
+    }
+
+    /**
+     * Initialize the map of category short names to category long names
+     */
+    private void initCategoriesMap(){
+        categoryNameMap.put("SERV", "Services");
+        categoryNameMap.put("REST", "Restrooms");
+        categoryNameMap.put("LABS", "Lab Rooms");
+        categoryNameMap.put("ELEV", "Elevators");
+        categoryNameMap.put("DEPT", "Departments");
+        categoryNameMap.put("CONF", "Conference Rooms");
+        categoryNameMap.put("INFO", "Information Locations");
+        categoryNameMap.put("RETL", "Retail Locations");
+        categoryNameMap.put("EXIT", "Entrances");
+        categoryNameMap.put("STAI", "Stairs");
+        categoryNameMap.put("PARK", "Parking Spots");
+    }
+
+    /**
+     * Checks if the last scene was the covid survey and fill in proper directions based on results
+     */
+    private void checkFromCovidSurvey(){
+        //test if we came from a failed covid survey
+        if (SceneSwitcher.peekLastScene().equals("/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidFormSubmittedWithSymp.fxml")) {
+            txtEndLocation.setText("Emergency Department Entrance");
+            SceneSwitcher.popLastScene();
+        }
+
+
+        //test if we came from a not failed covid survey
+        if (SceneSwitcher.peekLastScene().equals("/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidFormSubmittedNoSymp.fxml")) {
+            txtEndLocation.setText("75 Francis Lobby Entrance");
+            SceneSwitcher.popLastScene();
+        }
+    }
+
+    /**
+     * Set up the combo boxes to choose between the different pathfinding algorithms
+     */
+    private void setUpPathfindingChoices(){
+        comboPathingType.getItems().add("A*");
+        comboPathingType.getItems().add("DFS");
+        comboPathingType.getItems().add("BFS");
+        comboPathingType.getSelectionModel().select(Graph.getGraph().getPathingTypeIndex());
+        comboPathingType.setOnAction(e -> Graph.getGraph().setPathingTypeIndex(comboPathingType.getSelectionModel().getSelectedIndex()));
     }
 }
