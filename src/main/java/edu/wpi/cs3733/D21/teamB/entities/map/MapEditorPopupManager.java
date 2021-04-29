@@ -50,8 +50,8 @@ public class MapEditorPopupManager implements PoppableManager {
         md.removeAllPopups();
 
         AddNodePopupData data = new AddNodePopupData(
-                x * PathfindingMenuController.coordinateScale,
-                y * PathfindingMenuController.coordinateScale,
+                x * PathfindingMenuController.COORDINATE_SCALE,
+                y * PathfindingMenuController.COORDINATE_SCALE,
                 mc.getCurrentFloor(),
                 md,
                 gPane);

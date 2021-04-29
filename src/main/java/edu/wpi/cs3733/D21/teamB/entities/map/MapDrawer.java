@@ -195,13 +195,13 @@ public class MapDrawer implements PoppableManager {
 
         // Place head at first node
         animationPath.getElements().add(new MoveTo(
-                Graph.getGraph().getNodes().get(currentFloorPath.get(0)).getXCoord() / PathfindingMenuController.coordinateScale,
-                Graph.getGraph().getNodes().get(currentFloorPath.get(0)).getYCoord() / PathfindingMenuController.coordinateScale));
+                Graph.getGraph().getNodes().get(currentFloorPath.get(0)).getXCoord() / PathfindingMenuController.COORDINATE_SCALE,
+                Graph.getGraph().getNodes().get(currentFloorPath.get(0)).getYCoord() / PathfindingMenuController.COORDINATE_SCALE));
 
         for (int i = 0; i < currentFloorPath.size() - 1; i++) {
             steps++;
-            double x = Graph.getGraph().getNodes().get(currentFloorPath.get(i + 1)).getXCoord() / PathfindingMenuController.coordinateScale;
-            double y = Graph.getGraph().getNodes().get(currentFloorPath.get(i + 1)).getYCoord() / PathfindingMenuController.coordinateScale;
+            double x = Graph.getGraph().getNodes().get(currentFloorPath.get(i + 1)).getXCoord() / PathfindingMenuController.COORDINATE_SCALE;
+            double y = Graph.getGraph().getNodes().get(currentFloorPath.get(i + 1)).getYCoord() / PathfindingMenuController.COORDINATE_SCALE;
 
             if (Graph.getGraph().verifyEdge(currentFloorPath.get(i), currentFloorPath.get(i + 1))) {
                 // Valid edge move along it
@@ -361,8 +361,8 @@ public class MapDrawer implements PoppableManager {
 
             i.setImage(wImage);
 
-            i.setLayoutX((n.getXCoord() / PathfindingMenuController.coordinateScale) - (i.getFitWidth() / 4));
-            i.setLayoutY((n.getYCoord() / PathfindingMenuController.coordinateScale) - (i.getFitHeight()));
+            i.setLayoutX((n.getXCoord() / PathfindingMenuController.COORDINATE_SCALE) - (i.getFitWidth() / 4));
+            i.setLayoutY((n.getYCoord() / PathfindingMenuController.COORDINATE_SCALE) - (i.getFitHeight()));
 
             i.setId(n.getNodeID() + "Icon");
 
@@ -391,8 +391,8 @@ public class MapDrawer implements PoppableManager {
         try {
             Circle c = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/cs3733/D21/teamB/views/map/misc/nodeAlt.fxml")));
 
-            c.setCenterX((n.getXCoord() / PathfindingMenuController.coordinateScale));
-            c.setCenterY((n.getYCoord() / PathfindingMenuController.coordinateScale));
+            c.setCenterX((n.getXCoord() / PathfindingMenuController.COORDINATE_SCALE));
+            c.setCenterY((n.getYCoord() / PathfindingMenuController.COORDINATE_SCALE));
 
             c.setId(n.getNodeID() + "Icon");
 
@@ -433,8 +433,8 @@ public class MapDrawer implements PoppableManager {
         try {
             Circle c = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/cs3733/D21/teamB/views/map/misc/intermediateNode.fxml")));
 
-            c.setCenterX((n.getXCoord() / PathfindingMenuController.coordinateScale));
-            c.setCenterY((n.getYCoord() / PathfindingMenuController.coordinateScale));
+            c.setCenterX((n.getXCoord() / PathfindingMenuController.COORDINATE_SCALE));
+            c.setCenterY((n.getYCoord() / PathfindingMenuController.COORDINATE_SCALE));
 
             c.setId(n.getNodeID() + "IntIcon");
 
@@ -497,11 +497,11 @@ public class MapDrawer implements PoppableManager {
         try {
             Line l = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/cs3733/D21/teamB/views/map/misc/edge.fxml")));
 
-            l.setStartX(start.getXCoord() / PathfindingMenuController.coordinateScale);
-            l.setStartY(start.getYCoord() / PathfindingMenuController.coordinateScale);
+            l.setStartX(start.getXCoord() / PathfindingMenuController.COORDINATE_SCALE);
+            l.setStartY(start.getYCoord() / PathfindingMenuController.COORDINATE_SCALE);
 
-            l.setEndX(end.getXCoord() / PathfindingMenuController.coordinateScale);
-            l.setEndY(end.getYCoord() / PathfindingMenuController.coordinateScale);
+            l.setEndX(end.getXCoord() / PathfindingMenuController.COORDINATE_SCALE);
+            l.setEndY(end.getYCoord() / PathfindingMenuController.COORDINATE_SCALE);
 
             l.setOnMouseClicked(e -> {
                 if (isEditing) {
@@ -663,19 +663,10 @@ public class MapDrawer implements PoppableManager {
 
             // Update node
             gPane.setGestureEnabled(false);
-            if ((e.getX() * PathfindingMenuController.coordinateScale) >= 0 && (e.getY() * PathfindingMenuController.coordinateScale) >= 0) {
-                c.setCenterX(e.getX());
-                c.setCenterY(e.getY());
-            } else if ((e.getX() * PathfindingMenuController.coordinateScale) >= 0) {
-                c.setCenterX(e.getX());
-                c.setCenterY(0);
-            } else if ((e.getY() * PathfindingMenuController.coordinateScale) >= 0) {
-                c.setCenterX(0);
-                c.setCenterY(e.getY());
-            } else {
-                c.setCenterX(0);
-                c.setCenterY(0);
-            }
+
+            // Constrains the nodes to make sure they can't be above the max coordinate or below the min
+            c.setCenterX(e.getX() > (PathfindingMenuController.MAX_X / PathfindingMenuController.COORDINATE_SCALE) ? (PathfindingMenuController.MAX_X / PathfindingMenuController.COORDINATE_SCALE) : e.getX() < 0 ? 0 : e.getX());
+            c.setCenterY(e.getY() > (PathfindingMenuController.MAX_Y / PathfindingMenuController.COORDINATE_SCALE) ? (PathfindingMenuController.MAX_Y / PathfindingMenuController.COORDINATE_SCALE) : e.getY() < 0 ? 0 : e.getY());
 
             // Update lines
             for (LineDir line : lines) {
@@ -689,14 +680,11 @@ public class MapDrawer implements PoppableManager {
             }
         });
 
-        // todo make sure don't go off the bottom of the map
-        // todo figure out max width/height, add check constraints to database
-
         // Update coordinates of the actual node in the database when the drag is done
         c.setOnMouseReleased(e -> {
             if (!e.isStillSincePress()) {
-                n.setXCoord((int) (c.getCenterX() * PathfindingMenuController.coordinateScale));
-                n.setYCoord((int) (c.getCenterY() * PathfindingMenuController.coordinateScale));
+                n.setXCoord((int) (c.getCenterX() * PathfindingMenuController.COORDINATE_SCALE));
+                n.setYCoord((int) (c.getCenterY() * PathfindingMenuController.COORDINATE_SCALE));
                 gPane.setGestureEnabled(true);
                 try {
                     db.updateNode(n);

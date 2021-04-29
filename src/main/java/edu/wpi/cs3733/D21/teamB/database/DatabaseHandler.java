@@ -153,8 +153,8 @@ public class DatabaseHandler {
                 + "longName CHAR(50), "
                 + "shortName CHAR(20), "
                 + "color CHAR(20),"
-                + "CHECK (xcoord >= 0), "
-                + "CHECK (ycoord >= 0))";
+                + "CHECK (xcoord >= 0 AND xcoord <= 5000), "
+                + "CHECK (ycoord >= 0 AND ycoord <= 3400))";
 
         String edgesTable = "CREATE TABLE IF NOT EXISTS Edges("
                 + "edgeID CHAR(30) PRIMARY KEY, "

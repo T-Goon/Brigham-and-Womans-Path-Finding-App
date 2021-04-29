@@ -42,8 +42,8 @@ public class ETAPopup extends Popup<VBox, ETAPopupData> implements Poppable {
         Graph graph = Graph.getGraph();
         Node endNode = graph.getNodes().get(data.getPath().getPath().get(data.getPath().getPath().size() - 1));
 
-        estimatedTimeBox.setLayoutX((endNode.getXCoord() / PathfindingMenuController.coordinateScale));
-        estimatedTimeBox.setLayoutY((endNode.getYCoord() / PathfindingMenuController.coordinateScale) - (estimatedTimeBox.getHeight()));
+        estimatedTimeBox.setLayoutX((endNode.getXCoord() / PathfindingMenuController.COORDINATE_SCALE));
+        estimatedTimeBox.setLayoutY((endNode.getYCoord() / PathfindingMenuController.COORDINATE_SCALE) - (estimatedTimeBox.getHeight()));
 
         super.show(estimatedTimeBox);
     }
