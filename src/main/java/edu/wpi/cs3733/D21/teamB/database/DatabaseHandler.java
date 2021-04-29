@@ -293,14 +293,14 @@ public class DatabaseHandler {
                 + "securityEmergency CHAR(20)," // Stored as T/F (no boolean data type in SQL)
                 + "FOREIGN KEY (requestID) REFERENCES Requests(requestID))";
 
-        String covidSurveyRequestsTable = "CREATE TABLE IF NOT EXISTS CovidSurvey("
+        String covidSurveyRequestsTable = "CREATE TABLE IF NOT EXISTS CovidSurveyRequests("
                 + "requestID CHAR(20) PRIMARY KEY, "
-                + "username CHAR(30), "
                 + "status CHAR(10) CHECK (status in ('UNCHECKED','PENDING','DANGEROUS', 'SAFE')), "
                 + "fever CHAR(1) CHECK (fever in ('T','F')), "
                 + "chills CHAR(1) CHECK (chills in ('T','F')), "
                 + "cough CHAR(1) CHECK (cough in ('T','F')), "
                 + "shortBreath CHAR(1) CHECK (shortBreath in ('T','F')), "
+                + "soreTht CHAR(1) CHECK (soreTht in ('T','F')), "
                 + "headache CHAR(1) CHECK (headache in ('T','F')), "
                 + "aches CHAR(1) CHECK (aches in ('T','F')), "
                 + "nose CHAR(1) CHECK (nose in ('T','F')), "
@@ -308,7 +308,6 @@ public class DatabaseHandler {
                 + "nausea CHAR(1) CHECK (nausea in ('T','F')), "
                 + "closeContact CHAR(1) CHECK (closeContact in ('T','F')), "
                 + "positiveTest CHAR(1) CHECK (positiveTest in ('T','F')), "
-                //+ "FOREIGN KEY (username) REFERENCES Users(username), " TODO enable once we figure out how to handle guest users here.
                 + "FOREIGN KEY (requestID) REFERENCES Requests(requestID))";
 
         String usersTable = "CREATE TABLE IF NOT EXISTS Users("

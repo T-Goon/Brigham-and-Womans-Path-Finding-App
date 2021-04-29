@@ -216,14 +216,14 @@ public class RequestMutator implements IDatabaseEntityMutator<Request> {
                 break;
             case COVID:
                 CovidSurveyRequest covidSurveyRequest = (CovidSurveyRequest) request;
-                query = "INSERT INTO EmergencyRequests VALUES " +
+                query = "INSERT INTO covidSurveyRequests VALUES " +
                         "('" + covidSurveyRequest.getRequestID()
-                        + "', '" + covidSurveyRequest.getUsername()
                         + "', '" + covidSurveyRequest.getStatus().toString()
                         + "', '" + covidSurveyRequest.getSymptomFever()
                         + "', '" + covidSurveyRequest.getSymptomChills()
                         + "', '" + covidSurveyRequest.getSymptomCough()
                         + "', '" + covidSurveyRequest.getSymptomShortBreath()
+                        + "', '" + covidSurveyRequest.getSymptomSoreTht()
                         + "', '" + covidSurveyRequest.getSymptomHeadache()
                         + "', '" + covidSurveyRequest.getSymptomAches()
                         + "', '" + covidSurveyRequest.getSymptomNose()
@@ -376,12 +376,12 @@ public class RequestMutator implements IDatabaseEntityMutator<Request> {
                 break;
             case COVID:
                 CovidSurveyRequest covidSurveyRequest = (CovidSurveyRequest) request;
-                query = "UPDATE EmergencyRequests SET username = '" + covidSurveyRequest.getUsername()
-                        + "', status = '" + covidSurveyRequest.getStatus().toString()
+                query = "UPDATE covidSurveyRequests SET status = '" + covidSurveyRequest.getStatus().toString()
                         + "', fever = '" + covidSurveyRequest.getSymptomFever()
                         + "', chills = '" + covidSurveyRequest.getSymptomChills()
                         + "', cough = '" + covidSurveyRequest.getSymptomCough()
                         + "', shortBreath = '" + covidSurveyRequest.getSymptomShortBreath()
+                        + "', soreTht = '" + covidSurveyRequest.getSymptomSoreTht()
                         + "', headache = '" + covidSurveyRequest.getSymptomHeadache()
                         + "', aches = '" + covidSurveyRequest.getSymptomAches()
                         + "', nose = '" + covidSurveyRequest.getSymptomNose()
@@ -665,12 +665,12 @@ public class RequestMutator implements IDatabaseEntityMutator<Request> {
                         rs.getString("employeeName"),
                         rs.getString("location"),
                         rs.getString("description"),
-                        rs.getString("username"),
                         User.CovidStatus.valueOf(rs.getString("status")),
                         rs.getString("fever"),
                         rs.getString("chills"),
                         rs.getString("cough"),
                         rs.getString("shortBreath"),
+                        rs.getString("soreTht"),
                         rs.getString("headache"),
                         rs.getString("aches"),
                         rs.getString("nose"),

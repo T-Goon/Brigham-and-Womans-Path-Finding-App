@@ -8,6 +8,7 @@ import edu.wpi.cs3733.D21.teamB.entities.User;
 import edu.wpi.cs3733.D21.teamB.entities.requests.CovidSurveyRequest;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
 import edu.wpi.cs3733.D21.teamB.views.BasePageController;
+import edu.wpi.cs3733.D21.teamB.views.requestForms.DefaultServiceRequestFormController;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -22,7 +23,7 @@ import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.UUID;
 
-public class CovidSurveyController extends BasePageController implements Initializable {
+public class CovidSurveyController extends DefaultServiceRequestFormController implements Initializable {
 
     @FXML
     private JFXButton btnSubmit;
@@ -83,6 +84,7 @@ public class CovidSurveyController extends BasePageController implements Initial
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        super.initialize(location,resources);
         btnCCYes.setToggleGroup(ccGroup);
         btnCCNo.setToggleGroup(ccGroup);
         btnTestYes.setToggleGroup(testGroup);
@@ -102,6 +104,7 @@ public class CovidSurveyController extends BasePageController implements Initial
                 break;
             case "btnSubmit":
                 this.handleSubmission();
+                break;
             case "btnExit":
                 Platform.exit();
                 break;
@@ -119,13 +122,13 @@ public class CovidSurveyController extends BasePageController implements Initial
                 timeFormat.format(dateInfo),
                 dateFormat.format(dateInfo),
                 "F",
-                "null",
-                "null",
+                null,
+                getLocation(),
                 "",
-                DatabaseHandler.getHandler().getAuthenticationUser().getUsername(),
                 User.CovidStatus.PENDING,
                 chkFever.isSelected() ? "T" : "F",
                 chkCough.isSelected() ? "T" : "F",
+                chkChills.isSelected() ? "T" : "F",
                 chkShortBreath.isSelected() ? "T" : "F",
                 chkSoreTht.isSelected() ? "T" : "F",
                 chkHeadache.isSelected() ? "T" : "F",
@@ -143,18 +146,18 @@ public class CovidSurveyController extends BasePageController implements Initial
             e.printStackTrace();
         }
 
-        if (btnCCNo.isSelected() && btnTestNo.isSelected() && !chkCough.isSelected() && !chkChills.isSelected() && !chkAches.isSelected() && !chkFever.isSelected()
-                && !chkHeadache.isSelected() && !chkLostTaste.isSelected() && !chkNausea.isSelected() && !chkNose.isSelected() && !chkShortBreath.isSelected() && !chkSoreTht.isSelected())
-            SceneSwitcher.switchFromTemp(getClass(), "/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidFormSubmittedNoSymp.fxml");
-        else
-            SceneSwitcher.switchFromTemp(getClass(), "/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidFormSubmittedWithSymp.fxml");
+//        if (btnCCNo.isSelected() && btnTestNo.isSelected() && !chkCough.isSelected() && !chkChills.isSelected() && !chkAches.isSelected() && !chkFever.isSelected()
+//                && !chkHeadache.isSelected() && !chkLostTaste.isSelected() && !chkNausea.isSelected() && !chkNose.isSelected() && !chkShortBreath.isSelected() && !chkSoreTht.isSelected())
+//            SceneSwitcher.switchFromTemp(getClass(), "/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidFormSubmittedNoSymp.fxml");
+//        else
+//            SceneSwitcher.switchFromTemp(getClass(), "/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidFormSubmittedWithSymp.fxml");
 
     }
 
     @FXML
     private void validateButton(){
         btnSubmit.setDisable(
-                !(btnCCYes.isSelected() || btnCCNo.isSelected()) || !(btnTestYes.isSelected() || btnTestNo.isSelected())
+                !(btnCCYes.isSelected() || btnCCNo.isSelected()) || !(btnTestYes.isSelected() || btnTestNo.isSelected()) &&
         );
     }
 }
