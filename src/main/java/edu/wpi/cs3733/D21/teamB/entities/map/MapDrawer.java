@@ -37,6 +37,7 @@ public class MapDrawer implements PoppableManager {
     private MapPathPopupManager mapPathPopupManager;
     @Setter
     private MapEditorPopupManager mapEditorPopupManager;
+    @Getter
     private final AnchorPane nodeHolder;
     private final AnchorPane mapHolder;
     private final AnchorPane intermediateNodeHolder;
