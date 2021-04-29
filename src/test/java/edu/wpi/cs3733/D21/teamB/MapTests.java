@@ -48,14 +48,14 @@ public class MapTests extends FxRobot{
     @Test
     void testGraphicalMapEditor() {
         // Get to edit map menu
-        clickOn("#btnStaff");
+        clickOn("#btnLogin");
         verifyThat("Login Page", Node::isVisible);
         clickOn("#username");
         write("admin");
         press(KeyCode.TAB);
         write("admin");
         press(KeyCode.ENTER);
-        verifyThat("Staff Directory", Node::isVisible);
+        verifyThat("Admin Directory", Node::isVisible);
         clickOn("#btnDirections");
         clickOn("#btnEditMap");
 
@@ -96,6 +96,12 @@ public class MapTests extends FxRobot{
         clickOn("#building");
         write("123");
         clickOn("#btnUpdate");
+
+        // Mode a node with a drag
+        moveTo("#bBATH00101Icon");
+        press(MouseButton.PRIMARY);
+        drag(100, 0, MouseButton.PRIMARY);
+        release(MouseButton.PRIMARY);
 
         // Set start node for edge
         clickOn("#bBATH00101Icon");
