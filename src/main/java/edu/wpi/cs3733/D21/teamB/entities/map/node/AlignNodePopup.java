@@ -53,6 +53,8 @@ public class AlignNodePopup extends Popup<VBox, AlignNodePopupData> implements P
         double meanY = (nodes.stream().mapToDouble(Circle::getCenterY).sum() / nodes.size()) * PathfindingMenuController.COORDINATE_SCALE;
 
         // Calculate the equation
+        // Calculate slope, accounting for if it's straight up
+        // Then calculate the y intercept
         double top = 0;
         double bottom = 0;
         for (Circle c : nodes) {
@@ -61,8 +63,6 @@ public class AlignNodePopup extends Popup<VBox, AlignNodePopupData> implements P
             top += xDiff * yDiff;
             bottom += Math.pow(xDiff, 2);
         }
-
-        // Calculate slope, accounting for if it's straight up
         double slope = top / bottom;
         if (Double.isNaN(slope)) slope = Double.MAX_VALUE;
         double yIntercept = meanY - (slope * meanX);
@@ -72,7 +72,7 @@ public class AlignNodePopup extends Popup<VBox, AlignNodePopupData> implements P
         if (slope != 0) perpendicularSlope = -1 / slope;
 
 
-        // Now, for each node, calculate the spot on the line the shortest distance from the line, then update it
+        // Now, for each node, calculate the spot on the line the shortest distance from the point, then update the node to that spot
         for (Circle c : nodes) {
             double perpYIntercept = (c.getCenterY() * PathfindingMenuController.COORDINATE_SCALE) - ((c.getCenterX() * PathfindingMenuController.COORDINATE_SCALE) * perpendicularSlope);
             double endX = c.getCenterX() * PathfindingMenuController.COORDINATE_SCALE;

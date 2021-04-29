@@ -743,7 +743,10 @@ public class PathfindingMenuController extends BasePageController implements Ini
                     "If you want to remove your stops, click on the \"Remove Stop\" button.\n"
             );
         } else
-            helpText = new Text("Double click to add a node. Click on a node or an edge to edit or remove them. To add a new edge click on\none of the nodes, then \"Add Edge\". Click on another node and click \"Yes\" to add the new edge or \"No\" to cancel it.");
+            helpText = new Text("Double click to add a node. Click on a node or an edge to edit or remove them. To add a new edge click on\n" +
+                    "one of the nodes, then \"Add Edge\". Click on another node and click \"Yes\" to add the new edge or \"No\" to cancel it.\n" +
+                    "If you control-click on several nodes, then release control, a popup appears to ask if the nodes should be aligned.\n" +
+                    "If you select \"Yes\", the nodes will be aligned according to the line of best fit; otherwise, nothing will occur.");
 
         helpText.setFont(new Font("MS Reference Sans Serif", 14));
 
