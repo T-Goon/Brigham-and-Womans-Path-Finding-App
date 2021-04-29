@@ -35,7 +35,19 @@ public class LoginOptionsController extends BasePageController {
                 SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/cs3733/D21/teamB/views/login/registerPage.fxml");
                 break;
             case "btnDirections":
-                SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/cs3733/D21/teamB/views/map/pathfindingMenu.fxml");
+                switch (DatabaseHandler.getHandler().getAuthenticationUser().getCovidStatus()) {
+                    case UNCHECKED:
+                        SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidSurvey.fxml");
+                        break;
+                    case PENDING:
+                        SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidFormPending.fxml");
+                        //To insert back target
+                        SceneSwitcher.pushPath("/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidSurvey.fxml");
+                        break;
+                    default:
+                        SceneSwitcher.switchScene(getClass(),currentPath,"/edu/wpi/cs3733/D21/teamB/views/map/pathfindingMenu.fxml");
+                        break;
+                }
                 break;
             case "btnCovid":
                 switch (DatabaseHandler.getHandler().getAuthenticationUser().getCovidStatus()) {
@@ -44,10 +56,13 @@ public class LoginOptionsController extends BasePageController {
                         break;
                     case PENDING:
                         SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidFormPending.fxml");
+                        //To insert back target
                         SceneSwitcher.pushPath("/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidSurvey.fxml");
                         break;
                     default:
                         SceneSwitcher.switchScene(getClass(),currentPath,"/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidFormAccepted.fxml");
+                        //To insert back target
+                        SceneSwitcher.pushPath("/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidSurvey.fxml");
                         break;
                 }
                 break;

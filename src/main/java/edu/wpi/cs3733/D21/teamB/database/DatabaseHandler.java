@@ -507,7 +507,7 @@ public class DatabaseHandler {
      * Sets authentication level to guest
      */
     public void deauthenticate() {
-        DatabaseHandler.AuthenticationUser = new User(null, null, null, User.AuthenticationLevel.GUEST, null);
+        DatabaseHandler.AuthenticationUser = new User(null, null, null, User.AuthenticationLevel.GUEST, User.CovidStatus.UNCHECKED, null);
     }
 
     /**
