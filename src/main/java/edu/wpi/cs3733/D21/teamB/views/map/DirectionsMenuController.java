@@ -12,6 +12,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -19,7 +21,7 @@ import java.util.ResourceBundle;
 public class DirectionsMenuController extends BasePageController implements Initializable, MapComponentInitializedListener, DirectionsServiceCallback {
 
     @FXML
-    private AnchorPane anchorPane;
+    private StackPane mapHolder;
 
     @FXML
     private GoogleMapView mapView;
@@ -37,6 +39,7 @@ public class DirectionsMenuController extends BasePageController implements Init
         mapOptions.center(new LatLong(42.2743, -71.8081))
                 .mapType(MapTypeIdEnum.ROADMAP)
                 .panControl(true)
+                .streetViewControl(false)
                 .zoom(12)
                 .overviewMapControl(false);
 
@@ -50,11 +53,11 @@ public class DirectionsMenuController extends BasePageController implements Init
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         mapView = new GoogleMapView("en", "AIzaSyD4MPvha5ZUWDmOuuvxPSMW0NH1h3bZUXs");
-        anchorPane.getChildren().add(mapView);
-        AnchorPane.setTopAnchor(mapView, 0.0);
-        AnchorPane.setBottomAnchor(mapView, 0.0);
-        AnchorPane.setLeftAnchor(mapView, 0.0);
-        AnchorPane.setRightAnchor(mapView, 0.0);
+        VBox dirBox = (VBox) mapHolder.getChildren().get(0);
+        mapHolder.getChildren().remove(0);
+        mapHolder.getChildren().add(mapView);
+        mapHolder.getChildren().add(dirBox);
+
 
         mapView.addMapInitializedListener(this);
 
