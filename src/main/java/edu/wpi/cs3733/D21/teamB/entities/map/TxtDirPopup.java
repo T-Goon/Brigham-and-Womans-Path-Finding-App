@@ -51,8 +51,6 @@ public class TxtDirPopup extends Popup<VBox, TxtDirPopupData> implements Poppabl
         }
 
         super.show(txtDirBox);
-        index = 1;
-        highlight();
     }
 
     /**
@@ -85,6 +83,6 @@ public class TxtDirPopup extends Popup<VBox, TxtDirPopupData> implements Poppabl
 
     public void highlight() {
         for (int i = 1; i < instructionBox.getChildren().size(); i++)
-            ((Label) ((HBox) (instructionBox.getChildren().get(i))).getChildren().get(0)).setTextFill(index == i ? Color.RED : Color.WHITE);
+            ((Label) ((HBox) (instructionBox.getChildren().get(i))).getChildren().get(1)).setTextFill(index == i ? Color.RED : Color.WHITE);
     }
 }

@@ -45,25 +45,38 @@ public class TxtDirPopupController implements Initializable {
 
         // Add all the text directions to the holder
         List<Directions.Direction> directions = popup.getDirections();
-        HBox first = new HBox();
-        Label firstText = new Label(directions.get(0).getInstruction());
-        firstText.setFont(Font.font("System", FontWeight.BOLD, 16));
-        first.getChildren().add(firstText);
-        textHolder.getChildren().add(first);
-        for (Directions.Direction dir : directions.subList(1, directions.size())) {
-            HBox instruction = new HBox();
-            instruction.setSpacing(20);
-            Label text = new Label("\t" + dir.getInstruction());
-            text.setFont(new Font("System", 14));
-            instruction.getChildren().add(text);
-            instruction.getChildren().add(getDirectionImage(dir.getDirection()));
-            instruction.setOnMouseClicked(e -> {
-                popup.setIndex(textHolder.getChildren().indexOf(instruction));
-                popup.highlight();
-            });
-            textHolder.getChildren().add(instruction);
+
+        // For every instruction:
+        for (int i = 0; i < directions.size(); i++) {
+            Directions.Direction dir = directions.get(i);
+            if (i == 0) {
+                HBox first = new HBox();
+                Label firstText = new Label(directions.get(0).getInstruction());
+                firstText.setFont(Font.font("System", FontWeight.BOLD, 16));
+                first.getChildren().add(firstText);
+                textHolder.getChildren().add(first);
+            } else {
+                // HBox for each row
+                HBox instruction = new HBox();
+                instruction.setSpacing(20);
+
+                // Image in HBox
+                instruction.getChildren().add(getDirectionImage(dir.getDirection()));
+
+                // Label in HBox
+                Label text = new Label(dir.getInstruction());
+                text.setFont(new Font("System", 14));
+                text.setTextFill(popup.getIndex() == i ? Color.RED : Color.WHITE);
+                instruction.getChildren().add(text);
+
+                // If clicked, update Index
+                instruction.setOnMouseClicked(e -> {
+                    popup.setIndex(textHolder.getChildren().indexOf(instruction));
+                    popup.highlight();
+                });
+                textHolder.getChildren().add(instruction);
+            }
         }
-        ((Label) ((HBox) textHolder.getChildren().get(1)).getChildren().get(0)).setTextFill(Color.RED);
     }
 
     @FXML
@@ -85,6 +98,12 @@ public class TxtDirPopupController implements Initializable {
         }
     }
 
+    /**
+     * Returns an image based on the direction type
+     *
+     * @param d the direction type
+     * @return the image relating to that direction type
+     */
     private ImageView getDirectionImage(Directions.DirectionType d) {
         String path;
         switch (d) {
