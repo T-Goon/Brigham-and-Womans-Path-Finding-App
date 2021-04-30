@@ -13,6 +13,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
 import net.kurobako.gesturefx.GesturePane;
 
 import java.util.List;
@@ -56,8 +57,8 @@ public class MapEditorPopupManager implements PoppableManager {
         AddNodePopupData data = new AddNodePopupData(
                 x * PathfindingMenuController.COORDINATE_SCALE,
                 y * PathfindingMenuController.COORDINATE_SCALE,
-                mc.getCurrentFloor(),
                 md,
+                mc,
                 gPane);
 
         anPopup = new AddNodePopup(mapStack, data);
@@ -89,11 +90,14 @@ public class MapEditorPopupManager implements PoppableManager {
      * @param start The start node of the edge.
      * @param end   The end node of the edge.
      */
-    public void showDelEdgePopup(Node start, Node end, Pane parent) {
+    public void showDelEdgePopup(Node start, Node end, Pane parent, MouseEvent event, Line line) {
         // Make sure there is only one editNodePopup at one time
         md.removeAllPopups();
 
-        DelEdgePopupData delData = new DelEdgePopupData(start, end, gPane, md);
+        DelEdgePopupData delData = new DelEdgePopupData(start, end, gPane, md, mc,
+                (int)(event.getX() * PathfindingMenuController.COORDINATE_SCALE),
+                (int)(event.getY() * PathfindingMenuController.COORDINATE_SCALE),
+                line);
 
         dePopup = new DelEdgePopup(parent, delData);
 

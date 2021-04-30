@@ -486,7 +486,7 @@ public class MapDrawer implements PoppableManager {
 
             l.setOnMouseClicked(e -> {
                 if (isEditing && !e.isControlDown()) {
-                    mapEditorPopupManager.showDelEdgePopup(start, end, mapStack);
+                    mapEditorPopupManager.showDelEdgePopup(start, end, mapStack, e, l);
                 }
             });
 
