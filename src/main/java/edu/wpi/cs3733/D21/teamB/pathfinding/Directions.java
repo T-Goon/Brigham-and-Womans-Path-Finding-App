@@ -138,6 +138,7 @@ public class Directions {
      */
     public static List<Direction> instructions(Path path, List<String> stopIDs) {
         List<String> simplePath = simplifyPath(path, stopIDs);
+        if (simplePath.isEmpty()) return null;
 
         String idEnd = simplePath.get(simplePath.size() - 1);
         Graph graph = Graph.getGraph();
