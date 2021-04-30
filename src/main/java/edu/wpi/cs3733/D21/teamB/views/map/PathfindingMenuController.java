@@ -12,17 +12,14 @@ import edu.wpi.cs3733.D21.teamB.entities.map.MapPathPopupManager;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Edge;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Node;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.NodeType;
-import edu.wpi.cs3733.D21.teamB.entities.map.node.GraphicalInputPopup;
 import edu.wpi.cs3733.D21.teamB.pathfinding.Graph;
 import edu.wpi.cs3733.D21.teamB.util.CSVHandler;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
 import edu.wpi.cs3733.D21.teamB.views.BasePageController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
-import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -48,7 +45,6 @@ import java.sql.SQLException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-@SuppressWarnings("unchecked")
 public class PathfindingMenuController extends BasePageController implements Initializable {
 
     @FXML
@@ -178,11 +174,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
 
         //Adds all the destination names to locationNames and sort the nodes by floor
         mapCache.updateLocations();
-        try {
-            populateTreeView();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        populateTreeView();
 
         // Class that draws things on the map
         mapDrawer = new MapDrawer(this, mapCache, nodeHolder, mapHolder, intermediateNodeHolder, lblError, mapStack, gpane);
@@ -224,6 +216,13 @@ public class PathfindingMenuController extends BasePageController implements Ini
 
         // Set up the pathing type combo box
         setUpPathfindingChoices();
+
+        // Set up control-click functionality for aligning nodes
+        gpane.setOnKeyReleased(e -> {
+            if (e.getCode() == KeyCode.CONTROL && !mapDrawer.getAligned().isEmpty()) {
+                mapEditorPopupManager.showAlignNodePopup(mapDrawer);
+            }
+        });
     }
 
     /**
@@ -331,7 +330,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
                 // Also change the color of the nodes marked for floor swapping in pathfinding
                 revertFavoriteNodeColors();
 
-            } else if(!selectedItem.getValue().equals("Locations") && !selectedItem.getValue().equals("Favorites")){
+            } else if (!selectedItem.getValue().equals("Locations") && !selectedItem.getValue().equals("Favorites")) {
                 // Put original node color in map and set all node colors to gray
                 colorAllNodesGrey();
 
@@ -347,9 +346,10 @@ public class PathfindingMenuController extends BasePageController implements Ini
 
     /**
      * Revert the colors of the nodes that are in the selected category
+     *
      * @param selectedItem Selected item in the tree view. Not a leaf
      */
-    private void revertCategoryNodeColors(TreeItem<String> selectedItem){
+    private void revertCategoryNodeColors(TreeItem<String> selectedItem) {
         String category = selectedItem.getValue();
         Map<String, List<Node>> floorNodes = mapCache.getFloorNodes();
         NodeType nt = NodeType.deprettify(category);
@@ -370,32 +370,29 @@ public class PathfindingMenuController extends BasePageController implements Ini
                     }
 
                 }
-            } else{
+            } else {
                 // There are no nodes on the floor for path finding
                 if (node.getNodeType().equals(nt.toString())) {
 
                     if (colors.get(node.getNodeID()) != null) {
                         node.setColor(colors.get(node.getNodeID()));
                         colors.remove(node.getNodeID());
-
                     }
                 }
-
             }
-
         }
     }
 
     /**
      * Revert the colors of the favorite nodes to the original colors
      */
-    private void revertFavoriteNodeColors(){
+    private void revertFavoriteNodeColors() {
         List<String> favorites = null;
 
         try {
             favorites = DatabaseHandler.getHandler().getFavorites();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
         Map<String, String> longNames = mapCache.makeLongToIDMap();
@@ -441,7 +438,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
     /**
      * Make all the nodes grey on the map
      */
-    private void colorAllNodesGrey(){
+    private void colorAllNodesGrey() {
 
         for (Node node : mapCache.getFloorNodes().get(mapCache.getCurrentFloor())) {
 
@@ -454,7 +451,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
     /**
      * Revert the colors of all nodes to their original color
      */
-    private void revertAllNodeColors(){
+    private void revertAllNodeColors() {
         Map<String, List<Node>> floorNodes = mapCache.getFloorNodes();
 
         if (!colors.isEmpty()) {
@@ -592,7 +589,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
     /**
      * Populates the tree view with nodes and categories
      */
-    private void populateTreeView() throws IOException {
+    private void populateTreeView() {
         //Populating TreeView
         TreeItem<String> rootNode = new TreeItem<>("Root");
         treeLocations.setRoot(rootNode);
@@ -690,7 +687,11 @@ public class PathfindingMenuController extends BasePageController implements Ini
                     "If you want to remove your stops, click on the \"Remove Stop\" button.\n"
             );
         } else
-            helpText = new Text("Double click to add a node. Click on a node or an edge to edit or remove them. To add a new edge click on\none of the nodes, then \"Add Edge\". Click on another node and click \"Yes\" to add the new edge or \"No\" to cancel it.");
+            helpText = new Text("Double click to add a node. Click on a node or an edge to edit or remove them. To add a new edge click on\n" +
+                    "one of the nodes, then \"Add Edge\". Click on another node and click \"Yes\" to add the new edge or \"No\" to cancel it.\n" +
+                    "If you control-click on several nodes, then release control, a popup appears to ask if the nodes should be aligned.\n" +
+                    "If you select \"Yes\", the nodes will be aligned according to the line of best fit; otherwise, nothing will occur.\n" +
+                    "Additionally, if you control-click on an already selected node, it will be deselected.");
 
         helpText.setFont(new Font("MS Reference Sans Serif", 14));
 
@@ -709,7 +710,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
     }
 
     @FXML
-    private void handleKeysPressedSearchBar(KeyEvent e) throws IOException {
+    private void handleKeysPressedSearchBar(KeyEvent e) {
         String regex = "[ a-zA-Z0-9\\-]+";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(e.getText());
