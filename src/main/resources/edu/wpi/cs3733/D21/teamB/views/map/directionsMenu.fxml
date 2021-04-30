@@ -111,6 +111,17 @@
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </padding>
                         </VBox>
+                         <JFXButton fx:id="btnBack" alignment="CENTER" buttonType="RAISED" cancelButton="true" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#handleButtonAction" prefHeight="56" prefWidth="56" style="-fx-background-color: #0067B1; -fx-background-radius: 50%;" text="🡰" textAlignment="CENTER" textFill="WHITE" StackPane.alignment="BOTTOM_LEFT">
+                             <font>
+                                 <Font size="27.0" />
+                             </font>
+                             <padding>
+                                 <Insets top="1.0" />
+                             </padding>
+                           <StackPane.margin>
+                              <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                           </StackPane.margin>
+                         </JFXButton>
                      </children>
                   </StackPane>
                </children>

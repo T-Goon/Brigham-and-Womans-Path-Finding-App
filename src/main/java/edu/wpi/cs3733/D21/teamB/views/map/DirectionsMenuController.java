@@ -7,6 +7,7 @@ import com.dlsc.gmapsfx.service.directions.*;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
+import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
 import edu.wpi.cs3733.D21.teamB.views.BasePageController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -30,6 +31,9 @@ public class DirectionsMenuController extends BasePageController implements Init
 
     @FXML
     private JFXButton btnSubmit;
+
+    @FXML
+    private JFXButton btnBack;
 
     @FXML
     private GoogleMapView mapView;
@@ -65,10 +69,7 @@ public class DirectionsMenuController extends BasePageController implements Init
 
 
         mapView = new GoogleMapView("en", "AIzaSyD4MPvha5ZUWDmOuuvxPSMW0NH1h3bZUXs");
-        VBox dirBox = (VBox) mapHolder.getChildren().get(0);
-        mapHolder.getChildren().remove(0);
-        mapHolder.getChildren().add(mapView);
-        mapHolder.getChildren().add(dirBox);
+        mapHolder.getChildren().add(0, mapView);
 
 
         mapView.addMapInitializedListener(this);
@@ -93,6 +94,9 @@ public class DirectionsMenuController extends BasePageController implements Init
         switch (b.getId()) {
             case "btnSubmit":
                 getRoute();
+                break;
+            case "btnEmergency":
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/cs3733/D21/teamB/views/map/pathfindingMenu.fxml", "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
                 break;
         }
     }
