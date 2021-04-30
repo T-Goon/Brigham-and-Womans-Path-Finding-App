@@ -55,7 +55,6 @@ public class DirectionsMenuController extends BasePageController implements Init
         directionsService = new DirectionsService();
         directionsPane = mapView.getDirec();
 
-        map.showDirectionsPane();
     }
 
     @Override
@@ -81,6 +80,7 @@ public class DirectionsMenuController extends BasePageController implements Init
             directionsRenderer.getJSObject().eval("var summaryPanel = document.getElementById('directions'); summaryPanel.innerHTML=\"\"");
         }
 
+        map.showDirectionsPane();
         DirectionsRequest request = new DirectionsRequest(txtStartLocation.getText(), comboEndLocation.getSelectionModel().getSelectedItem(), TravelModes.DRIVING, true);
         directionsRenderer = new DirectionsRenderer(true, mapView.getMap(), directionsPane);
         directionsService.getRoute(request, this, directionsRenderer);
