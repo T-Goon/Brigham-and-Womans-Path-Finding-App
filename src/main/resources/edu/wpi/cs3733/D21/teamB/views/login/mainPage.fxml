@@ -10,7 +10,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" style="-fx-background-color: #012d5a;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D21.teamB.views.login.LoginOptionsController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" style="-fx-background-color: #012d5a;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D21.teamB.views.login.MainPageController">
     <children>
         <VBox alignment="TOP_CENTER" layoutX="220.0" layoutY="27.0" prefHeight="600.0" prefWidth="900.0" spacing="20.0" styleClass="bodybg" stylesheets="@../../css/loginOptionsBackground.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
@@ -80,61 +80,64 @@
                 </HBox>
                 <HBox alignment="CENTER" prefHeight="183.0" prefWidth="1280.0" scaleX="2.0" scaleY="2.0">
                     <children>
-                  <HBox prefHeight="183.0" prefWidth="345.0" style="-fx-background-radius: 20; -fx-background-color: #0067B1; -fx-border-radius: 20; -fx-border-color: #012d5a; -fx-border-width: 2;" styleClass="loginShadow" stylesheets="@../../css/loginShadow.css">
+                  <HBox alignment="CENTER" spacing="10.0" style="-fx-background-radius: 20; -fx-background-color: #0067B1; -fx-border-radius: 20; -fx-border-color: #012d5a; -fx-border-width: 2;" styleClass="loginShadow" stylesheets="@../../css/loginShadow.css">
                      <children>
-                              <VBox prefHeight="200.0" prefWidth="100.0">
+                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
                                   <children>
-                                      <JFXButton fx:id="btnCovid" buttonType="RAISED" onAction="#handleButtonAction"
-                                                 ripplerFill="#007fff" text="Covid Survey" textOverrun="CLIP">
+                                      <JFXButton fx:id="btnCovid" buttonType="RAISED" onAction="#handleButtonAction" ripplerFill="#007fff" text="Covid Survey" textOverrun="CLIP">
                                           <graphic>
-                                              <ImageView fitHeight="162.0" fitWidth="133.0" pickOnBounds="true"
-                                                         preserveRatio="true">
+                                              <ImageView fitHeight="162.0" fitWidth="133.0" pickOnBounds="true" preserveRatio="true">
                                                   <image>
-                                                      <Image url="@../../images/menus/checkButton.png"/>
+                                                      <Image url="@../../images/menus/checkButton.png" />
                                                   </image>
                                               </ImageView>
                                           </graphic>
                                       </JFXButton>
                                   </children>
                                   <HBox.margin>
-                                      <Insets left="20.0" />
+                                      <Insets />
                                   </HBox.margin>
                               </VBox>
-                         <VBox prefHeight="173.0" prefWidth="143.0">
+                         <VBox alignment="CENTER" prefHeight="173.0" prefWidth="143.0">
                              <children>
-                                 <JFXButton fx:id="btnDirections" buttonType="RAISED" onAction="#handleButtonAction"
-                                            prefHeight="158.0" prefWidth="126.0" ripplerFill="#007fff" text="Directions"
-                                            textOverrun="CLIP">
+                                 <JFXButton fx:id="btnDirections" buttonType="RAISED" onAction="#handleButtonAction" prefHeight="158.0" prefWidth="126.0" ripplerFill="#007fff" text="Directions" textOverrun="CLIP">
                                      <graphic>
-                                         <ImageView fitHeight="144.0" fitWidth="122.0" pickOnBounds="true"
-                                                    preserveRatio="true">
+                                         <ImageView fitHeight="144.0" fitWidth="122.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
-                                                 <Image url="@../../images/menus/directionsButton.png"/>
+                                                 <Image url="@../../images/menus/directionsButton.png" />
                                              </image>
                                          </ImageView>
                                      </graphic>
                                  </JFXButton>
                                   </children>
                                   <HBox.margin>
-                                      <Insets right="20.0" />
+                                      <Insets />
                                   </HBox.margin>
                               </VBox>
+                        <VBox alignment="CENTER" layoutX="193.0" layoutY="25.0" prefHeight="173.0" prefWidth="143.0">
+                           <children>
+                              <JFXButton fx:id="btnGoogle" buttonType="RAISED" onAction="#handleButtonAction" prefHeight="158.0" prefWidth="126.0" ripplerFill="#007fff" text="Directions" textOverrun="CLIP">
+                                 <graphic>
+                                    <ImageView fitHeight="144.0" fitWidth="122.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../images/login/googleMapsIcon.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </JFXButton>
+                           </children>
+                        </VBox>
                      </children>
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
                      <padding>
-                        <Insets top="13.0" />
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </padding>
                   </HBox>
                     </children>
                     <VBox.margin>
                         <Insets top="200.0" />
-                    </VBox.margin>
-                </HBox>
-                <HBox alignment="BOTTOM_LEFT" VBox.vgrow="ALWAYS">
-                    <VBox.margin>
-                        <Insets bottom="15.0" left="15.0" />
                     </VBox.margin>
                 </HBox>
             </children>
