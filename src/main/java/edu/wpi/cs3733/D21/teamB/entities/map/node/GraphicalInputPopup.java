@@ -5,7 +5,6 @@ import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.GraphicalInputData;
 import edu.wpi.cs3733.D21.teamB.util.Popup.Poppable;
 import edu.wpi.cs3733.D21.teamB.util.Popup.Popup;
-import edu.wpi.cs3733.D21.teamB.views.map.misc.GraphicalInputController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TreeItem;
 import javafx.scene.layout.Pane;
@@ -85,8 +84,23 @@ public class GraphicalInputPopup extends Popup<VBox, GraphicalInputData> impleme
             }
         }
 
+        // Check if the location is a parking spot
+        boolean hasParking = false;
+        if (data.getNodeName().contains("Park")) {
+            try {
+                List<String> locations = DatabaseHandler.getHandler().getFavorites();
+                for (String location : locations) {
+                    if (location.contains("Park")) {
+                        hasParking = true;
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
         // Add the location to favorites
-        if (!contains) {
+        if (!contains && !hasParking) {
             favorites.getChildren().add(itemToAdd);
             try {
                 DatabaseHandler.getHandler().addFavoriteLocation(itemToAdd.getValue());
