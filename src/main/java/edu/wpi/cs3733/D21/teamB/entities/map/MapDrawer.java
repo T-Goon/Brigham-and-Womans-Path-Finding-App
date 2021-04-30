@@ -37,6 +37,7 @@ public class MapDrawer implements PoppableManager {
     private MapPathPopupManager mapPathPopupManager;
     @Setter
     private MapEditorPopupManager mapEditorPopupManager;
+    @Getter
     private final AnchorPane nodeHolder;
     private final AnchorPane mapHolder;
     private final AnchorPane intermediateNodeHolder;
@@ -48,6 +49,9 @@ public class MapDrawer implements PoppableManager {
     private final Circle head = new Circle(5);
     private final DatabaseHandler db = DatabaseHandler.getHandler();
     private final List<LineDir> lines = new ArrayList<>();
+
+    @Getter
+    private final List<Circle> aligned = new ArrayList<>();
     private boolean notFirst = true;
 
     @Getter
@@ -76,6 +80,7 @@ public class MapDrawer implements PoppableManager {
     public void drawPath() {
         Map<String, Node> nodes = Graph.getGraph().getNodes();
 
+        // Head color for the animation
         if (!nodeHolder.getChildren().contains(head)) {
             nodeHolder.getChildren().add(head);
         }
@@ -88,6 +93,8 @@ public class MapDrawer implements PoppableManager {
         } else {
             // There is a path
             List<String> currentFloorPath = mapCache.getFinalPath().getFloorPathSegment(mapCache.getCurrentFloor());
+
+            colorStartEndNode();
 
             //Draw the segment of the path that is on the current floor
             for (int i = 0; i < currentFloorPath.size() - 1; i++) {
@@ -106,64 +113,8 @@ public class MapDrawer implements PoppableManager {
                     nodeHolder.getChildren().remove(head);
                 }
 
-                List<String> floorChangeNodes = new ArrayList<>();
-
-                //Populate list with all of the nodes on the floor where the user must change floors
-                for (int i = 0; i < currentFloorPath.size() - 1; i++) {
-                    if (!Graph.getGraph().verifyEdge(currentFloorPath.get(i), currentFloorPath.get(i + 1))) {
-                        floorChangeNodes.add(currentFloorPath.get(i));
-                    }
-                }
-                floorChangeNodes.add(currentFloorPath.get(currentFloorPath.size() - 1));
-
-                //Should update all the floor change nodes' color
-                for (String node : floorChangeNodes) {
-                    //Get the last index of node on this floor
-                    int floorChangeNodeIndex = mapCache.getFinalPath().getPath().indexOf(node);
-
-                    //If there is another node after this floor
-                    if (floorChangeNodeIndex != mapCache.getFinalPath().getPath().size() - 1) {
-                        //Get the nodeID of the node that is on the next floor
-                        String nextNode = mapCache.getFinalPath().getPath().get(floorChangeNodeIndex + 1);
-
-                        //Get the floor that the next node is on
-                        String floorString = nextNode.substring(nextNode.length() - 2);
-
-
-                        //Convert the floor strings to int values
-                        int currentFloorVal = Node.floorAsInt(mapCache.getCurrentFloor());
-                        int nextFloorVal = Node.floorAsInt(floorString);
-
-                        //If going up or down
-                        if (nextFloorVal > currentFloorVal) {
-                            //Going UP
-
-                            //Update the node icon to green to indicate that the user must go up
-                            String floorChangeNodeID = mapCache.getFinalPath().getPath().get(floorChangeNodeIndex);
-                            for (Node n : mapCache.getFloorNodes().get(mapCache.getCurrentFloor())) {
-                                if (n.getNodeID().equals(floorChangeNodeID.substring(0, 10))) {
-                                    n.setColor(Color.web("00ff00"));
-
-                                    mapCache.getEditedNodes().add(n);
-                                }
-                            }
-                        } else {
-                            //Going Down
-
-                            //Update the node icon to red to indicate that the user must go down
-                            String floorChangeNodeID = mapCache.getFinalPath().getPath().get(floorChangeNodeIndex);
-
-                            for (Node n : mapCache.getFloorNodes().get(mapCache.getCurrentFloor())) {
-                                if (n.getNodeID().equals(floorChangeNodeID.substring(0, 10))) {
-                                    n.setColor(Color.web("ff0000"));
-
-                                    mapCache.getEditedNodes().add(n);
-                                }
-                            }
-                        }
-                    }
-
-                }
+                // Color nodes that indicate a floor swap in the path
+                colorNodesOnPathFloorSwitch(currentFloorPath);
 
                 // Animate the path
                 animatePath(currentFloorPath);
@@ -182,6 +133,91 @@ public class MapDrawer implements PoppableManager {
             redrawNodes();
         }
 
+    }
+
+    /**
+     * Color the nodes on the path that indicate the user needs to go up or down a floor
+     * @param currentFloorPath List of node ids for the current path on the floor
+     */
+    private void colorNodesOnPathFloorSwitch(List<String> currentFloorPath){
+        List<String> floorChangeNodes = new ArrayList<>();
+
+        //Populate list with all of the nodes on the floor where the user must change floors
+        for (int i = 0; i < currentFloorPath.size() - 1; i++) {
+            if (!Graph.getGraph().verifyEdge(currentFloorPath.get(i), currentFloorPath.get(i + 1))) {
+                floorChangeNodes.add(currentFloorPath.get(i));
+            }
+        }
+        floorChangeNodes.add(currentFloorPath.get(currentFloorPath.size() - 1));
+
+        //Should update all the floor change nodes' color
+        for (String node : floorChangeNodes) {
+            //Get the last index of node on this floor
+            int floorChangeNodeIndex = mapCache.getFinalPath().getPath().indexOf(node);
+
+            //If there is another node after this floor
+            if (floorChangeNodeIndex != mapCache.getFinalPath().getPath().size() - 1) {
+                //Get the nodeID of the node that is on the next floor
+                String nextNode = mapCache.getFinalPath().getPath().get(floorChangeNodeIndex + 1);
+
+                //Get the floor that the next node is on
+                String floorString = nextNode.substring(nextNode.length() - 2);
+
+
+                //Convert the floor strings to int values
+                int currentFloorVal = Node.floorAsInt(mapCache.getCurrentFloor());
+                int nextFloorVal = Node.floorAsInt(floorString);
+
+                //If going up or down
+                String floorChangeNodeID = mapCache.getFinalPath().getPath().get(floorChangeNodeIndex);
+                if (nextFloorVal > currentFloorVal) {
+                    //Going UP
+
+                    //Update the node icon to green to indicate that the user must go up
+                    for (Node n : mapCache.getFloorNodes().get(mapCache.getCurrentFloor())) {
+                        if (n.getNodeID().equals(floorChangeNodeID.substring(0, 10))) {
+                            n.setColor(Color.web("00ff00"));
+
+                            mapCache.getEditedNodes().add(n);
+                        }
+                    }
+                } else {
+                    //Going Down
+
+                    //Update the node icon to red to indicate that the user must go down
+
+                    for (Node n : mapCache.getFloorNodes().get(mapCache.getCurrentFloor())) {
+                        if (n.getNodeID().equals(floorChangeNodeID.substring(0, 10))) {
+                            n.setColor(Color.web("ff0000"));
+
+                            mapCache.getEditedNodes().add(n);
+                        }
+                    }
+                }
+            }
+
+        }
+    }
+
+    /**
+     * Color the start and end nodes of the path
+     */
+    private void colorStartEndNode() {
+        Path path = mapCache.getFinalPath();
+
+        for (String floor : mapCache.getFloorNodes().keySet()) {
+            for (Node n : mapCache.getFloorNodes().get(floor)) {
+                if(path.getPath().get(0).equals(n.getNodeID())){
+                    mapCache.getEditedNodes().add(n);
+
+                    n.setColor(Color.web("ffff00"));
+                } else if(path.getPath().get(path.getPath().size()-1).equals(n.getNodeID())){
+                    mapCache.getEditedNodes().add(n);
+
+                    n.setColor(Color.web("ff00ff"));
+                }
+            }
+        }
     }
 
     /**
@@ -396,25 +432,8 @@ public class MapDrawer implements PoppableManager {
 
             c.setId(n.getNodeID() + "Icon");
 
-            c.setOnMouseClicked((MouseEvent e) -> {
-                if (e.isStillSincePress()) { // If it's a still click, open up the popup
-                    if (mapCache.getStartNode() != null) {
-                        mapCache.setNewEdgeEnd(n.getNodeID());
-                        mapEditorPopupManager.showAddEdgePopup(e);
-                    } else mapEditorPopupManager.showEditNodePopup(n, e, false);
-                }
-            });
-
+            setUpNode(c, n);
             setUpDrag(c, n);
-
-            c.setOnMouseEntered(event -> {
-                if (isEditing && !(mapCache.getStartNode() != null && c.getId().equals(mapCache.getStartNode().getId())))
-                    c.setStroke(Color.GREEN);
-            });
-            c.setOnMouseExited(event -> {
-                if (isEditing && !(mapCache.getStartNode() != null && c.getId().equals(mapCache.getStartNode().getId())))
-                    c.setStroke(Color.BLACK);
-            });
 
             nodeHolder.getChildren().add(c);
             mapCache.getNodePlaced().add(c);
@@ -438,24 +457,7 @@ public class MapDrawer implements PoppableManager {
 
             c.setId(n.getNodeID() + "IntIcon");
 
-            c.setOnMouseEntered(event -> {
-                if (isEditing && !(mapCache.getStartNode() != null && c.getId().equals(mapCache.getStartNode().getId())))
-                    c.setStroke(Color.GREEN);
-            });
-            c.setOnMouseExited(event -> {
-                if (isEditing && !(mapCache.getStartNode() != null && c.getId().equals(mapCache.getStartNode().getId())))
-                    c.setStroke(Color.BLACK);
-            });
-
-            c.setOnMouseClicked((MouseEvent e) -> {
-                if (e.isStillSincePress()) {
-                    if (mapCache.getStartNode() != null) { // If it's a still click, open up the popup
-                        mapCache.setNewEdgeEnd(n.getNodeID());
-                        mapEditorPopupManager.showAddEdgePopup(e);
-                    } else mapEditorPopupManager.showEditNodePopup(n, e, false);
-                }
-            });
-
+            setUpNode(c, n);
             setUpDrag(c, n);
 
             intermediateNodeHolder.getChildren().add(c);
@@ -465,27 +467,6 @@ public class MapDrawer implements PoppableManager {
             e.printStackTrace();
         }
     }
-
-    //attempting to animate the drawing of the path
-    public void animateLine(Line line) {
-        line.getStrokeDashArray().setAll(5d, 5d, 5d, 5d);
-        line.setStrokeWidth(2);
-
-        final double maxOffSet = line.getStrokeDashArray().stream().reduce(0d, Double::sum);
-
-        Timeline timeline =
-                new Timeline(
-                        new KeyFrame(
-                                Duration.ZERO,
-                                new KeyValue(line.strokeDashOffsetProperty(), maxOffSet, Interpolator.LINEAR)),
-                        new KeyFrame(
-                                Duration.seconds(1),
-                                new KeyValue(line.strokeDashOffsetProperty(), 0, Interpolator.LINEAR)));
-
-        timeline.setCycleCount(Timeline.INDEFINITE);
-        timeline.play();
-    }
-
 
     /**
      * Draws an edge between 2 points on the map.
@@ -504,8 +485,8 @@ public class MapDrawer implements PoppableManager {
             l.setEndY(end.getYCoord() / PathfindingMenuController.COORDINATE_SCALE);
 
             l.setOnMouseClicked(e -> {
-                if (isEditing) {
-                    mapEditorPopupManager.showDelEdgePopup(start, end, mapStack);
+                if (isEditing && !e.isControlDown()) {
+                    mapEditorPopupManager.showDelEdgePopup(start, end, mapStack, e, l);
                 }
             });
 
@@ -567,6 +548,9 @@ public class MapDrawer implements PoppableManager {
         }
     }
 
+    /**
+     * Redraws the highlighted node on the map
+     */
     private void redrawHighlightedNode() {
         if (mapCache.getStartNode() != null) {
             List<javafx.scene.Node> nodes = new ArrayList<>();
@@ -640,6 +624,40 @@ public class MapDrawer implements PoppableManager {
     }
 
     /**
+     * Sets up the color changing and being clicked on properties for each circle
+     *
+     * @param c the circle
+     * @param n the node associated with the circle
+     */
+    private void setUpNode(Circle c, Node n) {
+        c.setOnMouseEntered(event -> {
+            if (isEditing && !aligned.contains(c) && !(mapCache.getStartNode() != null && c.getId().equals(mapCache.getStartNode().getId())))
+                c.setStroke(Color.GREEN);
+        });
+        c.setOnMouseExited(event -> {
+            if (isEditing && !aligned.contains(c) && !(mapCache.getStartNode() != null && c.getId().equals(mapCache.getStartNode().getId())))
+                c.setStroke(Color.BLACK);
+        });
+
+        c.setOnMouseClicked((MouseEvent e) -> {
+            if (e.isStillSincePress()) {
+                if (e.isControlDown()) { // if control clicking, add it to the list of highlighted circles
+                    if (!aligned.contains(c)) {
+                        c.setStroke(Color.RED);
+                        aligned.add(c);
+                    } else {
+                        c.setStroke(Color.BLACK);
+                        aligned.remove(c);
+                    }
+                } else if (mapCache.getStartNode() != null) {
+                    mapCache.setNewEdgeEnd(n.getNodeID());
+                    mapEditorPopupManager.showAddEdgePopup(e);
+                } else mapEditorPopupManager.showEditNodePopup(n, e, false);
+            }
+        });
+    }
+
+    /**
      * Sets up dragging for each node
      *
      * @param c the circle being dragged
@@ -648,6 +666,9 @@ public class MapDrawer implements PoppableManager {
     private void setUpDrag(Circle c, Node n) {
         // Update coordinates of circle and edges when dragged
         c.setOnMouseDragged(e -> {
+            // If control is pressed, don't drag
+            if (e.isControlDown()) return;
+
             String nodeID = c.getId().substring(0, 10);
             if (notFirst) { // Creates the list of lines to update only the first time it's dragged
                 lines.clear();
@@ -682,7 +703,7 @@ public class MapDrawer implements PoppableManager {
 
         // Update coordinates of the actual node in the database when the drag is done
         c.setOnMouseReleased(e -> {
-            if (!e.isStillSincePress()) {
+            if (!e.isStillSincePress() && !e.isControlDown()) {
                 n.setXCoord((int) (c.getCenterX() * PathfindingMenuController.COORDINATE_SCALE));
                 n.setYCoord((int) (c.getCenterY() * PathfindingMenuController.COORDINATE_SCALE));
                 gPane.setGestureEnabled(true);

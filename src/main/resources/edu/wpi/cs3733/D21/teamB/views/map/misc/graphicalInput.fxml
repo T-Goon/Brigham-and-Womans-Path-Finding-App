@@ -47,6 +47,26 @@
                   </JFXButton>
                </children>
             </HBox>
+            <HBox>
+               <children>
+                  <JFXButton fx:id="btnAddFavorite" maxHeight="1.7976931348623157E308" maxWidth="155.0" minWidth="155.0" onAction="#handleButtonAction" prefWidth="155.0" style="-fx-background-color: #F6BD39; -fx-background-radius: 10;" text="Add Favorite">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets right="5.0" />
+                     </HBox.margin>
+                  </JFXButton>
+                  <JFXButton fx:id="btnRemoveFavorite" maxHeight="1.7976931348623157E308" maxWidth="155.0" minWidth="155.0" onAction="#handleButtonAction" prefWidth="155.0" style="-fx-background-color: #F6BD39; -fx-background-radius: 10;" text="Remove Favorite" HBox.hgrow="ALWAYS">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="5.0" />
+                     </HBox.margin>
+                  </JFXButton>
+               </children>
+            </HBox>
             <HBox VBox.vgrow="ALWAYS">
                <children>
                   <JFXButton fx:id="btnCancel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#handleButtonAction" style="-fx-background-color: #0067B1; -fx-background-radius: 10;" text="Cancel" textFill="WHITE" HBox.hgrow="ALWAYS">

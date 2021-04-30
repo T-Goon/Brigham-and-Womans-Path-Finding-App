@@ -63,30 +63,11 @@ public class AddNodePopupController implements Initializable {
 
     private AddNodePopup popup;
 
-    private Map<String, String> categoryNameMap;
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         popup = (AddNodePopup) App.getPrimaryStage().getUserData();
 
-        categoryNameMap = new HashMap<>();
-
-        //Add better category names to a hash map
-        categoryNameMap.put("SERV", "Services");
-        categoryNameMap.put("REST", "Restrooms");
-        categoryNameMap.put("LABS", "Lab Rooms");
-        categoryNameMap.put("ELEV", "Elevators");
-        categoryNameMap.put("DEPT", "Departments");
-        categoryNameMap.put("CONF", "Conference Rooms");
-        categoryNameMap.put("INFO", "Information Locations");
-        categoryNameMap.put("RETL", "Retail Locations");
-        categoryNameMap.put("EXIT", "Entrances");
-        categoryNameMap.put("STAI", "Stairs");
-        categoryNameMap.put("PARK", "Parking Spots");
-        categoryNameMap.put("HALL", "Hallway");
-        categoryNameMap.put("WALK", "Sidewalk");
-
-        List<String> temp = new ArrayList<>(categoryNameMap.values());
+        List<String> temp = new ArrayList<>(popup.getData().getMc().getCategoryNameMap().values());
         Collections.sort(temp);
         nodeType.getItems().addAll(temp);
 
@@ -95,7 +76,7 @@ public class AddNodePopupController implements Initializable {
         yCoord.setText(Long.toString(Math.round(popup.getData().getY())));
 
         // Fill in current floor
-        floor.setText(popup.getData().getFloor());
+        floor.setText(popup.getData().getMc().getCurrentFloor());
         floor.setDisable(true);
     }
 
@@ -138,8 +119,8 @@ public class AddNodePopupController implements Initializable {
                 String b = building.getText().trim();
                 String aNodeType = nodeType.getValue().trim();
                 String t = "ERROR!";
-                for (String s : categoryNameMap.keySet()) {
-                    if (categoryNameMap.get(s).equals(aNodeType)) {
+                for (String s : popup.getData().getMc().getCategoryNameMap().keySet()) {
+                    if (popup.getData().getMc().getCategoryNameMap().get(s).equals(aNodeType)) {
                         t = s;
                         break;
                     }
