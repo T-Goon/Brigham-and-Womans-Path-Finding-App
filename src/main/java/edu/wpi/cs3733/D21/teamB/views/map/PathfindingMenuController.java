@@ -330,7 +330,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
                 // Also change the color of the nodes marked for floor swapping in pathfinding
                 revertFavoriteNodeColors();
 
-            } else if(!selectedItem.getValue().equals("Locations") && !selectedItem.getValue().equals("Favorites")){
+            } else if (!selectedItem.getValue().equals("Locations") && !selectedItem.getValue().equals("Favorites")) {
                 // Put original node color in map and set all node colors to gray
                 colorAllNodesGrey();
 
@@ -346,9 +346,10 @@ public class PathfindingMenuController extends BasePageController implements Ini
 
     /**
      * Revert the colors of the nodes that are in the selected category
+     *
      * @param selectedItem Selected item in the tree view. Not a leaf
      */
-    private void revertCategoryNodeColors(TreeItem<String> selectedItem){
+    private void revertCategoryNodeColors(TreeItem<String> selectedItem) {
         String category = selectedItem.getValue();
         Map<String, List<Node>> floorNodes = mapCache.getFloorNodes();
         NodeType nt = NodeType.deprettify(category);
@@ -369,7 +370,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
                     }
 
                 }
-            } else{
+            } else {
                 // There are no nodes on the floor for path finding
                 if (node.getNodeType().equals(nt.toString())) {
 
@@ -385,13 +386,13 @@ public class PathfindingMenuController extends BasePageController implements Ini
     /**
      * Revert the colors of the favorite nodes to the original colors
      */
-    private void revertFavoriteNodeColors(){
+    private void revertFavoriteNodeColors() {
         List<String> favorites = null;
 
         try {
             favorites = DatabaseHandler.getHandler().getFavorites();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
         Map<String, String> longNames = mapCache.makeLongToIDMap();
@@ -437,7 +438,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
     /**
      * Make all the nodes grey on the map
      */
-    private void colorAllNodesGrey(){
+    private void colorAllNodesGrey() {
 
         for (Node node : mapCache.getFloorNodes().get(mapCache.getCurrentFloor())) {
 
@@ -450,7 +451,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
     /**
      * Revert the colors of all nodes to their original color
      */
-    private void revertAllNodeColors(){
+    private void revertAllNodeColors() {
         Map<String, List<Node>> floorNodes = mapCache.getFloorNodes();
 
         if (!colors.isEmpty()) {

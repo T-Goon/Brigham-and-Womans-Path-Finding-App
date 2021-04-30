@@ -483,7 +483,7 @@ public class MapDrawer implements PoppableManager {
             l.setEndY(end.getYCoord() / PathfindingMenuController.COORDINATE_SCALE);
 
             l.setOnMouseClicked(e -> {
-                if (isEditing) {
+                if (isEditing && !e.isControlDown()) {
                     mapEditorPopupManager.showDelEdgePopup(start, end, mapStack);
                 }
             });
