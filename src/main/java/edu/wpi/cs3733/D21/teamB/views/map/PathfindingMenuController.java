@@ -613,19 +613,19 @@ public class PathfindingMenuController extends BasePageController implements Ini
         for (String category : mapCache.getCatNameMap().keySet()) {
             TreeItem<String> categoryTreeItem = new TreeItem<>(categoryNameMap.get(category));
             categoryTreeItem.getChildren().addAll(mapCache.getCatNameMap().get(category));
-            alphebetize(categoryTreeItem.getChildren());
+            alphabetize(categoryTreeItem.getChildren());
             locations.getChildren().add(categoryTreeItem);
         }
 
-        alphebetize(locations.getChildren());
+        alphabetize(locations.getChildren());
 
         populateFavorites();
     }
 
     /**
-     * Alphebetizes the strings to go into the treeview list
+     * alphabetizes the strings to go into the treeview list
      */
-    private ObservableList<TreeItem<String>> alphebetize(ObservableList<TreeItem<String>> strings){
+    private ObservableList<TreeItem<String>> alphabetize(ObservableList<TreeItem<String>> strings){
        strings.sort(Comparator.comparing(TreeItem::toString));
        return strings;
     }
@@ -758,7 +758,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
             newRoot.setValue("No results!");
             treeLocations.setShowRoot(true);
         }
-        alphebetize(newRoot.getChildren());
+        alphabetize(newRoot.getChildren());
     }
 
     /**
