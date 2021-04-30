@@ -5,6 +5,7 @@ import edu.wpi.cs3733.D21.teamB.entities.map.data.*;
 import edu.wpi.cs3733.D21.teamB.entities.map.edge.AddEdgePopup;
 import edu.wpi.cs3733.D21.teamB.entities.map.edge.DelEdgePopup;
 import edu.wpi.cs3733.D21.teamB.entities.map.node.AddNodePopup;
+import edu.wpi.cs3733.D21.teamB.entities.map.node.AlignNodePopup;
 import edu.wpi.cs3733.D21.teamB.entities.map.node.NodeMenuPopup;
 import edu.wpi.cs3733.D21.teamB.util.Popup.PoppableManager;
 import edu.wpi.cs3733.D21.teamB.views.map.PathfindingMenuController;
@@ -13,6 +14,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Circle;
 import net.kurobako.gesturefx.GesturePane;
+
+import java.util.List;
 
 public class MapEditorPopupManager implements PoppableManager {
 
@@ -26,6 +29,7 @@ public class MapEditorPopupManager implements PoppableManager {
     private AddEdgePopup aePopup;
     private DelEdgePopup dePopup;
     private NodeMenuPopup nmPopup;
+    private AlignNodePopup alignNodePopup;
 
     public MapEditorPopupManager(MapDrawer md, MapCache mc, GesturePane gPane, StackPane mapStack) {
         this.md = md;
@@ -139,6 +143,23 @@ public class MapEditorPopupManager implements PoppableManager {
     }
 
     /**
+     * Shows the align popup
+     *
+     * @param mapDrawer the map drawer in stance
+     */
+    public void showAlignNodePopup(MapDrawer mapDrawer) {
+        md.removeAllPopups();
+
+        AlignNodePopupData data = new AlignNodePopupData(gPane, mapDrawer, mapDrawer.getAligned());
+
+        alignNodePopup = new AlignNodePopup(mapStack, data);
+
+        App.getPrimaryStage().setUserData(alignNodePopup);
+        alignNodePopup.show();
+        alignNodePopup = null;
+    }
+
+    /**
      * Hide all popups
      */
     public void removeAllPopups() {
@@ -160,6 +181,11 @@ public class MapEditorPopupManager implements PoppableManager {
         if (dePopup != null) {
             dePopup.hide();
             dePopup = null;
+        }
+
+        if (alignNodePopup != null) {
+            alignNodePopup.hide();
+            alignNodePopup = null;
         }
     }
 }
