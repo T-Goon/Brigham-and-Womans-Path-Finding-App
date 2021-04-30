@@ -22,7 +22,7 @@ public class LoginOptionsController extends BasePageController {
 
     @FXML
     public void handleButtonAction(ActionEvent e) {
-        final String currentPath = "/edu/wpi/cs3733/D21/teamB/views/login/loginOptions.fxml";
+        final String currentPath = "/edu/wpi/cs3733/D21/teamB/views/login/mainPage.fxml";
         super.handleButtonAction(e);
         JFXButton btn = (JFXButton) e.getSource();
         switch (btn.getId()) {
