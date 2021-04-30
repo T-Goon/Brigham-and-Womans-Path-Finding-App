@@ -166,11 +166,11 @@ public class MapDrawer implements PoppableManager {
                 int nextFloorVal = Node.floorAsInt(floorString);
 
                 //If going up or down
+                String floorChangeNodeID = mapCache.getFinalPath().getPath().get(floorChangeNodeIndex);
                 if (nextFloorVal > currentFloorVal) {
                     //Going UP
 
                     //Update the node icon to green to indicate that the user must go up
-                    String floorChangeNodeID = mapCache.getFinalPath().getPath().get(floorChangeNodeIndex);
                     for (Node n : mapCache.getFloorNodes().get(mapCache.getCurrentFloor())) {
                         if (n.getNodeID().equals(floorChangeNodeID.substring(0, 10))) {
                             n.setColor(Color.web("00ff00"));
@@ -182,7 +182,6 @@ public class MapDrawer implements PoppableManager {
                     //Going Down
 
                     //Update the node icon to red to indicate that the user must go down
-                    String floorChangeNodeID = mapCache.getFinalPath().getPath().get(floorChangeNodeIndex);
 
                     for (Node n : mapCache.getFloorNodes().get(mapCache.getCurrentFloor())) {
                         if (n.getNodeID().equals(floorChangeNodeID.substring(0, 10))) {
@@ -638,11 +637,15 @@ public class MapDrawer implements PoppableManager {
         });
 
         c.setOnMouseClicked((MouseEvent e) -> {
-            if (e.isStillSincePress()) { // If it's a still click, open up the popup
+            if (e.isStillSincePress()) {
                 if (e.isControlDown()) { // if control clicking, add it to the list of highlighted circles
-                    c.setStroke(Color.RED);
-                    if (!aligned.contains(c)) aligned.add(c);
-                    else aligned.remove(c);
+                    if (!aligned.contains(c)) {
+                        c.setStroke(Color.RED);
+                        aligned.add(c);
+                    } else {
+                        c.setStroke(Color.BLACK);
+                        aligned.remove(c);
+                    }
                 } else if (mapCache.getStartNode() != null) {
                     mapCache.setNewEdgeEnd(n.getNodeID());
                     mapEditorPopupManager.showAddEdgePopup(e);

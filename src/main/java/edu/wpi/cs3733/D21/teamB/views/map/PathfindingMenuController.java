@@ -710,7 +710,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
     }
 
     @FXML
-    private void handleKeysPressedSearchBar(KeyEvent e) throws IOException {
+    private void handleKeysPressedSearchBar(KeyEvent e) {
         String regex = "[ a-zA-Z0-9\\-]+";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(e.getText());
