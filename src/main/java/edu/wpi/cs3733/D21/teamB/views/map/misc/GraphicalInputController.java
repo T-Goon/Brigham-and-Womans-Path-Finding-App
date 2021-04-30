@@ -7,6 +7,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeView;
 import javafx.scene.text.Text;
 import lombok.Getter;
 
@@ -84,6 +85,9 @@ public class GraphicalInputController implements Initializable {
                 popup.removeFavorite();
                 btnAddFavorite.setDisable(false);
                 btnRemoveFavorite.setDisable(true);
+                TreeView<String> treeView = popup.getData().getPfmc().getTreeLocations();
+                TreeItem<String> newParking = treeView.getSelectionModel().getSelectedItem();
+
                 break;
             case "btnCancel":
                 popup.getData().getMd().removeAllPopups();

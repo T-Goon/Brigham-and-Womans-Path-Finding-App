@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733.D21.teamB.App;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.*;
+import edu.wpi.cs3733.D21.teamB.entities.map.node.ChangeParkingSpotPopup;
 import edu.wpi.cs3733.D21.teamB.entities.map.node.GraphicalInputPopup;
 import edu.wpi.cs3733.D21.teamB.entities.map.node.TxtDirPopup;
 import edu.wpi.cs3733.D21.teamB.pathfinding.AStar;
@@ -34,6 +35,7 @@ public class MapPathPopupManager implements PoppableManager {
     private GraphicalInputPopup giPopup;
     private ETAPopup etaPopup;
     private TxtDirPopup txtDirPopup;
+    private ChangeParkingSpotPopup cpsPopup;
 
     public MapPathPopupManager(MapDrawer md, MapCache mc, JFXTextField txtStartLocation, JFXTextField txtEndLocation,
                                JFXButton btnRmStop, StackPane mapStack, GesturePane gpane,
@@ -106,6 +108,22 @@ public class MapPathPopupManager implements PoppableManager {
         txtDirPopup.show();
 
         return txtDirPopup;
+    }
+
+    /**
+     * Creates the popup for changing parking spot.
+     *
+     * @param n Node to create the popup for
+     */
+    public void createChangeParkingSpotPopup(Node n) {
+
+        ChangeParkingSpotData cpsData = new ChangeParkingSpotData(gpane, n.getLongName());
+
+        cpsPopup = new ChangeParkingSpotPopup(mapStack, cpsData);
+
+        App.getPrimaryStage().setUserData(cpsPopup);
+
+        cpsPopup.show();
     }
 
     /**
