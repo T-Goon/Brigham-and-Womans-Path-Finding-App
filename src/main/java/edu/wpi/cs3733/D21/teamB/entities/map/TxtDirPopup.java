@@ -108,8 +108,8 @@ public class TxtDirPopup extends Popup<VBox, TxtDirPopupData> implements Poppabl
      */
     public void highlight() {
         // Reset the previous colors to the normal color
-        if (previousLines != null) {
-            previousText.setTextFill(Color.WHITE);
+        if (previousText != null && previousLines != null) {
+            previousText.setStyle("-fx-background-color: transparent;");
             for (Line l : previousLines) l.setStroke(Color.rgb(0, 103, 177));
         }
 
@@ -117,7 +117,7 @@ public class TxtDirPopup extends Popup<VBox, TxtDirPopupData> implements Poppabl
         if (index != 0) {
             HBox box = (HBox) instructionBox.getChildren().get(index);
             Label label = (Label) box.getChildren().get(1);
-            label.setTextFill(Color.RED);
+            label.setStyle("-fx-background-color: darkblue;");
             List<Line> lines = mapCache.getInstructionsToEdges().get(label.getText());
             for (Line l : lines) l.setStroke(Color.RED);
             previousText = label;

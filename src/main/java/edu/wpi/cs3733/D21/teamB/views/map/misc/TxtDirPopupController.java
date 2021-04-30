@@ -84,7 +84,6 @@ public class TxtDirPopupController implements Initializable {
                 // Label in HBox
                 Label text = new Label(dir.getInstruction());
                 text.setFont(new Font("System", 14));
-                text.setTextFill(popup.getIndex() == i ? Color.RED : Color.WHITE);
                 text.setAlignment(Pos.BOTTOM_CENTER);
                 instruction.getChildren().add(text);
 
