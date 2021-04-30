@@ -1,12 +1,36 @@
 package edu.wpi.cs3733.D21.teamB.views.login;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXTextArea;
+import edu.wpi.cs3733.D21.teamB.entities.LastFocused;
+//import edu.wpi.cs3733.D21.teamB.entities.TextAreaFocusable;
+import edu.wpi.cs3733.D21.teamB.entities.OnScreenKeyboard;
+import edu.wpi.cs3733.D21.teamB.entities.TextAreaFocusable;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
 import edu.wpi.cs3733.D21.teamB.views.BasePageController;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.scene.control.TextArea;
+import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
+import lombok.SneakyThrows;
 
-public class LoginOptionsController extends BasePageController {
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.io.InputStream;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.ResourceBundle;
+
+public class LoginOptionsController extends BasePageController implements Initializable {
 
     @FXML
     public JFXButton btnLogin;
@@ -19,6 +43,16 @@ public class LoginOptionsController extends BasePageController {
 
     @FXML
     private JFXButton btnEmergency;
+
+    @FXML
+    private VBox basePane;
+
+    @FXML
+    private StackPane stackPane;
+
+    @FXML
+    private TextArea testText;
+
 
     @FXML
     public void handleButtonAction(ActionEvent e) {
@@ -41,6 +75,8 @@ public class LoginOptionsController extends BasePageController {
             case "btnEmergency":
                 SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
                 break;
+
         }
     }
 }
+
