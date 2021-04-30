@@ -27,11 +27,12 @@ public abstract class BasePageController implements Initializable{
     private StackPane stackPane;
 
     private boolean keyboardVisible = false;
-    OnScreenKeyboard onScreenKeyboard = OnScreenKeyboard.getInstance();
-    LastFocused lastFocused = LastFocused.getInstance();
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+            OnScreenKeyboard onScreenKeyboard = OnScreenKeyboard.getInstance();
+            LastFocused lastFocused = LastFocused.getInstance();
             keyboardVisible = false;
             try {
                 onScreenKeyboard.initKeyboard(stackPane);
