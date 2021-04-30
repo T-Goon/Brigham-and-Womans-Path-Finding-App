@@ -5,9 +5,8 @@ import lombok.Getter;
 
 import java.util.List;
 
-@AllArgsConstructor
 @Getter
-
+@AllArgsConstructor
 public class TxtDirPopupData {
     private final List<String> instructions;
 }

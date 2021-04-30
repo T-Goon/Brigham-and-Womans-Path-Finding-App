@@ -17,11 +17,11 @@ public class FloorSwitcher {
 
     private JFXButton currentlySelected;
 
-    private final static String floor3Path = "/edu/wpi/cs3733/D21/teamB/images/maps/03_thethirdfloor.png";
-    private final static String floor2Path = "/edu/wpi/cs3733/D21/teamB/images/maps/02_thesecondfloor.png";
-    private final static String floor1Path = "/edu/wpi/cs3733/D21/teamB/images/maps/01_thefirstfloor-Edited.png";
-    private final static String floorL1Path = "/edu/wpi/cs3733/D21/teamB/images/maps/00_thelowerlevel1.png";
-    private final static String floorL2Path = "/edu/wpi/cs3733/D21/teamB/images/maps/00_thelowerlevel2.png";
+    private final static String floor3Path = "/edu/wpi/cs3733/D21/teamB/images/maps/floors/03_thethirdfloor.png";
+    private final static String floor2Path = "/edu/wpi/cs3733/D21/teamB/images/maps/floors/02_thesecondfloor.png";
+    private final static String floor1Path = "/edu/wpi/cs3733/D21/teamB/images/maps/floors/01_thefirstfloor-Edited.png";
+    private final static String floorL1Path = "/edu/wpi/cs3733/D21/teamB/images/maps/floors/00_thelowerlevel1.png";
+    private final static String floorL2Path = "/edu/wpi/cs3733/D21/teamB/images/maps/floors/00_thelowerlevel2.png";
 
     public final static String floor3ID = "3";
     public final static String floor2ID = "2";
