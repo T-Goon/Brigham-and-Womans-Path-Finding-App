@@ -65,6 +65,25 @@ public class MapCache {
     @Setter
     private Path finalPath;
 
+    @Getter
+    private final Map<String, String> categoryNameMap = new HashMap<>();
+
+    public MapCache(){
+        categoryNameMap.put("SERV", "Services");
+        categoryNameMap.put("REST", "Restrooms");
+        categoryNameMap.put("LABS", "Lab Rooms");
+        categoryNameMap.put("ELEV", "Elevators");
+        categoryNameMap.put("DEPT", "Departments");
+        categoryNameMap.put("CONF", "Conference Rooms");
+        categoryNameMap.put("INFO", "Information Locations");
+        categoryNameMap.put("RETL", "Retail Locations");
+        categoryNameMap.put("EXIT", "Entrances");
+        categoryNameMap.put("STAI", "Stairs");
+        categoryNameMap.put("PARK", "Parking Spots");
+        categoryNameMap.put("HALL", "Hallway");
+        categoryNameMap.put("WALK", "Sidewalk");
+    }
+
     /**
      * Function that updates everything involved with the different locations on the map
      * - Tree View
