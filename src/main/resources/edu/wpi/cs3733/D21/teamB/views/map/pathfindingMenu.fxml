@@ -325,7 +325,7 @@
                                                      </Text>
                                                      <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1">
                                                          <image>
-                                                             <Image url="@../../images/maps/misc/node.png"/>
+                                                             <Image url="@../../images/maps/node.png"/>
                                                          </image>
                                                    <GridPane.margin>
                                                       <Insets />
@@ -333,7 +333,7 @@
                                                      </ImageView>
                                                      <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2">
                                                          <image>
-                                                             <Image url="@../../images/maps/misc/node.png"/>
+                                                             <Image url="@../../images/maps/node.png"/>
                                                          </image>
                                                    <effect>
                                                       <ColorAdjust brightness="0.93" contrast="0.76" hue="-0.5" />
@@ -341,7 +341,7 @@
                                                      </ImageView>
                                                      <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="3">
                                                          <image>
-                                                             <Image url="@../../images/maps/misc/node.png"/>
+                                                             <Image url="@../../images/maps/node.png"/>
                                                          </image>
                                                    <effect>
                                                       <ColorAdjust brightness="0.67" contrast="0.71" hue="0.76" />

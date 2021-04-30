@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.D21.teamB.entities.map;
 
 import edu.wpi.cs3733.D21.teamB.entities.map.data.TxtDirPopupData;
+import edu.wpi.cs3733.D21.teamB.pathfinding.Directions;
 import edu.wpi.cs3733.D21.teamB.util.Popup.Poppable;
 import edu.wpi.cs3733.D21.teamB.util.Popup.Popup;
 import javafx.fxml.FXMLLoader;
@@ -20,7 +21,7 @@ import java.util.Objects;
 public class TxtDirPopup extends Popup<VBox, TxtDirPopupData> implements Poppable {
 
     @Getter
-    private final List<String> directions;
+    private final List<Directions.Direction> directions;
 
     @Setter
     @Getter
