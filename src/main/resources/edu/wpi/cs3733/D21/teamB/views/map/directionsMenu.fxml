@@ -81,7 +81,7 @@
                                     <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
                                  </rowConstraints>
                                  <children>
-                                    <JFXButton maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #F6BD39; -fx-background-radius: 7;" text="Submit" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2">
+                                    <JFXButton fx:id="btnSubmit" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39; -fx-background-radius: 7;" text="Submit" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2">
                                        <GridPane.margin>
                                           <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                        </GridPane.margin>
@@ -91,12 +91,12 @@
                                     </JFXButton>
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Start Location: " />
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="End Location:" GridPane.rowIndex="1" />
-                                    <JFXTextField prefColumnCount="24" GridPane.columnIndex="1">
+                                    <JFXTextField fx:id="txtStartLocation" prefColumnCount="24" GridPane.columnIndex="1">
                                        <GridPane.margin>
                                           <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                        </GridPane.margin>
                                     </JFXTextField>
-                                    <JFXComboBox maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1">
+                                    <JFXComboBox fx:id="comboEndLocation" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1">
                                        <GridPane.margin>
                                           <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                        </GridPane.margin>

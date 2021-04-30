@@ -5,13 +5,12 @@ import com.dlsc.gmapsfx.MapComponentInitializedListener;
 import com.dlsc.gmapsfx.javascript.object.*;
 import com.dlsc.gmapsfx.service.directions.*;
 import com.jfoenix.controls.JFXButton;
-import edu.wpi.cs3733.D21.teamB.App;
+import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733.D21.teamB.views.BasePageController;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
@@ -22,6 +21,15 @@ public class DirectionsMenuController extends BasePageController implements Init
 
     @FXML
     private StackPane mapHolder;
+
+    @FXML
+    private JFXTextField txtStartLocation;
+
+    @FXML
+    private JFXComboBox<String> comboEndLocation;
+
+    @FXML
+    private JFXButton btnSubmit;
 
     @FXML
     private GoogleMapView mapView;
@@ -52,6 +60,11 @@ public class DirectionsMenuController extends BasePageController implements Init
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+        comboEndLocation.getItems().add("BWH Visitor Parking");
+        comboEndLocation.getItems().add("15-51 New Whitney St Parking");
+
+
         mapView = new GoogleMapView("en", "AIzaSyD4MPvha5ZUWDmOuuvxPSMW0NH1h3bZUXs");
         VBox dirBox = (VBox) mapHolder.getChildren().get(0);
         mapHolder.getChildren().remove(0);
@@ -60,32 +73,31 @@ public class DirectionsMenuController extends BasePageController implements Init
 
 
         mapView.addMapInitializedListener(this);
-
     }
 
-    private void getRoute(){
-        DirectionsRequest request = new DirectionsRequest("Boston", "Worcester", TravelModes.DRIVING, true);
+    private void getRoute() {
+        if(directionsRenderer != null) {
+            directionsRenderer.clearDirections();
+            directionsRenderer.getJSObject().eval("var summaryPanel = document.getElementById('directions'); summaryPanel.innerHTML=\"\"");
+        }
+
+        DirectionsRequest request = new DirectionsRequest(txtStartLocation.getText(), comboEndLocation.getSelectionModel().getSelectedItem(), TravelModes.DRIVING, true);
         directionsRenderer = new DirectionsRenderer(true, mapView.getMap(), directionsPane);
         directionsService.getRoute(request, this, directionsRenderer);
     }
 
     public void handleButtonAction(ActionEvent actionEvent) {
+        super.handleButtonAction(actionEvent);
         JFXButton b = (JFXButton) actionEvent.getSource();
 
-        switch (b.getId()){
-            case "btnEmergency":
+        switch (b.getId()) {
+            case "btnSubmit":
                 getRoute();
-                break;
-            case "btnExit":
-                Platform.exit();
                 break;
         }
     }
 
     @Override
     public void directionsReceived(DirectionsResult results, DirectionStatus status) {
-
-        System.out.println("Direction time");
-
     }
 }
