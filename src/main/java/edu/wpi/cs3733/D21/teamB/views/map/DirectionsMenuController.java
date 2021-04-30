@@ -52,6 +52,7 @@ public class DirectionsMenuController extends BasePageController implements Init
                 .mapType(MapTypeIdEnum.ROADMAP)
                 .panControl(true)
                 .streetViewControl(false)
+                .rotateControl(true)
                 .zoom(12)
                 .overviewMapControl(false);
 
