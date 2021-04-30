@@ -3,19 +3,24 @@ package edu.wpi.cs3733.D21.teamB.views.map.misc;
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.cs3733.D21.teamB.App;
 import edu.wpi.cs3733.D21.teamB.entities.map.TxtDirPopup;
+import edu.wpi.cs3733.D21.teamB.entities.map.data.Edge;
+import edu.wpi.cs3733.D21.teamB.entities.map.data.Node;
 import edu.wpi.cs3733.D21.teamB.pathfinding.Directions;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -56,6 +61,19 @@ public class TxtDirPopupController implements Initializable {
                 first.getChildren().add(firstText);
                 textHolder.getChildren().add(first);
             } else {
+                // Map the instruction to the lines it corresponds with
+                List<Line> edges = new ArrayList<>();
+                for (int j = 0; j < directions.get(i).getNodes().size() - 1; j++) {
+                    Node start = directions.get(i).getNodes().get(j);
+                    Node end = directions.get(i).getNodes().get(j + 1);
+                    for (Line l : popup.getMapCache().getEdgesPlaced()) {
+                        if (l.getId().contains(start.getNodeID()) && l.getId().contains(end.getNodeID())) {
+                            edges.add(l);
+                        }
+                    }
+                }
+                popup.getMapCache().getInstructionsToEdges().put(directions.get(i).getInstruction(), edges);
+
                 // HBox for each row
                 HBox instruction = new HBox();
                 instruction.setSpacing(20);
@@ -67,6 +85,7 @@ public class TxtDirPopupController implements Initializable {
                 Label text = new Label(dir.getInstruction());
                 text.setFont(new Font("System", 14));
                 text.setTextFill(popup.getIndex() == i ? Color.RED : Color.WHITE);
+                text.setAlignment(Pos.BOTTOM_CENTER);
                 instruction.getChildren().add(text);
 
                 // If clicked, update Index
@@ -93,7 +112,7 @@ public class TxtDirPopupController implements Initializable {
                 popup.next();
                 break;
             case "btnClose":
-                popup.hide();
+                popup.close();
                 break;
         }
     }
@@ -104,7 +123,7 @@ public class TxtDirPopupController implements Initializable {
      * @param d the direction type
      * @return the image relating to that direction type
      */
-    private ImageView getDirectionImage(Directions.DirectionType d) {
+    private VBox getDirectionImage(Directions.DirectionType d) {
         String path;
         switch (d) {
             case STOP:
@@ -153,6 +172,10 @@ public class TxtDirPopupController implements Initializable {
         ImageView imageView = new ImageView(path);
         imageView.setFitWidth(30);
         imageView.setFitHeight(30);
-        return imageView;
+        VBox r = new VBox();
+        r.setAlignment(Pos.CENTER);
+        r.setStyle("-fx-border-color: black;\n-fx-border-insets: 5;\n-fx-border-width: 3;\n-fx-border-style: solid;\n");
+        r.getChildren().add(imageView);
+        return r;
     }
 }

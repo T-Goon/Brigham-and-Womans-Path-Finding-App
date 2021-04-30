@@ -20,9 +20,15 @@ public class MapCache {
     @Getter
     @Setter
     private List<Line> edgesPlaced = new ArrayList<>();
+
+    @Getter
+    @Setter
+    private Map<String, List<Line>> instructionsToEdges = new HashMap<>(); // Instructions to lists of lines involved with that instruction
+
     @Getter
     @Setter
     private List<javafx.scene.Node> nodePlaced = new ArrayList<>();
+
     @Getter
     private List<Node> editedNodes = new ArrayList<>();
 

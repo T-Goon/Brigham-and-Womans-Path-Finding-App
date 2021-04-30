@@ -10,6 +10,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -31,9 +32,19 @@ public class TxtDirPopup extends Popup<VBox, TxtDirPopupData> implements Poppabl
     @Setter
     private VBox instructionBox;
 
+    @Getter
+    private final MapDrawer mapDrawer;
+
+    @Getter
+    private final MapCache mapCache;
+
+    private List<Line> previous;
+
     public TxtDirPopup(Pane parent, TxtDirPopupData data) {
         super(parent, data);
 
+        mapDrawer = data.getMapDrawer();
+        mapCache = data.getMapCache();
         directions = new ArrayList<>();
         directions.addAll(data.getInstructions());
         maxIndex = directions.size() - 1;
@@ -50,6 +61,7 @@ public class TxtDirPopup extends Popup<VBox, TxtDirPopupData> implements Poppabl
             return;
         }
 
+        restart();
         super.show(txtDirBox);
     }
 
@@ -81,8 +93,29 @@ public class TxtDirPopup extends Popup<VBox, TxtDirPopupData> implements Poppabl
         }
     }
 
+    /**
+     * Closes the popup
+     */
+    public void close() {
+        index = 0;
+        highlight();
+        hide();
+    }
+
+    /**
+     * Highlights the selected box in red, and the path in red as well
+     */
     public void highlight() {
-        for (int i = 1; i < instructionBox.getChildren().size(); i++)
-            ((Label) ((HBox) (instructionBox.getChildren().get(i))).getChildren().get(1)).setTextFill(index == i ? Color.RED : Color.WHITE);
+        // Reset the previous colors to the normal color
+        if (previous != null) for (Line l : previous) l.setStroke(Color.rgb(0, 103, 177));
+
+        // Change the color to red for the new lines
+        if (index != 0) {
+            HBox box = (HBox) instructionBox.getChildren().get(index);
+            Label label = (Label) box.getChildren().get(1);
+            List<Line> lines = mapCache.getInstructionsToEdges().get(label.getText());
+            for (Line l : lines) l.setStroke(Color.RED);
+            previous = lines;
+        }
     }
 }

@@ -75,7 +75,7 @@ public class MapDrawer implements PoppableManager {
     }
 
     /**
-     * Draw's the path stored in the mapCache
+     * Draws the path stored in the mapCache
      */
     public void drawPath() {
         Map<String, Node> nodes = Graph.getGraph().getNodes();

@@ -99,7 +99,7 @@ public class MapPathPopupManager implements PoppableManager {
 
         List<Directions.Direction> instructions = Directions.instructions(path, ids);
 
-        TxtDirPopupData txtDirPopupData = new TxtDirPopupData(instructions);
+        TxtDirPopupData txtDirPopupData = new TxtDirPopupData(instructions, md, mc);
         txtDirPopup = new TxtDirPopup(textDirectionsHolder, txtDirPopupData);
         App.getPrimaryStage().setUserData(txtDirPopup);
         txtDirPopup.show();
@@ -124,10 +124,6 @@ public class MapPathPopupManager implements PoppableManager {
         if (giPopup != null) {
             giPopup.hide();
             giPopup = null;
-        }
-        if (txtDirPopup != null) {
-            txtDirPopup.hide();
-            txtDirPopup = null;
         }
     }
 }
