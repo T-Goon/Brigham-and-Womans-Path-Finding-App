@@ -38,7 +38,8 @@ public class TxtDirPopup extends Popup<VBox, TxtDirPopupData> implements Poppabl
     @Getter
     private final MapCache mapCache;
 
-    private List<Line> previous;
+    private Label previousText;
+    private List<Line> previousLines;
 
     public TxtDirPopup(Pane parent, TxtDirPopupData data) {
         super(parent, data);
@@ -107,15 +108,20 @@ public class TxtDirPopup extends Popup<VBox, TxtDirPopupData> implements Poppabl
      */
     public void highlight() {
         // Reset the previous colors to the normal color
-        if (previous != null) for (Line l : previous) l.setStroke(Color.rgb(0, 103, 177));
+        if (previousLines != null) {
+            previousText.setTextFill(Color.WHITE);
+            for (Line l : previousLines) l.setStroke(Color.rgb(0, 103, 177));
+        }
 
         // Change the color to red for the new lines
         if (index != 0) {
             HBox box = (HBox) instructionBox.getChildren().get(index);
             Label label = (Label) box.getChildren().get(1);
+            label.setTextFill(Color.RED);
             List<Line> lines = mapCache.getInstructionsToEdges().get(label.getText());
             for (Line l : lines) l.setStroke(Color.RED);
-            previous = lines;
+            previousText = label;
+            previousLines = lines;
         }
     }
 }
