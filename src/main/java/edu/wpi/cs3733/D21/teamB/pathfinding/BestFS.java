@@ -20,6 +20,8 @@ public class BestFS implements Pathfinder {
         queue.add(new Pair(start, new ArrayList<>(Collections.singleton(graph.getNodes().get(start)))));
 
         while (!queue.isEmpty()) {
+            //taking into account heuristic
+            //informed BFS
             Pair p = orderQueue(queue, end);
             queue.remove(p);
             List<Node> neighbors = graph.getAdjNodesById(p.getCurrent());
@@ -47,7 +49,12 @@ public class BestFS implements Pathfinder {
     }
 
 
-    //function orders queue based on the heuristic values
+    /**
+     *
+     * @param queue the neighbors queue
+     * @param end the ending node
+     * @return the neighbor that is closest to the end node
+     */
     public static Pair orderQueue(Queue<Pair> queue, String end){
         Graph graph = Graph.getGraph();
         Node endNode = graph.getNodes().get(end);
