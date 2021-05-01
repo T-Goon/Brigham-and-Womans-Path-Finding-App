@@ -41,31 +41,7 @@ public class MainPageController extends BasePageController implements Initializa
     private JFXButton btnEmergency;
 
     @FXML
-    private JFXButton osk;
-
-    @FXML
-    private StackPane stackPane;
-
-    @FXML
     private TextArea testText;
-    OnScreenKeyboard onScreenKeyboard = OnScreenKeyboard.getInstance();
-/*
-
-    LastFocused lastFocused = LastFocused.getInstance();
-   @Override
-    public void initialize(URL location, ResourceBundle resources) {
-            onScreenKeyboard = OnScreenKeyboard.getInstance();
-            keyboardVisible = false;
-            lastFocused.setAnode(testText);
-            try {
-                System.out.println(stackPane);
-                onScreenKeyboard.initKeyboard(stackPane);
-            } catch (AWTException e) {
-                e.printStackTrace();
-            }
-
-    }*/
-
 
     @FXML
     public void handleButtonAction(ActionEvent e) {
@@ -73,9 +49,6 @@ public class MainPageController extends BasePageController implements Initializa
         super.handleButtonAction(e);
         JFXButton btn = (JFXButton) e.getSource();
         switch (btn.getId()) {
-            case "osk":
-                onScreenKeyboard.getKeyboard().setVisible(true);
-                break;
             case "btnLogin":
                 SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/cs3733/D21/teamB/views/login/loginPage.fxml");
                 break;

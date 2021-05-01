@@ -13,6 +13,7 @@ public class OnScreenKeyboard {
     private static OnScreenKeyboard single_instance = null;
 
     private boolean shifted;
+    private boolean initialized;
     private VBox keyboard;
     private HBox numRow;
     private HBox topRow;
@@ -23,6 +24,7 @@ public class OnScreenKeyboard {
 
     private OnScreenKeyboard(){
         this.shifted = false;
+        this.initialized = false;
         this.keyboard = new VBox();
         this.numRow = new HBox();
         this.topRow = new HBox();
@@ -80,7 +82,9 @@ public class OnScreenKeyboard {
                 button.setTextFill(Color.YELLOW);
                 Character keyIs = Character.toUpperCase(button.getText().toCharArray()[0]);
                 button.setOnAction(event -> {
-                    lastFocused.requestFocus();
+                    if (!(lastFocused.getAnode().isFocused())) {
+                        lastFocused.requestFocus();
+                    }
                     if (!shifted) {
                         robot.keyPress(keyIs);
                         robot.keyRelease(keyIs);
@@ -122,9 +126,16 @@ public class OnScreenKeyboard {
         });
         bottomRow.getChildren().add(shift);
         shift.setTextFill(Color.YELLOW);
-        aParent.getChildren().add(keyboard);
-        keyboard.setLayoutY(500);
-        keyboard.setLayoutX(500);
+        if(!(aParent.getChildren().contains(keyboard))) {
+            aParent.getChildren().add(keyboard);
+        }
+        keyboard.setLayoutY(600);
+        keyboard.setLayoutX(100);
+        initialized = true;
+    }
+
+    public boolean getInitialized(){
+        return initialized;
     }
 
     public VBox getKeyboard() {
@@ -140,5 +151,6 @@ public class OnScreenKeyboard {
 
     public void setParent(Pane parent) {
         this.parent = parent;
+        parent.getChildren().add(keyboard);
     }
 }
