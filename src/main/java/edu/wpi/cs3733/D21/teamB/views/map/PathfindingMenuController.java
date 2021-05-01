@@ -815,5 +815,11 @@ public class PathfindingMenuController extends BasePageController implements Ini
         findClosestLocation.getItems().add("Food Place");
         findClosestLocation.getItems().add("Service Desk");
         findClosestLocation.getItems().add("Entrance");
+
+        //Food places:
+        //ARETL00101
+        //DRETL00102
+        //FRETL00201
+        //HRETL00102
     }
 }
