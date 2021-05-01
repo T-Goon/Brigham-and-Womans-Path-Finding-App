@@ -247,12 +247,13 @@ public class UserMutator implements IDatabaseEntityMutator<UserMutator.UserPassw
         db.runStatement(query, false);
     }
 
-    public void updateFavoriteForUser(String favoriteLocation) throws SQLException {
+    public void updateParkingForUser(String favoriteLocation) throws SQLException {
         User user = db.getAuthenticationUser();
         String username = user.getUsername();
 
-        String query = "UPDATE FavoriteLocations SET favoriteLocation = " + favoriteLocation
-                + "' WHERE username = '" + username + "'";
+        String query = "UPDATE FavoriteLocations SET favoriteLocation = '" + favoriteLocation
+                + "' WHERE username = '" + username + "' AND (favoriteLocation LIKE '%Parking%' OR favoriteLocation LIKE '%parking%')";
+        System.out.println(query);
         db.runStatement(query, false);
     }
 

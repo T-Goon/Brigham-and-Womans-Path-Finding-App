@@ -686,8 +686,8 @@ public class DatabaseHandler {
      *
      * @param favoriteLocation the parking spot to update
      */
-    public void updateFavoriteLocation(String favoriteLocation) throws SQLException {
-        userMutator.updateFavoriteForUser(favoriteLocation);
+    public void updateParkingSpot(String favoriteLocation) throws SQLException {
+        userMutator.updateParkingForUser(favoriteLocation);
     }
 
     /**

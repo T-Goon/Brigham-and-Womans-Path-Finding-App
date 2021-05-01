@@ -61,7 +61,7 @@ public class ChangeParkingSpotController implements Initializable {
                 TreeItem<String> newParking = treeView.getSelectionModel().getSelectedItem();
 //                popup.getData().getNodeName();
                 try {
-                    DatabaseHandler.getHandler().updateFavoriteLocation(newParking.getValue());
+                    DatabaseHandler.getHandler().updateParkingSpot(newParking.getValue());
                 } catch (SQLException exception) {
                     exception.printStackTrace();
                 }
