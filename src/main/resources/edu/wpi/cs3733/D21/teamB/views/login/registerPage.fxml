@@ -16,7 +16,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="766.0" prefWidth="1178.0" style="-fx-background-color: #012d5a;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D21.teamB.views.login.RegisterPageController">
     <children>
-        <VBox alignment="TOP_CENTER" layoutX="-10.0" prefHeight="885.0" prefWidth="1290.0" spacing="20.0" AnchorPane.bottomAnchor="-85.0" AnchorPane.leftAnchor="-10.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <VBox alignment="TOP_CENTER" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
                 <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #FFFFFF;">
                     <children>
@@ -62,9 +62,9 @@
                         </VBox>
                     </children>
                 </HBox>
-            <ScrollPane fitToWidth="true" pannable="true" stylesheets="@../../css/registerPage.css" VBox.vgrow="ALWAYS">
+            <ScrollPane fitToHeight="true" fitToWidth="true" pannable="true" stylesheets="@../../css/registerPage.css" VBox.vgrow="ALWAYS">
                <content>
-                  <HBox alignment="CENTER">
+                  <HBox alignment="CENTER" fillHeight="false">
                      <children>
                         <VBox HBox.hgrow="ALWAYS">
                            <children>
@@ -214,7 +214,7 @@
                                           <Insets />
                                       </VBox.margin>
                                   </VBox>
-                              <VBox alignment="CENTER" VBox.vgrow="ALWAYS">
+                              <VBox alignment="CENTER" fillWidth="false" VBox.vgrow="ALWAYS">
                                  <children>
                                     <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Already have an account?" textAlignment="CENTER">
                                        <font>
