@@ -21,7 +21,7 @@ public class BestFS implements Pathfinder {
 
         while (!queue.isEmpty()) {
             Pair p = orderQueue(queue, end);
-            queue.remove();
+            queue.remove(p);
             List<Node> neighbors = graph.getAdjNodesById(p.getCurrent());
             neighbors.removeAll(p.getPath());
 

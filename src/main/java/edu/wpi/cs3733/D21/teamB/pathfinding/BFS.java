@@ -8,7 +8,7 @@ import java.util.*;
 public class BFS implements Pathfinder {
 
     /**
-     * Implementation of depth-first search given the starting nodeID.
+     * Implementation of breadth-first search given the starting nodeID.
      *
      * @param start the starting NodeID
      * @param end   the ending NodeID

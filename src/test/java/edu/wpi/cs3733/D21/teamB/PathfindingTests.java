@@ -5,11 +5,8 @@ import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Edge;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Node;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Path;
-import edu.wpi.cs3733.D21.teamB.pathfinding.AStar;
-import edu.wpi.cs3733.D21.teamB.pathfinding.BFS;
-import edu.wpi.cs3733.D21.teamB.pathfinding.Graph;
+import edu.wpi.cs3733.D21.teamB.pathfinding.*;
 import edu.wpi.cs3733.D21.teamB.util.CSVHandler;
-import edu.wpi.cs3733.D21.teamB.pathfinding.Directions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -233,6 +230,18 @@ public class PathfindingTests {
 
         Path path = new BFS().findPath("bPARK00101", "bPARK02501", false);
         assertEquals(expectedPath, path.getPath());
+    }
+
+    @Test
+    public void testBFS2() {
+        Path path = new BFS().findPath("bEXIT00401", "EREST00101", false);
+        System.out.println(path.getPath());
+    }
+
+    @Test
+    public void testBestFS() {
+        Path path = new BestFS().findPath("bEXIT00401", "EREST00101", false);
+        System.out.println(path.getPath());
     }
 
     @Test
