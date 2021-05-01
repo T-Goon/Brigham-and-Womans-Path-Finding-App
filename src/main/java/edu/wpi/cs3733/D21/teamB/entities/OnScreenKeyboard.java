@@ -121,6 +121,7 @@ public class OnScreenKeyboard {
             }
         });
         bottomRow.getChildren().add(shift);
+        shift.setTextFill(Color.YELLOW);
         parent.getChildren().add(parent.getChildren().size(), keyboard);
         keyboard.setLayoutY(500);
         keyboard.setLayoutX(500);
