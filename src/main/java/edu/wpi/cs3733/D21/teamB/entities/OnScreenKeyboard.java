@@ -84,6 +84,7 @@ public class OnScreenKeyboard {
                 button.setOnAction(event -> {
                     if (!(lastFocused.getAnode().isFocused())) {
                         lastFocused.requestFocus();
+
                     }
                     if (!shifted) {
                         robot.keyPress(keyIs);
@@ -129,8 +130,6 @@ public class OnScreenKeyboard {
         if(!(aParent.getChildren().contains(keyboard))) {
             aParent.getChildren().add(keyboard);
         }
-        keyboard.setLayoutY(600);
-        keyboard.setLayoutX(100);
         initialized = true;
     }
 

@@ -53,7 +53,6 @@ public abstract class BasePageController implements Initializable{
                 }
                 else {
                     onScreenKeyboard.setParent(stackPane);
-                    System.out.println(onScreenKeyboard.getParent());
                 }
             } catch (AWTException e) {
                 e.printStackTrace();
@@ -65,17 +64,14 @@ public abstract class BasePageController implements Initializable{
         JFXButton btn = (JFXButton) e.getSource();
         switch (btn.getId()) {
             case "osk":
-                onScreenKeyboard.getKeyboard().setVisible(true);
+                keyboardVisible = !keyboardVisible;
+                onScreenKeyboard.getKeyboard().setVisible(keyboardVisible);
                 break;
             case "btnBack":
                 SceneSwitcher.goBack(getClass(), 1);
                 break;
             case "btnExit":
                 Platform.exit();
-                break;
-            case "btnOSKeyboard":
-                keyboardVisible = !keyboardVisible;
-                onScreenKeyboard.getKeyboard().setVisible(keyboardVisible);
                 break;
         }
     }
