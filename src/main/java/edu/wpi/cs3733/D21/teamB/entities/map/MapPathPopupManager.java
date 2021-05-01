@@ -114,14 +114,20 @@ public class MapPathPopupManager implements PoppableManager {
     /**
      * Creates the popup for changing parking spot.
      *
+     * @param parent the outer VBox of the popup
+     * @param data the data for the graphical input
+     * @param previous the inner VBox of the popup
+     * @return the popup for changing the parking spot
      */
-    public void createChangeParkingSpotPopup(VBox parent, GraphicalInputData data, VBox previous) {
+    public ChangeParkingSpotPopup createChangeParkingSpotPopup(VBox parent, GraphicalInputData data, VBox previous) {
 
         cpsPopup = new ChangeParkingSpotPopup(parent, data, previous);
 
         App.getPrimaryStage().setUserData(cpsPopup);
 
         cpsPopup.show();
+
+        return cpsPopup;
     }
 
     /**

@@ -69,6 +69,8 @@ public class GraphicalInputPopup extends Popup<VBox, GraphicalInputData> impleme
 
     /**
      * Add a favorite location to the tree view
+     *
+     * @return true if favorites has a parking spot
      */
     public boolean addFavorite() {
         // Get tree item and item to add
