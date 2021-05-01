@@ -140,6 +140,9 @@ public class PathfindingMenuController extends BasePageController implements Ini
     @FXML
     private Circle pathHead;
 
+    @FXML
+    private JFXComboBox<String> findClosestLocation;
+
     public static final double COORDINATE_SCALE = 25 / 9.0;
     public static final int MAX_X = 5000;
     public static final int MAX_Y = 3400;
@@ -805,5 +808,12 @@ public class PathfindingMenuController extends BasePageController implements Ini
         comboPathingType.getItems().add("BFS");
         comboPathingType.getSelectionModel().select(Graph.getGraph().getPathingTypeIndex());
         comboPathingType.setOnAction(e -> Graph.getGraph().setPathingTypeIndex(comboPathingType.getSelectionModel().getSelectedIndex()));
+    }
+
+    private void setUpClosestLocChoices(){
+        findClosestLocation.getItems().add("Bathroom");
+        findClosestLocation.getItems().add("Food Place");
+        findClosestLocation.getItems().add("Service Desk");
+        findClosestLocation.getItems().add("Entrance");
     }
 }
