@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.D21.teamB.entities;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextArea;
 import edu.wpi.cs3733.D21.teamB.App;
 import javafx.scene.Node;
@@ -21,7 +22,9 @@ public class LastFocused {
         return single_instance;
     }
     public void setAnode(Node anode) {
-        this.anode = anode;
+        if (!(anode.getClass() == new JFXButton().getClass())) {
+            this.anode = anode;
+        }
     }
     public Node getAnode() {
         return anode;

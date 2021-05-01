@@ -38,9 +38,7 @@ public abstract class BasePageController implements Initializable{
        EventHandler<MouseEvent> onClick = new EventHandler<MouseEvent>() {
            @Override
            public void handle(MouseEvent event) {
-               if (!onScreenKeyboard.getKeyboard().getChildren().contains(event.getPickResult().getIntersectedNode())) {
-                   lastFocused.setAnode(event.getPickResult().getIntersectedNode());
-               }
+               lastFocused.setAnode(event.getPickResult().getIntersectedNode());
                System.out.println(lastFocused.getAnode());
            }
        };
