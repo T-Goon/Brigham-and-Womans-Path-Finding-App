@@ -123,15 +123,12 @@ public class AStar implements Pathfinder {
      * @return the estimated time string to put in the box
      */
     public static String getEstimatedTime(Path path) {
-        //3-4mph average human walking speed
-        //1 mph = 88 fpm
 
-        //bWALK00601,1738,1545,1,Parking,WALK,Francis Vining Intersection Top Left,FrancisViningIntTopLeft
-        //bWALK01201,3373,1554,1,Parking,WALK,Francis Top Sidewalk 3,FrancisSidewalk3
-        //According to google maps, path from one corner of Francis street to other is ~500 ft:
-        //using this to get pixles / minute
-        //double pixDist = Math.sqrt((3373 - 1738)^2 +(1554-1545)^2);
+        //bWALK00601,1738,1545
+        //bWALK01201,3373,1554
+        //One corner of Francis street to other is ~500 ft:
         //double pixDist = 1635.025;
+
         double timeConst = (2 / 1635.025);
         double timeDec = path.getTotalPathCost() * timeConst;
 
