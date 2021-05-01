@@ -29,6 +29,7 @@ public class App extends Application {
     public void init() {
         System.out.println("Starting Up");
         db = DatabaseHandler.getHandler();
+
     }
 
     @Override

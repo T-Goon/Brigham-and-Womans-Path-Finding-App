@@ -31,6 +31,8 @@ repositories {
 dependencies {
     compile 'com.jfoenix:jfoenix:8.0.10'
     implementation(
+            group: 'org.bytedeco', name: 'javacv-platform', version: '1.5.5',
+            'org.openpnp:opencv:4.5.1-2',
             'com.jfoenix:jfoenix:8.0.10',
 
             // You may comment out the database dependency you do not use
