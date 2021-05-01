@@ -9,6 +9,7 @@ import edu.wpi.cs3733.D21.teamB.pathfinding.Directions;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
@@ -66,6 +67,7 @@ public class TxtDirPopupController implements Initializable {
                 for (int j = 0; j < directions.get(i).getNodes().size() - 1; j++) {
                     Node start = directions.get(i).getNodes().get(j);
                     Node end = directions.get(i).getNodes().get(j + 1);
+                    System.out.println(start.getLongName() + " " + end.getLongName());
                     for (Line l : popup.getMapCache().getEdgesPlaced()) {
                         if (l.getId().contains(start.getNodeID()) && l.getId().contains(end.getNodeID())) {
                             edges.add(l);
@@ -84,6 +86,7 @@ public class TxtDirPopupController implements Initializable {
                 // Label in HBox
                 Label text = new Label(dir.getInstruction());
                 text.setFont(new Font("System", 14));
+                text.setPadding(new Insets(10, 10, 10, 10));
                 text.setAlignment(Pos.BOTTOM_CENTER);
                 instruction.getChildren().add(text);
 

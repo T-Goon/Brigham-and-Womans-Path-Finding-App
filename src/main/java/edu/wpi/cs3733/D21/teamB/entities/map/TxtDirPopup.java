@@ -90,6 +90,26 @@ public class TxtDirPopup extends Popup<VBox, TxtDirPopupData> implements Poppabl
     public void next() {
         if (index < maxIndex) {
             index++;
+
+            if (directions.get(index).getDirection() == Directions.DirectionType.UP_ELEVATOR || directions.get(index).getDirection() == Directions.DirectionType.UP_STAIRS ||
+                    directions.get(index).getDirection() == Directions.DirectionType.DOWN_ELEVATOR || directions.get(index).getDirection() == Directions.DirectionType.DOWN_STAIRS) {
+                HBox box = (HBox) instructionBox.getChildren().get(index);
+                Label label = (Label) box.getChildren().get(1);
+
+                int floorChange = 0;
+                List<Line> lines = mapCache.getInstructionsToEdges().get(label.getText());
+                System.out.println(lines);
+                for (int i = 0; i < lines.size() - 1; i++) {
+                    // line ID format is XXXXXXXXXX_YYYYYYYYYIcon, and we want to get the floors for the edges
+                    int floor1 = FloorSwitcher.floorIDtoInt(lines.get(i).getId().substring(8, 11));
+                    int floor2 = FloorSwitcher.floorIDtoInt(lines.get(1).getId().substring(18, 21));
+                    System.out.println(lines.get(i).getId() + ": " + floor1 + " " + floor2);
+                    floorChange += floor2 - floor1;
+                }
+                System.out.println("floor change (aka go up this many floors): " + floorChange);
+            }
+
+
             highlight();
         }
     }
@@ -117,7 +137,7 @@ public class TxtDirPopup extends Popup<VBox, TxtDirPopupData> implements Poppabl
         if (index != 0) {
             HBox box = (HBox) instructionBox.getChildren().get(index);
             Label label = (Label) box.getChildren().get(1);
-            label.setStyle("-fx-background-color: darkblue;");
+            label.setStyle("-fx-background-color: darkblue; -fx-padding: 10;");
             List<Line> lines = mapCache.getInstructionsToEdges().get(label.getText());
             for (Line l : lines) l.setStroke(Color.RED);
             previousText = label;
