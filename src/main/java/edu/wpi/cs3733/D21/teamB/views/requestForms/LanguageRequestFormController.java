@@ -49,8 +49,6 @@ public class LanguageRequestFormController extends DefaultServiceRequestFormCont
 
         language.setEditable(true);
 
-
-
         language.getItems().add("Chinese");
         language.getItems().add("French");
         language.getItems().add("Russian");

@@ -1,9 +1,6 @@
 package edu.wpi.cs3733.D21.teamB.views.requestForms;
 
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXComboBox;
-import com.jfoenix.controls.JFXDialog;
-import com.jfoenix.controls.JFXDialogLayout;
+import com.jfoenix.controls.*;
 import edu.wpi.cs3733.D21.teamB.App;
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Node;
@@ -12,6 +9,8 @@ import edu.wpi.cs3733.D21.teamB.views.BasePageController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -70,6 +69,30 @@ public abstract class DefaultServiceRequestFormController extends BasePageContro
         }
 
         //ADD searchable thing
+        loc.setEditable(true);
+
+        JFXAutoCompletePopup<String> autoCompletePopup = new JFXAutoCompletePopup<>();
+        autoCompletePopup.getSuggestions().addAll(loc.getItems());
+
+        //SelectionHandler sets the value of the comboBox
+        autoCompletePopup.setSelectionHandler(event -> {
+            loc.setValue(event.getObject());
+        });
+
+        TextField editor = loc.getEditor();
+        editor.addEventHandler(KeyEvent.ANY, event -> {
+            //The filter method uses the Predicate to filter the Suggestions defined above
+            //I choose to use the contains method while ignoring cases
+            if(!event.getCode().isNavigationKey()) {
+                autoCompletePopup.filter(item -> item.toLowerCase().contains(editor.getText().toLowerCase()));
+                //Hide the autocomplete popup if the filtered suggestions is empty or when the box's original popup is open
+                if (autoCompletePopup.getFilteredSuggestions().isEmpty()) {
+                    autoCompletePopup.hide();
+                } else {
+                    autoCompletePopup.show(editor);
+                }
+            }
+        });
 
         btnSubmit.setDisable(true);
     }
