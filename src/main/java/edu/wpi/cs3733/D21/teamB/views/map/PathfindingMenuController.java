@@ -12,6 +12,7 @@ import edu.wpi.cs3733.D21.teamB.entities.map.MapPathPopupManager;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Edge;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Node;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.NodeType;
+import edu.wpi.cs3733.D21.teamB.pathfinding.AStar;
 import edu.wpi.cs3733.D21.teamB.pathfinding.Graph;
 import edu.wpi.cs3733.D21.teamB.util.CSVHandler;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
@@ -221,6 +222,9 @@ public class PathfindingMenuController extends BasePageController implements Ini
 
         // Set up the pathing type combo box
         setUpPathfindingChoices();
+
+        // Set up the find closest location combo box
+        setUpClosestLocChoices();
 
         // Set up control-click functionality for aligning nodes
         gpane.setOnKeyReleased(e -> {
@@ -811,9 +815,32 @@ public class PathfindingMenuController extends BasePageController implements Ini
     }
 
     private void setUpClosestLocChoices(){
-        findClosestLocation.getItems().add("Bathroom");
+        findClosestLocation.getItems().add("Restroom");
         findClosestLocation.getItems().add("Food Place");
         findClosestLocation.getItems().add("Service Desk");
         findClosestLocation.getItems().add("Entrance");
+
+        AStar aStar = new AStar();
+
+        List<TreeItem<String>> restrooms = mapCache.getCatNameMap().get("Restrooms");
+        List<String> restroomList = new ArrayList<>();
+        for (TreeItem<String> restroom : restrooms) {
+            restroomList.add(restroom.getValue());
+        }
+//        aStar.shortestPathToNodeInList(restroomList);
+
+        List<TreeItem<String>> foodPlaces = mapCache.getCatNameMap().get("Retail Locations");
+        List<String> foodPlacesList = new ArrayList<>();
+//        aStar.shortestPathToNodeInList(foodPlacesList);
+
+        List<TreeItem<String>> serviceDesks = mapCache.getCatNameMap().get("Information Locations");
+        List<String> serviceDesksList = new ArrayList<>();
+//        aStar.shortestPathToNodeInList(serviceDesksList);
+
+        List<TreeItem<String>> entrances = mapCache.getCatNameMap().get("Entrances");
+        List<String> entranceList = new ArrayList<>();
+        for (TreeItem<String> entrance : entrances) {
+            entranceList.add(entrance.getValue());
+        }
     }
 }
