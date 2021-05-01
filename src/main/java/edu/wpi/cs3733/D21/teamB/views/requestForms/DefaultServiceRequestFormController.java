@@ -69,6 +69,8 @@ public abstract class DefaultServiceRequestFormController extends BasePageContro
             nodesList.add(n);
         }
 
+        //ADD searchable thing
+
         btnSubmit.setDisable(true);
     }
 
