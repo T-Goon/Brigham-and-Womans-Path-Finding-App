@@ -269,7 +269,6 @@ public class MapDrawer implements PoppableManager {
      * @param end   Long name of the end node
      */
     public void drawPath(String start, String end) {
-        Graph.getGraph().updateGraph();
         Map<String, String> longToIDMap = mapCache.getMapLongToID();
 
         Stack<String> allStops = new Stack<>();
