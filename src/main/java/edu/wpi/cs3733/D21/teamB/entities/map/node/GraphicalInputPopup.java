@@ -138,10 +138,21 @@ public class GraphicalInputPopup extends Popup<VBox, GraphicalInputData> impleme
     /**
      * Check if the location is a favorite
      *
+     * @param longName the location's long name
      * @return true if the location is a favorite
      */
     public boolean isFavorite(String longName) {
         return longName.equals(data.getNodeName());
+    }
+
+    /**
+     * Check if the location is a parking spot
+     *
+     * @param longName the location's long name
+     * @return true if the location is a parking spot
+     */
+    public boolean isParking(String longName) {
+        return longName.contains("Park");
     }
 
     /**

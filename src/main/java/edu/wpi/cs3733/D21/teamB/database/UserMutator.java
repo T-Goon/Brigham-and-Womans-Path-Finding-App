@@ -253,7 +253,6 @@ public class UserMutator implements IDatabaseEntityMutator<UserMutator.UserPassw
 
         String query = "UPDATE FavoriteLocations SET favoriteLocation = '" + favoriteLocation
                 + "' WHERE username = '" + username + "' AND (favoriteLocation LIKE '%Parking%' OR favoriteLocation LIKE '%parking%')";
-        System.out.println(query);
         db.runStatement(query, false);
     }
 

@@ -7,7 +7,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox fx:id="SelectionPopUp" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="300.0" prefWidth="330.0" spacing="10.0" style="-fx-background-color: #0067B1; -fx-background-radius: 33; -fx-border-width: 3; -fx-border-color: black; -fx-border-radius: 30;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D21.teamB.views.map.misc.ChangeParkingSpotController">
+<VBox fx:id="SelectionPopUp" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="300.0" prefWidth="330.0" spacing="10.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D21.teamB.views.map.misc.ChangeParkingSpotController">
    <children>
       <VBox alignment="TOP_CENTER" spacing="10.0" style="-fx-background-color: white; -fx-background-radius: 30;" VBox.vgrow="ALWAYS">
          <children>
@@ -23,15 +23,6 @@
             <HBox VBox.vgrow="ALWAYS">
                <children>
                   <JFXButton fx:id="btnChangeParking" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39; -fx-background-radius: 10;" text="Change Parking Spot" HBox.hgrow="ALWAYS">
-                     <font>
-                        <Font name="MS Reference Sans Serif" size="24.0" />
-                     </font>
-                  </JFXButton>
-               </children>
-            </HBox>
-            <HBox VBox.vgrow="ALWAYS">
-               <children>
-                  <JFXButton fx:id="btnRemoveParking" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39; -fx-background-radius: 10;" text="Remove Parking Spot" HBox.hgrow="ALWAYS">
                      <font>
                         <Font name="MS Reference Sans Serif" size="24.0" />
                      </font>

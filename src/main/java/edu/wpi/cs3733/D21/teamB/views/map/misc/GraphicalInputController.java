@@ -2,12 +2,13 @@ package edu.wpi.cs3733.D21.teamB.views.map.misc;
 
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.cs3733.D21.teamB.App;
+import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
+import edu.wpi.cs3733.D21.teamB.entities.User;
 import edu.wpi.cs3733.D21.teamB.entities.map.node.GraphicalInputPopup;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeView;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import lombok.Getter;
@@ -53,10 +54,13 @@ public class GraphicalInputController implements Initializable {
         nodeName.setText(popup.getData().getNodeName());
 
         boolean isFavorite = false;
+        boolean hasParking = false;
         for (TreeItem<String> item : popup.getData().getPfmc().getFavorites().getChildren()) {
             if (popup.isFavorite(item.getValue())) {
                 isFavorite = true;
-                break;
+            }
+            if (popup.isParking(item.getValue())) {
+                hasParking = true;
             }
         }
 
@@ -67,6 +71,15 @@ public class GraphicalInputController implements Initializable {
             btnRemoveFavorite.setDisable(false);
             btnAddFavorite.setDisable(true);
         }
+
+        if (DatabaseHandler.getHandler().getAuthenticationUser().getAuthenticationLevel().equals(User.AuthenticationLevel.GUEST)) {
+            btnAddFavorite.setDisable(true);
+            btnRemoveFavorite.setDisable(true);
+        }
+
+//        if (popup.isParking(popup.getData().getNodeName()) && hasParking) {
+//            btnAddFavorite.setDisable(true);
+//        }
     }
 
     @FXML
@@ -94,12 +107,12 @@ public class GraphicalInputController implements Initializable {
                 }
                 break;
             case "btnRemoveFavorite":
-                if (popup.getData().getNodeName().contains("Park")) {
-                    SelectionPopUp.getChildren().remove(mainMenu);
-                    popup.getData().getMppm().createChangeParkingSpotPopup(SelectionPopUp, popup.getData(), mainMenu);
-                } else {
+//                if (popup.getData().getNodeName().contains("Park")) {
+//                    SelectionPopUp.getChildren().remove(mainMenu);
+//                    popup.getData().getMppm().createChangeParkingSpotPopup(SelectionPopUp, popup.getData(), mainMenu);
+//                } else {
                     popup.removeFavorite();
-                }
+//                }
                 btnAddFavorite.setDisable(false);
                 btnRemoveFavorite.setDisable(true);
                 // loop through favorites to see if there is a parking spot
@@ -107,6 +120,7 @@ public class GraphicalInputController implements Initializable {
 //                TreeItem<String> newParking = treeView.getSelectionModel().getSelectedItem();
                 break;
             case "btnCancel":
+//                btnRemoveFavorite.setDisable(false);
                 popup.getData().getMd().removeAllPopups();
                 break;
         }

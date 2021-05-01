@@ -27,8 +27,8 @@ public class ChangeParkingSpotController implements Initializable {
     @FXML
     private JFXButton btnChangeParking;
 
-    @FXML
-    private JFXButton btnRemoveParking;
+//    @FXML
+//    private JFXButton btnRemoveParking;
 
     @FXML
     private JFXButton btnCancel;
@@ -59,34 +59,46 @@ public class ChangeParkingSpotController implements Initializable {
             case "btnChangeParking":
                 TreeView<String> treeView = popup.getData().getPfmc().getTreeLocations();
                 TreeItem<String> newParking = treeView.getSelectionModel().getSelectedItem();
+                TreeItem<String> favorites = popup.getData().getPfmc().getFavorites();
+                List<TreeItem<String>> toRemove = new ArrayList<>();
+                for (TreeItem<String> favorite : favorites.getChildren()) {
+                    if (favorite.getValue().contains("Park")) {
+                        toRemove.add(favorite);
+                    }
+                }
+                favorites.getChildren().removeAll(toRemove);
+                favorites.getChildren().add(newParking);
 //                popup.getData().getNodeName();
                 try {
                     DatabaseHandler.getHandler().updateParkingSpot(newParking.getValue());
                 } catch (SQLException exception) {
                     exception.printStackTrace();
                 }
-                break;
-            case "btnRemoveParking":
-                // Get tree item
-                TreeItem<String> favorites = popup.getData().getPfmc().getFavorites();
-                List<TreeItem<String>> toRemove = new ArrayList<>();
-
-                // Find the location to remove
-                for (TreeItem<String> item : favorites.getChildren()) {
-                    if (item.getValue().equals(popup.getData().getNodeName())) {
-                        toRemove.add(item);
-                        try {
-                            DatabaseHandler.getHandler().removeFavoriteLocation(item.getValue());
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-                favorites.getChildren().removeAll(toRemove);
-//                btnAddFavorite.setDisable(false);
-//                btnRemoveFavorite.setDisable(true);
+//                GraphicalInputController graphicalInputController;
                 popup.hide();
+//                graphicalInputController.getBtnAddFavorite().setDisable(true);
                 break;
+//            case "btnRemoveParking":
+//                // Get tree item
+//                TreeItem<String> favorites = popup.getData().getPfmc().getFavorites();
+//                List<TreeItem<String>> toRemove = new ArrayList<>();
+//
+//                // Find the location to remove
+//                for (TreeItem<String> item : favorites.getChildren()) {
+//                    if (item.getValue().equals(popup.getData().getNodeName())) {
+//                        toRemove.add(item);
+//                        try {
+//                            DatabaseHandler.getHandler().removeFavoriteLocation(item.getValue());
+//                        } catch (SQLException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                }
+//                favorites.getChildren().removeAll(toRemove);
+////                btnAddFavorite.setDisable(false);
+////                btnRemoveFavorite.setDisable(true);
+//                popup.hide();
+//                break;
             case "btnCancel":
                 popup.hide();
                 break;
