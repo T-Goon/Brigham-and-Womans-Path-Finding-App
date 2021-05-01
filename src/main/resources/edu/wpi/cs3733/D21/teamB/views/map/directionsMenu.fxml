@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D21.teamB.views.map.DirectionsMenuController">
+   <children>
+      <VBox alignment="TOP_CENTER" layoutY="28.083261489868164" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: #012d5a;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+          <children>
+              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #FFFFFF;">
+                  <children>
+                      <VBox>
+                          <HBox.margin>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                          </HBox.margin>
+                          <children>
+                              <ImageView fitHeight="114.0" fitWidth="314.0" pickOnBounds="true" preserveRatio="true">
+                                  <image>
+                                      <Image url="@../../images/general/hospitalLogo.png" />
+                                  </image>
+                              </ImageView>
+                              <JFXButton fx:id="btnEmergency" buttonType="RAISED" onAction="#handleButtonAction" style="-fx-background-color: #CE2029;" text="EMERGENCY" textFill="WHITE">
+                                  <font>
+                                      <Font name="MS Reference Sans Serif" size="16.0" />
+                                  </font>
+                                  <VBox.margin>
+                                      <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
+                                  </VBox.margin>
+                              </JFXButton>
+                          </children>
+                      </VBox>
+                      <VBox alignment="TOP_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+                          <children>
+                              <JFXButton fx:id="btnExit" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" onAction="#handleButtonAction" prefHeight="40.0" prefWidth="40.0" rotate="45.0" style="-fx-background-color: transparent; -fx-background-radius: 50%;" text="+" textAlignment="CENTER">
+                                  <padding>
+                                      <Insets bottom="-10.0" left="-10.0" right="-10.0" top="-10.0" />
+                                  </padding>
+                                  <font>
+                                      <Font size="30.0" />
+                                  </font>
+                              </JFXButton>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Directions">
+                                  <font>
+                                      <Font size="40.0" />
+                                  </font>
+                                  <VBox.margin>
+                                      <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
+                                  </VBox.margin>
+                              </Text>
+                          </children>
+                      </VBox>
+                  </children>
+              </HBox>
+              <AnchorPane fx:id="anchorPane" maxHeight="1.7976931348623157E308" VBox.vgrow="ALWAYS">
+               <children>
+                  <StackPane fx:id="mapHolder" alignment="TOP_LEFT" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <VBox maxHeight="-Infinity" maxWidth="-Infinity" spacing="5.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 10; -fx-border-color: #000000; -fx-border-width: 2; -fx-border-radius: 7;" StackPane.alignment="TOP_RIGHT">
+                           <children>
+                              <GridPane>
+                                 <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                                 <children>
+                                    <JFXButton fx:id="btnSubmit" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39; -fx-background-radius: 7;" text="Submit" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2">
+                                       <GridPane.margin>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </GridPane.margin>
+                                       <font>
+                                          <Font size="16.0" />
+                                       </font>
+                                    </JFXButton>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Start Location: " />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="End Location:" GridPane.rowIndex="1" />
+                                    <JFXTextField fx:id="txtStartLocation" prefColumnCount="24" GridPane.columnIndex="1">
+                                       <GridPane.margin>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </GridPane.margin>
+                                    </JFXTextField>
+                                    <JFXComboBox fx:id="comboEndLocation" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1">
+                                       <GridPane.margin>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </GridPane.margin>
+                                    </JFXComboBox>
+                                 </children>
+                              </GridPane>
+                           </children>
+                           <StackPane.margin>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </StackPane.margin>
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
+                        </VBox>
+                         <JFXButton fx:id="btnBack" alignment="CENTER" buttonType="RAISED" cancelButton="true" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#handleButtonAction" prefHeight="56" prefWidth="56" style="-fx-background-color: #0067B1; -fx-background-radius: 50%;" text="🡰" textAlignment="CENTER" textFill="WHITE" StackPane.alignment="BOTTOM_LEFT">
+                             <font>
+                                 <Font size="27.0" />
+                             </font>
+                             <padding>
+                                 <Insets top="1.0" />
+                             </padding>
+                           <StackPane.margin>
+                              <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                           </StackPane.margin>
+                         </JFXButton>
+                     </children>
+                  </StackPane>
+               </children>
+            </AnchorPane>
+          </children>
+      </VBox>
+   </children>
+</AnchorPane>
