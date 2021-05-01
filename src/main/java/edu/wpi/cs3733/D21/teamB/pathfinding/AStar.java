@@ -100,13 +100,17 @@ public class AStar implements Pathfinder {
      * @return The shortest path from the starting node to any of the nodes in the destinations list
      * to it
      */
-    public Path shortestPathToNodeInList(String startID, List<Node> destinations) {
+    public Path shortestPathToNodeInList(String startID, List<String> destinations) {
+
+        Graph graph = Graph.getGraph();
+        graph.updateGraph();
 
         double min = Double.MAX_VALUE;
         Path shortestPath = new Path();
 
-        for (Node dest : destinations) {
-            Path tempPath = findPath(startID, dest.getNodeID(), false);
+        for (String dest : destinations) {
+
+            Path tempPath = findPath(startID, dest, false);
             double cost = tempPath.getTotalPathCost();
             if (cost != 0 && cost < min) {
                 shortestPath = tempPath;

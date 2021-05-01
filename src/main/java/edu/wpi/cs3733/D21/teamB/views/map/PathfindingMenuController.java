@@ -632,10 +632,11 @@ public class PathfindingMenuController extends BasePageController implements Ini
     /**
      * alphabetizes the strings to go into the treeview list
      */
-    private ObservableList<TreeItem<String>> alphabetize(ObservableList<TreeItem<String>> strings){
-       strings.sort(Comparator.comparing(TreeItem::toString));
-       return strings;
+    private ObservableList<TreeItem<String>> alphabetize(ObservableList<TreeItem<String>> strings) {
+        strings.sort(Comparator.comparing(TreeItem::toString));
+        return strings;
     }
+
     /**
      * Populates the tree view with favorite locations from the database
      */
@@ -814,33 +815,49 @@ public class PathfindingMenuController extends BasePageController implements Ini
         comboPathingType.setOnAction(e -> Graph.getGraph().setPathingTypeIndex(comboPathingType.getSelectionModel().getSelectedIndex()));
     }
 
-    private void setUpClosestLocChoices(){
+    private void setUpClosestLocChoices() {
         findClosestLocation.getItems().add("Restroom");
         findClosestLocation.getItems().add("Food Place");
         findClosestLocation.getItems().add("Service Desk");
         findClosestLocation.getItems().add("Entrance");
 
-        AStar aStar = new AStar();
+        findClosestLocation();
+    }
 
-        List<TreeItem<String>> restrooms = mapCache.getCatNameMap().get("Restrooms");
-        List<String> restroomList = new ArrayList<>();
-        for (TreeItem<String> restroom : restrooms) {
-            restroomList.add(restroom.getValue());
-        }
-//        aStar.shortestPathToNodeInList(restroomList);
+    private void findClosestLocation() {
+        String startID = mapCache.getMapLongToID().get(txtStartLocation.getText());
 
-        List<TreeItem<String>> foodPlaces = mapCache.getCatNameMap().get("Retail Locations");
-        List<String> foodPlacesList = new ArrayList<>();
-//        aStar.shortestPathToNodeInList(foodPlacesList);
+        if (startID != null) {
+            AStar aStar = new AStar();
+            mapCache.updateLocations();
 
-        List<TreeItem<String>> serviceDesks = mapCache.getCatNameMap().get("Information Locations");
-        List<String> serviceDesksList = new ArrayList<>();
-//        aStar.shortestPathToNodeInList(serviceDesksList);
+            List<TreeItem<String>> restrooms = mapCache.getCatNameMap().get("Restrooms");
+            List<String> restroomsList = new ArrayList<>();
+            for (TreeItem<String> restroom : restrooms) {
+                restroomsList.add(restroom.getValue());
+            }
+            aStar.shortestPathToNodeInList(startID, restroomsList);
 
-        List<TreeItem<String>> entrances = mapCache.getCatNameMap().get("Entrances");
-        List<String> entranceList = new ArrayList<>();
-        for (TreeItem<String> entrance : entrances) {
-            entranceList.add(entrance.getValue());
+            List<String> foodPlacesList = new ArrayList<>();
+            foodPlacesList.add("ARETL00101");
+            foodPlacesList.add("DRETL00102");
+            foodPlacesList.add("FRETL00201");
+            foodPlacesList.add("HRETL00102");
+            aStar.shortestPathToNodeInList(startID, foodPlacesList);
+
+            List<String> serviceDesksList = new ArrayList<>();
+            serviceDesksList.add("BINFO00102");
+            serviceDesksList.add("BINFO00202");
+            serviceDesksList.add("FINFO00101");
+            serviceDesksList.add("GINFO01902");
+            aStar.shortestPathToNodeInList(startID, serviceDesksList);
+
+            List<TreeItem<String>> entrances = mapCache.getCatNameMap().get("Entrances");
+            List<String> entrancesList = new ArrayList<>();
+            for (TreeItem<String> entrance : entrances) {
+                entrancesList.add(entrance.getValue());
+            }
+            aStar.shortestPathToNodeInList(startID, entrancesList);
         }
     }
 }

@@ -94,15 +94,11 @@ public class PathfindingTests {
 
         List<String> pathExp = new LinkedList<>();
 
-        List<Node> category = new ArrayList<>();
+        List<String> category = new ArrayList<>();
 
-        Node bPARK01501 = new Node("bPARK01501", 3159, 1228, "1", "Parking", "PARK", "Right Parking Lot Spot 5", "RLot5");
-        Node bPARK01601 = new Node("bPARK01601", 3161, 1251, "1", "Parking", "PARK", "Right Parking Lot Spot 6", "RLot6");
-        Node bPARK01701 = new Node("bPARK01701", 3160, 1278, "1", "Parking", "PARK", "Right Parking Lot Spot 7", "RLot7");
-
-        category.add(bPARK01501);
-        category.add(bPARK01601);
-        category.add(bPARK01701);
+        category.add("bPARK01501");
+        category.add("bPARK01601");
+        category.add("bPARK01701");
 
         pathExp.add("bWALK00101");
         pathExp.add("bWALK00201");
