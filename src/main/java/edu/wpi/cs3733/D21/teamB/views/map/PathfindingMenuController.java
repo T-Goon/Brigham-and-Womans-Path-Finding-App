@@ -489,8 +489,6 @@ public class PathfindingMenuController extends BasePageController implements Ini
             case "btnFindPath":
                 Map<String, String> longToId = mapCache.makeLongToIDMap();
                 mapDrawer.removeAllEdges();
-                mapDrawer.drawPath(txtStartLocation.getText(), txtEndLocation.getText());
-
 
                 floorSwitcher.switchFloor(DatabaseHandler.getHandler().getNodeById(longToId.get(txtStartLocation.getText())).getFloor());
                 mapDrawer.drawPath(txtStartLocation.getText(), txtEndLocation.getText());
