@@ -37,6 +37,7 @@ public class UserDirectoryMenuController extends BasePageController implements I
     @FXML
     private JFXButton btnUsers;
 
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         if (DatabaseHandler.getHandler().getAuthenticationUser().isAtLeast(User.AuthenticationLevel.ADMIN)) {
@@ -44,11 +45,11 @@ public class UserDirectoryMenuController extends BasePageController implements I
             buttonPane.getChildren().remove(0);
         } else if (DatabaseHandler.getHandler().getAuthenticationUser().isAtLeast(User.AuthenticationLevel.STAFF)) {
             directoryText.setText("Staff Directory");
-            buttonPane.getChildren().remove(4);
+            buttonPane.getChildren().remove(5);
             buttonPane.getChildren().remove(0);
         } else {
             directoryText.setText("Patient Directory");
-            buttonPane.getChildren().remove(2, 5);
+            buttonPane.getChildren().remove(3, 6);
         }
     }
 
@@ -63,6 +64,9 @@ public class UserDirectoryMenuController extends BasePageController implements I
                 break;
             case "btnDirections":
                 SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/cs3733/D21/teamB/views/map/pathfindingMenu.fxml");
+                break;
+            case "btnGoogle":
+                SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/cs3733/D21/teamB/views/map/directionsMenu.fxml");
                 break;
             case "btnServiceRequests":
                 SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestMenu.fxml");
