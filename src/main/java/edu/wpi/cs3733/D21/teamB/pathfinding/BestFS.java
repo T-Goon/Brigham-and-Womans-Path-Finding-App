@@ -3,7 +3,7 @@ import edu.wpi.cs3733.D21.teamB.entities.map.data.Node;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Path;
 import java.util.*;
 
-public class BestFS implements Pathfinder {
+public class BestFS extends DijkstraTemplate implements Pathfinder{
 
     /**
      * Implementation of depth-first search given the starting nodeID.
@@ -44,7 +44,6 @@ public class BestFS implements Pathfinder {
                 }
             }
         }
-
         return null;
     }
 
