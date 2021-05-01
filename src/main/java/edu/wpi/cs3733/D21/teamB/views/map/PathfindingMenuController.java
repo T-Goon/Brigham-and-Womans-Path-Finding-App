@@ -304,10 +304,6 @@ public class PathfindingMenuController extends BasePageController implements Ini
                     mapCache.makeLongToIDMap().get(
                             selectedItem.getValue()));
 
-            if (selectedItem.getValue().contains("Park")) {
-                mapPathPopupManager.createChangeParkingSpotPopup(tempLocation);
-            }
-
             mapDrawer.removeAllPopups();
             if (mapDrawer.isEditing())
                 mapEditorPopupManager.showEditNodePopup(tempLocation, mouseEvent, true);

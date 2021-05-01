@@ -31,6 +31,15 @@
             </HBox>
             <HBox VBox.vgrow="ALWAYS">
                <children>
+                  <JFXButton fx:id="btnRemoveParking" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39; -fx-background-radius: 10;" text="Remove Parking Spot" HBox.hgrow="ALWAYS">
+                     <font>
+                        <Font name="MS Reference Sans Serif" size="24.0" />
+                     </font>
+                  </JFXButton>
+               </children>
+            </HBox>
+            <HBox VBox.vgrow="ALWAYS">
+               <children>
                   <JFXButton fx:id="btnCancel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#handleButtonAction" style="-fx-background-color: #0067B1; -fx-background-radius: 10;" text="Cancel" textFill="WHITE" HBox.hgrow="ALWAYS">
                      <font>
                         <Font name="MS Reference Sans Serif" size="24.0" />

@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import lombok.Getter;
 
@@ -37,6 +38,12 @@ public class GraphicalInputController implements Initializable {
 
     @FXML
     private JFXButton btnRemoveFavorite;
+
+    @FXML
+    private VBox SelectionPopUp;
+
+    @FXML
+    private VBox mainMenu;
 
     private GraphicalInputPopup popup;
 
@@ -77,17 +84,27 @@ public class GraphicalInputController implements Initializable {
                 popup.setEnd();
                 break;
             case "btnAddFavorite":
-                popup.addFavorite();
-                btnAddFavorite.setDisable(true);
-                btnRemoveFavorite.setDisable(false);
+                boolean hasParking = popup.addFavorite();
+                if (hasParking) {
+                    SelectionPopUp.getChildren().remove(mainMenu);
+                    popup.getData().getMppm().createChangeParkingSpotPopup(SelectionPopUp, popup.getData(), mainMenu);
+                } else {
+                    btnAddFavorite.setDisable(true);
+                    btnRemoveFavorite.setDisable(false);
+                }
                 break;
             case "btnRemoveFavorite":
-                popup.removeFavorite();
+                if (popup.getData().getNodeName().contains("Park")) {
+                    SelectionPopUp.getChildren().remove(mainMenu);
+                    popup.getData().getMppm().createChangeParkingSpotPopup(SelectionPopUp, popup.getData(), mainMenu);
+                } else {
+                    popup.removeFavorite();
+                }
                 btnAddFavorite.setDisable(false);
                 btnRemoveFavorite.setDisable(true);
-                TreeView<String> treeView = popup.getData().getPfmc().getTreeLocations();
-                TreeItem<String> newParking = treeView.getSelectionModel().getSelectedItem();
-
+                // loop through favorites to see if there is a parking spot
+//                TreeView<String> treeView = popup.getData().getPfmc().getTreeLocations();
+//                TreeItem<String> newParking = treeView.getSelectionModel().getSelectedItem();
                 break;
             case "btnCancel":
                 popup.getData().getMd().removeAllPopups();

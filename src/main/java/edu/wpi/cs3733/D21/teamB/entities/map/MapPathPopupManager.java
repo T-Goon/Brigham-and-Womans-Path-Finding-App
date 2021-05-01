@@ -13,6 +13,7 @@ import edu.wpi.cs3733.D21.teamB.util.Popup.PoppableManager;
 import edu.wpi.cs3733.D21.teamB.views.map.PathfindingMenuController;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import net.kurobako.gesturefx.GesturePane;
 
 import java.util.ArrayList;
@@ -60,7 +61,7 @@ public class MapPathPopupManager implements PoppableManager {
     public void createGraphicalInputPopup(Node n) {
 
         GraphicalInputData giData = new GraphicalInputData(n.getLongName(), txtStartLocation, txtEndLocation,
-                btnRemoveStop, md, mc, pfmc);
+                btnRemoveStop, md, mc, pfmc, this);
 
         giPopup = new GraphicalInputPopup(mapStack, giData, gpane);
 
@@ -113,13 +114,10 @@ public class MapPathPopupManager implements PoppableManager {
     /**
      * Creates the popup for changing parking spot.
      *
-     * @param n Node to create the popup for
      */
-    public void createChangeParkingSpotPopup(Node n) {
+    public void createChangeParkingSpotPopup(VBox parent, GraphicalInputData data, VBox previous) {
 
-        ChangeParkingSpotData cpsData = new ChangeParkingSpotData(gpane, n.getLongName());
-
-        cpsPopup = new ChangeParkingSpotPopup(mapStack, cpsData);
+        cpsPopup = new ChangeParkingSpotPopup(parent, data, previous);
 
         App.getPrimaryStage().setUserData(cpsPopup);
 

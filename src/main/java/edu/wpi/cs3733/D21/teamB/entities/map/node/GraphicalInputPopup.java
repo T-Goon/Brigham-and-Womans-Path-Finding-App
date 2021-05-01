@@ -70,7 +70,7 @@ public class GraphicalInputPopup extends Popup<VBox, GraphicalInputData> impleme
     /**
      * Add a favorite location to the tree view
      */
-    public void addFavorite() {
+    public boolean addFavorite() {
         // Get tree item and item to add
         TreeItem<String> favorites = data.getPfmc().getFavorites();
         TreeItem<String> itemToAdd = new TreeItem<>(data.getNodeName());
@@ -92,6 +92,7 @@ public class GraphicalInputPopup extends Popup<VBox, GraphicalInputData> impleme
                 for (String location : locations) {
                     if (location.contains("Park")) {
                         hasParking = true;
+                        break;
                     }
                 }
             } catch (SQLException e) {
@@ -108,6 +109,8 @@ public class GraphicalInputPopup extends Popup<VBox, GraphicalInputData> impleme
                 e.printStackTrace();
             }
         }
+
+        return hasParking;
     }
 
     /**
