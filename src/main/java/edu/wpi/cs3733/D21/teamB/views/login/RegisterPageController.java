@@ -19,7 +19,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-public class RegisterPageController extends BasePageController implements Initializable {
+public class
+RegisterPageController extends BasePageController implements Initializable {
 
     @FXML
     public JFXButton btnEmergency;
@@ -44,6 +45,9 @@ public class RegisterPageController extends BasePageController implements Initia
 
     @FXML
     public JFXButton btnRegister;
+
+    @FXML
+    private JFXButton btnLoginPage;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -83,6 +87,9 @@ public class RegisterPageController extends BasePageController implements Initia
                 break;
             case "btnEmergency":
                 SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
+                break;
+            case "btnLoginPage":
+                SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/cs3733/D21/teamB/views/login/loginPage.fxml");
                 break;
         }
     }
