@@ -53,7 +53,7 @@ public class OnScreenKeyboard {
         keyboard.setBackground(keyboardBG);
     }
 
-    public void initKeyboard(Pane parent) throws AWTException {
+    public void initKeyboard(Pane aParent) throws AWTException {
         keyboardAesthethic();
         ArrayList<JFXButton> buttonList = new ArrayList<JFXButton>();
         ArrayList<String> altText = new ArrayList<>();
@@ -122,7 +122,7 @@ public class OnScreenKeyboard {
         });
         bottomRow.getChildren().add(shift);
         shift.setTextFill(Color.YELLOW);
-        parent.getChildren().add(parent.getChildren().size(), keyboard);
+        aParent.getChildren().add(keyboard);
         keyboard.setLayoutY(500);
         keyboard.setLayoutX(500);
     }

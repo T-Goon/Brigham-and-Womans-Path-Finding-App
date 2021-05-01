@@ -22,7 +22,11 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import lombok.SneakyThrows;
 
-public class MainPageController extends BasePageController {
+import java.awt.*;
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class MainPageController extends BasePageController implements Initializable{
 
     @FXML
     public JFXButton btnLogin;
@@ -37,13 +41,30 @@ public class MainPageController extends BasePageController {
     private JFXButton btnEmergency;
 
     @FXML
-    private VBox basePane;
+    private JFXButton osk;
 
     @FXML
     private StackPane stackPane;
 
     @FXML
     private TextArea testText;
+    OnScreenKeyboard onScreenKeyboard = OnScreenKeyboard.getInstance();
+/*
+
+    LastFocused lastFocused = LastFocused.getInstance();
+   @Override
+    public void initialize(URL location, ResourceBundle resources) {
+            onScreenKeyboard = OnScreenKeyboard.getInstance();
+            keyboardVisible = false;
+            lastFocused.setAnode(testText);
+            try {
+                System.out.println(stackPane);
+                onScreenKeyboard.initKeyboard(stackPane);
+            } catch (AWTException e) {
+                e.printStackTrace();
+            }
+
+    }*/
 
 
     @FXML
@@ -52,6 +73,9 @@ public class MainPageController extends BasePageController {
         super.handleButtonAction(e);
         JFXButton btn = (JFXButton) e.getSource();
         switch (btn.getId()) {
+            case "osk":
+                onScreenKeyboard.getKeyboard().setVisible(true);
+                break;
             case "btnLogin":
                 SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/cs3733/D21/teamB/views/login/loginPage.fxml");
                 break;
