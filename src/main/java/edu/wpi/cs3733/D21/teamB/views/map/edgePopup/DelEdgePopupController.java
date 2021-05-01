@@ -2,6 +2,7 @@ package edu.wpi.cs3733.D21.teamB.views.map.edgePopup;
 
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.cs3733.D21.teamB.App;
+import edu.wpi.cs3733.D21.teamB.entities.map.edge.AddNodeFromEdgeWindow;
 import edu.wpi.cs3733.D21.teamB.entities.map.edge.DelEdgeAYSWindow;
 import edu.wpi.cs3733.D21.teamB.entities.map.edge.DelEdgePopup;
 import javafx.event.ActionEvent;
@@ -20,22 +21,13 @@ import java.util.ResourceBundle;
 public class DelEdgePopupController implements Initializable {
     @FXML
     @Getter
-    private VBox root;
+    private VBox root, mainMenu;
 
     @FXML
-    private VBox mainMenu;
+    private Text startName, endName;
 
     @FXML
-    private Text startName;
-
-    @FXML
-    private Text endName;
-
-    @FXML
-    private JFXButton btnDelete;
-
-    @FXML
-    private JFXButton btnCancel;
+    private JFXButton btnDelete, btnCancel, btnAddNode;
 
     private DelEdgePopup popup;
 
@@ -52,6 +44,18 @@ public class DelEdgePopupController implements Initializable {
         JFXButton btn = (JFXButton) event.getSource();
 
         switch (btn.getId()){
+            case "btnAddNode":
+                root.getChildren().remove(mainMenu);
+
+                AddNodeFromEdgeWindow addNodeFromEdgeWindow = new AddNodeFromEdgeWindow(
+                        root, popup.getData(), mainMenu);
+
+                // Pass data to next window
+                App.getPrimaryStage().setUserData(addNodeFromEdgeWindow);
+
+                addNodeFromEdgeWindow.show();
+
+                break;
             case "btnDelete":
                 root.getChildren().remove(mainMenu);
 
@@ -60,14 +64,6 @@ public class DelEdgePopupController implements Initializable {
 
                 // Pass data to next window
                 App.getPrimaryStage().setUserData(ays);
-
-                // Load window
-                try{
-                    FXMLLoader.load(Objects.requireNonNull(
-                            getClass().getClassLoader().getResource("edu/wpi/cs3733/D21/teamB/views/map/edgePopup/delEdgeAreYouSure.fxml")));
-                } catch (IOException e){
-                    e.printStackTrace();
-                }
 
                 ays.show();
 

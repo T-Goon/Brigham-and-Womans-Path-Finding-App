@@ -16,6 +16,7 @@ import edu.wpi.cs3733.D21.teamB.pathfinding.Graph;
 import edu.wpi.cs3733.D21.teamB.util.CSVHandler;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
 import edu.wpi.cs3733.D21.teamB.views.BasePageController;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -44,6 +45,7 @@ import java.util.*;
 import java.sql.SQLException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class PathfindingMenuController extends BasePageController implements Initializable {
 
@@ -610,12 +612,22 @@ public class PathfindingMenuController extends BasePageController implements Ini
         for (String category : mapCache.getCatNameMap().keySet()) {
             TreeItem<String> categoryTreeItem = new TreeItem<>(categoryNameMap.get(category));
             categoryTreeItem.getChildren().addAll(mapCache.getCatNameMap().get(category));
+            alphabetize(categoryTreeItem.getChildren());
             locations.getChildren().add(categoryTreeItem);
         }
+
+        alphabetize(locations.getChildren());
 
         populateFavorites();
     }
 
+    /**
+     * alphabetizes the strings to go into the treeview list
+     */
+    private ObservableList<TreeItem<String>> alphabetize(ObservableList<TreeItem<String>> strings){
+       strings.sort(Comparator.comparing(TreeItem::toString));
+       return strings;
+    }
     /**
      * Populates the tree view with favorite locations from the database
      */
@@ -749,12 +761,12 @@ public class PathfindingMenuController extends BasePageController implements Ini
                 newRoot.getChildren().add(new TreeItem<>(n.getLongName()));
             }
         }
-
         // If nothing is found, say "None"
         if (newRoot.getChildren().isEmpty()) {
             newRoot.setValue("No results!");
             treeLocations.setShowRoot(true);
         }
+        alphabetize(newRoot.getChildren());
     }
 
     /**

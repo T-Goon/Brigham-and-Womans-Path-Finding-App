@@ -234,5 +234,10 @@ public class RequestWrapper {
         });
 
         this.btnDel = btnDel;
+
+        // Disable delete button on emergency requests for staff
+        if (r.getRequestType().equals(Request.RequestType.EMERGENCY) && DatabaseHandler.getHandler().getAuthenticationUser().getAuthenticationLevel().equals(User.AuthenticationLevel.STAFF)) {
+            this.btnDel.setDisable(true);
+        }
     }
 }
