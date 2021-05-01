@@ -3,7 +3,6 @@ package edu.wpi.cs3733.D21.teamB.views.map.misc;
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.cs3733.D21.teamB.App;
 import edu.wpi.cs3733.D21.teamB.entities.map.TxtDirPopup;
-import edu.wpi.cs3733.D21.teamB.entities.map.data.Edge;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Node;
 import edu.wpi.cs3733.D21.teamB.pathfinding.Directions;
 import javafx.event.ActionEvent;
@@ -15,7 +14,6 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -67,7 +65,6 @@ public class TxtDirPopupController implements Initializable {
                 for (int j = 0; j < directions.get(i).getNodes().size() - 1; j++) {
                     Node start = directions.get(i).getNodes().get(j);
                     Node end = directions.get(i).getNodes().get(j + 1);
-                    System.out.println(start.getLongName() + " " + end.getLongName());
                     for (Line l : popup.getMapCache().getEdgesPlaced()) {
                         if (l.getId().contains(start.getNodeID()) && l.getId().contains(end.getNodeID())) {
                             edges.add(l);
@@ -93,6 +90,7 @@ public class TxtDirPopupController implements Initializable {
                 // If clicked, update Index
                 instruction.setOnMouseClicked(e -> {
                     popup.setIndex(textHolder.getChildren().indexOf(instruction));
+                    popup.updateFloor();
                     popup.highlight();
                 });
                 textHolder.getChildren().add(instruction);

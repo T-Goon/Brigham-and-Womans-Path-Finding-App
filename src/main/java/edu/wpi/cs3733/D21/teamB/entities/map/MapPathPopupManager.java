@@ -99,7 +99,7 @@ public class MapPathPopupManager implements PoppableManager {
 
         List<Directions.Direction> instructions = Directions.instructions(path, ids);
         if (instructions == null) return null;
-        TxtDirPopupData txtDirPopupData = new TxtDirPopupData(instructions, md, mc);
+        TxtDirPopupData txtDirPopupData = new TxtDirPopupData(instructions, md, mc, pfmc.getFloorSwitcher());
         txtDirPopup = new TxtDirPopup(textDirectionsHolder, txtDirPopupData);
         App.getPrimaryStage().setUserData(txtDirPopup);
         txtDirPopup.show();

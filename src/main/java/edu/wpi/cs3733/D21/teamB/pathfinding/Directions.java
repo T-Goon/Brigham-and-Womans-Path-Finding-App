@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.D21.teamB.pathfinding;
 
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
+import edu.wpi.cs3733.D21.teamB.entities.map.FloorSwitcher;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Node;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Path;
 import edu.wpi.cs3733.D21.teamB.entities.map.Coord;
@@ -147,7 +148,9 @@ public class Directions {
         String startLoc = graph.getNodes().get(simplePath.get(0)).getLongName();
 
         List<Direction> directions = new ArrayList<>();
-        directions.add(new Direction("Starting route from " + startLoc + " to " + endLoc + ":", null, null));
+        String initialFloor = graph.getNodes().get(simplePath.get(0)).getFloor();
+        String currentFloor = initialFloor;
+        directions.add(new Direction("Starting route from " + startLoc + " to " + endLoc + ":", null, null, initialFloor));
 
         double FT_CONST = 500.0 / 1635;
 
@@ -165,47 +168,50 @@ public class Directions {
             if (i == 0) {
                 // Elevator or stairs
                 if (curr.getNodeID().contains("ELEV") || curr.getNodeID().contains("STAI") || curr.getLongName().contains("elevator")) {
+                    String newFloor = getNewFloor(currentFloor, next.getFloorAsInt() - curr.getFloorAsInt());
                     if (next.getNodeID().contains("STAI"))
-                        directions.add(new Direction("Walk to floor " + next.getFloor() + ".", (curr.getFloorAsInt() < next.getFloorAsInt()) ? DirectionType.UP_STAIRS : DirectionType.DOWN_STAIRS, getAllNodesBetween(path, curr, next)));
+                        directions.add(new Direction("Walk to floor " + next.getFloor() + ".", (curr.getFloorAsInt() < next.getFloorAsInt()) ? DirectionType.UP_STAIRS : DirectionType.DOWN_STAIRS, getAllNodesBetween(path, curr, next), newFloor));
                     else
-                        directions.add(new Direction("Take the elevator to floor " + next.getFloor() + ".", (curr.getFloorAsInt() < next.getFloorAsInt()) ? DirectionType.UP_ELEVATOR : DirectionType.DOWN_ELEVATOR, getAllNodesBetween(path, curr, next)));
+                        directions.add(new Direction("Take the elevator to floor " + next.getFloor() + ".", (curr.getFloorAsInt() < next.getFloorAsInt()) ? DirectionType.UP_ELEVATOR : DirectionType.DOWN_ELEVATOR, getAllNodesBetween(path, curr, next), newFloor));
+                    currentFloor = newFloor;
                 } else
-                    directions.add(new Direction("Walk about " + round(distance) + " feet towards " + next.getLongName() + ".", DirectionType.STRAIGHT, getAllNodesBetween(path, curr, next)));
+                    directions.add(new Direction("Walk about " + round(distance) + " feet towards " + next.getLongName() + ".", DirectionType.STRAIGHT, getAllNodesBetween(path, curr, next), currentFloor));
             } else {
                 if (stopIDs.contains(curr.getNodeID())) {
-                    directions.add(new Direction("You have arrived at your stop, " + curr.getLongName() + ".", DirectionType.STOP, getAllNodesBetween(path, curr, next)));
+                    directions.add(new Direction("You have arrived at your stop, " + curr.getLongName() + ".", DirectionType.STOP, getAllNodesBetween(path, curr, next), currentFloor));
                 }
                 //get turn then get the dist between c and next turn blah and walk dist
                 double turn = angleBetweenEdges(graph.getNodes().get(simplePath.get(i - 1)), curr, next);
                 if (curr.getNodeID().contains("ELEV") || curr.getNodeID().contains("STAI") || curr.getLongName().contains("elevator")) {
+                    String newFloor = getNewFloor(currentFloor, next.getFloorAsInt() - curr.getFloorAsInt());
                     if (next.getNodeID().contains("STAI")) {
-                        directions.add(new Direction("Walk to floor " + next.getFloor() + ".", (curr.getFloorAsInt() < next.getFloorAsInt()) ? DirectionType.UP_STAIRS : DirectionType.DOWN_STAIRS, getAllNodesBetween(path, curr, next)));
-                        continue;
+                        directions.add(new Direction("Walk to floor " + next.getFloor() + ".", (curr.getFloorAsInt() < next.getFloorAsInt()) ? DirectionType.UP_STAIRS : DirectionType.DOWN_STAIRS, getAllNodesBetween(path, curr, next), newFloor));
                     } else if (next.getNodeID().contains("ELEV") || next.getLongName().contains("elevator")) {
-                        directions.add(new Direction("Take the elevator to floor " + next.getFloor() + ".", (curr.getFloorAsInt() < next.getFloorAsInt()) ? DirectionType.UP_ELEVATOR : DirectionType.DOWN_ELEVATOR, getAllNodesBetween(path, curr, next)));
-                        continue;
+                        directions.add(new Direction("Take the elevator to floor " + next.getFloor() + ".", (curr.getFloorAsInt() < next.getFloorAsInt()) ? DirectionType.UP_ELEVATOR : DirectionType.DOWN_ELEVATOR, getAllNodesBetween(path, curr, next), newFloor));
                     }
+                    currentFloor = newFloor;
+                    continue;
                 }
 
                 if (turn > 70 && turn <= 110) {
-                    directions.add(new Direction("Take a right and walk about " + round(distance) + " feet towards " + next.getLongName() + ".", DirectionType.RIGHT, getAllNodesBetween(path, curr, next)));
+                    directions.add(new Direction("Take a right and walk about " + round(distance) + " feet towards " + next.getLongName() + ".", DirectionType.RIGHT, getAllNodesBetween(path, curr, next), currentFloor));
                 } else if (turn > 110 && turn <= 160) {
-                    directions.add(new Direction("Take a sharp right and walk about " + round(distance) + " feet towards " + next.getLongName() + ".", DirectionType.SHARP_RIGHT, getAllNodesBetween(path, curr, next)));
+                    directions.add(new Direction("Take a sharp right and walk about " + round(distance) + " feet towards " + next.getLongName() + ".", DirectionType.SHARP_RIGHT, getAllNodesBetween(path, curr, next), currentFloor));
                 } else if (turn <= 70 && turn > 30) {
-                    directions.add(new Direction("Take a slight right and walk about " + round(distance) + " feet towards " + next.getLongName() + ".", DirectionType.SLIGHT_RIGHT, getAllNodesBetween(path, curr, next)));
+                    directions.add(new Direction("Take a slight right and walk about " + round(distance) + " feet towards " + next.getLongName() + ".", DirectionType.SLIGHT_RIGHT, getAllNodesBetween(path, curr, next), currentFloor));
                 } else if (turn < -70 && turn >= -110) {
-                    directions.add(new Direction("Take a left and walk about " + round(distance) + " feet towards " + next.getLongName() + ".", DirectionType.LEFT, getAllNodesBetween(path, curr, next)));
+                    directions.add(new Direction("Take a left and walk about " + round(distance) + " feet towards " + next.getLongName() + ".", DirectionType.LEFT, getAllNodesBetween(path, curr, next), currentFloor));
                 } else if (turn < -110 && turn >= -160) {
-                    directions.add(new Direction("Take a sharp left and walk about " + round(distance) + " feet towards " + next.getLongName() + ".", DirectionType.SHARP_LEFT, getAllNodesBetween(path, curr, next)));
+                    directions.add(new Direction("Take a sharp left and walk about " + round(distance) + " feet towards " + next.getLongName() + ".", DirectionType.SHARP_LEFT, getAllNodesBetween(path, curr, next), currentFloor));
                 } else if (turn >= -70 && turn <= -30) {
-                    directions.add(new Direction("Take a slight left and walk about " + round(distance) + " feet towards " + next.getLongName() + ".", DirectionType.SLIGHT_LEFT, getAllNodesBetween(path, curr, next)));
+                    directions.add(new Direction("Take a slight left and walk about " + round(distance) + " feet towards " + next.getLongName() + ".", DirectionType.SLIGHT_LEFT, getAllNodesBetween(path, curr, next), currentFloor));
                 } else {
-                    directions.add(new Direction("Turn around and walk about " + round(distance) + " feet towards " + next.getLongName() + ".", DirectionType.TURN_AROUND, getAllNodesBetween(path, curr, next)));
+                    directions.add(new Direction("Turn around and walk about " + round(distance) + " feet towards " + next.getLongName() + ".", DirectionType.TURN_AROUND, getAllNodesBetween(path, curr, next), currentFloor));
                 }
             }
         }
         //add that you have reached your destination
-        directions.add(new Direction("You have reached your destination.", DirectionType.STOP, Collections.emptyList()));
+        directions.add(new Direction("You have reached your destination.", DirectionType.STOP, Collections.emptyList(), currentFloor));
         return directions;
     }
 
@@ -232,6 +238,17 @@ public class Directions {
         return toReturn;
     }
 
+    /**
+     * Returns floor given starting floor and offset
+     *
+     * @param initialFloor the starting floor of the directions
+     * @param delta        the floor change
+     * @return a string representation of the floor
+     */
+    private static String getNewFloor(String initialFloor, int delta) {
+        return String.valueOf(FloorSwitcher.floorIDtoInt(initialFloor) + delta).replace("-", "L");
+    }
+
     @Getter
     @Setter
     @AllArgsConstructor
@@ -239,6 +256,7 @@ public class Directions {
         private final String instruction;
         private final DirectionType direction;
         private final List<Node> nodes;
+        private final String floor;
     }
 
     public enum DirectionType {

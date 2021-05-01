@@ -37,6 +37,7 @@ public class TxtDirPopup extends Popup<VBox, TxtDirPopupData> implements Poppabl
 
     @Getter
     private final MapCache mapCache;
+    private final FloorSwitcher floorSwitcher;
 
     private Label previousText;
     private List<Line> previousLines;
@@ -46,9 +47,11 @@ public class TxtDirPopup extends Popup<VBox, TxtDirPopupData> implements Poppabl
 
         mapDrawer = data.getMapDrawer();
         mapCache = data.getMapCache();
+        floorSwitcher = data.getFloorSwitcher();
         directions = new ArrayList<>();
         directions.addAll(data.getInstructions());
         maxIndex = directions.size() - 1;
+
     }
 
     public void show() {
@@ -71,6 +74,8 @@ public class TxtDirPopup extends Popup<VBox, TxtDirPopupData> implements Poppabl
      */
     public void restart() {
         index = 1;
+        if (!mapCache.getCurrentFloor().equals(directions.get(index).getFloor()))
+            floorSwitcher.switchFloor(directions.get(index).getFloor());
         highlight();
     }
 
@@ -80,6 +85,8 @@ public class TxtDirPopup extends Popup<VBox, TxtDirPopupData> implements Poppabl
     public void previous() {
         if (index > 1) {
             index--;
+            if (!directions.get(index + 1).getFloor().equals(directions.get(index).getFloor()))
+                floorSwitcher.switchFloor(directions.get(index).getFloor());
             highlight();
         }
     }
@@ -90,26 +97,8 @@ public class TxtDirPopup extends Popup<VBox, TxtDirPopupData> implements Poppabl
     public void next() {
         if (index < maxIndex) {
             index++;
-
-            if (directions.get(index).getDirection() == Directions.DirectionType.UP_ELEVATOR || directions.get(index).getDirection() == Directions.DirectionType.UP_STAIRS ||
-                    directions.get(index).getDirection() == Directions.DirectionType.DOWN_ELEVATOR || directions.get(index).getDirection() == Directions.DirectionType.DOWN_STAIRS) {
-                HBox box = (HBox) instructionBox.getChildren().get(index);
-                Label label = (Label) box.getChildren().get(1);
-
-                int floorChange = 0;
-                List<Line> lines = mapCache.getInstructionsToEdges().get(label.getText());
-                System.out.println(lines);
-                for (int i = 0; i < lines.size() - 1; i++) {
-                    // line ID format is XXXXXXXXXX_YYYYYYYYYIcon, and we want to get the floors for the edges
-                    int floor1 = FloorSwitcher.floorIDtoInt(lines.get(i).getId().substring(8, 11));
-                    int floor2 = FloorSwitcher.floorIDtoInt(lines.get(1).getId().substring(18, 21));
-                    System.out.println(lines.get(i).getId() + ": " + floor1 + " " + floor2);
-                    floorChange += floor2 - floor1;
-                }
-                System.out.println("floor change (aka go up this many floors): " + floorChange);
-            }
-
-
+            if (!directions.get(index - 1).getFloor().equals(directions.get(index).getFloor()))
+                floorSwitcher.switchFloor(directions.get(index).getFloor());
             highlight();
         }
     }
@@ -121,6 +110,13 @@ public class TxtDirPopup extends Popup<VBox, TxtDirPopupData> implements Poppabl
         index = 0;
         highlight();
         hide();
+    }
+
+    /**
+     * Updates the floor when clicked on
+     */
+    public void updateFloor() {
+        floorSwitcher.switchFloor(directions.get(index).getFloor());
     }
 
     /**

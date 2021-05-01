@@ -159,6 +159,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
     private MapDrawer mapDrawer;
     private MapEditorPopupManager mapEditorPopupManager;
     private MapPathPopupManager mapPathPopupManager;
+    @Getter
     private FloorSwitcher floorSwitcher;
 
     private static final Color grey = Color.web("#9A9999");
