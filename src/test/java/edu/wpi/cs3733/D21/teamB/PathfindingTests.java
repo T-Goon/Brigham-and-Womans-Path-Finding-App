@@ -233,15 +233,40 @@ public class PathfindingTests {
     }
 
     @Test
-    public void testBFS2() {
-        Path path = new BFS().findPath("bEXIT00401", "EREST00101", false);
-        System.out.println(path.getPath());
-    }
-
-    @Test
+    //tested more on the app itself
     public void testBestFS() {
+        LinkedList<String> expectedPath = new LinkedList<>();
+        expectedPath.add("bEXIT00401");
+        expectedPath.add("bEXIT00501");
+        expectedPath.add("FEXIT00301");
+        expectedPath.add("FDEPT00501");
+        expectedPath.add("FHALL03301");
+        expectedPath.add("FHALL02701");
+        expectedPath.add("FHALL02601");
+        expectedPath.add("FHALL03101");
+        expectedPath.add("FHALL00201");
+        expectedPath.add("FHALL00101");
+        expectedPath.add("WHALL00101");
+        expectedPath.add("WHALL00201");
+        expectedPath.add("ESTAI00101");
+        expectedPath.add("EHALL00301");
+        expectedPath.add("EHALL00401");
+        expectedPath.add("EHALL00501");
+        expectedPath.add("EHALL00601");
+        expectedPath.add("EHALL00801");
+        expectedPath.add("EHALL00901");
+        expectedPath.add("EHALL01101");
+        expectedPath.add("EHALL01501");
+        expectedPath.add("EHALL01601");
+        expectedPath.add("EHALL01801");
+        expectedPath.add("WELEV00G01");
+        expectedPath.add("EHALL01901");
+        expectedPath.add("EHALL02001");
+        expectedPath.add("EREST00101");
+
         Path path = new BestFS().findPath("bEXIT00401", "EREST00101", false);
-        System.out.println(path.getPath());
+
+        assertEquals(expectedPath, path.getPath());
     }
 
     @Test
