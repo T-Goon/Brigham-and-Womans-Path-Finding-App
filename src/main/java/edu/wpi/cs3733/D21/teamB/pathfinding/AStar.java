@@ -129,8 +129,7 @@ public class AStar implements Pathfinder {
         //bWALK00601,1738,1545,1,Parking,WALK,Francis Vining Intersection Top Left,FrancisViningIntTopLeft
         //bWALK01201,3373,1554,1,Parking,WALK,Francis Top Sidewalk 3,FrancisSidewalk3
         //According to google maps, path from one corner of Francis street to other is ~500 ft:
-        //using this to get pixles / minute
-        //double pixDist = Math.sqrt((3373 - 1738)^2 +(1554-1545)^2);
+        //using this to get pixels / minute
         //double pixDist = 1635.025;
         double timeConst = (2 / 1635.025);
         double timeDec = path.getTotalPathCost() * timeConst;
@@ -147,5 +146,4 @@ public class AStar implements Pathfinder {
             return min + ":" + String.format("%02d", sec) + " min";
         }
     }
-
 }
