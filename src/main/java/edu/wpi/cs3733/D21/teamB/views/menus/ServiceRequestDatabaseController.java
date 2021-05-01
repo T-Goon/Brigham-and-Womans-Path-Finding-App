@@ -27,7 +27,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 
 @SuppressWarnings("unchecked") // Added so Java doesn't get mad at the raw use of TableView that is necessary
-public class ServiceRequestDatabaseController extends BasePageController implements Initializable {
+public class   ServiceRequestDatabaseController extends BasePageController implements Initializable {
 
     @FXML
     private TableView tblRequests;
@@ -177,6 +177,22 @@ public class ServiceRequestDatabaseController extends BasePageController impleme
                     } else if (getTableRow().getIndex() % 2 != 0) {
                         currentRow.setStyle("-fx-background-color: #0067B1");
                     }
+
+                }
+            }
+        });
+        tc = (TableColumn<String, Label>) tblRequests.getColumns().get(5);
+        tc.setCellFactory(column -> new TableCell<String, Label>() {
+            @Override
+            protected void updateItem(Label item, boolean empty) {
+                super.updateItem(item, empty);
+                setGraphic(item);
+                TableRow<String> currentRow = getTableRow();
+                if (!isEmpty()) {
+                    if (item.getText().equals("Nobody")) {
+                        currentRow.setStyle("-fx-background-color: #CE2029");
+                    }
+
                 }
             }
         });
