@@ -79,7 +79,6 @@ RegisterPageController extends BasePageController implements Initializable {
 
     public void handleButtonAction(ActionEvent actionEvent) {
         final String currentPath = "/edu/wpi/cs3733/D21/teamB/views/login/registerPage.fxml";
-        super.handleButtonAction(actionEvent);
         JFXButton btn = (JFXButton) actionEvent.getSource();
         switch (btn.getId()) {
             case "btnRegister":
@@ -89,9 +88,10 @@ RegisterPageController extends BasePageController implements Initializable {
                 SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
                 break;
             case "btnLoginPage":
-                SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/cs3733/D21/teamB/views/login/loginPage.fxml");
+                SceneSwitcher.switchFromTemp(getClass(), "/edu/wpi/cs3733/D21/teamB/views/login/loginPage.fxml");
                 break;
         }
+        super.handleButtonAction(actionEvent);
     }
 
     private void handleRegisterSubmit() {
