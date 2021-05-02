@@ -164,20 +164,6 @@ public class   ServiceRequestDatabaseController extends BasePageController imple
     public void setRowColor() {
         TableColumn<String, Label> tc5 = (TableColumn<String, Label>) tblRequests.getColumns().get(5);
         TableColumn<String, Label> tc = (TableColumn<String, Label>) tblRequests.getColumns().get(1);
-        tc5.setCellFactory(column -> new TableCell<String, Label>() {
-            @Override
-            protected void updateItem(Label item, boolean empty) {
-                super.updateItem(item, empty);
-                setGraphic(item);
-                TableRow<String> currentRow = getTableRow();
-                if (!isEmpty()) {
-                    if (item.getText().equals("Nobody")) {
-                        currentRow.setStyle("-fx-background-color: #7B6B36");
-                    }
-                }
-            }
-        });
-
         tc.setCellFactory(column -> new TableCell<String, Label>() {
             @Override
             protected void updateItem(Label item, boolean empty) {
@@ -193,6 +179,25 @@ public class   ServiceRequestDatabaseController extends BasePageController imple
                         currentRow.setStyle("-fx-background-color: #0067B1");
                     }
 
+                }
+            }
+        });
+
+
+        tc5.setCellFactory(column -> new TableCell<String, Label>() {
+            @Override
+            protected void updateItem(Label item5, boolean empty) {
+                super.updateItem(item5, empty);
+                setGraphic(item5);
+                TableRow<String> currentRow = getTableRow();
+                System.out.println(currentRow.getStyle());
+                if (!isEmpty()) {
+                    if (item5.getText().equals("Nobody")&& !currentRow.getStyle().equals("-fx-background-color: #CE2029") && getTableRow().getIndex() %2 ==0) {
+                        currentRow.setStyle("-fx-background-color: #2879B4");
+                    }
+                    else if (item5.getText().equals("Nobody")&& !currentRow.getStyle().equals("-fx-background-color: #CE2029") && getTableRow().getIndex() %2 !=0) {
+                        currentRow.setStyle("-fx-background-color: #408DC5");
+                    }
                 }
             }
         });
