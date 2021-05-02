@@ -11,6 +11,7 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -38,11 +39,15 @@ public class TxtDirPopupController implements Initializable {
     @FXML
     private VBox textHolder;
 
+    @FXML
+    private ScrollPane scrollPane;
+
     private TxtDirPopup popup;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         popup = (TxtDirPopup) App.getPrimaryStage().getUserData();
+        popup.setScrollPane(scrollPane);
         popup.setInstructionBox(textHolder);
         popup.updateFloor();
 

@@ -7,6 +7,7 @@ import edu.wpi.cs3733.D21.teamB.util.Popup.Poppable;
 import edu.wpi.cs3733.D21.teamB.util.Popup.Popup;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -32,6 +33,9 @@ public class TxtDirPopup extends Popup<VBox, TxtDirPopupData> implements Poppabl
 
     @Setter
     private VBox instructionBox;
+
+    @Setter
+    private ScrollPane scrollPane;
 
     @Getter
     private final MapDrawer mapDrawer;
@@ -67,6 +71,7 @@ public class TxtDirPopup extends Popup<VBox, TxtDirPopupData> implements Poppabl
         }
 
         restart();
+        scrollPane.setVvalue(0.0);
         super.show(txtDirBox);
     }
 
@@ -153,7 +158,7 @@ public class TxtDirPopup extends Popup<VBox, TxtDirPopupData> implements Poppabl
             for (Line l : previousLines) l.setStroke(Color.rgb(0, 103, 177));
         }
 
-        // Change the color to red for the new lines
+        // Change the color to red for the new lines and scroll the scrollpane down to the element
         if (index != 0) {
             HBox box = (HBox) instructionBox.getChildren().get(index);
             Label label = (Label) box.getChildren().get(1);
@@ -162,6 +167,11 @@ public class TxtDirPopup extends Popup<VBox, TxtDirPopupData> implements Poppabl
             for (Line l : lines) l.setStroke(Color.RED);
             previousText = label;
             previousLines = lines;
+
+            // Update the scrollpane
+            double height = scrollPane.getContent().getBoundsInLocal().getHeight();
+            double y = box.getBoundsInParent().getMaxY();
+            scrollPane.setVvalue(y / height);
         }
     }
 }
