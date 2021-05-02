@@ -14,6 +14,7 @@ import edu.wpi.cs3733.D21.teamB.entities.map.data.Node;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.NodeType;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Path;
 import edu.wpi.cs3733.D21.teamB.pathfinding.AStar;
+import edu.wpi.cs3733.D21.teamB.pathfinding.BFS;
 import edu.wpi.cs3733.D21.teamB.pathfinding.Graph;
 import edu.wpi.cs3733.D21.teamB.util.CSVHandler;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
@@ -829,7 +830,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
         String endID = null;
 
         if (startID != null) {
-            AStar aStar = new AStar();
+            BFS bfs = new BFS();
             mapCache.updateLocations();
 
             switch(category) {
@@ -839,7 +840,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
                     for (TreeItem<String> restroom : restrooms) {
                         restroomsList.add(restroom.getValue());
                     }
-                    Path restroomsPath = aStar.shortestPathToNodeInList(startID, restroomsList);
+                    Path restroomsPath = bfs.shortestPathToNodeInList(startID, restroomsList);
                     endID = restroomsPath.getPath().get(restroomsPath.getPath().size() - 1);
                     break;
                 case "Food Place":
@@ -848,8 +849,8 @@ public class PathfindingMenuController extends BasePageController implements Ini
                     foodPlacesList.add("DRETL00102");
                     foodPlacesList.add("FRETL00201");
                     foodPlacesList.add("HRETL00102");
-                    aStar.shortestPathToNodeInList(startID, foodPlacesList);
-                    Path foodPlacesPath = aStar.shortestPathToNodeInList(startID, foodPlacesList);
+                    bfs.shortestPathToNodeInList(startID, foodPlacesList);
+                    Path foodPlacesPath = bfs.shortestPathToNodeInList(startID, foodPlacesList);
                     endID = foodPlacesPath.getPath().get(foodPlacesPath.getPath().size() - 1);
                     break;
                 case "Service Desk":
@@ -858,8 +859,8 @@ public class PathfindingMenuController extends BasePageController implements Ini
                     serviceDesksList.add("BINFO00202");
                     serviceDesksList.add("FINFO00101");
                     serviceDesksList.add("GINFO01902");
-                    aStar.shortestPathToNodeInList(startID, serviceDesksList);
-                    Path serviceDesksPath = aStar.shortestPathToNodeInList(startID, serviceDesksList);
+                    bfs.shortestPathToNodeInList(startID, serviceDesksList);
+                    Path serviceDesksPath = bfs.shortestPathToNodeInList(startID, serviceDesksList);
                     endID = serviceDesksPath.getPath().get(serviceDesksPath.getPath().size() - 1);
                     break;
                 case "Entrance":
@@ -868,8 +869,8 @@ public class PathfindingMenuController extends BasePageController implements Ini
                     for (TreeItem<String> entrance : entrances) {
                         entrancesList.add(entrance.getValue());
                     }
-                    aStar.shortestPathToNodeInList(startID, entrancesList);
-                    Path entrancesPath = aStar.shortestPathToNodeInList(startID, entrancesList);
+                    bfs.shortestPathToNodeInList(startID, entrancesList);
+                    Path entrancesPath = bfs.shortestPathToNodeInList(startID, entrancesList);
                     endID = entrancesPath.getPath().get(entrancesPath.getPath().size() - 1);
                     break;
             }
