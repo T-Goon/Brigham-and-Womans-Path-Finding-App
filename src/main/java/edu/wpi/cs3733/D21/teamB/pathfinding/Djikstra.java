@@ -1,21 +1,18 @@
 package edu.wpi.cs3733.D21.teamB.pathfinding;
 
-
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Node;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Path;
 
 import java.util.*;
 
-public class AStar extends AlgoTemplate implements Pathfinder {
+public class Djikstra extends AlgoTemplate implements Pathfinder{
 
-    /**
-     * Main pathfinding algorithm used to find a path between two nodes.
-     *
-     * @param startID nodeID of the starting node
-     * @param endID   nodeID of the ending node
-     * @return LinkedList of nodeIDs which dictates the order of nodes in the path
-     */
-    public Path findPath(String startID, String endID, boolean mobility) {
+    public Path findPath(String startID, String endID, boolean mobility){
+        return findPath(startID, endID, mobility, null, "ID");
+    }
+
+
+    public Path findPath(String startID, String endID, boolean mobility, String category, String comparisonType) {
 
         Graph graph = Graph.getGraph();
         graph.updateGraph();
@@ -41,7 +38,7 @@ public class AStar extends AlgoTemplate implements Pathfinder {
             current = pQueue.poll();
 
             //If the node has reached the end node break out of the loop
-            if (current.equals(endNode))
+            if (categoryCompare(comparisonType, current, endNode, category))
                 break;
 
             //Try-catch will catch a NullPointerException caused by a node with no edges
@@ -62,7 +59,7 @@ public class AStar extends AlgoTemplate implements Pathfinder {
                         costSoFar.put(neighbor.getNodeID(), newCost);
 
                         //Set the new fVal of the node
-                        neighbor.setFVal(newCost + Graph.dist(neighbor, endNode));
+                        neighbor.setFVal(newCost);
 
                         //Add the node to the priority queue
                         pQueue.add(neighbor);
@@ -93,36 +90,21 @@ public class AStar extends AlgoTemplate implements Pathfinder {
         return new Path(ret, graph.calculateCost(ret));
     }
 
-
-
     /**
-     * Calculates the estimated time it would take to walk a certain path
      *
-     * @param path the given Path
-     * @return the estimated time string to put in the box
+     * @param category
+     * @return
      */
-    public static String getEstimatedTime(Path path) {
-        //3-4mph average human walking speed
-        //1 mph = 88 fpm
-
-        //bWALK00601,1738,1545,1,Parking,WALK,Francis Vining Intersection Top Left,FrancisViningIntTopLeft
-        //bWALK01201,3373,1554,1,Parking,WALK,Francis Top Sidewalk 3,FrancisSidewalk3
-        //According to google maps, path from one corner of Francis street to other is ~500 ft:
-        //using this to get pixels / minute
-        //double pixDist = 1635.025;
-        double timeConst = (2 / 1635.025);
-        double timeDec = path.getTotalPathCost() * timeConst;
-
-        double secondsTime = timeDec * 60;
-
-        int min = (int) Math.floor(timeDec);
-        int sec = (int) secondsTime - min * 60;
-
-        if (min == 0) {
-            return String.format("%02d", sec) + " sec";
-        } else {
-
-            return min + ":" + String.format("%02d", sec) + " min";
+    public boolean categoryCompare(String compString, Node start, Node end, String category) {
+        if(compString.equals("ID")){
+            return start.getNodeID().equals(end.getNodeID());
+        }
+        else if(compString.equals("Cat")){
+            return start.getNodeType().equals(category);
+        }
+        else{
+            throw new IllegalArgumentException("Not an ID or category");
         }
     }
+
 }
