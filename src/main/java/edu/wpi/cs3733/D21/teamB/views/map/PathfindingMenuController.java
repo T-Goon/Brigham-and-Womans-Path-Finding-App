@@ -271,7 +271,6 @@ public class PathfindingMenuController extends BasePageController implements Ini
                     mapCache.makeLongToIDMap().get(
                             selectedItem.getValue()));
 
-
             mapDrawer.removeAllPopups();
             if (mapDrawer.isEditing())
                 mapEditorPopupManager.showEditNodePopup(tempLocation, mouseEvent, true);
@@ -616,6 +615,15 @@ public class PathfindingMenuController extends BasePageController implements Ini
      */
     public TreeItem<String> getFavorites() {
         return favorites;
+    }
+
+    /**
+     * Getter for tree locations
+     *
+     * @return tree locations
+     */
+    public JFXTreeView<String> getTreeLocations() {
+        return treeLocations;
     }
 
     /**
