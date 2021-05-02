@@ -823,6 +823,9 @@ public class PathfindingMenuController extends BasePageController implements Ini
         comboPathingType.setOnAction(e -> Graph.getGraph().setPathingTypeIndex(comboPathingType.getSelectionModel().getSelectedIndex()));
     }
 
+    /**
+     * set up the combo boxes for the different closest locations that we can path find to
+     */
     private void setUpClosestLocChoices() {
         findClosestLocation.getItems().add("Restroom");
         findClosestLocation.getItems().add("Food Place");
@@ -830,6 +833,11 @@ public class PathfindingMenuController extends BasePageController implements Ini
         findClosestLocation.getItems().add("Entrance");
     }
 
+    /**
+     * finding closest location to the specified category
+     *
+     * @param actionEvent
+     */
     @FXML
     private void findClosestLocationTo(ActionEvent actionEvent) {
         String category = findClosestLocation.getSelectionModel().getSelectedItem();
@@ -853,6 +861,8 @@ public class PathfindingMenuController extends BasePageController implements Ini
                     Path restroomsPath = bfs.shortestPathToNodeInList(startID, restroomsList);
                     endID = restroomsPath.getPath().get(restroomsPath.getPath().size() - 1);
                     break;
+
+                    //all the food places that are not vending machines
                 case "Food Place":
                     List<String> foodPlacesList = new ArrayList<>();
                     foodPlacesList.add("ARETL00101");
@@ -863,6 +873,8 @@ public class PathfindingMenuController extends BasePageController implements Ini
                     Path foodPlacesPath = bfs.shortestPathToNodeInList(startID, foodPlacesList);
                     endID = foodPlacesPath.getPath().get(foodPlacesPath.getPath().size() - 1);
                     break;
+
+                    //all services desks that are not security desks
                 case "Service Desk":
                     List<String> serviceDesksList = new ArrayList<>();
                     serviceDesksList.add("BINFO00102");
@@ -873,6 +885,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
                     Path serviceDesksPath = bfs.shortestPathToNodeInList(startID, serviceDesksList);
                     endID = serviceDesksPath.getPath().get(serviceDesksPath.getPath().size() - 1);
                     break;
+
                 case "Entrance":
                     List<TreeItem<String>> entrances = mapCache.getCatNameMap().get("EXIT");
                     List<String> entrancesList = new ArrayList<>();
