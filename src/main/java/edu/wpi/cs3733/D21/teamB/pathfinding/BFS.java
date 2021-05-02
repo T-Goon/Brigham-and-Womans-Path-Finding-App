@@ -8,7 +8,7 @@ import java.util.*;
 public class BFS implements Pathfinder {
 
     /**
-     * Implementation of depth-first search given the starting nodeID.
+     * Implementation of breadth-first search given the starting nodeID.
      *
      * @param start the starting NodeID
      * @param end   the ending NodeID
@@ -45,4 +45,32 @@ public class BFS implements Pathfinder {
 
         return null;
     }
+
+    /**
+     * @param startID      starting node
+     * @param destinations we take in nodes of the same category that the user
+     *                     wants to go to
+     * @return The shortest path from the starting node to any of the nodes in the destinations list
+     * to it
+     */
+    public Path shortestPathToNodeInList(String startID, List<String> destinations) {
+
+        Graph graph = Graph.getGraph();
+        graph.updateGraph();
+
+        double min = Double.MAX_VALUE;
+        Path shortestPath = new Path();
+
+        for (String dest : destinations) {
+
+            Path tempPath = findPath(startID, dest, false);
+            double cost = tempPath.getTotalPathCost();
+            if (cost != 0 && cost < min) {
+                shortestPath = tempPath;
+                min = cost;
+            }
+        }
+        return shortestPath;
+    }
+
 }

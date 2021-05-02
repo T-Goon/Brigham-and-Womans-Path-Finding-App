@@ -13,6 +13,7 @@ import edu.wpi.cs3733.D21.teamB.entities.map.data.Edge;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Node;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.NodeType;
 import edu.wpi.cs3733.D21.teamB.pathfinding.AStar;
+import edu.wpi.cs3733.D21.teamB.pathfinding.BFS;
 import edu.wpi.cs3733.D21.teamB.pathfinding.Graph;
 import edu.wpi.cs3733.D21.teamB.util.CSVHandler;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
@@ -828,7 +829,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
         String startID = mapCache.getMapLongToID().get(txtStartLocation.getText());
 
         if (startID != null) {
-            AStar aStar = new AStar();
+            BFS bfs = new BFS();
             mapCache.updateLocations();
 
             List<TreeItem<String>> restrooms = mapCache.getCatNameMap().get("Restrooms");
@@ -836,28 +837,28 @@ public class PathfindingMenuController extends BasePageController implements Ini
             for (TreeItem<String> restroom : restrooms) {
                 restroomsList.add(restroom.getValue());
             }
-            aStar.shortestPathToNodeInList(startID, restroomsList);
+            bfs.shortestPathToNodeInList(startID, restroomsList);
 
             List<String> foodPlacesList = new ArrayList<>();
             foodPlacesList.add("ARETL00101");
             foodPlacesList.add("DRETL00102");
             foodPlacesList.add("FRETL00201");
             foodPlacesList.add("HRETL00102");
-            aStar.shortestPathToNodeInList(startID, foodPlacesList);
+            bfs.shortestPathToNodeInList(startID, foodPlacesList);
 
             List<String> serviceDesksList = new ArrayList<>();
             serviceDesksList.add("BINFO00102");
             serviceDesksList.add("BINFO00202");
             serviceDesksList.add("FINFO00101");
             serviceDesksList.add("GINFO01902");
-            aStar.shortestPathToNodeInList(startID, serviceDesksList);
+            bfs.shortestPathToNodeInList(startID, serviceDesksList);
 
             List<TreeItem<String>> entrances = mapCache.getCatNameMap().get("Entrances");
             List<String> entrancesList = new ArrayList<>();
             for (TreeItem<String> entrance : entrances) {
                 entrancesList.add(entrance.getValue());
             }
-            aStar.shortestPathToNodeInList(startID, entrancesList);
+            bfs.shortestPathToNodeInList(startID, entrancesList);
         }
     }
 }

@@ -93,7 +93,7 @@ public class PathfindingTests {
     public void testClosestPath() {
 
         List<String> pathExp = new LinkedList<>();
-
+        BFS bfs = new BFS();
         List<String> category = new ArrayList<>();
 
         category.add("bPARK01501");
@@ -117,7 +117,7 @@ public class PathfindingTests {
         pathExp.add("bPARK01701");
 
 
-        Path path = aStar.shortestPathToNodeInList("bWALK00101", category);
+        Path path = bfs.shortestPathToNodeInList("bWALK00101", category);
 
         assertEquals(pathExp, path.getPath());
 
