@@ -171,6 +171,17 @@
                         <Insets top="1.0" />
                      </padding>
                   </JFXButton>
+                   <JFXButton fx:id="btnTTS" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" defaultButton="true" onAction="#handleButtonAction" style="-fx-background-color: #0067B1; -fx-background-radius: 100;" text="click me for an example of text to speech" textAlignment="CENTER" textFill="WHITE" translateX="50.0">
+                       <font>
+                           <Font size="27.0" />
+                       </font>
+                       <padding>
+                           <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                       </padding>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                   </JFXButton>
                </children>
                <padding>
                   <Insets bottom="15.0" left="15.0" />

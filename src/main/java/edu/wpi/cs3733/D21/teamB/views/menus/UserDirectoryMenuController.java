@@ -37,6 +37,9 @@ public class UserDirectoryMenuController extends BasePageController implements I
     @FXML
     private JFXButton btnUsers;
 
+    @FXML
+    private JFXButton btnTTS;
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -82,6 +85,9 @@ public class UserDirectoryMenuController extends BasePageController implements I
                 break;
             case "btnBack":
                 DatabaseHandler.getHandler().deauthenticate();
+                break;
+            case "btnTTS":
+                tts.speak(btn.getText(), 1.0f, false, false);
                 break;
         }
     }
