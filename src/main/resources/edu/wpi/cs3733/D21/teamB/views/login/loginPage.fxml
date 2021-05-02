@@ -128,6 +128,7 @@
                               <Font size="20.0" />
                            </font>
                         </JFXButton>
+                        <JFXButton fx:id="btnFace" onAction="#handleButtonAction" style="-fx-background-color: white;" />
                      </children>
                      <padding>
                         <Insets top="20.0" />
