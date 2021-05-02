@@ -1,6 +1,5 @@
 package edu.wpi.cs3733.D21.teamB.views.face;
 
-import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -14,11 +13,9 @@ import org.opencv.objdetect.CascadeClassifier;
 import org.opencv.objdetect.Objdetect;
 import org.opencv.videoio.VideoCapture;
 
-import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -189,6 +186,8 @@ public class FD_Controller implements Initializable {
                 }
             }
 
+            assert !grayFrame.empty();
+
             // detect faces
             this.faceCascade.detectMultiScale(grayFrame, faces, 1.1, 2, 0 | Objdetect.CASCADE_SCALE_IMAGE,
                     new Size(this.absoluteFaceSize, this.absoluteFaceSize), new Size());
@@ -211,7 +210,9 @@ public class FD_Controller implements Initializable {
             if (this.lbpClassifier.isSelected())
                 this.lbpClassifier.setSelected(false);
 
-            this.checkboxSelection("resources/edu/wpi/cs3733/D21/teamB/xml/haarcascade_frontalface_alt.xml");
+            System.out.println(getClass().getResource("/edu/wpi/cs3733/D21/teamB/xml/haarcascade_frontalface_alt.xml").getPath());
+
+            this.checkboxSelection(getClass().getResource("/edu/wpi/cs3733/D21/teamB/xml/haarcascade_frontalface_alt.xml").getPath().substring(1));
         }
 
         /**
@@ -225,7 +226,7 @@ public class FD_Controller implements Initializable {
             if (this.haarClassifier.isSelected())
                 this.haarClassifier.setSelected(false);
 
-            this.checkboxSelection("resources/edu/wpi/cs3733/D21/teamB/xml/lbpcascade_frontalface.xml");
+            this.checkboxSelection(getClass().getResource("/edu/wpi/cs3733/D21/teamB/xml/lbpcascade_frontalface.xml").getPath().substring(1));
         }
 
         /**

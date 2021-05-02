@@ -17,6 +17,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
+import org.opencv.core.Core;
 
 @SuppressWarnings("deprecation")
 public class App extends Application {
@@ -27,6 +28,10 @@ public class App extends Application {
 
     @Override
     public void init() {
+        System.out.println(getClass().getResource("opencv-4.5.1-2.jar!/nu/pattern/opencv/windows/x86_64/opencv_java451.dll").getPath());
+        System.load(getClass().getResource(Core.NATIVE_LIBRARY_NAME).getPath());
+
+
         System.out.println("Starting Up");
         db = DatabaseHandler.getHandler();
 

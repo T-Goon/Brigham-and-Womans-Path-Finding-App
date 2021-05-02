@@ -31,7 +31,7 @@ repositories {
 dependencies {
     compile 'com.jfoenix:jfoenix:8.0.10'
     implementation(
-//            group: 'org.bytedeco', name: 'javacv-platform', version: '1.5.5',
+
 //            'org.openpnp:opencv:4.5.1-2',
             'com.jfoenix:jfoenix:8.0.10',
 
@@ -44,7 +44,8 @@ dependencies {
             'org.projectlombok:lombok:1.18.20',
             'net.kurobako:gesturefx:0.6.0',
     )
-    implementation files('C:/Users/Buddy/opencv/build/java/opencv-452.jar')
+//    implementation files('C:/Users/Buddy/opencv/build/java/opencv-452.jar')
+    implementation group: 'org.openpnp', name: 'opencv', version: '4.5.1-2'
     implementation 'junit:junit:4.12'
     implementation group: 'org.mindrot', name: 'jbcrypt', version: '0.4'
 //These are test dependencies. These are only used for running verification tasks via Gradle.
