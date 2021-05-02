@@ -71,7 +71,6 @@ public class NodeMutator implements IDatabaseEntityMutator<Node> {
                 + "', '" + node.getColor().toString()
                 + "')";
         db.runStatement(query, false);
-        Graph.getGraph().updateGraph();
     }
 
 
@@ -91,7 +90,6 @@ public class NodeMutator implements IDatabaseEntityMutator<Node> {
                 + "', color = '" + node.getColor().toString()
                 + "' WHERE nodeID = '" + node.getNodeID() + "'";
         db.runStatement(query, false);
-        Graph.getGraph().updateGraph();
     }
 
     /**
@@ -104,7 +102,6 @@ public class NodeMutator implements IDatabaseEntityMutator<Node> {
         String nodeQuery = "DELETE FROM Nodes WHERE nodeID = '" + nodeID + "'";
         db.runStatement(edgesQuery, false);
         db.runStatement(nodeQuery, false);
-        Graph.getGraph().updateGraph();
     }
 
     /**

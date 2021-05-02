@@ -67,8 +67,6 @@ public class AddNodeFromEdgeWindow extends Window<VBox, DelEdgePopupData, VBox> 
             e.printStackTrace();
         }
 
-        Graph.getGraph().updateGraph();
-
         // Refresh map editor
         data.getMd().refreshEditor();
         data.getMd().removeAllPopups();

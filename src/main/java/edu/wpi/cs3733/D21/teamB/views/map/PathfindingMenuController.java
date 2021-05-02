@@ -220,8 +220,6 @@ public class PathfindingMenuController extends BasePageController implements Ini
             e.printStackTrace();
         }
 
-        Graph.getGraph().updateGraph();
-
         // Now delete and refresh the nodes
         nodeHolder.getChildren().remove(mapDrawer.getHead());
         mapDrawer.drawAllElements();
