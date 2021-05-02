@@ -272,7 +272,7 @@ public class MapDrawer implements PoppableManager {
         ((Text) floorIndicator.getChildren().get(0)).setText("Floor "+floorString);
         mapCache.getFloorIndicators().add(floorIndicator);
 
-        floorIndicator.setLayoutX((n.getXCoord() / PathfindingMenuController.COORDINATE_SCALE) - 60);
+        floorIndicator.setLayoutX((n.getXCoord() / PathfindingMenuController.COORDINATE_SCALE) - 15);
         floorIndicator.setLayoutY((n.getYCoord() / PathfindingMenuController.COORDINATE_SCALE) - 30);
 
         nodeHolder.getChildren().add(floorIndicator);
