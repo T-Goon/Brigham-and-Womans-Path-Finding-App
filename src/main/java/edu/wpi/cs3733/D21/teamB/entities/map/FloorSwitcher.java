@@ -51,49 +51,54 @@ public class FloorSwitcher {
     public void switchFloor(String floor) {
         switch (floor) {
             case floor3ID:
+                if(mapCache.getFinalPath()!=null && !mapCache.getCurrentFloor().equals(floor3ID)){
+                    mapDrawer.drawPath();
+                }
+
                 map.setImage(new Image(floor3Path));
                 mapCache.setCurrentFloor(floor3ID);
                 mapDrawer.drawAllElements();
                 highlightFloorButton(floor3ID);
-                if (mapCache.getFinalPath() != null) {
-                    mapDrawer.drawPath();
-                }
                 break;
             case floor2ID:
+                if(mapCache.getFinalPath()!=null && !mapCache.getCurrentFloor().equals(floor2ID)){
+                    mapDrawer.drawPath();
+                }
+
                 map.setImage(new Image(floor2Path));
                 mapCache.setCurrentFloor(floor2ID);
                 mapDrawer.drawAllElements();
                 highlightFloorButton(floor2ID);
-                if (mapCache.getFinalPath() != null) {
-                    mapDrawer.drawPath();
-                }
                 break;
             case floor1ID:
+                if(mapCache.getFinalPath()!=null && !mapCache.getCurrentFloor().equals(floor1ID)){
+                    mapDrawer.drawPath();
+                }
+
                 map.setImage(new Image(floor1Path));
                 mapCache.setCurrentFloor(floor1ID);
                 mapDrawer.drawAllElements();
                 highlightFloorButton(floor1ID);
-                if (mapCache.getFinalPath() != null) {
-                    mapDrawer.drawPath();
-                }
                 break;
             case floorL1ID:
+                if(mapCache.getFinalPath()!=null && !mapCache.getCurrentFloor().equals(floorL1ID)){
+                    mapDrawer.drawPath();
+                }
+
                 map.setImage(new Image(floorL1Path));
                 mapCache.setCurrentFloor(floorL1ID);
                 mapDrawer.drawAllElements();
                 highlightFloorButton(floorL1ID);
-                if (mapCache.getFinalPath() != null) {
-                    mapDrawer.drawPath();
-                }
                 break;
             case floorL2ID:
+                if(mapCache.getFinalPath()!=null && !mapCache.getCurrentFloor().equals(floorL2ID)){
+                    mapDrawer.drawPath();
+                }
+
                 map.setImage(new Image(floorL2Path));
                 mapCache.setCurrentFloor(floorL2ID);
                 mapDrawer.drawAllElements();
                 highlightFloorButton(floorL2ID);
-                if (mapCache.getFinalPath() != null) {
-                    mapDrawer.drawPath();
-                }
                 break;
             default:
                 System.err.println("NO FLOOR! AAAAAAAAAAAAHHHHHHHHHHH!!!!!!!!!!!!!");
