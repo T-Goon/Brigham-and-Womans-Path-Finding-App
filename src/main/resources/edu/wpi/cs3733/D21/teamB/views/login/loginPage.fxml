@@ -138,6 +138,20 @@
                   <Insets top="150.0" />
                </VBox.margin>
             </VBox>
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Don't have an account?" textAlignment="CENTER">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Text>
+                  <JFXButton fx:id="btnRegisterPage" onAction="#handleButtonAction" text="Click here to register" textFill="WHITE">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </JFXButton>
+               </children>
+            </VBox>
             <HBox alignment="BOTTOM_LEFT" VBox.vgrow="ALWAYS">
                <VBox.margin>
                   <Insets bottom="15.0" left="15.0" />
