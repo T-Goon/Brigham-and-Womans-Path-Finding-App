@@ -82,7 +82,7 @@ public class TxtDirPopup extends Popup<VBox, TxtDirPopupData> implements Poppabl
         index = 1;
         if (!mapCache.getCurrentFloor().equals(directions.get(index).getFloor()))
             updateFloor();
-        highlight();
+        highlight(true);
     }
 
     /**
@@ -93,7 +93,7 @@ public class TxtDirPopup extends Popup<VBox, TxtDirPopupData> implements Poppabl
             index--;
             if (!directions.get(index + 1).getFloor().equals(directions.get(index).getFloor()))
                 updateFloor();
-            highlight();
+            highlight(true);
         }
     }
 
@@ -105,7 +105,7 @@ public class TxtDirPopup extends Popup<VBox, TxtDirPopupData> implements Poppabl
             index++;
             if (!directions.get(index - 1).getFloor().equals(directions.get(index).getFloor()))
                 updateFloor();
-            highlight();
+            highlight(true);
         }
     }
 
@@ -114,7 +114,7 @@ public class TxtDirPopup extends Popup<VBox, TxtDirPopupData> implements Poppabl
      */
     public void close() {
         index = 0;
-        highlight();
+        highlight(true);
         hide();
     }
 
@@ -151,7 +151,7 @@ public class TxtDirPopup extends Popup<VBox, TxtDirPopupData> implements Poppabl
     /**
      * Highlights the selected box in red, and the path in red as well
      */
-    public void highlight() {
+    public void highlight(boolean updateScrollPane) {
         // Reset the previous colors to the normal color
         if (previousText != null && previousLines != null) {
             previousText.setStyle("-fx-background-color: transparent;");
@@ -169,9 +169,11 @@ public class TxtDirPopup extends Popup<VBox, TxtDirPopupData> implements Poppabl
             previousLines = lines;
 
             // Update the scrollpane
-            double height = scrollPane.getContent().getBoundsInLocal().getHeight();
-            double y = box.getBoundsInParent().getMaxY();
-            scrollPane.setVvalue(y / height);
+            if (updateScrollPane) {
+                double height = scrollPane.getContent().getBoundsInLocal().getHeight();
+                double y = box.getBoundsInParent().getMaxY();
+                scrollPane.setVvalue(y / height);
+            }
         }
     }
 }

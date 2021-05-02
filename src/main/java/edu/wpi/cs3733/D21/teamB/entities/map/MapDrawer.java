@@ -521,7 +521,7 @@ public class MapDrawer implements PoppableManager {
                         }
                     }
                     popup.setIndex(index);
-                    popup.highlight();
+                    popup.highlight(true);
                 }
             });
 
