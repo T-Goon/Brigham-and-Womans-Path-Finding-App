@@ -132,7 +132,7 @@
                                               </HBox>
                                           </children>
                                       </VBox>
-                                    <JFXComboBox fx:id="findClosestLocation" focusColor="#405aa800" prefWidth="9999.0" promptText="Find Closest Location" style="-fx-background-radius: 7; -fx-background-color: white;" unFocusColor="#4d4d4d00" />
+                                    <JFXComboBox fx:id="findClosestLocation" focusColor="#405aa800" onAction="#findClosestLocationTo" prefWidth="9999.0" promptText="Find Closest Location" style="-fx-background-radius: 7; -fx-background-color: white;" unFocusColor="#4d4d4d00" />
                                   </children>
                               </VBox>
                            </children>

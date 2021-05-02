@@ -12,6 +12,7 @@ import edu.wpi.cs3733.D21.teamB.entities.map.MapPathPopupManager;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Edge;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Node;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.NodeType;
+import edu.wpi.cs3733.D21.teamB.entities.map.data.Path;
 import edu.wpi.cs3733.D21.teamB.pathfinding.AStar;
 import edu.wpi.cs3733.D21.teamB.pathfinding.Graph;
 import edu.wpi.cs3733.D21.teamB.util.CSVHandler;
@@ -40,13 +41,11 @@ import lombok.Getter;
 import net.kurobako.gesturefx.GesturePane;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 import java.sql.SQLException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 public class PathfindingMenuController extends BasePageController implements Initializable {
 
@@ -820,44 +819,63 @@ public class PathfindingMenuController extends BasePageController implements Ini
         findClosestLocation.getItems().add("Food Place");
         findClosestLocation.getItems().add("Service Desk");
         findClosestLocation.getItems().add("Entrance");
-
-        findClosestLocation();
     }
 
-    private void findClosestLocation() {
+    @FXML
+    private void findClosestLocationTo(ActionEvent actionEvent) {
+        String category = findClosestLocation.getSelectionModel().getSelectedItem();
+
         String startID = mapCache.getMapLongToID().get(txtStartLocation.getText());
+        String endID = null;
 
         if (startID != null) {
             AStar aStar = new AStar();
             mapCache.updateLocations();
 
-            List<TreeItem<String>> restrooms = mapCache.getCatNameMap().get("Restrooms");
-            List<String> restroomsList = new ArrayList<>();
-            for (TreeItem<String> restroom : restrooms) {
-                restroomsList.add(restroom.getValue());
+            switch(category) {
+                case "Restroom":
+                    List<TreeItem<String>> restrooms = mapCache.getCatNameMap().get("Restrooms");
+                    List<String> restroomsList = new ArrayList<>();
+                    for (TreeItem<String> restroom : restrooms) {
+                        restroomsList.add(restroom.getValue());
+                    }
+                    Path restroomsPath = aStar.shortestPathToNodeInList(startID, restroomsList);
+                    endID = restroomsPath.getPath().get(restroomsPath.getPath().size() - 1);
+                    break;
+                case "Food Place":
+                    List<String> foodPlacesList = new ArrayList<>();
+                    foodPlacesList.add("ARETL00101");
+                    foodPlacesList.add("DRETL00102");
+                    foodPlacesList.add("FRETL00201");
+                    foodPlacesList.add("HRETL00102");
+                    aStar.shortestPathToNodeInList(startID, foodPlacesList);
+                    Path foodPlacesPath = aStar.shortestPathToNodeInList(startID, foodPlacesList);
+                    endID = foodPlacesPath.getPath().get(foodPlacesPath.getPath().size() - 1);
+                    break;
+                case "Service Desk":
+                    List<String> serviceDesksList = new ArrayList<>();
+                    serviceDesksList.add("BINFO00102");
+                    serviceDesksList.add("BINFO00202");
+                    serviceDesksList.add("FINFO00101");
+                    serviceDesksList.add("GINFO01902");
+                    aStar.shortestPathToNodeInList(startID, serviceDesksList);
+                    Path serviceDesksPath = aStar.shortestPathToNodeInList(startID, serviceDesksList);
+                    endID = serviceDesksPath.getPath().get(serviceDesksPath.getPath().size() - 1);
+                    break;
+                case "Entrance":
+                    List<TreeItem<String>> entrances = mapCache.getCatNameMap().get("Entrances");
+                    List<String> entrancesList = new ArrayList<>();
+                    for (TreeItem<String> entrance : entrances) {
+                        entrancesList.add(entrance.getValue());
+                    }
+                    aStar.shortestPathToNodeInList(startID, entrancesList);
+                    Path entrancesPath = aStar.shortestPathToNodeInList(startID, entrancesList);
+                    endID = entrancesPath.getPath().get(entrancesPath.getPath().size() - 1);
+                    break;
             }
-            aStar.shortestPathToNodeInList(startID, restroomsList);
-
-            List<String> foodPlacesList = new ArrayList<>();
-            foodPlacesList.add("ARETL00101");
-            foodPlacesList.add("DRETL00102");
-            foodPlacesList.add("FRETL00201");
-            foodPlacesList.add("HRETL00102");
-            aStar.shortestPathToNodeInList(startID, foodPlacesList);
-
-            List<String> serviceDesksList = new ArrayList<>();
-            serviceDesksList.add("BINFO00102");
-            serviceDesksList.add("BINFO00202");
-            serviceDesksList.add("FINFO00101");
-            serviceDesksList.add("GINFO01902");
-            aStar.shortestPathToNodeInList(startID, serviceDesksList);
-
-            List<TreeItem<String>> entrances = mapCache.getCatNameMap().get("Entrances");
-            List<String> entrancesList = new ArrayList<>();
-            for (TreeItem<String> entrance : entrances) {
-                entrancesList.add(entrance.getValue());
-            }
-            aStar.shortestPathToNodeInList(startID, entrancesList);
+            String nodeName = mapCache.getMapLongToID().get(endID);
+            txtEndLocation.setText("75 Francis Lobby Entrance");
+            btnFindPath.setDisable(false);
         }
     }
 }
