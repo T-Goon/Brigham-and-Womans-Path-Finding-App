@@ -5,8 +5,14 @@ import edu.wpi.cs3733.D21.teamB.entities.map.data.Path;
 import java.util.*;
 
 public abstract class AlgoTemplate {
-    abstract double calculateFVal(double heur, double edgeCost);
-
+    /**
+     * this value will determine which algorithm is being run
+     *
+     * @param newCost accumulated edge cost
+     * @param heur the calculated heuristic
+     * @return
+     */
+    abstract double calculateFVal(double newCost, double heur);
 
     /**
      * Main pathfinding algorithm used to find a path between two nodes.

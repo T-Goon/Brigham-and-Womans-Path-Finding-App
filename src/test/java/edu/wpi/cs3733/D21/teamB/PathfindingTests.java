@@ -1,6 +1,5 @@
 package edu.wpi.cs3733.D21.teamB;
 
-
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Edge;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Node;
@@ -192,6 +191,24 @@ public class PathfindingTests {
 
         Path path = new BFS().findPath("bPARK00101", "bPARK02501", false);
         assertEquals(expectedPath, path.getPath());
+    }
+
+    @Test
+    public void testDijkstra() {
+        LinkedList<String> expectedPath = new LinkedList<>();
+        expectedPath.add("GHALL02801");
+        expectedPath.add("GHALL02101");
+        expectedPath.add("GHALL02201");
+        expectedPath.add("GSERV02301");
+        expectedPath.add("GHALL02401");
+        expectedPath.add("GELEV00N01");
+        expectedPath.add("GELEV00N02");
+        expectedPath.add("GDEPT02402");
+        expectedPath.add("GHALL01702");
+        expectedPath.add("GINFO01902");
+
+        Path path = new Dijkstra().findPath("GHALL02801", "GINFO01902", false);
+       assertEquals(expectedPath, path.getPath());
     }
 
     @Test

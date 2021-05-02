@@ -7,10 +7,10 @@ public class BFS extends AlgoTemplate implements Pathfinder {
      * we simpily return 1 as every edge is viewed to be the same cost
      *
      * @param heur not used
-     * @param edgeCost not used
+     * @param newCost not used
      * @return 1
      */
-    public double calculateFVal(double heur, double edgeCost){
+    public double calculateFVal(double newCost, double heur){
         return 1;
     }
 }

@@ -82,8 +82,8 @@ public class Dijkstra extends AlgoTemplate implements Pathfinder{
         return new Path(ret, graph.calculateCost(ret));
     }
 
-    public double calculateFVal(double heur, double edgeCost){
-        return edgeCost;
+    public double calculateFVal(double newCost, double heur){
+        return newCost;
     }
 
     /**
