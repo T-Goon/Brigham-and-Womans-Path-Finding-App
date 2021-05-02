@@ -118,6 +118,16 @@ public class MapPathPopupManager implements PoppableManager {
     }
 
     /**
+     * Returns the text direction popup from the map
+     */
+    public void removeTxtDirPopup() {
+        if (txtDirPopup != null) {
+            txtDirPopup.hide();
+            txtDirPopup = null;
+        }
+    }
+
+    /**
      * Remove all popups managed my this class.
      */
     public void removeAllPopups() {

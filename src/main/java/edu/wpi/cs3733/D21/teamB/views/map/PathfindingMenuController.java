@@ -489,6 +489,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
         switch (b.getId()) {
             case "btnFindPath":
                 Map<String, String> longToId = mapCache.makeLongToIDMap();
+                mapPathPopupManager.removeTxtDirPopup();
                 mapDrawer.removeAllEdges();
                 mapDrawer.drawPath(txtStartLocation.getText(), txtEndLocation.getText());
 
@@ -498,7 +499,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
                 btnTxtDir.setDisable(false);
                 break;
             case "btnEditMap":
-
+                mapPathPopupManager.removeTxtDirPopup();
                 mapDrawer.removeAllPopups();
                 mapDrawer.removeAllEdges();
 
@@ -530,6 +531,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
                 floorSwitcher.switchFloor(FloorSwitcher.floorL2ID);
                 break;
             case "btnRemoveStop":
+                mapPathPopupManager.removeTxtDirPopup();
                 mapCache.getStopsList().remove(mapCache.getStopsList().size() - 1);
                 displayStops(mapCache.getStopsList());
 
