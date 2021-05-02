@@ -51,6 +51,7 @@ public class TxtDirPopupController implements Initializable {
         List<Directions.Direction> directions = popup.getDirections();
 
         // For every instruction:
+        popup.getMapCache().getInstructionsToEdges().clear();
         for (int i = 0; i < directions.size(); i++) {
             Directions.Direction dir = directions.get(i);
             if (i == 0) {
@@ -66,7 +67,7 @@ public class TxtDirPopupController implements Initializable {
                     Node start = directions.get(i).getNodes().get(j);
                     Node end = directions.get(i).getNodes().get(j + 1);
                     for (Line l : popup.getMapCache().getEdgesPlaced()) {
-                        if (l.getId().contains(start.getNodeID()) && l.getId().contains(end.getNodeID())) {
+                        if (!edges.contains(l) && l.getId().contains(start.getNodeID()) && l.getId().contains(end.getNodeID())) {
                             edges.add(l);
                         }
                     }
@@ -74,26 +75,27 @@ public class TxtDirPopupController implements Initializable {
                 popup.getMapCache().getInstructionsToEdges().put(directions.get(i).getInstruction(), edges);
 
                 // HBox for each row
-                HBox instruction = new HBox();
-                instruction.setSpacing(20);
+                HBox instructionBox = new HBox();
+                instructionBox.setSpacing(20);
 
                 // Image in HBox
-                instruction.getChildren().add(getDirectionImage(dir.getDirection()));
+                instructionBox.getChildren().add(getDirectionImage(dir.getDirection()));
 
                 // Label in HBox
                 Label text = new Label(dir.getInstruction());
                 text.setFont(new Font("System", 14));
                 text.setPadding(new Insets(10, 10, 10, 10));
                 text.setAlignment(Pos.BOTTOM_CENTER);
-                instruction.getChildren().add(text);
+                instructionBox.getChildren().add(text);
 
                 // If clicked, update Index
-                instruction.setOnMouseClicked(e -> {
-                    popup.setIndex(textHolder.getChildren().indexOf(instruction));
-                    popup.updateFloor();
+                instructionBox.setOnMouseClicked(e -> {
+                    popup.setIndex(textHolder.getChildren().indexOf(instructionBox));
+                    if (!popup.getMapCache().getCurrentFloor().equals(popup.getDirections().get(popup.getIndex()).getFloor()))
+                        popup.updateFloor();
                     popup.highlight();
                 });
-                textHolder.getChildren().add(instruction);
+                textHolder.getChildren().add(instructionBox);
             }
         }
     }

@@ -11,6 +11,7 @@ import edu.wpi.cs3733.D21.teamB.util.Popup.PoppableManager;
 import edu.wpi.cs3733.D21.teamB.views.map.PathfindingMenuController;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import lombok.Getter;
 import net.kurobako.gesturefx.GesturePane;
 
 import java.util.ArrayList;
@@ -32,6 +33,7 @@ public class MapPathPopupManager implements PoppableManager {
 
     private GraphicalInputPopup giPopup;
     private ETAPopup etaPopup;
+    @Getter
     private TxtDirPopup txtDirPopup;
 
     public MapPathPopupManager(MapDrawer md, MapCache mc, JFXTextField txtStartLocation, JFXTextField txtEndLocation,
@@ -106,6 +108,12 @@ public class MapPathPopupManager implements PoppableManager {
 
         return txtDirPopup;
     }
+
+
+    public boolean hasTxtDirPopup() {
+        return txtDirPopup != null;
+    }
+
 
     /**
      * Remove the etaPopup from the map

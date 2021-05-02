@@ -28,6 +28,7 @@ import net.kurobako.gesturefx.GesturePane;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class MapDrawer implements PoppableManager {
 
@@ -487,6 +488,40 @@ public class MapDrawer implements PoppableManager {
             l.setOnMouseClicked(e -> {
                 if (isEditing && !e.isControlDown()) {
                     mapEditorPopupManager.showDelEdgePopup(start, end, mapStack, e, l);
+                } else if (mapPathPopupManager.hasTxtDirPopup()) {
+                    // Find the list of lines that the edge clicked on belongs to
+                    List<Line> linesToSet = null;
+                    out:
+                    for (List<Line> lines : mapCache.getInstructionsToEdges().values()) {
+                        for (Line line : lines) {
+                            if (line.getId().equals(l.getId())) {
+                                linesToSet = lines;
+                                break out;
+                            }
+                        }
+                    }
+                    if (linesToSet == null) return;
+
+                    // Find the instruction that the list of lines corresponds to
+                    String instruction = null;
+                    for (Map.Entry<String, List<Line>> entry : mapCache.getInstructionsToEdges().entrySet()) {
+                        if (Objects.equals(linesToSet, entry.getValue())) {
+                            instruction = entry.getKey();
+                            break;
+                        }
+                    }
+
+                    // Now figure out what the index should be based the highlight and update it
+                    TxtDirPopup popup = mapPathPopupManager.getTxtDirPopup();
+                    int index = -1;
+                    for (int i = 0; i < popup.getDirections().size(); i++) {
+                        if (popup.getDirections().get(i).getInstruction().equals(instruction)) {
+                            index = i;
+                            break;
+                        }
+                    }
+                    popup.setIndex(index);
+                    popup.highlight();
                 }
             });
 
