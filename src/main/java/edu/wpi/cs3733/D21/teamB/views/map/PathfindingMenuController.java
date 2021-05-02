@@ -844,10 +844,11 @@ public class PathfindingMenuController extends BasePageController implements Ini
             switch(category) {
                 case "Restroom":
 
-                    List<TreeItem<String>> restrooms = mapCache.getCatNameMap().get("Restrooms");
+                    List<TreeItem<String>> restrooms = mapCache.getCatNameMap().get("REST");
+                    System.out.println(restrooms);
                     List<String> restroomsList = new ArrayList<>();
                     for (TreeItem<String> restroom : restrooms) {
-                        restroomsList.add(restroom.getValue());
+                        restroomsList.add(mapCache.getMapLongToID().get(restroom.getValue()));
                     }
                     Path restroomsPath = bfs.shortestPathToNodeInList(startID, restroomsList);
                     endID = restroomsPath.getPath().get(restroomsPath.getPath().size() - 1);
@@ -873,19 +874,17 @@ public class PathfindingMenuController extends BasePageController implements Ini
                     endID = serviceDesksPath.getPath().get(serviceDesksPath.getPath().size() - 1);
                     break;
                 case "Entrance":
-                    List<TreeItem<String>> entrances = mapCache.getCatNameMap().get("Entrances");
+                    List<TreeItem<String>> entrances = mapCache.getCatNameMap().get("EXIT");
                     List<String> entrancesList = new ArrayList<>();
                     for (TreeItem<String> entrance : entrances) {
-                        entrancesList.add(entrance.getValue());
+                        entrancesList.add(mapCache.getMapLongToID().get(entrance.getValue()));
                     }
                     bfs.shortestPathToNodeInList(startID, entrancesList);
                     Path entrancesPath = bfs.shortestPathToNodeInList(startID, entrancesList);
                     endID = entrancesPath.getPath().get(entrancesPath.getPath().size() - 1);
                     break;
             }
-            System.out.println(endID);
-            String nodeName = mapCache.getMapLongToID().get(endID);
-            txtEndLocation.setText("75 Francis Lobby Entrance");
+            txtEndLocation.setText(Graph.getGraph().getNodes().get(endID).getLongName());
             btnFindPath.setDisable(false);
         }
     }
