@@ -24,6 +24,9 @@ repositories {
     maven {
         url 'https://apisite.crmyers.dev/maven'
     }
+    flatDir {
+        dirs 'libs'
+    }
 }
 
 //This is where you declare your dependencies and their version.s
@@ -41,6 +44,14 @@ dependencies {
     implementation('com.dlsc:GMapsFX:8.0.0'){
         exclude group:'ch.qos.logback', module:'logback-classic'
     }
+
+    implementation name: 'guava-22.0'
+    implementation name: 'marytts-builder-5.2-jar-with-dependencies'
+    implementation name: 'marytts-lang-en-5.2'
+    implementation name: 'voice-cmu-rms-hsmm-5.2'
+    implementation name: 'voice-cmu-slt-hsmm-5.2'
+    implementation name: 'voice-dfki-poppy-hsmm-5.2'
+
 //These are test dependencies. These are only used for running verification tasks via Gradle.
     testCompile(
             'org.mindrot:jbcrypt:0.4',
