@@ -128,8 +128,9 @@ public class Graph {
      * @return boolean if the nodes are connected by an edge
      */
     public boolean verifyEdge(String startID, String endID){
-        List<Node> adjList = getAdjNodesById(startID).stream().filter(node -> node.getNodeID().equals(endID)).collect(Collectors.toList());
-
-        return !adjList.isEmpty();
+        Map<String, Edge> edges = db.getEdges();
+        Node n = db.getNodeById(startID);
+        Node n2 = db.getNodeById(endID);
+        return edges.containsKey(n.getNodeID() + "_" + n2.getNodeID()) || edges.containsKey(n2.getNodeID() + "_" + n.getNodeID());
     }
 }
