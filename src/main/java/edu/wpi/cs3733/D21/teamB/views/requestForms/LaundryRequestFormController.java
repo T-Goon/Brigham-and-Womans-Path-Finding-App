@@ -10,7 +10,8 @@ import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -23,10 +24,10 @@ import java.util.UUID;
 public class LaundryRequestFormController extends DefaultServiceRequestFormController implements Initializable {
 
     @FXML
-    private JFXComboBox<Label> comboTypeService;
+    private JFXComboBox<String> comboTypeService;
 
     @FXML
-    private JFXComboBox<Label> comboSizeService;
+    private JFXComboBox<String> comboSizeService;
 
     @FXML
     private JFXTextArea description;
@@ -46,13 +47,13 @@ public class LaundryRequestFormController extends DefaultServiceRequestFormContr
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location, resources);
 
-        comboTypeService.getItems().add(new Label("Regular Cycle"));
-        comboTypeService.getItems().add(new Label("Delicate Cycle"));
-        comboTypeService.getItems().add(new Label("Permanent Press"));
+        comboTypeService.getItems().add("Regular Cycle");
+        comboTypeService.getItems().add("Delicate Cycle");
+        comboTypeService.getItems().add("Permanent Press");
 
-        comboSizeService.getItems().add(new Label("Small"));
-        comboSizeService.getItems().add(new Label("Medium"));
-        comboSizeService.getItems().add(new Label("Large"));
+        comboSizeService.getItems().add("Small");
+        comboSizeService.getItems().add("Medium");
+        comboSizeService.getItems().add("Large");
 
         if (SceneSwitcher.peekLastScene().equals("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml")) {
             this.id = (String) App.getPrimaryStage().getUserData();
@@ -145,6 +146,57 @@ public class LaundryRequestFormController extends DefaultServiceRequestFormContr
                 description.validate();
             }
         });
+
+        //searchable combo boxes
+        comboTypeService.setEditable(true);
+
+        JFXAutoCompletePopup<String> autoCompletePopup = new JFXAutoCompletePopup<>();
+        autoCompletePopup.getSuggestions().addAll(comboTypeService.getItems());
+
+        //SelectionHandler sets the value of the comboBox
+        autoCompletePopup.setSelectionHandler(event -> {
+            comboTypeService.setValue(event.getObject());
+        });
+
+        TextField editor = loc.getEditor();
+        editor.addEventHandler(KeyEvent.ANY, event -> {
+            //The filter method uses the Predicate to filter the Suggestions defined above
+            //I choose to use the contains method while ignoring cases
+            if(!event.getCode().isNavigationKey()) {
+                autoCompletePopup.filter(item -> item.toLowerCase().contains(editor.getText().toLowerCase()));
+                //Hide the autocomplete popup if the filtered suggestions is empty or when the box's original popup is open
+                if (autoCompletePopup.getFilteredSuggestions().isEmpty()) {
+                    autoCompletePopup.hide();
+                } else {
+                    autoCompletePopup.show(editor);
+                }
+            }
+        });
+
+        comboSizeService.setEditable(true);
+
+        JFXAutoCompletePopup<String> autoCompletePopup2 = new JFXAutoCompletePopup<>();
+        autoCompletePopup2.getSuggestions().addAll(comboSizeService.getItems());
+
+        //SelectionHandler sets the value of the comboBox
+        autoCompletePopup2.setSelectionHandler(event -> {
+            comboSizeService.setValue(event.getObject());
+        });
+
+        TextField editor2 = comboSizeService.getEditor();
+        editor2.addEventHandler(KeyEvent.ANY, event -> {
+            //The filter method uses the Predicate to filter the Suggestions defined above
+            //I choose to use the contains method while ignoring cases
+            if(!event.getCode().isNavigationKey()) {
+                autoCompletePopup2.filter(item -> item.toLowerCase().contains(editor2.getText().toLowerCase()));
+                //Hide the autocomplete popup if the filtered suggestions is empty or when the box's original popup is open
+                if (autoCompletePopup2.getFilteredSuggestions().isEmpty()) {
+                    autoCompletePopup2.hide();
+                } else {
+                    autoCompletePopup2.show(editor2);
+                }
+            }
+        });
     }
 
     public void handleButtonAction(ActionEvent e) {
@@ -153,8 +205,8 @@ public class LaundryRequestFormController extends DefaultServiceRequestFormContr
         JFXButton btn = (JFXButton) e.getSource();
         if (btn.getId().equals("btnSubmit")) {
 
-            String givenServiceType = comboTypeService.getValue().getText();
-            String givenServiceSize = comboSizeService.getValue().getText();
+            String givenServiceType = comboTypeService.getValue();
+            String givenServiceSize = comboSizeService.getValue();
             String givenDark = darks.isSelected() ? "T" : "F";
             String givenLight = lights.isSelected() ? "T" : "F";
             String givenOccupied = roomOccupied.isSelected() ? "T" : "F";

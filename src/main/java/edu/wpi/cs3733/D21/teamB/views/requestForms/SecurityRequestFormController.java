@@ -1,9 +1,6 @@
 package edu.wpi.cs3733.D21.teamB.views.requestForms;
 
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXComboBox;
-import com.jfoenix.controls.JFXTextArea;
-import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.*;
 import com.jfoenix.validation.RequiredFieldValidator;
 import edu.wpi.cs3733.D21.teamB.App;
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
@@ -13,7 +10,8 @@ import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -29,7 +27,7 @@ public class SecurityRequestFormController extends DefaultServiceRequestFormCont
     private JFXTextField assignedTo;
 
     @FXML
-    private JFXComboBox<Label> comboUrgency;
+    private JFXComboBox<String> comboUrgency;
 
     @FXML
     private JFXTextArea description;
@@ -41,7 +39,7 @@ public class SecurityRequestFormController extends DefaultServiceRequestFormCont
         super.initialize(location,resources);
 
         for (int i = 1; i <= 10; i++) {
-            comboUrgency.getItems().add(new Label(Integer.toString(i)));
+            comboUrgency.getItems().add(Integer.toString(i));
         }
 
         if (SceneSwitcher.peekLastScene().equals("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml")) {
@@ -109,6 +107,32 @@ public class SecurityRequestFormController extends DefaultServiceRequestFormCont
                 description.validate();
             }
         });
+
+        //add searchable combo boxes
+        comboUrgency.setEditable(true);
+
+        JFXAutoCompletePopup<String> autoCompletePopup = new JFXAutoCompletePopup<>();
+        autoCompletePopup.getSuggestions().addAll(comboUrgency.getItems());
+
+        //SelectionHandler sets the value of the comboBox
+        autoCompletePopup.setSelectionHandler(event -> {
+            comboUrgency.setValue(event.getObject());
+        });
+
+        TextField editor = comboUrgency.getEditor();
+        editor.addEventHandler(KeyEvent.ANY, event -> {
+            //The filter method uses the Predicate to filter the Suggestions defined above
+            //I choose to use the contains method while ignoring cases
+            if(!event.getCode().isNavigationKey()) {
+                autoCompletePopup.filter(item -> item.toLowerCase().contains(editor.getText().toLowerCase()));
+                //Hide the autocomplete popup if the filtered suggestions is empty or when the box's original popup is open
+                if (autoCompletePopup.getFilteredSuggestions().isEmpty()) {
+                    autoCompletePopup.hide();
+                } else {
+                    autoCompletePopup.show(editor);
+                }
+            }
+        });
     }
 
     @FXML
@@ -124,7 +148,7 @@ public class SecurityRequestFormController extends DefaultServiceRequestFormCont
 
         JFXButton btn = (JFXButton) e.getSource();
         if (btn.getId().equals("btnSubmit")) {
-            int givenUrgency = Integer.parseInt(comboUrgency.getValue().getText());
+            int givenUrgency = Integer.parseInt(comboUrgency.getValue());
 
             DateFormat timeFormat = new SimpleDateFormat("HH:mm");
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");

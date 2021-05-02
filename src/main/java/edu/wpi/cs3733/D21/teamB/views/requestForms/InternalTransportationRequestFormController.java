@@ -9,8 +9,9 @@ import edu.wpi.cs3733.D21.teamB.entities.requests.Request;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
 import javafx.fxml.Initializable;
+import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -27,7 +28,7 @@ public class InternalTransportationRequestFormController extends DefaultServiceR
     private JFXTextField name;
 
     @FXML
-    private JFXComboBox<Label> comboTranspType;
+    private JFXComboBox<String> comboTranspType;
 
     @FXML
     private JFXTextArea description;
@@ -43,9 +44,9 @@ public class InternalTransportationRequestFormController extends DefaultServiceR
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location,resources);
-        comboTranspType.getItems().add(new Label("Wheelchair"));
-        comboTranspType.getItems().add(new Label("Stretcher"));
-        comboTranspType.getItems().add(new Label("Gurney"));
+        comboTranspType.getItems().add("Wheelchair");
+        comboTranspType.getItems().add("Stretcher");
+        comboTranspType.getItems().add("Gurney");
 
         if (SceneSwitcher.peekLastScene().equals("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml")) {
             this.id = (String) App.getPrimaryStage().getUserData();
@@ -125,6 +126,32 @@ public class InternalTransportationRequestFormController extends DefaultServiceR
                 description.validate();
             }
         });
+
+        //add searchable combo box
+        comboTranspType.setEditable(true);
+
+        JFXAutoCompletePopup<String> autoCompletePopup = new JFXAutoCompletePopup<>();
+        autoCompletePopup.getSuggestions().addAll(comboTranspType.getItems());
+
+        //SelectionHandler sets the value of the comboBox
+        autoCompletePopup.setSelectionHandler(event -> {
+            comboTranspType.setValue(event.getObject());
+        });
+
+        TextField editor = comboTranspType.getEditor();
+        editor.addEventHandler(KeyEvent.ANY, event -> {
+            //The filter method uses the Predicate to filter the Suggestions defined above
+            //I choose to use the contains method while ignoring cases
+            if(!event.getCode().isNavigationKey()) {
+                autoCompletePopup.filter(item -> item.toLowerCase().contains(editor.getText().toLowerCase()));
+                //Hide the autocomplete popup if the filtered suggestions is empty or when the box's original popup is open
+                if (autoCompletePopup.getFilteredSuggestions().isEmpty()) {
+                    autoCompletePopup.hide();
+                } else {
+                    autoCompletePopup.show(editor);
+                }
+            }
+        });
     }
 
     public void handleButtonAction(ActionEvent e) {
@@ -133,7 +160,7 @@ public class InternalTransportationRequestFormController extends DefaultServiceR
         JFXButton btn = (JFXButton) e.getSource();
         if (btn.getId().equals("btnSubmit")) {
             String givenPatientName = name.getText();
-            String givenTransportType = comboTranspType.getValue().getText();
+            String givenTransportType = comboTranspType.getValue();
             String givenUnconscious = unconscious.isSelected() ? "T" : "F";
             String givenInfectious = infectious.isSelected() ? "T" : "F";
 
