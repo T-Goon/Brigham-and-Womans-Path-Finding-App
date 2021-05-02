@@ -90,7 +90,7 @@ public class TxtDirPopup extends Popup<VBox, TxtDirPopupData> implements Poppabl
     public void previous() {
         if (index > 1) {
             index--;
-            if (!directions.get(index + 1).getFloor().equals(directions.get(index).getFloor()))
+            if (!directions.get(index + 1).getFloor().equals(directions.get(index).getFloor()) || !mapCache.getCurrentFloor().equals(directions.get(index).getFloor()))
                 updateFloor();
             highlight(true);
         }
@@ -102,7 +102,7 @@ public class TxtDirPopup extends Popup<VBox, TxtDirPopupData> implements Poppabl
     public void next() {
         if (index < maxIndex) {
             index++;
-            if (!directions.get(index - 1).getFloor().equals(directions.get(index).getFloor()))
+            if (!directions.get(index - 1).getFloor().equals(directions.get(index).getFloor()) || !mapCache.getCurrentFloor().equals(directions.get(index).getFloor()))
                 updateFloor();
             highlight(true);
         }
