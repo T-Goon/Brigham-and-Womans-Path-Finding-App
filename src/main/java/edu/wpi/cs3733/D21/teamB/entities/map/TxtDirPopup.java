@@ -6,11 +6,10 @@ import edu.wpi.cs3733.D21.teamB.pathfinding.Directions;
 import edu.wpi.cs3733.D21.teamB.util.Popup.Poppable;
 import edu.wpi.cs3733.D21.teamB.util.Popup.Popup;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import lombok.Getter;
@@ -153,8 +152,9 @@ public class TxtDirPopup extends Popup<VBox, TxtDirPopupData> implements Poppabl
      */
     public void highlight(boolean updateScrollPane) {
         // Reset the previous colors to the normal color
+       // Background transparentBG = new Background(new BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY));
         if (previousText != null && previousLines != null) {
-            previousText.setStyle("-fx-background-color: transparent;");
+            ((HBox) previousText.getParent()).setStyle("-fx-background-color: transparent; -fx-padding: 0;");
             for (Line l : previousLines) l.setStroke(Color.rgb(0, 103, 177));
         }
 
@@ -162,7 +162,7 @@ public class TxtDirPopup extends Popup<VBox, TxtDirPopupData> implements Poppabl
         if (index != 0) {
             HBox box = (HBox) instructionBox.getChildren().get(index);
             Label label = (Label) box.getChildren().get(1);
-            label.setStyle("-fx-background-color: darkblue; -fx-padding: 10;");
+            box.setStyle("-fx-background-color: #0067B1; -fx-padding: 0;");
             List<Line> lines = mapCache.getInstructionsToEdges().get(label.getText());
             for (Line l : lines) l.setStroke(Color.RED);
             previousText = label;

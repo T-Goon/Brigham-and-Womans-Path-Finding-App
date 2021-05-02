@@ -13,8 +13,8 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
@@ -59,6 +59,7 @@ public class TxtDirPopupController implements Initializable {
             Directions.Direction dir = directions.get(i);
             if (i == 0) {
                 HBox first = new HBox();
+                first.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY)));
                 Label firstText = new Label(directions.get(0).getInstruction());
                 firstText.setFont(Font.font("MS Reference Sans Serif", FontWeight.BOLD, 25));
                 first.getChildren().add(firstText);
@@ -162,9 +163,10 @@ public class TxtDirPopupController implements Initializable {
         }
 
         ImageView imageView = new ImageView(path);
-        //imageView.setPreserveRatio(true);
-        imageView.setFitWidth(50);
+        imageView.setPreserveRatio(true);
+        //imageView.setFitWidth(50);
         imageView.setFitHeight(50);
+
         VBox r = new VBox();
         r.setAlignment(Pos.CENTER);
         //r.setStyle("-fx-border-color: transparent;\n-fx-border-insets: 5;\n-fx-border-width: 3;\n-fx-border-style: solid;\n");
