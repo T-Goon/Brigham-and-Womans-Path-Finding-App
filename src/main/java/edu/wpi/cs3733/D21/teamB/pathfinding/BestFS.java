@@ -6,12 +6,7 @@ import java.util.*;
 public class BestFS extends AlgoTemplate implements Pathfinder{
 
     /**
-     * Implementation of depth-first search given the starting nodeID.
-     *
-     * @param start the starting NodeID
-     * @param end   the ending NodeID
-     * @return a stack of the path of nodeIDs from start to end
-     */
+
     public Path findPath(String start, String end, boolean mobility) {
 
         Graph graph = Graph.getGraph();
@@ -45,6 +40,10 @@ public class BestFS extends AlgoTemplate implements Pathfinder{
             }
         }
         return null;
+    }
+     */
+    public double calculateFVal(double heur, double edgeCost){
+        return heur;
     }
 
 

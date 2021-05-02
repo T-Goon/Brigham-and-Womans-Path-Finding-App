@@ -5,7 +5,7 @@ import edu.wpi.cs3733.D21.teamB.entities.map.data.Path;
 
 import java.util.*;
 
-public class BFS extends AlgoTemplate implements Pathfinder {
+public class BFS implements Pathfinder {
 
     /**
      * Implementation of breadth-first search given the starting nodeID.

@@ -7,11 +7,6 @@ import java.util.*;
 
 public class Djikstra extends AlgoTemplate implements Pathfinder{
 
-    public Path findPath(String startID, String endID, boolean mobility){
-        return findPath(startID, endID, mobility, null, "ID");
-    }
-
-
     public Path findPath(String startID, String endID, boolean mobility, String category, String comparisonType) {
 
         Graph graph = Graph.getGraph();
@@ -25,8 +20,6 @@ public class Djikstra extends AlgoTemplate implements Pathfinder{
         Map<String, String> cameFrom = new HashMap<>();
         Map<String, Double> costSoFar = new HashMap<>();
 
-        //A* logic as described here
-        //https://www.redblobgames.com/pathfinding/a-star/introduction.html:w
         pQueue.add(startNode);
         cameFrom.put(startID, "START");
         costSoFar.put(startID, 0.0);
@@ -88,6 +81,10 @@ public class Djikstra extends AlgoTemplate implements Pathfinder{
         }
 
         return new Path(ret, graph.calculateCost(ret));
+    }
+
+    public double calculateFVal(double heur, double edgeCost){
+        return edgeCost;
     }
 
     /**
