@@ -835,6 +835,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
 
             switch(category) {
                 case "Restroom":
+
                     List<TreeItem<String>> restrooms = mapCache.getCatNameMap().get("Restrooms");
                     List<String> restroomsList = new ArrayList<>();
                     for (TreeItem<String> restroom : restrooms) {
@@ -874,6 +875,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
                     endID = entrancesPath.getPath().get(entrancesPath.getPath().size() - 1);
                     break;
             }
+            System.out.println(endID);
             String nodeName = mapCache.getMapLongToID().get(endID);
             txtEndLocation.setText("75 Francis Lobby Entrance");
             btnFindPath.setDisable(false);
