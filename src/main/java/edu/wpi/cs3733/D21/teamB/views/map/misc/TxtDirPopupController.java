@@ -60,7 +60,7 @@ public class TxtDirPopupController implements Initializable {
             if (i == 0) {
                 HBox first = new HBox();
                 Label firstText = new Label(directions.get(0).getInstruction());
-                firstText.setFont(Font.font("System", FontWeight.BOLD, 16));
+                firstText.setFont(Font.font("MS Reference Sans Serif", FontWeight.BOLD, 25));
                 first.getChildren().add(firstText);
                 textHolder.getChildren().add(first);
             } else {
@@ -70,12 +70,12 @@ public class TxtDirPopupController implements Initializable {
 
                 // Image in HBox
                 instructionBox.getChildren().add(getDirectionImage(dir.getDirection()));
-
+                instructionBox.setAlignment(Pos.CENTER_LEFT);
                 // Label in HBox
                 Label text = new Label(dir.getInstruction());
-                text.setFont(new Font("System", 14));
+                text.setFont(new Font("MS Reference Sans Serif", 15));
                 text.setPadding(new Insets(10, 10, 10, 10));
-                text.setAlignment(Pos.BOTTOM_CENTER);
+                text.setAlignment(Pos.TOP_LEFT);
                 instructionBox.getChildren().add(text);
 
                 // If clicked, update Index
@@ -162,11 +162,12 @@ public class TxtDirPopupController implements Initializable {
         }
 
         ImageView imageView = new ImageView(path);
-        imageView.setFitWidth(30);
-        imageView.setFitHeight(30);
+        //imageView.setPreserveRatio(true);
+        imageView.setFitWidth(50);
+        imageView.setFitHeight(50);
         VBox r = new VBox();
         r.setAlignment(Pos.CENTER);
-        r.setStyle("-fx-border-color: black;\n-fx-border-insets: 5;\n-fx-border-width: 3;\n-fx-border-style: solid;\n");
+        //r.setStyle("-fx-border-color: transparent;\n-fx-border-insets: 5;\n-fx-border-width: 3;\n-fx-border-style: solid;\n");
         r.getChildren().add(imageView);
         return r;
     }
