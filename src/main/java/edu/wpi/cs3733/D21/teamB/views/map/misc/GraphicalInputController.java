@@ -125,7 +125,7 @@ public class GraphicalInputController implements Initializable, IObserver {
     public void update() {
         // Get tree view, parking spot to add, and tree item
         TreeView<String> treeView = cpsPopup.getData().getPfmc().getTreeLocations();
-        String newParking = treeView.getSelectionModel().getSelectedItem().getValue();
+        String newParking = popup.getData().getNodeName();
         TreeItem<String> favorites = cpsPopup.getData().getPfmc().getFavorites();
 
         List<TreeItem<String>> toRemove = new ArrayList<>();
