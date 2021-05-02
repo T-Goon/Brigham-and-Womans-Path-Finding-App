@@ -450,6 +450,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
 
         switch (b.getId()) {
             case "btnFindPath":
+                mapCache.updateLocations();
                 Map<String, String> longToId = mapCache.makeLongToIDMap();
                 mapPathPopupManager.removeTxtDirPopup();
                 mapDrawer.removeAllEdges();
