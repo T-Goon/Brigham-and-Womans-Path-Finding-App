@@ -3,6 +3,7 @@ package edu.wpi.cs3733.D21.teamB.pathfinding;
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Edge;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Node;
+import edu.wpi.cs3733.D21.teamB.entities.map.data.Path;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -131,5 +132,30 @@ public class Graph {
         List<Node> adjList = getAdjNodesById(startID).stream().filter(node -> node.getNodeID().equals(endID)).collect(Collectors.toList());
 
         return !adjList.isEmpty();
+    }
+
+    /**
+     * Calculates the estimated time it would take to walk a certain path
+     *
+     * @param path the given Path
+     * @return the estimated time string to put in the box
+     */
+    public static String getEstimatedTime(Path path) {
+        //bWALK00601,1738,1545,
+        //bWALK01201,3373,1554
+        //According to google maps ~500 ft:
+        //double pixDist = 1635.025;
+
+        double timeConst = (2 / 1635.025);
+        double timeDec = path.getTotalPathCost() * timeConst;
+        double secondsTime = timeDec * 60;
+
+        int min = (int) Math.floor(timeDec);
+        int sec = (int) secondsTime - min * 60;
+
+        if (min == 0) return String.format("%02d", sec) + " sec";
+
+        return min + ":" + String.format("%02d", sec) + " min";
+
     }
 }

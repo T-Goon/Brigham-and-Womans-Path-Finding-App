@@ -86,44 +86,6 @@ public class PathfindingTests {
         assertEquals(expectedPath, path.getPath());
     }
 
-   /** @Test
-    public void testClosestPath() {
-
-        List<String> pathExp = new LinkedList<>();
-
-        List<Node> category = new ArrayList<>();
-
-        Node bPARK01501 = new Node("bPARK01501", 3159, 1228, "1", "Parking", "PARK", "Right Parking Lot Spot 5", "RLot5");
-        Node bPARK01601 = new Node("bPARK01601", 3161, 1251, "1", "Parking", "PARK", "Right Parking Lot Spot 6", "RLot6");
-        Node bPARK01701 = new Node("bPARK01701", 3160, 1278, "1", "Parking", "PARK", "Right Parking Lot Spot 7", "RLot7");
-
-        category.add(bPARK01501);
-        category.add(bPARK01601);
-        category.add(bPARK01701);
-
-        pathExp.add("bWALK00101");
-        pathExp.add("bWALK00201");
-        pathExp.add("bWALK00301");
-        pathExp.add("bWALK00401");
-        pathExp.add("bWALK00501");
-        pathExp.add("bWALK00601");
-        pathExp.add("bWALK00701");
-        pathExp.add("bWALK00801");
-        pathExp.add("bWALK01001");
-        pathExp.add("bWALK01101");
-        pathExp.add("bWALK01201");
-        pathExp.add("bWALK01301");
-        pathExp.add("bWALK01401");
-        pathExp.add("bWALK01501");
-        pathExp.add("bPARK01701");
-
-
-        Path path = Djikstra.findPath("bWALK00101", category);
-
-        assertEquals(pathExp, path.getPath());
-
-    } */
-
     @Test
     public void testMultipleNodePathfinding() {
         Stack<String> nodeList = new Stack<>();
@@ -237,20 +199,13 @@ public class PathfindingTests {
     public void testBestFS() {
         LinkedList<String> expectedPath = new LinkedList<>();
         expectedPath.add("bEXIT00401");
-        expectedPath.add("FEXIT00201");
-        expectedPath.add("FHALL02801");
-        expectedPath.add("FHALL02201");
-        expectedPath.add("FHALL02101");
-        expectedPath.add("FHALL01901");
-        expectedPath.add("FHALL01601");
-        expectedPath.add("FHALL03201");
-        expectedPath.add("FHALL01801");
-        expectedPath.add("FHALL00701");
-        expectedPath.add("WELEV00L01");
-        expectedPath.add("FHALL00601");
-        expectedPath.add("FHALL00501");
-        expectedPath.add("FHALL00401");
-        expectedPath.add("FHALL00301");
+        expectedPath.add("bEXIT00501");
+        expectedPath.add("FEXIT00301");
+        expectedPath.add("FDEPT00501");
+        expectedPath.add("FHALL03301");
+        expectedPath.add("FHALL02701");
+        expectedPath.add("FHALL02601");
+        expectedPath.add("FHALL03101");
         expectedPath.add("FHALL00201");
         expectedPath.add("FHALL00101");
         expectedPath.add("WHALL00101");
@@ -271,12 +226,8 @@ public class PathfindingTests {
         expectedPath.add("EHALL02001");
         expectedPath.add("EREST00101");
 
-        //[bEXIT00401, FEXIT00201, FHALL02801, FHALL02201, FHALL02101, FHALL01901, FHALL01601, FHALL03201, FHALL01801, FHALL00701, WELEV00L01, FHALL00601, FHALL00501, FHALL00401, FHALL00301, FHALL00201, FHALL00101, WHALL00101, WHALL00201, ESTAI00101, EHALL00301, EHALL00401, EHALL00501, EHALL00601, EHALL00801, EHALL00901, EHALL01101, EHALL01501, EHALL01601, EHALL01801, WELEV00G01, EHALL01901, EHALL02001, EREST00101]
-        //Path path1 = new BFS().findPath("bEXIT00401", "EREST00101", false);
         Path path = new BestFS().findPath("bEXIT00401", "EREST00101", false);
-
-        System.out.println(path.getPath());
-       assertEquals(expectedPath, path.getPath());
+        assertEquals(expectedPath, path.getPath());
     }
 
     @Test

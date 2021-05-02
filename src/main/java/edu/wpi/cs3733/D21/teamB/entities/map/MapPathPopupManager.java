@@ -6,8 +6,8 @@ import edu.wpi.cs3733.D21.teamB.App;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.*;
 import edu.wpi.cs3733.D21.teamB.entities.map.node.GraphicalInputPopup;
 import edu.wpi.cs3733.D21.teamB.entities.map.node.TxtDirPopup;
-import edu.wpi.cs3733.D21.teamB.pathfinding.AStar;
 import edu.wpi.cs3733.D21.teamB.pathfinding.Directions;
+import edu.wpi.cs3733.D21.teamB.pathfinding.Graph;
 import edu.wpi.cs3733.D21.teamB.util.Popup.PoppableManager;
 import edu.wpi.cs3733.D21.teamB.views.map.PathfindingMenuController;
 import javafx.scene.layout.AnchorPane;
@@ -78,7 +78,7 @@ public class MapPathPopupManager implements PoppableManager {
         // No path
         if (path.getPath().size() == 0) return null;
 
-        String estimatedTime = AStar.getEstimatedTime(path);
+        String estimatedTime = Graph.getEstimatedTime(path);
 
         ETAPopupData etaPopupData = new ETAPopupData(estimatedTime, path);
         etaPopup = new ETAPopup(nodeHolder, etaPopupData);

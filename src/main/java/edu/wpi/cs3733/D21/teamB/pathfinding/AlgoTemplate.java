@@ -7,6 +7,14 @@ import java.util.*;
 public abstract class AlgoTemplate {
     abstract double calculateFVal(double heur, double edgeCost);
 
+
+    /**
+     * Main pathfinding algorithm used to find a path between two nodes.
+     *
+     * @param startID nodeID of the starting node
+     * @param endID   nodeID of the ending node
+     * @return LinkedList of nodeIDs which dictates the order of nodes in the path and the cost it took to get there
+     */
     public final Path findPath(String startID, String endID, boolean mobility) {
 
         Graph graph = Graph.getGraph();
