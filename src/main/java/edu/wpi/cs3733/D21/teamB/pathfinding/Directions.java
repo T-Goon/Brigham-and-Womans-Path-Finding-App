@@ -186,11 +186,13 @@ public class Directions {
                     String newFloor = getNewFloor(currentFloor, next.getFloorAsInt() - curr.getFloorAsInt());
                     if (next.getNodeID().contains("STAI")) {
                         directions.add(new Direction("Walk to floor " + next.getFloor() + ".", (curr.getFloorAsInt() < next.getFloorAsInt()) ? DirectionType.UP_STAIRS : DirectionType.DOWN_STAIRS, getAllNodesBetween(path, curr, next), newFloor));
+                        currentFloor = newFloor;
+                        continue;
                     } else if (next.getNodeID().contains("ELEV") || next.getLongName().contains("elevator")) {
                         directions.add(new Direction("Take the elevator to floor " + next.getFloor() + ".", (curr.getFloorAsInt() < next.getFloorAsInt()) ? DirectionType.UP_ELEVATOR : DirectionType.DOWN_ELEVATOR, getAllNodesBetween(path, curr, next), newFloor));
+                        currentFloor = newFloor;
+                        continue;
                     }
-                    currentFloor = newFloor;
-                    continue;
                 }
 
                 if (turn > 70 && turn <= 110) {
