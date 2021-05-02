@@ -154,7 +154,7 @@ public class TxtDirPopup extends Popup<VBox, TxtDirPopupData> implements Poppabl
         // Reset the previous colors to the normal color
        // Background transparentBG = new Background(new BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY));
         if (previousText != null && previousLines != null) {
-            ((HBox) previousText.getParent()).setStyle("-fx-background-color: transparent; -fx-padding: 0;");
+            previousText.getParent().setStyle("-fx-background-color: transparent; -fx-padding: 0;");
             for (Line l : previousLines) l.setStroke(Color.rgb(0, 103, 177));
         }
 

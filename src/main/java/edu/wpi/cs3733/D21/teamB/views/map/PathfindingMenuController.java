@@ -191,7 +191,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
         mapDrawer.setMapPathPopupManager(mapPathPopupManager);
 
         // Set up floor switching
-        floorSwitcher = new FloorSwitcher(mapDrawer, mapCache, map, btnF3, btnF2, btnF1, btnFL1, btnFL2);
+        floorSwitcher = new FloorSwitcher(mapDrawer, mapCache, mapPathPopupManager, map, btnF3, btnF2, btnF1, btnFL1, btnFL2);
         floorSwitcher.switchFloor(FloorSwitcher.floor1ID);
 
         // Fill in proper fields if the last scene is the covid survey

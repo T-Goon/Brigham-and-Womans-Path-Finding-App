@@ -7,6 +7,7 @@ import javafx.scene.image.ImageView;
 public class FloorSwitcher {
     private final MapDrawer mapDrawer;
     private final MapCache mapCache;
+    private final MapPathPopupManager mapPathPopupManager;
     private final ImageView map;
 
     private final JFXButton btnF3;
@@ -29,9 +30,10 @@ public class FloorSwitcher {
     public final static String floorL1ID = "L1";
     public final static String floorL2ID = "L2";
 
-    public FloorSwitcher(MapDrawer mapDrawer, MapCache mapCache, ImageView map, JFXButton btnF3, JFXButton btnF2, JFXButton btnF1, JFXButton btnFL1, JFXButton btnFL2) {
+    public FloorSwitcher(MapDrawer mapDrawer, MapCache mapCache, MapPathPopupManager mapPathPopupManager, ImageView map, JFXButton btnF3, JFXButton btnF2, JFXButton btnF1, JFXButton btnFL1, JFXButton btnFL2) {
         this.mapDrawer = mapDrawer;
         this.mapCache = mapCache;
+        this.mapPathPopupManager = mapPathPopupManager;
         this.map = map;
         this.btnF3 = btnF3;
         this.btnF2 = btnF2;
@@ -53,7 +55,7 @@ public class FloorSwitcher {
                 mapCache.setCurrentFloor(floor3ID);
                 mapDrawer.drawAllElements();
                 highlightFloorButton(floor3ID);
-                if(mapCache.getFinalPath()!=null){
+                if (mapCache.getFinalPath() != null) {
                     mapDrawer.drawPath();
                 }
                 break;
@@ -62,7 +64,7 @@ public class FloorSwitcher {
                 mapCache.setCurrentFloor(floor2ID);
                 mapDrawer.drawAllElements();
                 highlightFloorButton(floor2ID);
-                if(mapCache.getFinalPath()!=null){
+                if (mapCache.getFinalPath() != null) {
                     mapDrawer.drawPath();
                 }
                 break;
@@ -71,7 +73,7 @@ public class FloorSwitcher {
                 mapCache.setCurrentFloor(floor1ID);
                 mapDrawer.drawAllElements();
                 highlightFloorButton(floor1ID);
-                if(mapCache.getFinalPath()!=null){
+                if (mapCache.getFinalPath() != null) {
                     mapDrawer.drawPath();
                 }
                 break;
@@ -80,7 +82,7 @@ public class FloorSwitcher {
                 mapCache.setCurrentFloor(floorL1ID);
                 mapDrawer.drawAllElements();
                 highlightFloorButton(floorL1ID);
-                if(mapCache.getFinalPath()!=null){
+                if (mapCache.getFinalPath() != null) {
                     mapDrawer.drawPath();
                 }
                 break;
@@ -89,13 +91,20 @@ public class FloorSwitcher {
                 mapCache.setCurrentFloor(floorL2ID);
                 mapDrawer.drawAllElements();
                 highlightFloorButton(floorL2ID);
-                if(mapCache.getFinalPath()!=null){
+                if (mapCache.getFinalPath() != null) {
                     mapDrawer.drawPath();
                 }
                 break;
             default:
                 System.err.println("NO FLOOR! AAAAAAAAAAAAHHHHHHHHHHH!!!!!!!!!!!!!");
                 break;
+        }
+
+        // Update the edges for the text direction popup
+        if (mapPathPopupManager.hasTxtDirPopup()) {
+            TxtDirPopup popup = mapPathPopupManager.getTxtDirPopup();
+            popup.updateEdges();
+            popup.highlight(true);
         }
     }
 
@@ -133,6 +142,7 @@ public class FloorSwitcher {
 
     /**
      * Converts a floor id to a int.
+     *
      * @param floorID A floor id.
      * @return An int that represents the placement of the floor
      */
