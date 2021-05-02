@@ -5,7 +5,6 @@ import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.GraphicalInputData;
 import edu.wpi.cs3733.D21.teamB.util.Popup.Poppable;
 import edu.wpi.cs3733.D21.teamB.util.Popup.Popup;
-import edu.wpi.cs3733.D21.teamB.views.map.misc.GraphicalInputController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TreeItem;
 import javafx.scene.layout.Pane;
@@ -70,8 +69,10 @@ public class GraphicalInputPopup extends Popup<VBox, GraphicalInputData> impleme
 
     /**
      * Add a favorite location to the tree view
+     *
+     * @return true if favorites has a parking spot
      */
-    public void addFavorite() {
+    public boolean addFavorite() {
         // Get tree item and item to add
         TreeItem<String> favorites = data.getPfmc().getFavorites();
         TreeItem<String> itemToAdd = new TreeItem<>(data.getNodeName());
@@ -85,8 +86,24 @@ public class GraphicalInputPopup extends Popup<VBox, GraphicalInputData> impleme
             }
         }
 
+        // Check if the location is a parking spot
+        boolean hasParking = false;
+        if (data.getNodeName().contains("Park")) {
+            try {
+                List<String> locations = DatabaseHandler.getHandler().getFavorites();
+                for (String location : locations) {
+                    if (location.contains("Park")) {
+                        hasParking = true;
+                        break;
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
         // Add the location to favorites
-        if (!contains) {
+        if (!contains && !hasParking) {
             favorites.getChildren().add(itemToAdd);
             try {
                 DatabaseHandler.getHandler().addFavoriteLocation(itemToAdd.getValue());
@@ -94,6 +111,8 @@ public class GraphicalInputPopup extends Popup<VBox, GraphicalInputData> impleme
                 e.printStackTrace();
             }
         }
+
+        return hasParking;
     }
 
     /**
@@ -121,10 +140,21 @@ public class GraphicalInputPopup extends Popup<VBox, GraphicalInputData> impleme
     /**
      * Check if the location is a favorite
      *
+     * @param longName the location's long name
      * @return true if the location is a favorite
      */
     public boolean isFavorite(String longName) {
         return longName.equals(data.getNodeName());
+    }
+
+    /**
+     * Check if the location is a parking spot
+     *
+     * @param longName the location's long name
+     * @return true if the location is a parking spot
+     */
+    public boolean isParking(String longName) {
+        return longName.contains("Park");
     }
 
     /**
