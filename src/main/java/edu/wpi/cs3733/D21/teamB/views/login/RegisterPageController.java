@@ -5,6 +5,7 @@ import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.User;
+import edu.wpi.cs3733.D21.teamB.util.ExternalCommunication;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
 import edu.wpi.cs3733.D21.teamB.views.BasePageController;
 import javafx.event.ActionEvent;
@@ -27,6 +28,9 @@ RegisterPageController extends BasePageController implements Initializable {
 
     @FXML
     public JFXTextField username;
+
+    @FXML
+    public JFXTextField email;
 
     @FXML
     public JFXTextField firstName;
@@ -56,6 +60,11 @@ RegisterPageController extends BasePageController implements Initializable {
                 handleRegisterSubmit();
         });
 
+        email.setOnKeyPressed(event -> {
+            if (event.getCode().equals(KeyCode.ENTER) && !areFormsEmpty())
+                handleRegisterSubmit();
+        });
+
         firstName.setOnKeyPressed(event -> {
             if (event.getCode().equals(KeyCode.ENTER) && !areFormsEmpty())
                 handleRegisterSubmit();
@@ -80,9 +89,11 @@ RegisterPageController extends BasePageController implements Initializable {
     public void handleButtonAction(ActionEvent actionEvent) {
         final String currentPath = "/edu/wpi/cs3733/D21/teamB/views/login/registerPage.fxml";
         JFXButton btn = (JFXButton) actionEvent.getSource();
+        ExternalCommunication externalCommunication = new ExternalCommunication();
         switch (btn.getId()) {
             case "btnRegister":
                 handleRegisterSubmit();
+                externalCommunication.sendConfirmation(email.getText());
                 break;
             case "btnEmergency":
                 SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
@@ -102,6 +113,13 @@ RegisterPageController extends BasePageController implements Initializable {
             return;
         }
 
+        // Check if the email is already associated with an account
+        if (db.getUserByEmail(email.getText()) != null) {
+            error.setText("Email address already has an account!");
+            error.setVisible(true);
+            return;
+        }
+
         // Check to make sure the passwords are the same
         if (!password.getText().equals(retypePassword.getText())) {
             error.setText("Passwords do not match!");
@@ -110,7 +128,7 @@ RegisterPageController extends BasePageController implements Initializable {
         }
 
         // Add the user to the database
-        User newUser = new User(username.getText(), firstName.getText(), lastName.getText(), User.AuthenticationLevel.PATIENT, new ArrayList<>());
+        User newUser = new User(username.getText(), email.getText(), firstName.getText(), lastName.getText(), User.AuthenticationLevel.PATIENT, new ArrayList<>());
         try {
             db.addUser(newUser, password.getText());
         } catch (SQLException e) {
@@ -128,6 +146,6 @@ RegisterPageController extends BasePageController implements Initializable {
      * @return whether any of the fields are empty
      */
     private boolean areFormsEmpty() {
-        return username.getText().isEmpty() || firstName.getText().isEmpty() || lastName.getText().isEmpty() || password.getText().isEmpty() || retypePassword.getText().isEmpty();
+        return username.getText().isEmpty() || email.getText().isEmpty() || firstName.getText().isEmpty() || lastName.getText().isEmpty() || password.getText().isEmpty() || retypePassword.getText().isEmpty();
     }
 }

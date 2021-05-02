@@ -28,6 +28,7 @@ public class UserMutator implements IDatabaseEntityMutator<UserMutator.UserPassw
         String hash = db.passwordHash(user.password);
         String query = "INSERT INTO Users VALUES " +
                 "('" + user.user.getUsername()
+                + "', '" + user.user.getEmail()
                 + "', '" + user.user.getFirstName()
                 + "', '" + user.user.getLastName()
                 + "', '" + user.user.getAuthenticationLevel().toString()
@@ -53,6 +54,7 @@ public class UserMutator implements IDatabaseEntityMutator<UserMutator.UserPassw
     public void updateEntity(UserPasswordMatch newUser) throws SQLException {
         String updateUser = "UPDATE Users " +
                 "SET username = '" + newUser.user.getUsername() + "'," +
+                "email = '" + newUser.user.getEmail() + "'," +
                 "firstName = '" + newUser.user.getFirstName() + "'," +
                 "lastName = '" + newUser.user.getLastName() + "'," +
                 "authenticationLevel = '" + newUser.user.getAuthenticationLevel().toString() + "'" +
@@ -127,6 +129,41 @@ public class UserMutator implements IDatabaseEntityMutator<UserMutator.UserPassw
             if (rs == null) return null;
             User outUser = new User(
                     rs.getString("username"),
+                    rs.getString("email"),
+                    rs.getString("firstName"),
+                    rs.getString("lastName"),
+                    User.AuthenticationLevel.valueOf(rs.getString("authenticationLevel")),
+                    jobs
+            );
+            rs.close();
+            return outUser;
+        } catch (SQLException e) {
+            return null;
+        }
+    }
+
+    /**
+     * @param email email to query by
+     * @return User object with that email, or null if that user doesn't exist
+     */
+    public User getUserByEmail(String email) {
+        try {
+            String query = "SELECT job FROM Jobs WHERE (email = '" + email + "')";
+            List<Request.RequestType> jobs = new ArrayList<>();
+            ResultSet rs = db.runStatement(query, true);
+            if (rs != null) {
+                do {
+                    jobs.add(Request.RequestType.valueOf(rs.getString("job")));
+                } while (rs.next());
+                rs.close();
+            }
+
+            query = "SELECT * FROM Users WHERE (email = '" + email + "')";
+            rs = db.runStatement(query, true);
+            if (rs == null) return null;
+            User outUser = new User(
+                    rs.getString("username"),
+                    rs.getString("email"),
                     rs.getString("firstName"),
                     rs.getString("lastName"),
                     User.AuthenticationLevel.valueOf(rs.getString("authenticationLevel")),
@@ -223,7 +260,7 @@ public class UserMutator implements IDatabaseEntityMutator<UserMutator.UserPassw
      */
     public boolean deauthenticate() {
         if (DatabaseHandler.AuthenticationUser.getAuthenticationLevel() != User.AuthenticationLevel.GUEST) {
-            DatabaseHandler.AuthenticationUser = new User(null, null, null, User.AuthenticationLevel.GUEST, null);
+            DatabaseHandler.AuthenticationUser = new User(null, null, null, null, User.AuthenticationLevel.GUEST, null);
             return true;
         } else return false;
     }

@@ -26,7 +26,7 @@ public class DatabaseHandler {
     private final UserMutator userMutator;
 
     //State
-    static User AuthenticationUser = new User(null, null, null, User.AuthenticationLevel.GUEST, null);
+    static User AuthenticationUser = new User(null, null, null, null, User.AuthenticationLevel.GUEST, null);
     private final String salt = BCrypt.gensalt();
 
     private DatabaseHandler() {
@@ -295,6 +295,7 @@ public class DatabaseHandler {
 
         String usersTable = "CREATE TABLE IF NOT EXISTS Users("
                 + "username CHAR(30) PRIMARY KEY, "
+                + "email CHAR(40), "
                 + "firstName CHAR(30), "
                 + "lastName CHAR(30), "
                 + "authenticationLevel CHAR(30) CHECK (authenticationLevel in ('ADMIN','STAFF','PATIENT', 'GUEST')), "
@@ -444,6 +445,15 @@ public class DatabaseHandler {
      */
     public User getUserByUsername(String username) {
         return userMutator.getUserByUsername(username);
+    }
+
+    /**
+     *
+     * @param email email to query by
+     * @return User object with that email, or null if that user doesn't exist
+     */
+    public User getUserByEmail(String email) {
+        return userMutator.getUserByEmail(email);
     }
 
     /**
