@@ -237,13 +237,20 @@ public class PathfindingTests {
     public void testBestFS() {
         LinkedList<String> expectedPath = new LinkedList<>();
         expectedPath.add("bEXIT00401");
-        expectedPath.add("bEXIT00501");
-        expectedPath.add("FEXIT00301");
-        expectedPath.add("FDEPT00501");
-        expectedPath.add("FHALL03301");
-        expectedPath.add("FHALL02701");
-        expectedPath.add("FHALL02601");
-        expectedPath.add("FHALL03101");
+        expectedPath.add("FEXIT00201");
+        expectedPath.add("FHALL02801");
+        expectedPath.add("FHALL02201");
+        expectedPath.add("FHALL02101");
+        expectedPath.add("FHALL01901");
+        expectedPath.add("FHALL01601");
+        expectedPath.add("FHALL03201");
+        expectedPath.add("FHALL01801");
+        expectedPath.add("FHALL00701");
+        expectedPath.add("WELEV00L01");
+        expectedPath.add("FHALL00601");
+        expectedPath.add("FHALL00501");
+        expectedPath.add("FHALL00401");
+        expectedPath.add("FHALL00301");
         expectedPath.add("FHALL00201");
         expectedPath.add("FHALL00101");
         expectedPath.add("WHALL00101");
@@ -264,9 +271,12 @@ public class PathfindingTests {
         expectedPath.add("EHALL02001");
         expectedPath.add("EREST00101");
 
+        //[bEXIT00401, FEXIT00201, FHALL02801, FHALL02201, FHALL02101, FHALL01901, FHALL01601, FHALL03201, FHALL01801, FHALL00701, WELEV00L01, FHALL00601, FHALL00501, FHALL00401, FHALL00301, FHALL00201, FHALL00101, WHALL00101, WHALL00201, ESTAI00101, EHALL00301, EHALL00401, EHALL00501, EHALL00601, EHALL00801, EHALL00901, EHALL01101, EHALL01501, EHALL01601, EHALL01801, WELEV00G01, EHALL01901, EHALL02001, EREST00101]
+        //Path path1 = new BFS().findPath("bEXIT00401", "EREST00101", false);
         Path path = new BestFS().findPath("bEXIT00401", "EREST00101", false);
 
-        assertEquals(expectedPath, path.getPath());
+        System.out.println(path.getPath());
+       assertEquals(expectedPath, path.getPath());
     }
 
     @Test

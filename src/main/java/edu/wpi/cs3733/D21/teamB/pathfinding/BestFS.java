@@ -47,27 +47,27 @@ public class BestFS extends AlgoTemplate implements Pathfinder{
     }
 
 
-    /**
-     *
-     * @param queue the neighbors queue
-     * @param end the ending node
-     * @return the neighbor that is closest to the end node
-     */
-    public static Pair orderQueue(Queue<Pair> queue, String end){
-        Graph graph = Graph.getGraph();
-        Node endNode = graph.getNodes().get(end);
-        Pair smallestPair = null;
-        double minHeur = Integer.MAX_VALUE;
-
-        for(Pair pair : queue){
-            double heur = Graph.dist(graph.getNodes().get(pair.getCurrent()), endNode);
-
-            if(heur < minHeur){
-                smallestPair = pair;
-                minHeur = heur;
-            }
-        }
-
-        return smallestPair;
-    }
+//    /**
+//     *
+//     * @param queue the neighbors queue
+//     * @param end the ending node
+//     * @return the neighbor that is closest to the end node
+//     */
+//    public static Pair orderQueue(Queue<Pair> queue, String end){
+//        Graph graph = Graph.getGraph();
+//        Node endNode = graph.getNodes().get(end);
+//        Pair smallestPair = null;
+//        double minHeur = Integer.MAX_VALUE;
+//
+//        for(Pair pair : queue){
+//            double heur = Graph.dist(graph.getNodes().get(pair.getCurrent()), endNode);
+//
+//            if(heur < minHeur){
+//                smallestPair = pair;
+//                minHeur = heur;
+//            }
+//        }
+//
+//        return smallestPair;
+//    }
 }
