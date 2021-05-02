@@ -690,6 +690,15 @@ public class DatabaseHandler {
     }
 
     /**
+     * Updates a favorite location (parking spot) in FavoriteLocations
+     *
+     * @param favoriteLocation the parking spot to update
+     */
+    public void updateParkingSpot(String favoriteLocation) throws SQLException {
+        userMutator.updateParkingForUser(favoriteLocation);
+    }
+
+    /**
      * Displays the list of favorite locations
      *
      * @return a list of favorite locations

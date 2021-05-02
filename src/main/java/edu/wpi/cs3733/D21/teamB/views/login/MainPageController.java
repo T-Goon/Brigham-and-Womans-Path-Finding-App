@@ -6,7 +6,7 @@ import edu.wpi.cs3733.D21.teamB.views.BasePageController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
-public class LoginOptionsController extends BasePageController {
+public class MainPageController extends BasePageController {
 
     @FXML
     public JFXButton btnLogin;
@@ -22,7 +22,7 @@ public class LoginOptionsController extends BasePageController {
 
     @FXML
     public void handleButtonAction(ActionEvent e) {
-        final String currentPath = "/edu/wpi/cs3733/D21/teamB/views/login/loginOptions.fxml";
+        final String currentPath = "/edu/wpi/cs3733/D21/teamB/views/login/mainPage.fxml";
         super.handleButtonAction(e);
         JFXButton btn = (JFXButton) e.getSource();
         switch (btn.getId()) {
@@ -34,6 +34,9 @@ public class LoginOptionsController extends BasePageController {
                 break;
             case "btnDirections":
                 SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/cs3733/D21/teamB/views/map/pathfindingMenu.fxml");
+                break;
+            case "btnGoogle":
+                SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/cs3733/D21/teamB/views/map/directionsMenu.fxml");
                 break;
             case "btnCovid":
                 SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidSurvey.fxml");
