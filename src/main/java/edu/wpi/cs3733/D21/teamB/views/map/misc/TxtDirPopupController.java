@@ -83,7 +83,7 @@ public class TxtDirPopupController implements Initializable {
                     popup.setIndex(textHolder.getChildren().indexOf(instructionBox));
                     if (!popup.getMapCache().getCurrentFloor().equals(popup.getDirections().get(popup.getIndex()).getFloor()))
                         popup.updateFloor();
-                    popup.highlight();
+                    popup.highlight(false);
                 });
                 textHolder.getChildren().add(instructionBox);
             }
