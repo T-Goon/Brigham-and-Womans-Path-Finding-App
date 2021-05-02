@@ -22,7 +22,7 @@ public class SuccessfulRegistrationController {
         JFXButton btn = (JFXButton) e.getSource();
         switch (btn.getId()) {
             case "btnReturn":
-                SceneSwitcher.switchFromTemp(getClass(), "/edu/wpi/cs3733/D21/teamB/views/login/loginOptions.fxml");
+                SceneSwitcher.switchFromTemp(getClass(), "/edu/wpi/cs3733/D21/teamB/views/login/mainPage.fxml");
                 break;
             case "btnEmergency":
                 SceneSwitcher.switchFromTemp(getClass(), "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
