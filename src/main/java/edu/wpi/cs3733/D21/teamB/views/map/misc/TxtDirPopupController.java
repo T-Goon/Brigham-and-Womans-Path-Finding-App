@@ -14,12 +14,10 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -46,12 +44,12 @@ public class TxtDirPopupController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         popup = (TxtDirPopup) App.getPrimaryStage().getUserData();
         popup.setInstructionBox(textHolder);
+        popup.updateFloor();
 
         // Add all the text directions to the holder
         List<Directions.Direction> directions = popup.getDirections();
 
         // For every instruction:
-        popup.getMapCache().getInstructionsToEdges().clear();
         for (int i = 0; i < directions.size(); i++) {
             Directions.Direction dir = directions.get(i);
             if (i == 0) {
@@ -61,19 +59,6 @@ public class TxtDirPopupController implements Initializable {
                 first.getChildren().add(firstText);
                 textHolder.getChildren().add(first);
             } else {
-                // Map the instruction to the lines it corresponds with
-                List<Line> edges = new ArrayList<>();
-                for (int j = 0; j < directions.get(i).getNodes().size() - 1; j++) {
-                    Node start = directions.get(i).getNodes().get(j);
-                    Node end = directions.get(i).getNodes().get(j + 1);
-                    for (Line l : popup.getMapCache().getEdgesPlaced()) {
-                        if (!edges.contains(l) && l.getId().contains(start.getNodeID()) && l.getId().contains(end.getNodeID())) {
-                            edges.add(l);
-                        }
-                    }
-                }
-                popup.getMapCache().getInstructionsToEdges().put(directions.get(i).getInstruction(), edges);
-
                 // HBox for each row
                 HBox instructionBox = new HBox();
                 instructionBox.setSpacing(20);

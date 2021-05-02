@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.D21.teamB.entities.map;
 
+import edu.wpi.cs3733.D21.teamB.entities.map.data.Node;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.TxtDirPopupData;
 import edu.wpi.cs3733.D21.teamB.pathfinding.Directions;
 import edu.wpi.cs3733.D21.teamB.util.Popup.Poppable;
@@ -75,7 +76,7 @@ public class TxtDirPopup extends Popup<VBox, TxtDirPopupData> implements Poppabl
     public void restart() {
         index = 1;
         if (!mapCache.getCurrentFloor().equals(directions.get(index).getFloor()))
-            floorSwitcher.switchFloor(directions.get(index).getFloor());
+            updateFloor();
         highlight();
     }
 
@@ -86,7 +87,7 @@ public class TxtDirPopup extends Popup<VBox, TxtDirPopupData> implements Poppabl
         if (index > 1) {
             index--;
             if (!directions.get(index + 1).getFloor().equals(directions.get(index).getFloor()))
-                floorSwitcher.switchFloor(directions.get(index).getFloor());
+                updateFloor();
             highlight();
         }
     }
@@ -98,7 +99,7 @@ public class TxtDirPopup extends Popup<VBox, TxtDirPopupData> implements Poppabl
         if (index < maxIndex) {
             index++;
             if (!directions.get(index - 1).getFloor().equals(directions.get(index).getFloor()))
-                floorSwitcher.switchFloor(directions.get(index).getFloor());
+                updateFloor();
             highlight();
         }
     }
@@ -113,11 +114,34 @@ public class TxtDirPopup extends Popup<VBox, TxtDirPopupData> implements Poppabl
     }
 
     /**
-     * Updates the floor when clicked on
+     * Updates the floor when clicked on as well as the list of instructions to edges
      */
     public void updateFloor() {
-        floorSwitcher.switchFloor(directions.get(index).getFloor());
+        if (!mapCache.getCurrentFloor().equals(directions.get(index).getFloor()))
+            floorSwitcher.switchFloor(directions.get(index).getFloor());
+        updateEdges();
     }
+
+    /**
+     * Updates the list of edges for the floors
+     */
+    public void updateEdges() {
+        mapCache.getInstructionsToEdges().clear();
+        for (int i = 1; i < directions.size(); i++) {
+            List<Line> edges = new ArrayList<>();
+            for (int j = 0; j < directions.get(i).getNodes().size() - 1; j++) {
+                Node start = directions.get(i).getNodes().get(j);
+                Node end = directions.get(i).getNodes().get(j + 1);
+                for (Line l : mapCache.getEdgesPlaced()) {
+                    if (!edges.contains(l) && l.getId().contains(start.getNodeID()) && l.getId().contains(end.getNodeID())) {
+                        edges.add(l);
+                    }
+                }
+            }
+            mapCache.getInstructionsToEdges().put(directions.get(i).getInstruction(), edges);
+        }
+    }
+
 
     /**
      * Highlights the selected box in red, and the path in red as well
