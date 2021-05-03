@@ -356,14 +356,13 @@ public class PathfindingTests {
         double slightRight = Directions.angleBetweenEdges(a, b, c);
     }
 
-    @Test
-    public void DijkstraFindPathCat(){
-        List<String> ids = new ArrayList<>();
-        ids.add("AREST00101");
-
-        Path path = new Dijkstra().findPath("bPARK01501", false, ids);
-        System.out.println(path.getPath());
-    }
+//    @Test
+//    public void DijkstraFindPathCat(){
+//        List<String> ids = new ArrayList<>();
+//        ids.add("AREST00101");
+//
+//        Path path = new Dijkstra().findPath("bPARK01501", false, ids);
+//    }
 
 //    @Test
 //    public void testSimplePath() {
