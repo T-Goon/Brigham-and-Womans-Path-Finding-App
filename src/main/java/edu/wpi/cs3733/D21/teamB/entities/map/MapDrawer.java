@@ -30,7 +30,6 @@ import net.kurobako.gesturefx.GesturePane;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class MapDrawer implements PoppableManager {
 
@@ -149,7 +148,7 @@ public class MapDrawer implements PoppableManager {
             // There is a path
             List<String> currentFloorPath = mapCache.getFinalPath().getFloorPathSegment(mapCache.getCurrentFloor());
 
-            colorStartEndNode();
+            colorStartStopEndNodes();
 
             //Draw the segment of the path that is on the current floor
             for (int i = 0; i < currentFloorPath.size() - 1; i++) {
@@ -290,9 +289,10 @@ public class MapDrawer implements PoppableManager {
     /**
      * Color the start and end nodes of the path
      */
-    private void colorStartEndNode() {
+    private void colorStartStopEndNodes() {
+        // Deal with the start and end nodes
         Path path = mapCache.getFinalPath();
-
+        List<String> stops = mapCache.getStopsList();
         for (String floor : mapCache.getFloorNodes().keySet()) {
             for (Node n : mapCache.getFloorNodes().get(floor)) {
                 if (path.getPath().get(0).equals(n.getNodeID())) {
@@ -305,6 +305,11 @@ public class MapDrawer implements PoppableManager {
                     mapCache.getEditedNodesColor().put(n.getNodeID(), n.getColor());
 
                     n.setColor(Color.web("ff00ff"));
+                } else if (stops.contains(n.getLongName())) {
+                    mapCache.getEditedNodes().add(n);
+                    mapCache.getEditedNodesColor().put(n.getNodeID(), n.getColor());
+
+                    n.setColor(Color.web("85461e"));
                 }
             }
         }
