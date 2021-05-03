@@ -39,7 +39,8 @@ public class Dijkstra extends AlgoTemplate implements Pathfinder{
                 for (Node neighbor : graph.getAdjNodesById(current.getNodeID())) {
 
                     // Deals with mobility
-                    if (mobility && neighbor.getNodeType().equals("STAI")) continue;
+                    if (mobility && current.getNodeType().equals("STAI") && neighbor.getNodeType().equals("STAI"))
+                        continue;
 
                     //Calculate the cost of reaching the next node
                     double newCost = costSoFar.get(current.getNodeID()) + Graph.dist(current, neighbor);

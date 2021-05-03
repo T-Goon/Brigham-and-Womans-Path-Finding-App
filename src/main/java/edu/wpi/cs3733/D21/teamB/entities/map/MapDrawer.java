@@ -30,6 +30,7 @@ import net.kurobako.gesturefx.GesturePane;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class MapDrawer implements PoppableManager {
 
@@ -111,6 +112,12 @@ public class MapDrawer implements PoppableManager {
             case "BFS":
                 pathfinder = new BFS();
                 break;
+            case "BestFS":
+                pathfinder = new BestFS();
+                break;
+            case "Dijkstra":
+                pathfinder = new Dijkstra();
+                break;
             default:
                 throw new IllegalStateException("Extra option in combo box?");
         }
@@ -122,10 +129,11 @@ public class MapDrawer implements PoppableManager {
     }
 
     /**
-     * Draw's the path stored in the mapCache
+     * Draws the path stored in the mapCache
      */
     public void drawPath() {
         Map<String, Node> nodes = Graph.getGraph().getNodes();
+        removeAllEdges();
 
         // Head color for the animation
         if (!nodeHolder.getChildren().contains(head)) {
@@ -184,9 +192,10 @@ public class MapDrawer implements PoppableManager {
 
     /**
      * Color the nodes on the path that indicate the user needs to go up or down a floor
+     *
      * @param currentFloorPath List of node ids for the current path on the floor
      */
-    private void colorNodesOnPathFloorSwitch(List<String> currentFloorPath){
+    private void colorNodesOnPathFloorSwitch(List<String> currentFloorPath) {
         List<String> floorChangeNodes = new ArrayList<>();
 
         //Populate list with all of the nodes on the floor where the user must change floors
@@ -256,9 +265,9 @@ public class MapDrawer implements PoppableManager {
      * Place the text on the map to indicate how many floors the path moves up
      *
      * @param floorString String of the floor the path goes to
-     * @param n The node the text should be attached to
+     * @param n           The node the text should be attached to
      */
-    private void placeUpDownPathIndicatorText(String floorString, Node n){
+    private void placeUpDownPathIndicatorText(String floorString, Node n) {
         VBox floorIndicator = null;
 
         try {
@@ -269,7 +278,7 @@ public class MapDrawer implements PoppableManager {
         }
 
         assert floorIndicator != null;
-        ((Text) floorIndicator.getChildren().get(0)).setText("Floor "+floorString);
+        ((Text) floorIndicator.getChildren().get(0)).setText("Floor " + floorString);
         mapCache.getFloorIndicators().add(floorIndicator);
 
         floorIndicator.setLayoutX((n.getXCoord() / PathfindingMenuController.COORDINATE_SCALE) - 15);
@@ -286,12 +295,12 @@ public class MapDrawer implements PoppableManager {
 
         for (String floor : mapCache.getFloorNodes().keySet()) {
             for (Node n : mapCache.getFloorNodes().get(floor)) {
-                if(path.getPath().get(0).equals(n.getNodeID())){
+                if (path.getPath().get(0).equals(n.getNodeID())) {
                     mapCache.getEditedNodes().add(n);
                     mapCache.getEditedNodesColor().put(n.getNodeID(), n.getColor());
 
                     n.setColor(Color.web("ffff00"));
-                } else if(path.getPath().get(path.getPath().size()-1).equals(n.getNodeID())){
+                } else if (path.getPath().get(path.getPath().size() - 1).equals(n.getNodeID())) {
                     mapCache.getEditedNodes().add(n);
                     mapCache.getEditedNodesColor().put(n.getNodeID(), n.getColor());
 
@@ -573,6 +582,40 @@ public class MapDrawer implements PoppableManager {
             l.setOnMouseClicked(e -> {
                 if (isEditing && !e.isControlDown()) {
                     mapEditorPopupManager.showDelEdgePopup(start, end, mapStack, e, l);
+                } else if (mapPathPopupManager.hasTxtDirPopup()) {
+                    // Find the list of lines that the edge clicked on belongs to
+                    List<Line> linesToSet = null;
+                    out:
+                    for (List<Line> lines : mapCache.getInstructionsToEdges().values()) {
+                        for (Line line : lines) {
+                            if (line.getId().equals(l.getId())) {
+                                linesToSet = lines;
+                                break out;
+                            }
+                        }
+                    }
+                    if (linesToSet == null) return;
+
+                    // Find the instruction that the list of lines corresponds to
+                    String instruction = null;
+                    for (Map.Entry<String, List<Line>> entry : mapCache.getInstructionsToEdges().entrySet()) {
+                        if (Objects.equals(linesToSet, entry.getValue())) {
+                            instruction = entry.getKey();
+                            break;
+                        }
+                    }
+
+                    // Now figure out what the index should be based the highlight and update it
+                    TxtDirPopup popup = mapPathPopupManager.getTxtDirPopup();
+                    int index = -1;
+                    for (int i = 0; i < popup.getDirections().size(); i++) {
+                        if (popup.getDirections().get(i).getInstruction().equals(instruction)) {
+                            index = i;
+                            break;
+                        }
+                    }
+                    popup.setIndex(index);
+                    popup.highlight(true);
                 }
             });
 
@@ -684,7 +727,7 @@ public class MapDrawer implements PoppableManager {
         }
 
         // Remove any floor text indicators from the map
-        for(VBox vBox : mapCache.getFloorIndicators()){
+        for (VBox vBox : mapCache.getFloorIndicators()) {
             nodeHolder.getChildren().remove(vBox);
         }
         mapCache.getFloorIndicators().clear();

@@ -244,7 +244,7 @@
                                           <Font size="20.0" />
                                        </font>
                                     </Text>
-                                    <JFXButton fx:id="btnLoginPage" onAction="#handleButtonAction" text="Click here to log in" textFill="WHITE">
+                                    <JFXButton fx:id="btnLoginPage" onAction="#handleButtonAction" text="Click here to log in" textAlignment="CENTER" textFill="WHITE" underline="true">
                                        <font>
                                           <Font size="20.0" />
                                        </font>
