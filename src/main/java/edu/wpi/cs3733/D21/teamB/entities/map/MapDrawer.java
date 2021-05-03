@@ -127,6 +127,7 @@ public class MapDrawer implements PoppableManager {
      */
     public void drawPath() {
         Map<String, Node> nodes = Graph.getGraph().getNodes();
+        removeAllEdges();
 
         // Head color for the animation
         if (!nodeHolder.getChildren().contains(head)) {
