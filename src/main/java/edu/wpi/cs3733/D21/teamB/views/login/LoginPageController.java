@@ -35,6 +35,9 @@ public class LoginPageController extends BasePageController implements Initializ
     private AnchorPane basePane;
 
     @FXML
+    private JFXButton btnRegisterPage;
+
+    @FXML
     private JFXButton btnFace;
 
 
@@ -69,6 +72,9 @@ public class LoginPageController extends BasePageController implements Initializ
                 break;
             case "btnFace":
                 SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/cs3733/D21/teamB/views/face/FaceDetection.fxml");
+                break;
+            case "btnRegisterPage":
+                SceneSwitcher.switchFromTemp(getClass(), "/edu/wpi/cs3733/D21/teamB/views/login/registerPage.fxml");
                 break;
         }
     }

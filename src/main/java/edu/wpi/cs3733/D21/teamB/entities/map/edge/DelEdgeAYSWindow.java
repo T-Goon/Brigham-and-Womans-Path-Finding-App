@@ -32,8 +32,6 @@ public class DelEdgeAYSWindow extends Window<VBox, DelEdgePopupData, VBox> imple
             );
         } catch (SQLException e) { e.printStackTrace(); }
 
-        Graph.getGraph().updateGraph();
-
         // Remove popup from map and refresh the nodes
         data.getMd().removeAllPopups();
         data.getMd().refreshEditor();

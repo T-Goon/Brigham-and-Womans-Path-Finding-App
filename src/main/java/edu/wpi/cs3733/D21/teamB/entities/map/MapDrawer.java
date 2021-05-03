@@ -14,11 +14,13 @@ import javafx.scene.image.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
+import javafx.scene.text.Text;
 import javafx.util.Duration;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -72,6 +74,51 @@ public class MapDrawer implements PoppableManager {
         this.lblError = lblError;
         this.mapStack = mapStack;
         this.gPane = gPane;
+    }
+
+    /**
+     * Calculates the path
+     *
+     * @param start Long name of the start node
+     * @param end   Long name of the end node
+     */
+    public void calculatePath(String start, String end) {
+        Graph.getGraph().updateGraph();
+        Map<String, String> longToIDMap = mapCache.getMapLongToID();
+
+        Stack<String> allStops = new Stack<>();
+
+        //Get the list of stops
+        List<String> stopsList = mapCache.getStopsList();
+
+        //Create the stack of nodeIDs for the pathfinder
+        allStops.push(longToIDMap.get(end));
+
+        for (int i = stopsList.size() - 1; i >= 0; i--) {
+            allStops.push(longToIDMap.get(stopsList.get(i)));
+        }
+        allStops.push(longToIDMap.get(start));
+
+        //Create the required pathfinder
+        Pathfinder pathfinder;
+        switch (pathfindingMenuController.getComboPathingType().getSelectionModel().getSelectedItem()) {
+            case "A*":
+                pathfinder = new AStar();
+                break;
+            case "DFS":
+                pathfinder = new DFS();
+                break;
+            case "BFS":
+                pathfinder = new BFS();
+                break;
+            default:
+                throw new IllegalStateException("Extra option in combo box?");
+        }
+
+        //Set the final path in mapCache
+        mapCache.setFinalPath(pathfinder.findPath(allStops, mobility));
+
+        drawPath();
     }
 
     /**
@@ -176,9 +223,12 @@ public class MapDrawer implements PoppableManager {
                     //Update the node icon to green to indicate that the user must go up
                     for (Node n : mapCache.getFloorNodes().get(mapCache.getCurrentFloor())) {
                         if (n.getNodeID().equals(floorChangeNodeID.substring(0, 10))) {
+                            mapCache.getEditedNodes().add(n);
+                            mapCache.getEditedNodesColor().put(n.getNodeID(), n.getColor());
+
                             n.setColor(Color.web("00ff00"));
 
-                            mapCache.getEditedNodes().add(n);
+                            placeUpDownPathIndicatorText(floorString, n);
                         }
                     }
                 } else {
@@ -188,15 +238,44 @@ public class MapDrawer implements PoppableManager {
 
                     for (Node n : mapCache.getFloorNodes().get(mapCache.getCurrentFloor())) {
                         if (n.getNodeID().equals(floorChangeNodeID.substring(0, 10))) {
+                            mapCache.getEditedNodes().add(n);
+                            mapCache.getEditedNodesColor().put(n.getNodeID(), n.getColor());
+
                             n.setColor(Color.web("ff0000"));
 
-                            mapCache.getEditedNodes().add(n);
+                            placeUpDownPathIndicatorText(floorString, n);
                         }
                     }
                 }
             }
 
         }
+    }
+
+    /**
+     * Place the text on the map to indicate how many floors the path moves up
+     *
+     * @param floorString String of the floor the path goes to
+     * @param n The node the text should be attached to
+     */
+    private void placeUpDownPathIndicatorText(String floorString, Node n){
+        VBox floorIndicator = null;
+
+        try {
+            floorIndicator = FXMLLoader.load(Objects.requireNonNull(
+                    getClass().getResource("/edu/wpi/cs3733/D21/teamB/views/map/misc/floorText.fxml")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        assert floorIndicator != null;
+        ((Text) floorIndicator.getChildren().get(0)).setText("Floor "+floorString);
+        mapCache.getFloorIndicators().add(floorIndicator);
+
+        floorIndicator.setLayoutX((n.getXCoord() / PathfindingMenuController.COORDINATE_SCALE) - 15);
+        floorIndicator.setLayoutY((n.getYCoord() / PathfindingMenuController.COORDINATE_SCALE) - 30);
+
+        nodeHolder.getChildren().add(floorIndicator);
     }
 
     /**
@@ -209,10 +288,12 @@ public class MapDrawer implements PoppableManager {
             for (Node n : mapCache.getFloorNodes().get(floor)) {
                 if(path.getPath().get(0).equals(n.getNodeID())){
                     mapCache.getEditedNodes().add(n);
+                    mapCache.getEditedNodesColor().put(n.getNodeID(), n.getColor());
 
                     n.setColor(Color.web("ffff00"));
                 } else if(path.getPath().get(path.getPath().size()-1).equals(n.getNodeID())){
                     mapCache.getEditedNodes().add(n);
+                    mapCache.getEditedNodesColor().put(n.getNodeID(), n.getColor());
 
                     n.setColor(Color.web("ff00ff"));
                 }
@@ -269,7 +350,6 @@ public class MapDrawer implements PoppableManager {
      * @param end   Long name of the end node
      */
     public void drawPath(String start, String end) {
-        Graph.getGraph().updateGraph();
         Map<String, String> longToIDMap = mapCache.getMapLongToID();
 
         Stack<String> allStops = new Stack<>();
@@ -296,6 +376,12 @@ public class MapDrawer implements PoppableManager {
                 break;
             case "BFS":
                 pathfinder = new BFS();
+                break;
+            case "BestFS":
+                pathfinder = new BestFS();
+                break;
+            case "Dijkstra":
+                pathfinder = new Dijkstra();
                 break;
             default:
                 throw new IllegalStateException("Extra option in combo box?");
@@ -581,16 +667,27 @@ public class MapDrawer implements PoppableManager {
     public void removeAllEdges() {
         mapPathPopupManager.removeETAPopup();
         lblError.setVisible(false);
+
+        // Remove all edges placed
         for (Line l : mapCache.getEdgesPlaced())
             mapHolder.getChildren().remove(l);
 
+        // Revert nodes that were colored for pathfinding to their orginal color
         if (!mapCache.getEditedNodes().isEmpty()) {
             for (Node node : mapCache.getEditedNodes()) {
-                node.setColor(Color.web("012D5A"));
+                Color oldColor = mapCache.getEditedNodesColor().get(node.getNodeID());
+                node.setColor(oldColor);
             }
             mapCache.getEditedNodes().clear();
+            mapCache.getEditedNodesColor().clear();
             redrawNodes();
         }
+
+        // Remove any floor text indicators from the map
+        for(VBox vBox : mapCache.getFloorIndicators()){
+            nodeHolder.getChildren().remove(vBox);
+        }
+        mapCache.getFloorIndicators().clear();
 
         mapCache.setEdgesPlaced(new ArrayList<>());
     }

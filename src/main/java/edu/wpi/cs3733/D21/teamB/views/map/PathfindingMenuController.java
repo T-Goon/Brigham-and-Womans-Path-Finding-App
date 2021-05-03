@@ -39,7 +39,6 @@ import lombok.Getter;
 import net.kurobako.gesturefx.GesturePane;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 import java.sql.SQLException;
@@ -50,47 +49,38 @@ import java.util.stream.Collectors;
 public class PathfindingMenuController extends BasePageController implements Initializable {
 
     @FXML
-    private JFXTextField txtStartLocation;
+    private JFXTextField txtStartLocation,
+            txtEndLocation,
+            txtSearch;
 
     @FXML
-    private JFXTextField txtEndLocation;
-
-    @FXML
-    private AnchorPane nodeHolder;
-
-    @FXML
-    private AnchorPane intermediateNodeHolder;
-
-    @FXML
-    private AnchorPane mapHolder;
+    private AnchorPane nodeHolder,
+            intermediateNodeHolder,
+            mapHolder;
 
     @FXML
     private ImageView map;
 
     @FXML
-    private JFXButton btnFindPath;
-
-    @FXML
-    private JFXButton btnEmergency;
+    private JFXButton btnFindPath,
+            btnEmergency,
+            btnEditMap,
+            btnLoad,
+            btnSave,
+            btnRemoveStop,
+            btnTxtDir,
+            btnF3,
+            btnF2,
+            btnF1,
+            btnFL1,
+            btnFL2;
 
     @FXML
     private Label lblError;
 
     @FXML
-    private JFXButton btnEditMap;
-
-    @FXML
-    private JFXButton btnLoad;
-
-    @FXML
-    private JFXButton btnSave;
-
-    @FXML
     @Getter
     private JFXComboBox<String> comboPathingType;
-
-    @FXML
-    private JFXTextField txtSearch;
 
     @FXML
     private JFXCheckBox btnMobility;
@@ -102,40 +92,15 @@ public class PathfindingMenuController extends BasePageController implements Ini
     private TreeItem<String> favorites;
 
     @FXML
-    private StackPane mapStack;
+    private StackPane mapStack,
+            stackContainer,
+            textDirectionsHolder;
 
     @FXML
     private GesturePane gpane;
 
     @FXML
-    private StackPane stackContainer;
-
-    @FXML
-    private JFXButton btnF3;
-
-    @FXML
-    private JFXButton btnF2;
-
-    @FXML
-    private JFXButton btnF1;
-
-    @FXML
-    private JFXButton btnFL1;
-
-    @FXML
-    private JFXButton btnFL2;
-
-    @FXML
-    private StackPane textDirectionsHolder;
-
-    @FXML
-    private JFXButton btnTxtDir;
-
-    @FXML
     private JFXTextArea txtAreaStops;
-
-    @FXML
-    private JFXButton btnRemoveStop;
 
     @FXML
     private Circle pathHead;
@@ -255,8 +220,6 @@ public class PathfindingMenuController extends BasePageController implements Ini
             e.printStackTrace();
         }
 
-        Graph.getGraph().updateGraph();
-
         // Now delete and refresh the nodes
         nodeHolder.getChildren().remove(mapDrawer.getHead());
         mapDrawer.drawAllElements();
@@ -305,7 +268,6 @@ public class PathfindingMenuController extends BasePageController implements Ini
             Node tempLocation = Graph.getGraph().getNodes().get(
                     mapCache.makeLongToIDMap().get(
                             selectedItem.getValue()));
-
 
             mapDrawer.removeAllPopups();
             if (mapDrawer.isEditing())
@@ -489,11 +451,9 @@ public class PathfindingMenuController extends BasePageController implements Ini
             case "btnFindPath":
                 Map<String, String> longToId = mapCache.makeLongToIDMap();
                 mapDrawer.removeAllEdges();
-                mapDrawer.drawPath(txtStartLocation.getText(), txtEndLocation.getText());
-
 
                 floorSwitcher.switchFloor(DatabaseHandler.getHandler().getNodeById(longToId.get(txtStartLocation.getText())).getFloor());
-                mapDrawer.drawPath(txtStartLocation.getText(), txtEndLocation.getText());
+                mapDrawer.calculatePath(txtStartLocation.getText(), txtEndLocation.getText());
                 btnTxtDir.setDisable(false);
                 break;
             case "btnEditMap":
@@ -654,6 +614,15 @@ public class PathfindingMenuController extends BasePageController implements Ini
     }
 
     /**
+     * Getter for tree locations
+     *
+     * @return tree locations
+     */
+    public JFXTreeView<String> getTreeLocations() {
+        return treeLocations;
+    }
+
+    /**
      * Shows the add node popup when double clicking on the map.
      */
     private void initMapForEditing() {
@@ -803,6 +772,8 @@ public class PathfindingMenuController extends BasePageController implements Ini
         comboPathingType.getItems().add("A*");
         comboPathingType.getItems().add("DFS");
         comboPathingType.getItems().add("BFS");
+        comboPathingType.getItems().add("BestFS");
+        comboPathingType.getItems().add("Dijkstra");
         comboPathingType.getSelectionModel().select(Graph.getGraph().getPathingTypeIndex());
         comboPathingType.setOnAction(e -> Graph.getGraph().setPathingTypeIndex(comboPathingType.getSelectionModel().getSelectedIndex()));
     }
