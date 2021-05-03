@@ -155,6 +155,10 @@ public class RequestWrapper {
 
         //set context menu to the employee name label
         employeeName.setContextMenu(this.contextMenu);
+        ExternalCommunication externalCommunication = new ExternalCommunication();
+        User currentUser = DatabaseHandler.getHandler().getAuthenticationUser();
+        String name = currentUser.getFirstName() + " " + currentUser.getLastName();
+        externalCommunication.sendAssignedTask(currentUser.getEmail(), employeeName.getText(), name, Request.RequestType.prettify(r.getRequestType()));
 
         // Set up edit button
         JFXButton btnEdit = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/cs3733/D21/teamB/views/misc/tableEditBtn.fxml")));

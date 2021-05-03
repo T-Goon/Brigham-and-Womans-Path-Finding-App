@@ -11,19 +11,12 @@ import java.util.stream.Collectors;
 
 public class ExternalCommunication {
 
-    // create text file and add to git ignore
-    // confirmation email after registering
-    // assigned to a task, and a task you submitted is completed
-    // look at submitter field to get email address
-
     /**
-     * Read account information from file
+     * Read account information from file to set up the sender
+     *
+     * @return the message to be sent to recipient
      */
-    public void getAccountInformation() {
-
-    }
-
-    public void sendConfirmation(String recipient, String name) {
+    public MimeMessage setUpSender() {
         String email = null;
         String password = null;
         InputStream s = CSVHandler.class.getResourceAsStream("/edu/wpi/cs3733/D21/teamB/account/account.txt");
@@ -47,10 +40,27 @@ public class ExternalCommunication {
                     }
                 });
 
+        MimeMessage message = null;
         try {
-            MimeMessage message = new MimeMessage(session);
-
+            message = new MimeMessage(session);
             message.setFrom(new InternetAddress(email));
+        } catch (MessagingException mex) {
+            mex.printStackTrace();
+        }
+
+        return message;
+    }
+
+    /**
+     * Send confirmation email upon registration
+     *
+     * @param recipient the email address to send the confirmation email to
+     * @param name the name of the user registering for an account
+     */
+    public void sendConfirmation(String recipient, String name) {
+        MimeMessage message = setUpSender();
+
+        try {
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
 
             message.setSubject("Brigham and Women's Hospital Application Confirmation");
@@ -61,6 +71,43 @@ public class ExternalCommunication {
             System.out.println("Sent message successfully...");
         } catch (MessagingException mex) {
             mex.printStackTrace();
+        }
+    }
+
+    // assigned to a task, and a task you submitted is completed
+    // look at submitter field to get email address
+
+    /**
+     * Send tasks assigned to user
+     */
+    public void sendAssignedTask(String recipient, String name, String submitter, String task) {
+        MimeMessage message = setUpSender();
+
+        try {
+            message.addRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
+
+            message.setSubject("Brigham and Women's Hospital Application - New Assigned Task");
+            message.setText("Hello " + name + ",\n\n" + submitter + " recently assigned you the following task:\n" +
+                    task + "\n\n\nBrigham and Women's Hospital Application Team");
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Notify user when tasks they submitted are completed
+     */
+    public void notifyTaskComplete(String recipient, String name, String submitter, String task) {
+        MimeMessage message = setUpSender();
+
+        try {
+            message.addRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
+
+            message.setSubject("Brigham and Women's Hospital Application - Task Complete");
+            message.setText("Hello " + name + ",\n\nThe following task that you assigned to " + submitter + " was recently completed:\n" +
+                    task + "\n\n\nBrigham and Women's Hospital Application Team");
+        } catch (MessagingException e) {
+            e.printStackTrace();
         }
     }
 }
