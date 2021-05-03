@@ -378,6 +378,12 @@ public class MapDrawer implements PoppableManager {
             case "BFS":
                 pathfinder = new BFS();
                 break;
+            case "BestFS":
+                pathfinder = new BestFS();
+                break;
+            case "Dijkstra":
+                pathfinder = new Dijkstra();
+                break;
             default:
                 throw new IllegalStateException("Extra option in combo box?");
         }

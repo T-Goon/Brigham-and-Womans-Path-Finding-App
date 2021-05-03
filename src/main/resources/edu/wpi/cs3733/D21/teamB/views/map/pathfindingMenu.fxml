@@ -346,7 +346,7 @@
                                                              <Image url="@../../images/maps/node.png"/>
                                                          </image>
                                                    <effect>
-                                                      <ColorAdjust brightness="0.67" contrast="0.71" hue="0.76" />
+                                                      <ColorAdjust brightness="0.97" contrast="0.71" hue="0.76" />
                                                    </effect>
                                                      </ImageView>
                                                      <Text fill="WHITE" layoutX="10.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Location" GridPane.columnIndex="1" GridPane.rowIndex="1">

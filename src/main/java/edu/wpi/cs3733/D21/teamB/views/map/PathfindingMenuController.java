@@ -776,6 +776,8 @@ public class PathfindingMenuController extends BasePageController implements Ini
         comboPathingType.getItems().add("A*");
         comboPathingType.getItems().add("DFS");
         comboPathingType.getItems().add("BFS");
+        comboPathingType.getItems().add("BestFS");
+        comboPathingType.getItems().add("Dijkstra");
         comboPathingType.getSelectionModel().select(Graph.getGraph().getPathingTypeIndex());
         comboPathingType.setOnAction(e -> Graph.getGraph().setPathingTypeIndex(comboPathingType.getSelectionModel().getSelectedIndex()));
     }
