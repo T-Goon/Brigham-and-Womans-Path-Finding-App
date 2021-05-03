@@ -178,7 +178,7 @@ public class Directions {
                     directions.add(new Direction("Walk about " + round(distance) + " feet towards " + next.getLongName() + ".", DirectionType.STRAIGHT, getAllNodesBetween(path, curr, next), currentFloor));
             } else {
                 if (stopIDs.contains(curr.getNodeID())) {
-                    directions.add(new Direction("You have arrived at your stop, " + curr.getLongName() + ".", DirectionType.STOP, getAllNodesBetween(path, curr, next), currentFloor));
+                    directions.add(new Direction("You have arrived at your stop, " + curr.getLongName() + ".", DirectionType.STOP, Collections.singletonList(curr), currentFloor));
                 }
                 //get turn then get the dist between c and next turn blah and walk dist
                 double turn = angleBetweenEdges(graph.getNodes().get(simplePath.get(i - 1)), curr, next);
@@ -207,8 +207,10 @@ public class Directions {
                     directions.add(new Direction("Take a sharp left and walk about " + round(distance) + " feet towards " + next.getLongName() + ".", DirectionType.SHARP_LEFT, getAllNodesBetween(path, curr, next), currentFloor));
                 } else if (turn >= -70 && turn <= -30) {
                     directions.add(new Direction("Take a slight left and walk about " + round(distance) + " feet towards " + next.getLongName() + ".", DirectionType.SLIGHT_LEFT, getAllNodesBetween(path, curr, next), currentFloor));
-                } else {
+                } else if (turn <= -160 || turn >= 160) {
                     directions.add(new Direction("Turn around and walk about " + round(distance) + " feet towards " + next.getLongName() + ".", DirectionType.TURN_AROUND, getAllNodesBetween(path, curr, next), currentFloor));
+                } else {
+                    directions.add(new Direction("Walk about " + round(distance) + " feet towards " + next.getLongName() + ".", DirectionType.STRAIGHT, getAllNodesBetween(path, curr, next), currentFloor));
                 }
             }
         }
@@ -226,17 +228,35 @@ public class Directions {
      * @return a list of nodes of the nodes between the starting and end nodes, inclusive on both ends
      */
     private static List<Node> getAllNodesBetween(Path path, Node start, Node end) {
-        List<Node> toReturn = new ArrayList<>();
-        DatabaseHandler db = DatabaseHandler.getHandler();
-        boolean addNodes = false;
-        for (String nodeID : path.getPath()) {
-            if (nodeID.equals(start.getNodeID())) addNodes = true;
-            if (addNodes) {
-                Node n = db.getNodeById(nodeID);
-                toReturn.add(n);
+        List<Integer> possibleStarts = new ArrayList<>();
+        List<Integer> possibleEnds = new ArrayList<>();
+        for (int i = 0; i < path.getPath().size(); i++) {
+            if (path.getPath().get(i).equals(start.getNodeID())) {
+                possibleStarts.add(i);
             }
-            if (nodeID.equals(end.getNodeID())) addNodes = false;
         }
+
+        for (int i = 0; i < path.getPath().size(); i++) {
+            if (path.getPath().get(i).equals(end.getNodeID())) {
+                possibleEnds.add(i + 1);
+            }
+        }
+
+        int startIndex = -1, endIndex = 999_999;
+        for (Integer possibleStart : possibleStarts) {
+            for (Integer possibleEnd : possibleEnds) {
+                if (possibleEnd - possibleStart > 0 && possibleEnd - possibleStart < endIndex - startIndex) {
+                    startIndex = possibleStart;
+                    endIndex = possibleEnd;
+                }
+            }
+        }
+
+
+        List<Node> toReturn = new ArrayList<>();
+        List<String> nodeIDs = path.getPath().subList(startIndex, endIndex);
+        for (String nodeID : nodeIDs)
+            toReturn.add(DatabaseHandler.getHandler().getNodeById(nodeID));
         return toReturn;
     }
 
