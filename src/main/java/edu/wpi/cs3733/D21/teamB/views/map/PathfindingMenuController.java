@@ -12,9 +12,6 @@ import edu.wpi.cs3733.D21.teamB.entities.map.MapPathPopupManager;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Edge;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Node;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.NodeType;
-import edu.wpi.cs3733.D21.teamB.entities.map.data.Path;
-import edu.wpi.cs3733.D21.teamB.pathfinding.AStar;
-import edu.wpi.cs3733.D21.teamB.pathfinding.BFS;
 import edu.wpi.cs3733.D21.teamB.pathfinding.Dijkstra;
 import edu.wpi.cs3733.D21.teamB.pathfinding.Graph;
 import edu.wpi.cs3733.D21.teamB.util.CSVHandler;
@@ -819,12 +816,11 @@ public class PathfindingMenuController extends BasePageController implements Ini
     /**
      * finding closest location to the specified category
      *
-     * @param actionEvent
      */
     @FXML
     private void findClosestLocationTo(ActionEvent actionEvent) {
-        String category = findClosestLocation.getSelectionModel().getSelectedItem();
 
+        String category = findClosestLocation.getSelectionModel().getSelectedItem();
         String startID = mapCache.getMapLongToID().get(txtStartLocation.getText());
         String endID = null;
 
@@ -832,7 +828,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
             Dijkstra dijkstra = new Dijkstra();
             mapCache.updateLocations();
 
-            switch(category) {
+            switch (category) {
                 case "Restroom":
 
                     List<TreeItem<String>> restrooms = mapCache.getCatNameMap().get("REST");
@@ -841,11 +837,11 @@ public class PathfindingMenuController extends BasePageController implements Ini
                     for (TreeItem<String> restroom : restrooms) {
                         restroomsList.add(mapCache.getMapLongToID().get(restroom.getValue()));
                     }
-                    List<String> restroomsPath = dijkstra.findPath(startID, mapDrawer.isMobility() ,restroomsList).getPath();
+                    List<String> restroomsPath = dijkstra.findPath(startID, mapDrawer.isMobility(), restroomsList).getPath();
                     endID = restroomsPath.get(restroomsPath.size() - 1);
                     break;
 
-                    //all the food places that are not vending machines
+                //all the food places that are not vending machines
                 case "Food Place":
                     List<String> foodPlacesList = new ArrayList<>();
                     foodPlacesList.add("ARETL00101");
@@ -853,11 +849,11 @@ public class PathfindingMenuController extends BasePageController implements Ini
                     foodPlacesList.add("FRETL00201");
                     foodPlacesList.add("HRETL00102");
 
-                    List<String> foodPlacesPath  = dijkstra.findPath(startID, mapDrawer.isMobility(), foodPlacesList).getPath();
+                    List<String> foodPlacesPath = dijkstra.findPath(startID, mapDrawer.isMobility(), foodPlacesList).getPath();
                     endID = foodPlacesPath.get(foodPlacesPath.size() - 1);
                     break;
 
-                    //all services desks that are not security desks
+                //all services desks that are not security desks
                 case "Service Desk":
                     List<String> serviceDesksList = new ArrayList<>();
                     serviceDesksList.add("BINFO00102");
@@ -881,5 +877,13 @@ public class PathfindingMenuController extends BasePageController implements Ini
             txtEndLocation.setText(Graph.getGraph().getNodes().get(endID).getLongName());
             btnFindPath.setDisable(false);
         }
+//        else {
+//            findClosestLocation.setOnAction(e -> {
+//                if (txtStartLocation.getText().isEmpty()) {
+//                    lblError.setText("Please choose a starting location");
+//                    lblError.setVisible(true);
+//                }
+//            });
+//        }
     }
 }
