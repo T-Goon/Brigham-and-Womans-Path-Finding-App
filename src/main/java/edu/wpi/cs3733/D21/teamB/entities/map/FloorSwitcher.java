@@ -62,7 +62,6 @@ public class FloorSwitcher {
                 break;
             case floor2ID:
 
-
                 mapCache.setCurrentFloor(floor2ID);
                 map.setImage(new Image(floor2Path));
                 mapDrawer.drawAllElements();
