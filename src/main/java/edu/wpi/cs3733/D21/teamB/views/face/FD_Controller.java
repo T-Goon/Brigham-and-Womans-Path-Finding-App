@@ -1,5 +1,7 @@
 package edu.wpi.cs3733.D21.teamB.views.face;
 
+import edu.wpi.cs3733.D21.teamB.util.CSVHandler;
+import edu.wpi.cs3733.D21.teamB.util.FileUtil;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -7,18 +9,22 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import org.apache.commons.io.FileUtils;
 import org.opencv.core.*;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.objdetect.CascadeClassifier;
 import org.opencv.objdetect.Objdetect;
 import org.opencv.videoio.VideoCapture;
 
-import java.io.File;
+import java.io.*;
 import java.net.URL;
+import java.util.List;
+import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 public class FD_Controller implements Initializable {
         // FXML buttons
@@ -210,9 +216,7 @@ public class FD_Controller implements Initializable {
             if (this.lbpClassifier.isSelected())
                 this.lbpClassifier.setSelected(false);
 
-            System.out.println(getClass().getResource("/edu/wpi/cs3733/D21/teamB/xml/haarcascade_frontalface_alt.xml").getPath());
-
-            this.checkboxSelection(getClass().getResource("/edu/wpi/cs3733/D21/teamB/xml/haarcascade_frontalface_alt.xml").getPath().substring(1));
+            this.checkboxSelection(new File("haarcascade_frontalface_alt.xml").getAbsolutePath());
         }
 
         /**
@@ -226,7 +230,7 @@ public class FD_Controller implements Initializable {
             if (this.haarClassifier.isSelected())
                 this.haarClassifier.setSelected(false);
 
-            this.checkboxSelection(getClass().getResource("/edu/wpi/cs3733/D21/teamB/xml/lbpcascade_frontalface.xml").getPath().substring(1));
+            this.checkboxSelection(new File("lbpcascade_frontalface.xml").getAbsolutePath());
         }
 
         /**
@@ -291,5 +295,7 @@ public class FD_Controller implements Initializable {
         {
             this.stopAcquisition();
         }
+
+
 
     }

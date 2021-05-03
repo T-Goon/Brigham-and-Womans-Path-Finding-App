@@ -1,12 +1,16 @@
 package edu.wpi.cs3733.D21.teamB;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.sql.SQLException;
 import java.util.*;
 
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.User;
 import edu.wpi.cs3733.D21.teamB.util.CSVHandler;
+import edu.wpi.cs3733.D21.teamB.util.FileUtil;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -17,7 +21,9 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
+import org.apache.commons.io.FileUtils;
 import org.opencv.core.Core;
+
 
 @SuppressWarnings("deprecation")
 public class App extends Application {
@@ -28,9 +34,23 @@ public class App extends Application {
 
     @Override
     public void init() {
-        System.out.println(getClass().getResource("opencv-4.5.1-2.jar!/nu/pattern/opencv/windows/x86_64/opencv_java451.dll").getPath());
-        System.load(getClass().getResource(Core.NATIVE_LIBRARY_NAME).getPath());
 
+        try {
+            FileUtil.copy(getClass().getResourceAsStream("/edu/wpi/cs3733/D21/teamB/xml/lbpcascade_frontalface.xml"),
+                    new File("").getAbsolutePath()+"/lbpcascade_frontalface.xml");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try {
+            FileUtil.copy(getClass().getResourceAsStream("/edu/wpi/cs3733/D21/teamB/xml/haarcascade_frontalface_alt.xml"),
+                    new File("").getAbsolutePath()+"/haarcascade_frontalface_alt.xml");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        nu.pattern.OpenCV.loadShared();
+        System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 
         System.out.println("Starting Up");
         db = DatabaseHandler.getHandler();
@@ -87,10 +107,10 @@ public class App extends Application {
                 requiredUsers.put(new User("staff", "Mike", "Bedard", User.AuthenticationLevel.STAFF, null), "staff");
                 requiredUsers.put(new User("guest", "T", "Goon", User.AuthenticationLevel.PATIENT, null), "guest");
 
-                for(User u : requiredUsers.keySet()){
-                   if(db.getUserByUsername(u.getUsername()) == null){
-                       db.addUser(u,requiredUsers.get(u));
-                   }
+                for (User u : requiredUsers.keySet()) {
+                    if (db.getUserByUsername(u.getUsername()) == null) {
+                        db.addUser(u, requiredUsers.get(u));
+                    }
                 }
 
             } catch (SQLException e) {
@@ -110,6 +130,12 @@ public class App extends Application {
         if (dbThread != null)
             dbThread.stop();
         DatabaseHandler.getHandler().shutdown();
+        try {
+            FileUtils.forceDelete(new File("haarcascade_frontalface_alt.xml"));
+            FileUtils.forceDelete(new File("lbpcascade_frontalface.xml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         System.out.println("Shutting Down");
     }
 }
