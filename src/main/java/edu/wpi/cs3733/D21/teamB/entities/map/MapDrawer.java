@@ -65,6 +65,9 @@ public class MapDrawer implements PoppableManager {
     @Setter
     private boolean mobility = false;
 
+    @Setter
+    private FloorSwitcher floorSwitcher;
+
     public MapDrawer(PathfindingMenuController pathfindingMenuController, MapCache mapCache, AnchorPane nodeHolder, AnchorPane mapHolder, AnchorPane intermediateNodeHolder,
                      Label lblError, StackPane mapStack, GesturePane gPane) {
         this.pathfindingMenuController = pathfindingMenuController;
@@ -283,6 +286,33 @@ public class MapDrawer implements PoppableManager {
 
         floorIndicator.setLayoutX((n.getXCoord() / PathfindingMenuController.COORDINATE_SCALE) - 15);
         floorIndicator.setLayoutY((n.getYCoord() / PathfindingMenuController.COORDINATE_SCALE) - 30);
+
+        floorIndicator.setOnMouseClicked(event -> {
+            switch (floorString.replaceAll("0", "")){
+                case FloorSwitcher.floor3ID:
+                    removeAllEdges();
+                    floorSwitcher.switchFloor(FloorSwitcher.floor3ID);
+                    break;
+                case FloorSwitcher.floor2ID:
+                    removeAllEdges();
+                    floorSwitcher.switchFloor(FloorSwitcher.floor2ID);
+                    break;
+                case FloorSwitcher.floor1ID:
+                    removeAllEdges();
+                    floorSwitcher.switchFloor(FloorSwitcher.floor1ID);
+                    break;
+                case FloorSwitcher.floorL1ID:
+                    removeAllEdges();
+                    floorSwitcher.switchFloor(FloorSwitcher.floorL1ID);
+                    break;
+                case FloorSwitcher.floorL2ID:
+                    removeAllEdges();
+                    floorSwitcher.switchFloor(FloorSwitcher.floorL2ID);
+                    break;
+                default:
+                    throw new IllegalArgumentException("Bad Floor id");
+            }
+        });
 
         nodeHolder.getChildren().add(floorIndicator);
     }
