@@ -357,6 +357,7 @@ public class PathfindingTests {
     }
 
 //    @Test
+    //tested on app
 //    public void DijkstraFindPathCat(){
 //        List<String> ids = new ArrayList<>();
 //        ids.add("AREST00101");
