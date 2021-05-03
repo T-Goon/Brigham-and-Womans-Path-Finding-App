@@ -7,6 +7,6 @@
 <ImageView fitHeight="12.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true"
            xmlns="http://javafx.com/javafx/8.0.171">
    <image>
-      <Image url="@../../../images/maps/nodeWhite.png" />
+      <Image url="@../../../images/maps/node.png"/>
    </image>
 </ImageView>

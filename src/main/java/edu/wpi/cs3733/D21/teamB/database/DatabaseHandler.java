@@ -5,6 +5,7 @@ import edu.wpi.cs3733.D21.teamB.entities.map.data.Node;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.NodeType;
 import edu.wpi.cs3733.D21.teamB.entities.requests.*;
 import edu.wpi.cs3733.D21.teamB.entities.User;
+import edu.wpi.cs3733.D21.teamB.pathfinding.Graph;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.*;
@@ -97,6 +98,7 @@ public class DatabaseHandler {
         executeSchema();
         loadDatabaseNodes(nodes);
         loadDatabaseEdges(edges);
+        notifyObservers();
     }
 
     /**
@@ -506,6 +508,7 @@ public class DatabaseHandler {
      */
     public void addNode(Node node) throws SQLException {
         nodeMutator.addEntity(node);
+        notifyObservers();
     }
 
     /**
@@ -515,6 +518,7 @@ public class DatabaseHandler {
      */
     public void updateNode(Node node) throws SQLException {
         nodeMutator.updateEntity(node);
+        notifyObservers();
     }
 
     /**
@@ -524,6 +528,7 @@ public class DatabaseHandler {
      */
     public void removeNode(String nodeID) throws SQLException {
         nodeMutator.removeEntity(nodeID);
+        notifyObservers();
     }
 
     /**
@@ -575,6 +580,7 @@ public class DatabaseHandler {
      */
     public void addEdge(Edge edge) throws SQLException {
         edgeMutator.addEntity(edge);
+        notifyObservers();
     }
 
     /**
@@ -584,6 +590,7 @@ public class DatabaseHandler {
      */
     public void updateEdge(Edge edge) throws SQLException {
         edgeMutator.updateEntity(edge);
+        notifyObservers();
     }
 
     /**
@@ -593,6 +600,7 @@ public class DatabaseHandler {
      */
     public void removeEdge(String edgeID) throws SQLException {
         edgeMutator.removeEntity(edgeID);
+        notifyObservers();
     }
 
 
@@ -721,6 +729,13 @@ public class DatabaseHandler {
             statement.close();
         }
         return set;
+    }
+
+    /**
+     * Update the Graph class with new info
+     */
+    private void notifyObservers(){
+        Graph.getGraph().updateGraph();
     }
 
     /**

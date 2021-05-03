@@ -1,15 +1,11 @@
 package edu.wpi.cs3733.D21.teamB;
 
-
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Edge;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Node;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Path;
-import edu.wpi.cs3733.D21.teamB.pathfinding.AStar;
-import edu.wpi.cs3733.D21.teamB.pathfinding.BFS;
-import edu.wpi.cs3733.D21.teamB.pathfinding.Graph;
+import edu.wpi.cs3733.D21.teamB.pathfinding.*;
 import edu.wpi.cs3733.D21.teamB.util.CSVHandler;
-import edu.wpi.cs3733.D21.teamB.pathfinding.Directions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -87,40 +83,6 @@ public class PathfindingTests {
 
         Path path = aStar.findPath("bPARK00101", "bPARK02501", false);
         assertEquals(expectedPath, path.getPath());
-    }
-
-    @Test
-    public void testClosestPath() {
-
-        List<String> pathExp = new LinkedList<>();
-        BFS bfs = new BFS();
-        List<String> category = new ArrayList<>();
-
-        category.add("bPARK01501");
-        category.add("bPARK01601");
-        category.add("bPARK01701");
-
-        pathExp.add("bWALK00101");
-        pathExp.add("bWALK00201");
-        pathExp.add("bWALK00301");
-        pathExp.add("bWALK00401");
-        pathExp.add("bWALK00501");
-        pathExp.add("bWALK00601");
-        pathExp.add("bWALK00701");
-        pathExp.add("bWALK00801");
-        pathExp.add("bWALK01001");
-        pathExp.add("bWALK01101");
-        pathExp.add("bWALK01201");
-        pathExp.add("bWALK01301");
-        pathExp.add("bWALK01401");
-        pathExp.add("bWALK01501");
-        pathExp.add("bPARK01701");
-
-
-        Path path = bfs.shortestPathToNodeInList("bWALK00101", category);
-
-        assertEquals(pathExp, path.getPath());
-
     }
 
     @Test
@@ -228,6 +190,60 @@ public class PathfindingTests {
         expectedPath.add("bPARK02501");
 
         Path path = new BFS().findPath("bPARK00101", "bPARK02501", false);
+        assertEquals(expectedPath, path.getPath());
+    }
+
+    @Test
+    public void testDijkstra() {
+        LinkedList<String> expectedPath = new LinkedList<>();
+        expectedPath.add("GHALL02801");
+        expectedPath.add("GHALL02101");
+        expectedPath.add("GHALL02201");
+        expectedPath.add("GSERV02301");
+        expectedPath.add("GHALL02401");
+        expectedPath.add("GELEV00N01");
+        expectedPath.add("GELEV00N02");
+        expectedPath.add("GDEPT02402");
+        expectedPath.add("GHALL01702");
+        expectedPath.add("GINFO01902");
+
+        Path path = new Dijkstra().findPath("GHALL02801", "GINFO01902", false);
+       assertEquals(expectedPath, path.getPath());
+    }
+
+    @Test
+    //tested more on the app itself
+    public void testBestFS() {
+        LinkedList<String> expectedPath = new LinkedList<>();
+        expectedPath.add("bEXIT00401");
+        expectedPath.add("bEXIT00501");
+        expectedPath.add("FEXIT00301");
+        expectedPath.add("FDEPT00501");
+        expectedPath.add("FHALL03301");
+        expectedPath.add("FHALL02701");
+        expectedPath.add("FHALL02601");
+        expectedPath.add("FHALL03101");
+        expectedPath.add("FHALL00201");
+        expectedPath.add("FHALL00101");
+        expectedPath.add("WHALL00101");
+        expectedPath.add("WHALL00201");
+        expectedPath.add("ESTAI00101");
+        expectedPath.add("EHALL00301");
+        expectedPath.add("EHALL00401");
+        expectedPath.add("EHALL00501");
+        expectedPath.add("EHALL00601");
+        expectedPath.add("EHALL00801");
+        expectedPath.add("EHALL00901");
+        expectedPath.add("EHALL01101");
+        expectedPath.add("EHALL01501");
+        expectedPath.add("EHALL01601");
+        expectedPath.add("EHALL01801");
+        expectedPath.add("WELEV00G01");
+        expectedPath.add("EHALL01901");
+        expectedPath.add("EHALL02001");
+        expectedPath.add("EREST00101");
+
+        Path path = new BestFS().findPath("bEXIT00401", "EREST00101", false);
         assertEquals(expectedPath, path.getPath());
     }
 
