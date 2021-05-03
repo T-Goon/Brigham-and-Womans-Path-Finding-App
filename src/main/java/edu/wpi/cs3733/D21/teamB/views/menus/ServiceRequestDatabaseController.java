@@ -190,7 +190,6 @@ public class   ServiceRequestDatabaseController extends BasePageController imple
                 super.updateItem(item5, empty);
                 setGraphic(item5);
                 TableRow<String> currentRow = getTableRow();
-                System.out.println(currentRow.getStyle());
                 if (!isEmpty()) {
                     if (item5.getText().equals("Nobody")&& !currentRow.getStyle().equals("-fx-background-color: #CE2029") && getTableRow().getIndex() %2 ==0) {
                         currentRow.setStyle("-fx-background-color: #2879B4");
