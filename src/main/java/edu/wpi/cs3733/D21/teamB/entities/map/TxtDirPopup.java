@@ -164,7 +164,10 @@ public class TxtDirPopup extends Popup<VBox, TxtDirPopupData> implements Poppabl
             Label label = (Label) box.getChildren().get(1);
             box.setStyle("-fx-background-color: #0067B1; -fx-padding: 0;");
             List<Line> lines = mapCache.getInstructionsToEdges().get(label.getText());
-            for (Line l : lines) l.setStroke(Color.RED);
+            for (Line l : lines) {
+                l.setStroke(Color.RED);
+                l.setOpacity(1);
+            }
             previousText = label;
             previousLines = lines;
 
