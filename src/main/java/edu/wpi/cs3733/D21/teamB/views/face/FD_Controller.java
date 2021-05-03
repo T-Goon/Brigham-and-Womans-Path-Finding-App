@@ -1,7 +1,6 @@
 package edu.wpi.cs3733.D21.teamB.views.face;
 
-import edu.wpi.cs3733.D21.teamB.util.CSVHandler;
-import edu.wpi.cs3733.D21.teamB.util.FileUtil;
+import com.jfoenix.controls.JFXButton;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -9,22 +8,19 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import org.apache.commons.io.FileUtils;
 import org.opencv.core.*;
+import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.objdetect.CascadeClassifier;
 import org.opencv.objdetect.Objdetect;
 import org.opencv.videoio.VideoCapture;
 
-import java.io.*;
+import java.io.File;
 import java.net.URL;
-import java.util.List;
-import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 public class FD_Controller implements Initializable {
         // FXML buttons
@@ -38,6 +34,8 @@ public class FD_Controller implements Initializable {
         private CheckBox haarClassifier;
         @FXML
         private CheckBox lbpClassifier;
+        @FXML
+        private JFXButton btnTakePicture;
 
         // a timer for acquiring the video stream
         private ScheduledExecutorService timer;
@@ -49,6 +47,8 @@ public class FD_Controller implements Initializable {
         // face cascade classifier
         private CascadeClassifier faceCascade;
         private int absoluteFaceSize;
+
+        private Mat grayFrame;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -131,6 +131,16 @@ public class FD_Controller implements Initializable {
             }
         }
 
+        @FXML
+        private void takePicture(){
+            String img_name = new File("").getAbsolutePath() +
+                    "/src/main/resources/edu/wpi/cs3733/D21/teamB/faces/opencv_frame_0.png";
+            img_name = img_name.replaceAll("\\\\","/");
+            System.out.println(img_name);
+            Imgcodecs.imwrite(img_name, frame);
+//            print("{} written!".format(img_name));
+        }
+
         /**
          * Get a frame from the opened video stream (if any)
          *
@@ -175,7 +185,7 @@ public class FD_Controller implements Initializable {
         private void detectAndDisplay(Mat frame)
         {
             MatOfRect faces = new MatOfRect();
-            Mat grayFrame = new Mat();
+            grayFrame = new Mat();
 
             // convert the frame in gray scale
             Imgproc.cvtColor(frame, grayFrame, Imgproc.COLOR_BGR2GRAY);
@@ -295,7 +305,4 @@ public class FD_Controller implements Initializable {
         {
             this.stopAcquisition();
         }
-
-
-
     }
