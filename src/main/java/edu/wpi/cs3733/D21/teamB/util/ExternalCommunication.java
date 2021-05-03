@@ -74,11 +74,13 @@ public class ExternalCommunication {
         }
     }
 
-    // assigned to a task, and a task you submitted is completed
-    // look at submitter field to get email address
-
     /**
      * Send tasks assigned to user
+     *
+     * @param email the email address to send the task to
+     * @param name the name of the user to send the task to
+     * @param submitter the name of the user who assigned the task
+     * @param task the type of request
      */
     public void sendAssignment(String email, String name, String submitter, String task) {
         MimeMessage message = setUpSender();
@@ -104,6 +106,11 @@ public class ExternalCommunication {
 
     /**
      * Notify user when tasks they submitted are completed
+     *
+     * @param email the email address of the original submitter
+     * @param name the name of the original submitter
+     * @param submitter the name of the user who completed the task
+     * @param task the type of request
      */
     public void notifyCompletion(String email, String name, String submitter, String task) {
         MimeMessage message = setUpSender();
