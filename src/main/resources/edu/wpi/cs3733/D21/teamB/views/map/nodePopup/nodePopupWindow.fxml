@@ -36,6 +36,11 @@
                         <Font name="MS Reference Sans Serif" size="24.0" />
                      </font>
                   </JFXButton>
+                  <JFXButton fx:id="btnDelEdgeBtwnFloor" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" onAction="#handleButtonAction" prefWidth="999999.0" style="-fx-background-color: #CE2029; -fx-background-radius: 10;" text="Delete Edge Between Floors" textFill="WHITE" VBox.vgrow="ALWAYS">
+                     <font>
+                        <Font name="MS Reference Sans Serif" size="21.0" />
+                     </font>
+                  </JFXButton>
                   <JFXButton fx:id="btnDelete" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" onAction="#handleButtonAction" prefWidth="999999.0" style="-fx-background-color: #CE2029; -fx-background-radius: 10;" text="Delete Node" textFill="WHITE" VBox.vgrow="ALWAYS">
                      <font>
                         <Font name="MS Reference Sans Serif" size="24.0" />

@@ -2,7 +2,9 @@ package edu.wpi.cs3733.D21.teamB.database;
 
 import edu.wpi.cs3733.D21.teamB.entities.IStoredEntity;
 import edu.wpi.cs3733.D21.teamB.entities.User;
+import edu.wpi.cs3733.D21.teamB.entities.map.data.Node;
 import edu.wpi.cs3733.D21.teamB.entities.requests.Request;
+import edu.wpi.cs3733.D21.teamB.pathfinding.Graph;
 import lombok.AllArgsConstructor;
 import org.mindrot.jbcrypt.BCrypt;
 
@@ -232,7 +234,15 @@ public class UserMutator implements IDatabaseEntityMutator<UserMutator.UserPassw
 
         String query = "DELETE FROM FavoriteLocations WHERE username = '" + username + "' AND favoriteLocation = '" + favoriteLocation + "'";
         db.runStatement(query, false);
+    }
 
+    public void updateParkingForUser(String favoriteLocation) throws SQLException {
+        User user = db.getAuthenticationUser();
+        String username = user.getUsername();
+
+        String query = "UPDATE FavoriteLocations SET favoriteLocation = '" + favoriteLocation
+                + "' WHERE username = '" + username + "' AND (favoriteLocation LIKE '%Parking%' OR favoriteLocation LIKE '%parking%')";
+        db.runStatement(query, false);
     }
 
     public List<String> getFavoritesForUser() throws SQLException {

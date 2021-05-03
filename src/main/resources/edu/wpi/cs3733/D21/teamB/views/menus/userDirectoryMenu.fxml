@@ -10,25 +10,20 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0"
-            prefWidth="1920.0" style="-fx-background-color: #012d5a;" xmlns="http://javafx.com/javafx/8.0.171"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="edu.wpi.cs3733.D21.teamB.views.menus.UserDirectoryMenuController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: #012d5a;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D21.teamB.views.menus.UserDirectoryMenuController">
     <children>
-        <VBox alignment="TOP_CENTER" layoutX="-6.0" prefHeight="600.0" prefWidth="900.0" spacing="20.0"
-              AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
-              AnchorPane.topAnchor="0.0">
+        <VBox alignment="TOP_CENTER" layoutX="-6.0" prefHeight="600.0" prefWidth="900.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
                 <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #FFFFFF;">
                     <children>
                         <VBox>
                             <HBox.margin>
-                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                             </HBox.margin>
                             <children>
                                 <ImageView fitHeight="114.0" fitWidth="314.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
-                                        <Image url="@../../images/general/hospitalLogo.png"/>
+                                        <Image url="@../../images/general/hospitalLogo.png" />
                            </image>
                         </ImageView>
                         <JFXButton fx:id="btnEmergency" buttonType="RAISED" onAction="#handleButtonAction" style="-fx-background-color: #CE2029;" text="EMERGENCY" textFill="WHITE">
@@ -53,10 +48,10 @@
                         </JFXButton>
                         <Text fx:id="directoryText" strokeType="OUTSIDE" strokeWidth="0.0" text="Staff Directory">
                            <font>
-                               <Font size="40.0"/>
+                               <Font size="40.0" />
                            </font>
                            <VBox.margin>
-                               <Insets bottom="5.0" left="10.0" right="10.0" top="5.0"/>
+                               <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
                            </VBox.margin>
                         </Text>
                      </children>
@@ -65,33 +60,29 @@
             </HBox>
             <HBox fx:id="buttonPane" alignment="CENTER" scaleX="2.0" scaleY="2.0" spacing="10.0">
                <children>
-                  <VBox minWidth="150.0" prefHeight="200.0">
+                  <VBox alignment="CENTER" minWidth="150.0" prefHeight="200.0">
                      <children>
-                         <JFXButton fx:id="btnCovid" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY"
-                                    onAction="#handleButtonAction" ripplerFill="#007fff" text="Covid Survey"
-                                    textOverrun="CLIP">
+                         <JFXButton fx:id="btnCovid" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" onAction="#handleButtonAction" ripplerFill="#007fff" text="Covid Survey" textOverrun="CLIP">
                              <graphic>
                                  <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                                      <image>
-                                         <Image url="@../../images/menus/checkButton.png"/>
+                                         <Image url="@../../images/menus/checkButton.png" />
                                      </image>
                                  </ImageView>
                              </graphic>
                          </JFXButton>
                      </children>
                      <HBox.margin>
-                         <Insets/>
+                         <Insets />
                      </HBox.margin>
                   </VBox>
-                   <VBox fx:id="directionsBox" prefHeight="200.0">
+                   <VBox fx:id="directionsBox" alignment="CENTER" prefHeight="200.0">
                        <children>
-                           <JFXButton fx:id="btnDirections" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY"
-                                      onAction="#handleButtonAction" ripplerFill="#007fff" text="Directions"
-                                      textOverrun="CLIP">
+                           <JFXButton fx:id="btnDirections" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" onAction="#handleButtonAction" ripplerFill="#007fff" text="Directions" textOverrun="CLIP">
                                <graphic>
                                    <ImageView fitHeight="150.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                           <Image url="@../../images/menus/directionsButton.png"/>
+                                           <Image url="@../../images/menus/directionsButton.png" />
                                        </image>
                                    </ImageView>
                                </graphic>
@@ -101,33 +92,42 @@
                         <Insets />
                      </HBox.margin>
                   </VBox>
-                  <VBox minWidth="150.0" prefHeight="200.0">
+                   <VBox alignment="CENTER" layoutX="193.0" layoutY="25.0" prefHeight="173.0" prefWidth="143.0">
+                       <children>
+                           <JFXButton fx:id="btnGoogle" buttonType="RAISED" onAction="#handleButtonAction" prefHeight="158.0" prefWidth="126.0" ripplerFill="#007fff" text="Directions" textOverrun="CLIP">
+                               <graphic>
+                                   <ImageView fitHeight="150.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                           <Image url="@../../images/menus/googleMapsIcon.png" />
+                                       </image>
+                                   </ImageView>
+                               </graphic>
+                           </JFXButton>
+                       </children>
+                   </VBox>
+                  <VBox alignment="CENTER" minWidth="150.0" prefHeight="200.0">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
                      <children>
-                         <JFXButton fx:id="btnServiceRequests" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY"
-                                    onAction="#handleButtonAction" ripplerFill="#0080ff" text="Service Requests"
-                                    textOverrun="CLIP">
+                         <JFXButton fx:id="btnServiceRequests" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" onAction="#handleButtonAction" ripplerFill="#0080ff" text="Service Requests" textOverrun="CLIP">
                              <graphic>
                                  <ImageView fitHeight="150.0" pickOnBounds="true" preserveRatio="true">
                                      <image>
-                                         <Image url="@../../images/menus/serviceRequestsButton.png"/>
+                                         <Image url="@../../images/menus/serviceRequestsButton.png" />
                                      </image>
                                  </ImageView>
                              </graphic>
                          </JFXButton>
                      </children>
                   </VBox>
-                  <VBox minWidth="150.0" prefHeight="200.0">
+                  <VBox alignment="CENTER" minWidth="150.0" prefHeight="200.0">
                      <children>
-                         <JFXButton fx:id="btnDatabase" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY"
-                                    onAction="#handleButtonAction" ripplerFill="#0080ff" text="Service Requests"
-                                    textOverrun="CLIP">
+                         <JFXButton fx:id="btnDatabase" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" onAction="#handleButtonAction" ripplerFill="#0080ff" text="Service Requests" textOverrun="CLIP">
                              <graphic>
                                  <ImageView fitHeight="149.0" pickOnBounds="true" preserveRatio="true">
                                      <image>
-                                         <Image url="@../../images/menus/requestDatabase.png"/>
+                                         <Image url="@../../images/menus/requestDatabase.png" />
                                      </image>
                                  </ImageView>
                              </graphic>
@@ -137,7 +137,7 @@
                         <Insets />
                      </HBox.margin>
                   </VBox>
-                  <VBox minWidth="150.0" prefHeight="200.0">
+                  <VBox alignment="CENTER" minWidth="150.0" prefHeight="200.0">
                      <children>
                         <JFXButton fx:id="btnUsers" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" onAction="#handleButtonAction" ripplerFill="#0080ff" textOverrun="CLIP">
                            <graphic>

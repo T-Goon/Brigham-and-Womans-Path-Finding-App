@@ -5,6 +5,7 @@ import edu.wpi.cs3733.D21.teamB.entities.map.data.Node;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.NodeType;
 import edu.wpi.cs3733.D21.teamB.entities.requests.*;
 import edu.wpi.cs3733.D21.teamB.entities.User;
+import edu.wpi.cs3733.D21.teamB.pathfinding.Graph;
 import org.mindrot.jbcrypt.BCrypt;
 
 import javax.xml.crypto.Data;
@@ -57,7 +58,6 @@ public class DatabaseHandler {
             handler.databaseConnection = handler.getConnection();
         } else if (!(URL_BASE + dbURL).equals(handler.databaseURL)) {
             // If switching between main.db and test.db, shut down the old database and start
-            System.out.println(URL_BASE + dbURL);
             handler.shutdown();
             handler = new DatabaseHandler();
             handler.databaseURL = URL_BASE + dbURL;
@@ -99,6 +99,7 @@ public class DatabaseHandler {
         executeSchema();
         loadDatabaseNodes(nodes);
         loadDatabaseEdges(edges);
+        notifyObservers();
     }
 
     /**
@@ -155,8 +156,8 @@ public class DatabaseHandler {
                 + "longName CHAR(50), "
                 + "shortName CHAR(20), "
                 + "color CHAR(20),"
-                + "CHECK (xcoord >= 0), "
-                + "CHECK (ycoord >= 0))";
+                + "CHECK (xcoord >= 0 AND xcoord <= 5000), "
+                + "CHECK (ycoord >= 0 AND ycoord <= 3400))";
 
         String edgesTable = "CREATE TABLE IF NOT EXISTS Edges("
                 + "edgeID CHAR(30) PRIMARY KEY, "
@@ -536,6 +537,7 @@ public class DatabaseHandler {
      */
     public void addNode(Node node) throws SQLException {
         nodeMutator.addEntity(node);
+        notifyObservers();
     }
 
     /**
@@ -545,6 +547,7 @@ public class DatabaseHandler {
      */
     public void updateNode(Node node) throws SQLException {
         nodeMutator.updateEntity(node);
+        notifyObservers();
     }
 
     /**
@@ -554,6 +557,7 @@ public class DatabaseHandler {
      */
     public void removeNode(String nodeID) throws SQLException {
         nodeMutator.removeEntity(nodeID);
+        notifyObservers();
     }
 
     /**
@@ -605,6 +609,7 @@ public class DatabaseHandler {
      */
     public void addEdge(Edge edge) throws SQLException {
         edgeMutator.addEntity(edge);
+        notifyObservers();
     }
 
     /**
@@ -614,6 +619,7 @@ public class DatabaseHandler {
      */
     public void updateEdge(Edge edge) throws SQLException {
         edgeMutator.updateEntity(edge);
+        notifyObservers();
     }
 
     /**
@@ -623,6 +629,7 @@ public class DatabaseHandler {
      */
     public void removeEdge(String edgeID) throws SQLException {
         edgeMutator.removeEntity(edgeID);
+        notifyObservers();
     }
 
 
@@ -720,6 +727,15 @@ public class DatabaseHandler {
     }
 
     /**
+     * Updates a favorite location (parking spot) in FavoriteLocations
+     *
+     * @param favoriteLocation the parking spot to update
+     */
+    public void updateParkingSpot(String favoriteLocation) throws SQLException {
+        userMutator.updateParkingForUser(favoriteLocation);
+    }
+
+    /**
      * Displays the list of favorite locations
      *
      * @return a list of favorite locations
@@ -750,6 +766,13 @@ public class DatabaseHandler {
             statement.close();
         }
         return set;
+    }
+
+    /**
+     * Update the Graph class with new info
+     */
+    private void notifyObservers(){
+        Graph.getGraph().updateGraph();
     }
 
     /**

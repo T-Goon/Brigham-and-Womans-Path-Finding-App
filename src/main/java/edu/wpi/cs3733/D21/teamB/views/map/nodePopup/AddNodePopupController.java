@@ -9,6 +9,7 @@ import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Node;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.NodeType;
 import edu.wpi.cs3733.D21.teamB.entities.map.node.AddNodePopup;
+import edu.wpi.cs3733.D21.teamB.views.map.PathfindingMenuController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -62,31 +63,11 @@ public class AddNodePopupController implements Initializable {
 
     private AddNodePopup popup;
 
-    private Map<String, String> categoryNameMap;
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         popup = (AddNodePopup) App.getPrimaryStage().getUserData();
 
-        categoryNameMap = new HashMap<>();
-
-        //Add better category names to a hash map
-        categoryNameMap.put("SERV", "Services");
-        categoryNameMap.put("REST", "Restrooms");
-        categoryNameMap.put("LABS", "Lab Rooms");
-        categoryNameMap.put("ELEV", "Elevators");
-        categoryNameMap.put("DEPT", "Departments");
-        categoryNameMap.put("CONF", "Conference Rooms");
-        categoryNameMap.put("INFO", "Information Locations");
-        categoryNameMap.put("RETL", "Retail Locations");
-        categoryNameMap.put("BATH", "Bathrooms");
-        categoryNameMap.put("EXIT", "Entrances");
-        categoryNameMap.put("STAI", "Stairs");
-        categoryNameMap.put("PARK", "Parking Spots");
-        categoryNameMap.put("HALL", "Hallway");
-        categoryNameMap.put("WALK", "Sidewalk");
-
-        List<String> temp = new ArrayList<>(categoryNameMap.values());
+        List<String> temp = new ArrayList<>(popup.getData().getMc().getCategoryNameMap().values());
         Collections.sort(temp);
         nodeType.getItems().addAll(temp);
 
@@ -95,24 +76,30 @@ public class AddNodePopupController implements Initializable {
         yCoord.setText(Long.toString(Math.round(popup.getData().getY())));
 
         // Fill in current floor
-        floor.setText(popup.getData().getFloor());
+        floor.setText(popup.getData().getMc().getCurrentFloor());
         floor.setDisable(true);
     }
 
     /**
      * Check if input is valid
      *
-     * @throws NumberFormatException when floor, xCoord, or yCoord is not a number.
+     * @throws NumberFormatException when xCoord or yCoord is not a number.
      */
     @FXML
     private void validateButton() throws NumberFormatException {
-        btnAddNode.setDisable(building.getText().trim().isEmpty() || (nodeType.getValue() == null || nodeType.getValue().trim().isEmpty())
+        boolean disable = building.getText().trim().isEmpty() || (nodeType.getValue() == null || nodeType.getValue().trim().isEmpty())
                 || longName.getText().trim().isEmpty() || shortName.getText().trim().isEmpty() || floor.getText().trim().isEmpty()
-                || xCoord.getText().trim().isEmpty() || yCoord.getText().trim().isEmpty());
+                || xCoord.getText().trim().isEmpty() || yCoord.getText().trim().isEmpty();
+
+        if (disable) {
+            btnAddNode.setDisable(true);
+            return;
+        }
+
         try {
             int xCoord = Integer.parseInt(this.xCoord.getText().trim());
             int yCoord = Integer.parseInt(this.yCoord.getText().trim());
-            btnAddNode.setDisable(xCoord < 0 || yCoord < 0);
+            btnAddNode.setDisable(xCoord < 0 || yCoord < 0 || xCoord > PathfindingMenuController.MAX_X || yCoord > PathfindingMenuController.MAX_Y);
         } catch (NumberFormatException notInt) {
             btnAddNode.setDisable(true);
         }
@@ -132,8 +119,8 @@ public class AddNodePopupController implements Initializable {
                 String b = building.getText().trim();
                 String aNodeType = nodeType.getValue().trim();
                 String t = "ERROR!";
-                for (String s : categoryNameMap.keySet()) {
-                    if (categoryNameMap.get(s).equals(aNodeType)) {
+                for (String s : popup.getData().getMc().getCategoryNameMap().keySet()) {
+                    if (popup.getData().getMc().getCategoryNameMap().get(s).equals(aNodeType)) {
                         t = s;
                         break;
                     }

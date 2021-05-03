@@ -37,7 +37,7 @@ public class App extends Application {
 
         // Open first view
         try {
-            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("views/login/loginOptions.fxml")));
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("views/login/mainPage.fxml")));
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);
 
@@ -64,7 +64,7 @@ public class App extends Application {
                         } catch (SQLException e) {
                             e.printStackTrace();
                         }
-                        Platform.runLater(() -> SceneSwitcher.switchFromTemp(getClass(), "/edu/wpi/cs3733/D21/teamB/views/login/loginOptions.fxml"));
+                        Platform.runLater(() -> SceneSwitcher.switchFromTemp(getClass(), "/edu/wpi/cs3733/D21/teamB/views/login/mainPage.fxml"));
                     });
                     dbThread.start();
                 } else primaryStage.show();

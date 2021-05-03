@@ -13,10 +13,7 @@ import java.util.ResourceBundle;
 public class DelEdgeAreYouSureController implements Initializable {
 
     @FXML
-    private JFXButton btnYes;
-
-    @FXML
-    private JFXButton btnNo;
+    private JFXButton btnYes, btnNo;
 
     private DelEdgeAYSWindow window;
 

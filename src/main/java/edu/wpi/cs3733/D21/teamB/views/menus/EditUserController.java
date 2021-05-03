@@ -69,7 +69,7 @@ public class EditUserController extends BasePageController implements Initializa
         for (Request.RequestType r : Request.RequestType.values()) {
             job.getItems().add(new Label(Request.RequestType.prettify(r)));
         }
-        job.getItems().add(new Label("None"));
+        job.getItems().add(0, new Label("None"));
 
         User u = (User) App.getPrimaryStage().getUserData();
         if (u.getUsername().equals("")) {
@@ -153,7 +153,8 @@ public class EditUserController extends BasePageController implements Initializa
     private void loadHelpDialog() {
         JFXDialogLayout helpLayout = new JFXDialogLayout();
 
-        Text helpText = new Text("Please fill out this form completely. Once each field is full, you can submit the form and the user will be added.\nIf you wish to end your request early, click the back button.");
+        Text helpText = new Text("Please fill out this form completely. Once each field is full, you can submit the form and the user will be added.\n" +
+                "If you wish to end your request early, click the back button.");
         helpText.setFont(new Font("MS Reference Sans Serif", 14));
 
         Label headerLabel = new Label("Help");

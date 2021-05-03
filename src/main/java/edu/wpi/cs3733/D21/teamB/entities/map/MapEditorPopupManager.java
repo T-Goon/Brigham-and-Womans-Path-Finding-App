@@ -5,6 +5,7 @@ import edu.wpi.cs3733.D21.teamB.entities.map.data.*;
 import edu.wpi.cs3733.D21.teamB.entities.map.edge.AddEdgePopup;
 import edu.wpi.cs3733.D21.teamB.entities.map.edge.DelEdgePopup;
 import edu.wpi.cs3733.D21.teamB.entities.map.node.AddNodePopup;
+import edu.wpi.cs3733.D21.teamB.entities.map.node.AlignNodePopup;
 import edu.wpi.cs3733.D21.teamB.entities.map.node.NodeMenuPopup;
 import edu.wpi.cs3733.D21.teamB.util.Popup.PoppableManager;
 import edu.wpi.cs3733.D21.teamB.views.map.PathfindingMenuController;
@@ -12,7 +13,10 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
 import net.kurobako.gesturefx.GesturePane;
+
+import java.util.List;
 
 public class MapEditorPopupManager implements PoppableManager {
 
@@ -26,6 +30,7 @@ public class MapEditorPopupManager implements PoppableManager {
     private AddEdgePopup aePopup;
     private DelEdgePopup dePopup;
     private NodeMenuPopup nmPopup;
+    private AlignNodePopup alignNodePopup;
 
     public MapEditorPopupManager(MapDrawer md, MapCache mc, GesturePane gPane, StackPane mapStack) {
         this.md = md;
@@ -50,10 +55,10 @@ public class MapEditorPopupManager implements PoppableManager {
         md.removeAllPopups();
 
         AddNodePopupData data = new AddNodePopupData(
-                x * PathfindingMenuController.coordinateScale,
-                y * PathfindingMenuController.coordinateScale,
-                mc.getCurrentFloor(),
+                x * PathfindingMenuController.COORDINATE_SCALE,
+                y * PathfindingMenuController.COORDINATE_SCALE,
                 md,
+                mc,
                 gPane);
 
         anPopup = new AddNodePopup(mapStack, data);
@@ -85,11 +90,14 @@ public class MapEditorPopupManager implements PoppableManager {
      * @param start The start node of the edge.
      * @param end   The end node of the edge.
      */
-    public void showDelEdgePopup(Node start, Node end, Pane parent) {
+    public void showDelEdgePopup(Node start, Node end, Pane parent, MouseEvent event, Line line) {
         // Make sure there is only one editNodePopup at one time
         md.removeAllPopups();
 
-        DelEdgePopupData delData = new DelEdgePopupData(start, end, gPane, md);
+        DelEdgePopupData delData = new DelEdgePopupData(start, end, gPane, md, mc,
+                (int)(event.getX() * PathfindingMenuController.COORDINATE_SCALE),
+                (int)(event.getY() * PathfindingMenuController.COORDINATE_SCALE),
+                line);
 
         dePopup = new DelEdgePopup(parent, delData);
 
@@ -139,6 +147,23 @@ public class MapEditorPopupManager implements PoppableManager {
     }
 
     /**
+     * Shows the align popup
+     *
+     * @param mapDrawer the map drawer in stance
+     */
+    public void showAlignNodePopup(MapDrawer mapDrawer) {
+        md.removeAllPopups();
+
+        AlignNodePopupData data = new AlignNodePopupData(gPane, mapDrawer, mapDrawer.getAligned());
+
+        alignNodePopup = new AlignNodePopup(mapStack, data);
+
+        App.getPrimaryStage().setUserData(alignNodePopup);
+        alignNodePopup.show();
+        alignNodePopup = null;
+    }
+
+    /**
      * Hide all popups
      */
     public void removeAllPopups() {
@@ -160,6 +185,11 @@ public class MapEditorPopupManager implements PoppableManager {
         if (dePopup != null) {
             dePopup.hide();
             dePopup = null;
+        }
+
+        if (alignNodePopup != null) {
+            alignNodePopup.hide();
+            alignNodePopup = null;
         }
     }
 }

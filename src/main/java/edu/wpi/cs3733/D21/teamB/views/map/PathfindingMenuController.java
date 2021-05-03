@@ -16,12 +16,11 @@ import edu.wpi.cs3733.D21.teamB.pathfinding.Graph;
 import edu.wpi.cs3733.D21.teamB.util.CSVHandler;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
 import edu.wpi.cs3733.D21.teamB.views.BasePageController;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
-import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -40,58 +39,47 @@ import lombok.Getter;
 import net.kurobako.gesturefx.GesturePane;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 import java.sql.SQLException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-@SuppressWarnings("unchecked")
 public class PathfindingMenuController extends BasePageController implements Initializable {
 
     @FXML
-    private JFXTextField txtStartLocation;
+    private JFXTextField txtStartLocation,
+            txtEndLocation,
+            txtSearch;
 
     @FXML
-    private JFXTextField txtEndLocation;
-
-    @FXML
-    private AnchorPane nodeHolder;
-
-    @FXML
-    private AnchorPane intermediateNodeHolder;
-
-    @FXML
-    private AnchorPane mapHolder;
+    private AnchorPane nodeHolder,
+            intermediateNodeHolder,
+            mapHolder;
 
     @FXML
     private ImageView map;
 
     @FXML
-    private JFXButton btnFindPath;
-
-    @FXML
-    private JFXButton btnEmergency;
+    private JFXButton btnFindPath,
+            btnEmergency,
+            btnEditMap,
+            btnLoad,
+            btnSave,
+            btnRemoveStop,
+            btnTxtDir,
+            btnF3,
+            btnF2,
+            btnF1,
+            btnFL1,
+            btnFL2;
 
     @FXML
     private Label lblError;
 
     @FXML
-    private JFXButton btnEditMap;
-
-    @FXML
-    private JFXButton btnLoad;
-
-    @FXML
-    private JFXButton btnSave;
-
-    @FXML
     @Getter
     private JFXComboBox<String> comboPathingType;
-
-    @FXML
-    private JFXTextField txtSearch;
 
     @FXML
     private JFXCheckBox btnMobility;
@@ -100,54 +88,30 @@ public class PathfindingMenuController extends BasePageController implements Ini
     private JFXTreeView<String> treeLocations;
 
     @FXML
-    private StackPane mapStack;
+    private TreeItem<String> favorites;
+
+    @FXML
+    private StackPane mapStack,
+            stackContainer,
+            textDirectionsHolder;
 
     @FXML
     private GesturePane gpane;
 
     @FXML
-    private StackPane stackContainer;
-
-    @FXML
-    private JFXButton btnAddToFavorites;
-
-    @FXML
-    private JFXButton btnRemoveFromFavorites;
-
-    @FXML
-    private JFXButton btnF3;
-
-    @FXML
-    private JFXButton btnF2;
-
-    @FXML
-    private JFXButton btnF1;
-
-    @FXML
-    private JFXButton btnFL1;
-
-    @FXML
-    private JFXButton btnFL2;
-
-    @FXML
-    private StackPane textDirectionsHolder;
-
-    @FXML
-    private JFXButton btnTxtDir;
-
-    @FXML
     private JFXTextArea txtAreaStops;
-
-    @FXML
-    private JFXButton btnRemoveStop;
 
     @FXML
     private Circle pathHead;
 
-    public static final double coordinateScale = 25 / 9.0;
+    public static final double COORDINATE_SCALE = 25 / 9.0;
+    public static final int MAX_X = 5000;
+    public static final int MAX_Y = 3400;
 
+    // Map of category short name to category long name, REST -> Restroom
     private final Map<String, String> categoryNameMap = new HashMap<>();
 
+    // NodeID -> original color of nodes that have benn turned grey
     private final HashMap<String, Color> colors = new HashMap<>();
 
     private final DatabaseHandler db = DatabaseHandler.getHandler();
@@ -159,7 +123,14 @@ public class PathfindingMenuController extends BasePageController implements Ini
     private MapDrawer mapDrawer;
     private MapEditorPopupManager mapEditorPopupManager;
     private MapPathPopupManager mapPathPopupManager;
+    @Getter
     private FloorSwitcher floorSwitcher;
+
+    private static final Color grey = Color.web("#9A9999");
+
+    private String previousFrom = "";
+    private String previousStops = "";
+    private String previousTo = "";
 
     // JavaFX code **************************************************************************************
 
@@ -167,61 +138,44 @@ public class PathfindingMenuController extends BasePageController implements Ini
     public void initialize(URL location, ResourceBundle resources) {
 
         //Add better category names to a hash map
-        categoryNameMap.put("SERV", "Services");
-        categoryNameMap.put("REST", "Restrooms");
-        categoryNameMap.put("LABS", "Lab Rooms");
-        categoryNameMap.put("ELEV", "Elevators");
-        categoryNameMap.put("DEPT", "Departments");
-        categoryNameMap.put("CONF", "Conference Rooms");
-        categoryNameMap.put("INFO", "Information Locations");
-        categoryNameMap.put("RETL", "Retail Locations");
-        categoryNameMap.put("BATH", "Bathroom");
-        categoryNameMap.put("EXIT", "Entrances");
-        categoryNameMap.put("STAI", "Stairs");
-        categoryNameMap.put("PARK", "Parking Spots");
+        initCategoriesMap();
 
+        // Disable the find path button
         validateFindPathButton();
 
         //Adds all the destination names to locationNames and sort the nodes by floor
         mapCache.updateLocations();
-        try {
-            populateTreeView();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        populateTreeView();
 
-        mapDrawer = new MapDrawer(this, mapCache, nodeHolder, mapHolder, intermediateNodeHolder, lblError, mapStack, gpane);
+        // Class that draws things on the map
+        mapDrawer = new MapDrawer(this, mapCache, nodeHolder, mapHolder,
+                intermediateNodeHolder, lblError, mapStack, gpane);
 
+        // Class that handles the popups for the map editor
         mapEditorPopupManager = new MapEditorPopupManager(mapDrawer, mapCache, gpane, mapStack);
         mapDrawer.setMapEditorPopupManager(mapEditorPopupManager);
 
+        // Class that handles the popups for the path finding
         mapPathPopupManager = new MapPathPopupManager(mapDrawer, mapCache, txtStartLocation, txtEndLocation, btnRemoveStop, mapStack, gpane, this, nodeHolder, textDirectionsHolder);
         mapDrawer.setMapPathPopupManager(mapPathPopupManager);
 
         // Set up floor switching
-        floorSwitcher = new FloorSwitcher(mapDrawer, mapCache, map, btnF3, btnF2, btnF1, btnFL1, btnFL2);
+        floorSwitcher = new FloorSwitcher(mapDrawer, mapCache, mapPathPopupManager, map, btnF3, btnF2, btnF1, btnFL1, btnFL2);
         floorSwitcher.switchFloor(FloorSwitcher.floor1ID);
+        mapDrawer.setFloorSwitcher(floorSwitcher);
 
-        //test if we came from a failed covid survey
-        if (SceneSwitcher.peekLastScene().equals("/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidFormSubmittedWithSymp.fxml")) {
-            txtEndLocation.setText("Emergency Department Entrance");
-            SceneSwitcher.popLastScene();
-        }
+        // Fill in proper fields if the last scene is the covid survey
+        checkFromCovidSurvey();
 
-        //test if we came from a not failed covid survey
-        if (SceneSwitcher.peekLastScene().equals("/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidFormSubmittedNoSymp.fxml")) {
-            txtEndLocation.setText("75 Francis Lobby Entrance");
-            SceneSwitcher.popLastScene();
-        }
+        // Set up map for editing mode if the user is an admin
+        if (db.getAuthenticationUser().getAuthenticationLevel().equals(User.AuthenticationLevel.ADMIN))
+            initMapForEditing();
 
-        initMapForEditing();
-
-        // Set up Load and Save buttons
+        // Set up Load and Save buttons for csv
         btnLoad.setOnAction(event -> loadCSV());
-
         btnSave.setOnAction(event -> saveCSV());
 
-        // Set up mobility button
+        // Set up limited mobility toggles
         btnMobility.setOnAction(event -> mapDrawer.setMobility(btnMobility.isSelected()));
 
         // Disable editing if the user is not an admin
@@ -234,11 +188,14 @@ public class PathfindingMenuController extends BasePageController implements Ini
         });
 
         // Set up the pathing type combo box
-        comboPathingType.getItems().add("A*");
-        comboPathingType.getItems().add("DFS");
-        comboPathingType.getItems().add("BFS");
-        comboPathingType.getSelectionModel().select(Graph.getGraph().getPathingTypeIndex());
-        comboPathingType.setOnAction(e -> Graph.getGraph().setPathingTypeIndex(comboPathingType.getSelectionModel().getSelectedIndex()));
+        setUpPathfindingChoices();
+
+        // Set up control-click functionality for aligning nodes
+        gpane.setOnKeyReleased(e -> {
+            if (e.getCode() == KeyCode.CONTROL && !mapDrawer.getAligned().isEmpty()) {
+                mapEditorPopupManager.showAlignNodePopup(mapDrawer);
+            }
+        });
     }
 
     /**
@@ -268,8 +225,6 @@ public class PathfindingMenuController extends BasePageController implements Ini
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-        Graph.getGraph().updateGraph();
 
         // Now delete and refresh the nodes
         nodeHolder.getChildren().remove(mapDrawer.getHead());
@@ -316,11 +271,9 @@ public class PathfindingMenuController extends BasePageController implements Ini
         if (!selectedItem.getValue().equals("Favorites") && selectedItem.isLeaf()) {
             //Selected item is a valid location
 
-            //For now only work on nodes that are on the first floor until multi-floor pathfinding is added
             Node tempLocation = Graph.getGraph().getNodes().get(
                     mapCache.makeLongToIDMap().get(
                             selectedItem.getValue()));
-
 
             mapDrawer.removeAllPopups();
             if (mapDrawer.isEditing())
@@ -334,133 +287,153 @@ public class PathfindingMenuController extends BasePageController implements Ini
 
         // Stuff for node coloring
         if (!selectedItem.isLeaf() && !mapDrawer.isEditing()) {
-            HashMap<String, List<Node>> floorNodes = (HashMap<String, List<Node>>) mapCache.getFloorNodes();
-            String category = selectedItem.getValue();
-
 
             // Change node color back to original color
-            if (!colors.isEmpty()) {
-                for (Node node : floorNodes.get(mapCache.getCurrentFloor())) {
-                        if (colors.containsKey(node.getNodeID())) {
-                            node.setColor(colors.get(node.getNodeID()));
-                        }
-                }
-                colors.clear();
-            }
+            revertAllNodeColors();
 
-            if (selectedItem.getValue().equals("Locations")) {
-                for (Node node : floorNodes.get(mapCache.getCurrentFloor())) {
-                    for (Node editedNode: mapCache.getEditedNodes()) {
-
-                        if (!editedNode.getNodeID().equals(node.getNodeID())) {
-                            Color color = node.getColor();
-                            colors.put(node.getNodeID(), color);
-                            node.setColor(color);
-                        }
-                    }
-                }
-
-            } else if (selectedItem.getValue().equals("Favorites")) {
-                try {
-                    List<String> favorites = DatabaseHandler.getHandler().getFavorites();
-                    Map<String, String> longNames = mapCache.makeLongToIDMap();
-                    Color color = Color.web("#9A9999");
-
-                    // Put original node color in map and set node color to gray
-                    for (Node node : floorNodes.get(mapCache.getCurrentFloor())) {
-                        colors.put(node.getNodeID(), node.getColor());
-                        node.setColor(color);
-
-                    }
-
-                    // TODO this is very bad
-                    if(!mapCache.getEditedNodes().isEmpty()) {
-                        for (String location : favorites) {
-                            String nodeID = longNames.get(location);
-                            for (Node node : floorNodes.get(mapCache.getCurrentFloor())) {
-
-                                for (Node editedNode : mapCache.getEditedNodes()) {
-
-                                    if (node.getNodeID().equals(nodeID) || editedNode.getNodeID().equals(node.getNodeID())) {
-
-                                        if (colors.get(node.getNodeID()) != null) {
-                                            node.setColor(colors.get(node.getNodeID()));
-                                            colors.remove(node.getNodeID());
-
-                                        }
-
-                                    }
-                                }
-                            }
-
-                        }
-                    } else{
-                        for (String location : favorites) {
-                            String nodeID = longNames.get(location);
-                            for (Node node : floorNodes.get(mapCache.getCurrentFloor())) {
-                                    if (node.getNodeID().equals(nodeID)) {
-
-                                        if (colors.get(node.getNodeID()) != null) {
-                                            node.setColor(colors.get(node.getNodeID()));
-                                            colors.remove(node.getNodeID());
-                                        }
-                                    }
-                            }
-
-                        }
-                    }
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-
-            } else {
-                // Change node color to gray
-                NodeType nt = NodeType.deprettify(category);
-                Color grey = Color.web("#9A9999");
+            if (selectedItem.getValue().equals("Favorites")) {
 
                 // Put original node color in map and set node color to gray
-                for (Node node : floorNodes.get(mapCache.getCurrentFloor())) {
+                colorAllNodesGrey();
 
-                    colors.put(node.getNodeID(), node.getColor());
-                    node.setColor(grey);
+                // Change the color of the favorite nodes back to their original color
+                // Also change the color of the nodes marked for floor swapping in pathfinding
+                revertFavoriteNodeColors();
 
-                }
+            } else if (!selectedItem.getValue().equals("Locations") && !selectedItem.getValue().equals("Favorites")) {
+                // Put original node color in map and set all node colors to gray
+                colorAllNodesGrey();
 
-                if(!mapCache.getEditedNodes().isEmpty()) {
-                    for (Node node : floorNodes.get(mapCache.getCurrentFloor())) {
-
-                        for (Node editedNode : mapCache.getEditedNodes()) {
-
-                            if (node.getNodeType().equals(nt.toString()) || editedNode.getNodeID().equals(node.getNodeID())) {
-
-                                if (colors.get(node.getNodeID()) != null) {
-                                    node.setColor(colors.get(node.getNodeID()));
-                                    colors.remove(node.getNodeID());
-
-                                }
-                            }
-
-                        }
-                    }
-                }else{
-                    for (Node node : floorNodes.get(mapCache.getCurrentFloor())) {
-                        if (node.getNodeType().equals(nt.toString())) {
-
-                            if (colors.get(node.getNodeID()) != null) {
-                                node.setColor(colors.get(node.getNodeID()));
-                                colors.remove(node.getNodeID());
-
-                            }
-                        }
-
-                    }
-                }
+                // Revert the colors of the nodes that are in the selected category
+                revertCategoryNodeColors(selectedItem);
             }
 
             mapDrawer.redrawNodes();
         }
 
         validateFindPathButton();
+    }
+
+    /**
+     * Revert the colors of the nodes that are in the selected category
+     *
+     * @param selectedItem Selected item in the tree view. Not a leaf
+     */
+    private void revertCategoryNodeColors(TreeItem<String> selectedItem) {
+        String category = selectedItem.getValue();
+        Map<String, List<Node>> floorNodes = mapCache.getFloorNodes();
+        NodeType nt = NodeType.deprettify(category);
+
+        for (Node node : floorNodes.get(mapCache.getCurrentFloor())) {
+
+            if (!mapCache.getEditedNodes().isEmpty()) {
+                // There are nodes on the floor colored for path finding
+                for (Node editedNode : mapCache.getEditedNodes()) {
+
+                    if (node.getNodeType().equals(nt.toString()) || editedNode.getNodeID().equals(node.getNodeID())) {
+
+                        if (colors.get(node.getNodeID()) != null) {
+                            node.setColor(colors.get(node.getNodeID()));
+                            colors.remove(node.getNodeID());
+
+                        }
+                    }
+
+                }
+            } else {
+                // There are no nodes on the floor for path finding
+                if (node.getNodeType().equals(nt.toString())) {
+
+                    if (colors.get(node.getNodeID()) != null) {
+                        node.setColor(colors.get(node.getNodeID()));
+                        colors.remove(node.getNodeID());
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Revert the colors of the favorite nodes to the original colors
+     */
+    private void revertFavoriteNodeColors() {
+        List<String> favorites = null;
+
+        try {
+            favorites = DatabaseHandler.getHandler().getFavorites();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        Map<String, String> longNames = mapCache.makeLongToIDMap();
+        Map<String, List<Node>> floorNodes = mapCache.getFloorNodes();
+
+        // Change the color of the favorite nodes back to their original color
+        // Also change the color of the nodes marked for floor swapping in pathfinding
+        assert favorites != null;
+        for (String location : favorites) {
+
+            String nodeID = longNames.get(location);
+            for (Node node : floorNodes.get(mapCache.getCurrentFloor())) {
+
+                if (!mapCache.getEditedNodes().isEmpty()) {
+                    // There are colored nodes for swapping floors
+                    for (Node editedNode : mapCache.getEditedNodes()) {
+
+                        if (node.getNodeID().equals(nodeID) || editedNode.getNodeID().equals(node.getNodeID())) {
+
+                            if (colors.get(node.getNodeID()) != null) {
+                                node.setColor(colors.get(node.getNodeID()));
+                                colors.remove(node.getNodeID());
+
+                            }
+
+                        }
+                    }
+                } else {
+                    // There are no colored nodes for swapping floors
+                    if (node.getNodeID().equals(nodeID)) {
+
+                        if (colors.get(node.getNodeID()) != null) {
+                            node.setColor(colors.get(node.getNodeID()));
+                            colors.remove(node.getNodeID());
+                        }
+                    }
+                }
+
+            }
+        }
+    }
+
+    /**
+     * Make all the nodes grey on the map
+     */
+    private void colorAllNodesGrey() {
+
+        for (Node node : mapCache.getFloorNodes().get(mapCache.getCurrentFloor())) {
+
+            colors.put(node.getNodeID(), node.getColor());
+            node.setColor(grey);
+
+        }
+    }
+
+    /**
+     * Revert the colors of all nodes to their original color
+     */
+    private void revertAllNodeColors() {
+        Map<String, List<Node>> floorNodes = mapCache.getFloorNodes();
+
+        if (!colors.isEmpty()) {
+
+            for (Node node : floorNodes.get(mapCache.getCurrentFloor())) {
+                if (colors.containsKey(node.getNodeID())) {
+                    node.setColor(colors.get(node.getNodeID()));
+                }
+            }
+
+            colors.clear();
+        }
     }
 
     /**
@@ -482,17 +455,25 @@ public class PathfindingMenuController extends BasePageController implements Ini
 
         switch (b.getId()) {
             case "btnFindPath":
-                Map<String, String> longToId = mapCache.makeLongToIDMap();
-                mapDrawer.removeAllEdges();
-                mapDrawer.drawPath(txtStartLocation.getText(), txtEndLocation.getText());
+                if (!previousFrom.equals(txtStartLocation.getText()) || !previousStops.equals(String.join(" ", mapCache.getStopsList())) || !previousTo.equals(txtEndLocation.getText())) {
+                    mapCache.updateLocations();
+                    Map<String, String> longToId = mapCache.makeLongToIDMap();
+                    mapPathPopupManager.removeTxtDirPopup();
+                    mapDrawer.removeAllEdges();
 
+                    floorSwitcher.switchFloor(DatabaseHandler.getHandler().getNodeById(longToId.get(txtStartLocation.getText())).getFloor());
+                    mapDrawer.calculatePath(txtStartLocation.getText(), txtEndLocation.getText());
+                    btnTxtDir.setDisable(false);
 
-                floorSwitcher.switchFloor(DatabaseHandler.getHandler().getNodeById(longToId.get(txtStartLocation.getText())).getFloor());
-                mapDrawer.drawPath(txtStartLocation.getText(), txtEndLocation.getText());
-                btnTxtDir.setDisable(false);
+                    // Set previous ones
+                    previousFrom = txtStartLocation.getText();
+                    previousStops = String.join(" ", mapCache.getStopsList());
+                    previousTo = txtEndLocation.getText();
+
+                }
                 break;
             case "btnEditMap":
-
+                mapPathPopupManager.removeTxtDirPopup();
                 mapDrawer.removeAllPopups();
                 mapDrawer.removeAllEdges();
 
@@ -524,6 +505,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
                 floorSwitcher.switchFloor(FloorSwitcher.floorL2ID);
                 break;
             case "btnRemoveStop":
+                mapPathPopupManager.removeTxtDirPopup();
                 mapCache.getStopsList().remove(mapCache.getStopsList().size() - 1);
                 displayStops(mapCache.getStopsList());
 
@@ -542,13 +524,13 @@ public class PathfindingMenuController extends BasePageController implements Ini
                 break;
             case "btnBack":
                 // Reset all the colors of the nodes
-                if(!colors.isEmpty()) {
+                if (!colors.isEmpty()) {
                     for (String floor : mapCache.getFloorNodes().keySet()) {
                         for (Node n : mapCache.getFloorNodes().get(floor)) {
 
                             for (String id : colors.keySet()) {
                                 colors.get(id);
-                                if(n.getNodeID().equals(id))
+                                if (n.getNodeID().equals(id))
                                     n.setColor(colors.get(id));
                             }
 
@@ -586,19 +568,17 @@ public class PathfindingMenuController extends BasePageController implements Ini
     /**
      * Populates the tree view with nodes and categories
      */
-    private void populateTreeView() throws IOException {
+    private void populateTreeView() {
         //Populating TreeView
-        btnAddToFavorites = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/cs3733/D21/teamB/views/misc/addBtn.fxml")));
         TreeItem<String> rootNode = new TreeItem<>("Root");
         treeLocations.setRoot(rootNode);
         treeLocations.setShowRoot(false);
 
         // Favorites drop down
-        TreeItem<String> favorites = new TreeItem<>("Favorites");
+        favorites = new TreeItem<>("Favorites");
         if (DatabaseHandler.getHandler().getAuthenticationUser().isAtLeast(User.AuthenticationLevel.PATIENT)) {
             favorites.setExpanded(true);
             rootNode.getChildren().add(favorites);
-            favorites.setGraphic(btnAddToFavorites);
         }
 
         // Locations drop down
@@ -610,83 +590,53 @@ public class PathfindingMenuController extends BasePageController implements Ini
         for (String category : mapCache.getCatNameMap().keySet()) {
             TreeItem<String> categoryTreeItem = new TreeItem<>(categoryNameMap.get(category));
             categoryTreeItem.getChildren().addAll(mapCache.getCatNameMap().get(category));
+            alphabetize(categoryTreeItem.getChildren());
             locations.getChildren().add(categoryTreeItem);
         }
 
-        // Adding to Favorites
-        btnAddToFavorites.setOnAction(addEvent -> {
-            try {
-                btnRemoveFromFavorites = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/cs3733/D21/teamB/views/misc/removeBtn.fxml")));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            TreeItem<String> equivalent = treeLocations.getSelectionModel().getSelectedItem();
-            if (equivalent == null) {
-                return;
-            }
-            String text = equivalent.getValue();
-            TreeItem<String> itemToAdd = new TreeItem<>(text);
+        alphabetize(locations.getChildren());
 
-            boolean contains = false;
+        populateFavorites();
+    }
 
-            for (TreeItem<String> item : favorites.getChildren()) {
-                if (item.getValue().equals(equivalent.getValue())) {
-                    contains = true;
-                    break;
-                }
-            }
-
-            if (!contains && equivalent.isLeaf() && !text.equals("Favorites")) {
-                itemToAdd.setGraphic(btnRemoveFromFavorites);
-                favorites.getChildren().add(itemToAdd);
-                try {
-                    DatabaseHandler.getHandler().addFavoriteLocation(itemToAdd.getValue());
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            // Removing from Favorites
-            btnRemoveFromFavorites.setOnAction(removeEvent -> {
-                JFXButton itemToRemove = (JFXButton) removeEvent.getSource();
-                TreeCell<String> treeCell = (TreeCell<String>) itemToRemove.getParent();
-                favorites.getChildren().remove(treeCell.getTreeItem());
-                try {
-                    DatabaseHandler.getHandler().removeFavoriteLocation(treeCell.getTreeItem().getValue());
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            });
-        });
-
-        // Populate Favorites with locations from database
+    /**
+     * alphabetizes the strings to go into the treeview list
+     */
+    private ObservableList<TreeItem<String>> alphabetize(ObservableList<TreeItem<String>> strings){
+       strings.sort(Comparator.comparing(TreeItem::toString));
+       return strings;
+    }
+    /**
+     * Populates the tree view with favorite locations from the database
+     */
+    public void populateFavorites() {
         try {
             ArrayList<String> savedFavorites = (ArrayList<String>) DatabaseHandler.getHandler().getFavorites();
             for (String favorite : savedFavorites) {
                 TreeItem<String> item = new TreeItem<>(favorite);
-                try {
-                    btnRemoveFromFavorites = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/cs3733/D21/teamB/views/misc/removeBtn.fxml")));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                // Removing from Favorites
-                btnRemoveFromFavorites.setOnAction(removeEvent -> {
-                    JFXButton itemToRemove = (JFXButton) removeEvent.getSource();
-                    TreeCell<String> treeCell = (TreeCell<String>) itemToRemove.getParent();
-                    favorites.getChildren().remove(treeCell.getTreeItem());
-                    try {
-                        DatabaseHandler.getHandler().removeFavoriteLocation(treeCell.getTreeItem().getValue());
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
-                });
-                item.setGraphic(btnRemoveFromFavorites);
                 favorites.getChildren().add(item);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Getter for favorites
+     *
+     * @return favorites
+     */
+    public TreeItem<String> getFavorites() {
+        return favorites;
+    }
+
+    /**
+     * Getter for tree locations
+     *
+     * @return tree locations
+     */
+    public JFXTreeView<String> getTreeLocations() {
+        return treeLocations;
     }
 
     /**
@@ -734,7 +684,12 @@ public class PathfindingMenuController extends BasePageController implements Ini
                     "Once both the start and end nodes are filled in you can press \"Go\" to generate\nyour path. " +
                     "If you want to remove your stops, click on the \"Remove Stop\" button.\n"
             );
-        } else helpText = new Text("Double click to add a node. Click on a node or an edge to edit or remove them. To add a new edge click on\none of the nodes, then \"Add Edge\". Click on another node and click \"Yes\" to add the new edge or \"No\" to cancel it.");
+        } else
+            helpText = new Text("Double click to add a node. Click on a node or an edge to edit or remove them. To add a new edge click on\n" +
+                    "one of the nodes, then \"Add Edge\". Click on another node and click \"Yes\" to add the new edge or \"No\" to cancel it.\n" +
+                    "If you control-click on several nodes, then release control, a popup appears to ask if the nodes should be aligned.\n" +
+                    "If you select \"Yes\", the nodes will be aligned according to the line of best fit; otherwise, nothing will occur.\n" +
+                    "Additionally, if you control-click on an already selected node, it will be deselected.");
 
         helpText.setFont(new Font("MS Reference Sans Serif", 14));
 
@@ -753,7 +708,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
     }
 
     @FXML
-    private void handleKeysPressedSearchBar(KeyEvent e) throws IOException {
+    private void handleKeysPressedSearchBar(KeyEvent e) {
         String regex = "[ a-zA-Z0-9\\-]+";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(e.getText());
@@ -780,15 +735,63 @@ public class PathfindingMenuController extends BasePageController implements Ini
 
         //Adding the nodes
         for (Node n : Graph.getGraph().getNodes().values()) {
-            if (n.getLongName().toLowerCase().contains(searchBar.toLowerCase())) {
+            if (!n.getNodeType().equals(NodeType.WALK.name()) && !n.getNodeType().equals(NodeType.HALL.name()) && n.getLongName().toLowerCase().contains(searchBar.toLowerCase())) {
                 newRoot.getChildren().add(new TreeItem<>(n.getLongName()));
             }
         }
-
         // If nothing is found, say "None"
         if (newRoot.getChildren().isEmpty()) {
             newRoot.setValue("No results!");
             treeLocations.setShowRoot(true);
         }
+        alphabetize(newRoot.getChildren());
+    }
+
+    /**
+     * Initialize the map of category short names to category long names
+     */
+    private void initCategoriesMap() {
+        categoryNameMap.put("SERV", "Services");
+        categoryNameMap.put("REST", "Restrooms");
+        categoryNameMap.put("LABS", "Lab Rooms");
+        categoryNameMap.put("ELEV", "Elevators");
+        categoryNameMap.put("DEPT", "Departments");
+        categoryNameMap.put("CONF", "Conference Rooms");
+        categoryNameMap.put("INFO", "Information Locations");
+        categoryNameMap.put("RETL", "Retail Locations");
+        categoryNameMap.put("EXIT", "Entrances");
+        categoryNameMap.put("STAI", "Stairs");
+        categoryNameMap.put("PARK", "Parking Spots");
+    }
+
+    /**
+     * Checks if the last scene was the covid survey and fill in proper directions based on results
+     */
+    private void checkFromCovidSurvey() {
+        //test if we came from a failed covid survey
+        if (SceneSwitcher.peekLastScene().equals("/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidFormSubmittedWithSymp.fxml")) {
+            txtEndLocation.setText("Emergency Department Entrance");
+            SceneSwitcher.popLastScene();
+        }
+
+
+        //test if we came from a not failed covid survey
+        if (SceneSwitcher.peekLastScene().equals("/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidFormSubmittedNoSymp.fxml")) {
+            txtEndLocation.setText("75 Francis Lobby Entrance");
+            SceneSwitcher.popLastScene();
+        }
+    }
+
+    /**
+     * Set up the combo boxes to choose between the different pathfinding algorithms
+     */
+    private void setUpPathfindingChoices() {
+        comboPathingType.getItems().add("A*");
+        comboPathingType.getItems().add("DFS");
+        comboPathingType.getItems().add("BFS");
+        comboPathingType.getItems().add("BestFS");
+        comboPathingType.getItems().add("Dijkstra");
+        comboPathingType.getSelectionModel().select(Graph.getGraph().getPathingTypeIndex());
+        comboPathingType.setOnAction(e -> Graph.getGraph().setPathingTypeIndex(comboPathingType.getSelectionModel().getSelectedIndex()));
     }
 }
