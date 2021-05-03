@@ -149,7 +149,8 @@ public class PathfindingMenuController extends BasePageController implements Ini
         populateTreeView();
 
         // Class that draws things on the map
-        mapDrawer = new MapDrawer(this, mapCache, nodeHolder, mapHolder, intermediateNodeHolder, lblError, mapStack, gpane);
+        mapDrawer = new MapDrawer(this, mapCache, nodeHolder, mapHolder,
+                intermediateNodeHolder, lblError, mapStack, gpane);
 
         // Class that handles the popups for the map editor
         mapEditorPopupManager = new MapEditorPopupManager(mapDrawer, mapCache, gpane, mapStack);
@@ -162,6 +163,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
         // Set up floor switching
         floorSwitcher = new FloorSwitcher(mapDrawer, mapCache, mapPathPopupManager, map, btnF3, btnF2, btnF1, btnFL1, btnFL2);
         floorSwitcher.switchFloor(FloorSwitcher.floor1ID);
+        mapDrawer.setFloorSwitcher(floorSwitcher);
 
         // Fill in proper fields if the last scene is the covid survey
         checkFromCovidSurvey();
