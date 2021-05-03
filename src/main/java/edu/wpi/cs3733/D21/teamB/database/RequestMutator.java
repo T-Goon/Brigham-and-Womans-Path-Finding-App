@@ -390,6 +390,8 @@ public class RequestMutator implements IDatabaseEntityMutator<Request> {
                         + "', closeContact = '" + covidSurveyRequest.getHadCloseContact()
                         + "', positiveTest = '" + covidSurveyRequest.getHadPositiveTest()
                         + "' WHERE requestID = '" + covidSurveyRequest.getRequestID() + "'";
+
+
                 break;
         }
         db.runStatement(query, false);

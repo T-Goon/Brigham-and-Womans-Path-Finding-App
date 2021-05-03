@@ -45,7 +45,7 @@ public class CovidFormAcceptedController extends BasePageController implements I
             case "btnBack":
                 SceneSwitcher.goBack(this.getClass(), 2);
                 return;
-            case "btnDirection":
+            case "btnDirections":
                 SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/cs3733/D21/teamB/views/map/pathfindingMenu.fxml");
                 break;
             case "btnEmergency":
