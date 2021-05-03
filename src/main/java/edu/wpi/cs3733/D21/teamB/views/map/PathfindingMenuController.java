@@ -15,6 +15,7 @@ import edu.wpi.cs3733.D21.teamB.entities.map.data.NodeType;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Path;
 import edu.wpi.cs3733.D21.teamB.pathfinding.AStar;
 import edu.wpi.cs3733.D21.teamB.pathfinding.BFS;
+import edu.wpi.cs3733.D21.teamB.pathfinding.Dijkstra;
 import edu.wpi.cs3733.D21.teamB.pathfinding.Graph;
 import edu.wpi.cs3733.D21.teamB.util.CSVHandler;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
@@ -828,7 +829,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
         String endID = null;
 
         if (startID != null) {
-            BFS bfs = new BFS();
+            Dijkstra dijkstra = new Dijkstra();
             mapCache.updateLocations();
 
             switch(category) {
@@ -840,7 +841,8 @@ public class PathfindingMenuController extends BasePageController implements Ini
                     for (TreeItem<String> restroom : restrooms) {
                         restroomsList.add(mapCache.getMapLongToID().get(restroom.getValue()));
                     }
-                    Path restroomsPath = bfs.shortestPathToNodeInList(startID, restroomsList);
+                    //findPath(String startID, String endID, boolean mobility, String category, String comparisonType)
+                    Path restroomsPath = dijkstra.findPath(startID, restroomsList);
                     endID = restroomsPath.getPath().get(restroomsPath.getPath().size() - 1);
                     break;
 
@@ -851,8 +853,8 @@ public class PathfindingMenuController extends BasePageController implements Ini
                     foodPlacesList.add("DRETL00102");
                     foodPlacesList.add("FRETL00201");
                     foodPlacesList.add("HRETL00102");
-                    bfs.shortestPathToNodeInList(startID, foodPlacesList);
-                    Path foodPlacesPath = bfs.shortestPathToNodeInList(startID, foodPlacesList);
+                    dijkstra.shortestPathToNodeInList(startID, foodPlacesList);
+                    Path foodPlacesPath = dijkstra.shortestPathToNodeInList(startID, foodPlacesList);
                     endID = foodPlacesPath.getPath().get(foodPlacesPath.getPath().size() - 1);
                     break;
 
@@ -863,8 +865,8 @@ public class PathfindingMenuController extends BasePageController implements Ini
                     serviceDesksList.add("BINFO00202");
                     serviceDesksList.add("FINFO00101");
                     serviceDesksList.add("GINFO01902");
-                    bfs.shortestPathToNodeInList(startID, serviceDesksList);
-                    Path serviceDesksPath = bfs.shortestPathToNodeInList(startID, serviceDesksList);
+                    dijkstra.shortestPathToNodeInList(startID, serviceDesksList);
+                    Path serviceDesksPath = dijkstra.shortestPathToNodeInList(startID, serviceDesksList);
                     endID = serviceDesksPath.getPath().get(serviceDesksPath.getPath().size() - 1);
                     break;
 
@@ -874,8 +876,8 @@ public class PathfindingMenuController extends BasePageController implements Ini
                     for (TreeItem<String> entrance : entrances) {
                         entrancesList.add(mapCache.getMapLongToID().get(entrance.getValue()));
                     }
-                    bfs.shortestPathToNodeInList(startID, entrancesList);
-                    Path entrancesPath = bfs.shortestPathToNodeInList(startID, entrancesList);
+                    dijkstra.shortestPathToNodeInList(startID, entrancesList);
+                    Path entrancesPath = dijkstra.shortestPathToNodeInList(startID, entrancesList);
                     endID = entrancesPath.getPath().get(entrancesPath.getPath().size() - 1);
                     break;
             }
