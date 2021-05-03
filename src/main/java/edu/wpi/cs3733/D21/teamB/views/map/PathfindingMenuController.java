@@ -841,9 +841,8 @@ public class PathfindingMenuController extends BasePageController implements Ini
                     for (TreeItem<String> restroom : restrooms) {
                         restroomsList.add(mapCache.getMapLongToID().get(restroom.getValue()));
                     }
-                    //findPath(String startID, String endID, boolean mobility, String category, String comparisonType)
-                    Path restroomsPath = dijkstra.findPath(startID, mapDrawer.isMobility() ,restroomsList);
-                    endID = restroomsPath.getPath().get(restroomsPath.getPath().size() - 1);
+                    List<String> restroomsPath = dijkstra.findPath(startID, mapDrawer.isMobility() ,restroomsList).getPath();
+                    endID = restroomsPath.get(restroomsPath.size() - 1);
                     break;
 
                     //all the food places that are not vending machines
@@ -854,9 +853,8 @@ public class PathfindingMenuController extends BasePageController implements Ini
                     foodPlacesList.add("FRETL00201");
                     foodPlacesList.add("HRETL00102");
 
-                    Path foodPlacesPath  = dijkstra.findPath(startID, mapDrawer.isMobility(), foodPlacesList);
-                    //Path foodPlacesPath = dijkstra.shortestPathToNodeInList(startID, foodPlacesList);
-                    endID = foodPlacesPath.getPath().get(foodPlacesPath.getPath().size() - 1);
+                    List<String> foodPlacesPath  = dijkstra.findPath(startID, mapDrawer.isMobility(), foodPlacesList).getPath();
+                    endID = foodPlacesPath.get(foodPlacesPath.size() - 1);
                     break;
 
                     //all services desks that are not security desks
@@ -866,9 +864,8 @@ public class PathfindingMenuController extends BasePageController implements Ini
                     serviceDesksList.add("BINFO00202");
                     serviceDesksList.add("FINFO00101");
                     serviceDesksList.add("GINFO01902");
-                    //dijkstra.shortestPathToNodeInList(startID, serviceDesksList);
-                    Path serviceDesksPath = dijkstra.findPath(startID, mapDrawer.isMobility(), serviceDesksList);
-                    endID = serviceDesksPath.getPath().get(serviceDesksPath.getPath().size() - 1);
+                    List<String> serviceDesksPath = dijkstra.findPath(startID, mapDrawer.isMobility(), serviceDesksList).getPath();
+                    endID = serviceDesksPath.get(serviceDesksPath.size() - 1);
                     break;
 
                 case "Entrance":
@@ -877,9 +874,8 @@ public class PathfindingMenuController extends BasePageController implements Ini
                     for (TreeItem<String> entrance : entrances) {
                         entrancesList.add(mapCache.getMapLongToID().get(entrance.getValue()));
                     }
-                    //dijkstra.shortestPathToNodeInList(startID, entrancesList);
-                    Path entrancesPath = dijkstra.findPath(startID, mapDrawer.isMobility(), entrancesList);
-                    endID = entrancesPath.getPath().get(entrancesPath.getPath().size() - 1);
+                    List<String> entrancesPath = dijkstra.findPath(startID, mapDrawer.isMobility(), entrancesList).getPath();
+                    endID = entrancesPath.get(entrancesPath.size() - 1);
                     break;
             }
             txtEndLocation.setText(Graph.getGraph().getNodes().get(endID).getLongName());
