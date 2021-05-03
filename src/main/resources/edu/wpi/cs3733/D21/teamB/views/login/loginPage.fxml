@@ -145,7 +145,7 @@
                         <Font size="20.0" />
                      </font>
                   </Text>
-                  <JFXButton fx:id="btnRegisterPage" onAction="#handleButtonAction" text="Click here to register" textFill="WHITE">
+                  <JFXButton fx:id="btnRegisterPage" onAction="#handleButtonAction" text="Click here to register" textFill="WHITE" underline="true">
                      <font>
                         <Font size="20.0" />
                      </font>
