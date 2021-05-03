@@ -124,6 +124,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
     private MapDrawer mapDrawer;
     private MapEditorPopupManager mapEditorPopupManager;
     private MapPathPopupManager mapPathPopupManager;
+    @Getter
     private FloorSwitcher floorSwitcher;
 
     private static final Color grey = Color.web("#9A9999");
@@ -155,7 +156,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
         mapDrawer.setMapPathPopupManager(mapPathPopupManager);
 
         // Set up floor switching
-        floorSwitcher = new FloorSwitcher(mapDrawer, mapCache, map, btnF3, btnF2, btnF1, btnFL1, btnFL2);
+        floorSwitcher = new FloorSwitcher(mapDrawer, mapCache, mapPathPopupManager, map, btnF3, btnF2, btnF1, btnFL1, btnFL2);
         floorSwitcher.switchFloor(FloorSwitcher.floor1ID);
 
         // Fill in proper fields if the last scene is the covid survey
@@ -449,7 +450,9 @@ public class PathfindingMenuController extends BasePageController implements Ini
 
         switch (b.getId()) {
             case "btnFindPath":
+                mapCache.updateLocations();
                 Map<String, String> longToId = mapCache.makeLongToIDMap();
+                mapPathPopupManager.removeTxtDirPopup();
                 mapDrawer.removeAllEdges();
 
                 floorSwitcher.switchFloor(DatabaseHandler.getHandler().getNodeById(longToId.get(txtStartLocation.getText())).getFloor());
@@ -457,7 +460,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
                 btnTxtDir.setDisable(false);
                 break;
             case "btnEditMap":
-
+                mapPathPopupManager.removeTxtDirPopup();
                 mapDrawer.removeAllPopups();
                 mapDrawer.removeAllEdges();
 
@@ -489,6 +492,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
                 floorSwitcher.switchFloor(FloorSwitcher.floorL2ID);
                 break;
             case "btnRemoveStop":
+                mapPathPopupManager.removeTxtDirPopup();
                 mapCache.getStopsList().remove(mapCache.getStopsList().size() - 1);
                 displayStops(mapCache.getStopsList());
 

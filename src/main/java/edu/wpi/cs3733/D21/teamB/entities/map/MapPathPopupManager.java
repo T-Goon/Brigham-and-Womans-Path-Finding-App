@@ -6,7 +6,7 @@ import edu.wpi.cs3733.D21.teamB.App;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.*;
 import edu.wpi.cs3733.D21.teamB.entities.map.node.ChangeParkingSpotPopup;
 import edu.wpi.cs3733.D21.teamB.entities.map.node.GraphicalInputPopup;
-import edu.wpi.cs3733.D21.teamB.entities.map.node.TxtDirPopup;
+import edu.wpi.cs3733.D21.teamB.pathfinding.AStar;
 import edu.wpi.cs3733.D21.teamB.pathfinding.Directions;
 import edu.wpi.cs3733.D21.teamB.pathfinding.Graph;
 import edu.wpi.cs3733.D21.teamB.util.Popup.PoppableManager;
@@ -14,6 +14,7 @@ import edu.wpi.cs3733.D21.teamB.views.map.PathfindingMenuController;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import lombok.Getter;
 import net.kurobako.gesturefx.GesturePane;
 
 import java.util.ArrayList;
@@ -35,6 +36,7 @@ public class MapPathPopupManager implements PoppableManager {
 
     private GraphicalInputPopup giPopup;
     private ETAPopup etaPopup;
+    @Getter
     private TxtDirPopup txtDirPopup;
     private ChangeParkingSpotPopup cpsPopup;
 
@@ -101,9 +103,9 @@ public class MapPathPopupManager implements PoppableManager {
             ids.add(longToId.get(longName));
         }
 
-        List<String> instructions = Directions.instructions(path, ids);
-
-        TxtDirPopupData txtDirPopupData = new TxtDirPopupData(instructions);
+        List<Directions.Direction> instructions = Directions.instructions(path, ids);
+        if (instructions == null) return null;
+        TxtDirPopupData txtDirPopupData = new TxtDirPopupData(instructions, md, mc, pfmc.getFloorSwitcher());
         txtDirPopup = new TxtDirPopup(textDirectionsHolder, txtDirPopupData);
         App.getPrimaryStage().setUserData(txtDirPopup);
         txtDirPopup.show();
@@ -130,6 +132,12 @@ public class MapPathPopupManager implements PoppableManager {
         return cpsPopup;
     }
 
+
+    public boolean hasTxtDirPopup() {
+        return txtDirPopup != null;
+    }
+
+
     /**
      * Remove the etaPopup from the map
      */
@@ -141,16 +149,22 @@ public class MapPathPopupManager implements PoppableManager {
     }
 
     /**
+     * Returns the text direction popup from the map
+     */
+    public void removeTxtDirPopup() {
+        if (txtDirPopup != null) {
+            txtDirPopup.hide();
+            txtDirPopup = null;
+        }
+    }
+
+    /**
      * Remove all popups managed my this class.
      */
     public void removeAllPopups() {
         if (giPopup != null) {
             giPopup.hide();
             giPopup = null;
-        }
-        if (txtDirPopup != null) {
-            txtDirPopup.hide();
-            txtDirPopup = null;
         }
     }
 }
