@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.D21.teamB.pathfinding;
 
+import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Node;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Path;
 
@@ -28,7 +29,8 @@ public class DFS implements Pathfinder {
             for (Node n : neighbors) {
 
                 // Deals with mobility
-                if (mobility && n.getNodeType().equals("STAI")) continue;
+                if (mobility && DatabaseHandler.getHandler().getNodeById(p.getCurrent()).getNodeType().equals("STAI") && n.getNodeType().equals("STAI"))
+                    continue;
 
                 if (n.getNodeID().equals(end)) {
                     p.getPath().add(n);
