@@ -78,7 +78,7 @@ public class App extends Application {
 
                 //Required users
                 requiredUsers.put(new User("admin", "admin@fakeemail.com", "Professor", "X", User.AuthenticationLevel.ADMIN, null), "admin");
-                requiredUsers.put(new User("staff", "staff@fakeemail.com", "Mike", "Bedard", User.AuthenticationLevel.STAFF, null), "staff");
+                requiredUsers.put(new User("staff", "bwhapplication@gmail.com", "Mike", "Bedard", User.AuthenticationLevel.STAFF, null), "staff");
                 requiredUsers.put(new User("guest", "guest@fakeemail.com", "T", "Goon", User.AuthenticationLevel.PATIENT, null), "guest");
 
                 for(User u : requiredUsers.keySet()){

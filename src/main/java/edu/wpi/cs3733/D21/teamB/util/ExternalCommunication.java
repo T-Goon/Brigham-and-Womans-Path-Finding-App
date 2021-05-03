@@ -54,14 +54,14 @@ public class ExternalCommunication {
     /**
      * Send confirmation email upon registration
      *
-     * @param recipient the email address to send the confirmation email to
+     * @param email the email address to send the confirmation email to
      * @param name the name of the user registering for an account
      */
-    public void sendConfirmation(String recipient, String name) {
+    public void sendConfirmation(String email, String name) {
         MimeMessage message = setUpSender();
 
         try {
-            message.addRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
+            message.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
 
             message.setSubject("Brigham and Women's Hospital Application Confirmation");
             message.setText("Hello " + name + ",\n\nThank you for registering for a Brigham and Women's Hospital Application account. " +
@@ -80,15 +80,23 @@ public class ExternalCommunication {
     /**
      * Send tasks assigned to user
      */
-    public void sendAssignedTask(String recipient, String name, String submitter, String task) {
+    public void sendAssignment(String email, String name, String submitter, String task) {
         MimeMessage message = setUpSender();
 
+        System.out.println("sendAssignment");
+        System.out.println("email: " + email);
+        System.out.println("name: " + name);
+        System.out.println("submitter: " + submitter);
+        System.out.println("task: " + task);
         try {
-            message.addRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
+            message.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
 
             message.setSubject("Brigham and Women's Hospital Application - New Assigned Task");
-            message.setText("Hello " + name + ",\n\n" + submitter + " recently assigned you the following task:\n" +
+            message.setText("Hello " + name + ",\n\n" + submitter + " recently assigned you to the following task:\n" +
                     task + "\n\n\nBrigham and Women's Hospital Application Team");
+
+            Transport.send(message);
+            System.out.println("Sent message successfully...");
         } catch (MessagingException e) {
             e.printStackTrace();
         }
@@ -97,15 +105,23 @@ public class ExternalCommunication {
     /**
      * Notify user when tasks they submitted are completed
      */
-    public void notifyTaskComplete(String recipient, String name, String submitter, String task) {
+    public void notifyCompletion(String email, String name, String submitter, String task) {
         MimeMessage message = setUpSender();
 
+        System.out.println("notifyCompletion");
+        System.out.println("email: " + email);
+        System.out.println("name: " + name);
+        System.out.println("submitter: " + submitter);
+        System.out.println("task: " + task);
         try {
-            message.addRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
+            message.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
 
             message.setSubject("Brigham and Women's Hospital Application - Task Complete");
             message.setText("Hello " + name + ",\n\nThe following task that you assigned to " + submitter + " was recently completed:\n" +
                     task + "\n\n\nBrigham and Women's Hospital Application Team");
+
+            Transport.send(message);
+            System.out.println("Sent message successfully...");
         } catch (MessagingException e) {
             e.printStackTrace();
         }
