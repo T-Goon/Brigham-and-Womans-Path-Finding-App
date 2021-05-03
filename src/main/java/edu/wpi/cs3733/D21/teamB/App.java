@@ -77,9 +77,9 @@ public class App extends Application {
                 HashMap<User, String> requiredUsers = new HashMap<>();
 
                 //Required users
-                requiredUsers.put(new User("admin", "", "Professor", "X", User.AuthenticationLevel.ADMIN, null), "admin");
-                requiredUsers.put(new User("staff", "", "Mike", "Bedard", User.AuthenticationLevel.STAFF, null), "staff");
-                requiredUsers.put(new User("guest", "", "T", "Goon", User.AuthenticationLevel.PATIENT, null), "guest");
+                requiredUsers.put(new User("admin", "admin@fakeemail.com", "Professor", "X", User.AuthenticationLevel.ADMIN, null), "admin");
+                requiredUsers.put(new User("staff", "staff@fakeemail.com", "Mike", "Bedard", User.AuthenticationLevel.STAFF, null), "staff");
+                requiredUsers.put(new User("guest", "guest@fakeemail.com", "T", "Goon", User.AuthenticationLevel.PATIENT, null), "guest");
 
                 for(User u : requiredUsers.keySet()){
                    if(db.getUserByUsername(u.getUsername()) == null){

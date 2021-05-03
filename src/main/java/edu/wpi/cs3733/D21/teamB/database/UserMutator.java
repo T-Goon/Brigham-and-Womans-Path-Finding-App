@@ -148,18 +148,8 @@ public class UserMutator implements IDatabaseEntityMutator<UserMutator.UserPassw
      */
     public User getUserByEmail(String email) {
         try {
-            String query = "SELECT job FROM Jobs WHERE (email = '" + email + "')";
-            List<Request.RequestType> jobs = new ArrayList<>();
+            String query = "SELECT * FROM Users WHERE (email = '" + email + "')";
             ResultSet rs = db.runStatement(query, true);
-            if (rs != null) {
-                do {
-                    jobs.add(Request.RequestType.valueOf(rs.getString("job")));
-                } while (rs.next());
-                rs.close();
-            }
-
-            query = "SELECT * FROM Users WHERE (email = '" + email + "')";
-            rs = db.runStatement(query, true);
             if (rs == null) return null;
             User outUser = new User(
                     rs.getString("username"),
@@ -167,7 +157,7 @@ public class UserMutator implements IDatabaseEntityMutator<UserMutator.UserPassw
                     rs.getString("firstName"),
                     rs.getString("lastName"),
                     User.AuthenticationLevel.valueOf(rs.getString("authenticationLevel")),
-                    jobs
+                    null
             );
             rs.close();
             return outUser;

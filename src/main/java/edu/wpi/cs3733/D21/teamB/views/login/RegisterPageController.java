@@ -112,9 +112,16 @@ RegisterPageController extends BasePageController implements Initializable {
             return;
         }
 
-        // Check if the email is already associated with an account
+        // Check if the email address is already associated with an account
         if (db.getUserByEmail(email.getText()) != null) {
             error.setText("Email address already has an account!");
+            error.setVisible(true);
+            return;
+        }
+
+        // Check if the email address is valid
+        if (!email.getText().contains("@")) {
+            error.setText("Email address must be valid!");
             error.setVisible(true);
             return;
         }

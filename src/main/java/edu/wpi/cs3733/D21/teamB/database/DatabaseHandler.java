@@ -295,7 +295,7 @@ public class DatabaseHandler {
 
         String usersTable = "CREATE TABLE IF NOT EXISTS Users("
                 + "username CHAR(30) PRIMARY KEY, "
-                + "email CHAR(40), "
+                + "email CHAR(40) NOT NULL UNIQUE, "
                 + "firstName CHAR(30), "
                 + "lastName CHAR(30), "
                 + "authenticationLevel CHAR(30) CHECK (authenticationLevel in ('ADMIN','STAFF','PATIENT', 'GUEST')), "
