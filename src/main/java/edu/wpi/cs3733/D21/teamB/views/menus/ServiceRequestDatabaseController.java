@@ -192,10 +192,10 @@ public class   ServiceRequestDatabaseController extends BasePageController imple
                 TableRow<String> currentRow = getTableRow();
                 if (!isEmpty()) {
                     if (item5.getText().equals("Nobody")&& !currentRow.getStyle().equals("-fx-background-color: #CE2029") && getTableRow().getIndex() %2 ==0) {
-                        currentRow.setStyle("-fx-background-color: #2879B4");
+                        currentRow.setStyle("-fx-background-color: #479AD6");
                     }
                     else if (item5.getText().equals("Nobody")&& !currentRow.getStyle().equals("-fx-background-color: #CE2029") && getTableRow().getIndex() %2 !=0) {
-                        currentRow.setStyle("-fx-background-color: #408DC5");
+                        currentRow.setStyle("-fx-background-color: #66B4EC");
                     }
                 }
             }
