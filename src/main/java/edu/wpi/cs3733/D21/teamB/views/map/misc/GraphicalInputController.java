@@ -12,6 +12,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import lombok.Getter;
@@ -47,10 +48,13 @@ public class GraphicalInputController implements Initializable, IObserver {
     private JFXButton btnRemoveFavorite;
 
     @FXML
-    private VBox SelectionPopUp;
+    private VBox selectionPopup;
 
     @FXML
     private VBox mainMenu;
+
+    @FXML
+    private HBox favoriteBox;
 
     private GraphicalInputPopup popup;
     private ChangeParkingSpotPopup cpsPopup;
@@ -59,6 +63,11 @@ public class GraphicalInputController implements Initializable, IObserver {
     public void initialize(URL location, ResourceBundle resources) {
         popup = (GraphicalInputPopup) App.getPrimaryStage().getUserData();
         nodeName.setText(popup.getData().getNodeName());
+
+        // Don't show the favorite buttons if no one is logged in
+        if (!DatabaseHandler.getHandler().getAuthenticationUser().isAtLeast(User.AuthenticationLevel.PATIENT)) {
+            mainMenu.getChildren().remove(favoriteBox);
+        }
 
         boolean isFavorite = false;
         for (TreeItem<String> item : popup.getData().getPfmc().getFavorites().getChildren()) {
@@ -99,8 +108,8 @@ public class GraphicalInputController implements Initializable, IObserver {
             case "btnAddFavorite":
                 boolean hasParking = popup.addFavorite();
                 if (hasParking) {
-                    SelectionPopUp.getChildren().remove(mainMenu);
-                    cpsPopup = popup.getData().getMppm().createChangeParkingSpotPopup(SelectionPopUp, popup.getData(), mainMenu);
+                    selectionPopup.getChildren().remove(mainMenu);
+                    cpsPopup = popup.getData().getMppm().createChangeParkingSpotPopup(selectionPopup, popup.getData(), mainMenu);
                     cpsPopup.attach(this);
                 } else {
                     btnAddFavorite.setDisable(true);
