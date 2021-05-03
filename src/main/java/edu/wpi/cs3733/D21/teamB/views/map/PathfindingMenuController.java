@@ -128,6 +128,10 @@ public class PathfindingMenuController extends BasePageController implements Ini
 
     private static final Color grey = Color.web("#9A9999");
 
+    private String previousFrom = "";
+    private String previousStops = "";
+    private String previousTo = "";
+
     // JavaFX code **************************************************************************************
 
     @Override
@@ -449,12 +453,20 @@ public class PathfindingMenuController extends BasePageController implements Ini
 
         switch (b.getId()) {
             case "btnFindPath":
-                Map<String, String> longToId = mapCache.makeLongToIDMap();
-                mapDrawer.removeAllEdges();
+                if (!previousFrom.equals(txtStartLocation.getText()) || !previousStops.equals(String.join(" ", mapCache.getStopsList())) || !previousTo.equals(txtEndLocation.getText())) {
+                    Map<String, String> longToId = mapCache.makeLongToIDMap();
+                    mapDrawer.removeAllEdges();
 
-                floorSwitcher.switchFloor(DatabaseHandler.getHandler().getNodeById(longToId.get(txtStartLocation.getText())).getFloor());
-                mapDrawer.calculatePath(txtStartLocation.getText(), txtEndLocation.getText());
-                btnTxtDir.setDisable(false);
+                    floorSwitcher.switchFloor(DatabaseHandler.getHandler().getNodeById(longToId.get(txtStartLocation.getText())).getFloor());
+                    mapDrawer.calculatePath(txtStartLocation.getText(), txtEndLocation.getText());
+                    btnTxtDir.setDisable(false);
+
+                    // Set previous ones
+                    previousFrom = txtStartLocation.getText();
+                    previousStops = String.join(" ", mapCache.getStopsList());
+                    previousTo = txtEndLocation.getText();
+
+                }
                 break;
             case "btnEditMap":
 
