@@ -6,7 +6,7 @@ import edu.wpi.cs3733.D21.teamB.views.BasePageController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
-public class aboutPageController extends BasePageController {
+public class AboutPageController extends BasePageController {
 
     @FXML
     private JFXButton btnEmergency;
