@@ -1,11 +1,21 @@
 package edu.wpi.cs3733.D21.teamB.views.face;
 
+import ai.djl.MalformedModelException;
+import ai.djl.inference.Predictor;
+import ai.djl.modality.Classifications;
+import ai.djl.modality.cv.ImageFactory;
+import ai.djl.repository.zoo.Criteria;
+import ai.djl.repository.zoo.ModelNotFoundException;
+import ai.djl.repository.zoo.ModelZoo;
+import ai.djl.repository.zoo.ZooModel;
+import ai.djl.util.Progress;
 import com.jfoenix.controls.JFXButton;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
@@ -18,6 +28,7 @@ import org.opencv.objdetect.Objdetect;
 import org.opencv.videoio.VideoCapture;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,8 +37,12 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import static org.opencv.imgproc.Imgproc.COLOR_BGR2RGB;
 import static org.opencv.imgproc.Imgproc.grabCut;
+
+import ai.djl.modality.cv.transform.*;
+import ai.djl.modality.cv.translator.*;
+import ai.djl.translate.*;
+import ai.djl.training.util.*;
 
 public class FD_Controller implements Initializable {
     // FXML buttons
@@ -84,6 +99,60 @@ public class FD_Controller implements Initializable {
         originalFrame.setFitWidth(600);
         // preserve image ratio
         originalFrame.setPreserveRatio(true);
+
+        //testing TODO remove
+        try {
+            DownloadUtils.download("https://djl-ai.s3.amazonaws.com/mlrepo/model/cv/image_classification/ai/djl/pytorch/resnet/0.0.1/traced_resnet18.pt.gz", "build/pytorch_models/resnet18/resnet18.pt", new ai.djl.training.util.ProgressBar());
+            DownloadUtils.download("https://djl-ai.s3.amazonaws.com/mlrepo/model/cv/image_classification/ai/djl/pytorch/synset.txt", "build/pytorch_models/resnet18/synset.txt", new ai.djl.training.util.ProgressBar());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Pipeline pipeline = new Pipeline();
+        pipeline.add(new Resize(256))
+                .add(new CenterCrop(224, 224))
+                .add(new ToTensor())
+                .add(new Normalize(
+                        new float[] {0.485f, 0.456f, 0.406f},
+                        new float[] {0.229f, 0.224f, 0.225f}));
+
+        Translator<ai.djl.modality.cv.Image,Classifications> translator= ImageClassificationTranslator.builder()
+                .setPipeline(pipeline)
+                .optApplySoftmax(true)
+                .build();
+        System.setProperty("ai.djl.repository.zoo.location", "build/pytorch_models/resnet18");
+
+        Criteria<ai.djl.modality.cv.Image, Classifications> criteria = Criteria.builder()
+                .setTypes(ai.djl.modality.cv.Image.class, Classifications.class)
+                // only search the model in local directory
+                // "ai.djl.localmodelzoo:{name of the model}"
+                .optArtifactId("ai.djl.localmodelzoo:resnet18")
+                .optTranslator(translator)
+                .optProgress(new ai.djl.training.util.ProgressBar()).build();
+
+        ZooModel model = null;
+        try {
+            model = ModelZoo.loadModel(criteria);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ModelNotFoundException e) {
+            e.printStackTrace();
+        } catch (MalformedModelException e) {
+            e.printStackTrace();
+        }
+        ai.djl.modality.cv.Image img = null;
+        try {
+            img = ImageFactory.getInstance().fromUrl("https://raw.githubusercontent.com/pytorch/hub/master/images/dog.jpg");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Predictor<ai.djl.modality.cv.Image, Classifications> predictor = model.newPredictor();
+        Classifications classifications = null;
+        try {
+            classifications = predictor.predict(img);
+        } catch (TranslateException e) {
+            e.printStackTrace();
+        }
+        System.out.println(classifications);
     }
 
     /**
