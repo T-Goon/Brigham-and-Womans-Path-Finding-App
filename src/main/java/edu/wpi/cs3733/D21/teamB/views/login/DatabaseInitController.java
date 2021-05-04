@@ -37,13 +37,13 @@ public class DatabaseInitController extends BasePageController implements Initia
         JFXButton btn = (JFXButton) e.getSource();
         switch (btn.getId()) {
             case "btnStaff":
-                SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/cs3733/D21/teamB/views/login/loginPage.fxml");
+                SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/login/loginPage.fxml");
                 break;
             case "btnGuest":
-                SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/cs3733/D21/teamB/views/menus/userDirectoryMenu.fxml");
+                SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/menus/userDirectoryMenu.fxml");
                 break;
             case "btnEmergency":
-                SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
+                SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
                 break;
         }
     }

@@ -27,13 +27,13 @@ public class CovidFormPendingController extends BasePageController {
         JFXButton btn = (JFXButton) e.getSource();
         switch (btn.getId()) {
             case "btnBack":
-                SceneSwitcher.goBack(this.getClass(), 2);
+                SceneSwitcher.goBack(2);
                 return;
             case "btnEdit":
-                SceneSwitcher.goBack(this.getClass(),1);
+                SceneSwitcher.goBack(1);
                 break;
             case "btnEmergency":
-                SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
+                SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
                 break;
         }
         super.handleButtonAction(e);

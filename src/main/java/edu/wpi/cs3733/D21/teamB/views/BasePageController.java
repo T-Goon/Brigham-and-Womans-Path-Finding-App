@@ -53,7 +53,7 @@ public abstract class BasePageController implements Initializable {
         JFXButton btn = (JFXButton) e.getSource();
         switch (btn.getId()) {
             case "btnBack":
-                SceneSwitcher.goBack(getClass(), 1);
+                SceneSwitcher.goBack(1);
                 break;
             case "btnExit":
                 Platform.exit();

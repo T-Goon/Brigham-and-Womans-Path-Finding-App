@@ -99,10 +99,10 @@ RegisterPageController extends BasePageController implements Initializable {
                 handleRegisterSubmit();
                 break;
             case "btnEmergency":
-                SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
+                SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
                 break;
             case "btnLoginPage":
-                SceneSwitcher.switchFromTemp(getClass(), "/edu/wpi/cs3733/D21/teamB/views/login/loginPage.fxml");
+                SceneSwitcher.switchFromTemp("/edu/wpi/cs3733/D21/teamB/views/login/loginPage.fxml");
                 break;
         }
         super.handleButtonAction(actionEvent);
@@ -147,7 +147,7 @@ RegisterPageController extends BasePageController implements Initializable {
 
         ExternalCommunication externalCommunication = new ExternalCommunication();
         externalCommunication.sendConfirmation(email.getText(), firstName.getText());
-        SceneSwitcher.switchFromTemp(getClass(), "/edu/wpi/cs3733/D21/teamB/views/login/successfulRegistration.fxml");
+        SceneSwitcher.switchFromTemp("/edu/wpi/cs3733/D21/teamB/views/login/successfulRegistration.fxml");
     }
 
     public void validateButton(KeyEvent keyEvent) {

@@ -68,7 +68,7 @@ public class EmergencyFormController extends DefaultServiceRequestFormController
         super.handleButtonAction(e);
         JFXButton btn = (JFXButton) e.getSource();
         if (btn.getId().equals("btnSubmit")) {
-            SceneSwitcher.switchFromTemp(getClass(), "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencySubmitted.fxml");
+            SceneSwitcher.switchFromTemp("/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencySubmitted.fxml");
 
             String givenMedicalEmergency = medicalEmergency.isSelected() ? "T" : "F";
             String givenSecurityEmergency = securityEmergency.isSelected() ? "T" : "F";

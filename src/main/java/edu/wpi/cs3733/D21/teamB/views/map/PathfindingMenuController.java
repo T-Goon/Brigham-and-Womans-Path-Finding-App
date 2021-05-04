@@ -531,7 +531,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
 
                 break;
             case "btnEmergency":
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/cs3733/D21/teamB/views/map/pathfindingMenu.fxml", "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
+                SceneSwitcher.switchScene("/edu/wpi/cs3733/D21/teamB/views/map/pathfindingMenu.fxml", "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
                 break;
             case "btnHelp":
                 loadHelpDialog();
@@ -540,7 +540,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
                 handleItemSearched();
                 break;
             case "btnAbout":
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/cs3733/D21/teamB/views/map/pathfindingMenu.fxml", "/edu/wpi/cs3733/D21/teamB/views/misc/aboutPage.fxml");
+                SceneSwitcher.switchScene("/edu/wpi/cs3733/D21/teamB/views/map/pathfindingMenu.fxml", "/edu/wpi/cs3733/D21/teamB/views/misc/aboutPage.fxml");
                 break;
             case "btnBack":
                 // Reset all the colors of the nodes
