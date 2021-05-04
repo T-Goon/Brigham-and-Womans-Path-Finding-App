@@ -7,6 +7,7 @@ import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.requests.LaundryRequest;
 import edu.wpi.cs3733.D21.teamB.entities.requests.Request;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
+import edu.wpi.cs3733.D21.teamB.views.AutoCompleteComboBoxListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -148,30 +149,32 @@ public class LaundryRequestFormController extends DefaultServiceRequestFormContr
         });
 
         //searchable combo boxes
-        comboTypeService.setEditable(true);
 
-        JFXAutoCompletePopup<String> autoCompletePopup = new JFXAutoCompletePopup<>();
-        autoCompletePopup.getSuggestions().addAll(comboTypeService.getItems());
+        new AutoCompleteComboBoxListener<>(comboTypeService);
+        comboTypeService.setVisibleRowCount(5);
+
+        //JFXAutoCompletePopup<String> autoCompletePopup = new JFXAutoCompletePopup<>();
+       // autoCompletePopup.getSuggestions().addAll(comboTypeService.getItems());
 
         //SelectionHandler sets the value of the comboBox
-        autoCompletePopup.setSelectionHandler(event -> {
-            comboTypeService.setValue(event.getObject());
-        });
+        //autoCompletePopup.setSelectionHandler(event -> {
+          //  comboTypeService.setValue(event.getObject());
+        //});
 
-        TextField editor = comboTypeService.getEditor();
-        editor.addEventHandler(KeyEvent.ANY, event -> {
+       // TextField editor = comboTypeService.getEditor();
+        //editor.addEventHandler(KeyEvent.ANY, event -> {
             //The filter method uses the Predicate to filter the Suggestions defined above
             //I choose to use the contains method while ignoring cases
-            if(!event.getCode().isNavigationKey()) {
-                autoCompletePopup.filter(item -> item.toLowerCase().contains(editor.getText().toLowerCase()));
+           // if(!event.getCode().isNavigationKey()) {
+              //  autoCompletePopup.filter(item -> item.toLowerCase().contains(editor.getText().toLowerCase()));
                 //Hide the autocomplete popup if the filtered suggestions is empty or when the box's original popup is open
-                if (autoCompletePopup.getFilteredSuggestions().isEmpty()) {
-                    autoCompletePopup.hide();
-                } else {
-                    autoCompletePopup.show(editor);
-                }
-            }
-        });
+              //  if (autoCompletePopup.getFilteredSuggestions().isEmpty()) {
+                    //autoCompletePopup.hide();
+               // } else {
+               //     autoCompletePopup.show(editor);
+               // }
+           // }
+        //});
 
         comboSizeService.setEditable(true);
 
