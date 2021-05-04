@@ -93,13 +93,20 @@
                             <children>
                                 <HBox alignment="BOTTOM_LEFT" HBox.hgrow="ALWAYS">
                                     <children>
-                              <JFXButton fx:id="btnBack" alignment="CENTER" buttonType="RAISED" cancelButton="true" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#handleButtonAction" prefHeight="56" prefWidth="56" style="-fx-background-color: #0067B1; -fx-background-radius: 50%;" text="🡰" textAlignment="CENTER" textFill="WHITE">
+                              <JFXButton fx:id="btnBack" alignment="CENTER_RIGHT" buttonType="RAISED" cancelButton="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#handleButtonAction" prefHeight="56" prefWidth="100.0" style="-fx-background-color: #0067B1; -fx-background-radius: 7;" text="Back  " textAlignment="RIGHT" textFill="WHITE">
                                  <font>
-                                    <Font size="27.0" />
+                                    <Font size="18.0" />
                                  </font>
                                  <padding>
                                     <Insets top="1.0" />
                                  </padding>
+                                 <graphic>
+                                    <ImageView fitHeight="35.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../../../../../../../../../../../Desktop/backButton.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
                               </JFXButton>
                                     </children>
                                     <HBox.margin>
