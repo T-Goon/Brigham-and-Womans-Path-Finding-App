@@ -26,7 +26,7 @@ public class DatabaseHandler {
     private final UserMutator userMutator;
 
     //State
-    private static User AuthenticationUser = new User("temporary", null, null, null, User.AuthenticationLevel.GUEST, null);
+    static User AuthenticationUser = new User("temporary", null, null, null, User.AuthenticationLevel.GUEST, null);
     private final String salt = BCrypt.gensalt();
 
     private DatabaseHandler() {
@@ -439,7 +439,7 @@ public class DatabaseHandler {
     public void updateUser(User newUser) throws SQLException {
         userMutator.updateEntity(new UserMutator.UserPasswordMatch(newUser, ""));
         //Make sure state is accurately reflective
-        if(newUser.getUsername() != null && newUser.getUsername().equals(this.getAuthenticationUser().getUsername())) {
+        if (newUser.getUsername() != null && newUser.getUsername().equals(this.getAuthenticationUser().getUsername())) {
             DatabaseHandler.AuthenticationUser = newUser;
         }
     }
@@ -453,8 +453,8 @@ public class DatabaseHandler {
     public void deleteUser(String username) throws SQLException {
         userMutator.removeEntity(username);
         Collection<Request> requests = requestMutator.getRequests().values();
-        for(Request r: requests){
-            if(r.getSubmitter().equals(username)){
+        for (Request r : requests) {
+            if (r.getSubmitter().equals(username)) {
                 requestMutator.removeEntity(r.getRequestID());
             }
         }
@@ -462,9 +462,10 @@ public class DatabaseHandler {
 
     /**
      * Retreive all users in database
+     *
      * @return List of users in database
      */
-    public List<User> getUsers(){
+    public List<User> getUsers() {
         return userMutator.getUsers();
     }
 
@@ -477,7 +478,6 @@ public class DatabaseHandler {
     }
 
     /**
-     *
      * @param email email to query by
      * @return User object with that email, or null if that user doesn't exist
      */
@@ -511,8 +511,8 @@ public class DatabaseHandler {
      * @return If authentication is successful, return the User object representing the authenticated user, or null if not found. Also modifies the state to update authenticated User.
      */
     public User authenticate(String username, String password) {
-        User attempt =  userMutator.authenticate(username, password);
-        if(attempt != null){
+        User attempt = userMutator.authenticate(username, password);
+        if (attempt != null) {
             DatabaseHandler.AuthenticationUser = attempt;
         }
         return attempt;
@@ -522,20 +522,20 @@ public class DatabaseHandler {
      * Sets authentication level to guest
      */
     public void deauthenticate() {
-        DatabaseHandler.AuthenticationUser = authenticate("temporary","");
+        DatabaseHandler.AuthenticationUser = authenticate("temporary", "");
     }
 
     /**
      * Resets the temporary user
      */
     public User resetTemporaryUser() {
-        User user = new User("temporary", null, null, User.AuthenticationLevel.GUEST, User.CovidStatus.UNCHECKED, null);
+        User user = new User("temporary", null, null, null, User.AuthenticationLevel.GUEST, User.CovidStatus.UNCHECKED, null);
         try {
             deleteUser("temporary");
-        } catch (SQLException throwables) {
+        } catch (SQLException ignored) {
         }
         try {
-            addUser(user,"");
+            addUser(user, "");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -692,7 +692,7 @@ public class DatabaseHandler {
     public void updateRequest(Request request) throws SQLException {
         requestMutator.updateEntity(request);
 
-        if(request instanceof CovidSurveyRequest) {
+        if (request instanceof CovidSurveyRequest) {
             User user = getUserByUsername(request.getSubmitter());
             if (user != null) {
                 user.setCovidStatus(((CovidSurveyRequest) request).getStatus());
@@ -802,7 +802,7 @@ public class DatabaseHandler {
     /**
      * Update the Graph class with new info
      */
-    private void notifyObservers(){
+    private void notifyObservers() {
         Graph.getGraph().updateGraph();
     }
 
