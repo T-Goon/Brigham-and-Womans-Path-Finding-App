@@ -1,7 +1,10 @@
-package edu.wpi.cs3733.D21.teamB.entities.map.data;
+package edu.wpi.cs3733.D21.teamB.entities.map.node;
 
 import edu.wpi.cs3733.D21.teamB.App;
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
+import edu.wpi.cs3733.D21.teamB.entities.map.data.Edge;
+import edu.wpi.cs3733.D21.teamB.entities.map.data.Node;
+import edu.wpi.cs3733.D21.teamB.entities.map.data.NodeMenuPopupData;
 import edu.wpi.cs3733.D21.teamB.entities.map.node.DelEdgeBtwnFloorsAYSWindow;
 import edu.wpi.cs3733.D21.teamB.util.Popup.Poppable;
 import edu.wpi.cs3733.D21.teamB.util.Popup.Window;
