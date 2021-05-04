@@ -1,27 +1,31 @@
 package edu.wpi.cs3733.D21.teamB.views.requestForms;
 
-import com.jfoenix.controls.*;
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXDialog;
+import com.jfoenix.controls.JFXDialogLayout;
 import edu.wpi.cs3733.D21.teamB.App;
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Node;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
+import edu.wpi.cs3733.D21.teamB.views.AutoCompleteComboBoxListener;
 import edu.wpi.cs3733.D21.teamB.views.BasePageController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.fxml.Initializable;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 import java.net.URL;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.ResourceBundle;
 
 public abstract class DefaultServiceRequestFormController extends BasePageController implements Initializable {
 
@@ -68,31 +72,8 @@ public abstract class DefaultServiceRequestFormController extends BasePageContro
             nodesList.add(n);
         }
 
-        //ADD searchable thing
-        loc.setEditable(true);
-
-        JFXAutoCompletePopup<String> autoCompletePopup = new JFXAutoCompletePopup<>();
-        autoCompletePopup.getSuggestions().addAll(loc.getItems());
-
-        //SelectionHandler sets the value of the comboBox
-        autoCompletePopup.setSelectionHandler(event -> {
-            loc.setValue(event.getObject());
-        });
-
-        TextField editor = loc.getEditor();
-        editor.addEventHandler(KeyEvent.ANY, event -> {
-            //The filter method uses the Predicate to filter the Suggestions defined above
-            //I choose to use the contains method while ignoring cases
-            if(!event.getCode().isNavigationKey()) {
-                autoCompletePopup.filter(item -> item.toLowerCase().contains(editor.getText().toLowerCase()));
-                //Hide the autocomplete popup if the filtered suggestions is empty or when the box's original popup is open
-                if (autoCompletePopup.getFilteredSuggestions().isEmpty()) {
-                    autoCompletePopup.hide();
-                } else {
-                    autoCompletePopup.show(editor);
-                }
-            }
-        });
+        //implement searchable combo box
+        new AutoCompleteComboBoxListener<>(loc);
 
         btnSubmit.setDisable(true);
     }

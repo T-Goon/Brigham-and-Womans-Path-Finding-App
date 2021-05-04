@@ -7,12 +7,11 @@ import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.requests.LanguageRequest;
 import edu.wpi.cs3733.D21.teamB.entities.requests.Request;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
+import edu.wpi.cs3733.D21.teamB.views.AutoCompleteComboBoxListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.input.KeyEvent;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -55,28 +54,8 @@ public class LanguageRequestFormController extends DefaultServiceRequestFormCont
         language.getItems().add("Spanish");
         language.getItems().add("Vietnamese");
 
-        JFXAutoCompletePopup<String> autoCompletePopup = new JFXAutoCompletePopup<>();
-        autoCompletePopup.getSuggestions().addAll(language.getItems());
-
-        //SelectionHandler sets the value of the comboBox
-        autoCompletePopup.setSelectionHandler(event -> {
-            language.setValue(event.getObject());
-        });
-
-        TextField editor = language.getEditor();
-        editor.addEventHandler(KeyEvent.ANY,event -> {
-            //The filter method uses the Predicate to filter the Suggestions defined above
-            //I choose to use the contains method while ignoring cases
-           if(!event.getCode().isNavigationKey()) {
-               autoCompletePopup.filter(item -> item.toLowerCase().contains(editor.getText().toLowerCase()));
-               //Hide the autocomplete popup if the filtered suggestions is empty or when the box's original popup is open
-               if (autoCompletePopup.getFilteredSuggestions().isEmpty()) {
-                   autoCompletePopup.hide();
-               } else {
-                   autoCompletePopup.show(editor);
-               }
-           }
-        });
+        //implement searchable combo box
+        new AutoCompleteComboBoxListener<>(language);
 
         if (SceneSwitcher.peekLastScene().equals("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml")) {
             this.id = (String) App.getPrimaryStage().getUserData();
