@@ -27,7 +27,7 @@ public class DatabaseHandler {
     private final UserMutator userMutator;
 
     //State
-    private static User AuthenticationUser = new User(null, null, null, User.AuthenticationLevel.GUEST, null);
+    private static User AuthenticationUser = new User("temporary", null, null, User.AuthenticationLevel.GUEST, null);
     private final String salt = BCrypt.gensalt();
 
     private DatabaseHandler() {
@@ -452,6 +452,12 @@ public class DatabaseHandler {
      */
     public void deleteUser(String username) throws SQLException {
         userMutator.removeEntity(username);
+        Collection<Request> requests = requestMutator.getRequests().values();
+        for(Request r: requests){
+            if(r.getSubmitter().equals(username)){
+                requestMutator.removeEntity(r.getRequestID());
+            }
+        }
     }
 
     /**
@@ -498,7 +504,6 @@ public class DatabaseHandler {
     public User authenticate(String username, String password) {
         User attempt =  userMutator.authenticate(username, password);
         if(attempt != null){
-            this.deauthenticate();
             DatabaseHandler.AuthenticationUser = attempt;
         }
         return attempt;
@@ -508,7 +513,24 @@ public class DatabaseHandler {
      * Sets authentication level to guest
      */
     public void deauthenticate() {
-        DatabaseHandler.AuthenticationUser = new User(null, null, null, User.AuthenticationLevel.GUEST, User.CovidStatus.UNCHECKED, null);
+        DatabaseHandler.AuthenticationUser = authenticate("temporary","");
+    }
+
+    /**
+     * Resets the temporary user
+     */
+    public User resetTemporaryUser() {
+        User user = new User("temporary", null, null, User.AuthenticationLevel.GUEST, User.CovidStatus.UNCHECKED, null);
+        try {
+            deleteUser("temporary");
+        } catch (SQLException throwables) {
+        }
+        try {
+            addUser(user,"");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return user;
     }
 
     /**

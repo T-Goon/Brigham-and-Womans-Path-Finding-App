@@ -141,7 +141,6 @@ public class CovidSurveyController extends DefaultServiceRequestFormController i
 
         switch (btn.getId()) {
             case "btnBack":
-                SceneSwitcher.goBack(getClass(), 1);
                 break;
             case "btnSubmit":
                 this.handleSubmission();

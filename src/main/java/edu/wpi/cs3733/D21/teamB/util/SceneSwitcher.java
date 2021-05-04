@@ -44,7 +44,6 @@ public class SceneSwitcher {
             System.err.println("Path \"" + path + "\" is malformed or nonexistent!");
             e.printStackTrace();
         }
-        System.out.println(stack.toString());
     }
 
 
@@ -79,7 +78,6 @@ public class SceneSwitcher {
             System.err.println("Path \"" + path + "\" is malformed or nonexistent!");
             e.printStackTrace();
         }
-        System.out.println(stack.toString());
     }
 
     /**
