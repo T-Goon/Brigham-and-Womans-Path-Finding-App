@@ -7,6 +7,7 @@ import com.dlsc.gmapsfx.service.directions.*;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.validation.RequiredFieldValidator;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
 import edu.wpi.cs3733.D21.teamB.views.BasePageController;
 import javafx.event.ActionEvent;
@@ -76,17 +77,28 @@ public class DirectionsMenuController extends BasePageController implements Init
 
         mapView.addMapInitializedListener(this);
 
+
+        RequiredFieldValidator startLocationValidator = new RequiredFieldValidator();
+        startLocationValidator.setMessage("Please enter a starting location");
+        txtStartLocation.getValidators().add(startLocationValidator);
+
+        RequiredFieldValidator endLocationValidator = new RequiredFieldValidator();
+        startLocationValidator.setMessage("Please select a ending location");
+        comboEndLocation.getValidators().add(endLocationValidator);
+
+
         txtStartLocation.setOnKeyPressed(event -> {
-            if(event.getCode().equals(KeyCode.ENTER)){
+            if(event.getCode().equals(KeyCode.ENTER)&&canSubmit()){
                 getRoute();
             }
         });
 
         comboEndLocation.setOnKeyPressed(event -> {
-            if(event.getCode().equals(KeyCode.ENTER)){
+            if(event.getCode().equals(KeyCode.ENTER)&&canSubmit()){
                 getRoute();
             }
         });
+
     }
 
     private void getRoute() {
@@ -117,5 +129,13 @@ public class DirectionsMenuController extends BasePageController implements Init
 
     @Override
     public void directionsReceived(DirectionsResult results, DirectionStatus status) {
+    }
+
+    public void validateButton(ActionEvent actionEvent) {
+        btnSubmit.setDisable(!canSubmit());
+    }
+
+    private boolean canSubmit(){
+        return !txtStartLocation.getText().isEmpty() && !comboEndLocation.getSelectionModel().getSelectedItem().isEmpty();
     }
 }
