@@ -55,6 +55,7 @@ public class ExternalTransportationRequestFormController extends DefaultServiceR
         comboTranspType.getItems().add("Ambulance");
         comboTranspType.getItems().add("Helicopter");
 
+        int index = -1;
         if (SceneSwitcher.peekLastScene().equals("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml")) {
             this.id = (String) App.getPrimaryStage().getUserData();
             ExternalTransportRequest externalTransportRequest;
@@ -66,7 +67,6 @@ public class ExternalTransportationRequestFormController extends DefaultServiceR
             }
             name.setText(externalTransportRequest.getPatientName());
             getLocationIndex(externalTransportRequest.getLocation());
-            int index = -1;
             switch (externalTransportRequest.getTransportType()) {
                 case "Bus":
                     index = 0;
@@ -78,9 +78,6 @@ public class ExternalTransportationRequestFormController extends DefaultServiceR
                     index = 2;
                     break;
             }
-            System.out.println("index: " + index);
-            comboTranspType.getSelectionModel().select(index);
-            System.out.println(comboTranspType.getSelectionModel().getSelectedIndex());
             destination.setText(externalTransportRequest.getDestination());
             description.setText(externalTransportRequest.getDescription());
             allergies.setText(externalTransportRequest.getPatientAllergies());
@@ -166,6 +163,7 @@ public class ExternalTransportationRequestFormController extends DefaultServiceR
         //add searchable combo boxes
         comboTranspType.setVisibleRowCount(3);
         new AutoCompleteComboBoxListener<String>(comboTranspType); // TODO FIX CAUSES BUGS
+        if (index != -1) comboTranspType.getSelectionModel().select(index);
     }
 
     public void handleButtonAction(ActionEvent e) {

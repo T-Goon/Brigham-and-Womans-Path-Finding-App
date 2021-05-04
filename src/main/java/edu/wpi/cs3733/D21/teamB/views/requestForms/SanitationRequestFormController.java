@@ -48,7 +48,7 @@ public class SanitationRequestFormController extends DefaultServiceRequestFormCo
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        super.initialize(location,resources);
+        super.initialize(location, resources);
 
         comboTypeService.getItems().add("Wet");
         comboTypeService.getItems().add("Dry");
@@ -58,6 +58,8 @@ public class SanitationRequestFormController extends DefaultServiceRequestFormCo
         comboSizeService.getItems().add("Medium");
         comboSizeService.getItems().add("Large");
 
+        int indexType = -1;
+        int indexSize = -1;
         if (SceneSwitcher.peekLastScene().equals("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml")) {
             this.id = (String) App.getPrimaryStage().getUserData();
             SanitationRequest sanitationRequest;
@@ -68,7 +70,6 @@ public class SanitationRequestFormController extends DefaultServiceRequestFormCo
                 return;
             }
             getLocationIndex(sanitationRequest.getLocation());
-            int indexType = -1;
             switch (sanitationRequest.getSanitationType()) {
                 case "Wet":
                     indexType = 0;
@@ -80,8 +81,6 @@ public class SanitationRequestFormController extends DefaultServiceRequestFormCo
                     indexType = 2;
                     break;
             }
-            comboTypeService.getSelectionModel().select(indexType);
-            int indexSize = -1;
             switch (sanitationRequest.getSanitationSize()) {
                 case "Small":
                     indexSize = 0;
@@ -93,7 +92,6 @@ public class SanitationRequestFormController extends DefaultServiceRequestFormCo
                     indexSize = 2;
                     break;
             }
-            comboSizeService.getSelectionModel().select(indexSize);
             description.setText(sanitationRequest.getDescription());
             safetyHazard.setSelected(sanitationRequest.getHazardous().equals("T"));
             biologicalSubstance.setSelected(sanitationRequest.getBiologicalSubstance().equals("T"));
@@ -155,6 +153,9 @@ public class SanitationRequestFormController extends DefaultServiceRequestFormCo
         comboSizeService.setVisibleRowCount(3);
         new AutoCompleteComboBoxListener<>(comboTypeService);
         new AutoCompleteComboBoxListener<>(comboSizeService);
+
+        if (indexType != -1) comboTypeService.getSelectionModel().select(indexType);
+        if (indexSize != -1) comboSizeService.getSelectionModel().select(indexSize);
     }
 
     @FXML
