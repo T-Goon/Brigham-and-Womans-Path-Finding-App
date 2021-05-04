@@ -61,212 +61,6 @@
                   </VBox>
                </children>
             </HBox>
-            <FlowPane fx:id="flowpane" alignment="CENTER" columnHalignment="CENTER" hgap="150.0" vgap="80.0" StackPane.alignment="CENTER">
-               <children>
-                  <JFXButton fx:id="btnSocialWorker" contentDisplay="GRAPHIC_ONLY" minHeight="160.0" minWidth="160.0" onAction="#handleButtonAction" ripplerFill="WHITE" text="Social Worker">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                     <graphic>
-                        <ImageView fitHeight="235.0" fitWidth="235.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../images/requestForms/socialWorkerIcon.png" />
-                           </image>
-                           <viewport>
-                              <Rectangle2D />
-                           </viewport>
-                        </ImageView>
-                     </graphic>
-                     <padding>
-                        <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
-                     </padding>
-                  </JFXButton>
-                  <JFXButton fx:id="btnLaundryRequest" contentDisplay="GRAPHIC_ONLY" minHeight="160.0" minWidth="160.0" onAction="#handleButtonAction" ripplerFill="WHITE" text="Laundry">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                     <graphic>
-                        <ImageView fitHeight="235.0" fitWidth="235.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../images/requestForms/laundryIcon.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                     <padding>
-                        <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
-                     </padding>
-                  </JFXButton>
-                  <JFXButton fx:id="btnFoodDelivery" contentDisplay="GRAPHIC_ONLY" minHeight="160.0" minWidth="160.0" onAction="#handleButtonAction" ripplerFill="WHITE" text="Food Delivery">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                     <graphic>
-                        <ImageView fitHeight="235.0" fitWidth="235.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../images/requestForms/foodDeliveryIcon.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                     <padding>
-                        <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
-                     </padding>
-                  </JFXButton>
-                      <JFXButton fx:id="btnSanitation" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" minHeight="160.0" minWidth="160.0" onAction="#handleButtonAction" ripplerFill="WHITE" text="Sanitation Services">
-                          <font>
-                              <Font size="14.0" />
-                          </font>
-                          <graphic>
-                              <ImageView fitHeight="235.0" fitWidth="235.0" pickOnBounds="true" preserveRatio="true">
-                                  <image>
-                                      <Image url="@../../images/requestForms/sanitationIcon.png" />
-                                  </image>
-                              </ImageView>
-                          </graphic>
-                     <padding>
-                        <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
-                     </padding>
-                     </JFXButton>
-                  <JFXButton fx:id="btnFloralDelivery" contentDisplay="GRAPHIC_ONLY" minHeight="160.0" minWidth="160.0" nodeOrientation="LEFT_TO_RIGHT" onAction="#handleButtonAction" ripplerFill="WHITE" text="Floral Delivery">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                     <graphic>
-                        <ImageView fitHeight="235.0" fitWidth="235.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../images/requestForms/floralIcon.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                     <padding>
-                        <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
-                     </padding>
-                  </JFXButton>
-                   <JFXButton fx:id="btnMedicine" contentDisplay="GRAPHIC_ONLY" minHeight="160.0" minWidth="160.0" onAction="#handleButtonAction" ripplerFill="WHITE" stylesheets="@../../css/serviceRequestDirectory.css" text="Medicine Delivery">
-                       <font>
-                           <Font size="14.0" />
-                       </font>
-                       <graphic>
-                           <ImageView fitHeight="235.0" fitWidth="235.0" pickOnBounds="true" preserveRatio="true">
-                               <image>
-                                   <Image url="@../../images/requestForms/medicineIcon.png" />
-                               </image>
-                           </ImageView>
-                       </graphic>
-                     <padding>
-                        <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
-                     </padding>
-                  </JFXButton>
-                  <JFXButton fx:id="btnSecurity" contentDisplay="GRAPHIC_ONLY" minHeight="160.0" minWidth="160.0" nodeOrientation="LEFT_TO_RIGHT" onAction="#handleButtonAction" ripplerFill="WHITE" text="Security Services">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                     <graphic>
-                        <ImageView fitHeight="235.0" fitWidth="235.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../images/requestForms/securityIcon.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                     <padding>
-                        <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
-                     </padding>
-                  </JFXButton>
-                   <JFXButton fx:id="btnIntTransp" contentDisplay="GRAPHIC_ONLY" minHeight="160.0" minWidth="160.0" onAction="#handleButtonAction" ripplerFill="WHITE" text="Internal Transportation">
-                      <font>
-                         <Font size="14.0" />
-                      </font>
-                      <graphic>
-                         <ImageView fitHeight="235.0" fitWidth="235.0" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                               <Image url="@../../images/requestForms/internalTransportIcon.png" />
-                            </image>
-                         </ImageView>
-                      </graphic>
-                     <padding>
-                        <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
-                     </padding>
-                   </JFXButton>
-                   <JFXButton fx:id="btnExtTransp" contentDisplay="GRAPHIC_ONLY" minHeight="160.0" minWidth="160.0" onAction="#handleButtonAction" ripplerFill="WHITE" text="External Transportation">
-                      <font>
-                         <Font size="14.0" />
-                      </font>
-                      <graphic>
-                         <ImageView fitHeight="235.0" fitWidth="235.0" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                               <Image url="@../../images/requestForms/externalTransportIcon.png" />
-                            </image>
-                         </ImageView>
-                      </graphic>
-                     <padding>
-                        <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
-                     </padding>
-                   </JFXButton>
-                  <JFXButton fx:id="btnReligiousRequest" contentDisplay="GRAPHIC_ONLY" minHeight="160.0" minWidth="160.0" onAction="#handleButtonAction" ripplerFill="WHITE" text="Religious Service">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                     <graphic>
-                        <ImageView fitHeight="235.0" fitWidth="235.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../images/requestForms/religiousIcon.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                     <padding>
-                        <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
-                     </padding>
-                  </JFXButton>
-                  <JFXButton fx:id="btnCaseManager" contentDisplay="GRAPHIC_ONLY" minHeight="160.0" minWidth="160.0" onAction="#handleButtonAction" ripplerFill="WHITE" text="Case Manager">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                     <graphic>
-                        <ImageView fitHeight="235.0" fitWidth="235.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../images/requestForms/caseManagerIcon.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                     <padding>
-                        <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
-                     </padding>
-                  </JFXButton>
-                  <JFXButton fx:id="btnGiftDelivery" contentDisplay="GRAPHIC_ONLY" minHeight="160.0" minWidth="160.0" onAction="#handleButtonAction" ripplerFill="WHITE" text="Gift Delivery">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                     <graphic>
-                        <ImageView fitHeight="235.0" fitWidth="235.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../images/requestForms/giftIcon.png" />
-                              <Image url="@../../images/requestForms/giftIcon.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                     <padding>
-                        <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
-                     </padding>
-                  </JFXButton>
-                  <JFXButton fx:id="btnLanguageInterpreter" contentDisplay="GRAPHIC_ONLY" minHeight="160.0" minWidth="160.0" onAction="#handleButtonAction" ripplerFill="WHITE" text="Language Interpreter">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                     <graphic>
-                        <ImageView fitHeight="235.0" fitWidth="235.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../images/requestForms/languageInterpreterIcon.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                     <padding>
-                        <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
-                     </padding>
-                  </JFXButton>
-               </children>
-               <StackPane.margin>
-                  <Insets left="50.0" right="50.0" top="165.0" />
-               </StackPane.margin>
-            </FlowPane>
             <HBox alignment="BOTTOM_CENTER" fillHeight="false" maxHeight="-Infinity" prefWidth="200.0" StackPane.alignment="BOTTOM_CENTER">
                <children>
                   <HBox alignment="BOTTOM_LEFT" HBox.hgrow="ALWAYS">
@@ -309,6 +103,286 @@
                   </HBox>
                </children>
             </HBox>
+            <FlowPane fx:id="flowpane" alignment="CENTER" columnHalignment="CENTER" hgap="150.0" vgap="60.0">
+               <children>
+                  <VBox alignment="CENTER">
+                     <children>
+                        <JFXButton fx:id="btnSocialWorker" contentDisplay="GRAPHIC_ONLY" minHeight="160.0" minWidth="160.0" onAction="#handleButtonAction" ripplerFill="WHITE" text="Social Worker">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                           <graphic>
+                              <ImageView fitHeight="230.0" fitWidth="230.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../images/requestForms/socialWorkerIcon.png" />
+                                 </image>
+                                 <viewport>
+                                    <Rectangle2D />
+                                 </viewport>
+                              </ImageView>
+                           </graphic>
+                           <padding>
+                              <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+                           </padding>
+                        </JFXButton>
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" />
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER">
+                     <children>
+                        <JFXButton fx:id="btnLaundryRequest" contentDisplay="GRAPHIC_ONLY" minHeight="160.0" minWidth="160.0" onAction="#handleButtonAction" ripplerFill="WHITE" text="Laundry">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                           <graphic>
+                              <ImageView fitHeight="230.0" fitWidth="230.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../images/requestForms/laundryIcon.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <padding>
+                              <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+                           </padding>
+                        </JFXButton>
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" />
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER">
+                     <children>
+                        <JFXButton fx:id="btnFoodDelivery" contentDisplay="GRAPHIC_ONLY" minHeight="160.0" minWidth="160.0" onAction="#handleButtonAction" ripplerFill="WHITE" text="Food Delivery">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                           <graphic>
+                              <ImageView fitHeight="230.0" fitWidth="230.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../images/requestForms/foodDeliveryIcon.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <padding>
+                              <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+                           </padding>
+                        </JFXButton>
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" />
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER">
+                     <children>
+                        <JFXButton fx:id="btnSanitation" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" minHeight="160.0" minWidth="160.0" onAction="#handleButtonAction" ripplerFill="WHITE" text="Sanitation Services">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                           <graphic>
+                              <ImageView fitHeight="230.0" fitWidth="230.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../images/requestForms/sanitationIcon.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <padding>
+                              <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+                           </padding>
+                        </JFXButton>
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" />
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER">
+                     <children>
+                        <JFXButton fx:id="btnFloralDelivery" contentDisplay="GRAPHIC_ONLY" minHeight="160.0" minWidth="160.0" nodeOrientation="LEFT_TO_RIGHT" onAction="#handleButtonAction" ripplerFill="WHITE" text="Floral Delivery">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                           <graphic>
+                              <ImageView fitHeight="230.0" fitWidth="230.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../images/requestForms/floralIcon.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <padding>
+                              <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+                           </padding>
+                        </JFXButton>
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" />
+                     </children>
+                  </VBox>
+                  <VBox fx:id="medicineDelivery" alignment="CENTER">
+                     <children>
+                        <JFXButton fx:id="btnMedicine" contentDisplay="GRAPHIC_ONLY" minHeight="160.0" minWidth="160.0" onAction="#handleButtonAction" ripplerFill="WHITE" stylesheets="@../../css/serviceRequestDirectory.css" text="Medicine Delivery">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                           <graphic>
+                              <ImageView fitHeight="230.0" fitWidth="230.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../images/requestForms/medicineIcon.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <padding>
+                              <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+                           </padding>
+                        </JFXButton>
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" />
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER">
+                     <children>
+                        <JFXButton fx:id="btnSecurity" contentDisplay="GRAPHIC_ONLY" minHeight="160.0" minWidth="160.0" nodeOrientation="LEFT_TO_RIGHT" onAction="#handleButtonAction" ripplerFill="WHITE" text="Security Services">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                           <graphic>
+                              <ImageView fitHeight="230.0" fitWidth="230.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../images/requestForms/securityIcon.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <padding>
+                              <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+                           </padding>
+                        </JFXButton>
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" />
+                     </children>
+                  </VBox>
+                  <VBox fx:id="internalTransport" alignment="CENTER">
+                     <children>
+                        <JFXButton fx:id="btnIntTransp" contentDisplay="GRAPHIC_ONLY" minHeight="160.0" minWidth="160.0" onAction="#handleButtonAction" ripplerFill="WHITE" text="Internal Transportation">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                           <graphic>
+                              <ImageView fitHeight="230.0" fitWidth="230.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../images/requestForms/internalTransportIcon.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <padding>
+                              <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+                           </padding>
+                        </JFXButton>
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" />
+                     </children>
+                  </VBox>
+                  <VBox fx:id="externalTransport" alignment="CENTER">
+                     <children>
+                        <JFXButton fx:id="btnExtTransp" contentDisplay="GRAPHIC_ONLY" minHeight="160.0" minWidth="160.0" onAction="#handleButtonAction" ripplerFill="WHITE" text="External Transportation">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                           <graphic>
+                              <ImageView fitHeight="230.0" fitWidth="230.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../images/requestForms/externalTransportIcon.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <padding>
+                              <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+                           </padding>
+                        </JFXButton>
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" />
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER">
+                     <children>
+                        <JFXButton fx:id="btnReligiousRequest" contentDisplay="GRAPHIC_ONLY" minHeight="160.0" minWidth="160.0" onAction="#handleButtonAction" ripplerFill="WHITE" text="Religious Service">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                           <graphic>
+                              <ImageView fitHeight="230.0" fitWidth="230.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../images/requestForms/religiousIcon.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <padding>
+                              <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+                           </padding>
+                        </JFXButton>
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" />
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER" style="-fx-background-color: #012d5a;">
+                     <children>
+                        <JFXButton fx:id="btnCaseManager" contentDisplay="GRAPHIC_ONLY" minHeight="160.0" minWidth="160.0" onAction="#handleButtonAction" ripplerFill="WHITE" text="Case Manager">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                           <graphic>
+                              <ImageView fitHeight="230.0" fitWidth="230.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../images/requestForms/caseManagerIcon.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <padding>
+                              <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+                           </padding>
+                        </JFXButton>
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" />
+                     </children>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                  </VBox>
+                  <VBox alignment="CENTER" style="-fx-background-color: #012d5a;">
+                     <children>
+                        <JFXButton fx:id="btnGiftDelivery" contentDisplay="GRAPHIC_ONLY" minHeight="160.0" minWidth="160.0" onAction="#handleButtonAction" ripplerFill="WHITE" text="Gift Delivery">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                           <graphic>
+                              <ImageView fitHeight="230.0" fitWidth="230.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../images/requestForms/giftIcon.png" />
+                                    <Image url="@../../images/requestForms/giftIcon.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <padding>
+                              <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+                           </padding>
+                        </JFXButton>
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" />
+                     </children>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                  </VBox>
+                  <VBox alignment="CENTER" style="-fx-background-color: #012d5a;">
+                     <children>
+                        <JFXButton fx:id="btnLanguageInterpreter" contentDisplay="GRAPHIC_ONLY" minHeight="160.0" minWidth="160.0" onAction="#handleButtonAction" ripplerFill="WHITE" text="Language Interpreter">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                           <graphic>
+                              <ImageView fitHeight="230.0" fitWidth="230.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../images/requestForms/languageInterpreterIcon.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <padding>
+                              <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+                           </padding>
+                        </JFXButton>
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" />
+                     </children>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                  </VBox>
+               </children>
+               <StackPane.margin>
+                  <Insets left="50.0" right="50.0" top="195.0" />
+               </StackPane.margin>
+            </FlowPane>
          </children>
       </StackPane>
    </children>
