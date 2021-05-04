@@ -31,19 +31,7 @@ public class SettingsMenuController extends BasePageController implements Initia
     private JFXButton btnEmergency;
 
     @FXML
-    private JFXButton btnAdd;
-
-    @FXML
     private StackPane stackContainer;
-
-
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-
-
-
-    }
 
     @FXML
     public void handleButtonAction(ActionEvent e) {
