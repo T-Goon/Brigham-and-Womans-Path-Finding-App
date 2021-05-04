@@ -5,7 +5,6 @@ import edu.wpi.cs3733.D21.teamB.App;
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.AddEdgePopupData;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Edge;
-import edu.wpi.cs3733.D21.teamB.pathfinding.Graph;
 import edu.wpi.cs3733.D21.teamB.util.Popup.Poppable;
 
 import edu.wpi.cs3733.D21.teamB.util.Popup.Popup;

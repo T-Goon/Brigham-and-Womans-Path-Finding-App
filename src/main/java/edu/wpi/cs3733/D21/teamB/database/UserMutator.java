@@ -234,8 +234,7 @@ public class UserMutator implements IDatabaseEntityMutator<UserMutator.UserPassw
             // Make sure the hashed password matches
             if (!BCrypt.checkpw(password, storedHash)) return null;
 
-            User outUser = this.getUserByUsername(username);
-            return outUser;
+            return this.getUserByUsername(username);
         } catch (SQLException e) {
             e.printStackTrace();
             return null;

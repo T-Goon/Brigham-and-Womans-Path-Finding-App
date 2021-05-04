@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Objects;
 import javax.mail.*;
 import javax.mail.internet.*;
-import javax.activation.*;
 import java.util.Properties;
 import java.util.stream.Collectors;
 
@@ -17,8 +16,8 @@ public class ExternalCommunication {
      * @return the message to be sent to recipient
      */
     public MimeMessage setUpSender() {
-        String email = null;
-        String password = null;
+        String email;
+        String password;
         InputStream s = CSVHandler.class.getResourceAsStream("/edu/wpi/cs3733/D21/teamB/account/account.txt");
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(Objects.requireNonNull(s)));
         List<String> lines = bufferedReader.lines().collect(Collectors.toList());

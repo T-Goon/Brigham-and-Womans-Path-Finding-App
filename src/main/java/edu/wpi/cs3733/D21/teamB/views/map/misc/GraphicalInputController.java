@@ -6,6 +6,7 @@ import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.User;
 import edu.wpi.cs3733.D21.teamB.entities.map.node.ChangeParkingSpotPopup;
 import edu.wpi.cs3733.D21.teamB.entities.map.node.GraphicalInputPopup;
+import edu.wpi.cs3733.D21.teamB.entities.map.node.NodeInfoWindow;
 import edu.wpi.cs3733.D21.teamB.util.IObserver;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -30,25 +31,17 @@ public class GraphicalInputController implements Initializable, IObserver {
     private Text nodeName;
 
     @FXML
-    private JFXButton btnStart;
+    private JFXButton btnStart,
+            btnEnd,
+            btnCancel,
+            btnAddStop,
+            btnAddFavorite,
+            btnRemoveFavorite,
+            btnInfo;
+
 
     @FXML
-    private JFXButton btnEnd;
-
-    @FXML
-    private JFXButton btnCancel;
-
-    @FXML
-    private JFXButton btnAddStop;
-
-    @FXML
-    private JFXButton btnAddFavorite;
-
-    @FXML
-    private JFXButton btnRemoveFavorite;
-
-    @FXML
-    private VBox selectionPopup;
+    private VBox root;
 
     @FXML
     private VBox mainMenu;
@@ -62,7 +55,7 @@ public class GraphicalInputController implements Initializable, IObserver {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         popup = (GraphicalInputPopup) App.getPrimaryStage().getUserData();
-        nodeName.setText(popup.getData().getNodeName());
+        nodeName.setText(popup.getData().getNode().getLongName());
 
         // Don't show the favorite buttons if no one is logged in
         if (!DatabaseHandler.getHandler().getAuthenticationUser().isAtLeast(User.AuthenticationLevel.PATIENT)) {
@@ -96,6 +89,12 @@ public class GraphicalInputController implements Initializable, IObserver {
         JFXButton btn = (JFXButton) event.getSource();
 
         switch (btn.getId()) {
+            case "btnInfo":
+                root.getChildren().remove(mainMenu);
+                NodeInfoWindow niWindow = new NodeInfoWindow(root, popup.getData(), mainMenu);
+
+                niWindow.show();
+                break;
             case "btnStart":
                 popup.setStart();
                 break;
@@ -108,8 +107,8 @@ public class GraphicalInputController implements Initializable, IObserver {
             case "btnAddFavorite":
                 boolean hasParking = popup.addFavorite();
                 if (hasParking) {
-                    selectionPopup.getChildren().remove(mainMenu);
-                    cpsPopup = popup.getData().getMppm().createChangeParkingSpotPopup(selectionPopup, popup.getData(), mainMenu);
+                    root.getChildren().remove(mainMenu);
+                    cpsPopup = popup.getData().getMppm().createChangeParkingSpotPopup(root, popup.getData(), mainMenu);
                     cpsPopup.attach(this);
                 } else {
                     btnAddFavorite.setDisable(true);
@@ -134,7 +133,7 @@ public class GraphicalInputController implements Initializable, IObserver {
     public void update() {
         // Get tree view, parking spot to add, and tree item
         TreeView<String> treeView = cpsPopup.getData().getPfmc().getTreeLocations();
-        String newParking = popup.getData().getNodeName();
+        String newParking = popup.getData().getNode().getLongName();
         TreeItem<String> favorites = cpsPopup.getData().getPfmc().getFavorites();
 
         List<TreeItem<String>> toRemove = new ArrayList<>();
@@ -148,7 +147,7 @@ public class GraphicalInputController implements Initializable, IObserver {
         favorites.getChildren().removeAll(toRemove);
 
         // Add updated parking spot to favorites and update database
-        favorites.getChildren().add(new TreeItem<String>(newParking));
+        favorites.getChildren().add(new TreeItem<>(newParking));
         try {
             DatabaseHandler.getHandler().updateParkingSpot(newParking);
         } catch (SQLException e) {
