@@ -89,12 +89,14 @@
                                                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                             </columnConstraints>
                                             <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                             </rowConstraints>
                                             <children>
                                                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Username">
@@ -109,30 +111,36 @@
                                                     </font>
                                                 </Text>
                                                 <JFXPasswordField fx:id="password" focusColor="#ffffff00" style="-fx-background-color: #e5e5e5; -fx-background-radius: 7;" unFocusColor="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="First Name" GridPane.rowIndex="2">
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Email Address" GridPane.rowIndex="2">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                    </Text>
+                                    <JFXTextField fx:id="email" onKeyReleased="#validateButtons" style="-fx-background-color: #e5e5e5; -fx-background-radius: 7;" unFocusColor="#f0f0f0" GridPane.rowIndex="3" />
+                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="First Name" GridPane.rowIndex="4">
                                                     <font>
                                                         <Font size="14.0" />
                                                     </font>
                                                 </Text>
-                                                <JFXTextField fx:id="firstName" onKeyReleased="#validateButtons" style="-fx-background-color: #e5e5e5; -fx-background-radius: 7;" unFocusColor="#f0f0f0" GridPane.rowIndex="3" />
-                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Last Name" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                                                <JFXTextField fx:id="firstName" onKeyReleased="#validateButtons" style="-fx-background-color: #e5e5e5; -fx-background-radius: 7;" unFocusColor="#f0f0f0" GridPane.rowIndex="5" />
+                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Last Name" GridPane.columnIndex="2" GridPane.rowIndex="4">
                                                     <font>
                                                         <Font size="14.0" />
                                                     </font>
                                                 </Text>
-                                                <JFXTextField fx:id="lastName" onKeyReleased="#validateButtons" style="-fx-background-color: #e5e5e5; -fx-background-radius: 7;" unFocusColor="#f0f0f0" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Authentication Level" GridPane.rowIndex="4">
+                                                <JFXTextField fx:id="lastName" onKeyReleased="#validateButtons" style="-fx-background-color: #e5e5e5; -fx-background-radius: 7;" unFocusColor="#f0f0f0" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Authentication Level" GridPane.rowIndex="6">
                                                     <font>
                                                         <Font size="14.0" />
                                                     </font>
                                                 </Text>
-                                                <JFXComboBox fx:id="authenticationLevel" onHiding="#validateButtons" prefWidth="9999.0" style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" GridPane.rowIndex="5" />
-                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Job" GridPane.columnIndex="2" GridPane.rowIndex="4">
+                                                <JFXComboBox fx:id="authenticationLevel" onHiding="#validateButtons" prefWidth="9999.0" style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" GridPane.rowIndex="7" />
+                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Job" GridPane.columnIndex="2" GridPane.rowIndex="6">
                                                     <font>
                                                         <Font size="14.0" />
                                                     </font>
                                                 </Text>
-                                                <JFXComboBox fx:id="job" onHiding="#validateButtons" prefWidth="9001.0" style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+                                                <JFXComboBox fx:id="job" onHiding="#validateButtons" prefWidth="9001.0" style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" GridPane.columnIndex="2" GridPane.rowIndex="7" />
                                             </children>
                                         </GridPane>
                                     </children>

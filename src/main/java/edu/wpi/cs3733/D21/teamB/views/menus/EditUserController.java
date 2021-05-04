@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.D21.teamB.views.menus;
 
 import com.jfoenix.controls.*;
+import com.jfoenix.validation.RequiredFieldValidator;
 import edu.wpi.cs3733.D21.teamB.App;
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.User;
@@ -63,6 +64,8 @@ public class EditUserController extends BasePageController implements Initializa
     @FXML
     private Text smallText;
 
+    private String originalEmail;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         authenticationLevel.getItems().add(new Label(User.AuthenticationLevel.ADMIN.toString()));
@@ -81,6 +84,7 @@ public class EditUserController extends BasePageController implements Initializa
         }
         username.setText(u.getUsername());
         email.setText(u.getEmail());
+        originalEmail = email.getText();
         firstName.setText(u.getFirstName());
         lastName.setText(u.getLastName());
         int i = 0;
@@ -108,6 +112,10 @@ public class EditUserController extends BasePageController implements Initializa
         }
 
         validateButtons();
+
+        RequiredFieldValidator validatorEmail = new RequiredFieldValidator();
+        email.getValidators().add(validatorEmail);
+        validatorEmail.setMessage("Email address is already taken!");
     }
 
     public void handleButtonAction(ActionEvent actionEvent) {
@@ -116,6 +124,10 @@ public class EditUserController extends BasePageController implements Initializa
         JFXButton btn = (JFXButton) actionEvent.getSource();
         switch (btn.getId()) {
             case "btnSubmit":
+                if (!originalEmail.equals(email.getText()) && DatabaseHandler.getHandler().getUserByEmail(email.getText()) != null) {
+                    email.validate();
+                    return;
+                }
                 String uUsername = username.getText();
                 String uEmail = email.getText();
                 String uFirstName = firstName.getText();
@@ -131,7 +143,8 @@ public class EditUserController extends BasePageController implements Initializa
                     }
                 }
                 User uUpdated = new User(uUsername, uEmail, uFirstName, uLastName, uAuthLevel, uJobs);
-
+                System.out.println("username: " + uUsername);
+                System.out.println("email: " + uEmail);
                 try {
                     if (SceneSwitcher.addingUser) {
                         DatabaseHandler.getHandler().addUser(uUpdated, password.getText());
@@ -180,7 +193,7 @@ public class EditUserController extends BasePageController implements Initializa
     @FXML
     private void validateButtons() {
         btnSubmit.setDisable(
-                username.getText().isEmpty() || firstName.getText().isEmpty() || lastName.getText().isEmpty() ||
+                username.getText().isEmpty() || email.getText().isEmpty() || firstName.getText().isEmpty() || lastName.getText().isEmpty() ||
                         authenticationLevel.getValue() == null
         );
 
