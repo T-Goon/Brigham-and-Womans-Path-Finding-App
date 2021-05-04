@@ -11,7 +11,6 @@ public class AboutPageController extends BasePageController {
     @FXML
     private JFXButton btnEmergency;
 
-
     @FXML
     public void handleButtonAction(ActionEvent e) {
         final String currentPath = "/edu/wpi/cs3733/D21/teamB/views/misc/aboutPage.fxml";

@@ -68,7 +68,6 @@ public class ExternalCommunication {
                     "This email confirms that your registration was successful.\n\n\nBrigham and Women's Hospital Application Team");
 
             Transport.send(message);
-            System.out.println("Sent message successfully...");
         } catch (MessagingException mex) {
             mex.printStackTrace();
         }
@@ -85,11 +84,6 @@ public class ExternalCommunication {
     public void sendAssignment(String email, String name, String submitter, String task) {
         MimeMessage message = setUpSender();
 
-        System.out.println("sendAssignment");
-        System.out.println("email: " + email);
-        System.out.println("name: " + name);
-        System.out.println("submitter: " + submitter);
-        System.out.println("task: " + task);
         try {
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
 
@@ -98,7 +92,6 @@ public class ExternalCommunication {
                     task + "\n\n\nBrigham and Women's Hospital Application Team");
 
             Transport.send(message);
-            System.out.println("Sent message successfully...");
         } catch (MessagingException e) {
             e.printStackTrace();
         }
@@ -115,11 +108,6 @@ public class ExternalCommunication {
     public void notifyCompletion(String email, String name, String submitter, String task) {
         MimeMessage message = setUpSender();
 
-        System.out.println("notifyCompletion");
-        System.out.println("email: " + email);
-        System.out.println("name: " + name);
-        System.out.println("submitter: " + submitter);
-        System.out.println("task: " + task);
         try {
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
 
@@ -128,7 +116,6 @@ public class ExternalCommunication {
                     task + "\n\n\nBrigham and Women's Hospital Application Team");
 
             Transport.send(message);
-            System.out.println("Sent message successfully...");
         } catch (MessagingException e) {
             e.printStackTrace();
         }
