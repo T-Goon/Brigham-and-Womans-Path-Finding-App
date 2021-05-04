@@ -63,34 +63,43 @@
                                 </VBox>
                             </children>
                         </HBox>
-                  <VBox prefHeight="575.0" prefWidth="1280.0">
+                  <VBox prefHeight="9999.0">
                      <children>
-                        <HBox prefHeight="100.0" prefWidth="931.0">
+                        <HBox alignment="TOP_CENTER">
                            <children>
-                              <VBox prefHeight="100.0" prefWidth="590.0">
+                              <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Accessibility Settings:" textAlignment="CENTER" underline="true">
+                                 <font>
+                                    <Font name="System Bold" size="48.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </HBox>
+                        <HBox alignment="TOP_CENTER" prefHeight="100.0">
+                           <children>
+                              <VBox prefHeight="100.0">
                                  <children>
-                                    <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="191.0" prefWidth="736.0" text="Text-to-speech" textFill="WHITE">
+                                    <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="191.0" text="Text-to-speech:" textFill="WHITE">
                                        <font>
-                                          <Font size="24.0" />
+                                          <Font name="System Bold" size="48.0" />
                                        </font>
                                        <VBox.margin>
-                                          <Insets left="200.0" />
+                                          <Insets />
                                        </VBox.margin>
                                     </Label>
                                  </children>
                               </VBox>
-                              <VBox prefHeight="100.0" prefWidth="590.0">
+                              <VBox prefHeight="100.0">
                                  <children>
-                                    <JFXToggleButton fx:id="toggleTTS" accessibleText="Text-to-speech toggle button" contentDisplay="GRAPHIC_ONLY" prefHeight="181.0" prefWidth="693.0" toggleColor="#f6bd39" toggleLineColor="#ffe3ac" onAction="#handleToggleAction">
+                                    <JFXToggleButton fx:id="toggleTTS" accessibleText="Text-to-speech toggle button" contentDisplay="GRAPHIC_ONLY" onAction="#handleToggleAction" prefHeight="181.0" size="24.0" toggleColor="#f6bd39" toggleLineColor="#ffe3ac">
                                        <VBox.margin>
-                                          <Insets right="200.0" />
+                                          <Insets />
                                        </VBox.margin>
                                     </JFXToggleButton>
                                  </children>
                               </VBox>
                            </children>
                            <VBox.margin>
-                              <Insets bottom="50.0" left="100.0" right="100.0" top="50.0" />
+                              <Insets />
                            </VBox.margin>
                         </HBox>
                         <HBox prefHeight="100.0" prefWidth="200.0" />
