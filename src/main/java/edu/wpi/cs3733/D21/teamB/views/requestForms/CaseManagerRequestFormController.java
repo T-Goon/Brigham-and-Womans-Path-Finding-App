@@ -17,6 +17,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.ZoneId;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.UUID;
@@ -84,6 +86,30 @@ public class CaseManagerRequestFormController extends DefaultServiceRequestFormC
         loc.focusedProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue) {
                 loc.validate();
+            }
+        });
+
+        //arrival date picker
+        RequiredFieldValidator validatorDate = new RequiredFieldValidator();
+
+        arrivalDate.getValidators().add(validatorDate);
+        validatorDate.setMessage("Please select a valid date of arrival!");
+
+        Calendar currentDate = Calendar.getInstance();
+        currentDate.add(Calendar.DATE, -1);
+        Calendar selectedDate = Calendar.getInstance();
+
+        arrivalDate.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                try {
+                    selectedDate.setTime(Date.from(arrivalDate.getValue().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()));
+                    if (selectedDate.compareTo(currentDate) < 0) {
+                        arrivalDate.setValue(null);
+                    }
+                } catch (Exception e) {
+
+                }
+                arrivalDate.validate();
             }
         });
 

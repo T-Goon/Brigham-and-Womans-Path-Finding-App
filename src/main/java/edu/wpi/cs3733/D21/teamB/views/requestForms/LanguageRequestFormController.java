@@ -18,6 +18,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.ZoneId;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.UUID;
@@ -98,6 +100,7 @@ public class LanguageRequestFormController extends DefaultServiceRequestFormCont
         }
         validateButton();
 
+        //patient name text field
         RequiredFieldValidator validatorName = new RequiredFieldValidator();
 
         patientName.getValidators().add(validatorName);
@@ -109,6 +112,7 @@ public class LanguageRequestFormController extends DefaultServiceRequestFormCont
             }
         });
 
+        //location combo box
         RequiredFieldValidator validatorLocation = new RequiredFieldValidator();
 
         loc.getValidators().add(validatorLocation);
@@ -120,6 +124,7 @@ public class LanguageRequestFormController extends DefaultServiceRequestFormCont
             }
         });
 
+        //language combo box
         RequiredFieldValidator validatorLanguage = new RequiredFieldValidator();
 
         language.getValidators().add(validatorLanguage);
@@ -131,6 +136,31 @@ public class LanguageRequestFormController extends DefaultServiceRequestFormCont
             }
         });
 
+        //arrival date picker
+        RequiredFieldValidator validatorDate = new RequiredFieldValidator();
+
+        arrivalDate.getValidators().add(validatorDate);
+        validatorDate.setMessage("Please select a valid date of arrival!");
+
+        Calendar currentDate = Calendar.getInstance();
+        currentDate.add(Calendar.DATE, -1);
+        Calendar selectedDate = Calendar.getInstance();
+
+        arrivalDate.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                try {
+                    selectedDate.setTime(Date.from(arrivalDate.getValue().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()));
+                    if (selectedDate.compareTo(currentDate) < 0) {
+                        arrivalDate.setValue(null);
+                    }
+                } catch (Exception e) {
+
+                }
+                arrivalDate.validate();
+            }
+        });
+
+        //arrival time picker
         RequiredFieldValidator validatorTimeForArrival = new RequiredFieldValidator();
 
         timeForArrival.getValidators().add(validatorTimeForArrival);
@@ -142,7 +172,7 @@ public class LanguageRequestFormController extends DefaultServiceRequestFormCont
             }
         });
 
-
+        //message text field
         RequiredFieldValidator validatorMessage = new RequiredFieldValidator();
 
         message.getValidators().add(validatorMessage);
