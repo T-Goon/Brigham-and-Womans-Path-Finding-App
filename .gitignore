@@ -163,7 +163,7 @@ gradle-app.setting
 # Databases
 main.db
 test.db
-account.txt
+src/main/resources/edu/wpi/cs3733/D21/teamB/account.txt
 
 #The test csvs that the tests save we dont neet to keep track of
 /src/test/resources/edu/wpi/cs3733/D21/teamB/database/save/*.csv

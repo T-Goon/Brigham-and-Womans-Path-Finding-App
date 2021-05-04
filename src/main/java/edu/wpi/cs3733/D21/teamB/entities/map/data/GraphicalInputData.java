@@ -8,12 +8,11 @@ import edu.wpi.cs3733.D21.teamB.entities.map.MapPathPopupManager;
 import edu.wpi.cs3733.D21.teamB.views.map.PathfindingMenuController;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import net.kurobako.gesturefx.GesturePane;
 
 @AllArgsConstructor
 @Getter
 public class GraphicalInputData {
-    private final String nodeName;
+    private final Node node;
     private final JFXTextField startTxt;
     private final JFXTextField endTxt;
     private final JFXButton btnRmStop;

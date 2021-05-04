@@ -13,7 +13,6 @@ import edu.wpi.cs3733.D21.teamB.views.map.PathfindingMenuController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.shape.Line;
 

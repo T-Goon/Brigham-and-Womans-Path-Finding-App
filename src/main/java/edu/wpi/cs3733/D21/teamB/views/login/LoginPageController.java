@@ -5,7 +5,6 @@ import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.User;
-import edu.wpi.cs3733.D21.teamB.util.ExternalCommunication;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
 import edu.wpi.cs3733.D21.teamB.views.BasePageController;
 import javafx.event.ActionEvent;

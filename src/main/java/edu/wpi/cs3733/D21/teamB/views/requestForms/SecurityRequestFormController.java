@@ -10,10 +10,10 @@ import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.requests.Request;
 import edu.wpi.cs3733.D21.teamB.entities.requests.SecurityRequest;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
+import edu.wpi.cs3733.D21.teamB.views.AutoCompleteComboBoxListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -29,7 +29,7 @@ public class SecurityRequestFormController extends DefaultServiceRequestFormCont
     private JFXTextField assignedTo;
 
     @FXML
-    private JFXComboBox<Label> comboUrgency;
+    private JFXComboBox<String> comboUrgency;
 
     @FXML
     private JFXTextArea description;
@@ -41,7 +41,7 @@ public class SecurityRequestFormController extends DefaultServiceRequestFormCont
         super.initialize(location,resources);
 
         for (int i = 1; i <= 10; i++) {
-            comboUrgency.getItems().add(new Label(Integer.toString(i)));
+            comboUrgency.getItems().add(Integer.toString(i));
         }
 
         if (SceneSwitcher.peekLastScene().equals("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml")) {
@@ -109,6 +109,10 @@ public class SecurityRequestFormController extends DefaultServiceRequestFormCont
                 description.validate();
             }
         });
+
+        //add searchable combo boxes
+        comboUrgency.setVisibleRowCount(3);
+        new AutoCompleteComboBoxListener<>(comboUrgency);
     }
 
     @FXML
@@ -124,7 +128,7 @@ public class SecurityRequestFormController extends DefaultServiceRequestFormCont
 
         JFXButton btn = (JFXButton) e.getSource();
         if (btn.getId().equals("btnSubmit")) {
-            int givenUrgency = Integer.parseInt(comboUrgency.getValue().getText());
+            int givenUrgency = Integer.parseInt(comboUrgency.getValue());
 
             DateFormat timeFormat = new SimpleDateFormat("HH:mm");
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");

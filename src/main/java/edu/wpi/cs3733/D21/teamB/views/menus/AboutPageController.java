@@ -16,10 +16,8 @@ public class AboutPageController extends BasePageController {
         final String currentPath = "/edu/wpi/cs3733/D21/teamB/views/misc/aboutPage.fxml";
         super.handleButtonAction(e);
         JFXButton btn = (JFXButton) e.getSource();
-        switch (btn.getId()) {
-            case "btnEmergency":
-                SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
-                break;
+        if ("btnEmergency".equals(btn.getId())) {
+            SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
         }
     }
 }
