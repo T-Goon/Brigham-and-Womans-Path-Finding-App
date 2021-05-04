@@ -203,6 +203,18 @@ public class PathfindingMenuController extends BasePageController implements Ini
                 mapEditorPopupManager.showAlignNodePopup(mapDrawer);
             }
         });
+
+        //
+        findClosestLocation.setOnAction(e -> {
+            if (txtStartLocation.getText().isEmpty()) {
+                lblError.setText("Please choose a starting location");
+                lblError.setVisible(true);
+            }
+            else{
+                findClosestLocationTo(e);
+                lblError.setVisible(false);
+            }
+        });
     }
 
     /**
@@ -877,13 +889,8 @@ public class PathfindingMenuController extends BasePageController implements Ini
             txtEndLocation.setText(Graph.getGraph().getNodes().get(endID).getLongName());
             btnFindPath.setDisable(false);
         }
-//        else {
-//            findClosestLocation.setOnAction(e -> {
-//                if (txtStartLocation.getText().isEmpty()) {
-//                    lblError.setText("Please choose a starting location");
-//                    lblError.setVisible(true);
-//                }
-//            });
-//        }
+
+
+
     }
 }
