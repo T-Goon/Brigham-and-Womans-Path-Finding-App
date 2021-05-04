@@ -102,17 +102,17 @@ public class ExternalCommunication {
      *
      * @param email the email address of the original submitter
      * @param name the name of the original submitter
-     * @param submitter the name of the user who completed the task
+     * @param assignee the name of the user who completed the task
      * @param task the type of request
      */
-    public void notifyCompletion(String email, String name, String submitter, String task) {
+    public void notifyCompletion(String email, String name, String assignee, String task) {
         MimeMessage message = setUpSender();
 
         try {
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
 
             message.setSubject("Brigham and Women's Hospital Application - Task Complete");
-            message.setText("Hello " + name + ",\n\nThe following task that you assigned to " + submitter + " was recently completed:\n" +
+            message.setText("Hello " + name + ",\n\nThe following task that you assigned to " + assignee + " was recently completed:\n" +
                     task + "\n\n\nBrigham and Women's Hospital Application Team");
 
             Transport.send(message);
