@@ -790,17 +790,13 @@ public class PathfindingMenuController extends BasePageController implements Ini
      */
     private void checkFromCovidSurvey() {
         //test if we came from a failed covid survey
-        if (SceneSwitcher.peekLastScene().equals("/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidFormSubmittedWithSymp.fxml")) {
-            txtEndLocation.setText("Emergency Department Entrance");
+        if (DatabaseHandler.getHandler().getAuthenticationUser().getCovidStatus().equals(User.CovidStatus.DANGEROUS)) {
+            List<String> stopsList = mapCache.getStopsList();
+            stopsList.add("Emergency Department Entrance");
+            displayStops(stopsList);
             SceneSwitcher.popLastScene();
         }
 
-
-        //test if we came from a not failed covid survey
-        if (SceneSwitcher.peekLastScene().equals("/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidFormSubmittedNoSymp.fxml")) {
-            txtEndLocation.setText("75 Francis Lobby Entrance");
-            SceneSwitcher.popLastScene();
-        }
     }
 
     /**
