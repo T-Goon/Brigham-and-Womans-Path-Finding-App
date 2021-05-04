@@ -3,7 +3,6 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXTextArea?>
-<?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -78,7 +77,10 @@
                                                 <Font size="14.0" />
                                             </font>
                                         </Text>
-                                        <JFXTextField fx:id="assignedTo" onAction="#validateButton" onKeyReleased="#validateButton" promptText="Ex. &quot;Jane Doe&quot;" style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" />
+                              <JFXComboBox fx:id="comboAssignedTo" maxWidth="1.7976931348623157E308"
+                                           onAction="#validateButton" promptText="Choose one"
+                                           style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;"
+                                           unFocusColor="#f0f0f000"/>
                                     </children>
                                 </VBox>
                                 <VBox>
