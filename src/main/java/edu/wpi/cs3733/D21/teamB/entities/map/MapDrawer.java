@@ -353,18 +353,21 @@ public class MapDrawer implements PoppableManager {
      */
     private void animatePath(List<String> currentFloorPath) {
         javafx.scene.shape.Path animationPath = new javafx.scene.shape.Path();
+        double x,y,oldX,oldY;
         int steps = 0;
-
+        int pathLength = 0;
         // Place head at first node
-        animationPath.getElements().add(new MoveTo(
-                Graph.getGraph().getNodes().get(currentFloorPath.get(0)).getXCoord() / PathfindingMenuController.COORDINATE_SCALE,
-                Graph.getGraph().getNodes().get(currentFloorPath.get(0)).getYCoord() / PathfindingMenuController.COORDINATE_SCALE));
+        x = Graph.getGraph().getNodes().get(currentFloorPath.get(0)).getXCoord() / PathfindingMenuController.COORDINATE_SCALE;
+        y = Graph.getGraph().getNodes().get(currentFloorPath.get(0)).getYCoord() / PathfindingMenuController.COORDINATE_SCALE;
+        animationPath.getElements().add(new MoveTo(x,y));
 
         for (int i = 0; i < currentFloorPath.size() - 1; i++) {
             steps++;
-            double x = Graph.getGraph().getNodes().get(currentFloorPath.get(i + 1)).getXCoord() / PathfindingMenuController.COORDINATE_SCALE;
-            double y = Graph.getGraph().getNodes().get(currentFloorPath.get(i + 1)).getYCoord() / PathfindingMenuController.COORDINATE_SCALE;
-
+            oldX=x;
+            oldY=y;
+            x = Graph.getGraph().getNodes().get(currentFloorPath.get(i + 1)).getXCoord() / PathfindingMenuController.COORDINATE_SCALE;
+            y = Graph.getGraph().getNodes().get(currentFloorPath.get(i + 1)).getYCoord() / PathfindingMenuController.COORDINATE_SCALE;
+            pathLength += Math.sqrt(Math.pow((x-oldX),2) + Math.pow((y-oldY),2));
             if (Graph.getGraph().verifyEdge(currentFloorPath.get(i), currentFloorPath.get(i + 1))) {
                 // Valid edge move along it
                 animationPath.getElements().add(new LineTo(x, y));
@@ -375,9 +378,8 @@ public class MapDrawer implements PoppableManager {
             }
 
         }
-
         PathTransition pathTransition = new PathTransition();
-        pathTransition.setDuration(Duration.millis(steps * 300));
+        pathTransition.setDuration(Duration.millis(pathLength * 10));
         pathTransition.setNode(head);
         pathTransition.setPath(animationPath);
         pathTransition.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
