@@ -123,6 +123,6 @@ public class ServiceRequestMenuController extends BasePageController {
         }
 
         if (path != null)
-            SceneSwitcher.switchScene(getClass(), "/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestMenu.fxml", path);
+            SceneSwitcher.switchScene("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestMenu.fxml", path);
     }
 }

@@ -99,13 +99,13 @@ public abstract class DefaultServiceRequestFormController extends BasePageContro
         JFXButton btn = (JFXButton) e.getSource();
         switch (btn.getId()) {
             case "btnSubmit":
-                SceneSwitcher.switchFromTemp(getClass(), "/edu/wpi/cs3733/D21/teamB/views/requestForms/formSubmitted.fxml");
+                SceneSwitcher.switchFromTemp("/edu/wpi/cs3733/D21/teamB/views/requestForms/formSubmitted.fxml");
                 break;
             case "btnHelp":
                 loadHelpDialog();
                 break;
             case "btnEmergency":
-                SceneSwitcher.switchFromTemp(getClass(), "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
+                SceneSwitcher.switchFromTemp("/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
                 break;
         }
     }

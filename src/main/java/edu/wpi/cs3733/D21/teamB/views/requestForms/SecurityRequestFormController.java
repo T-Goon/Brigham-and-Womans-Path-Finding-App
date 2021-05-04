@@ -44,6 +44,7 @@ public class SecurityRequestFormController extends DefaultServiceRequestFormCont
             comboUrgency.getItems().add(Integer.toString(i));
         }
 
+        int index = -1;
         if (SceneSwitcher.peekLastScene().equals("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml")) {
             this.id = (String) App.getPrimaryStage().getUserData();
             SecurityRequest securityRequest;
@@ -53,10 +54,9 @@ public class SecurityRequestFormController extends DefaultServiceRequestFormCont
                 e.printStackTrace();
                 return;
             }
+            index = securityRequest.getUrgency() - 1;
             assignedTo.setText(securityRequest.getEmployeeName());
             getLocationIndex(securityRequest.getLocation());
-            int index = securityRequest.getUrgency() - 1;
-            comboUrgency.getSelectionModel().select(index);
             description.setText(securityRequest.getDescription());
         }
         validateButton();
@@ -111,8 +111,8 @@ public class SecurityRequestFormController extends DefaultServiceRequestFormCont
         });
 
         //add searchable combo boxes
-        comboUrgency.setVisibleRowCount(3);
         new AutoCompleteComboBoxListener<>(comboUrgency);
+        if (index != -1) comboUrgency.getSelectionModel().select(index);
     }
 
     @FXML

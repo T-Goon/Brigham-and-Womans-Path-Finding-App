@@ -47,6 +47,7 @@ public class InternalTransportationRequestFormController extends DefaultServiceR
         comboTranspType.getItems().add("Stretcher");
         comboTranspType.getItems().add("Gurney");
 
+        int index = -1;
         if (SceneSwitcher.peekLastScene().equals("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml")) {
             this.id = (String) App.getPrimaryStage().getUserData();
             InternalTransportRequest internalTransportRequest;
@@ -58,7 +59,6 @@ public class InternalTransportationRequestFormController extends DefaultServiceR
             }
             name.setText(internalTransportRequest.getPatientName());
             getLocationIndex(internalTransportRequest.getLocation());
-            int index = -1;
             switch (internalTransportRequest.getTransportType()) {
                 case "Wheelchair":
                     index = 0;
@@ -70,7 +70,6 @@ public class InternalTransportationRequestFormController extends DefaultServiceR
                     index = 2;
                     break;
             }
-            comboTranspType.getSelectionModel().select(index);
             description.setText(internalTransportRequest.getDescription());
             unconscious.setSelected(internalTransportRequest.getUnconscious().equals("T"));
             infectious.setSelected(internalTransportRequest.getInfectious().equals("T"));
@@ -129,6 +128,7 @@ public class InternalTransportationRequestFormController extends DefaultServiceR
         //add searchable combo box
         comboTranspType.setVisibleRowCount(3);
         new AutoCompleteComboBoxListener<>(comboTranspType);
+        if (index != -1) comboTranspType.getSelectionModel().select(index);
     }
 
     public void handleButtonAction(ActionEvent e) {
