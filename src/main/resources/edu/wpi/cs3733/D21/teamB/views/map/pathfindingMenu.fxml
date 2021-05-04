@@ -418,27 +418,27 @@
                                      </VBox>
                                     <VBox alignment="TOP_RIGHT" maxHeight="100.0" maxWidth="55.0">
                                        <children>
-                                          <JFXButton fx:id="btnF3" maxHeight="20.0" maxWidth="45.0" onAction="#handleButtonAction" style="-fx-background-color: F6BD39; -fx-border-color: #012D5A;" text="3">
+                                          <JFXButton fx:id="btnF3" accessibleText="Floor 3" maxHeight="20.0" maxWidth="45.0" onAction="#handleButtonAction" style="-fx-background-color: F6BD39; -fx-border-color: #012D5A;" text="3">
                                              <font>
                                                 <Font name="MS Reference Sans Serif" size="14.0" />
                                              </font>
                                           </JFXButton>
-                                          <JFXButton fx:id="btnF2" maxHeight="20.0" maxWidth="45.0" onAction="#handleButtonAction" style="-fx-background-color: F6BD39; -fx-border-color: #012D5A;" text="2">
+                                          <JFXButton fx:id="btnF2" accessibleText="Floor 2" maxHeight="20.0" maxWidth="45.0" onAction="#handleButtonAction" style="-fx-background-color: F6BD39; -fx-border-color: #012D5A;" text="2">
                                              <font>
                                                 <Font name="MS Reference Sans Serif" size="14.0" />
                                              </font>
                                           </JFXButton>
-                                          <JFXButton fx:id="btnF1" maxHeight="20.0" maxWidth="45.0" onAction="#handleButtonAction" style="-fx-background-color: F6BD39; -fx-border-color: #012D5A;" text="1">
+                                          <JFXButton fx:id="btnF1" accessibleText="Floor 1" maxHeight="20.0" maxWidth="45.0" onAction="#handleButtonAction" style="-fx-background-color: F6BD39; -fx-border-color: #012D5A;" text="1">
                                              <font>
                                                 <Font name="MS Reference Sans Serif" size="14.0" />
                                              </font>
                                           </JFXButton>
-                                          <JFXButton fx:id="btnFL1" maxHeight="20.0" maxWidth="45.0" onAction="#handleButtonAction" style="-fx-background-color: F6BD39; -fx-border-color: #012D5A;" text="L1">
+                                          <JFXButton fx:id="btnFL1" accessibleText="Floor lower 1" maxHeight="20.0" maxWidth="45.0" onAction="#handleButtonAction" style="-fx-background-color: F6BD39; -fx-border-color: #012D5A;" text="L1">
                                              <font>
                                                 <Font name="MS Reference Sans Serif" size="14.0" />
                                              </font>
                                           </JFXButton>
-                                          <JFXButton fx:id="btnFL2" maxHeight="20.0" maxWidth="45.0" onAction="#handleButtonAction" style="-fx-background-color: F6BD39; -fx-border-color: #012D5A;" text="L2">
+                                          <JFXButton fx:id="btnFL2" accessibleText="Floor lower 2" maxHeight="20.0" maxWidth="45.0" onAction="#handleButtonAction" style="-fx-background-color: F6BD39; -fx-border-color: #012D5A;" text="L2">
                                              <font>
                                                 <Font name="MS Reference Sans Serif" size="14.0" />
                                              </font>
