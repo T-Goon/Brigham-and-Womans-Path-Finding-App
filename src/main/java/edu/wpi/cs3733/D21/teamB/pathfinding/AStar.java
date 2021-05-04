@@ -1,7 +1,5 @@
 package edu.wpi.cs3733.D21.teamB.pathfinding;
 
-import edu.wpi.cs3733.D21.teamB.entities.map.data.Path;
-
 public class AStar extends AlgoTemplate implements Pathfinder {
 
     /**

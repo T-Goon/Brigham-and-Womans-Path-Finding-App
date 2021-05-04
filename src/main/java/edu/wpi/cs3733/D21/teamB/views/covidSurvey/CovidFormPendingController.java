@@ -7,10 +7,13 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.layout.StackPane;
 
-public class CovidSubmittedNoSympController extends BasePageController {
+public class CovidFormPendingController extends BasePageController {
 
     @FXML
     private JFXButton btnDirections;
+
+    @FXML
+    private JFXButton btnEdit;
 
     @FXML
     private JFXButton btnEmergency;
@@ -20,16 +23,19 @@ public class CovidSubmittedNoSympController extends BasePageController {
 
     @FXML
     public void handleButtonAction(ActionEvent e) {
-        final String currentPath = "/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidFormSubmittedNoSymp.fxml";
-        super.handleButtonAction(e);
+        final String currentPath = "/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidFormPending.fxml";
         JFXButton btn = (JFXButton) e.getSource();
         switch (btn.getId()) {
-            case "btnDirections":
-                SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/cs3733/D21/teamB/views/map/pathfindingMenu.fxml");
+            case "btnBack":
+                SceneSwitcher.goBack(this.getClass(), 2);
+                return;
+            case "btnEdit":
+                SceneSwitcher.goBack(this.getClass(),1);
                 break;
             case "btnEmergency":
                 SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
                 break;
         }
+        super.handleButtonAction(e);
     }
 }

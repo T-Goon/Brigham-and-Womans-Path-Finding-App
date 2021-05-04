@@ -9,8 +9,8 @@ public abstract class AlgoTemplate {
      * this value will determine which algorithm is being run
      *
      * @param newCost accumulated edge cost
-     * @param heur the calculated heuristic
-     * @return
+     * @param heur    the calculated heuristic
+     * @return the calculated cost
      */
     abstract double calculateFVal(double newCost, double heur);
 

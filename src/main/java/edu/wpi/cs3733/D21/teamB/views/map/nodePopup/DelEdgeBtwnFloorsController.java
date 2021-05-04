@@ -3,13 +3,12 @@ package edu.wpi.cs3733.D21.teamB.views.map.nodePopup;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.cs3733.D21.teamB.App;
-import edu.wpi.cs3733.D21.teamB.entities.map.data.DelEdgeBtwnFloorsWindow;
+import edu.wpi.cs3733.D21.teamB.entities.map.node.DelEdgeBtwnFloorsWindow;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class DelEdgeBtwnFloorsController implements Initializable {

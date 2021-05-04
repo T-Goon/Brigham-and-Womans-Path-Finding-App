@@ -3,7 +3,6 @@ package edu.wpi.cs3733.D21.teamB.views.map.misc;
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.cs3733.D21.teamB.App;
 import edu.wpi.cs3733.D21.teamB.entities.map.TxtDirPopup;
-import edu.wpi.cs3733.D21.teamB.entities.map.data.Node;
 import edu.wpi.cs3733.D21.teamB.pathfinding.Directions;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

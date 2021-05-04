@@ -55,7 +55,8 @@ public class Request implements IStoredEntity {
         SANITATION,
         SECURITY,
         SOCIAL_WORKER,
-        EMERGENCY;
+        EMERGENCY,
+        COVID;
 
         public static String prettify(RequestType requestType) {
             switch (requestType) {
@@ -87,6 +88,8 @@ public class Request implements IStoredEntity {
                     return "Language Interpretation";
                 case EMERGENCY:
                     return "Emergency";
+                case COVID:
+                    return "Covid Survey";
                 default:
                     throw new IllegalStateException("How did we get here?");
             }
@@ -122,6 +125,8 @@ public class Request implements IStoredEntity {
                     return LANGUAGE; 
                 case "Emergency":
                     return EMERGENCY;
+                case "Covid Survey":
+                    return COVID;
                 default:
                     throw new IllegalArgumentException("Enum string not valid");
             }

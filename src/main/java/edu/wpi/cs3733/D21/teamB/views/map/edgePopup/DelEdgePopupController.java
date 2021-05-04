@@ -7,15 +7,12 @@ import edu.wpi.cs3733.D21.teamB.entities.map.edge.DelEdgeAYSWindow;
 import edu.wpi.cs3733.D21.teamB.entities.map.edge.DelEdgePopup;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import lombok.Getter;
 
-import java.io.IOException;
 import java.net.URL;
-import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class DelEdgePopupController implements Initializable {

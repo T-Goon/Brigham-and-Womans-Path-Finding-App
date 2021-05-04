@@ -87,7 +87,7 @@
                                                   </JFXTextField>
                                                   <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="400.0">
                                                       <children>
-                                                          <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="First Name:">
+                                                          <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Email Address:">
                                                               <font>
                                                                   <Font size="20.0" />
                                                               </font>
@@ -95,7 +95,7 @@
                                                                   <Insets bottom="5.0" />
                                                               </VBox.margin>
                                                           </Text>
-                                                          <JFXTextField fx:id="firstName" accessibleText="First name" focusColor="#ffffff00" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyReleased="#validateButton" prefHeight="50.0" prefWidth="400.0" style="-fx-background-color: #0067B1; -fx-opacity: 30%; -fx-border-color: white; -fx-border-width: 3; -fx-border-radius: 3;" stylesheets="@../../css/login.css">
+                                                          <JFXTextField fx:id="email" focusColor="#ffffff00" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyReleased="#validateButton" prefHeight="50.0" prefWidth="400.0" style="-fx-background-color: #0067B1; -fx-opacity: 30%; -fx-border-color: white; -fx-border-width: 3; -fx-border-radius: 3;" stylesheets="@../../css/login.css">
                                                               <font>
                                                                   <Font size="20.0" />
                                                               </font>
@@ -108,6 +108,29 @@
                                                           <Insets bottom="10.0" top="10.0" />
                                                       </padding>
                                                   </VBox>
+                                          <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="400.0">
+                                             <children>
+                                                <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="First Name:">
+                                                   <font>
+                                                      <Font size="20.0" />
+                                                   </font>
+                                                   <VBox.margin>
+                                                      <Insets bottom="5.0" />
+                                                   </VBox.margin>
+                                                </Text>
+                                                <JFXTextField fx:id="firstName" accessibleText="First name" focusColor="#ffffff00" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyReleased="#validateButton" prefHeight="50.0" prefWidth="400.0" style="-fx-background-color: #0067B1; -fx-opacity: 30%; -fx-border-color: white; -fx-border-width: 3; -fx-border-radius: 3;" stylesheets="@../../css/login.css">
+                                                   <font>
+                                                      <Font size="20.0" />
+                                                   </font>
+                                                </JFXTextField>
+                                             </children>
+                                             <opaqueInsets>
+                                                <Insets />
+                                             </opaqueInsets>
+                                             <padding>
+                                                <Insets bottom="10.0" top="10.0" />
+                                             </padding>
+                                          </VBox>
                                                   <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="400.0">
                                                       <children>
                                                           <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Last Name:">
