@@ -28,7 +28,7 @@ public abstract class BasePageController implements Initializable {
         EventHandler<MouseEvent> onClick = new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                tts.speak( event.getPickResult().getIntersectedNode().getAccessibleText(), 1.0f, false, false);
+                tts.speak(event.getPickResult().getIntersectedNode().getAccessibleText(), 1.0f, false, false);
             }
         };
 
