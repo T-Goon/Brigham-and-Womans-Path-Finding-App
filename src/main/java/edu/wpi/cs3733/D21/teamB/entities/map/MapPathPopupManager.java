@@ -62,7 +62,7 @@ public class MapPathPopupManager implements PoppableManager {
      */
     public void createGraphicalInputPopup(Node n) {
 
-        GraphicalInputData giData = new GraphicalInputData(n.getLongName(), txtStartLocation, txtEndLocation,
+        GraphicalInputData giData = new GraphicalInputData(n, txtStartLocation, txtEndLocation,
                 btnRemoveStop, md, mc, pfmc, this);
 
         giPopup = new GraphicalInputPopup(mapStack, giData, gpane);

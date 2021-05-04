@@ -13,7 +13,7 @@ import net.kurobako.gesturefx.GesturePane;
 @AllArgsConstructor
 @Getter
 public class GraphicalInputData {
-    private final String nodeName;
+    private final Node node;
     private final JFXTextField startTxt;
     private final JFXTextField endTxt;
     private final JFXButton btnRmStop;

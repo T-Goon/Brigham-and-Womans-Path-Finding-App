@@ -65,12 +65,6 @@ public class NodePopupWindowController implements Initializable {
         JFXButton btn = (JFXButton) event.getSource();
 
         switch (btn.getId()) {
-            case "btnInfo":
-                root.getChildren().remove(mainMenu);
-                NodeInfoWindow niWindow = new NodeInfoWindow(root, popup.getData(), mainMenu);
-
-                niWindow.show();
-                break;
             case "btnEditNode":
                 root.getChildren().remove(mainMenu);
 

@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXColorPicker?>
-<?import com.jfoenix.controls.JFXRadioButton?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -26,7 +23,7 @@
             <Insets top="10.0" />
          </VBox.margin>
          <children>
-            <HBox prefWidth="200.0">
+            <HBox prefWidth="200.0" VBox.vgrow="ALWAYS">
                <children>
                   <VBox HBox.hgrow="ALWAYS" />
                   <HBox alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS">
@@ -51,40 +48,6 @@
                               <Insets />
                            </HBox.margin>
                         </VBox>
-                        <VBox HBox.hgrow="ALWAYS">
-                           <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="X-Coordinate:">
-                                 <font>
-                                    <Font name="MS Reference Sans Serif" size="14.0" />
-                                 </font>
-                                 <VBox.margin>
-                                    <Insets left="5.0" />
-                                 </VBox.margin>
-                              </Text>
-                              <JFXTextField editable="false" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" fx:id="xCoord">
-                                 <VBox.margin>
-                                    <Insets left="5.0" right="5.0" />
-                                 </VBox.margin>
-                              </JFXTextField>
-                           </children>
-                        </VBox>
-                        <VBox HBox.hgrow="ALWAYS">
-                           <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Y-Coordinate:">
-                                 <font>
-                                    <Font name="MS Reference Sans Serif" size="14.0" />
-                                 </font>
-                                 <VBox.margin>
-                                    <Insets left="5.0" />
-                                 </VBox.margin>
-                              </Text>
-                              <JFXTextField fx:id="yCoord" editable="false" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00">
-                                 <VBox.margin>
-                                    <Insets left="5.0" right="5.0" />
-                                 </VBox.margin>
-                              </JFXTextField>
-                           </children>
-                        </VBox>
                      </children>
                      <HBox.margin>
                         <Insets right="30.0" />
@@ -95,7 +58,7 @@
                   <Insets bottom="5.0" top="5.0" />
                </VBox.margin>
             </HBox>
-            <HBox prefWidth="200.0" spacing="5.0">
+            <HBox prefWidth="200.0" spacing="5.0" VBox.vgrow="ALWAYS">
                <children>
                   <VBox HBox.hgrow="ALWAYS">
                      <children>
@@ -138,7 +101,7 @@
                   <Insets bottom="5.0" top="5.0" />
                </VBox.margin>
             </HBox>
-            <HBox prefWidth="200.0">
+            <HBox prefWidth="200.0" VBox.vgrow="ALWAYS">
                <children>
                   <VBox HBox.hgrow="ALWAYS">
                      <children>
@@ -175,51 +138,6 @@
                               <Insets left="5.0" right="5.0" />
                            </VBox.margin>
                         </JFXTextField>
-                     </children>
-                     <HBox.margin>
-                        <Insets />
-                     </HBox.margin>
-                  </VBox>
-               </children>
-               <VBox.margin>
-                  <Insets bottom="5.0" top="5.0" />
-               </VBox.margin>
-            </HBox>
-            <HBox prefWidth="200.0">
-               <children>
-                  <VBox prefHeight="0.0" prefWidth="100.0">
-                     <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Color:">
-                           <font>
-                              <Font name="MS Reference Sans Serif" size="14.0" />
-                           </font>
-                        </Text>
-                        <JFXColorPicker fx:id="clrPicker" disable="true" />
-                     </children>
-                  </VBox>
-                  <VBox alignment="TOP_CENTER" HBox.hgrow="ALWAYS">
-                     <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Area:">
-                           <font>
-                              <Font name="MS Reference Sans Serif" size="14.0" />
-                           </font>
-                           <VBox.margin>
-                              <Insets left="5.0" />
-                           </VBox.margin>
-                        </Text>
-                        <HBox alignment="TOP_CENTER">
-                           <children>
-                              <JFXRadioButton fx:id="notRestricted" disable="true" text="Not Restricted">
-                                 <HBox.margin>
-                                    <Insets right="10.0" />
-                                 </HBox.margin>
-                                 <toggleGroup>
-                                    <ToggleGroup fx:id="areaGroup" />
-                                 </toggleGroup>
-                              </JFXRadioButton>
-                              <JFXRadioButton fx:id="restricted" disable="true" text="Restricted" toggleGroup="$areaGroup" />
-                           </children>
-                        </HBox>
                      </children>
                      <HBox.margin>
                         <Insets />

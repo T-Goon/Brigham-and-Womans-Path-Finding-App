@@ -19,21 +19,6 @@ public class NodeInfoWindowController implements Initializable {
     private JFXButton btnBack;
 
     @FXML
-    private JFXRadioButton notRestricted;
-
-    @FXML
-    private JFXRadioButton restricted;
-
-    @FXML
-    private ToggleGroup areaGroup;
-
-    @FXML
-    private JFXTextField xCoord;
-
-    @FXML
-    private JFXTextField yCoord;
-
-    @FXML
     private JFXTextField floor;
 
     @FXML
@@ -48,26 +33,18 @@ public class NodeInfoWindowController implements Initializable {
     @FXML
     private JFXTextField shortName;
 
-    @FXML
-    private JFXColorPicker clrPicker;
-
     private NodeInfoWindow window;
-
-    private Map<String, String> categoryNameMap;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         window = (NodeInfoWindow) App.getPrimaryStage().getUserData();
 
         // Fill in current node data
-        xCoord.setText(String.valueOf(Math.round(window.getData().getX())));
-        yCoord.setText(String.valueOf(Math.round(window.getData().getY())));
-        floor.setText(window.getData().getFloor());
-        building.setText(window.getData().getBuilding());
-        type.setText(window.getData().getMc().getCategoryNameMap().get(window.getData().getNodeType()));
-        longName.setText(window.getData().getLongName());
-        shortName.setText(window.getData().getShortName());
-        clrPicker.setValue(window.getData().getColor());
+        floor.setText(window.getData().getNode().getFloor());
+        building.setText(window.getData().getNode().getBuilding());
+        type.setText(window.getData().getMc().getCategoryNameMap().get(window.getData().getNode().getNodeType()));
+        longName.setText(window.getData().getNode().getLongName());
+        shortName.setText(window.getData().getNode().getShortName());
     }
 
     @FXML

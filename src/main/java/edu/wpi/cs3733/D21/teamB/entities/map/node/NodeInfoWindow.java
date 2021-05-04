@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.D21.teamB.entities.map.node;
 
 import edu.wpi.cs3733.D21.teamB.App;
+import edu.wpi.cs3733.D21.teamB.entities.map.data.GraphicalInputData;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.NodeMenuPopupData;
 import edu.wpi.cs3733.D21.teamB.util.Popup.Poppable;
 import edu.wpi.cs3733.D21.teamB.util.Popup.Window;
@@ -11,8 +12,8 @@ import javafx.scene.layout.VBox;
 import java.io.IOException;
 import java.util.Objects;
 
-public class NodeInfoWindow extends Window<VBox, NodeMenuPopupData, VBox> implements Poppable {
-    public NodeInfoWindow(Pane parent, NodeMenuPopupData data, VBox previous) {
+public class NodeInfoWindow extends Window<VBox, GraphicalInputData, VBox> implements Poppable {
+    public NodeInfoWindow(Pane parent, GraphicalInputData data, VBox previous) {
         super(parent, data, previous);
     }
 
