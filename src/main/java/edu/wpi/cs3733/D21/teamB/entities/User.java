@@ -30,6 +30,8 @@ public class User implements IStoredEntity {
 
     private String username;
 
+    private String email;
+
     private String firstName;
 
     private String lastName;
@@ -76,6 +78,7 @@ public class User implements IStoredEntity {
     public String toString() {
         return "User{" +
                 "username='" + username + '\'' +
+                ", email='" + email + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", authenticationLevel=" + authenticationLevel +

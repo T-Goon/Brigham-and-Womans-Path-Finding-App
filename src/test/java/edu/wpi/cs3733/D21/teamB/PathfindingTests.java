@@ -357,6 +357,15 @@ public class PathfindingTests {
     }
 
 //    @Test
+    //tested on app
+//    public void DijkstraFindPathCat(){
+//        List<String> ids = new ArrayList<>();
+//        ids.add("AREST00101");
+//
+//        Path path = new Dijkstra().findPath("bPARK01501", false, ids);
+//    }
+
+//    @Test
 //    public void testSimplePath() {
 //        Path path = AStar.findPath("FDEPT00101", "FSERV00201");
 //        List<String> idExpected = new ArrayList<>();

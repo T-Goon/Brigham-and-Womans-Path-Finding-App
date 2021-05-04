@@ -8,7 +8,6 @@ import edu.wpi.cs3733.D21.teamB.entities.User;
 import edu.wpi.cs3733.D21.teamB.pathfinding.Graph;
 import org.mindrot.jbcrypt.BCrypt;
 
-import javax.xml.crypto.Data;
 import java.sql.*;
 import java.util.*;
 
@@ -27,7 +26,7 @@ public class DatabaseHandler {
     private final UserMutator userMutator;
 
     //State
-    private static User AuthenticationUser = new User("temporary", null, null, User.AuthenticationLevel.GUEST, null);
+    private static User AuthenticationUser = new User("temporary", null, null, null, User.AuthenticationLevel.GUEST, null);
     private final String salt = BCrypt.gensalt();
 
     private DatabaseHandler() {
@@ -313,6 +312,7 @@ public class DatabaseHandler {
 
         String usersTable = "CREATE TABLE IF NOT EXISTS Users("
                 + "username CHAR(30) PRIMARY KEY, "
+                + "email CHAR(40) NOT NULL UNIQUE, "
                 + "firstName CHAR(30), "
                 + "lastName CHAR(30), "
                 + "authenticationLevel CHAR(30) CHECK (authenticationLevel in ('ADMIN','STAFF','PATIENT', 'GUEST')), "
@@ -474,6 +474,15 @@ public class DatabaseHandler {
      */
     public User getUserByUsername(String username) {
         return userMutator.getUserByUsername(username);
+    }
+
+    /**
+     *
+     * @param email email to query by
+     * @return User object with that email, or null if that user doesn't exist
+     */
+    public User getUserByEmail(String email) {
+        return userMutator.getUserByEmail(email);
     }
 
     /**

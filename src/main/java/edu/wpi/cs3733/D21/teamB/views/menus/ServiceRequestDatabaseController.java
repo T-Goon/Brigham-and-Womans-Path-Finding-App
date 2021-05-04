@@ -139,6 +139,11 @@ public class   ServiceRequestDatabaseController extends BasePageController imple
         }
     }
 
+    @FXML
+    public void handleOnChange(ActionEvent actionEvent) {
+
+    }
+
     private void loadHelpDialog() {
         JFXDialogLayout helpLayout = new JFXDialogLayout();
 
