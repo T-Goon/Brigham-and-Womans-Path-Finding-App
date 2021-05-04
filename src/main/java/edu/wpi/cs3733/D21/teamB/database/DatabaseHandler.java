@@ -683,7 +683,7 @@ public class DatabaseHandler {
     public void updateRequest(Request request) throws SQLException {
         requestMutator.updateEntity(request);
 
-        if(request.getRequestType().equals(Request.RequestType.COVID)) {
+        if(request instanceof CovidSurveyRequest) {
             User user = getUserByUsername(request.getSubmitter());
             if (user != null) {
                 user.setCovidStatus(((CovidSurveyRequest) request).getStatus());

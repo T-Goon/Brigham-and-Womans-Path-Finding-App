@@ -55,7 +55,13 @@ public class CovidRequestFormController extends DefaultServiceRequestFormControl
         if(request.getSymptomNose().equals("T")) symptoms += " - Runny Node/Congestion\n";
         if(request.getSymptomLostTaste().equals("T")) symptoms += " - Loss of Taste/Smell\n";
         if(request.getSymptomNausea().equals("T")) symptoms += " - Nausea/Vomiting\n";
-        if(symptoms.isEmpty()) symptoms = "- None";
+        if(symptoms.isEmpty()) symptoms = "- No Symptoms";
+        if(request.getHadCloseContact().equals("T")){
+            symptoms += "\n The patient has had close contact with Covid-19 exposed individuals in the past 2 weeks";
+        }
+        if(request.getHadPositiveTest().equals("T")){
+            symptoms += "\n The patient has had a positive Covid-19 test in the past 2 weeks";
+        }
 
         symptomTxt.setText(symptoms);
 
