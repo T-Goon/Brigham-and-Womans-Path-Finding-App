@@ -32,7 +32,7 @@ public class MainPageController extends BasePageController {
         super.handleButtonAction(e);
         JFXButton btn = (JFXButton) e.getSource();
         switch (btn.getId()) {
-            case "btnLogin":
+            /*case "btnLogin":
                 SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/cs3733/D21/teamB/views/login/loginPage.fxml");
                 break;
             case "btnRegister":
@@ -52,7 +52,7 @@ public class MainPageController extends BasePageController {
                 break;
             case "btnSettings":
                 SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/cs3733/D21/teamB/views/menus/settingsMenu.fxml");
-                break;
+                break;*/
         }
     }
 

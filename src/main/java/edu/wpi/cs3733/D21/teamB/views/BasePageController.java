@@ -8,6 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
@@ -34,9 +35,11 @@ public abstract class BasePageController implements Initializable {
         EventHandler<MouseEvent> onClick = new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-               String speechOut = event.getPickResult().getIntersectedNode().getAccessibleText();
-               System.out.println(speechOut);
-                tts.speak("Covid", 1.0f, false, false);
+               Node clickedNode = event.getPickResult().getIntersectedNode();
+               String speechOut = clickedNode.getAccessibleText();
+               if (speechOut != null) {
+                   tts.speak(speechOut, 1.0f, false, false);
+               }
             }
         };
         stackPane.addEventFilter(MouseEvent.MOUSE_CLICKED,onClick);
