@@ -18,6 +18,8 @@ import java.util.ResourceBundle;
 
 public abstract class BasePageController implements Initializable {
 
+    public static boolean ttsOn = false;
+
     @FXML
     private JFXButton btnBack;
 
@@ -37,7 +39,9 @@ public abstract class BasePageController implements Initializable {
                 if (newValue) {
                     String speechOut = aNode.getAccessibleText();
                     if (speechOut != null) {
-                        tts.speak(speechOut, 1.0f, false, false);
+                        if (ttsOn) {
+                            tts.speak(speechOut, 1.0f, false, false);
+                        }
                     }
                 }
             });

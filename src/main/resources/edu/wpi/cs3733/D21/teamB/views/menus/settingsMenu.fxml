@@ -81,7 +81,7 @@
                               </VBox>
                               <VBox prefHeight="100.0" prefWidth="590.0">
                                  <children>
-                                    <JFXToggleButton fx:id="toggleTTS" contentDisplay="GRAPHIC_ONLY" prefHeight="181.0" prefWidth="693.0" toggleColor="#f6bd39" toggleLineColor="#ffe3ac">
+                                    <JFXToggleButton fx:id="toggleTTS" contentDisplay="GRAPHIC_ONLY" prefHeight="181.0" prefWidth="693.0" toggleColor="#f6bd39" toggleLineColor="#ffe3ac" onAction="#handleToggleAction">
                                        <VBox.margin>
                                           <Insets right="200.0" />
                                        </VBox.margin>

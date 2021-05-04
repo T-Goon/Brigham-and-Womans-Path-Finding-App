@@ -19,14 +19,15 @@ mainClassName = 'edu.wpi.cs3733.D21.teamB.Main'
 //These are the repositories where Gradle looks for dependencies.
 // You likely won't have to change these unless you add a cool, new dependency that isn't listed on Maven
 repositories {
+    flatDir {
+        dirs 'libs'
+    }
     mavenCentral()
     jcenter()
     maven {
         url 'https://apisite.crmyers.dev/maven'
     }
-    flatDir {
-        dirs 'libs'
-    }
+
 }
 
 //This is where you declare your dependencies and their version.s
@@ -45,12 +46,7 @@ dependencies {
         exclude group:'ch.qos.logback', module:'logback-classic'
     }
 
-    implementation name: 'guava-22.0'
-    implementation name: 'marytts-builder-5.2-jar-with-dependencies'
-    implementation name: 'marytts-lang-en-5.2'
-    implementation name: 'voice-cmu-rms-hsmm-5.2'
-    implementation name: 'voice-cmu-slt-hsmm-5.2'
-    implementation name: 'voice-dfki-poppy-hsmm-5.2'
+    compile fileTree(include: ['*.jar'], dir: 'libs')
 
 //These are test dependencies. These are only used for running verification tasks via Gradle.
     testCompile(

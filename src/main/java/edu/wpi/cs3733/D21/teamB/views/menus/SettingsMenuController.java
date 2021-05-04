@@ -3,6 +3,7 @@ package edu.wpi.cs3733.D21.teamB.views.menus;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXDialogLayout;
+import com.jfoenix.controls.JFXToggleButton;
 import edu.wpi.cs3733.D21.teamB.App;
 import edu.wpi.cs3733.D21.teamB.entities.User;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
@@ -34,6 +35,17 @@ public class SettingsMenuController extends BasePageController implements Initia
     private StackPane stackContainer;
 
     @FXML
+    private JFXToggleButton toggleTTS;
+
+
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        super.initialize(location, resources);
+        toggleTTS.setSelected(ttsOn);
+    }
+
+    @FXML
     public void handleButtonAction(ActionEvent e) {
         JFXButton btn = (JFXButton) e.getSource();
         super.handleButtonAction(e);
@@ -49,6 +61,21 @@ public class SettingsMenuController extends BasePageController implements Initia
                 break;
             case "btnHelp":
                 loadHelpDialog();
+                break;
+        }
+    }
+
+    @FXML
+    public void handleToggleAction(ActionEvent e) {
+        JFXToggleButton toggleButton = (JFXToggleButton) e.getSource();
+        switch (toggleButton.getId()) {
+            case "toggleTTS":
+                if (ttsOn) {
+                    ttsOn = false;
+                } else {
+                    ttsOn = true;
+                    tts.speak("Text-to-speech has been activated.", 1.0f, false, false);
+                }
                 break;
         }
     }
