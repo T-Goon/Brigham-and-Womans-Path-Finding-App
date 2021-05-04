@@ -134,12 +134,11 @@ public class PathfindingMenuController extends BasePageController implements Ini
     private String previousFrom = "";
     private String previousStops = "";
     private String previousTo = "";
-
+    private boolean mapInEditMode = false;
     // JavaFX code **************************************************************************************
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
         //Add better category names to a hash map
         initCategoriesMap();
 
@@ -458,7 +457,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
      * are not equal to each other.
      */
     public void validateFindPathButton() {
-        btnFindPath.setDisable(txtStartLocation.getText().isEmpty() || txtEndLocation.getText().isEmpty() || txtStartLocation.getText().equals(txtEndLocation.getText()));
+        btnFindPath.setDisable(mapInEditMode || txtStartLocation.getText().isEmpty() || txtEndLocation.getText().isEmpty() || txtStartLocation.getText().equals(txtEndLocation.getText()));
     }
 
     /**
@@ -493,7 +492,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
                 mapPathPopupManager.removeTxtDirPopup();
                 mapDrawer.removeAllPopups();
                 mapDrawer.removeAllEdges();
-
+                mapInEditMode = !mapInEditMode;
                 mapDrawer.setEditing(!mapDrawer.isEditing());
                 btnFindPath.setDisable(!btnFindPath.isDisable());
 
