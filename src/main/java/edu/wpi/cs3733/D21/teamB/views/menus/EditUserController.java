@@ -141,16 +141,16 @@ public class EditUserController extends BasePageController implements Initializa
                 } catch (SQLException e) {
                     throw new IllegalStateException("Username not found when updating; This should never happen");
                 }
-                SceneSwitcher.goBack(getClass(), 1);
+                SceneSwitcher.goBack(1);
                 break;
             case "btnCancel":
-                SceneSwitcher.goBack(getClass(), 1);
+                SceneSwitcher.goBack(1);
                 break;
             case "btnHelp":
                 loadHelpDialog();
                 break;
             case "btnEmergency":
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/cs3733/D21/teamB/views/menus/editUserMenu.fxml", "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
+                SceneSwitcher.switchScene("/edu/wpi/cs3733/D21/teamB/views/menus/editUserMenu.fxml", "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
                 break;
         }
     }

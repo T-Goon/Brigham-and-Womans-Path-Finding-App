@@ -50,6 +50,7 @@ public class SecurityRequestFormController extends DefaultServiceRequestFormCont
         }
 
         String employeeName = null;
+        int index = -1;
         if (SceneSwitcher.peekLastScene().equals("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml")) {
             this.id = (String) App.getPrimaryStage().getUserData();
             SecurityRequest securityRequest;
@@ -59,6 +60,8 @@ public class SecurityRequestFormController extends DefaultServiceRequestFormCont
                 e.printStackTrace();
                 return;
             }
+            index = securityRequest.getUrgency() - 1;
+            assignedTo.setText(securityRequest.getEmployeeName());
             getLocationIndex(securityRequest.getLocation());
             employeeName = securityRequest.getEmployeeName();
             int index = securityRequest.getUrgency() - 1;
@@ -117,8 +120,9 @@ public class SecurityRequestFormController extends DefaultServiceRequestFormCont
         });
 
         //add searchable combo boxes
-        comboUrgency.setVisibleRowCount(3);
         new AutoCompleteComboBoxListener<>(comboUrgency);
+        if (index != -1) comboUrgency.getSelectionModel().select(index);
+
         comboAssignedTo.setVisibleRowCount(3);
         new AutoCompleteComboBoxListener<>(comboAssignedTo);
 
