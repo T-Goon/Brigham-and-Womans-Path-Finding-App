@@ -148,7 +148,7 @@ public class GraphicalInputController implements Initializable, IObserver {
         favorites.getChildren().removeAll(toRemove);
 
         // Add updated parking spot to favorites and update database
-        favorites.getChildren().add(new TreeItem<String>(newParking));
+        favorites.getChildren().add(new TreeItem<>(newParking));
         try {
             DatabaseHandler.getHandler().updateParkingSpot(newParking);
         } catch (SQLException e) {

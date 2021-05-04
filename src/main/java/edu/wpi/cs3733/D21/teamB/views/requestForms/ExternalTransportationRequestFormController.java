@@ -7,10 +7,10 @@ import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.requests.ExternalTransportRequest;
 import edu.wpi.cs3733.D21.teamB.entities.requests.Request;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
+import edu.wpi.cs3733.D21.teamB.views.AutoCompleteComboBoxListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -26,7 +26,7 @@ public class ExternalTransportationRequestFormController extends DefaultServiceR
     private JFXTextField name;
 
     @FXML
-    private JFXComboBox<Label> comboTranspType;
+    private JFXComboBox<String> comboTranspType;
 
     @FXML
     private JFXTextField destination;
@@ -51,9 +51,9 @@ public class ExternalTransportationRequestFormController extends DefaultServiceR
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location, resources);
-        comboTranspType.getItems().add(new Label("Bus"));
-        comboTranspType.getItems().add(new Label("Ambulance"));
-        comboTranspType.getItems().add(new Label("Helicopter"));
+        comboTranspType.getItems().add("Bus");
+        comboTranspType.getItems().add("Ambulance");
+        comboTranspType.getItems().add("Helicopter");
 
         if (SceneSwitcher.peekLastScene().equals("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml")) {
             this.id = (String) App.getPrimaryStage().getUserData();
@@ -160,6 +160,10 @@ public class ExternalTransportationRequestFormController extends DefaultServiceR
                 allergies.validate();
             }
         });
+
+        //add searchable combo boxes
+        comboTranspType.setVisibleRowCount(3);
+        new AutoCompleteComboBoxListener<>(comboTranspType);
     }
 
     public void handleButtonAction(ActionEvent e) {
@@ -167,7 +171,7 @@ public class ExternalTransportationRequestFormController extends DefaultServiceR
         JFXButton btn = (JFXButton) e.getSource();
         if (btn.getId().equals("btnSubmit")) {
             String givenPatientName = name.getText();
-            String givenTransportType = comboTranspType.getValue().getText();
+            String givenTransportType = comboTranspType.getValue();
             String givenDestination = destination.getText();
             String givenPatientAllergies = allergies.getText();
             String givenOutNetwork = outNetwork.isSelected() ? "T" : "F";

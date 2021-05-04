@@ -8,7 +8,6 @@ import edu.wpi.cs3733.D21.teamB.entities.map.MapPathPopupManager;
 import edu.wpi.cs3733.D21.teamB.views.map.PathfindingMenuController;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import net.kurobako.gesturefx.GesturePane;
 
 @AllArgsConstructor
 @Getter

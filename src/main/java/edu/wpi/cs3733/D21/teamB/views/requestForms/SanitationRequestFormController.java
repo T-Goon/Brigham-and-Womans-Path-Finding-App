@@ -1,16 +1,19 @@
 package edu.wpi.cs3733.D21.teamB.views.requestForms;
 
-import com.jfoenix.controls.*;
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXCheckBox;
+import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.validation.RequiredFieldValidator;
 import edu.wpi.cs3733.D21.teamB.App;
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.requests.Request;
 import edu.wpi.cs3733.D21.teamB.entities.requests.SanitationRequest;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
+import edu.wpi.cs3733.D21.teamB.views.AutoCompleteComboBoxListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -24,10 +27,10 @@ public class SanitationRequestFormController extends DefaultServiceRequestFormCo
 
 
     @FXML
-    private JFXComboBox<Label> comboTypeService;
+    private JFXComboBox<String> comboTypeService;
 
     @FXML
-    private JFXComboBox<Label> comboSizeService;
+    private JFXComboBox<String> comboSizeService;
 
     @FXML
     private JFXTextArea description;
@@ -47,13 +50,13 @@ public class SanitationRequestFormController extends DefaultServiceRequestFormCo
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location,resources);
 
-        comboTypeService.getItems().add(new Label("Wet"));
-        comboTypeService.getItems().add(new Label("Dry"));
-        comboTypeService.getItems().add(new Label("Glass"));
+        comboTypeService.getItems().add("Wet");
+        comboTypeService.getItems().add("Dry");
+        comboTypeService.getItems().add("Glass");
 
-        comboSizeService.getItems().add(new Label("Small"));
-        comboSizeService.getItems().add(new Label("Medium"));
-        comboSizeService.getItems().add(new Label("Large"));
+        comboSizeService.getItems().add("Small");
+        comboSizeService.getItems().add("Medium");
+        comboSizeService.getItems().add("Large");
 
         if (SceneSwitcher.peekLastScene().equals("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml")) {
             this.id = (String) App.getPrimaryStage().getUserData();
@@ -146,6 +149,12 @@ public class SanitationRequestFormController extends DefaultServiceRequestFormCo
                 description.validate();
             }
         });
+
+        //adding searchable combo boxes
+        comboTypeService.setVisibleRowCount(3);
+        comboSizeService.setVisibleRowCount(3);
+        new AutoCompleteComboBoxListener<>(comboTypeService);
+        new AutoCompleteComboBoxListener<>(comboSizeService);
     }
 
     @FXML
@@ -161,8 +170,8 @@ public class SanitationRequestFormController extends DefaultServiceRequestFormCo
 
         JFXButton btn = (JFXButton) e.getSource();
         if (btn.getId().equals("btnSubmit")) {
-            String givenSanitationType = comboTypeService.getValue().getText();
-            String givenSanitationSize = comboSizeService.getValue().getText();
+            String givenSanitationType = comboTypeService.getValue();
+            String givenSanitationSize = comboSizeService.getValue();
             String givenHazardous = safetyHazard.isSelected() ? "T" : "F";
             String givenBiologicalSubstance = biologicalSubstance.isSelected() ? "T" : "F";
             String givenOccupied = roomOccupied.isSelected() ? "T" : "F";

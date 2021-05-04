@@ -15,7 +15,7 @@ import java.util.*;
 
 public class DelEdgeBtwnFloorsWindow extends Window<VBox, NodeMenuPopupData, VBox> implements Poppable {
 
-    private Map<Integer, String> indexToNodeId = new HashMap<>();
+    private final Map<Integer, String> indexToNodeId = new HashMap<>();
 
     public DelEdgeBtwnFloorsWindow(Pane parent, NodeMenuPopupData data, VBox previous) {
         super(parent, data, previous);
@@ -53,9 +53,9 @@ public class DelEdgeBtwnFloorsWindow extends Window<VBox, NodeMenuPopupData, VBo
         String edgeID = null;
 
         // Figure out the correct edge id
-        if (DatabaseHandler.getHandler().getEdges().keySet().contains(data.getNodeID() + "_" + nodeId)) {
+        if (DatabaseHandler.getHandler().getEdges().containsKey(data.getNodeID() + "_" + nodeId)) {
             edgeID = data.getNodeID() + "_" + nodeId;
-        } else if (DatabaseHandler.getHandler().getEdges().keySet().contains(nodeId + "_" + data.getNodeID())) {
+        } else if (DatabaseHandler.getHandler().getEdges().containsKey(nodeId + "_" + data.getNodeID())) {
             edgeID = nodeId + "_" + data.getNodeID();
         }
 
