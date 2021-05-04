@@ -90,6 +90,14 @@ public class RequestWrapper {
             } catch (SQLException err) {
                 err.printStackTrace();
             }
+
+            // Notify submitter of completion of task
+            if (!employeeName.getText().equals("Nobody")) {
+                ExternalCommunication externalCommunication = new ExternalCommunication();
+                User currentUser = DatabaseHandler.getHandler().getAuthenticationUser();
+                User user = DatabaseHandler.getHandler().getUserByUsername(r.getSubmitter());
+                externalCommunication.notifyCompletion(user.getEmail(), user.getFirstName(), currentUser.getFirstName() + " " + currentUser.getLastName(), Request.RequestType.prettify(r.getRequestType()));
+            }
         });
 
         menu.getItems().add(notComplete);
@@ -126,6 +134,11 @@ public class RequestWrapper {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+
+                    // Send email to the user who was just assigned a task
+                    ExternalCommunication externalCommunication = new ExternalCommunication();
+                    User currentUser = DatabaseHandler.getHandler().getAuthenticationUser();
+                    externalCommunication.sendAssignment(employee.getEmail(), employee.getFirstName(), currentUser.getFirstName() + " " + currentUser.getLastName(), Request.RequestType.prettify(r.getRequestType()));
                 });
                 staff.add(tempItem);
             }
