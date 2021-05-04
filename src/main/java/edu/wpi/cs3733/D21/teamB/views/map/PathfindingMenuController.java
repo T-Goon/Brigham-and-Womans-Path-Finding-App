@@ -39,58 +39,47 @@ import lombok.Getter;
 import net.kurobako.gesturefx.GesturePane;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 import java.sql.SQLException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 public class PathfindingMenuController extends BasePageController implements Initializable {
 
     @FXML
-    private JFXTextField txtStartLocation;
+    private JFXTextField txtStartLocation,
+            txtEndLocation,
+            txtSearch;
 
     @FXML
-    private JFXTextField txtEndLocation;
-
-    @FXML
-    private AnchorPane nodeHolder;
-
-    @FXML
-    private AnchorPane intermediateNodeHolder;
-
-    @FXML
-    private AnchorPane mapHolder;
+    private AnchorPane nodeHolder,
+            intermediateNodeHolder,
+            mapHolder;
 
     @FXML
     private ImageView map;
 
     @FXML
-    private JFXButton btnFindPath;
-
-    @FXML
-    private JFXButton btnEmergency;
+    private JFXButton btnFindPath,
+            btnEmergency,
+            btnEditMap,
+            btnLoad,
+            btnSave,
+            btnRemoveStop,
+            btnTxtDir,
+            btnF3,
+            btnF2,
+            btnF1,
+            btnFL1,
+            btnFL2;
 
     @FXML
     private Label lblError;
 
     @FXML
-    private JFXButton btnEditMap;
-
-    @FXML
-    private JFXButton btnLoad;
-
-    @FXML
-    private JFXButton btnSave;
-
-    @FXML
     @Getter
     private JFXComboBox<String> comboPathingType;
-
-    @FXML
-    private JFXTextField txtSearch;
 
     @FXML
     private JFXCheckBox btnMobility;
@@ -102,40 +91,15 @@ public class PathfindingMenuController extends BasePageController implements Ini
     private TreeItem<String> favorites;
 
     @FXML
-    private StackPane mapStack;
+    private StackPane mapStack,
+            stackContainer,
+            textDirectionsHolder;
 
     @FXML
     private GesturePane gpane;
 
     @FXML
-    private StackPane stackContainer;
-
-    @FXML
-    private JFXButton btnF3;
-
-    @FXML
-    private JFXButton btnF2;
-
-    @FXML
-    private JFXButton btnF1;
-
-    @FXML
-    private JFXButton btnFL1;
-
-    @FXML
-    private JFXButton btnFL2;
-
-    @FXML
-    private StackPane textDirectionsHolder;
-
-    @FXML
-    private JFXButton btnTxtDir;
-
-    @FXML
     private JFXTextArea txtAreaStops;
-
-    @FXML
-    private JFXButton btnRemoveStop;
 
     @FXML
     private Circle pathHead;
@@ -159,9 +123,14 @@ public class PathfindingMenuController extends BasePageController implements Ini
     private MapDrawer mapDrawer;
     private MapEditorPopupManager mapEditorPopupManager;
     private MapPathPopupManager mapPathPopupManager;
+    @Getter
     private FloorSwitcher floorSwitcher;
 
     private static final Color grey = Color.web("#9A9999");
+
+    private String previousFrom = "";
+    private String previousStops = "";
+    private String previousTo = "";
 
     // JavaFX code **************************************************************************************
 
@@ -179,7 +148,8 @@ public class PathfindingMenuController extends BasePageController implements Ini
         populateTreeView();
 
         // Class that draws things on the map
-        mapDrawer = new MapDrawer(this, mapCache, nodeHolder, mapHolder, intermediateNodeHolder, lblError, mapStack, gpane);
+        mapDrawer = new MapDrawer(this, mapCache, nodeHolder, mapHolder,
+                intermediateNodeHolder, lblError, mapStack, gpane);
 
         // Class that handles the popups for the map editor
         mapEditorPopupManager = new MapEditorPopupManager(mapDrawer, mapCache, gpane, mapStack);
@@ -190,8 +160,9 @@ public class PathfindingMenuController extends BasePageController implements Ini
         mapDrawer.setMapPathPopupManager(mapPathPopupManager);
 
         // Set up floor switching
-        floorSwitcher = new FloorSwitcher(mapDrawer, mapCache, map, btnF3, btnF2, btnF1, btnFL1, btnFL2);
+        floorSwitcher = new FloorSwitcher(mapDrawer, mapCache, mapPathPopupManager, map, btnF3, btnF2, btnF1, btnFL1, btnFL2);
         floorSwitcher.switchFloor(FloorSwitcher.floor1ID);
+        mapDrawer.setFloorSwitcher(floorSwitcher);
 
         // Fill in proper fields if the last scene is the covid survey
         checkFromCovidSurvey();
@@ -255,8 +226,6 @@ public class PathfindingMenuController extends BasePageController implements Ini
             e.printStackTrace();
         }
 
-        Graph.getGraph().updateGraph();
-
         // Now delete and refresh the nodes
         nodeHolder.getChildren().remove(mapDrawer.getHead());
         mapDrawer.drawAllElements();
@@ -305,7 +274,6 @@ public class PathfindingMenuController extends BasePageController implements Ini
             Node tempLocation = Graph.getGraph().getNodes().get(
                     mapCache.makeLongToIDMap().get(
                             selectedItem.getValue()));
-
 
             mapDrawer.removeAllPopups();
             if (mapDrawer.isEditing())
@@ -487,17 +455,25 @@ public class PathfindingMenuController extends BasePageController implements Ini
 
         switch (b.getId()) {
             case "btnFindPath":
-                Map<String, String> longToId = mapCache.makeLongToIDMap();
-                mapDrawer.removeAllEdges();
-                mapDrawer.drawPath(txtStartLocation.getText(), txtEndLocation.getText());
+                if (!previousFrom.equals(txtStartLocation.getText()) || !previousStops.equals(String.join(" ", mapCache.getStopsList())) || !previousTo.equals(txtEndLocation.getText())) {
+                    mapCache.updateLocations();
+                    Map<String, String> longToId = mapCache.makeLongToIDMap();
+                    mapPathPopupManager.removeTxtDirPopup();
+                    mapDrawer.removeAllEdges();
 
+                    floorSwitcher.switchFloor(DatabaseHandler.getHandler().getNodeById(longToId.get(txtStartLocation.getText())).getFloor());
+                    mapDrawer.calculatePath(txtStartLocation.getText(), txtEndLocation.getText());
+                    btnTxtDir.setDisable(false);
 
-                floorSwitcher.switchFloor(DatabaseHandler.getHandler().getNodeById(longToId.get(txtStartLocation.getText())).getFloor());
-                mapDrawer.drawPath(txtStartLocation.getText(), txtEndLocation.getText());
-                btnTxtDir.setDisable(false);
+                    // Set previous ones
+                    previousFrom = txtStartLocation.getText();
+                    previousStops = String.join(" ", mapCache.getStopsList());
+                    previousTo = txtEndLocation.getText();
+
+                }
                 break;
             case "btnEditMap":
-
+                mapPathPopupManager.removeTxtDirPopup();
                 mapDrawer.removeAllPopups();
                 mapDrawer.removeAllEdges();
 
@@ -529,6 +505,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
                 floorSwitcher.switchFloor(FloorSwitcher.floorL2ID);
                 break;
             case "btnRemoveStop":
+                mapPathPopupManager.removeTxtDirPopup();
                 mapCache.getStopsList().remove(mapCache.getStopsList().size() - 1);
                 displayStops(mapCache.getStopsList());
 
@@ -651,6 +628,15 @@ public class PathfindingMenuController extends BasePageController implements Ini
      */
     public TreeItem<String> getFavorites() {
         return favorites;
+    }
+
+    /**
+     * Getter for tree locations
+     *
+     * @return tree locations
+     */
+    public JFXTreeView<String> getTreeLocations() {
+        return treeLocations;
     }
 
     /**
@@ -803,6 +789,8 @@ public class PathfindingMenuController extends BasePageController implements Ini
         comboPathingType.getItems().add("A*");
         comboPathingType.getItems().add("DFS");
         comboPathingType.getItems().add("BFS");
+        comboPathingType.getItems().add("BestFS");
+        comboPathingType.getItems().add("Dijkstra");
         comboPathingType.getSelectionModel().select(Graph.getGraph().getPathingTypeIndex());
         comboPathingType.setOnAction(e -> Graph.getGraph().setPathingTypeIndex(comboPathingType.getSelectionModel().getSelectedIndex()));
     }
