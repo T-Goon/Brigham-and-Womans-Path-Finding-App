@@ -76,17 +76,18 @@
                 </VBox>
             </children>
         </HBox>
-      <StackPane fx:id="stackContainer">
-         <children>
+      <StackPane fx:id="stackPane">
+          <children>
               <HBox alignment="TOP_RIGHT" prefHeight="9.999999999E9" prefWidth="9.99999999E8">
                   <children>
-                      <VBox alignment="BOTTOM_CENTER" minWidth="300.0" prefHeight="675.0" prefWidth="300.0" style="-fx-background-color: #012D5A;">
+                      <VBox alignment="BOTTOM_CENTER" minWidth="300.0" prefHeight="675.0" prefWidth="300.0"
+                            style="-fx-background-color: #012D5A;">
                           <children>
-                        <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
-                           <children>
-                              <VBox prefHeight="200.0" prefWidth="75.0" spacing="5.0" HBox.hgrow="NEVER">
-                                 <children>
-                                     <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="From:">
+                              <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                                  <children>
+                                      <VBox prefHeight="200.0" prefWidth="75.0" spacing="5.0" HBox.hgrow="NEVER">
+                                          <children>
+                                              <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="From:">
                                          <font>
                                              <Font size="18.0" />
                                          </font>
