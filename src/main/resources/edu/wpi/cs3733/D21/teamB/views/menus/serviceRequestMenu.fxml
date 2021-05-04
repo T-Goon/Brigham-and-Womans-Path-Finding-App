@@ -69,7 +69,7 @@
                         <Font size="14.0" />
                      </font>
                      <graphic>
-                        <ImageView fitHeight="240.0" fitWidth="240.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="235.0" fitWidth="235.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../../images/requestForms/socialWorkerIcon.png" />
                            </image>
@@ -87,7 +87,7 @@
                         <Font size="14.0" />
                      </font>
                      <graphic>
-                        <ImageView fitHeight="240.0" fitWidth="240.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="235.0" fitWidth="235.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../../images/requestForms/laundryIcon.png" />
                            </image>
@@ -102,7 +102,7 @@
                         <Font size="14.0" />
                      </font>
                      <graphic>
-                        <ImageView fitHeight="240.0" fitWidth="240.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="235.0" fitWidth="235.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../../images/requestForms/foodDeliveryIcon.png" />
                            </image>
@@ -117,7 +117,7 @@
                               <Font size="14.0" />
                           </font>
                           <graphic>
-                              <ImageView fitHeight="240.0" fitWidth="240.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fitHeight="235.0" fitWidth="235.0" pickOnBounds="true" preserveRatio="true">
                                   <image>
                                       <Image url="@../../images/requestForms/sanitationIcon.png" />
                                   </image>
@@ -132,7 +132,7 @@
                         <Font size="14.0" />
                      </font>
                      <graphic>
-                        <ImageView fitHeight="240.0" fitWidth="240.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="235.0" fitWidth="235.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../../images/requestForms/floralIcon.png" />
                            </image>
@@ -147,7 +147,7 @@
                            <Font size="14.0" />
                        </font>
                        <graphic>
-                           <ImageView fitHeight="250.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true">
+                           <ImageView fitHeight="235.0" fitWidth="235.0" pickOnBounds="true" preserveRatio="true">
                                <image>
                                    <Image url="@../../images/requestForms/medicineIcon.png" />
                                </image>
@@ -162,7 +162,7 @@
                         <Font size="14.0" />
                      </font>
                      <graphic>
-                        <ImageView fitHeight="240.0" fitWidth="240.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="235.0" fitWidth="235.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../../images/requestForms/securityIcon.png" />
                            </image>
@@ -177,7 +177,7 @@
                          <Font size="14.0" />
                       </font>
                       <graphic>
-                         <ImageView fitHeight="240.0" fitWidth="240.0" pickOnBounds="true" preserveRatio="true">
+                         <ImageView fitHeight="235.0" fitWidth="235.0" pickOnBounds="true" preserveRatio="true">
                             <image>
                                <Image url="@../../images/requestForms/internalTransportIcon.png" />
                             </image>
@@ -192,7 +192,7 @@
                          <Font size="14.0" />
                       </font>
                       <graphic>
-                         <ImageView fitHeight="240.0" fitWidth="240.0" pickOnBounds="true" preserveRatio="true">
+                         <ImageView fitHeight="235.0" fitWidth="235.0" pickOnBounds="true" preserveRatio="true">
                             <image>
                                <Image url="@../../images/requestForms/externalTransportIcon.png" />
                             </image>
@@ -207,7 +207,7 @@
                         <Font size="14.0" />
                      </font>
                      <graphic>
-                        <ImageView fitHeight="240.0" fitWidth="240.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="235.0" fitWidth="235.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../../images/requestForms/religiousIcon.png" />
                            </image>
@@ -222,7 +222,7 @@
                         <Font size="14.0" />
                      </font>
                      <graphic>
-                        <ImageView fitHeight="240.0" fitWidth="240.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="235.0" fitWidth="235.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../../images/requestForms/caseManagerIcon.png" />
                            </image>
@@ -237,7 +237,7 @@
                         <Font size="14.0" />
                      </font>
                      <graphic>
-                        <ImageView fitHeight="250.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="235.0" fitWidth="235.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../../images/requestForms/giftIcon.png" />
                               <Image url="@../../images/requestForms/giftIcon.png" />
@@ -253,7 +253,7 @@
                         <Font size="14.0" />
                      </font>
                      <graphic>
-                        <ImageView fitHeight="240.0" fitWidth="240.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="235.0" fitWidth="235.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../../images/requestForms/languageInterpreterIcon.png" />
                            </image>
