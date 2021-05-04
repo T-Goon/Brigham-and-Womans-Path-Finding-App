@@ -61,11 +61,8 @@ public class SecurityRequestFormController extends DefaultServiceRequestFormCont
                 return;
             }
             index = securityRequest.getUrgency() - 1;
-            assignedTo.setText(securityRequest.getEmployeeName());
             getLocationIndex(securityRequest.getLocation());
             employeeName = securityRequest.getEmployeeName();
-            int index = securityRequest.getUrgency() - 1;
-            comboUrgency.getSelectionModel().select(index);
             description.setText(securityRequest.getDescription());
         }
         validateButton();
@@ -129,10 +126,14 @@ public class SecurityRequestFormController extends DefaultServiceRequestFormCont
         if (employeeName != null) setPersonIndex(employeeName);
     }
 
+    /**
+     * Sets position of combo box according to employee name
+     *
+     * @param employeeName the employee name
+     */
     protected void setPersonIndex(String employeeName) {
         for (int i = 0; i < listStaff.size(); i++) {
             if ((listStaff.get(i).getFirstName() + " " + listStaff.get(i).getLastName()).equals(employeeName)) {
-                System.out.println(i);
                 comboAssignedTo.getSelectionModel().select(i);
                 return;
             }
