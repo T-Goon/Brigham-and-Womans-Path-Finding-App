@@ -9,6 +9,7 @@ import javafx.scene.input.KeyEvent;
 
 //https://stackoverflow.com/questions/19924852/autocomplete-combobox-in-javafx
 
+@SuppressWarnings("unchecked")
 public class AutoCompleteComboBoxListener<T> implements EventHandler<KeyEvent> {
 
     private final ComboBox comboBox;

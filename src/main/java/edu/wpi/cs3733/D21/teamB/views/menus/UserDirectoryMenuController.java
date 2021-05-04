@@ -62,15 +62,15 @@ public class UserDirectoryMenuController extends BasePageController implements I
             case "btnCovid":
                 switch (DatabaseHandler.getHandler().getAuthenticationUser().getCovidStatus()) {
                     case UNCHECKED:
-                        SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidSurvey.fxml");
+                        SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidSurvey.fxml");
                         break;
                     case PENDING:
-                        SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidFormPending.fxml");
+                        SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidFormPending.fxml");
                         //Insert intermediate back target
                         SceneSwitcher.pushPath("/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidSurvey.fxml");
                         break;
                     default:
-                        SceneSwitcher.switchScene(getClass(),currentPath,"/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidFormAccepted.fxml");
+                        SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidFormAccepted.fxml");
                         //Insert intermediate back target
                         SceneSwitcher.pushPath("/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidSurvey.fxml");
                         break;
@@ -80,35 +80,35 @@ public class UserDirectoryMenuController extends BasePageController implements I
                 if (DatabaseHandler.getHandler().getAuthenticationUser().getAuthenticationLevel().equals(User.AuthenticationLevel.PATIENT)){
                     switch (DatabaseHandler.getHandler().getAuthenticationUser().getCovidStatus()) {
                         case UNCHECKED:
-                            SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidSurvey.fxml");
+                            SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidSurvey.fxml");
                             break;
                         case PENDING:
-                            SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidFormPending.fxml");
+                            SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidFormPending.fxml");
                             //Insert intermediate back target
                             SceneSwitcher.pushPath("/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidSurvey.fxml");
                             break;
                         default:
-                            SceneSwitcher.switchScene(getClass(),currentPath,"/edu/wpi/cs3733/D21/teamB/views/map/pathfindingMenu.fxml");
+                            SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/map/pathfindingMenu.fxml");
                             break;
                     }
                 }else {
-                    SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/cs3733/D21/teamB/views/map/pathfindingMenu.fxml");
+                    SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/map/pathfindingMenu.fxml");
                 }
                 break;
             case "btnGoogle":
-                SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/cs3733/D21/teamB/views/map/directionsMenu.fxml");
+                SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/map/directionsMenu.fxml");
                 break;
             case "btnServiceRequests":
-                SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestMenu.fxml");
+                SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestMenu.fxml");
                 break;
             case "btnDatabase":
-                SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml");
+                SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml");
                 break;
             case "btnUsers":
-                SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/cs3733/D21/teamB/views/menus/userInformationDatabase.fxml");
+                SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/menus/userInformationDatabase.fxml");
                 break;
             case "btnEmergency":
-                SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
+                SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
                 break;
             case "btnBack":
                 DatabaseHandler.getHandler().deauthenticate();
