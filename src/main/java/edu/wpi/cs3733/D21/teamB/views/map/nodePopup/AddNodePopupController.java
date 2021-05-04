@@ -1,9 +1,6 @@
 package edu.wpi.cs3733.D21.teamB.views.map.nodePopup;
 
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXComboBox;
-import com.jfoenix.controls.JFXRadioButton;
-import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.*;
 import edu.wpi.cs3733.D21.teamB.App;
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Node;
@@ -15,6 +12,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -61,6 +59,9 @@ public class AddNodePopupController implements Initializable {
     @FXML
     private JFXButton btnAddNode;
 
+    @FXML
+    private JFXColorPicker clrPicker;
+
     private AddNodePopup popup;
 
     @Override
@@ -78,6 +79,8 @@ public class AddNodePopupController implements Initializable {
         // Fill in current floor
         floor.setText(popup.getData().getMc().getCurrentFloor());
         floor.setDisable(true);
+
+        clrPicker.setValue(Color.web("012D5A"));
     }
 
     /**
@@ -158,8 +161,10 @@ public class AddNodePopupController implements Initializable {
                 String id = "b" + t + String.format("%3s", index).replace(' ', '0') +
                         String.format("%2s", f).replace(' ', '0');
 
+                Color c = clrPicker.getValue();
+
                 // Add node to database
-                popup.addNode(id, x, y, f, b, t, ln, sn);
+                popup.addNode(id, x, y, f, b, t, ln, sn, c);
                 break;
         }
     }

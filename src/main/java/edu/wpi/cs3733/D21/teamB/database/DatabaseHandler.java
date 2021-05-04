@@ -26,7 +26,7 @@ public class DatabaseHandler {
     private final UserMutator userMutator;
 
     //State
-    static User AuthenticationUser = new User(null, null, null, User.AuthenticationLevel.GUEST, null);
+    static User AuthenticationUser = new User("temporary", null, null, null, User.AuthenticationLevel.GUEST, null);
     private final String salt = BCrypt.gensalt();
 
     private DatabaseHandler() {
@@ -293,11 +293,30 @@ public class DatabaseHandler {
                 + "securityEmergency CHAR(20)," // Stored as T/F (no boolean data type in SQL)
                 + "FOREIGN KEY (requestID) REFERENCES Requests(requestID))";
 
+        String covidSurveyRequestsTable = "CREATE TABLE IF NOT EXISTS CovidSurveyRequests("
+                + "requestID CHAR(20) PRIMARY KEY, "
+                + "status CHAR(10) CHECK (status in ('UNCHECKED','PENDING','DANGEROUS', 'SAFE')), "
+                + "fever CHAR(1) CHECK (fever in ('T','F')), "
+                + "chills CHAR(1) CHECK (chills in ('T','F')), "
+                + "cough CHAR(1) CHECK (cough in ('T','F')), "
+                + "shortBreath CHAR(1) CHECK (shortBreath in ('T','F')), "
+                + "soreTht CHAR(1) CHECK (soreTht in ('T','F')), "
+                + "headache CHAR(1) CHECK (headache in ('T','F')), "
+                + "aches CHAR(1) CHECK (aches in ('T','F')), "
+                + "nose CHAR(1) CHECK (nose in ('T','F')), "
+                + "lostTaste CHAR(1) CHECK (lostTaste in ('T','F')), "
+                + "nausea CHAR(1) CHECK (nausea in ('T','F')), "
+                + "closeContact CHAR(1) CHECK (closeContact in ('T','F')), "
+                + "positiveTest CHAR(1) CHECK (positiveTest in ('T','F')), "
+                + "FOREIGN KEY (requestID) REFERENCES Requests(requestID))";
+
         String usersTable = "CREATE TABLE IF NOT EXISTS Users("
                 + "username CHAR(30) PRIMARY KEY, "
+                + "email CHAR(40) NOT NULL UNIQUE, "
                 + "firstName CHAR(30), "
                 + "lastName CHAR(30), "
                 + "authenticationLevel CHAR(30) CHECK (authenticationLevel in ('ADMIN','STAFF','PATIENT', 'GUEST')), "
+                + "covidStatus CHAR(10) CHECK (covidStatus in ('UNCHECKED','PENDING','DANGEROUS', 'SAFE')), "
                 + "passwordHash CHAR(30))";
 
         String jobsTable = "CREATE TABLE IF NOT EXISTS Jobs("
@@ -328,6 +347,7 @@ public class DatabaseHandler {
         runStatement(giftRequestsTable, false);
         runStatement(languageRequestsTable, false);
         runStatement(emergencyRequestsTable, false);
+        runStatement(covidSurveyRequestsTable, false);
         runStatement(usersTable, false);
         runStatement(jobsTable, false);
         runStatement(favoriteLocationsTable, false);
@@ -418,6 +438,10 @@ public class DatabaseHandler {
      */
     public void updateUser(User newUser) throws SQLException {
         userMutator.updateEntity(new UserMutator.UserPasswordMatch(newUser, ""));
+        //Make sure state is accurately reflective
+        if (newUser.getUsername() != null && newUser.getUsername().equals(this.getAuthenticationUser().getUsername())) {
+            DatabaseHandler.AuthenticationUser = newUser;
+        }
     }
 
     /**
@@ -428,13 +452,20 @@ public class DatabaseHandler {
      */
     public void deleteUser(String username) throws SQLException {
         userMutator.removeEntity(username);
+        Collection<Request> requests = requestMutator.getRequests().values();
+        for (Request r : requests) {
+            if (r.getSubmitter().equals(username)) {
+                requestMutator.removeEntity(r.getRequestID());
+            }
+        }
     }
 
     /**
      * Retreive all users in database
+     *
      * @return List of users in database
      */
-    public List<User> getUsers(){
+    public List<User> getUsers() {
         return userMutator.getUsers();
     }
 
@@ -444,6 +475,14 @@ public class DatabaseHandler {
      */
     public User getUserByUsername(String username) {
         return userMutator.getUserByUsername(username);
+    }
+
+    /**
+     * @param email email to query by
+     * @return User object with that email, or null if that user doesn't exist
+     */
+    public User getUserByEmail(String email) {
+        return userMutator.getUserByEmail(email);
     }
 
     /**
@@ -469,17 +508,38 @@ public class DatabaseHandler {
     /**
      * @param username Claimed username of authenticator
      * @param password Claimed plaintext password of authenticator
-     * @return If authentication is successful, return the User object representing the authenticated user, or null if not found
+     * @return If authentication is successful, return the User object representing the authenticated user, or null if not found. Also modifies the state to update authenticated User.
      */
     public User authenticate(String username, String password) {
-        return userMutator.authenticate(username, password);
+        User attempt = userMutator.authenticate(username, password);
+        if (attempt != null) {
+            DatabaseHandler.AuthenticationUser = attempt;
+        }
+        return attempt;
     }
 
     /**
      * Sets authentication level to guest
      */
     public void deauthenticate() {
-        userMutator.deauthenticate();
+        DatabaseHandler.AuthenticationUser = authenticate("temporary", "");
+    }
+
+    /**
+     * Resets the temporary user
+     */
+    public User resetTemporaryUser() {
+        User user = new User("temporary", null, null, null, User.AuthenticationLevel.GUEST, User.CovidStatus.UNCHECKED, null);
+        try {
+            deleteUser("temporary");
+        } catch (SQLException ignored) {
+        }
+        try {
+            addUser(user, "");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return user;
     }
 
     /**
@@ -631,6 +691,14 @@ public class DatabaseHandler {
      */
     public void updateRequest(Request request) throws SQLException {
         requestMutator.updateEntity(request);
+
+        if (request instanceof CovidSurveyRequest) {
+            User user = getUserByUsername(request.getSubmitter());
+            if (user != null) {
+                user.setCovidStatus(((CovidSurveyRequest) request).getStatus());
+                DatabaseHandler.getHandler().updateUser(user);
+            }
+        }
     }
 
     /**
@@ -734,7 +802,7 @@ public class DatabaseHandler {
     /**
      * Update the Graph class with new info
      */
-    private void notifyObservers(){
+    private void notifyObservers() {
         Graph.getGraph().updateGraph();
     }
 

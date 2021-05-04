@@ -102,8 +102,7 @@ public class FloorSwitcher {
                 }
                 break;
             default:
-                System.err.println("NO FLOOR! AAAAAAAAAAAAHHHHHHHHHHH!!!!!!!!!!!!!");
-                break;
+                throw new IllegalStateException("NO FLOOR! AAAAAAAAAAAAHHHHHHHHHHH!!!!!!!!!!!!!");
         }
 
         // Update the edges for the text direction popup
@@ -139,8 +138,7 @@ public class FloorSwitcher {
                 currentlySelected = btnFL2;
                 break;
             default:
-                System.err.println("NO FLOOR! AAAAAAAAAAAAHHHHHHHHHHH!!!!!!!!!!!!!");
-                break;
+                throw new IllegalStateException("NO FLOOR! AAAAAAAAAAAAHHHHHHHHHHH!!!!!!!!!!!!!");
         }
 
         currentlySelected.setStyle("-fx-border-color: RED; -fx-border-width: 3; -fx-background-color:  F6BD39;");

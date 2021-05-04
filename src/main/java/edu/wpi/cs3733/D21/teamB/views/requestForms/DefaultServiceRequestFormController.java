@@ -72,6 +72,8 @@ public abstract class DefaultServiceRequestFormController extends BasePageContro
             nodesList.add(n);
         }
 
+        loc.getItems().sort(Comparator.comparing(String::toString));
+
         //implement searchable combo box
         loc.setVisibleRowCount(5);
         new AutoCompleteComboBoxListener<>(loc);

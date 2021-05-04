@@ -20,11 +20,11 @@ import java.util.List;
 
 public class MapEditorPopupManager implements PoppableManager {
 
-    private MapDrawer md;
-    private MapCache mc;
+    private final MapDrawer md;
+    private final MapCache mc;
 
-    private GesturePane gPane;
-    private StackPane mapStack;
+    private final GesturePane gPane;
+    private final StackPane mapStack;
 
     private AddNodePopup anPopup;
     private AddEdgePopup aePopup;

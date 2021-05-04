@@ -145,6 +145,7 @@ public class MapDrawer implements PoppableManager {
 
         if (mapCache.getFinalPath().getPath().isEmpty()) {
             // There is no path
+            lblError.setText("Path could not be found between the selected locations!");
             lblError.setVisible(true);
             nodeHolder.getChildren().remove(head);
         } else {

@@ -28,6 +28,9 @@ public class EditUserController extends BasePageController implements Initializa
     private JFXTextField username;
 
     @FXML
+    private JFXTextField email;
+
+    @FXML
     private JFXTextField firstName;
 
     @FXML
@@ -77,6 +80,7 @@ public class EditUserController extends BasePageController implements Initializa
             smallText.setText("Add User");
         }
         username.setText(u.getUsername());
+        email.setText(u.getEmail());
         firstName.setText(u.getFirstName());
         lastName.setText(u.getLastName());
         int i = 0;
@@ -113,6 +117,7 @@ public class EditUserController extends BasePageController implements Initializa
         switch (btn.getId()) {
             case "btnSubmit":
                 String uUsername = username.getText();
+                String uEmail = email.getText();
                 String uFirstName = firstName.getText();
                 String uLastName = lastName.getText();
                 User.AuthenticationLevel uAuthLevel = User.AuthenticationLevel.valueOf(authenticationLevel.getValue().getText());
@@ -125,7 +130,7 @@ public class EditUserController extends BasePageController implements Initializa
                         uJobs.add(uJob);
                     }
                 }
-                User uUpdated = new User(uUsername, uFirstName, uLastName, uAuthLevel, uJobs);
+                User uUpdated = new User(uUsername, uEmail, uFirstName, uLastName, uAuthLevel, uJobs);
 
                 try {
                     if (SceneSwitcher.addingUser) {
