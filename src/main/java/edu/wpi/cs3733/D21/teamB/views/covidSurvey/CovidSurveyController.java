@@ -79,6 +79,7 @@ public class CovidSurveyController extends BasePageController implements Initial
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        super.initialize(location, resources);
         btnCCYes.setToggleGroup(ccGroup);
         btnCCNo.setToggleGroup(ccGroup);
         btnTestYes.setToggleGroup(testGroup);

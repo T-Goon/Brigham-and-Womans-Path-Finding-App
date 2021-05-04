@@ -27,7 +27,7 @@
                         <Image url="@../../images/general/hospitalLogo.png" />
                      </image>
                   </ImageView>
-                  <JFXButton fx:id="btnEmergency" buttonType="RAISED" onAction="#handleButtonAction" style="-fx-background-color: #CE2029;" text="EMERGENCY" textFill="WHITE">
+                  <JFXButton fx:id="btnEmergency" accessibleText="Emergency" buttonType="RAISED" onAction="#handleButtonAction" style="-fx-background-color: #CE2029;" text="EMERGENCY" textFill="WHITE">
                      <font>
                         <Font name="MS Reference Sans Serif" size="16.0" />
                      </font>
@@ -39,7 +39,7 @@
             </VBox>
             <VBox alignment="TOP_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
                <children>
-                  <JFXButton fx:id="btnExit" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" onAction="#handleButtonAction" prefHeight="40.0" prefWidth="40.0" rotate="45.0" style="-fx-background-color: transparent; -fx-background-radius: 50%;" text="+" textAlignment="CENTER">
+                  <JFXButton fx:id="btnExit" accessibleText="Exit" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" onAction="#handleButtonAction" prefHeight="40.0" prefWidth="40.0" rotate="45.0" style="-fx-background-color: transparent; -fx-background-radius: 50%;" text="+" textAlignment="CENTER">
                      <padding>
                         <Insets bottom="-10.0" left="-10.0" right="-10.0" top="-10.0" />
                      </padding>
@@ -82,77 +82,77 @@
                            </font></Text>
                         <VBox spacing="5.0" stylesheets="@../../css/covidSurvey.css">
                            <children>
-                              <JFXCheckBox fx:id="chkFever" text="Fever">
+                              <JFXCheckBox fx:id="chkFever" accessibleText="Fever" text="Fever">
                                  <VBox.margin>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </VBox.margin>
                                  <font>
                                     <Font name="MS Reference Sans Serif" size="14.0" />
                                  </font></JFXCheckBox>
-                              <JFXCheckBox fx:id="chkChills" text="Chills">
+                              <JFXCheckBox fx:id="chkChills" accessibleText="Chills" text="Chills">
                                  <VBox.margin>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </VBox.margin>
                                  <font>
                                     <Font name="MS Reference Sans Serif" size="14.0" />
                                  </font></JFXCheckBox>
-                              <JFXCheckBox fx:id="chkCough" text="Cough">
+                              <JFXCheckBox fx:id="chkCough" accessibleText="Cough" text="Cough">
                                  <VBox.margin>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </VBox.margin>
                                  <font>
                                     <Font name="MS Reference Sans Serif" size="14.0" />
                                  </font></JFXCheckBox>
-                              <JFXCheckBox fx:id="chkShortBreath" text="Shortness of Breath">
+                              <JFXCheckBox fx:id="chkShortBreath" accessibleText="Shortness of Breath" text="Shortness of Breath">
                                  <VBox.margin>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </VBox.margin>
                                  <font>
                                     <Font name="MS Reference Sans Serif" size="14.0" />
                                  </font></JFXCheckBox>
-                              <JFXCheckBox fx:id="chkSoreTht" text="Sore Throat">
+                              <JFXCheckBox fx:id="chkSoreTht" accessibleText="Sore Throat" text="Sore Throat">
                                  <VBox.margin>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </VBox.margin>
                                  <font>
                                     <Font name="MS Reference Sans Serif" size="14.0" />
                                  </font></JFXCheckBox>
-                              <JFXCheckBox fx:id="chkHeadache" text="Headache">
+                              <JFXCheckBox fx:id="chkHeadache" accessibleText="Headache" text="Headache">
                                  <VBox.margin>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </VBox.margin>
                                  <font>
                                     <Font name="MS Reference Sans Serif" size="14.0" />
                                  </font></JFXCheckBox>
-                              <JFXCheckBox fx:id="chkAches" text="Muscle/Body Ache">
+                              <JFXCheckBox fx:id="chkAches" accessibleText="Muscle slash body ache" text="Muscle/Body Ache">
                                  <VBox.margin>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </VBox.margin>
                                  <font>
                                     <Font name="MS Reference Sans Serif" size="14.0" />
                                  </font></JFXCheckBox>
-                              <JFXCheckBox fx:id="chkNose" text="Runny Nose/Congestion">
+                              <JFXCheckBox fx:id="chkNose" accessibleText="runny nose slash congestion" text="Runny Nose/Congestion">
                                  <VBox.margin>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </VBox.margin>
                                  <font>
                                     <Font name="MS Reference Sans Serif" size="14.0" />
                                  </font></JFXCheckBox>
-                              <JFXCheckBox fx:id="chkLostTaste" text="Loss of Taste/Smell">
+                              <JFXCheckBox fx:id="chkLostTaste" accessibleText="loss of taste slash smell" text="Loss of Taste/Smell">
                                  <VBox.margin>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </VBox.margin>
                                  <font>
                                     <Font name="MS Reference Sans Serif" size="14.0" />
                                  </font></JFXCheckBox>
-                              <JFXCheckBox fx:id="chkNausea" text="Nausea/Vomiting">
+                              <JFXCheckBox fx:id="chkNausea" accessibleText="nausea slash vomiting" text="Nausea/Vomiting">
                                  <VBox.margin>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </VBox.margin>
                                  <font>
                                     <Font name="MS Reference Sans Serif" size="14.0" />
                                  </font></JFXCheckBox>
-                              <JFXCheckBox fx:id="chkNone" text="None">
+                              <JFXCheckBox fx:id="chkNone" accessibleText="none" text="None">
                                  <VBox.margin>
                                     <Insets />
                                  </VBox.margin>
@@ -182,7 +182,7 @@
                         </Text>
                         <HBox spacing="20.0">
                            <children>
-                              <JFXRadioButton fx:id="btnCCYes" onAction="#validateButton" text="Yes">
+                              <JFXRadioButton fx:id="btnCCYes" accessibleText="yes" onAction="#validateButton" text="Yes">
                                  <toggleGroup>
                                     <ToggleGroup fx:id="ccGroup" />
                                  </toggleGroup>
@@ -190,7 +190,7 @@
                                     <Font name="MS Reference Sans Serif" size="14.0" />
                                  </font>
                               </JFXRadioButton>
-                              <JFXRadioButton fx:id="btnCCNo" onAction="#validateButton" text="No" toggleGroup="$ccGroup">
+                              <JFXRadioButton fx:id="btnCCNo" accessibleText="no" onAction="#validateButton" text="No" toggleGroup="$ccGroup">
                                  <font>
                                     <Font name="MS Reference Sans Serif" size="14.0" />
                                  </font>
@@ -214,7 +214,7 @@
                         </Text>
                         <HBox alignment="CENTER_LEFT" spacing="20.0">
                            <children>
-                              <JFXRadioButton fx:id="btnTestYes" onAction="#validateButton" text="Yes">
+                              <JFXRadioButton fx:id="btnTestYes" accessibleText="yes" onAction="#validateButton" text="Yes">
                                  <toggleGroup>
                                     <ToggleGroup fx:id="testGroup" />
                                  </toggleGroup>
@@ -222,7 +222,7 @@
                                     <Font name="MS Reference Sans Serif" size="14.0" />
                                  </font>
                               </JFXRadioButton>
-                              <JFXRadioButton fx:id="btnTestNo" onAction="#validateButton" text="No" toggleGroup="$testGroup">
+                              <JFXRadioButton fx:id="btnTestNo" accessibleText="no" onAction="#validateButton" text="No" toggleGroup="$testGroup">
                                  <font>
                                     <Font name="MS Reference Sans Serif" size="14.0" />
                                  </font>
@@ -268,7 +268,7 @@
          <children>
             <HBox alignment="BOTTOM_LEFT" prefWidth="9999.0">
                <children>
-                  <JFXButton fx:id="btnBack" alignment="CENTER" buttonType="RAISED" cancelButton="true" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#handleButtonAction" prefHeight="56" prefWidth="56" style="-fx-background-color: #0067B1; -fx-background-radius: 50%;" text="🡰" textAlignment="CENTER" textFill="WHITE">
+                  <JFXButton fx:id="btnBack" accessibleText="back" alignment="CENTER" buttonType="RAISED" cancelButton="true" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#handleButtonAction" prefHeight="56" prefWidth="56" style="-fx-background-color: #0067B1; -fx-background-radius: 50%;" text="🡰" textAlignment="CENTER" textFill="WHITE">
                      <font>
                         <Font size="27.0" />
                      </font>
@@ -280,7 +280,7 @@
             </HBox>
             <HBox alignment="BOTTOM_CENTER" prefWidth="9999.0" HBox.hgrow="ALWAYS">
                <children>
-                  <JFXButton fx:id="btnSubmit" buttonType="RAISED" onAction="#handleButtonAction" prefHeight="60.0" prefWidth="150.0" style="-fx-background-color: #F6BD39; -fx-background-radius: 7;" text="Submit">
+                  <JFXButton fx:id="btnSubmit" accessibleText="submit" buttonType="RAISED" onAction="#handleButtonAction" prefHeight="60.0" prefWidth="150.0" style="-fx-background-color: #F6BD39; -fx-background-radius: 7;" text="Submit">
                      <font>
                         <Font name="MS Reference Sans Serif" size="20.0" />
                      </font>

@@ -64,7 +64,7 @@ public class DirectionsMenuController extends BasePageController implements Init
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        super.initialize(location, resources);
         comboEndLocation.getItems().add("BWH Visitor Parking");
         comboEndLocation.getItems().add("15-51 New Whitney St Parking");
 

@@ -136,7 +136,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        super.initialize(location, resources);
         //Add better category names to a hash map
         initCategoriesMap();
 
