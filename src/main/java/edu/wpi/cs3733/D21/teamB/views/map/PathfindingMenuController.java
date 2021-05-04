@@ -210,8 +210,8 @@ public class PathfindingMenuController extends BasePageController implements Ini
                 lblError.setText("Please choose a starting location");
                 lblError.setVisible(true);
             } else {
-                findClosestLocationTo(e);
                 lblError.setVisible(false);
+                findClosestLocationTo();
             }
         });
     }
@@ -828,7 +828,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
      * finding closest location to the specified category
      */
     @FXML
-    private void findClosestLocationTo(ActionEvent actionEvent) {
+    private void findClosestLocationTo() {
 
         String category = findClosestLocation.getSelectionModel().getSelectedItem();
         String startID = mapCache.getMapLongToID().get(txtStartLocation.getText());
@@ -847,7 +847,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
                         restroomsList.add(mapCache.getMapLongToID().get(restroom.getValue()));
                     }
                     List<String> restroomsPath = dijkstra.findPath(startID, mapDrawer.isMobility(), restroomsList).getPath();
-                    if (restroomsPath.isEmpty()) return;
+                    if (restroomsPath.isEmpty()) break;
                     endID = restroomsPath.get(restroomsPath.size() - 1);
                     break;
 
@@ -860,7 +860,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
                     foodPlacesList.add("HRETL00102");
 
                     List<String> foodPlacesPath = dijkstra.findPath(startID, mapDrawer.isMobility(), foodPlacesList).getPath();
-                    if (foodPlacesPath.isEmpty()) return;
+                    if (foodPlacesPath.isEmpty()) break;
                     endID = foodPlacesPath.get(foodPlacesPath.size() - 1);
                     break;
 
@@ -872,7 +872,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
                     serviceDesksList.add("FINFO00101");
                     serviceDesksList.add("GINFO01902");
                     List<String> serviceDesksPath = dijkstra.findPath(startID, mapDrawer.isMobility(), serviceDesksList).getPath();
-                    if (serviceDesksPath.isEmpty()) return;
+                    if (serviceDesksPath.isEmpty()) break;
                     endID = serviceDesksPath.get(serviceDesksPath.size() - 1);
                     break;
 
@@ -883,14 +883,18 @@ public class PathfindingMenuController extends BasePageController implements Ini
                         entrancesList.add(mapCache.getMapLongToID().get(entrance.getValue()));
                     }
                     List<String> entrancesPath = dijkstra.findPath(startID, mapDrawer.isMobility(), entrancesList).getPath();
-                    if (entrancesPath.isEmpty()) return;
+                    if (entrancesPath.isEmpty()) break;
                     endID = entrancesPath.get(entrancesPath.size() - 1);
                     break;
             }
-            txtEndLocation.setText(Graph.getGraph().getNodes().get(endID).getLongName());
-            btnFindPath.setDisable(false);
+
+            if (endID == null) {
+                lblError.setText("Path could not be found between the selected locations!");
+                lblError.setVisible(true);
+            } else {
+                txtEndLocation.setText(Graph.getGraph().getNodes().get(endID).getLongName());
+                btnFindPath.setDisable(false);
+            }
         }
-
-
     }
 }
