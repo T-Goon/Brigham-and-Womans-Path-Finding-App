@@ -24,6 +24,7 @@ import javafx.scene.text.Text;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Map;
 import java.util.ResourceBundle;
 
@@ -66,7 +67,6 @@ public abstract class DefaultServiceRequestFormController extends BasePageContro
 
         Map<String, Node> nodes = DatabaseHandler.getHandler().getNodes();
 
-        // TODO should probably sort
         for (Node n : nodes.values()) {
             loc.getItems().add(n.getLongName());
             nodesList.add(n);

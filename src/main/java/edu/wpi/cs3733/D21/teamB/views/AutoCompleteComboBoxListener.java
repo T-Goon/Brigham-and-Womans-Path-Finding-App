@@ -11,46 +11,38 @@ import javafx.scene.input.KeyEvent;
 
 public class AutoCompleteComboBoxListener<T> implements EventHandler<KeyEvent> {
 
-    private ComboBox comboBox;
-    private StringBuilder sb;
-    private ObservableList<T> data;
+    private final ComboBox<T> comboBox;
+    private final ObservableList<T> data;
     private boolean moveCaretToPos = false;
     private int caretPos;
 
-    public AutoCompleteComboBoxListener(final ComboBox comboBox) {
+    public AutoCompleteComboBoxListener(final ComboBox<T> comboBox) {
         this.comboBox = comboBox;
-        sb = new StringBuilder();
         data = comboBox.getItems();
 
         this.comboBox.setEditable(true);
-        this.comboBox.setOnKeyPressed(new EventHandler<KeyEvent>() {
-
-            @Override
-            public void handle(KeyEvent t) {
-                comboBox.hide();
-            }
-        });
+        this.comboBox.setOnKeyPressed(e -> comboBox.hide());
         this.comboBox.setOnKeyReleased(AutoCompleteComboBoxListener.this);
     }
 
     @Override
     public void handle(KeyEvent event) {
 
-        if(event.getCode() == KeyCode.UP) {
+        if (event.getCode() == KeyCode.UP) {
             caretPos = -1;
             moveCaret(comboBox.getEditor().getText().length());
             return;
-        } else if(event.getCode() == KeyCode.DOWN) {
-            if(!comboBox.isShowing()) {
+        } else if (event.getCode() == KeyCode.DOWN) {
+            if (!comboBox.isShowing()) {
                 comboBox.show();
             }
             caretPos = -1;
             moveCaret(comboBox.getEditor().getText().length());
             return;
-        } else if(event.getCode() == KeyCode.BACK_SPACE) {
+        } else if (event.getCode() == KeyCode.BACK_SPACE) {
             moveCaretToPos = true;
             caretPos = comboBox.getEditor().getCaretPosition();
-        } else if(event.getCode() == KeyCode.DELETE) {
+        } else if (event.getCode() == KeyCode.DELETE) {
             moveCaretToPos = true;
             caretPos = comboBox.getEditor().getCaretPosition();
         }
@@ -61,29 +53,29 @@ public class AutoCompleteComboBoxListener<T> implements EventHandler<KeyEvent> {
             return;
         }
 
-        ObservableList list = FXCollections.observableArrayList();
-        for (int i=0; i<data.size(); i++) {
-            if(data.get(i).toString().toLowerCase().startsWith(
+        ObservableList<T> list = FXCollections.observableArrayList();
+        for (T datum : data) {
+            if (datum.toString().toLowerCase().startsWith(
                     AutoCompleteComboBoxListener.this.comboBox
                             .getEditor().getText().toLowerCase())) {
-                list.add(data.get(i));
+                list.add(datum);
             }
         }
         String t = comboBox.getEditor().getText();
 
         comboBox.setItems(list);
         comboBox.getEditor().setText(t);
-        if(!moveCaretToPos) {
+        if (!moveCaretToPos) {
             caretPos = -1;
         }
         moveCaret(t.length());
-        if(!list.isEmpty()) {
+        if (!list.isEmpty()) {
             comboBox.show();
         }
     }
 
     private void moveCaret(int textLength) {
-        if(caretPos == -1) {
+        if (caretPos == -1) {
             comboBox.getEditor().positionCaret(textLength);
         } else {
             comboBox.getEditor().positionCaret(caretPos);
