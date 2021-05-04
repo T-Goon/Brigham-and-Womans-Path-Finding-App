@@ -25,7 +25,7 @@ public class MainPageController extends BasePageController {
         final String currentPath = "/edu/wpi/cs3733/D21/teamB/views/login/mainPage.fxml";
         super.handleButtonAction(e);
         JFXButton btn = (JFXButton) e.getSource();
-        switch (btn.getId()) {
+        /*switch (btn.getId()) {
             case "btnLogin":
                 SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/cs3733/D21/teamB/views/login/loginPage.fxml");
                 break;
@@ -44,6 +44,6 @@ public class MainPageController extends BasePageController {
             case "btnEmergency":
                 SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
                 break;
-        }
+        }*/
     }
 }
