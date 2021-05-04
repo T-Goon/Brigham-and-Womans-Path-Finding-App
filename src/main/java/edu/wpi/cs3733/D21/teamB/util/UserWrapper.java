@@ -57,7 +57,7 @@ public class UserWrapper {
                 Stage stage = App.getPrimaryStage();
                 stage.setUserData(u);
                 SceneSwitcher.addingUser = false;
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/cs3733/D21/teamB/views/menus/userInformationDatabase.fxml", "/edu/wpi/cs3733/D21/teamB/views/menus/editUserMenu.fxml");
+                SceneSwitcher.switchScene("/edu/wpi/cs3733/D21/teamB/views/menus/userInformationDatabase.fxml", "/edu/wpi/cs3733/D21/teamB/views/menus/editUserMenu.fxml");
             }
         });
 

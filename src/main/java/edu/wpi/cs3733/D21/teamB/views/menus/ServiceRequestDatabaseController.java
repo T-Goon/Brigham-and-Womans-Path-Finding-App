@@ -134,9 +134,14 @@ public class   ServiceRequestDatabaseController extends BasePageController imple
                 break;
             case "btnEmergency":
                 SceneSwitcher.isEmergencyBtn = true;
-                SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
+                SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
                 break;
         }
+    }
+
+    @FXML
+    public void handleOnChange(ActionEvent actionEvent) {
+
     }
 
     private void loadHelpDialog() {

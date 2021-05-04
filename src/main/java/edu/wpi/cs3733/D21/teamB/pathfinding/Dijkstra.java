@@ -6,12 +6,19 @@ import java.util.*;
 
 public class Dijkstra extends AlgoTemplate implements Pathfinder{
 
-    public Path findPath(String startID, String endID, boolean mobility, String category, String comparisonType) {
+    /**
+     * Finding path from start to the first id in id list we hit
+     * @param startID node id we are starting from
+     * @param mobility needs to use elevators or not
+     * @param idList list of potential end ids
+     * @return path from startID to the first node encountered in ID list
+     */
+    public Path findPath(String startID, boolean mobility, List<String> idList) {
 
         Graph graph = Graph.getGraph();
         graph.updateGraph();
         Node startNode = graph.getNodes().get(startID);
-        Node endNode = graph.getNodes().get(endID);
+
 
         //Initialize data structures used in the A* algorithm
         LinkedList<String> ret = new LinkedList<>();
@@ -30,7 +37,7 @@ public class Dijkstra extends AlgoTemplate implements Pathfinder{
             current = pQueue.poll();
 
             //If the node has reached the end node break out of the loop
-            if (categoryCompare(comparisonType, current, endNode, category))
+            if (idList.contains(current.getNodeID()))
                 break;
 
             //Try-catch will catch a NullPointerException caused by a node with no edges
@@ -69,7 +76,7 @@ public class Dijkstra extends AlgoTemplate implements Pathfinder{
         // Cannot find path
         assert current != null;
         if(pQueue.isEmpty()) {
-            if (!current.equals(endNode)) return new Path(new LinkedList<>(), 0);
+            if (!idList.contains(current.getNodeID())) return new Path(new LinkedList<>(), 0);
         }
 
 
@@ -83,25 +90,13 @@ public class Dijkstra extends AlgoTemplate implements Pathfinder{
         return new Path(ret, graph.calculateCost(ret));
     }
 
+    /**
+     * Returning cost since that is what Dijkstra uses to calculate the cost
+     * @param newCost accumulated edge cost
+     * @param heur not used
+     * @return the newCost
+     */
     public double calculateFVal(double newCost, double heur){
         return newCost;
     }
-
-    /**
-     *
-     * @param category
-     * @return
-     */
-    public boolean categoryCompare(String compString, Node start, Node end, String category) {
-        if(compString.equals("ID")){
-            return start.getNodeID().equals(end.getNodeID());
-        }
-        else if(compString.equals("Cat")){
-            return start.getNodeType().equals(category);
-        }
-        else{
-            throw new IllegalArgumentException("Not an ID or category");
-        }
-    }
-
 }

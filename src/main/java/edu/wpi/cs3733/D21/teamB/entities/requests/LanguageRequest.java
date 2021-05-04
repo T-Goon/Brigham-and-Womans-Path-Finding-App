@@ -8,12 +8,14 @@ import lombok.Setter;
 public class LanguageRequest extends Request {
 
     private String patientName;
+    private String arrivalDate;
     private String timeForArrival;
     private String language;
 
-    public LanguageRequest(String language, String patientName, String timeForArrival, String requestID, String time, String date, String complete, String employeeName, String location, String description) {
+    public LanguageRequest(String language, String patientName, String arrivalDate, String timeForArrival, String requestID, String time, String date, String complete, String employeeName, String location, String description) {
         super(requestID, RequestType.LANGUAGE, time, date, complete, employeeName, location, description);
         this.patientName = patientName;
+        this.arrivalDate = arrivalDate;
         this.timeForArrival = timeForArrival;
         this.language = language;
     }

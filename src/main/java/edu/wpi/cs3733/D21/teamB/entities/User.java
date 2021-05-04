@@ -20,7 +20,17 @@ public class User implements IStoredEntity {
         GUEST
     }
 
+    public enum CovidStatus {
+        UNCHECKED,
+        PENDING,
+        DANGEROUS,
+        SAFE
+    }
+
+
     private String username;
+
+    private String email;
 
     private String firstName;
 
@@ -28,14 +38,21 @@ public class User implements IStoredEntity {
 
     private AuthenticationLevel authenticationLevel;
 
+    private CovidStatus covidStatus;
+
     private List<Request.RequestType> jobs;
 
-    public boolean addJob(Request.RequestType job){
-       if(jobs.contains(job)){
-           return false;
-       }
-       jobs.add(job);
-       return true;
+
+    public User(String username, String email, String firstName, String lastName, AuthenticationLevel authenticationLevel, List<Request.RequestType> jobs) {
+        this(username, email, firstName, lastName, authenticationLevel, CovidStatus.UNCHECKED, jobs);
+    }
+
+    public boolean addJob(Request.RequestType job) {
+        if (jobs.contains(job)) {
+            return false;
+        }
+        jobs.add(job);
+        return true;
     }
 
     /**
@@ -61,6 +78,7 @@ public class User implements IStoredEntity {
     public String toString() {
         return "User{" +
                 "username='" + username + '\'' +
+                ", email='" + email + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", authenticationLevel=" + authenticationLevel +

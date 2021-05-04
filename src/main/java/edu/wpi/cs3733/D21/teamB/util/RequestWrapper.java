@@ -90,6 +90,14 @@ public class RequestWrapper {
             } catch (SQLException err) {
                 err.printStackTrace();
             }
+
+            // Notify submitter of completion of task
+            if (!employeeName.getText().equals("Nobody")) {
+                ExternalCommunication externalCommunication = new ExternalCommunication();
+                User currentUser = DatabaseHandler.getHandler().getAuthenticationUser();
+                User user = DatabaseHandler.getHandler().getUserByUsername(r.getSubmitter());
+                externalCommunication.notifyCompletion(user.getEmail(), user.getFirstName(), currentUser.getFirstName() + " " + currentUser.getLastName(), Request.RequestType.prettify(r.getRequestType()));
+            }
         });
 
         menu.getItems().add(notComplete);
@@ -126,6 +134,11 @@ public class RequestWrapper {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+
+                    // Send email to the user who was just assigned a task
+                    ExternalCommunication externalCommunication = new ExternalCommunication();
+                    User currentUser = DatabaseHandler.getHandler().getAuthenticationUser();
+                    externalCommunication.sendAssignment(employee.getEmail(), employee.getFirstName(), currentUser.getFirstName() + " " + currentUser.getLastName(), Request.RequestType.prettify(r.getRequestType()));
                 });
                 staff.add(tempItem);
             }
@@ -168,47 +181,50 @@ public class RequestWrapper {
 
                 switch (r.getRequestType()) {
                     case SANITATION:
-                        SceneSwitcher.switchScene(getClass(), "/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml", "/edu/wpi/cs3733/D21/teamB/views/requestForms/sanitationRequestForm.fxml");
+                        SceneSwitcher.switchScene("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml", "/edu/wpi/cs3733/D21/teamB/views/requestForms/sanitationRequestForm.fxml");
                         break;
                     case MEDICINE:
-                        SceneSwitcher.switchScene(getClass(), "/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml", "/edu/wpi/cs3733/D21/teamB/views/requestForms/medDeliveryRequestForm.fxml");
+                        SceneSwitcher.switchScene("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml", "/edu/wpi/cs3733/D21/teamB/views/requestForms/medDeliveryRequestForm.fxml");
                         break;
                     case INTERNAL_TRANSPORT:
-                        SceneSwitcher.switchScene(getClass(), "/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml", "/edu/wpi/cs3733/D21/teamB/views/requestForms/internalTransportationRequestForm.fxml");
+                        SceneSwitcher.switchScene("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml", "/edu/wpi/cs3733/D21/teamB/views/requestForms/internalTransportationRequestForm.fxml");
                         break;
                     case RELIGIOUS:
-                        SceneSwitcher.switchScene(getClass(), "/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml", "/edu/wpi/cs3733/D21/teamB/views/requestForms/religiousRequestForm.fxml");
+                        SceneSwitcher.switchScene("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml", "/edu/wpi/cs3733/D21/teamB/views/requestForms/religiousRequestForm.fxml");
                         break;
                     case FOOD:
-                        SceneSwitcher.switchScene(getClass(), "/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml", "/edu/wpi/cs3733/D21/teamB/views/requestForms/foodDeliveryRequestForm.fxml");
+                        SceneSwitcher.switchScene("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml", "/edu/wpi/cs3733/D21/teamB/views/requestForms/foodDeliveryRequestForm.fxml");
                         break;
                     case FLORAL:
-                        SceneSwitcher.switchScene(getClass(), "/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml", "/edu/wpi/cs3733/D21/teamB/views/requestForms/floralDeliveryRequestForm.fxml");
+                        SceneSwitcher.switchScene("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml", "/edu/wpi/cs3733/D21/teamB/views/requestForms/floralDeliveryRequestForm.fxml");
                         break;
                     case SECURITY:
-                        SceneSwitcher.switchScene(getClass(), "/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml", "/edu/wpi/cs3733/D21/teamB/views/requestForms/securityRequestForm.fxml");
+                        SceneSwitcher.switchScene("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml", "/edu/wpi/cs3733/D21/teamB/views/requestForms/securityRequestForm.fxml");
                         break;
                     case EXTERNAL_TRANSPORT:
-                        SceneSwitcher.switchScene(getClass(), "/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml", "/edu/wpi/cs3733/D21/teamB/views/requestForms/externalTransportationRequestForm.fxml");
+                        SceneSwitcher.switchScene("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml", "/edu/wpi/cs3733/D21/teamB/views/requestForms/externalTransportationRequestForm.fxml");
                         break;
                     case LAUNDRY:
-                        SceneSwitcher.switchScene(getClass(), "/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml", "/edu/wpi/cs3733/D21/teamB/views/requestForms/laundryRequestForm.fxml");
+                        SceneSwitcher.switchScene("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml", "/edu/wpi/cs3733/D21/teamB/views/requestForms/laundryRequestForm.fxml");
                         break;
                     case CASE_MANAGER:
-                        SceneSwitcher.switchScene(getClass(), "/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml", "/edu/wpi/cs3733/D21/teamB/views/requestForms/caseManagerRequestForm.fxml");
+                        SceneSwitcher.switchScene("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml", "/edu/wpi/cs3733/D21/teamB/views/requestForms/caseManagerRequestForm.fxml");
                         break;
                     case SOCIAL_WORKER:
-                        SceneSwitcher.switchScene(getClass(), "/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml", "/edu/wpi/cs3733/D21/teamB/views/requestForms/socialWorkerRequestForm.fxml");
+                        SceneSwitcher.switchScene("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml", "/edu/wpi/cs3733/D21/teamB/views/requestForms/socialWorkerRequestForm.fxml");
                         break;
                     case GIFT:
-                        SceneSwitcher.switchScene(getClass(), "/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml", "/edu/wpi/cs3733/D21/teamB/views/requestForms/giftRequestForm.fxml");
+                        SceneSwitcher.switchScene("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml", "/edu/wpi/cs3733/D21/teamB/views/requestForms/giftRequestForm.fxml");
                         break;
                     case LANGUAGE:
-                        SceneSwitcher.switchScene(getClass(), "/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml", "/edu/wpi/cs3733/D21/teamB/views/requestForms/languageRequestForm.fxml");
+                        SceneSwitcher.switchScene("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml", "/edu/wpi/cs3733/D21/teamB/views/requestForms/languageRequestForm.fxml");
                         break;
                     case EMERGENCY:
                         SceneSwitcher.isEmergencyBtn = false;
-                        SceneSwitcher.switchScene(getClass(), "/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml", "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
+                        SceneSwitcher.switchScene("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml", "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
+                        break;
+                    case COVID:
+                        SceneSwitcher.switchScene("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml", "/edu/wpi/cs3733/D21/teamB/views/requestForms/covidRequestForm.fxml");
                         break;
                     default:
                         throw new IllegalStateException("How did we get here?");

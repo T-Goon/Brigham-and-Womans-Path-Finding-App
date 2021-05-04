@@ -171,6 +171,7 @@ public class RequestMutator implements IDatabaseEntityMutator<Request> {
                 query = "INSERT INTO CaseManagerRequests VALUES " +
                         "('" + caseManagerRequest.getRequestID()
                         + "', '" + caseManagerRequest.getPatientName().replace("'", "''")
+                        + "', '" + caseManagerRequest.getArrivalDate()
                         + "', '" + caseManagerRequest.getTimeForArrival()
                         + "')";
                 break;
@@ -180,6 +181,7 @@ public class RequestMutator implements IDatabaseEntityMutator<Request> {
                 query = "INSERT INTO SocialWorkerRequests VALUES " +
                         "('" + socialWorkerRequest.getRequestID()
                         + "', '" + socialWorkerRequest.getPatientName().replace("'", "''")
+                        + "', '" + socialWorkerRequest.getArrivalDate()
                         + "', '" + socialWorkerRequest.getTimeForArrival()
                         + "')";
                 break;
@@ -190,6 +192,7 @@ public class RequestMutator implements IDatabaseEntityMutator<Request> {
                         "('" + languageRequest.getRequestID()
                         + "', '" + languageRequest.getPatientName().replace("'", "''")
                         + "', '" + languageRequest.getLanguage()
+                        + "', '" + languageRequest.getArrivalDate()
                         + "', '" + languageRequest.getTimeForArrival()
                         + "')";
                 break;
@@ -212,6 +215,25 @@ public class RequestMutator implements IDatabaseEntityMutator<Request> {
                         "('" + emergencyRequest.getRequestID()
                         + "', '" + emergencyRequest.getMedicalEmergency()
                         + "', '" + emergencyRequest.getSecurityEmergency()
+                        + "')";
+                break;
+            case COVID:
+                CovidSurveyRequest covidSurveyRequest = (CovidSurveyRequest) request;
+                query = "INSERT INTO covidSurveyRequests VALUES " +
+                        "('" + covidSurveyRequest.getRequestID()
+                        + "', '" + covidSurveyRequest.getStatus().toString()
+                        + "', '" + covidSurveyRequest.getSymptomFever()
+                        + "', '" + covidSurveyRequest.getSymptomChills()
+                        + "', '" + covidSurveyRequest.getSymptomCough()
+                        + "', '" + covidSurveyRequest.getSymptomShortBreath()
+                        + "', '" + covidSurveyRequest.getSymptomSoreTht()
+                        + "', '" + covidSurveyRequest.getSymptomHeadache()
+                        + "', '" + covidSurveyRequest.getSymptomAches()
+                        + "', '" + covidSurveyRequest.getSymptomNose()
+                        + "', '" + covidSurveyRequest.getSymptomLostTaste()
+                        + "', '" + covidSurveyRequest.getSymptomNausea()
+                        + "', '" + covidSurveyRequest.getHadCloseContact()
+                        + "', '" + covidSurveyRequest.getHadPositiveTest()
                         + "')";
                 break;
         }
@@ -320,6 +342,7 @@ public class RequestMutator implements IDatabaseEntityMutator<Request> {
             case CASE_MANAGER:
                 CaseManagerRequest caseManagerRequest = (CaseManagerRequest) request;
                 query = "UPDATE CaseManagerRequests SET patientName = '" + caseManagerRequest.getPatientName().replace("'", "''")
+                        + "', arrivalDate = '" + caseManagerRequest.getArrivalDate()
                         + "', timeForArrival = '" + caseManagerRequest.getTimeForArrival()
                         + "' WHERE requestID = '" + caseManagerRequest.getRequestID() + "'";
                 break;
@@ -327,6 +350,7 @@ public class RequestMutator implements IDatabaseEntityMutator<Request> {
             case SOCIAL_WORKER:
                 SocialWorkerRequest socialWorkerRequest = (SocialWorkerRequest) request;
                 query = "UPDATE SocialWorkerRequests SET patientName = '" + socialWorkerRequest.getPatientName().replace("'", "''")
+                        + "', arrivalDate = '" + socialWorkerRequest.getArrivalDate()
                         + "', timeForArrival = '" + socialWorkerRequest.getTimeForArrival()
                         + "' WHERE requestID = '" + socialWorkerRequest.getRequestID() + "'";
                 break;
@@ -335,6 +359,7 @@ public class RequestMutator implements IDatabaseEntityMutator<Request> {
                 LanguageRequest languageRequest = (LanguageRequest) request;
                 query = "UPDATE LanguageInterpretationRequests SET patientName = '" + languageRequest.getPatientName().replace("'", "''")
                         + "', language = '" + languageRequest.getLanguage()
+                        + "', arrivalDate = '" + languageRequest.getArrivalDate()
                         + "', arrivalTime = '" + languageRequest.getTimeForArrival()
                         + "' WHERE requestID = '" + languageRequest.getRequestID() + "'";
                 break;
@@ -354,6 +379,25 @@ public class RequestMutator implements IDatabaseEntityMutator<Request> {
                 query = "UPDATE EmergencyRequests SET medicalEmergency = '" + emergencyRequest.getMedicalEmergency()
                         + "', securityEmergency = '" + emergencyRequest.getSecurityEmergency()
                         + "' WHERE requestID = '" + emergencyRequest.getRequestID() + "'";
+                break;
+            case COVID:
+                CovidSurveyRequest covidSurveyRequest = (CovidSurveyRequest) request;
+                query = "UPDATE covidSurveyRequests SET status = '" + covidSurveyRequest.getStatus().toString()
+                        + "', fever = '" + covidSurveyRequest.getSymptomFever()
+                        + "', chills = '" + covidSurveyRequest.getSymptomChills()
+                        + "', cough = '" + covidSurveyRequest.getSymptomCough()
+                        + "', shortBreath = '" + covidSurveyRequest.getSymptomShortBreath()
+                        + "', soreTht = '" + covidSurveyRequest.getSymptomSoreTht()
+                        + "', headache = '" + covidSurveyRequest.getSymptomHeadache()
+                        + "', aches = '" + covidSurveyRequest.getSymptomAches()
+                        + "', nose = '" + covidSurveyRequest.getSymptomNose()
+                        + "', lostTaste = '" + covidSurveyRequest.getSymptomLostTaste()
+                        + "', nausea = '" + covidSurveyRequest.getSymptomNausea()
+                        + "', closeContact = '" + covidSurveyRequest.getHadCloseContact()
+                        + "', positiveTest = '" + covidSurveyRequest.getHadPositiveTest()
+                        + "' WHERE requestID = '" + covidSurveyRequest.getRequestID() + "'";
+
+
                 break;
         }
         db.runStatement(query, false);
@@ -550,6 +594,7 @@ public class RequestMutator implements IDatabaseEntityMutator<Request> {
             case CASE_MANAGER:
                 outRequest = new CaseManagerRequest(
                         rs.getString("patientName"),
+                        rs.getString("arrivalDate"),
                         rs.getString("timeForArrival"),
                         rs.getString("requestID"),
                         rs.getString("requestTime"),
@@ -564,6 +609,7 @@ public class RequestMutator implements IDatabaseEntityMutator<Request> {
             case SOCIAL_WORKER:
                 outRequest = new SocialWorkerRequest(
                         rs.getString("patientName"),
+                        rs.getString("arrivalDate"),
                         rs.getString("timeForArrival"),
                         rs.getString("requestID"),
                         rs.getString("requestTime"),
@@ -579,6 +625,7 @@ public class RequestMutator implements IDatabaseEntityMutator<Request> {
                 outRequest = new LanguageRequest(
                         rs.getString("language"),
                         rs.getString("patientName"),
+                        rs.getString("arrivalDate"),
                         rs.getString("arrivalTime"),
                         rs.getString("requestID"),
                         rs.getString("requestTime"),
@@ -618,6 +665,31 @@ public class RequestMutator implements IDatabaseEntityMutator<Request> {
                         rs.getString("employeeName"),
                         rs.getString("location"),
                         rs.getString("description")
+                );
+                break;
+            case COVID:
+                outRequest = new CovidSurveyRequest(
+                        rs.getString("requestID"),
+                        rs.getString("requestTime"),
+                        rs.getString("requestDate"),
+                        rs.getString("complete"),
+                        rs.getString("employeeName"),
+                        rs.getString("location"),
+                        rs.getString("description"),
+                        rs.getString("submitter"),
+                        User.CovidStatus.valueOf(rs.getString("status")),
+                        rs.getString("fever"),
+                        rs.getString("chills"),
+                        rs.getString("cough"),
+                        rs.getString("shortBreath"),
+                        rs.getString("soreTht"),
+                        rs.getString("headache"),
+                        rs.getString("aches"),
+                        rs.getString("nose"),
+                        rs.getString("lostTaste"),
+                        rs.getString("nausea"),
+                        rs.getString("closeContact"),
+                        rs.getString("positiveTest")
                 );
                 break;
             default:

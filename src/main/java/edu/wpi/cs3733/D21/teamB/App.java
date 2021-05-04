@@ -55,7 +55,7 @@ public class App extends Application {
             try {
                 db.executeSchema();
                 if (!db.isInitialized()) {
-                    SceneSwitcher.switchFromTemp(getClass(), "/edu/wpi/cs3733/D21/teamB/views/login/databaseInit.fxml");
+                    SceneSwitcher.switchFromTemp("/edu/wpi/cs3733/D21/teamB/views/login/databaseInit.fxml");
                     primaryStage.show();
 
                     dbThread = new Thread(() -> {
@@ -64,7 +64,7 @@ public class App extends Application {
                         } catch (SQLException e) {
                             e.printStackTrace();
                         }
-                        Platform.runLater(() -> SceneSwitcher.switchFromTemp(getClass(), "/edu/wpi/cs3733/D21/teamB/views/login/mainPage.fxml"));
+                        Platform.runLater(() -> SceneSwitcher.switchFromTemp("/edu/wpi/cs3733/D21/teamB/views/login/mainPage.fxml"));
                     });
                     dbThread.start();
                 } else primaryStage.show();
@@ -77,15 +77,17 @@ public class App extends Application {
                 HashMap<User, String> requiredUsers = new HashMap<>();
 
                 //Required users
-                requiredUsers.put(new User("admin", "Professor", "X", User.AuthenticationLevel.ADMIN, null), "admin");
-                requiredUsers.put(new User("staff", "Mike", "Bedard", User.AuthenticationLevel.STAFF, null), "staff");
-                requiredUsers.put(new User("guest", "T", "Goon", User.AuthenticationLevel.PATIENT, null), "guest");
+                requiredUsers.put(new User("admin", "admin@fakeemail.com", "Professor", "X", User.AuthenticationLevel.ADMIN, null), "admin");
+                requiredUsers.put(new User("staff", "bwhapplication@gmail.com", "Mike", "Bedard", User.AuthenticationLevel.STAFF, null), "staff");
+                requiredUsers.put(new User("guest", "guest@fakeemail.com", "T", "Goon", User.AuthenticationLevel.PATIENT, null), "guest");
 
                 for(User u : requiredUsers.keySet()){
                    if(db.getUserByUsername(u.getUsername()) == null){
                        db.addUser(u,requiredUsers.get(u));
                    }
                 }
+                db.resetTemporaryUser();
+                db.deauthenticate();
 
             } catch (SQLException e) {
                 e.printStackTrace();

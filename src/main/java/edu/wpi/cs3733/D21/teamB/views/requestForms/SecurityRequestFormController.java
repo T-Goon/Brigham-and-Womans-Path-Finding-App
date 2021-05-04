@@ -10,10 +10,10 @@ import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.requests.Request;
 import edu.wpi.cs3733.D21.teamB.entities.requests.SecurityRequest;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
+import edu.wpi.cs3733.D21.teamB.views.AutoCompleteComboBoxListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -29,7 +29,7 @@ public class SecurityRequestFormController extends DefaultServiceRequestFormCont
     private JFXTextField assignedTo;
 
     @FXML
-    private JFXComboBox<Label> comboUrgency;
+    private JFXComboBox<String> comboUrgency;
 
     @FXML
     private JFXTextArea description;
@@ -41,9 +41,10 @@ public class SecurityRequestFormController extends DefaultServiceRequestFormCont
         super.initialize(location,resources);
 
         for (int i = 1; i <= 10; i++) {
-            comboUrgency.getItems().add(new Label(Integer.toString(i)));
+            comboUrgency.getItems().add(Integer.toString(i));
         }
 
+        int index = -1;
         if (SceneSwitcher.peekLastScene().equals("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml")) {
             this.id = (String) App.getPrimaryStage().getUserData();
             SecurityRequest securityRequest;
@@ -53,10 +54,9 @@ public class SecurityRequestFormController extends DefaultServiceRequestFormCont
                 e.printStackTrace();
                 return;
             }
+            index = securityRequest.getUrgency() - 1;
             assignedTo.setText(securityRequest.getEmployeeName());
             getLocationIndex(securityRequest.getLocation());
-            int index = securityRequest.getUrgency() - 1;
-            comboUrgency.getSelectionModel().select(index);
             description.setText(securityRequest.getDescription());
         }
         validateButton();
@@ -109,6 +109,10 @@ public class SecurityRequestFormController extends DefaultServiceRequestFormCont
                 description.validate();
             }
         });
+
+        //add searchable combo boxes
+        new AutoCompleteComboBoxListener<>(comboUrgency);
+        if (index != -1) comboUrgency.getSelectionModel().select(index);
     }
 
     @FXML
@@ -124,7 +128,7 @@ public class SecurityRequestFormController extends DefaultServiceRequestFormCont
 
         JFXButton btn = (JFXButton) e.getSource();
         if (btn.getId().equals("btnSubmit")) {
-            int givenUrgency = Integer.parseInt(comboUrgency.getValue().getText());
+            int givenUrgency = Integer.parseInt(comboUrgency.getValue());
 
             DateFormat timeFormat = new SimpleDateFormat("HH:mm");
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
