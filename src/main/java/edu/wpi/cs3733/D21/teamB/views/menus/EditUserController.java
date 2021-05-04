@@ -78,11 +78,12 @@ public class EditUserController extends BasePageController implements Initializa
         if (u.getUsername().equals("")) {
             bigText.setText("Add User Form");
             smallText.setText("Add User");
+        } else {
+            username.setText(u.getUsername());
+            email.setText(u.getEmail());
+            firstName.setText(u.getFirstName());
+            lastName.setText(u.getLastName());
         }
-        username.setText(u.getUsername());
-        email.setText(u.getEmail());
-        firstName.setText(u.getFirstName());
-        lastName.setText(u.getLastName());
         int i = 0;
         if (!u.getJobs().isEmpty()) {
             for (Label label : job.getItems()) {

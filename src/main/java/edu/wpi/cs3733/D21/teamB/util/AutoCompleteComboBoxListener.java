@@ -1,4 +1,4 @@
-package edu.wpi.cs3733.D21.teamB.views;
+package edu.wpi.cs3733.D21.teamB.util;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
