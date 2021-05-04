@@ -214,6 +214,25 @@ public class RequestMutator implements IDatabaseEntityMutator<Request> {
                         + "', '" + emergencyRequest.getSecurityEmergency()
                         + "')";
                 break;
+            case COVID:
+                CovidSurveyRequest covidSurveyRequest = (CovidSurveyRequest) request;
+                query = "INSERT INTO covidSurveyRequests VALUES " +
+                        "('" + covidSurveyRequest.getRequestID()
+                        + "', '" + covidSurveyRequest.getStatus().toString()
+                        + "', '" + covidSurveyRequest.getSymptomFever()
+                        + "', '" + covidSurveyRequest.getSymptomChills()
+                        + "', '" + covidSurveyRequest.getSymptomCough()
+                        + "', '" + covidSurveyRequest.getSymptomShortBreath()
+                        + "', '" + covidSurveyRequest.getSymptomSoreTht()
+                        + "', '" + covidSurveyRequest.getSymptomHeadache()
+                        + "', '" + covidSurveyRequest.getSymptomAches()
+                        + "', '" + covidSurveyRequest.getSymptomNose()
+                        + "', '" + covidSurveyRequest.getSymptomLostTaste()
+                        + "', '" + covidSurveyRequest.getSymptomNausea()
+                        + "', '" + covidSurveyRequest.getHadCloseContact()
+                        + "', '" + covidSurveyRequest.getHadPositiveTest()
+                        + "')";
+                break;
         }
         db.runStatement(query, false);
     }
@@ -354,6 +373,25 @@ public class RequestMutator implements IDatabaseEntityMutator<Request> {
                 query = "UPDATE EmergencyRequests SET medicalEmergency = '" + emergencyRequest.getMedicalEmergency()
                         + "', securityEmergency = '" + emergencyRequest.getSecurityEmergency()
                         + "' WHERE requestID = '" + emergencyRequest.getRequestID() + "'";
+                break;
+            case COVID:
+                CovidSurveyRequest covidSurveyRequest = (CovidSurveyRequest) request;
+                query = "UPDATE covidSurveyRequests SET status = '" + covidSurveyRequest.getStatus().toString()
+                        + "', fever = '" + covidSurveyRequest.getSymptomFever()
+                        + "', chills = '" + covidSurveyRequest.getSymptomChills()
+                        + "', cough = '" + covidSurveyRequest.getSymptomCough()
+                        + "', shortBreath = '" + covidSurveyRequest.getSymptomShortBreath()
+                        + "', soreTht = '" + covidSurveyRequest.getSymptomSoreTht()
+                        + "', headache = '" + covidSurveyRequest.getSymptomHeadache()
+                        + "', aches = '" + covidSurveyRequest.getSymptomAches()
+                        + "', nose = '" + covidSurveyRequest.getSymptomNose()
+                        + "', lostTaste = '" + covidSurveyRequest.getSymptomLostTaste()
+                        + "', nausea = '" + covidSurveyRequest.getSymptomNausea()
+                        + "', closeContact = '" + covidSurveyRequest.getHadCloseContact()
+                        + "', positiveTest = '" + covidSurveyRequest.getHadPositiveTest()
+                        + "' WHERE requestID = '" + covidSurveyRequest.getRequestID() + "'";
+
+
                 break;
         }
         db.runStatement(query, false);
@@ -618,6 +656,31 @@ public class RequestMutator implements IDatabaseEntityMutator<Request> {
                         rs.getString("employeeName"),
                         rs.getString("location"),
                         rs.getString("description")
+                );
+                break;
+            case COVID:
+                outRequest = new CovidSurveyRequest(
+                        rs.getString("requestID"),
+                        rs.getString("requestTime"),
+                        rs.getString("requestDate"),
+                        rs.getString("complete"),
+                        rs.getString("employeeName"),
+                        rs.getString("location"),
+                        rs.getString("description"),
+                        rs.getString("submitter"),
+                        User.CovidStatus.valueOf(rs.getString("status")),
+                        rs.getString("fever"),
+                        rs.getString("chills"),
+                        rs.getString("cough"),
+                        rs.getString("shortBreath"),
+                        rs.getString("soreTht"),
+                        rs.getString("headache"),
+                        rs.getString("aches"),
+                        rs.getString("nose"),
+                        rs.getString("lostTaste"),
+                        rs.getString("nausea"),
+                        rs.getString("closeContact"),
+                        rs.getString("positiveTest")
                 );
                 break;
             default:
