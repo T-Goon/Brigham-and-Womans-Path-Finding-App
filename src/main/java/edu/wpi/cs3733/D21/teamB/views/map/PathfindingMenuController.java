@@ -204,7 +204,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
             }
         });
 
-        //
+        // Find Closest exit validation if start ID is null
         findClosestLocation.setOnAction(e -> {
             if (txtStartLocation.getText().isEmpty()) {
                 lblError.setText("Please choose a starting location");
