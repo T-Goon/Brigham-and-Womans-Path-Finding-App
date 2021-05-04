@@ -5,6 +5,7 @@ import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.layout.StackPane;
 
 public class SuccessfulRegistrationController {
 
@@ -16,6 +17,9 @@ public class SuccessfulRegistrationController {
 
     @FXML
     public JFXButton btnReturn;
+
+    @FXML
+    private StackPane stackPane;
 
     @FXML
     private void handleButtonAction(ActionEvent e) {

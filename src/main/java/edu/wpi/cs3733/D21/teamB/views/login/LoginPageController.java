@@ -13,6 +13,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -36,6 +37,9 @@ public class LoginPageController extends BasePageController implements Initializ
 
     @FXML
     private JFXButton btnRegisterPage;
+
+    @FXML
+    private StackPane stackPane;
 
 
     @Override

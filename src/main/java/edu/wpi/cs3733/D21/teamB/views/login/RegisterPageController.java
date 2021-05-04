@@ -13,6 +13,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.StackPane;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -48,6 +49,9 @@ RegisterPageController extends BasePageController implements Initializable {
 
     @FXML
     private JFXButton btnLoginPage;
+
+    @FXML
+    private StackPane stackPane;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

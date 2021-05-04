@@ -10,6 +10,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.StackPane;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -72,6 +73,9 @@ public class CovidSurveyController extends BasePageController implements Initial
 
     @FXML
     private ToggleGroup testGroup;
+
+    @FXML
+    private StackPane stackPane;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

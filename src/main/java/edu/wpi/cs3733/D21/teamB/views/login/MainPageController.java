@@ -5,6 +5,7 @@ import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
 import edu.wpi.cs3733.D21.teamB.views.BasePageController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.layout.StackPane;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -19,6 +20,9 @@ public class MainPageController extends BasePageController {
 
     @FXML
     private JFXButton btnCovid;
+
+    @FXML
+    private StackPane stackPane;
 
     @FXML
     private JFXButton btnEmergency;

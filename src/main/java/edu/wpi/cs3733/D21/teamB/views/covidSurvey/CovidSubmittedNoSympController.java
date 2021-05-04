@@ -5,6 +5,7 @@ import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
 import edu.wpi.cs3733.D21.teamB.views.BasePageController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.layout.StackPane;
 
 public class CovidSubmittedNoSympController extends BasePageController {
 
@@ -13,6 +14,9 @@ public class CovidSubmittedNoSympController extends BasePageController {
 
     @FXML
     private JFXButton btnEmergency;
+
+    @FXML
+    private StackPane stackPane;
 
     @FXML
     public void handleButtonAction(ActionEvent e) {
