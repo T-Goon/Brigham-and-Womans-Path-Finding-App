@@ -10,6 +10,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.StackPane;
+
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -21,6 +23,9 @@ public abstract class BasePageController implements Initializable {
     @FXML
     private JFXButton btnExit;
 
+    @FXML
+    private StackPane stackPane;
+
     public TextToSpeech tts = new TextToSpeech();
 
 
@@ -29,9 +34,12 @@ public abstract class BasePageController implements Initializable {
         EventHandler<MouseEvent> onClick = new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                tts.speak(event.getPickResult().getIntersectedNode().getAccessibleText(), 1.0f, false, false);
+               String speechOut = event.getPickResult().getIntersectedNode().getAccessibleText();
+               System.out.println(speechOut);
+                tts.speak("Covid", 1.0f, false, false);
             }
         };
+        stackPane.addEventFilter(MouseEvent.MOUSE_CLICKED,onClick);
 
     }
 
