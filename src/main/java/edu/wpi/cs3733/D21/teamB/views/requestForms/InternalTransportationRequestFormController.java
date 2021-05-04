@@ -127,6 +127,7 @@ public class InternalTransportationRequestFormController extends DefaultServiceR
         });
 
         //add searchable combo box
+        comboTranspType.setVisibleRowCount(3);
         new AutoCompleteComboBoxListener<>(comboTranspType);
     }
 

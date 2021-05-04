@@ -73,6 +73,7 @@ public abstract class DefaultServiceRequestFormController extends BasePageContro
         }
 
         //implement searchable combo box
+        loc.setVisibleRowCount(5);
         new AutoCompleteComboBoxListener<>(loc);
 
         btnSubmit.setDisable(true);

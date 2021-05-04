@@ -151,6 +151,8 @@ public class SanitationRequestFormController extends DefaultServiceRequestFormCo
         });
 
         //adding searchable combo boxes
+        comboTypeService.setVisibleRowCount(3);
+        comboSizeService.setVisibleRowCount(3);
         new AutoCompleteComboBoxListener<>(comboTypeService);
         new AutoCompleteComboBoxListener<>(comboSizeService);
     }

@@ -111,6 +111,7 @@ public class SecurityRequestFormController extends DefaultServiceRequestFormCont
         });
 
         //add searchable combo boxes
+        comboUrgency.setVisibleRowCount(3);
         new AutoCompleteComboBoxListener<>(comboUrgency);
     }
 

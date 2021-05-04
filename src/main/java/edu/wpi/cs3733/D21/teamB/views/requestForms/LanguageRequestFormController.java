@@ -55,6 +55,7 @@ public class LanguageRequestFormController extends DefaultServiceRequestFormCont
         language.getItems().add("Vietnamese");
 
         //implement searchable combo box
+        language.setVisibleRowCount(5);
         new AutoCompleteComboBoxListener<>(language);
 
         if (SceneSwitcher.peekLastScene().equals("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml")) {

@@ -162,6 +162,7 @@ public class ExternalTransportationRequestFormController extends DefaultServiceR
         });
 
         //add searchable combo boxes
+        comboTranspType.setVisibleRowCount(3);
         new AutoCompleteComboBoxListener<>(comboTranspType);
     }
 
