@@ -32,18 +32,16 @@ public abstract class BasePageController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        EventHandler<MouseEvent> onClick = new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-               Node clickedNode = event.getPickResult().getIntersectedNode();
-               String speechOut = clickedNode.getAccessibleText();
-               if (speechOut != null) {
-                   tts.speak(speechOut, 1.0f, false, false);
-               }
-            }
-        };
-        stackPane.addEventFilter(MouseEvent.MOUSE_CLICKED,onClick);
-
+        for (Node aNode : stackPane.lookupAll("*")) {
+            aNode.focusedProperty().addListener((observable, oldValue, newValue) -> {
+                if (newValue) {
+                    String speechOut = aNode.getAccessibleText();
+                    if (speechOut != null) {
+                        tts.speak(speechOut, 1.0f, false, false);
+                    }
+                }
+            });
+        }
     }
 
     public void handleButtonAction(ActionEvent e) {
@@ -57,9 +55,6 @@ public abstract class BasePageController implements Initializable {
                 break;
         }
     }
-
-
-
 
 
 }
