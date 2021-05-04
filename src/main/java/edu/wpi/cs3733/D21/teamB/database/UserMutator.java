@@ -2,9 +2,7 @@ package edu.wpi.cs3733.D21.teamB.database;
 
 import edu.wpi.cs3733.D21.teamB.entities.IStoredEntity;
 import edu.wpi.cs3733.D21.teamB.entities.User;
-import edu.wpi.cs3733.D21.teamB.entities.map.data.Node;
 import edu.wpi.cs3733.D21.teamB.entities.requests.Request;
-import edu.wpi.cs3733.D21.teamB.pathfinding.Graph;
 import lombok.AllArgsConstructor;
 import org.mindrot.jbcrypt.BCrypt;
 
@@ -32,6 +30,7 @@ public class UserMutator implements IDatabaseEntityMutator<UserMutator.UserPassw
                 + "', '" + user.user.getFirstName()
                 + "', '" + user.user.getLastName()
                 + "', '" + user.user.getAuthenticationLevel().toString()
+                + "', '" + user.user.getCovidStatus().toString()
                 + "', '" + hash
                 + "')";
         db.runStatement(query, false);
@@ -57,12 +56,13 @@ public class UserMutator implements IDatabaseEntityMutator<UserMutator.UserPassw
                 "email = '" + newUser.user.getEmail() + "'," +
                 "firstName = '" + newUser.user.getFirstName() + "'," +
                 "lastName = '" + newUser.user.getLastName() + "'," +
-                "authenticationLevel = '" + newUser.user.getAuthenticationLevel().toString() + "'" +
+                "authenticationLevel = '" + newUser.user.getAuthenticationLevel().toString() + "'," +
+                "covidStatus = '" + newUser.user.getCovidStatus().toString() + "'" +
                 "WHERE (username = '" + newUser.user.getUsername() + "')";
         String deleteJobs = "DELETE FROM Jobs WHERE (username = '" + newUser.user.getUsername() + "')";
         if (db.getUserByUsername(newUser.user.getUsername()) != null) {
-            db.runStatement(updateUser, false);
             db.runStatement(deleteJobs, false);
+            db.runStatement(updateUser, false);
             for (Request.RequestType job : newUser.user.getJobs()) {
                 String query = "INSERT INTO Jobs VALUES " +
                         "('" + newUser.user.getUsername()
@@ -133,6 +133,7 @@ public class UserMutator implements IDatabaseEntityMutator<UserMutator.UserPassw
                     rs.getString("firstName"),
                     rs.getString("lastName"),
                     User.AuthenticationLevel.valueOf(rs.getString("authenticationLevel")),
+                    User.CovidStatus.valueOf(rs.getString("covidStatus")),
                     jobs
             );
             rs.close();
@@ -224,7 +225,6 @@ public class UserMutator implements IDatabaseEntityMutator<UserMutator.UserPassw
      */
     public User authenticate(String username, String password) {
         try {
-            db.deauthenticate();
             String query = "SELECT passwordHash FROM Users WHERE (username = '" + username + "')";
             ResultSet rs = db.runStatement(query, true);
             if (rs == null) return null;
@@ -235,7 +235,6 @@ public class UserMutator implements IDatabaseEntityMutator<UserMutator.UserPassw
             if (!BCrypt.checkpw(password, storedHash)) return null;
 
             User outUser = this.getUserByUsername(username);
-            DatabaseHandler.AuthenticationUser = outUser;
             return outUser;
         } catch (SQLException e) {
             e.printStackTrace();

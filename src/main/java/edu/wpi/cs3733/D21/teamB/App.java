@@ -86,6 +86,8 @@ public class App extends Application {
                        db.addUser(u,requiredUsers.get(u));
                    }
                 }
+                db.resetTemporaryUser();
+                db.deauthenticate();
 
             } catch (SQLException e) {
                 e.printStackTrace();

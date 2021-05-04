@@ -223,6 +223,9 @@ public class RequestWrapper {
                         SceneSwitcher.isEmergencyBtn = false;
                         SceneSwitcher.switchScene(getClass(), "/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml", "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
                         break;
+                    case COVID:
+                        SceneSwitcher.switchScene(getClass(),"/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml", "/edu/wpi/cs3733/D21/teamB/views/requestForms/covidRequestForm.fxml");
+                        break;
                     default:
                         throw new IllegalStateException("How did we get here?");
                 }
