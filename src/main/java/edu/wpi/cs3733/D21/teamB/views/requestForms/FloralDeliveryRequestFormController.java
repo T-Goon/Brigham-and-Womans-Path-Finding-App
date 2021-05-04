@@ -162,10 +162,17 @@ public class FloralDeliveryRequestFormController extends DefaultServiceRequestFo
         RequiredFieldValidator validatorStartTime = new RequiredFieldValidator();
 
         startTime.getValidators().add(validatorStartTime);
-        validatorStartTime.setMessage("Please select the start time!");
+        validatorStartTime.setMessage("Please select a valid start time!");
 
         startTime.focusedProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue) {
+                try {
+                    if (startTime.getValue().getHour() > endTime.getValue().getHour()) {
+                        startTime.setValue(null);
+                    }
+                } catch (Exception e) {
+
+                }
                 startTime.validate();
             }
         });
@@ -174,10 +181,17 @@ public class FloralDeliveryRequestFormController extends DefaultServiceRequestFo
         RequiredFieldValidator validatorEndTime = new RequiredFieldValidator();
 
         endTime.getValidators().add(validatorEndTime);
-        validatorEndTime.setMessage("Please select the end time!");
+        validatorEndTime.setMessage("Please select a valid end time!");
 
         endTime.focusedProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue) {
+                try {
+                    if (endTime.getValue().getHour() < startTime.getValue().getHour()) {
+                        endTime.setValue(null);
+                    }
+                } catch (Exception e) {
+
+                }
                 endTime.validate();
             }
         });
@@ -193,8 +207,6 @@ public class FloralDeliveryRequestFormController extends DefaultServiceRequestFo
                 message.validate();
             }
         });
-
-
     }
 
     @FXML
