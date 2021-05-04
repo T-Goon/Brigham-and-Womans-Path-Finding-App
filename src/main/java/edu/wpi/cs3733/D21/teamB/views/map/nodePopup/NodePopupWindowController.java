@@ -5,6 +5,7 @@ import edu.wpi.cs3733.D21.teamB.App;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.DelEdgeBtwnFloorsWindow;
 import edu.wpi.cs3733.D21.teamB.entities.map.node.DelNodeAYSWindow;
 import edu.wpi.cs3733.D21.teamB.entities.map.node.EditNodeWindow;
+import edu.wpi.cs3733.D21.teamB.entities.map.node.NodeInfoWindow;
 import edu.wpi.cs3733.D21.teamB.entities.map.node.NodeMenuPopup;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -29,19 +30,12 @@ public class NodePopupWindowController implements Initializable {
     private Text nodeName;
 
     @FXML
-    private JFXButton btnEditNode;
-
-    @FXML
-    private JFXButton btnAddEdge;
-
-    @FXML
-    private JFXButton btnDelete;
-
-    @FXML
-    private JFXButton btnCancel;
-
-    @FXML
-    private JFXButton btnDelEdgeBtwnFloor;
+    private JFXButton btnEditNode,
+            btnAddEdge,
+            btnDelete,
+            btnCancel,
+            btnDelEdgeBtwnFloor,
+            btnInfo;
 
     private NodeMenuPopup popup;
 
