@@ -130,7 +130,10 @@
                                               </HBox>
                                               <HBox alignment="CENTER">
                                                   <children>
-                                                      <JFXCheckBox fx:id="btnMobility" stylesheets="@../../css/covidSurvey.css" text="Limited Mobility Path" textFill="WHITE" unCheckedColor="#595959" />
+                                                      <JFXCheckBox fx:id="btnMobility" stylesheets="@../../css/covidSurvey.css" text="Limited Mobility Path" textFill="WHITE" unCheckedColor="#595959">
+                                                   <HBox.margin>
+                                                      <Insets top="5.0"/>
+                                                   </HBox.margin></JFXCheckBox>
                                                   </children>
                                               </HBox>
                                           </children>
@@ -141,6 +144,30 @@
                            <padding>
                               <Insets left="5.0" right="5.0" />
                            </padding>
+                        </HBox>
+                              <HBox>
+                                  <children>
+                                      <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0"
+                                            text="Closest Location:">
+                                          <font>
+                                              <Font size="18.0"/>
+                                          </font>
+                                          <HBox.margin>
+                                              <Insets bottom="10.0" left="10.0" right="10.0"/>
+                                          </HBox.margin>
+                                      </Text>
+                                      <JFXComboBox fx:id="findClosestLocation" focusColor="#405aa800" prefWidth="9999.0"
+                                                   promptText="Find Closest Location"
+                                                   style="-fx-background-radius: 7; -fx-background-color: white;"
+                                                   unFocusColor="#4d4d4d00">
+                                 <HBox.margin>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" />
+                                 </HBox.margin>
+                              </JFXComboBox>
+                           </children>
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin>
                         </HBox>
                               <HBox alignment="CENTER" minHeight="36.0">
                                   <children>
@@ -295,7 +322,7 @@
                                                                   <children>
                                                                       <ImageView fx:id="map" fitHeight="1800.0" fitWidth="1800.0" pickOnBounds="true" preserveRatio="true">
                                                                           <image>
-                                                                            <Image url="@../../images/maps/01_thefirstfloor-Edited.png" />
+                                                                            <Image url="@../../images/maps/floors/01_thefirstfloor-Edited.png" />
                                                                         </image>
                                                                     </ImageView>
                                                                 </children>
@@ -309,7 +336,7 @@
                               </StackPane>
                               <HBox alignment="TOP_RIGHT" fillHeight="false" maxHeight="-Infinity" maxWidth="-Infinity">
                                  <children>
-                                     <VBox alignment="BOTTOM_RIGHT" maxHeight="-Infinity" maxWidth="250.0" prefHeight="220.0">
+                                     <VBox alignment="BOTTOM_RIGHT" maxHeight="-Infinity" maxWidth="250.0" prefHeight="250.0">
                                          <padding>
                                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                          </padding>
@@ -321,6 +348,7 @@
                                                  </columnConstraints>
                                                  <rowConstraints>
                                                      <RowConstraints minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                                                     <RowConstraints minHeight="10.0" prefHeight="70.0" valignment="CENTER" vgrow="ALWAYS" />
                                                      <RowConstraints minHeight="10.0" prefHeight="70.0" valignment="CENTER" vgrow="ALWAYS" />
                                                      <RowConstraints minHeight="10.0" prefHeight="70.0" valignment="CENTER" vgrow="ALWAYS" />
                                                      <RowConstraints minHeight="10.0" prefHeight="70.0" valignment="CENTER" vgrow="ALWAYS" />
@@ -368,24 +396,33 @@
                                                              <Font name="MS Reference Sans Serif" size="12.0" />
                                                          </font>
                                                      </Text>
-                                                <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="4">
-                                                   <image>
-                                                      <Image url="@../../images/maps/node.png" />
-                                                   </image>
-                                                   <effect>
-                                                      <ColorAdjust brightness="0.96" contrast="0.77" hue="-0.81" saturation="-0.33" />
-                                                   </effect>
-                                                </ImageView>
-                                                <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Start Node" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                                                <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="End Node" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                                                <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="5">
-                                                   <image>
-                                                      <Image url="@../../images/maps/node.png" />
-                                                   </image>
-                                                   <effect>
-                                                      <ColorAdjust brightness="0.84" contrast="0.71" hue="0.5" />
-                                                   </effect>
-                                                </ImageView>
+                                                     <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="4">
+                                                         <image>
+                                                             <Image url="@../../images/maps/node.png" />
+                                                         </image>
+                                                         <effect>
+                                                             <ColorAdjust brightness="0.96" contrast="0.77" hue="-0.81" saturation="-0.33" />
+                                                         </effect>
+                                                     </ImageView>
+                                                     <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Start Node" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                                     <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="End Node" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                                                     <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="6">
+                                                         <image>
+                                                             <Image url="@../../images/maps/node.png" />
+                                                         </image>
+                                                         <effect>
+                                                             <ColorAdjust brightness="0.84" contrast="0.71" hue="0.5" />
+                                                         </effect>
+                                                     </ImageView>
+                                                     <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="5">
+                                                         <image>
+                                                             <Image url="@../../images/maps/node.png" />
+                                                         </image>
+                                                         <effect>
+                                                             <ColorAdjust brightness="0.52" contrast="0.76" hue="-1.0" saturation="-0.1" />
+                                                         </effect>
+                                                     </ImageView>
+                                                     <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Stop Node" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                                                  </children>
                                                  <padding>
                                                      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
