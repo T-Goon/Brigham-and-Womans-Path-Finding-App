@@ -69,6 +69,8 @@ public abstract class DefaultServiceRequestFormController extends BasePageContro
             nodesList.add(n);
         }
 
+        loc.getItems().sort(Comparator.comparing(String::toString));
+
         btnSubmit.setDisable(true);
     }
 

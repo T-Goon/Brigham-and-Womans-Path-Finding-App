@@ -42,8 +42,6 @@ public class AddEdgePopup extends Popup<VBox, AddEdgePopupData> implements Poppa
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-
-            Graph.getGraph().updateGraph();
         }
 
         // Remove popup from map and refresh the nodes

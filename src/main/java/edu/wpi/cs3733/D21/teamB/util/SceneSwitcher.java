@@ -79,4 +79,13 @@ public class SceneSwitcher {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Adds a page to the stack (useful for injecting a page between the next page's back button and this one)
+     *
+     * @param path the path to the FXML file to push
+     */
+    public static void pushPath(String path){
+        stack.push(path);
+    }
 }

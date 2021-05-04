@@ -50,7 +50,6 @@ public class EdgeMutator implements IDatabaseEntityMutator<Edge> {
     public void addEntity(Edge edge) throws SQLException {
         String query = "INSERT INTO Edges VALUES ('" + edge.getEdgeID() + "', '" + edge.getStartNodeID() + "', '" + edge.getEndNodeID() + "')";
         db.runStatement(query, false);
-        Graph.getGraph().updateGraph();
     }
 
     /**
@@ -61,7 +60,6 @@ public class EdgeMutator implements IDatabaseEntityMutator<Edge> {
     public void removeEntity(String edgeID) throws SQLException {
         String query = "DELETE FROM Edges WHERE edgeID = '" + edgeID + "'";
         db.runStatement(query, false);
-        Graph.getGraph().updateGraph();
     }
 
     /**
@@ -72,6 +70,5 @@ public class EdgeMutator implements IDatabaseEntityMutator<Edge> {
     public void updateEntity(Edge edge) throws SQLException {
         String query = "UPDATE Edges SET startNode = '" + edge.getStartNodeID() + "', endNode = '" + edge.getEndNodeID() + "' WHERE edgeID = '" + edge.getEdgeID() + "'";
         db.runStatement(query, false);
-        Graph.getGraph().updateGraph();
     }
 }

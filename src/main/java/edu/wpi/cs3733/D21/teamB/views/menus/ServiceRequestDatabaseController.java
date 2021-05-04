@@ -27,7 +27,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 
 @SuppressWarnings("unchecked") // Added so Java doesn't get mad at the raw use of TableView that is necessary
-public class ServiceRequestDatabaseController extends BasePageController implements Initializable {
+public class   ServiceRequestDatabaseController extends BasePageController implements Initializable {
 
     @FXML
     private TableView tblRequests;
@@ -139,6 +139,11 @@ public class ServiceRequestDatabaseController extends BasePageController impleme
         }
     }
 
+    @FXML
+    public void handleOnChange(ActionEvent actionEvent) {
+
+    }
+
     private void loadHelpDialog() {
         JFXDialogLayout helpLayout = new JFXDialogLayout();
 
@@ -162,6 +167,7 @@ public class ServiceRequestDatabaseController extends BasePageController impleme
     }
 
     public void setRowColor() {
+        TableColumn<String, Label> tc5 = (TableColumn<String, Label>) tblRequests.getColumns().get(5);
         TableColumn<String, Label> tc = (TableColumn<String, Label>) tblRequests.getColumns().get(1);
         tc.setCellFactory(column -> new TableCell<String, Label>() {
             @Override
@@ -176,6 +182,25 @@ public class ServiceRequestDatabaseController extends BasePageController impleme
                         currentRow.setStyle("-fx-background-color: #0264AA");
                     } else if (getTableRow().getIndex() % 2 != 0) {
                         currentRow.setStyle("-fx-background-color: #0067B1");
+                    }
+
+                }
+            }
+        });
+
+
+        tc5.setCellFactory(column -> new TableCell<String, Label>() {
+            @Override
+            protected void updateItem(Label item5, boolean empty) {
+                super.updateItem(item5, empty);
+                setGraphic(item5);
+                TableRow<String> currentRow = getTableRow();
+                if (!isEmpty()) {
+                    if (item5.getText().equals("Nobody")&& !currentRow.getStyle().equals("-fx-background-color: #CE2029") && getTableRow().getIndex() %2 ==0) {
+                        currentRow.setStyle("-fx-background-color: #479AD6");
+                    }
+                    else if (item5.getText().equals("Nobody")&& !currentRow.getStyle().equals("-fx-background-color: #CE2029") && getTableRow().getIndex() %2 !=0) {
+                        currentRow.setStyle("-fx-background-color: #66B4EC");
                     }
                 }
             }
