@@ -54,13 +54,13 @@ public class SettingsMenuController extends BasePageController implements Initia
         super.handleButtonAction(e);
         switch (btn.getId()) {
             case "btnEmergency":
-                SceneSwitcher.switchScene(getClass(),"/edu/wpi/cs3733/D21/teamB/views/menus/settingsMenu.fxml", "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
+                SceneSwitcher.switchScene("/edu/wpi/cs3733/D21/teamB/views/menus/settingsMenu.fxml", "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
                 break;
             case "btnAdd":
                 Stage stage = App.getPrimaryStage();
-                stage.setUserData(new User("", "", "", User.AuthenticationLevel.PATIENT, new ArrayList<>()));
+                stage.setUserData(new User("", "", "", "", User.AuthenticationLevel.PATIENT, new ArrayList<>()));
                 SceneSwitcher.addingUser = true;
-                SceneSwitcher.switchScene(getClass(),"/edu/wpi/cs3733/D21/teamB/views/menus/settingsMenu.fxml", "/edu/wpi/cs3733/D21/teamB/views/menus/editUserMenu.fxml");
+                SceneSwitcher.switchScene("/edu/wpi/cs3733/D21/teamB/views/menus/settingsMenu.fxml", "/edu/wpi/cs3733/D21/teamB/views/menus/editUserMenu.fxml");
                 break;
             case "btnHelp":
                 loadHelpDialog();

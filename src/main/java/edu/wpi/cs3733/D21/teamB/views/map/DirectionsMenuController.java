@@ -22,7 +22,7 @@ import java.util.ResourceBundle;
 public class DirectionsMenuController extends BasePageController implements Initializable, MapComponentInitializedListener, DirectionsServiceCallback {
 
     @FXML
-    private StackPane mapHolder;
+    private StackPane stackPane;
 
     @FXML
     private JFXTextField txtStartLocation;
@@ -71,7 +71,7 @@ public class DirectionsMenuController extends BasePageController implements Init
 
 
         mapView = new GoogleMapView("en", "AIzaSyD4MPvha5ZUWDmOuuvxPSMW0NH1h3bZUXs");
-        mapHolder.getChildren().add(0, mapView);
+        stackPane.getChildren().add(0, mapView);
 
 
         mapView.addMapInitializedListener(this);
