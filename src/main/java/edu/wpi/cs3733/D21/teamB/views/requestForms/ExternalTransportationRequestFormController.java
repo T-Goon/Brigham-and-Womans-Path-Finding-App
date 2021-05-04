@@ -78,7 +78,9 @@ public class ExternalTransportationRequestFormController extends DefaultServiceR
                     index = 2;
                     break;
             }
+            System.out.println("index: " + index);
             comboTranspType.getSelectionModel().select(index);
+            System.out.println(comboTranspType.getSelectionModel().getSelectedIndex());
             destination.setText(externalTransportRequest.getDestination());
             description.setText(externalTransportRequest.getDescription());
             allergies.setText(externalTransportRequest.getPatientAllergies());
@@ -163,7 +165,7 @@ public class ExternalTransportationRequestFormController extends DefaultServiceR
 
         //add searchable combo boxes
         comboTranspType.setVisibleRowCount(3);
-        new AutoCompleteComboBoxListener<>(comboTranspType);
+        new AutoCompleteComboBoxListener<String>(comboTranspType); // TODO FIX CAUSES BUGS
     }
 
     public void handleButtonAction(ActionEvent e) {
