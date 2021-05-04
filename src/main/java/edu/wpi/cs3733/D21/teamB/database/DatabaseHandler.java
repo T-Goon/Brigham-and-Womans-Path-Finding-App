@@ -260,12 +260,14 @@ public class DatabaseHandler {
         String caseManagerRequestsTable = "CREATE TABLE IF NOT EXISTS CaseManagerRequests("
                 + "requestID CHAR(20) PRIMARY KEY, "
                 + "patientName CHAR(30), "
+                + "arrivalDate CHAR(10), " // Stored as YYYY-MM-DD
                 + "timeForArrival CHAR(20)," // Stored as HH:MM (24 hour time)
                 + "FOREIGN KEY (requestID) REFERENCES Requests(requestID))";
 
         String socialWorkerRequestsTable = "CREATE TABLE IF NOT EXISTS SocialWorkerRequests("
                 + "requestID CHAR(20) PRIMARY KEY, "
                 + "patientName CHAR(30), "
+                + "arrivalDate CHAR(10), " // Stored as YYYY-MM-DD
                 + "timeForArrival CHAR(20)," // Stored as HH:MM (24 hour time)
                 + "FOREIGN KEY (requestID) REFERENCES Requests(requestID))";
 
@@ -284,6 +286,7 @@ public class DatabaseHandler {
                 + "requestID CHAR(20) PRIMARY KEY, "
                 + "patientName CHAR(30), "
                 + "language CHAR(30), "
+                + "arrivalDate CHAR(10), " // Stored as YYYY-MM-DD
                 + "arrivalTime CHAR(5), " // Stored as HH:MM (24 hour time)
                 + "FOREIGN KEY (requestID) REFERENCES Requests(requestID))";
 

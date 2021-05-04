@@ -16,6 +16,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Date;
 import java.util.ResourceBundle;
@@ -31,6 +32,9 @@ public class LanguageRequestFormController extends DefaultServiceRequestFormCont
 
     @FXML
     private JFXComboBox<Label> language;
+
+    @FXML
+    private JFXDatePicker arrivalDate;
 
     @FXML
     private JFXTimePicker timeForArrival;
@@ -62,6 +66,9 @@ public class LanguageRequestFormController extends DefaultServiceRequestFormCont
             }
             patientName.setText(languageRequest.getPatientName());
             getLocationIndex(languageRequest.getLocation());
+            String date = languageRequest.getArrivalDate();
+            LocalDate ld = LocalDate.of(Integer.parseInt(date.substring(0, 4)), Integer.parseInt(date.substring(5, 7)), Integer.parseInt(date.substring(8, 10)));
+            arrivalDate.setValue(ld);
             String time = languageRequest.getTimeForArrival();
             LocalTime lt = LocalTime.of(Integer.parseInt(time.substring(0, 2)), Integer.parseInt(time.substring(3, 5)));
             timeForArrival.setValue(lt);
@@ -155,6 +162,7 @@ public class LanguageRequestFormController extends DefaultServiceRequestFormCont
         if (btn.getId().equals("btnSubmit")) {
             String givenPatientName = patientName.getText();
             String languageChosen = language.getValue().getText();
+            String givenArrivalDate = arrivalDate.getValue().toString();
             String givenTimeForArrival = timeForArrival.getValue().toString();
 
             DateFormat timeFormat = new SimpleDateFormat("HH:mm");
@@ -185,7 +193,7 @@ public class LanguageRequestFormController extends DefaultServiceRequestFormCont
                 employeeName = null;
             }
 
-            LanguageRequest request = new LanguageRequest(languageChosen, givenPatientName, givenTimeForArrival,
+            LanguageRequest request = new LanguageRequest(languageChosen, givenPatientName, givenArrivalDate, givenTimeForArrival,
                     requestID, time, date, complete, employeeName, getLocation(), givenDescription);
 
             try {
@@ -203,7 +211,7 @@ public class LanguageRequestFormController extends DefaultServiceRequestFormCont
     @FXML
     private void validateButton() {
         btnSubmit.setDisable(
-                patientName.getText().isEmpty() || loc.getValue() == null || timeForArrival.getValue() == null ||
+                patientName.getText().isEmpty() || loc.getValue() == null || arrivalDate.getValue() == null || timeForArrival.getValue() == null ||
                         message.getText().isEmpty()
         );
     }
