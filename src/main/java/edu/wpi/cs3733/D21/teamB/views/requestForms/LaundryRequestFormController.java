@@ -158,7 +158,7 @@ public class LaundryRequestFormController extends DefaultServiceRequestFormContr
             comboTypeService.setValue(event.getObject());
         });
 
-        TextField editor = loc.getEditor();
+        TextField editor = comboTypeService.getEditor();
         editor.addEventHandler(KeyEvent.ANY, event -> {
             //The filter method uses the Predicate to filter the Suggestions defined above
             //I choose to use the contains method while ignoring cases
