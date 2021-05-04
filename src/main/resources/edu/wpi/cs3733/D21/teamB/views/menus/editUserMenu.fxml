@@ -5,6 +5,7 @@
 <?import com.jfoenix.controls.JFXPasswordField?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -117,6 +118,11 @@
                                        </font>
                                     </Text>
                                     <JFXTextField fx:id="email" onKeyReleased="#validateButtons" style="-fx-background-color: #e5e5e5; -fx-background-radius: 7;" unFocusColor="#f0f0f0" GridPane.rowIndex="3" />
+                                    <Label fx:id="lblError" style="-fx-background-color: #CE2029; -fx-background-radius: 7;" text="Email address is already taken!" textAlignment="CENTER" textFill="WHITE" visible="false" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="3">
+                                       <font>
+                                          <Font name="MS Reference Sans Serif" size="14.0" />
+                                       </font>
+                                    </Label>
                                                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="First Name" GridPane.rowIndex="4">
                                                     <font>
                                                         <Font size="14.0" />
