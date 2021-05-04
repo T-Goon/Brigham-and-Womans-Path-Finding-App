@@ -3,12 +3,8 @@ package edu.wpi.cs3733.D21.teamB.views.map;
 import com.jfoenix.controls.*;
 import edu.wpi.cs3733.D21.teamB.App;
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
-import edu.wpi.cs3733.D21.teamB.entities.map.FloorSwitcher;
 import edu.wpi.cs3733.D21.teamB.entities.User;
-import edu.wpi.cs3733.D21.teamB.entities.map.MapCache;
-import edu.wpi.cs3733.D21.teamB.entities.map.MapDrawer;
-import edu.wpi.cs3733.D21.teamB.entities.map.MapEditorPopupManager;
-import edu.wpi.cs3733.D21.teamB.entities.map.MapPathPopupManager;
+import edu.wpi.cs3733.D21.teamB.entities.map.*;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Edge;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Node;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.NodeType;
@@ -40,11 +36,10 @@ import net.kurobako.gesturefx.GesturePane;
 
 import java.io.File;
 import java.net.URL;
-import java.util.*;
 import java.sql.SQLException;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 public class PathfindingMenuController extends BasePageController implements Initializable {
 
@@ -104,6 +99,9 @@ public class PathfindingMenuController extends BasePageController implements Ini
 
     @FXML
     private Circle pathHead;
+
+    @FXML
+    private JFXButton btnAbout;
 
     public static final double COORDINATE_SCALE = 25 / 9.0;
     public static final int MAX_X = 5000;
@@ -504,6 +502,10 @@ public class PathfindingMenuController extends BasePageController implements Ini
                 break;
             case "btnSearch":
                 handleItemSearched();
+                break;
+            case "btnAbout":
+                SceneSwitcher.switchScene(getClass(), "/edu/wpi/cs3733/D21/teamB/views/map/pathfindingMenu.fxml", "/edu/wpi/cs3733/D21/teamB/views/misc/aboutPage.fxml");
+                System.out.println("Pressed");
                 break;
             case "btnBack":
                 // Reset all the colors of the nodes
