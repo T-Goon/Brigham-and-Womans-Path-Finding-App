@@ -164,7 +164,6 @@ public class FloralDeliveryRequestFormController extends DefaultServiceRequestFo
                 } catch (Exception e) {
 
                 }
-
                 deliveryDate.validate();
             }
         });
