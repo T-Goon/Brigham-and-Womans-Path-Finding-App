@@ -21,10 +21,8 @@ import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.ResourceBundle;
-import java.util.UUID;
+import java.time.ZoneId;
+import java.util.*;
 
 public class FloralDeliveryRequestFormController extends DefaultServiceRequestFormController implements Initializable {
 
@@ -150,10 +148,23 @@ public class FloralDeliveryRequestFormController extends DefaultServiceRequestFo
         RequiredFieldValidator validatorDate = new RequiredFieldValidator();
 
         deliveryDate.getValidators().add(validatorDate);
-        validatorDate.setMessage("Please select the date for delivery!");
+        validatorDate.setMessage("Please select a valid date for delivery!");
+
+        Calendar currentDate = Calendar.getInstance();
+        currentDate.add(Calendar.DATE, -1);
+        Calendar selectedDate = Calendar.getInstance();
 
         deliveryDate.focusedProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue) {
+                try {
+                    selectedDate.setTime(Date.from(deliveryDate.getValue().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()));
+                    if (selectedDate.compareTo(currentDate) < 0) {
+                        deliveryDate.setValue(null);
+                    }
+                } catch (Exception e) {
+
+                }
+
                 deliveryDate.validate();
             }
         });
