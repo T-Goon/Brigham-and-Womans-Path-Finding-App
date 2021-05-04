@@ -6,6 +6,9 @@ import edu.wpi.cs3733.D21.teamB.views.BasePageController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
+import java.net.URL;
+import java.util.ResourceBundle;
+
 public class MainPageController extends BasePageController {
 
     @FXML
@@ -21,11 +24,14 @@ public class MainPageController extends BasePageController {
     private JFXButton btnEmergency;
 
     @FXML
+    private JFXButton btnSettings;
+
+    @FXML
     public void handleButtonAction(ActionEvent e) {
         final String currentPath = "/edu/wpi/cs3733/D21/teamB/views/login/mainPage.fxml";
         super.handleButtonAction(e);
         JFXButton btn = (JFXButton) e.getSource();
-        /*switch (btn.getId()) {
+        switch (btn.getId()) {
             case "btnLogin":
                 SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/cs3733/D21/teamB/views/login/loginPage.fxml");
                 break;
@@ -44,6 +50,14 @@ public class MainPageController extends BasePageController {
             case "btnEmergency":
                 SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
                 break;
-        }*/
+            case "btnSettings":
+                SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/cs3733/D21/teamB/views/menus/settingsMenu.fxml");
+                break;
+        }
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        super.initialize(location, resources);
     }
 }

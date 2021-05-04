@@ -8,8 +8,8 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -22,6 +22,7 @@ public abstract class BasePageController implements Initializable {
     private JFXButton btnExit;
 
     public TextToSpeech tts = new TextToSpeech();
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -45,4 +46,9 @@ public abstract class BasePageController implements Initializable {
                 break;
         }
     }
+
+
+
+
+
 }
