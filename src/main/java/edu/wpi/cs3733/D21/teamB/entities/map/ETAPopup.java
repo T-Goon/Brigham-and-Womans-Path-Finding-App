@@ -38,12 +38,29 @@ public class ETAPopup extends Popup<VBox, ETAPopupData> implements Poppable {
 
         assert estimatedTimeBox != null;
         estimatedTimeBox.setId("estimatedTimeDialog");
-
+        double horizPostion, vertPosition;
         Graph graph = Graph.getGraph();
+        Node secToLastNode = graph.getNodes().get(data.getPath().getPath().get(data.getPath().getPath().size() - 2));
         Node endNode = graph.getNodes().get(data.getPath().getPath().get(data.getPath().getPath().size() - 1));
+        if ((secToLastNode.getXCoord() / PathfindingMenuController.COORDINATE_SCALE)<(endNode.getXCoord() / PathfindingMenuController.COORDINATE_SCALE)){
+             horizPostion = 0;
+            System.out.println("2ndX<lastX");
+        }
+        else{
+            horizPostion = -90;
+        }
+        if ((secToLastNode.getYCoord() / PathfindingMenuController.COORDINATE_SCALE)<(endNode.getYCoord() / PathfindingMenuController.COORDINATE_SCALE)){
+            vertPosition = 0;
 
-        estimatedTimeBox.setLayoutX((endNode.getXCoord() / PathfindingMenuController.COORDINATE_SCALE));
-        estimatedTimeBox.setLayoutY((endNode.getYCoord() / PathfindingMenuController.COORDINATE_SCALE) - (estimatedTimeBox.getHeight()));
+        }
+        else{
+            vertPosition = -50;
+        }
+
+        double popupX =(endNode.getXCoord() / PathfindingMenuController.COORDINATE_SCALE) + horizPostion;
+        double popupY =(endNode.getYCoord() / PathfindingMenuController.COORDINATE_SCALE) + vertPosition;
+        estimatedTimeBox.setLayoutX(popupX);
+        estimatedTimeBox.setLayoutY(popupY);
 
         super.show(estimatedTimeBox);
     }
