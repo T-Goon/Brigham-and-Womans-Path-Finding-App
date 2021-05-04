@@ -57,6 +57,8 @@ public class LaundryRequestFormController extends DefaultServiceRequestFormContr
         comboSizeService.getItems().add("Medium");
         comboSizeService.getItems().add("Large");
 
+        int indexType = -1;
+        int indexSize = -1;
         if (SceneSwitcher.peekLastScene().equals("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml")) {
             this.id = (String) App.getPrimaryStage().getUserData();
             LaundryRequest laundryRequest;
@@ -67,7 +69,6 @@ public class LaundryRequestFormController extends DefaultServiceRequestFormContr
                 return;
             }
             getLocationIndex(laundryRequest.getLocation());
-            int indexType = -1;
             switch (laundryRequest.getServiceType()) {
                 case "Regular Cycle":
                     indexType = 0;
@@ -79,8 +80,6 @@ public class LaundryRequestFormController extends DefaultServiceRequestFormContr
                     indexType = 2;
                     break;
             }
-            comboTypeService.getSelectionModel().select(indexType);
-            int indexSize = -1;
             switch (laundryRequest.getServiceSize()) {
                 case "Small":
                     indexSize = 0;
@@ -92,7 +91,6 @@ public class LaundryRequestFormController extends DefaultServiceRequestFormContr
                     indexSize = 2;
                     break;
             }
-            comboSizeService.getSelectionModel().select(indexSize);
             description.setText(laundryRequest.getDescription());
             darks.setSelected(laundryRequest.getDark().equals("T"));
             lights.setSelected(laundryRequest.getLight().equals("T"));
@@ -154,6 +152,9 @@ public class LaundryRequestFormController extends DefaultServiceRequestFormContr
         comboSizeService.setVisibleRowCount(3);
         new AutoCompleteComboBoxListener<>(comboTypeService);
         new AutoCompleteComboBoxListener<>(comboSizeService);
+
+        if (indexType != -1) comboTypeService.getSelectionModel().select(indexType);
+        if (indexSize != -1) comboSizeService.getSelectionModel().select(indexSize);
     }
 
 
