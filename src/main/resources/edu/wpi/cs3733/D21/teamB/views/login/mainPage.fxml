@@ -119,7 +119,7 @@
                                       </VBox>
                                       <VBox alignment="CENTER" layoutX="193.0" layoutY="25.0" prefHeight="173.0" prefWidth="143.0">
                                           <children>
-                                              <JFXButton fx:id="btnGoogle" accessibleText="Google Mpas" buttonType="RAISED" onAction="#handleButtonAction" prefHeight="158.0" prefWidth="126.0" ripplerFill="#007fff" text="Google Maps" textOverrun="CLIP">
+                                              <JFXButton fx:id="btnGoogle" accessibleText="Google Maps" buttonType="RAISED" onAction="#handleButtonAction" prefHeight="158.0" prefWidth="126.0" ripplerFill="#007fff" text="Google Maps" textOverrun="CLIP">
                                                   <graphic>
                                                       <ImageView accessibleText="Google Maps" fitHeight="144.0" fitWidth="122.0" pickOnBounds="true" preserveRatio="true">
                                                           <image>

@@ -13,6 +13,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -22,6 +23,7 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class SettingsMenuController extends BasePageController implements Initializable {
+
     @FXML
     private JFXButton btnBack;
 
@@ -32,12 +34,13 @@ public class SettingsMenuController extends BasePageController implements Initia
     private JFXButton btnEmergency;
 
     @FXML
-    private StackPane stackContainer;
+    private JFXButton btnHelp;
+
+    @FXML
+    private StackPane stackPane;
 
     @FXML
     private JFXToggleButton toggleTTS;
-
-
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -91,7 +94,7 @@ public class SettingsMenuController extends BasePageController implements Initia
 
         helpLayout.setHeading(headerLabel);
         helpLayout.setBody(helpText);
-        JFXDialog helpWindow = new JFXDialog(stackContainer, helpLayout, JFXDialog.DialogTransition.CENTER);
+        JFXDialog helpWindow = new JFXDialog(stackPane, helpLayout, JFXDialog.DialogTransition.CENTER);
 
         JFXButton button = new JFXButton("Close");
         button.setOnAction(event -> helpWindow.close());

@@ -12,6 +12,7 @@ import javafx.scene.Node;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -36,10 +37,10 @@ public abstract class BasePageController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         for (Node aNode : stackPane.lookupAll("*")) {
             aNode.focusedProperty().addListener((observable, oldValue, newValue) -> {
-                if (newValue) {
-                    String speechOut = aNode.getAccessibleText();
-                    if (speechOut != null) {
-                        if (ttsOn) {
+                if (ttsOn) {
+                    if (newValue) {
+                        String speechOut = aNode.getAccessibleText();
+                        if (speechOut != null) {
                             tts.speak(speechOut, 1.0f, false, false);
                         }
                     }
