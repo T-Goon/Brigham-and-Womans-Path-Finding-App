@@ -144,7 +144,9 @@ public class SecurityRequestFormController extends DefaultServiceRequestFormCont
     private void validateButton() {
         btnSubmit.setDisable(
                 comboAssignedTo.getSelectionModel().isEmpty() || loc.getValue() == null ||
-                        comboUrgency.getValue() == null || description.getText().isEmpty()
+                        comboUrgency.getValue() == null || description.getText().isEmpty() || super.validateCommon() ||
+                        !comboAssignedTo.getItems().contains(comboAssignedTo.getValue()) ||
+                        !comboUrgency.getItems().contains(comboUrgency.getValue())
         );
     }
 

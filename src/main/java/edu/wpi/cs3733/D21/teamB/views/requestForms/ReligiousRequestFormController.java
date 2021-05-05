@@ -251,7 +251,7 @@ public class ReligiousRequestFormController extends DefaultServiceRequestFormCon
         btnSubmit.setDisable(
             name.getText().isEmpty() || loc.getValue() == null || date.getValue() == null ||
             startTime.getValue() == null || endTime.getValue() == null || faith.getText().isEmpty() ||
-            description.getText().isEmpty()
+            description.getText().isEmpty() || super.validateCommon()
         );
     }
 }

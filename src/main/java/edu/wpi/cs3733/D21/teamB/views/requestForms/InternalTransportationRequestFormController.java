@@ -188,7 +188,8 @@ public class InternalTransportationRequestFormController extends DefaultServiceR
     private void validateButton(){
         btnSubmit.setDisable(
                 name.getText().isEmpty() || loc.getValue() == null ||
-                comboTranspType.getValue() == null || description.getText().isEmpty()
+                comboTranspType.getValue() == null || description.getText().isEmpty() || super.validateCommon() ||
+                !comboTranspType.getItems().contains(comboTranspType.getValue())
         );
     }
 }

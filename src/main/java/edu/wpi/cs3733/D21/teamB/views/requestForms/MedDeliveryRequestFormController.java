@@ -161,7 +161,7 @@ public class MedDeliveryRequestFormController extends DefaultServiceRequestFormC
     private void validateButton(){
         btnSubmit.setDisable(
                 name.getText().isEmpty() || loc.getValue() == null || medName.getText().isEmpty() ||
-                    reason.getText().isEmpty()
+                    reason.getText().isEmpty() || super.validateCommon()
         );
     }
 }

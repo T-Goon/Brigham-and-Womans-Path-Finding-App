@@ -223,6 +223,7 @@ public class ExternalTransportationRequestFormController extends DefaultServiceR
         btnSubmit.setDisable(
                 name.getText().isEmpty() || loc.getValue() == null || comboTranspType.getValue() == null ||
                         description.getText().isEmpty() || allergies.getText().isEmpty() || destination.getText().isEmpty()
+                        || super.validateCommon() || !comboTranspType.getItems().contains(comboTranspType.getValue())
         );
     }
 }

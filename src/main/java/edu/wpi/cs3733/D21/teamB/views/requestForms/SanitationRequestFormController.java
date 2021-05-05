@@ -162,7 +162,9 @@ public class SanitationRequestFormController extends DefaultServiceRequestFormCo
     private void validateButton() {
         btnSubmit.setDisable(
                 loc.getValue() == null || comboTypeService.getValue() == null || comboSizeService.getValue() == null ||
-                        description.getText().isEmpty()
+                        description.getText().isEmpty() || super.validateCommon() ||
+                        !comboTypeService.getItems().contains(comboTypeService.getValue()) ||
+                        !comboSizeService.getItems().contains(comboSizeService.getValue())
         );
     }
 

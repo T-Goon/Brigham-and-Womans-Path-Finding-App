@@ -121,7 +121,8 @@ public class EmergencyFormController extends DefaultServiceRequestFormController
     @FXML
     private void validateButton() {
         btnSubmit.setDisable(
-                loc.getValue() == null || !(medicalEmergency.isSelected() || securityEmergency.isSelected()) || description.getText().isEmpty()
+                loc.getValue() == null || !(medicalEmergency.isSelected() || securityEmergency.isSelected()) ||
+                        description.getText().isEmpty() || super.validateCommon()
         );
     }
 }

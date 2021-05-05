@@ -195,7 +195,7 @@ public class SocialWorkerRequestFormController extends DefaultServiceRequestForm
     private void validateButton(){
         btnSubmit.setDisable(
                 patientName.getText().isEmpty() || loc.getValue() == null || arrivalDate.getValue() == null || timeForArrival.getValue() == null ||
-                messageForSocialWorker.getText().isEmpty()
+                messageForSocialWorker.getText().isEmpty() || super.validateCommon()
         );
     }
 }
