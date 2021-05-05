@@ -101,7 +101,7 @@ public class OnScreenKeyboard {
                 button.setOnAction(event -> {
                     if (!(lastFocused.getAnode().isFocused())) {
                         lastFocused.requestFocus();
-                        for (int k = 0; k < 25; k++) {
+                        for (int k = 0; k < 100; k++) {
                             robot.keyPress(KeyEvent.VK_RIGHT);
                             robot.keyRelease(KeyEvent.VK_RIGHT);
                         }
