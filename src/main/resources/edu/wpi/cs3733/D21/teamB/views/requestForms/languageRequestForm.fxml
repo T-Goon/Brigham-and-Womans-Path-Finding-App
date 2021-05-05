@@ -202,7 +202,7 @@
             </VBox>
             <HBox alignment="BOTTOM_CENTER" maxHeight="-Infinity" prefWidth="200.0" StackPane.alignment="BOTTOM_CENTER">
                <children>
-                  <HBox alignment="CENTER_LEFT" fillHeight="false" HBox.hgrow="ALWAYS">
+                  <HBox alignment="BOTTOM_LEFT" fillHeight="false" HBox.hgrow="ALWAYS">
                      <children>
                         <JFXButton fx:id="btnBack" alignment="CENTER" buttonType="RAISED" cancelButton="true" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#handleButtonAction" prefHeight="56" prefWidth="56" style="-fx-background-color: #0067B1; -fx-background-radius: 50%;" text="🡰" textAlignment="CENTER" textFill="WHITE">
                            <font>
