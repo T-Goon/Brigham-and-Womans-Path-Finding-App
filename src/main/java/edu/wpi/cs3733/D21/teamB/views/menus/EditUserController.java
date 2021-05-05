@@ -31,6 +31,9 @@ public class EditUserController extends BasePageController implements Initializa
     private JFXTextField email;
 
     @FXML
+    private Label lblError;
+
+    @FXML
     private JFXTextField firstName;
 
     @FXML
@@ -63,6 +66,8 @@ public class EditUserController extends BasePageController implements Initializa
     @FXML
     private Text smallText;
 
+    private String originalEmail;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         authenticationLevel.getItems().add(new Label(User.AuthenticationLevel.ADMIN.toString()));
@@ -81,6 +86,7 @@ public class EditUserController extends BasePageController implements Initializa
         }
         username.setText(u.getUsername());
         email.setText(u.getEmail());
+        originalEmail = email.getText();
         firstName.setText(u.getFirstName());
         lastName.setText(u.getLastName());
         int i = 0;
@@ -131,7 +137,6 @@ public class EditUserController extends BasePageController implements Initializa
                     }
                 }
                 User uUpdated = new User(uUsername, uEmail, uFirstName, uLastName, uAuthLevel, uJobs);
-
                 try {
                     if (SceneSwitcher.addingUser) {
                         DatabaseHandler.getHandler().addUser(uUpdated, password.getText());
@@ -180,11 +185,28 @@ public class EditUserController extends BasePageController implements Initializa
     @FXML
     private void validateButtons() {
         btnSubmit.setDisable(
-                username.getText().isEmpty() || firstName.getText().isEmpty() || lastName.getText().isEmpty() ||
+                username.getText().isEmpty() || email.getText().isEmpty() || firstName.getText().isEmpty() || lastName.getText().isEmpty() ||
                         authenticationLevel.getValue() == null
         );
 
         username.setDisable(!SceneSwitcher.addingUser);
         password.setDisable(!SceneSwitcher.addingUser);
+
+        validateEmail();
+    }
+
+    @FXML
+    private void validateEmail() {
+        if (!originalEmail.equals(email.getText()) && DatabaseHandler.getHandler().getUserByEmail(email.getText()) != null) {
+            lblError.setText("Email address is already taken!");
+            lblError.setVisible(true);
+            btnSubmit.setDisable(true);
+        } else if (!email.getText().isEmpty() && !email.getText().contains("@")) {
+            lblError.setText("Email address must be valid!");
+            lblError.setVisible(true);
+            btnSubmit.setDisable(true);
+        } else {
+            lblError.setVisible(false);
+        }
     }
 }

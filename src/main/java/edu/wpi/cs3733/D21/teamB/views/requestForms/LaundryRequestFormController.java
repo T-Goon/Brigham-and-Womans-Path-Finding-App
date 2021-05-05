@@ -10,7 +10,7 @@ import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.requests.LaundryRequest;
 import edu.wpi.cs3733.D21.teamB.entities.requests.Request;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
-import edu.wpi.cs3733.D21.teamB.views.AutoCompleteComboBoxListener;
+import edu.wpi.cs3733.D21.teamB.util.AutoCompleteComboBoxListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -216,7 +216,10 @@ public class LaundryRequestFormController extends DefaultServiceRequestFormContr
     @FXML
     private void validateButton() {
         btnSubmit.setDisable(
-                loc.getValue() == null || comboSizeService.getValue() == null || comboTypeService.getValue() == null || description.getText().isEmpty()
+                loc.getValue() == null || comboSizeService.getValue() == null || comboTypeService.getValue() == null ||
+                        description.getText().isEmpty() || super.validateCommon() ||
+                        !comboTypeService.getItems().contains(comboTypeService.getValue()) ||
+                        !comboSizeService.getItems().contains(comboSizeService.getValue())
         );
     }
 }

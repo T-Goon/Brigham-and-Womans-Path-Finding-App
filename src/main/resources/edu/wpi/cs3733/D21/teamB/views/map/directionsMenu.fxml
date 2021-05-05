@@ -66,17 +66,20 @@
               </HBox>
               <AnchorPane fx:id="anchorPane" maxHeight="1.7976931348623157E308" VBox.vgrow="ALWAYS">
                <children>
-                  <StackPane fx:id="mapHolder" alignment="TOP_LEFT" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                     <children>
-                        <VBox maxHeight="-Infinity" maxWidth="-Infinity" spacing="5.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 10; -fx-border-color: #000000; -fx-border-width: 2; -fx-border-radius: 7;" StackPane.alignment="TOP_RIGHT">
-                           <children>
-                              <GridPane>
-                                 <columnConstraints>
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" />
-                                 </columnConstraints>
-                                 <rowConstraints>
-                                    <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                  <StackPane fx:id="stackPane" alignment="TOP_LEFT" AnchorPane.bottomAnchor="0.0"
+                             AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                      <children>
+                          <VBox maxHeight="-Infinity" maxWidth="-Infinity" spacing="5.0"
+                                style="-fx-background-color: #FFFFFF; -fx-background-radius: 10; -fx-border-color: #000000; -fx-border-width: 2; -fx-border-radius: 7;"
+                                StackPane.alignment="TOP_RIGHT">
+                              <children>
+                                  <GridPane>
+                                      <columnConstraints>
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0"/>
+                                          <ColumnConstraints hgrow="SOMETIMES"/>
+                                      </columnConstraints>
+                                      <rowConstraints>
+                                          <RowConstraints minHeight="10.0" vgrow="SOMETIMES"/>
                                     <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
                                     <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
                                  </rowConstraints>
@@ -111,7 +114,7 @@
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </padding>
                         </VBox>
-                         <JFXButton fx:id="btnBack" alignment="CENTER" buttonType="RAISED" cancelButton="true" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#handleButtonAction" prefHeight="56" prefWidth="56" style="-fx-background-color: #0067B1; -fx-background-radius: 50%;" text="🡰" textAlignment="CENTER" textFill="WHITE" StackPane.alignment="BOTTOM_LEFT">
+                         <JFXButton fx:id="btnBack" accessibleText="Leave page" alignment="CENTER" buttonType="RAISED" cancelButton="true" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#handleButtonAction" prefHeight="56" prefWidth="56" style="-fx-background-color: #0067B1; -fx-background-radius: 50%;" text="🡰" textAlignment="CENTER" textFill="WHITE" StackPane.alignment="BOTTOM_LEFT">
                              <font>
                                  <Font size="27.0" />
                              </font>

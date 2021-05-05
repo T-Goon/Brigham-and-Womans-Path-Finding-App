@@ -8,7 +8,7 @@ import edu.wpi.cs3733.D21.teamB.App;
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Node;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
-import edu.wpi.cs3733.D21.teamB.views.AutoCompleteComboBoxListener;
+import edu.wpi.cs3733.D21.teamB.util.AutoCompleteComboBoxListener;
 import edu.wpi.cs3733.D21.teamB.views.BasePageController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -49,14 +49,12 @@ public abstract class DefaultServiceRequestFormController extends BasePageContro
     protected JFXComboBox<String> loc;
 
     private VBox helpPopup;
-    private double x = 0;
-    private double y = 0;
     private boolean justClicked = false;
     protected ArrayList<Node> nodesList = new ArrayList<>();
-    private String location;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        super.initialize(location,resources);
         App.getPrimaryStage().getScene().addEventFilter(MouseEvent.MOUSE_CLICKED, event -> {
             if (helpPopup != null && !justClicked) {
                 helpHolder.getChildren().remove(helpPopup);
@@ -129,5 +127,18 @@ public abstract class DefaultServiceRequestFormController extends BasePageContro
 
         helpWindow.show();
 
+    }
+
+    /**
+     * Validation for common stuff on all request forms
+     * @return true if invalid
+     */
+    protected boolean validateCommon(){
+        try {
+            getLocation();
+            return false;
+        } catch (IndexOutOfBoundsException e){
+            return true;
+        }
     }
 }

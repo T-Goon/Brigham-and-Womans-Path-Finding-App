@@ -7,7 +7,7 @@ import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.requests.LanguageRequest;
 import edu.wpi.cs3733.D21.teamB.entities.requests.Request;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
-import edu.wpi.cs3733.D21.teamB.views.AutoCompleteComboBoxListener;
+import edu.wpi.cs3733.D21.teamB.util.AutoCompleteComboBoxListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -160,7 +160,7 @@ public class LanguageRequestFormController extends DefaultServiceRequestFormCont
                     if (selectedDate.compareTo(currentDate) < 0) {
                         arrivalDate.setValue(null);
                     }
-                } catch (Exception e) {
+                } catch (Exception ignored) {
 
                 }
                 arrivalDate.validate();
@@ -249,7 +249,7 @@ public class LanguageRequestFormController extends DefaultServiceRequestFormCont
     private void validateButton() {
         btnSubmit.setDisable(
                 patientName.getText().isEmpty() || loc.getValue() == null || arrivalDate.getValue() == null || timeForArrival.getValue() == null ||
-                        message.getText().isEmpty()
+                        message.getText().isEmpty() || super.validateCommon() || !language.getItems().contains(language.getValue())
         );
     }
 }

@@ -92,6 +92,7 @@ public class App extends Application {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -19,11 +19,15 @@ mainClassName = 'edu.wpi.cs3733.D21.teamB.Main'
 //These are the repositories where Gradle looks for dependencies.
 // You likely won't have to change these unless you add a cool, new dependency that isn't listed on Maven
 repositories {
+    flatDir {
+        dirs 'libs'
+    }
     mavenCentral()
     jcenter()
     maven {
         url 'https://apisite.crmyers.dev/maven'
     }
+
 }
 
 //This is where you declare your dependencies and their version.s
@@ -43,6 +47,9 @@ dependencies {
     implementation('com.dlsc:GMapsFX:8.0.0'){
         exclude group:'ch.qos.logback', module:'logback-classic'
     }
+
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+
 //These are test dependencies. These are only used for running verification tasks via Gradle.
     testCompile(
             'org.mindrot:jbcrypt:0.4',

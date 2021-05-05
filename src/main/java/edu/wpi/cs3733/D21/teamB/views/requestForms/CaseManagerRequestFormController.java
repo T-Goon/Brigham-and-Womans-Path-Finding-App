@@ -106,7 +106,7 @@ public class CaseManagerRequestFormController extends DefaultServiceRequestFormC
                     if (selectedDate.compareTo(currentDate) < 0) {
                         arrivalDate.setValue(null);
                     }
-                } catch (Exception e) {
+                } catch (Exception ignored) {
 
                 }
                 arrivalDate.validate();
@@ -191,7 +191,7 @@ public class CaseManagerRequestFormController extends DefaultServiceRequestFormC
     private void validateButton() {
         btnSubmit.setDisable(
                 patientName.getText().isEmpty() || loc.getValue() == null || arrivalDate.getValue() == null || timeForArrival.getValue() == null ||
-                        messageForCaseManager.getText().isEmpty()
+                        messageForCaseManager.getText().isEmpty() || super.validateCommon()
         );
     }
 }

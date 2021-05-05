@@ -1,6 +1,5 @@
 package edu.wpi.cs3733.D21.teamB.entities.map.node;
 
-import edu.wpi.cs3733.D21.teamB.App;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.NodeMenuPopupData;
 import edu.wpi.cs3733.D21.teamB.util.Popup.Poppable;
 import edu.wpi.cs3733.D21.teamB.util.Popup.Popup;
@@ -9,7 +8,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import net.kurobako.gesturefx.GesturePane;
-import sun.text.resources.th.BreakIteratorInfo_th;
 
 import java.io.IOException;
 import java.util.Objects;

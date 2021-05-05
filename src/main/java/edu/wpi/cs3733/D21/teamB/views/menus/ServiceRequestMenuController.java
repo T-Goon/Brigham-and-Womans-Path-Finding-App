@@ -53,20 +53,11 @@ public class ServiceRequestMenuController extends BasePageController {
     private JFXButton btnSocialWorker;
 
     @FXML
-    private VBox medicineDelivery;
-
-    @FXML
-    private VBox internalTransport;
-
-    @FXML
-    private VBox externalTransport;
-
-    @FXML
     private JFXButton btnShowCredits;
-
 
     @FXML
     private JFXButton btnLanguageInterpreter;
+
 
     @FXML
     public void handleButtonAction(ActionEvent e) {
