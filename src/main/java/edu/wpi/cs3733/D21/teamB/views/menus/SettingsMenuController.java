@@ -86,7 +86,7 @@ public class SettingsMenuController extends BasePageController implements Initia
     private void loadHelpDialog(){
         JFXDialogLayout helpLayout = new JFXDialogLayout();
 
-        Text helpText = new Text(">>>Settings help dialogue goes here<<<");
+        Text helpText = new Text("Click the toggle button to enable or disable text-to-speech functionality.");
         helpText.setFont(new Font("MS Reference Sans Serif", 14));
 
         Label headerLabel = new Label("Help");
