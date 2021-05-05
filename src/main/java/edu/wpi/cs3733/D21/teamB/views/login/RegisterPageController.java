@@ -21,8 +21,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-public class
-RegisterPageController extends BasePageController implements Initializable {
+public class RegisterPageController extends BasePageController implements Initializable {
 
     @FXML
     public JFXButton btnEmergency;
