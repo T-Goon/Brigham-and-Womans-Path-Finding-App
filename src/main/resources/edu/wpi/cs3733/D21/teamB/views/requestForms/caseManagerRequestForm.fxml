@@ -2,9 +2,11 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXDatePicker?>
 <?import com.jfoenix.controls.JFXTextArea?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import com.jfoenix.controls.JFXTimePicker?>
+<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.image.Image?>
@@ -102,21 +104,38 @@
                                                                         <Font size="14.0" />
                                                                     </font>
                                                                 </Text>
-                                                <HBox>
-                                                   <children>
-                                                       <JFXComboBox fx:id="loc" maxWidth="1.7976931348623157E308" onAction="#validateButton" style="-fx-background-color: #e5e5e5; -fx-background-radius: 7;" unFocusColor="WHITE" HBox.hgrow="ALWAYS" />
-                                                   </children>
-                                                </HBox>
+                                                                <HBox>
+                                                                    <children>
+                                                                        <JFXComboBox fx:id="loc" maxWidth="1.7976931348623157E308" onAction="#validateButton" style="-fx-background-color: #e5e5e5; -fx-background-radius: 7;" unFocusColor="WHITE" HBox.hgrow="ALWAYS" />
+                                                                    </children>
+                                                                </HBox>
                                                             </children>
                                                             <padding>
                                                                 <Insets left="10.0" right="10.0" />
                                                             </padding>
-                                             <VBox.margin>
-                                                <Insets top="8.0" />
-                                             </VBox.margin>
+                                                            <VBox.margin>
+                                                                <Insets top="8.0" />
+                                                            </VBox.margin>
                                                         </VBox>
                                                         <HBox>
                                                             <children>
+                                                                <VBox prefHeight="57.0" prefWidth="253.0">
+                                                                    <children>
+                                                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Date of Arrival:">
+                                                                            <font>
+                                                                                <Font size="14.0" />
+                                                                            </font>
+                                                                        </Text>
+                                                                        <JFXDatePicker fx:id="arrivalDate" defaultColor="#012d5a" onAction="#validateButton" prefHeight="25.0" prefWidth="250.0" style="-fx-background-radius: 7; -fx-background-color: e5e5e5;">
+                                                                            <stylesheets>
+                                                                                <URL value="@../../css/dateTimeFix.css" />
+                                                                            </stylesheets>
+                                                                        </JFXDatePicker>
+                                                                    </children>
+                                                                    <padding>
+                                                                        <Insets left="10.0" right="10.0" />
+                                                                    </padding>
+                                                                </VBox>
                                                                 <VBox prefHeight="44.0" prefWidth="287.0">
                                                                     <children>
                                                                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Time for Arrival:">
@@ -131,9 +150,9 @@
                                                                     </padding>
                                                                 </VBox>
                                                             </children>
-                                             <VBox.margin>
-                                                <Insets top="8.0" />
-                                             </VBox.margin>
+                                                            <VBox.margin>
+                                                                <Insets top="8.0" />
+                                                            </VBox.margin>
                                                         </HBox>
                                                         <VBox maxHeight="1.7976931348623157E308" prefHeight="167.0" prefWidth="798.0">
                                                             <children>
@@ -151,9 +170,9 @@
                                                             <padding>
                                                                 <Insets bottom="30.0" left="10.0" right="10.0" />
                                                             </padding>
-                                             <VBox.margin>
-                                                <Insets top="8.0" />
-                                             </VBox.margin>
+                                                            <VBox.margin>
+                                                                <Insets top="8.0" />
+                                                            </VBox.margin>
                                                         </VBox>
                                                     </children>
                                                 </VBox>
@@ -170,60 +189,62 @@
                         </HBox>
                     </children>
                 </VBox>
-                <HBox alignment="BOTTOM_LEFT" HBox.hgrow="ALWAYS">
+                <HBox alignment="CENTER_LEFT" fillHeight="false" maxHeight="-Infinity" prefWidth="200.0" StackPane.alignment="BOTTOM_CENTER">
                     <children>
-                        <JFXButton fx:id="btnBack" alignment="CENTER_RIGHT" buttonType="RAISED" cancelButton="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#handleButtonAction" prefHeight="56" prefWidth="100.0" style="-fx-background-color: #0067B1; -fx-background-radius: 7;" text="Back  " textAlignment="RIGHT" textFill="WHITE">
-                            <font>
-                                <Font size="18.0" />
-                            </font>
+                        <HBox alignment="BOTTOM_LEFT" HBox.hgrow="ALWAYS">
+                            <children>
+                                <JFXButton fx:id="btnBack" alignment="CENTER_RIGHT" buttonType="RAISED" cancelButton="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#handleButtonAction" prefHeight="56" prefWidth="100.0" style="-fx-background-color: #0067B1; -fx-background-radius: 7;" text="Back  " textAlignment="RIGHT" textFill="WHITE">
+                                    <font>
+                                        <Font size="18.0" />
+                                    </font>
+                                    <padding>
+                                        <Insets top="1.0" />
+                                    </padding>
+                                    <graphic>
+                                        <ImageView fitHeight="35.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
+                                            <image>
+                                                <Image url="@../../images/menus/backButton.png" />
+                                            </image>
+                                        </ImageView>
+                                    </graphic>
+                                </JFXButton>
+                            </children>
+                            <HBox.margin>
+                                <Insets />
+                            </HBox.margin>
                             <padding>
-                                <Insets top="1.0" />
+                                <Insets bottom="15.0" left="15.0" />
                             </padding>
-                            <graphic>
-                                <ImageView fitHeight="35.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
-                                    <image>
-                                        <Image url="@../../../../../../../../../../../../Desktop/backButton.png" />
-                                    </image>
-                                </ImageView>
-                            </graphic>
-                        </JFXButton>
+                        </HBox>
+                        <HBox alignment="CENTER" fillHeight="false" spacing="10.0" HBox.hgrow="ALWAYS">
+                            <children>
+                                <JFXButton fx:id="btnSubmit" buttonType="RAISED" onAction="#handleButtonAction" prefHeight="60.0" prefWidth="150.0" style="-fx-background-color: #F6BD39; -fx-background-radius: 7;" text="Submit">
+                                    <font>
+                                        <Font name="MS Reference Sans Serif" size="20.0" />
+                                    </font>
+                                </JFXButton>
+                            </children>
+                        </HBox>
+                        <HBox alignment="CENTER_RIGHT" fillHeight="false" spacing="10.0" HBox.hgrow="ALWAYS">
+                            <children>
+                                <JFXButton fx:id="btnHelp" buttonType="RAISED" maxHeight="56.0" maxWidth="56.0" minHeight="-Infinity" minWidth="-Infinity" onAction="#handleButtonAction" prefHeight="56.0" prefWidth="56.0" style="-fx-background-color: #9A9999; -fx-background-radius: 50%;" text="?" textFill="WHITE">
+                                    <font>
+                                        <Font name="MS Reference Sans Serif" size="27.0" />
+                                    </font>
+                                    <HBox.margin>
+                                        <Insets />
+                                    </HBox.margin>
+                                </JFXButton>
+                            </children>
+                        </HBox>
                     </children>
-                    <HBox.margin>
-                        <Insets />
-                    </HBox.margin>
                     <padding>
-                        <Insets bottom="15.0" left="15.0" />
+                        <Insets left="15.0" right="15.0" />
                     </padding>
+                    <StackPane.margin>
+                        <Insets bottom="15.0" />
+                    </StackPane.margin>
                 </HBox>
-                                  <HBox alignment="CENTER" fillHeight="false" spacing="10.0" HBox.hgrow="ALWAYS">
-                                      <children>
-                                          <JFXButton fx:id="btnSubmit" buttonType="RAISED" onAction="#handleButtonAction" prefHeight="60.0" prefWidth="150.0" style="-fx-background-color: #F6BD39; -fx-background-radius: 7;" text="Submit">
-                                              <font>
-                                                  <Font name="MS Reference Sans Serif" size="20.0" />
-                                              </font>
-                                          </JFXButton>
-                                      </children>
-                                  </HBox>
-                                  <HBox alignment="CENTER_RIGHT" fillHeight="false" spacing="10.0" HBox.hgrow="ALWAYS">
-                     <children>
-                        <JFXButton fx:id="btnHelp" buttonType="RAISED" maxHeight="56.0" maxWidth="56.0" minHeight="-Infinity" minWidth="-Infinity" onAction="#handleButtonAction" prefHeight="56.0" prefWidth="56.0" style="-fx-background-color: #9A9999; -fx-background-radius: 50%;" text="?" textFill="WHITE">
-                           <font>
-                              <Font name="MS Reference Sans Serif" size="27.0" />
-                           </font>
-                           <HBox.margin>
-                              <Insets />
-                           </HBox.margin>
-                        </JFXButton>
-                     </children>
-                  </HBox>
-                              </children>
-                              <padding>
-                                  <Insets left="15.0" right="15.0" />
-                              </padding>
-               <StackPane.margin>
-                  <Insets bottom="15.0" />
-               </StackPane.margin>
-                          </HBox>
             </children>
         </StackPane>
     </children>
