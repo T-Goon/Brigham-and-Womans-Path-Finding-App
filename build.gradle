@@ -45,6 +45,7 @@ dependencies {
     implementation('com.dlsc:GMapsFX:8.0.0'){
         exclude group:'ch.qos.logback', module:'logback-classic'
     }
+
     compile 'de.dfki.mary:marytts:5.2'
     compile 'de.dfki.mary:marytts-lang-en:5.2'
     compile 'de.dfki.mary:voice-cmu-rms-hsmm:5.2'
