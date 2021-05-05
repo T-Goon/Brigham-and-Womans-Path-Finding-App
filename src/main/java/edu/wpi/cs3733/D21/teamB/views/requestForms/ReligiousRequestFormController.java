@@ -120,7 +120,7 @@ public class ReligiousRequestFormController extends DefaultServiceRequestFormCon
                     if (selectedDate.compareTo(currentDate) < 0) {
                         date.setValue(null);
                     }
-                } catch (Exception e) {
+                } catch (Exception ignored) {
 
                 }
                 date.validate();
@@ -139,7 +139,7 @@ public class ReligiousRequestFormController extends DefaultServiceRequestFormCon
                     if (startTime.getValue().getHour() > endTime.getValue().getHour()) {
                         startTime.setValue(null);
                     }
-                } catch (Exception e) {
+                } catch (Exception ignored) {
 
                 }
                 startTime.validate();
@@ -158,7 +158,7 @@ public class ReligiousRequestFormController extends DefaultServiceRequestFormCon
                     if (endTime.getValue().getHour() < startTime.getValue().getHour()) {
                         endTime.setValue(null);
                     }
-                } catch (Exception e) {
+                } catch (Exception ignored) {
 
                 }
                 endTime.validate();

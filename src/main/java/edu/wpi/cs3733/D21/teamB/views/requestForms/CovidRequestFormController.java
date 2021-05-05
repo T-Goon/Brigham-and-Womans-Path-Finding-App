@@ -6,6 +6,7 @@ import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.User;
 import edu.wpi.cs3733.D21.teamB.entities.requests.CovidSurveyRequest;
 import edu.wpi.cs3733.D21.teamB.entities.requests.Request;
+import edu.wpi.cs3733.D21.teamB.util.ExternalCommunication;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -87,8 +88,18 @@ public class CovidRequestFormController extends DefaultServiceRequestFormControl
 
             assert request != null;
             request.setStatus(status);
-            if(status != User.CovidStatus.PENDING){
+            if (status != User.CovidStatus.PENDING) {
                 request.setProgress("T");
+
+                if (!request.getSubmitter().equals("temporary")) {
+                    User submitter = DatabaseHandler.getHandler().getUserByUsername(request.getSubmitter());
+
+                    // Check if the user has an email address
+                    if (status != User.CovidStatus.UNCHECKED && submitter.getEmail() != null) {
+                        ExternalCommunication externalCommunication = new ExternalCommunication();
+                        externalCommunication.sendCovidSurveyApproval(submitter.getEmail(), submitter.getFirstName(), reviewStatus.getValue().getText());
+                    }
+                }
             }
 
             try {

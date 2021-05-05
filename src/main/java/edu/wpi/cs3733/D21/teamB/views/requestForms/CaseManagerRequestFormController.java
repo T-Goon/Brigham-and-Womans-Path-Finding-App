@@ -106,7 +106,7 @@ public class CaseManagerRequestFormController extends DefaultServiceRequestFormC
                     if (selectedDate.compareTo(currentDate) < 0) {
                         arrivalDate.setValue(null);
                     }
-                } catch (Exception e) {
+                } catch (Exception ignored) {
 
                 }
                 arrivalDate.validate();

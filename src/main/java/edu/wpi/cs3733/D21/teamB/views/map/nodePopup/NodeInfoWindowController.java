@@ -1,15 +1,12 @@
 package edu.wpi.cs3733.D21.teamB.views.map.nodePopup;
 
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXColorPicker;
-import com.jfoenix.controls.JFXRadioButton;
 import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733.D21.teamB.App;
 import edu.wpi.cs3733.D21.teamB.entities.map.node.NodeInfoWindow;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ToggleGroup;
 
 import java.net.URL;
 import java.util.*;
