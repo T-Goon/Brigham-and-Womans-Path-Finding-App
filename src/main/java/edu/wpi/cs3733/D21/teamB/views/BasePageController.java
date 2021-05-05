@@ -11,6 +11,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
@@ -42,12 +43,22 @@ public abstract class BasePageController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        EventHandler<KeyEvent> btnOSK = new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+               if (event.getCode().equals(KeyCode.Q)){
+                    keyboardVisible = !keyboardVisible;
+                    onScreenKeyboard.getKeyboard().setVisible(keyboardVisible);
+               }
+            }
+        };
         EventHandler<MouseEvent> onClick = new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
                 lastFocused.setAnode(event.getPickResult().getIntersectedNode());
             }
         };
+        stackPane.addEventFilter(KeyEvent.KEY_PRESSED, btnOSK);
         stackPane.addEventFilter(MouseEvent.MOUSE_CLICKED,onClick);
         onScreenKeyboard = OnScreenKeyboard.getInstance();
         keyboardVisible = false;

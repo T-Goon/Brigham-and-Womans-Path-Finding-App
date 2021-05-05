@@ -2,6 +2,7 @@ package edu.wpi.cs3733.D21.teamB.entities;
 
 import com.jfoenix.controls.JFXButton;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
@@ -45,6 +46,11 @@ public class OnScreenKeyboard {
     public void keyboardAesthethic(){
         keyboard.setVisible(false);
         keyboard.getChildren().addAll(numRow, topRow, midRow, bottomRow);
+        keyboard.setAlignment(Pos.CENTER);
+        numRow.setAlignment(Pos.CENTER);
+        topRow.setAlignment(Pos.CENTER);
+        midRow.setAlignment(Pos.CENTER);
+        bottomRow.setAlignment(Pos.CENTER);
         keyboard.setFillWidth(false);
         keyboard.setPrefHeight(Region.USE_COMPUTED_SIZE);
         keyboard.setPrefWidth(Region.USE_COMPUTED_SIZE);
@@ -84,7 +90,6 @@ public class OnScreenKeyboard {
                 button.setOnAction(event -> {
                     if (!(lastFocused.getAnode().isFocused())) {
                         lastFocused.requestFocus();
-
                     }
                     if (!shifted) {
                         robot.keyPress(keyIs);
@@ -109,6 +114,22 @@ public class OnScreenKeyboard {
             }
         }
         JFXButton shift = new JFXButton("Shift");
+        JFXButton bckSpce = new JFXButton("<-");
+        bckSpce.setOnAction(event -> {
+            if (!(lastFocused.getAnode().isFocused())) {
+                lastFocused.requestFocus();
+            }
+            if (!shifted) {
+                robot.keyPress(KeyEvent.VK_BACK_SPACE);
+                robot.keyRelease(KeyEvent.VK_BACK_SPACE);
+            }
+            if (shifted) {
+                robot.keyPress(KeyEvent.VK_SHIFT);
+                robot.keyPress(KeyEvent.VK_BACK_SPACE);
+                robot.keyRelease(KeyEvent.VK_BACK_SPACE);
+                robot.keyRelease(KeyEvent.VK_SHIFT);
+            }
+        });
         shift.setOnAction(event -> {
             OnScreenKeyboard osk = OnScreenKeyboard.getInstance();
             if (!osk.shifted) {
@@ -125,7 +146,9 @@ public class OnScreenKeyboard {
                 osk.setShifted(false);
             }
         });
+        numRow.getChildren().add(bckSpce);
         bottomRow.getChildren().add(shift);
+        bckSpce.setTextFill(Color.YELLOW);
         shift.setTextFill(Color.YELLOW);
         if(!(aParent.getChildren().contains(keyboard))) {
             aParent.getChildren().add(keyboard);

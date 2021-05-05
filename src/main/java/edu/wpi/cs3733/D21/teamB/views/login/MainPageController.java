@@ -2,6 +2,7 @@ package edu.wpi.cs3733.D21.teamB.views.login;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextArea;
+import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.LastFocused;
 //import edu.wpi.cs3733.D21.teamB.entities.TextAreaFocusable;
 import edu.wpi.cs3733.D21.teamB.entities.OnScreenKeyboard;
