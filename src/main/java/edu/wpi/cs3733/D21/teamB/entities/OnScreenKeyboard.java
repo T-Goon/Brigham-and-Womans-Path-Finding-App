@@ -1,8 +1,12 @@
 package edu.wpi.cs3733.D21.teamB.entities;
 
 import com.jfoenix.controls.JFXButton;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
+import javafx.scene.input.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
@@ -59,6 +63,13 @@ public class OnScreenKeyboard {
         BackgroundFill bgFill = new BackgroundFill(javafx.scene.paint.Color.BLUE, CornerRadii.EMPTY, Insets.EMPTY);
         Background keyboardBG = new Background(bgFill);
         keyboard.setBackground(keyboardBG);
+        keyboard.setOnMouseDragged(event -> drag(event));
+    }
+
+    private void drag(MouseEvent event) {
+        Node n = (Node)event.getSource();
+        n.setTranslateX(n.getTranslateX() + event.getX());
+        n.setTranslateY(n.getTranslateY() + event.getY());
     }
 
     public void initKeyboard(Pane aParent) throws AWTException {
