@@ -2,7 +2,6 @@ package edu.wpi.cs3733.D21.teamB.entities.map.node;
 
 import edu.wpi.cs3733.D21.teamB.App;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.GraphicalInputData;
-import edu.wpi.cs3733.D21.teamB.entities.map.data.NodeMenuPopupData;
 import edu.wpi.cs3733.D21.teamB.util.Popup.Poppable;
 import edu.wpi.cs3733.D21.teamB.util.Popup.Window;
 import javafx.fxml.FXMLLoader;
