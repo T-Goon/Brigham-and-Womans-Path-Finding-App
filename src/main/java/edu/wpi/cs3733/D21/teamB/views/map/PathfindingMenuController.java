@@ -798,7 +798,6 @@ public class PathfindingMenuController extends BasePageController implements Ini
             List<String> stopsList = mapCache.getStopsList();
             stopsList.add("Emergency Department Entrance");
             displayStops(stopsList);
-            SceneSwitcher.popLastScene();
         }
 
     }
