@@ -51,14 +51,11 @@ public class UserWrapper {
         JFXButton btnEdit = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/cs3733/D21/teamB/views/misc/tableEditBtn.fxml")));
         btnEdit.setId(u.getUsername() + "EditBtn");
 
-        btnEdit.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                Stage stage = App.getPrimaryStage();
-                stage.setUserData(u);
-                SceneSwitcher.addingUser = false;
-                SceneSwitcher.switchScene("/edu/wpi/cs3733/D21/teamB/views/menus/userInformationDatabase.fxml", "/edu/wpi/cs3733/D21/teamB/views/menus/editUserMenu.fxml");
-            }
+        btnEdit.setOnAction(event -> {
+            Stage stage = App.getPrimaryStage();
+            stage.setUserData(u);
+            SceneSwitcher.addingUser = false;
+            SceneSwitcher.switchScene("/edu/wpi/cs3733/D21/teamB/views/menus/userInformationDatabase.fxml", "/edu/wpi/cs3733/D21/teamB/views/menus/editUserMenu.fxml");
         });
 
 

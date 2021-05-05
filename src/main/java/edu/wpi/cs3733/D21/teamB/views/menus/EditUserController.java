@@ -1,7 +1,6 @@
 package edu.wpi.cs3733.D21.teamB.views.menus;
 
 import com.jfoenix.controls.*;
-import com.jfoenix.validation.RequiredFieldValidator;
 import edu.wpi.cs3733.D21.teamB.App;
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.User;

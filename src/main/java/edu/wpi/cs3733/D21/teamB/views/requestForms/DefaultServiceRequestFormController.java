@@ -131,4 +131,17 @@ public abstract class DefaultServiceRequestFormController extends BasePageContro
         helpWindow.show();
 
     }
+
+    /**
+     * Validation for common stuff on all request forms
+     * @return true if invalid
+     */
+    protected boolean validateCommon(){
+        try {
+            getLocation();
+            return false;
+        } catch (IndexOutOfBoundsException e){
+            return true;
+        }
+    }
 }

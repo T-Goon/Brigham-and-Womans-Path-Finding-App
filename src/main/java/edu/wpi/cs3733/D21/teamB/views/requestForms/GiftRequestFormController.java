@@ -140,7 +140,7 @@ public class GiftRequestFormController extends DefaultServiceRequestFormControll
                     if (selectedDate.compareTo(currentDate) < 0) {
                         deliveryDate.setValue(null);
                     }
-                } catch (Exception e) {
+                } catch (Exception ignored) {
 
                 }
                 deliveryDate.validate();
@@ -157,7 +157,7 @@ public class GiftRequestFormController extends DefaultServiceRequestFormControll
                     if (startTime.getValue().getHour() > endTime.getValue().getHour()) {
                         startTime.setValue(null);
                     }
-                } catch (Exception e) {
+                } catch (Exception ignored) {
 
                 }
                 startTime.validate();
@@ -174,7 +174,7 @@ public class GiftRequestFormController extends DefaultServiceRequestFormControll
                     if (endTime.getValue().getHour() < startTime.getValue().getHour()) {
                         endTime.setValue(null);
                     }
-                } catch (Exception e) {
+                } catch (Exception ignored) {
 
                 }
                 endTime.validate();
@@ -268,7 +268,8 @@ public class GiftRequestFormController extends DefaultServiceRequestFormControll
                 patientName.getText().isEmpty() || loc.getValue() == null ||
                         deliveryDate.getValue() == null || startTime.getValue() == null ||
                         endTime.getValue() == null || message.getText().isEmpty() ||
-                        !(balloons.isSelected() || teddyBear.isSelected() || chocolate.isSelected())
+                        !(balloons.isSelected() || teddyBear.isSelected() || chocolate.isSelected()
+                        || super.validateCommon())
         );
     }
 

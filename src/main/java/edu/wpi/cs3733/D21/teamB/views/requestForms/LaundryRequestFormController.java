@@ -216,7 +216,10 @@ public class LaundryRequestFormController extends DefaultServiceRequestFormContr
     @FXML
     private void validateButton() {
         btnSubmit.setDisable(
-                loc.getValue() == null || comboSizeService.getValue() == null || comboTypeService.getValue() == null || description.getText().isEmpty()
+                loc.getValue() == null || comboSizeService.getValue() == null || comboTypeService.getValue() == null ||
+                        description.getText().isEmpty() || super.validateCommon() ||
+                        !comboTypeService.getItems().contains(comboTypeService.getValue()) ||
+                        !comboSizeService.getItems().contains(comboSizeService.getValue())
         );
     }
 }

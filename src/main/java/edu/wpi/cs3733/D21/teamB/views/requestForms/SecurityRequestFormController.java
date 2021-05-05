@@ -3,7 +3,6 @@ package edu.wpi.cs3733.D21.teamB.views.requestForms;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextArea;
-import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.validation.RequiredFieldValidator;
 import edu.wpi.cs3733.D21.teamB.App;
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
@@ -145,7 +144,9 @@ public class SecurityRequestFormController extends DefaultServiceRequestFormCont
     private void validateButton() {
         btnSubmit.setDisable(
                 comboAssignedTo.getSelectionModel().isEmpty() || loc.getValue() == null ||
-                        comboUrgency.getValue() == null || description.getText().isEmpty()
+                        comboUrgency.getValue() == null || description.getText().isEmpty() || super.validateCommon() ||
+                        !comboAssignedTo.getItems().contains(comboAssignedTo.getValue()) ||
+                        !comboUrgency.getItems().contains(comboUrgency.getValue())
         );
     }
 

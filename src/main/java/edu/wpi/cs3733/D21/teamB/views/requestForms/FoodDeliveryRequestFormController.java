@@ -179,7 +179,7 @@ public class FoodDeliveryRequestFormController extends DefaultServiceRequestForm
     private void validateButton() {
         btnSubmit.setDisable(
                 name.getText().isEmpty() || loc.getValue() == null || mealChoice.getText().isEmpty() ||
-                        arrivalTime.getValue() == null || description.getText().isEmpty()
+                        arrivalTime.getValue() == null || description.getText().isEmpty() || super.validateCommon()
         );
     }
 }

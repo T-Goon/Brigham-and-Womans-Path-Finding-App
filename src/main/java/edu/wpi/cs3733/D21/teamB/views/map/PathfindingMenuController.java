@@ -134,6 +134,8 @@ public class PathfindingMenuController extends BasePageController implements Ini
     private String previousFrom = "";
     private String previousStops = "";
     private String previousTo = "";
+    private String previousAlgorithm = "";
+    private boolean previousMobility = false;
     private boolean mapInEditMode = false;
     // JavaFX code **************************************************************************************
 
@@ -472,7 +474,8 @@ public class PathfindingMenuController extends BasePageController implements Ini
 
         switch (b.getId()) {
             case "btnFindPath":
-                if (!previousFrom.equals(txtStartLocation.getText()) || !previousStops.equals(String.join(" ", mapCache.getStopsList())) || !previousTo.equals(txtEndLocation.getText())) {
+                if (!previousFrom.equals(txtStartLocation.getText()) || !previousStops.equals(String.join(" ", mapCache.getStopsList())) || !previousTo.equals(txtEndLocation.getText())
+                        || !previousAlgorithm.equals(comboPathingType.getSelectionModel().getSelectedItem()) || previousMobility != btnMobility.isSelected()) {
                     mapCache.updateLocations();
                     Map<String, String> longToId = mapCache.makeLongToIDMap();
                     mapPathPopupManager.removeTxtDirPopup();
@@ -486,7 +489,8 @@ public class PathfindingMenuController extends BasePageController implements Ini
                     previousFrom = txtStartLocation.getText();
                     previousStops = String.join(" ", mapCache.getStopsList());
                     previousTo = txtEndLocation.getText();
-
+                    previousAlgorithm = comboPathingType.getSelectionModel().getSelectedItem();
+                    previousMobility = btnMobility.isSelected();
                 }
                 break;
             case "btnEditMap":

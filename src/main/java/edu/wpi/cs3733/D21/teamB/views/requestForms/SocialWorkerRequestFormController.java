@@ -107,7 +107,7 @@ public class SocialWorkerRequestFormController extends DefaultServiceRequestForm
                     if (selectedDate.compareTo(currentDate) < 0) {
                         arrivalDate.setValue(null);
                     }
-                } catch (Exception e) {
+                } catch (Exception ignored) {
 
                 }
                 arrivalDate.validate();
@@ -195,7 +195,7 @@ public class SocialWorkerRequestFormController extends DefaultServiceRequestForm
     private void validateButton(){
         btnSubmit.setDisable(
                 patientName.getText().isEmpty() || loc.getValue() == null || arrivalDate.getValue() == null || timeForArrival.getValue() == null ||
-                messageForSocialWorker.getText().isEmpty()
+                messageForSocialWorker.getText().isEmpty() || super.validateCommon()
         );
     }
 }
