@@ -27,6 +27,12 @@ public class App extends Application {
 
     @Override
     public void init() {
+        try {
+            Class.forName("org.sqlite.JDBC");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
         System.out.println("Starting Up");
         db = DatabaseHandler.getHandler();
     }
@@ -81,10 +87,10 @@ public class App extends Application {
                 requiredUsers.put(new User("staff", "bwhapplication@gmail.com", "Mike", "Bedard", User.AuthenticationLevel.STAFF, null), "staff");
                 requiredUsers.put(new User("guest", "guest@fakeemail.com", "T", "Goon", User.AuthenticationLevel.PATIENT, null), "guest");
 
-                for(User u : requiredUsers.keySet()){
-                   if(db.getUserByUsername(u.getUsername()) == null){
-                       db.addUser(u,requiredUsers.get(u));
-                   }
+                for (User u : requiredUsers.keySet()) {
+                    if (db.getUserByUsername(u.getUsername()) == null) {
+                        db.addUser(u, requiredUsers.get(u));
+                    }
                 }
                 db.resetTemporaryUser();
                 db.deauthenticate();
