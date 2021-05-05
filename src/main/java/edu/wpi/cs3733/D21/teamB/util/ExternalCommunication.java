@@ -119,4 +119,27 @@ public class ExternalCommunication {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Send email to user when their COVID survey is marked complete
+     *
+     * @param email the email address of the survey submitter
+     * @param name the name of the survey submitter
+     * @param status the submitter's status on the COVID survey
+     */
+    public void sendCovidSurveyApproval(String email, String name, String status) {
+        MimeMessage message = setUpSender();
+
+        try {
+            message.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
+
+            message.setSubject("Brigham and Women's Hospital Application - COVID-19 Survey Approved");
+            message.setText("Hello " + name + ",\n\nYour COVID-19 survey was recently approved with status " + status +
+                    ".\n\n\nBrigham and Women's Hospital Application Team");
+
+            Transport.send(message);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+    }
 }
