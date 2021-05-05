@@ -7,6 +7,7 @@ import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.validation.RequiredFieldValidator;
 import edu.wpi.cs3733.D21.teamB.App;
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
+import edu.wpi.cs3733.D21.teamB.entities.User;
 import edu.wpi.cs3733.D21.teamB.entities.requests.Request;
 import edu.wpi.cs3733.D21.teamB.entities.requests.SecurityRequest;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
@@ -19,14 +20,12 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.ResourceBundle;
-import java.util.UUID;
+import java.util.*;
 
 public class SecurityRequestFormController extends DefaultServiceRequestFormController implements Initializable {
 
     @FXML
-    private JFXTextField assignedTo;
+    private JFXComboBox<String> comboAssignedTo;
 
     @FXML
     private JFXComboBox<String> comboUrgency;
@@ -35,15 +34,22 @@ public class SecurityRequestFormController extends DefaultServiceRequestFormCont
     private JFXTextArea description;
 
     private String id;
+    private final List<User> listStaff = new ArrayList<>();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        super.initialize(location,resources);
+        super.initialize(location, resources);
 
         for (int i = 1; i <= 10; i++) {
             comboUrgency.getItems().add(Integer.toString(i));
         }
 
+        for (User user : DatabaseHandler.getHandler().getUsersByAuthenticationLevel(User.AuthenticationLevel.STAFF)) {
+            comboAssignedTo.getItems().add(user.getFirstName() + " " + user.getLastName());
+            listStaff.add(user);
+        }
+
+        String employeeName = null;
         int index = -1;
         if (SceneSwitcher.peekLastScene().equals("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml")) {
             this.id = (String) App.getPrimaryStage().getUserData();
@@ -55,8 +61,8 @@ public class SecurityRequestFormController extends DefaultServiceRequestFormCont
                 return;
             }
             index = securityRequest.getUrgency() - 1;
-            assignedTo.setText(securityRequest.getEmployeeName());
             getLocationIndex(securityRequest.getLocation());
+            employeeName = securityRequest.getEmployeeName();
             description.setText(securityRequest.getDescription());
         }
         validateButton();
@@ -65,12 +71,12 @@ public class SecurityRequestFormController extends DefaultServiceRequestFormCont
         //assigned to text field
         RequiredFieldValidator validatorAssignedTo = new RequiredFieldValidator();
 
-        assignedTo.getValidators().add(validatorAssignedTo);
+        comboAssignedTo.getValidators().add(validatorAssignedTo);
         validatorAssignedTo.setMessage("Please assign the request!");
 
-        assignedTo.focusedProperty().addListener((observable, oldValue, newValue) -> {
+        comboAssignedTo.focusedProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue) {
-                assignedTo.validate();
+                comboAssignedTo.validate();
             }
         });
 
@@ -113,12 +119,32 @@ public class SecurityRequestFormController extends DefaultServiceRequestFormCont
         //add searchable combo boxes
         new AutoCompleteComboBoxListener<>(comboUrgency);
         if (index != -1) comboUrgency.getSelectionModel().select(index);
+
+        comboAssignedTo.setVisibleRowCount(3);
+        new AutoCompleteComboBoxListener<>(comboAssignedTo);
+
+        if (employeeName != null) setPersonIndex(employeeName);
     }
+
+    /**
+     * Sets position of combo box according to employee name
+     *
+     * @param employeeName the employee name
+     */
+    protected void setPersonIndex(String employeeName) {
+        for (int i = 0; i < listStaff.size(); i++) {
+            if ((listStaff.get(i).getFirstName() + " " + listStaff.get(i).getLastName()).equals(employeeName)) {
+                comboAssignedTo.getSelectionModel().select(i);
+                return;
+            }
+        }
+    }
+
 
     @FXML
     private void validateButton() {
         btnSubmit.setDisable(
-                assignedTo.getText().isEmpty() || loc.getValue() == null ||
+                comboAssignedTo.getSelectionModel().isEmpty() || loc.getValue() == null ||
                         comboUrgency.getValue() == null || description.getText().isEmpty()
         );
     }
@@ -144,7 +170,7 @@ public class SecurityRequestFormController extends DefaultServiceRequestFormCont
             String time = timeFormat.format(dateInfo); // Stored as HH:MM (24 hour time)
             String date = dateFormat.format(dateInfo); // Stored as YYYY-MM-DD
             String complete = "F";
-            String employeeName = assignedTo.getText();
+            String employeeName = comboAssignedTo.getSelectionModel().getSelectedItem();
             String givenDescription = description.getText();
 
             SecurityRequest request = new SecurityRequest(givenUrgency, requestID, time, date, complete, employeeName, getLocation(), givenDescription);

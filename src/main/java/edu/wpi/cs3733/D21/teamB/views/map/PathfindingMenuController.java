@@ -134,12 +134,13 @@ public class PathfindingMenuController extends BasePageController implements Ini
     private String previousFrom = "";
     private String previousStops = "";
     private String previousTo = "";
-
+    private String previousAlgorithm = "";
+    private boolean previousMobility = false;
+    private boolean mapInEditMode = false;
     // JavaFX code **************************************************************************************
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
         //Add better category names to a hash map
         initCategoriesMap();
 
@@ -458,7 +459,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
      * are not equal to each other.
      */
     public void validateFindPathButton() {
-        btnFindPath.setDisable(txtStartLocation.getText().isEmpty() || txtEndLocation.getText().isEmpty() || txtStartLocation.getText().equals(txtEndLocation.getText()));
+        btnFindPath.setDisable(mapInEditMode || txtStartLocation.getText().isEmpty() || txtEndLocation.getText().isEmpty() || txtStartLocation.getText().equals(txtEndLocation.getText()));
     }
 
     /**
@@ -472,7 +473,8 @@ public class PathfindingMenuController extends BasePageController implements Ini
 
         switch (b.getId()) {
             case "btnFindPath":
-                if (!previousFrom.equals(txtStartLocation.getText()) || !previousStops.equals(String.join(" ", mapCache.getStopsList())) || !previousTo.equals(txtEndLocation.getText())) {
+                if (!previousFrom.equals(txtStartLocation.getText()) || !previousStops.equals(String.join(" ", mapCache.getStopsList())) || !previousTo.equals(txtEndLocation.getText())
+                        || !previousAlgorithm.equals(comboPathingType.getSelectionModel().getSelectedItem()) || previousMobility != btnMobility.isSelected()) {
                     mapCache.updateLocations();
                     Map<String, String> longToId = mapCache.makeLongToIDMap();
                     mapPathPopupManager.removeTxtDirPopup();
@@ -486,14 +488,15 @@ public class PathfindingMenuController extends BasePageController implements Ini
                     previousFrom = txtStartLocation.getText();
                     previousStops = String.join(" ", mapCache.getStopsList());
                     previousTo = txtEndLocation.getText();
-
+                    previousAlgorithm = comboPathingType.getSelectionModel().getSelectedItem();
+                    previousMobility = btnMobility.isSelected();
                 }
                 break;
             case "btnEditMap":
                 mapPathPopupManager.removeTxtDirPopup();
                 mapDrawer.removeAllPopups();
                 mapDrawer.removeAllEdges();
-
+                mapInEditMode = !mapInEditMode;
                 mapDrawer.setEditing(!mapDrawer.isEditing());
                 btnFindPath.setDisable(!btnFindPath.isDisable());
 
