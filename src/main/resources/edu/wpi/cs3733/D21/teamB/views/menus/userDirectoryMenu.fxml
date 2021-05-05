@@ -173,7 +173,7 @@
                             <graphic>
                                 <ImageView fitHeight="35.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
-                                        <Image url="@../../../../../../../../../../../../Desktop/backButton.png" />
+                                        <Image url="@../../images/menus/backButton.png" />
                                     </image>
                                 </ImageView>
                             </graphic>
