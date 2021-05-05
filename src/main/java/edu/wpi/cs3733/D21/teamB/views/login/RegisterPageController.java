@@ -14,14 +14,14 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.StackPane;
 
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-public class
-RegisterPageController extends BasePageController implements Initializable {
+public class RegisterPageController extends BasePageController implements Initializable {
 
     @FXML
     public JFXButton btnEmergency;
@@ -53,8 +53,12 @@ RegisterPageController extends BasePageController implements Initializable {
     @FXML
     private JFXButton btnLoginPage;
 
+    @FXML
+    private StackPane stackPane;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        super.initialize(location,resources);
         username.setOnKeyPressed(event -> {
             if (event.getCode().equals(KeyCode.ENTER) && !areFormsEmpty())
                 handleRegisterSubmit();

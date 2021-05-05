@@ -13,6 +13,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -37,10 +38,13 @@ public class LoginPageController extends BasePageController implements Initializ
     @FXML
     private JFXButton btnRegisterPage;
 
+    @FXML
+    private StackPane stackPane;
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        super.initialize(location,resources);
         //Add event listeners to the text boxes so user can submit by pressing enter
         username.setOnKeyPressed(event -> {
             if (event.getCode().equals(KeyCode.ENTER) && !areFormsEmpty()) {

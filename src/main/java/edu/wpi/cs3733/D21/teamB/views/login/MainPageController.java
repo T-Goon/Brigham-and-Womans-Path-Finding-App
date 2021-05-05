@@ -6,6 +6,10 @@ import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
 import edu.wpi.cs3733.D21.teamB.views.BasePageController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.layout.StackPane;
+
+import java.net.URL;
+import java.util.ResourceBundle;
 
 public class MainPageController extends BasePageController {
 
@@ -19,7 +23,13 @@ public class MainPageController extends BasePageController {
     private JFXButton btnCovid;
 
     @FXML
+    private StackPane stackPane;
+
+    @FXML
     private JFXButton btnEmergency;
+
+    @FXML
+    private JFXButton btnSettings;
 
     @FXML
     public void handleButtonAction(ActionEvent e) {
@@ -71,6 +81,14 @@ public class MainPageController extends BasePageController {
             case "btnEmergency":
                 SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
                 break;
+            case "btnSettings":
+                SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/menus/settingsMenu.fxml");
+                break;
         }
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        super.initialize(location, resources);
     }
 }

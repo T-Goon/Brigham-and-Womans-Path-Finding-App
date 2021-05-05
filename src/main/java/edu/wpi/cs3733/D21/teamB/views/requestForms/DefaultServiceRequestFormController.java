@@ -8,7 +8,7 @@ import edu.wpi.cs3733.D21.teamB.App;
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Node;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
-import edu.wpi.cs3733.D21.teamB.views.AutoCompleteComboBoxListener;
+import edu.wpi.cs3733.D21.teamB.util.AutoCompleteComboBoxListener;
 import edu.wpi.cs3733.D21.teamB.views.BasePageController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -54,6 +54,7 @@ public abstract class DefaultServiceRequestFormController extends BasePageContro
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        super.initialize(location,resources);
         App.getPrimaryStage().getScene().addEventFilter(MouseEvent.MOUSE_CLICKED, event -> {
             if (helpPopup != null && !justClicked) {
                 helpHolder.getChildren().remove(helpPopup);

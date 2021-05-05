@@ -36,7 +36,7 @@
                                 <Image url="@../../images/general/hospitalLogo.png" />
                             </image>
                         </ImageView>
-                        <JFXButton fx:id="btnEmergency" buttonType="RAISED" onAction="#handleButtonAction" style="-fx-background-color: #CE2029;" text="EMERGENCY" textFill="WHITE">
+                        <JFXButton fx:id="btnEmergency" accessibleText="Emergency" buttonType="RAISED" onAction="#handleButtonAction" style="-fx-background-color: #CE2029;" text="EMERGENCY" textFill="WHITE">
                             <font>
                                 <Font name="MS Reference Sans Serif" size="16.0" />
                             </font>
@@ -48,7 +48,7 @@
                 </VBox>
                 <VBox alignment="TOP_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
                     <children>
-                        <JFXButton fx:id="btnExit" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" onAction="#handleButtonAction" prefHeight="40.0" prefWidth="40.0" rotate="45.0" style="-fx-background-color: transparent; -fx-background-radius: 50%;" text="+" textAlignment="CENTER">
+                        <JFXButton fx:id="btnExit" accessibleText="Exit" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" onAction="#handleButtonAction" prefHeight="40.0" prefWidth="40.0" rotate="45.0" style="-fx-background-color: transparent; -fx-background-radius: 50%;" text="+" textAlignment="CENTER">
                             <padding>
                                 <Insets bottom="-10.0" left="-10.0" right="-10.0" top="-10.0" />
                             </padding>
@@ -76,17 +76,18 @@
                 </VBox>
             </children>
         </HBox>
-      <StackPane fx:id="stackContainer">
-         <children>
+      <StackPane fx:id="stackPane">
+          <children>
               <HBox alignment="TOP_RIGHT" prefHeight="9.999999999E9" prefWidth="9.99999999E8">
                   <children>
-                      <VBox alignment="BOTTOM_CENTER" minWidth="300.0" prefHeight="675.0" prefWidth="300.0" style="-fx-background-color: #012D5A;">
+                      <VBox alignment="BOTTOM_CENTER" minWidth="300.0" prefHeight="675.0" prefWidth="300.0"
+                            style="-fx-background-color: #012D5A;">
                           <children>
-                        <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
-                           <children>
-                              <VBox prefHeight="200.0" prefWidth="75.0" spacing="5.0" HBox.hgrow="NEVER">
-                                 <children>
-                                     <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="From:">
+                              <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                                  <children>
+                                      <VBox prefHeight="200.0" prefWidth="75.0" spacing="5.0" HBox.hgrow="NEVER">
+                                          <children>
+                                              <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="From:">
                                          <font>
                                              <Font size="18.0" />
                                          </font>
@@ -109,19 +110,19 @@
                               </VBox>
                               <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="100.0" spacing="5.0" HBox.hgrow="ALWAYS">
                                   <children>
-                                      <JFXTextField fx:id="txtStartLocation" editable="false" focusColor="#405aa800" maxWidth="-Infinity" onAction="#validateFindPathButton" prefWidth="230.0" style="-fx-background-color: white; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" />
-                                      <JFXTextArea fx:id="txtAreaStops" editable="false" maxHeight="1.7976931348623157E308" prefHeight="300.0" prefWidth="300.0" style="-fx-background-color: white; -fx-background-radius: 7;" />
-                                      <JFXTextField fx:id="txtEndLocation" editable="false" focusColor="#405aa800" maxWidth="-Infinity" onAction="#validateFindPathButton" prefWidth="230.0" style="-fx-background-color: white; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" />
+                                      <JFXTextField fx:id="txtStartLocation" accessibleText="Start Location" editable="false" focusColor="#405aa800" maxWidth="-Infinity" onAction="#validateFindPathButton" prefWidth="230.0" style="-fx-background-color: white; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" />
+                                      <JFXTextArea fx:id="txtAreaStops" accessibleText="Area Stops" editable="false" maxHeight="1.7976931348623157E308" prefHeight="300.0" prefWidth="300.0" style="-fx-background-color: white; -fx-background-radius: 7;" />
+                                      <JFXTextField fx:id="txtEndLocation" accessibleText="End Location" editable="false" focusColor="#405aa800" maxWidth="-Infinity" onAction="#validateFindPathButton" prefWidth="230.0" style="-fx-background-color: white; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" />
                                       <VBox spacing="5.0">
                                           <children>
                                               <HBox spacing="10.0">
                                                   <children>
-                                                      <JFXButton fx:id="btnRemoveStop" disable="true" onAction="#handleButtonAction" prefHeight="30.0" prefWidth="100.0" style="-fx-background-color: #CE2029; -fx-background-radius: 5;" text="Remove Stop" textFill="WHITE">
+                                                      <JFXButton fx:id="btnRemoveStop" accessibleText="Remove Stop" disable="true" onAction="#handleButtonAction" prefHeight="30.0" prefWidth="100.0" style="-fx-background-color: #CE2029; -fx-background-radius: 5;" text="Remove Stop" textFill="WHITE">
                                                           <font>
                                                               <Font name="System Bold" size="12.0" />
                                                           </font>
                                                       </JFXButton>
-                                                      <JFXButton fx:id="btnFindPath" onAction="#handleButtonAction" prefHeight="30.0" prefWidth="100.0" style="-fx-background-color: #F6BD39; -fx-background-radius: 5;" text="Go" textFill="#012d5a">
+                                                      <JFXButton fx:id="btnFindPath" accessibleText="Find Path" onAction="#handleButtonAction" prefHeight="30.0" prefWidth="100.0" style="-fx-background-color: #F6BD39; -fx-background-radius: 5;" text="Go" textFill="#012d5a">
                                                           <font>
                                                               <Font name="System Bold" size="12.0" />
                                                           </font>
@@ -130,7 +131,7 @@
                                               </HBox>
                                               <HBox alignment="CENTER">
                                                   <children>
-                                                      <JFXCheckBox fx:id="btnMobility" stylesheets="@../../css/covidSurvey.css" text="Limited Mobility Path" textFill="WHITE" unCheckedColor="#595959">
+                                                      <JFXCheckBox fx:id="btnMobility" accessibleText="Limited Mobility Path" stylesheets="@../../css/covidSurvey.css" text="Limited Mobility Path" textFill="WHITE" unCheckedColor="#595959">
                                                    <HBox.margin>
                                                       <Insets top="5.0"/>
                                                    </HBox.margin></JFXCheckBox>
@@ -183,7 +184,7 @@
                               </HBox>
                         <HBox>
                             <children>
-                                <JFXTextField fx:id="txtSearch" focusColor="#405aa800" onKeyReleased="#handleKeysPressedSearchBar" promptText="Search location..." style="-fx-background-color: #FFFFFF; -fx-background-radius: 5px;" unFocusColor="#4d4d4d00" HBox.hgrow="ALWAYS">
+                                <JFXTextField fx:id="txtSearch" accessibleText="Search" focusColor="#405aa800" onKeyReleased="#handleKeysPressedSearchBar" promptText="Search location..." style="-fx-background-color: #FFFFFF; -fx-background-radius: 5px;" unFocusColor="#4d4d4d00" HBox.hgrow="ALWAYS">
                                     <HBox.margin>
                                         <Insets left="5.0" right="5.0" />
                                     </HBox.margin>
@@ -192,7 +193,7 @@
                         </HBox>
                         <HBox alignment="CENTER" layoutX="15.0" layoutY="197.0" maxHeight="1.7976931348623157E308" VBox.vgrow="ALWAYS">
                            <children>
-                              <JFXTreeView fx:id="treeLocations" onMouseClicked="#handleLocationSelected" style="-fx-background-radius: 7;" stylesheets="@../../css/treeView.css" HBox.hgrow="ALWAYS">
+                              <JFXTreeView fx:id="treeLocations" accessibleText="Locations by category" onMouseClicked="#handleLocationSelected" style="-fx-background-radius: 7;" stylesheets="@../../css/treeView.css" HBox.hgrow="ALWAYS">
                                  <HBox.margin>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </HBox.margin>
@@ -201,7 +202,7 @@
                         </HBox>
                               <HBox>
                                   <children>
-                                      <JFXButton fx:id="btnTxtDir" buttonType="RAISED" disable="true" onAction="#handleButtonAction" prefWidth="9001.0" style="-fx-background-color: F6BD39;" text="Text Directions" textOverrun="CLIP">
+                                      <JFXButton fx:id="btnTxtDir" accessibleText="Text Directions" buttonType="RAISED" disable="true" onAction="#handleButtonAction" prefWidth="9001.0" style="-fx-background-color: F6BD39;" text="Text Directions" textOverrun="CLIP">
                                           <font>
                                               <Font size="14.0" />
                                           </font>
@@ -256,7 +257,7 @@
                                   <children>
                                       <VBox alignment="BOTTOM_LEFT" HBox.hgrow="ALWAYS">
                                           <children>
-                                              <JFXButton fx:id="btnBack" alignment="CENTER" buttonType="RAISED" cancelButton="true" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" onAction="#handleButtonAction" prefHeight="56" prefWidth="56" style="-fx-background-color: #0067B1; -fx-background-radius: 50%;" text="🡰" textAlignment="CENTER" textFill="WHITE">
+                                              <JFXButton fx:id="btnBack" accessibleText="Leave page" alignment="CENTER" buttonType="RAISED" cancelButton="true" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" onAction="#handleButtonAction" prefHeight="56" prefWidth="56" style="-fx-background-color: #0067B1; -fx-background-radius: 50%;" text="🡰" textAlignment="CENTER" textFill="WHITE">
                                                   <font>
                                                       <Font size="27.0" />
                                                   </font>
@@ -290,7 +291,7 @@
                                       </VBox>
                               <VBox alignment="BOTTOM_RIGHT" HBox.hgrow="ALWAYS">
                                  <children>
-                                    <JFXButton fx:id="btnHelp" buttonType="RAISED" maxHeight="56.0" maxWidth="56.0" onAction="#handleButtonAction" prefHeight="56.0" prefWidth="56.0" style="-fx-background-color: #9A9999; -fx-background-radius: 50%;" text="?" textFill="WHITE">
+                                    <JFXButton fx:id="btnHelp" accessibleText="Help" buttonType="RAISED" maxHeight="56.0" maxWidth="56.0" onAction="#handleButtonAction" prefHeight="56.0" prefWidth="56.0" style="-fx-background-color: #9A9999; -fx-background-radius: 50%;" text="?" textFill="WHITE">
                                        <font>
                                           <Font name="MS Reference Sans Serif" size="27.0" />
                                        </font>
@@ -432,27 +433,27 @@
                                      </VBox>
                                     <VBox alignment="TOP_RIGHT" maxHeight="100.0" maxWidth="55.0">
                                        <children>
-                                          <JFXButton fx:id="btnF3" maxHeight="20.0" maxWidth="45.0" onAction="#handleButtonAction" style="-fx-background-color: F6BD39; -fx-border-color: #012D5A;" text="3">
+                                          <JFXButton fx:id="btnF3" accessibleText="Floor 3" maxHeight="20.0" maxWidth="45.0" onAction="#handleButtonAction" style="-fx-background-color: F6BD39; -fx-border-color: #012D5A;" text="3">
                                              <font>
                                                 <Font name="MS Reference Sans Serif" size="14.0" />
                                              </font>
                                           </JFXButton>
-                                          <JFXButton fx:id="btnF2" maxHeight="20.0" maxWidth="45.0" onAction="#handleButtonAction" style="-fx-background-color: F6BD39; -fx-border-color: #012D5A;" text="2">
+                                          <JFXButton fx:id="btnF2" accessibleText="Floor 2" maxHeight="20.0" maxWidth="45.0" onAction="#handleButtonAction" style="-fx-background-color: F6BD39; -fx-border-color: #012D5A;" text="2">
                                              <font>
                                                 <Font name="MS Reference Sans Serif" size="14.0" />
                                              </font>
                                           </JFXButton>
-                                          <JFXButton fx:id="btnF1" maxHeight="20.0" maxWidth="45.0" onAction="#handleButtonAction" style="-fx-background-color: F6BD39; -fx-border-color: #012D5A;" text="1">
+                                          <JFXButton fx:id="btnF1" accessibleText="Floor 1" maxHeight="20.0" maxWidth="45.0" onAction="#handleButtonAction" style="-fx-background-color: F6BD39; -fx-border-color: #012D5A;" text="1">
                                              <font>
                                                 <Font name="MS Reference Sans Serif" size="14.0" />
                                              </font>
                                           </JFXButton>
-                                          <JFXButton fx:id="btnFL1" maxHeight="20.0" maxWidth="45.0" onAction="#handleButtonAction" style="-fx-background-color: F6BD39; -fx-border-color: #012D5A;" text="L1">
+                                          <JFXButton fx:id="btnFL1" accessibleText="Floor lower 1" maxHeight="20.0" maxWidth="45.0" onAction="#handleButtonAction" style="-fx-background-color: F6BD39; -fx-border-color: #012D5A;" text="L1">
                                              <font>
                                                 <Font name="MS Reference Sans Serif" size="14.0" />
                                              </font>
                                           </JFXButton>
-                                          <JFXButton fx:id="btnFL2" maxHeight="20.0" maxWidth="45.0" onAction="#handleButtonAction" style="-fx-background-color: F6BD39; -fx-border-color: #012D5A;" text="L2">
+                                          <JFXButton fx:id="btnFL2" accessibleText="Floor lower 2" maxHeight="20.0" maxWidth="45.0" onAction="#handleButtonAction" style="-fx-background-color: F6BD39; -fx-border-color: #012D5A;" text="L2">
                                              <font>
                                                 <Font name="MS Reference Sans Serif" size="14.0" />
                                              </font>

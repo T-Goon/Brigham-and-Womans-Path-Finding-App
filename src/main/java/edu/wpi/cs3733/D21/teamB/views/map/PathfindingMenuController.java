@@ -92,7 +92,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
 
     @FXML
     private StackPane mapStack,
-            stackContainer,
+            stackPane,
             textDirectionsHolder;
 
     @FXML
@@ -141,6 +141,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        super.initialize(location, resources);
         //Add better category names to a hash map
         initCategoriesMap();
 
@@ -722,7 +723,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
 
         helpLayout.setHeading(headerLabel);
         helpLayout.setBody(helpText);
-        JFXDialog helpWindow = new JFXDialog(stackContainer, helpLayout, JFXDialog.DialogTransition.CENTER);
+        JFXDialog helpWindow = new JFXDialog(stackPane, helpLayout, JFXDialog.DialogTransition.CENTER);
 
         JFXButton button = new JFXButton("Close");
         button.setOnAction(event -> helpWindow.close());

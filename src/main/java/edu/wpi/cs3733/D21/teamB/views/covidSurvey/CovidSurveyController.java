@@ -14,6 +14,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.StackPane;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -81,6 +82,9 @@ public class CovidSurveyController extends DefaultServiceRequestFormController i
 
     @FXML
     private ToggleGroup testGroup;
+
+    @FXML
+    private StackPane stackPane;
 
     //State (per-view)
     private CovidSurveyRequest request;
