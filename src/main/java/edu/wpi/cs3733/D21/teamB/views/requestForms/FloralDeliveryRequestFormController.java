@@ -21,10 +21,8 @@ import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.ResourceBundle;
-import java.util.UUID;
+import java.time.ZoneId;
+import java.util.*;
 
 public class FloralDeliveryRequestFormController extends DefaultServiceRequestFormController implements Initializable {
 
@@ -150,10 +148,22 @@ public class FloralDeliveryRequestFormController extends DefaultServiceRequestFo
         RequiredFieldValidator validatorDate = new RequiredFieldValidator();
 
         deliveryDate.getValidators().add(validatorDate);
-        validatorDate.setMessage("Please select the date for delivery!");
+        validatorDate.setMessage("Please select a valid date for delivery!");
+
+        Calendar currentDate = Calendar.getInstance();
+        currentDate.add(Calendar.DATE, -1);
+        Calendar selectedDate = Calendar.getInstance();
 
         deliveryDate.focusedProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue) {
+                try {
+                    selectedDate.setTime(Date.from(deliveryDate.getValue().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()));
+                    if (selectedDate.compareTo(currentDate) < 0) {
+                        deliveryDate.setValue(null);
+                    }
+                } catch (Exception ignored) {
+
+                }
                 deliveryDate.validate();
             }
         });
@@ -162,10 +172,17 @@ public class FloralDeliveryRequestFormController extends DefaultServiceRequestFo
         RequiredFieldValidator validatorStartTime = new RequiredFieldValidator();
 
         startTime.getValidators().add(validatorStartTime);
-        validatorStartTime.setMessage("Please select the start time!");
+        validatorStartTime.setMessage("Please select a valid start time!");
 
         startTime.focusedProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue) {
+                try {
+                    if (startTime.getValue().getHour() > endTime.getValue().getHour()) {
+                        startTime.setValue(null);
+                    }
+                } catch (Exception ignored) {
+
+                }
                 startTime.validate();
             }
         });
@@ -174,10 +191,17 @@ public class FloralDeliveryRequestFormController extends DefaultServiceRequestFo
         RequiredFieldValidator validatorEndTime = new RequiredFieldValidator();
 
         endTime.getValidators().add(validatorEndTime);
-        validatorEndTime.setMessage("Please select the end time!");
+        validatorEndTime.setMessage("Please select a valid end time!");
 
         endTime.focusedProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue) {
+                try {
+                    if (endTime.getValue().getHour() < startTime.getValue().getHour()) {
+                        endTime.setValue(null);
+                    }
+                } catch (Exception ignored) {
+
+                }
                 endTime.validate();
             }
         });
@@ -193,8 +217,6 @@ public class FloralDeliveryRequestFormController extends DefaultServiceRequestFo
                 message.validate();
             }
         });
-
-
     }
 
     @FXML
@@ -280,7 +302,9 @@ public class FloralDeliveryRequestFormController extends DefaultServiceRequestFo
                 patientName.getText().isEmpty() || loc.getValue() == null ||
                         deliveryDate.getValue() == null || startTime.getValue() == null ||
                         endTime.getValue() == null || message.getText().isEmpty() ||
-                        !(roses.isSelected() || tulips.isSelected() || daisies.isSelected() || lilies.isSelected() || sunflowers.isSelected() || carnations.isSelected() || orchids.isSelected())
+                        !(roses.isSelected() || tulips.isSelected() || daisies.isSelected() || lilies.isSelected() ||
+                                sunflowers.isSelected() || carnations.isSelected() || orchids.isSelected()
+                                || super.validateCommon())
         );
     }
 }

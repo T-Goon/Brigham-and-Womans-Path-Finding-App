@@ -28,6 +28,12 @@ public class EditUserController extends BasePageController implements Initializa
     private JFXTextField username;
 
     @FXML
+    private JFXTextField email;
+
+    @FXML
+    private Label lblError;
+
+    @FXML
     private JFXTextField firstName;
 
     @FXML
@@ -52,13 +58,15 @@ public class EditUserController extends BasePageController implements Initializa
     private JFXButton btnSubmit;
 
     @FXML
-    private StackPane stackContainer;
+    private StackPane stackPane;
 
     @FXML
     private Text bigText;
 
     @FXML
     private Text smallText;
+
+    private String originalEmail;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -77,6 +85,8 @@ public class EditUserController extends BasePageController implements Initializa
             smallText.setText("Add User");
         }
         username.setText(u.getUsername());
+        email.setText(u.getEmail());
+        originalEmail = email.getText();
         firstName.setText(u.getFirstName());
         lastName.setText(u.getLastName());
         int i = 0;
@@ -113,6 +123,7 @@ public class EditUserController extends BasePageController implements Initializa
         switch (btn.getId()) {
             case "btnSubmit":
                 String uUsername = username.getText();
+                String uEmail = email.getText();
                 String uFirstName = firstName.getText();
                 String uLastName = lastName.getText();
                 User.AuthenticationLevel uAuthLevel = User.AuthenticationLevel.valueOf(authenticationLevel.getValue().getText());
@@ -125,8 +136,7 @@ public class EditUserController extends BasePageController implements Initializa
                         uJobs.add(uJob);
                     }
                 }
-                User uUpdated = new User(uUsername, uFirstName, uLastName, uAuthLevel, uJobs);
-
+                User uUpdated = new User(uUsername, uEmail, uFirstName, uLastName, uAuthLevel, uJobs);
                 try {
                     if (SceneSwitcher.addingUser) {
                         DatabaseHandler.getHandler().addUser(uUpdated, password.getText());
@@ -136,16 +146,16 @@ public class EditUserController extends BasePageController implements Initializa
                 } catch (SQLException e) {
                     throw new IllegalStateException("Username not found when updating; This should never happen");
                 }
-                SceneSwitcher.goBack(getClass(), 1);
+                SceneSwitcher.goBack(1);
                 break;
             case "btnCancel":
-                SceneSwitcher.goBack(getClass(), 1);
+                SceneSwitcher.goBack(1);
                 break;
             case "btnHelp":
                 loadHelpDialog();
                 break;
             case "btnEmergency":
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/cs3733/D21/teamB/views/menus/editUserMenu.fxml", "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
+                SceneSwitcher.switchScene("/edu/wpi/cs3733/D21/teamB/views/menus/editUserMenu.fxml", "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
                 break;
         }
     }
@@ -162,7 +172,7 @@ public class EditUserController extends BasePageController implements Initializa
 
         helpLayout.setHeading(headerLabel);
         helpLayout.setBody(helpText);
-        JFXDialog helpWindow = new JFXDialog(stackContainer, helpLayout, JFXDialog.DialogTransition.CENTER);
+        JFXDialog helpWindow = new JFXDialog(stackPane, helpLayout, JFXDialog.DialogTransition.CENTER);
 
         JFXButton button = new JFXButton("Close");
         button.setOnAction(event -> helpWindow.close());
@@ -175,11 +185,28 @@ public class EditUserController extends BasePageController implements Initializa
     @FXML
     private void validateButtons() {
         btnSubmit.setDisable(
-                username.getText().isEmpty() || firstName.getText().isEmpty() || lastName.getText().isEmpty() ||
+                username.getText().isEmpty() || email.getText().isEmpty() || firstName.getText().isEmpty() || lastName.getText().isEmpty() ||
                         authenticationLevel.getValue() == null
         );
 
         username.setDisable(!SceneSwitcher.addingUser);
         password.setDisable(!SceneSwitcher.addingUser);
+
+        validateEmail();
+    }
+
+    @FXML
+    private void validateEmail() {
+        if (!originalEmail.equals(email.getText()) && DatabaseHandler.getHandler().getUserByEmail(email.getText()) != null) {
+            lblError.setText("Email address is already taken!");
+            lblError.setVisible(true);
+            btnSubmit.setDisable(true);
+        } else if (!email.getText().isEmpty() && !email.getText().contains("@")) {
+            lblError.setText("Email address must be valid!");
+            lblError.setVisible(true);
+            btnSubmit.setDisable(true);
+        } else {
+            lblError.setVisible(false);
+        }
     }
 }

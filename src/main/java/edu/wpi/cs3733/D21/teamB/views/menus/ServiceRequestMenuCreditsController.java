@@ -119,11 +119,11 @@ public class ServiceRequestMenuCreditsController extends BasePageController {
                 break;
             case "btnShowCredits":
             case "btnBack":
-                SceneSwitcher.goBack(getClass(), 1);
+                SceneSwitcher.goBack(1);
                 return;
         }
 
         if (path != null)
-            SceneSwitcher.switchFromTemp(getClass(), path);
+            SceneSwitcher.switchFromTemp(path);
     }
 }

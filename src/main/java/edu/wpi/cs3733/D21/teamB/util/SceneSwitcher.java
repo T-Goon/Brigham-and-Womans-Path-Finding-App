@@ -29,16 +29,15 @@ public class SceneSwitcher {
      * Goes back to a previous page by popping from the stack
      * however many times it is requested to
      *
-     * @param newClass the class instance
      * @param pagesBack the number of pages to go back
      */
-    public static void goBack(Class newClass, int pagesBack) {
+    public static void goBack(int pagesBack) {
         if (stack.isEmpty()) return;
         String path = "";
         for (int i = 0; i < pagesBack; i++)
             if (!stack.isEmpty()) path = stack.pop();
         try {
-            Pane root = FXMLLoader.load(Objects.requireNonNull(newClass.getResource(path)));
+            Pane root = FXMLLoader.load(Objects.requireNonNull(SceneSwitcher.class.getResource(path)));
             App.getPrimaryStage().getScene().setRoot(root);
         } catch (IOException e) {
             System.err.println("Path \"" + path + "\" is malformed or nonexistent!");
@@ -50,12 +49,11 @@ public class SceneSwitcher {
     /**
      * Switches to a scene, but doesn't add it to the stack
      *
-     * @param newClass the class instance
-     * @param path     the path to the FXML file to switch to
+     * @param path the path to the FXML file to switch to
      */
-    public static void switchFromTemp(Class newClass, String path) {
+    public static void switchFromTemp(String path) {
         try {
-            Parent root = FXMLLoader.load(Objects.requireNonNull(newClass.getResource(path)));
+            Parent root = FXMLLoader.load(Objects.requireNonNull(SceneSwitcher.class.getResource(path)));
             App.getPrimaryStage().getScene().setRoot(root);
         } catch (IOException e) {
             System.err.println("Path \"" + path + "\" is malformed or nonexistent!");
@@ -66,17 +64,25 @@ public class SceneSwitcher {
     /**
      * Switches to a scene and removes it from the stack.
      *
-     * @param newClass the class instance
      * @param path     the path to the FXML file to switch to
      */
-    public static void switchScene(Class newClass, String oldPath, String path) {
+    public static void switchScene(String oldPath, String path) {
         stack.push(oldPath);
         try {
-            Parent root = FXMLLoader.load(Objects.requireNonNull(newClass.getResource(path)));
+            Parent root = FXMLLoader.load(Objects.requireNonNull(SceneSwitcher.class.getResource(path)));
             App.getPrimaryStage().getScene().setRoot(root);
         } catch (IOException e) {
             System.err.println("Path \"" + path + "\" is malformed or nonexistent!");
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Adds a page to the stack (useful for injecting a page between the next page's back button and this one)
+     *
+     * @param path the path to the FXML file to push
+     */
+    public static void pushPath(String path){
+        stack.push(path);
     }
 }

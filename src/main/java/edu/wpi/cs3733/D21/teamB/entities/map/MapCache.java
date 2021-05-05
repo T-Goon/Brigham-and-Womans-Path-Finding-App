@@ -4,6 +4,8 @@ import edu.wpi.cs3733.D21.teamB.entities.map.data.Node;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Path;
 import edu.wpi.cs3733.D21.teamB.pathfinding.Graph;
 import javafx.scene.control.TreeItem;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import lombok.Getter;
@@ -13,25 +15,38 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class MapCache {
 
     @Getter
     @Setter
-    private List<Line> edgesPlaced = new ArrayList<>();
-    @Getter
-    @Setter
-    private List<javafx.scene.Node> nodePlaced = new ArrayList<>();
-    @Getter
-    private List<Node> editedNodes = new ArrayList<>();
+    private List<Line> edgesPlaced = new ArrayList<>(); // All of the lines currently placed on the map
 
     @Getter
     @Setter
-    private List<javafx.scene.Node> intermediateNodePlaced = new ArrayList<>();
+    private Map<String, List<Line>> instructionsToEdges = new HashMap<>(); // Instructions to lists of lines involved with that instruction
 
     @Getter
-    private final Map<String, List<Node>> floorNodes = new HashMap<>();
+    @Setter
+    private List<javafx.scene.Node> nodePlaced = new ArrayList<>(); // All of the nodes currently placed on the map
+
+    @Getter
+    private final List<Node> editedNodes = new ArrayList<>(); // All nodes that have had color changes due to pathfinding
+    @Getter
+    private final Map<String, Color> editedNodesColor = new HashMap<>(); // NodeID -> old color of nodes in edited nodes list
+
+    @Getter
+    private final List<VBox> floorIndicators = new ArrayList<>(); // The text next to the nodes that indicate up and down
+    // floor movements
+
+    @Getter
+    @Setter
+    private List<javafx.scene.Node> intermediateNodePlaced = new ArrayList<>(); // All of the intermediate nodes placed
+    // on the map
+
+    @Getter
+    private final Map<String, List<Node>> floorNodes = new HashMap<>(); // map of floorid to list of nodes on that floor
+
     @Getter
     @Setter
     private String currentFloor = FloorSwitcher.floor1ID;
@@ -53,14 +68,14 @@ public class MapCache {
 
     @Getter
     @Setter
-    private List<String> stopsList = new ArrayList<>();
+    private List<String> stopsList = new ArrayList<>(); // List of node stops in the pathfinding
 
     @Getter
     @Setter
     private Path finalPath;
 
     @Getter
-    private final Map<String, String> categoryNameMap = new HashMap<>();
+    private final Map<String, String> categoryNameMap = new HashMap<>(); // Map of category short name -> category long name
 
     public MapCache(){
         categoryNameMap.put("SERV", "Services");
@@ -98,7 +113,7 @@ public class MapCache {
                     tempList.add(tempItem);
                     catNameMap.put(n.getNodeType(), tempList);
                 } else {
-                    if (catNameMap.get(n.getNodeType()).stream().filter(item -> item.getValue().equals(n.getLongName())).count() == 0) {
+                    if (catNameMap.get(n.getNodeType()).stream().noneMatch(item -> item.getValue().equals(n.getLongName()))) {
 
                         catNameMap.get(n.getNodeType()).add(new TreeItem<>(n.getLongName()));
                     }

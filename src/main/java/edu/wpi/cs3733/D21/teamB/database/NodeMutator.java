@@ -3,7 +3,6 @@ package edu.wpi.cs3733.D21.teamB.database;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Edge;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Node;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.NodeType;
-import edu.wpi.cs3733.D21.teamB.pathfinding.Graph;
 import javafx.scene.paint.Color;
 
 import java.sql.ResultSet;
@@ -71,7 +70,6 @@ public class NodeMutator implements IDatabaseEntityMutator<Node> {
                 + "', '" + node.getColor().toString()
                 + "')";
         db.runStatement(query, false);
-        Graph.getGraph().updateGraph();
     }
 
 
@@ -91,7 +89,6 @@ public class NodeMutator implements IDatabaseEntityMutator<Node> {
                 + "', color = '" + node.getColor().toString()
                 + "' WHERE nodeID = '" + node.getNodeID() + "'";
         db.runStatement(query, false);
-        Graph.getGraph().updateGraph();
     }
 
     /**
@@ -104,7 +101,6 @@ public class NodeMutator implements IDatabaseEntityMutator<Node> {
         String nodeQuery = "DELETE FROM Nodes WHERE nodeID = '" + nodeID + "'";
         db.runStatement(edgesQuery, false);
         db.runStatement(nodeQuery, false);
-        Graph.getGraph().updateGraph();
     }
 
     /**

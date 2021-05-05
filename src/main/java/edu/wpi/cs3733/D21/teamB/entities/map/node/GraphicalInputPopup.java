@@ -5,7 +5,6 @@ import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.GraphicalInputData;
 import edu.wpi.cs3733.D21.teamB.util.Popup.Poppable;
 import edu.wpi.cs3733.D21.teamB.util.Popup.Popup;
-import edu.wpi.cs3733.D21.teamB.views.map.misc.GraphicalInputController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TreeItem;
 import javafx.scene.layout.Pane;
@@ -33,7 +32,7 @@ public class GraphicalInputPopup extends Popup<VBox, GraphicalInputData> impleme
      */
     public void setStart() {
         data.getStartTxt().setText(
-                data.getNodeName()
+                data.getNode().getLongName()
         );
         data.getMd().removeAllPopups();
         data.getPfmc().validateFindPathButton();
@@ -44,7 +43,7 @@ public class GraphicalInputPopup extends Popup<VBox, GraphicalInputData> impleme
      */
     public void setEnd() {
         data.getEndTxt().setText(
-                data.getNodeName()
+                data.getNode().getLongName()
         );
         data.getMd().removeAllPopups();
         data.getPfmc().validateFindPathButton();
@@ -57,8 +56,8 @@ public class GraphicalInputPopup extends Popup<VBox, GraphicalInputData> impleme
         List<String> stopsList = data.getMc().getStopsList();
 
         // Only add stop if it has not been added just recently
-        if (stopsList.size() == 0 || !stopsList.get(stopsList.size() - 1).equals(data.getNodeName())) {
-            stopsList.add(data.getNodeName());
+        if (stopsList.size() == 0 || !stopsList.get(stopsList.size() - 1).equals(data.getNode().getLongName())) {
+            stopsList.add(data.getNode().getLongName());
             data.getPfmc().displayStops(stopsList);
         }
 
@@ -70,23 +69,41 @@ public class GraphicalInputPopup extends Popup<VBox, GraphicalInputData> impleme
 
     /**
      * Add a favorite location to the tree view
+     *
+     * @return true if favorites has a parking spot
      */
-    public void addFavorite() {
+    public boolean addFavorite() {
         // Get tree item and item to add
         TreeItem<String> favorites = data.getPfmc().getFavorites();
-        TreeItem<String> itemToAdd = new TreeItem<>(data.getNodeName());
+        TreeItem<String> itemToAdd = new TreeItem<>(data.getNode().getLongName());
 
         // Check if the location is already in favorites
         boolean contains = false;
         for (TreeItem<String> item : favorites.getChildren()) {
-            if (item.getValue().equals(data.getNodeName())) {
+            if (item.getValue().equals(data.getNode().getLongName())) {
                 contains = true;
                 break;
             }
         }
 
+        // Check if the location is a parking spot
+        boolean hasParking = false;
+        if (data.getNode().getLongName().contains("Park")) {
+            try {
+                List<String> locations = DatabaseHandler.getHandler().getFavorites();
+                for (String location : locations) {
+                    if (location.contains("Park")) {
+                        hasParking = true;
+                        break;
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
         // Add the location to favorites
-        if (!contains) {
+        if (!contains && !hasParking) {
             favorites.getChildren().add(itemToAdd);
             try {
                 DatabaseHandler.getHandler().addFavoriteLocation(itemToAdd.getValue());
@@ -94,6 +111,8 @@ public class GraphicalInputPopup extends Popup<VBox, GraphicalInputData> impleme
                 e.printStackTrace();
             }
         }
+
+        return hasParking;
     }
 
     /**
@@ -106,7 +125,7 @@ public class GraphicalInputPopup extends Popup<VBox, GraphicalInputData> impleme
 
         // Find the location to remove
         for (TreeItem<String> item : favorites.getChildren()) {
-            if (item.getValue().equals(data.getNodeName())) {
+            if (item.getValue().equals(data.getNode().getLongName())) {
                 toRemove.add(item);
                 try {
                     DatabaseHandler.getHandler().removeFavoriteLocation(item.getValue());
@@ -121,10 +140,21 @@ public class GraphicalInputPopup extends Popup<VBox, GraphicalInputData> impleme
     /**
      * Check if the location is a favorite
      *
+     * @param longName the location's long name
      * @return true if the location is a favorite
      */
     public boolean isFavorite(String longName) {
-        return longName.equals(data.getNodeName());
+        return longName.equals(data.getNode().getLongName());
+    }
+
+    /**
+     * Check if the location is a parking spot
+     *
+     * @param longName the location's long name
+     * @return true if the location is a parking spot
+     */
+    public boolean isParking(String longName) {
+        return longName.contains("Park");
     }
 
     /**

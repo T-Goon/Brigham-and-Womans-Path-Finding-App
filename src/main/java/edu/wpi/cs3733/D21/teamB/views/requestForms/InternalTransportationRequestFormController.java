@@ -7,9 +7,9 @@ import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.requests.InternalTransportRequest;
 import edu.wpi.cs3733.D21.teamB.entities.requests.Request;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
+import edu.wpi.cs3733.D21.teamB.util.AutoCompleteComboBoxListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
 import javafx.fxml.Initializable;
 
 import java.net.URL;
@@ -27,7 +27,7 @@ public class InternalTransportationRequestFormController extends DefaultServiceR
     private JFXTextField name;
 
     @FXML
-    private JFXComboBox<Label> comboTranspType;
+    private JFXComboBox<String> comboTranspType;
 
     @FXML
     private JFXTextArea description;
@@ -43,10 +43,11 @@ public class InternalTransportationRequestFormController extends DefaultServiceR
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location,resources);
-        comboTranspType.getItems().add(new Label("Wheelchair"));
-        comboTranspType.getItems().add(new Label("Stretcher"));
-        comboTranspType.getItems().add(new Label("Gurney"));
+        comboTranspType.getItems().add("Wheelchair");
+        comboTranspType.getItems().add("Stretcher");
+        comboTranspType.getItems().add("Gurney");
 
+        int index = -1;
         if (SceneSwitcher.peekLastScene().equals("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml")) {
             this.id = (String) App.getPrimaryStage().getUserData();
             InternalTransportRequest internalTransportRequest;
@@ -58,7 +59,6 @@ public class InternalTransportationRequestFormController extends DefaultServiceR
             }
             name.setText(internalTransportRequest.getPatientName());
             getLocationIndex(internalTransportRequest.getLocation());
-            int index = -1;
             switch (internalTransportRequest.getTransportType()) {
                 case "Wheelchair":
                     index = 0;
@@ -70,7 +70,6 @@ public class InternalTransportationRequestFormController extends DefaultServiceR
                     index = 2;
                     break;
             }
-            comboTranspType.getSelectionModel().select(index);
             description.setText(internalTransportRequest.getDescription());
             unconscious.setSelected(internalTransportRequest.getUnconscious().equals("T"));
             infectious.setSelected(internalTransportRequest.getInfectious().equals("T"));
@@ -125,6 +124,11 @@ public class InternalTransportationRequestFormController extends DefaultServiceR
                 description.validate();
             }
         });
+
+        //add searchable combo box
+        comboTranspType.setVisibleRowCount(3);
+        new AutoCompleteComboBoxListener<>(comboTranspType);
+        if (index != -1) comboTranspType.getSelectionModel().select(index);
     }
 
     public void handleButtonAction(ActionEvent e) {
@@ -133,7 +137,7 @@ public class InternalTransportationRequestFormController extends DefaultServiceR
         JFXButton btn = (JFXButton) e.getSource();
         if (btn.getId().equals("btnSubmit")) {
             String givenPatientName = name.getText();
-            String givenTransportType = comboTranspType.getValue().getText();
+            String givenTransportType = comboTranspType.getValue();
             String givenUnconscious = unconscious.isSelected() ? "T" : "F";
             String givenInfectious = infectious.isSelected() ? "T" : "F";
 
@@ -184,7 +188,8 @@ public class InternalTransportationRequestFormController extends DefaultServiceR
     private void validateButton(){
         btnSubmit.setDisable(
                 name.getText().isEmpty() || loc.getValue() == null ||
-                comboTranspType.getValue() == null || description.getText().isEmpty()
+                comboTranspType.getValue() == null || description.getText().isEmpty() || super.validateCommon() ||
+                !comboTranspType.getItems().contains(comboTranspType.getValue())
         );
     }
 }

@@ -585,7 +585,7 @@ public class DatabaseHandlerTest {
 
     @Test
     public void testAddGetUser() {
-        User user = new User("testuser", "Testing", "User", User.AuthenticationLevel.STAFF, Collections.singletonList(Request.RequestType.LAUNDRY));
+        User user = new User("testuser", "", "Testing", "User", User.AuthenticationLevel.STAFF, Collections.singletonList(Request.RequestType.LAUNDRY));
         try {
             db.addUser(user, "password");
         } catch (SQLException e) {
@@ -599,7 +599,7 @@ public class DatabaseHandlerTest {
 
     @Test
     public void testAuthentication() {
-        User user = new User("testuser", "Testing", "User", User.AuthenticationLevel.STAFF, Collections.singletonList(Request.RequestType.CASE_MANAGER));
+        User user = new User("testuser", "", "Testing", "User", User.AuthenticationLevel.STAFF, Collections.singletonList(Request.RequestType.CASE_MANAGER));
         try {
             db.addUser(user, "password");
         } catch (SQLException e) {
@@ -609,8 +609,9 @@ public class DatabaseHandlerTest {
         User authentication = db.authenticate("testuser", "password");
         assertEquals(authentication, user);
         assertEquals(db.getAuthenticationUser(), authentication);
+        db.deauthenticate();
         assertNull(db.authenticate("testuser", "pasword"));
-        assertEquals(db.getAuthenticationUser(), new User(null, null, null, User.AuthenticationLevel.GUEST, null));
+        assertEquals(new User(null, "", null, null, User.AuthenticationLevel.GUEST, null),db.getAuthenticationUser());
     }
 
     @Test
@@ -618,9 +619,9 @@ public class DatabaseHandlerTest {
         List<Request.RequestType> jobs = new ArrayList<>();
         jobs.add(Request.RequestType.FOOD);
         jobs.add(Request.RequestType.INTERNAL_TRANSPORT);
-        User user1 = new User("testuser1", "Testing1", "User1", User.AuthenticationLevel.STAFF, Collections.singletonList(Request.RequestType.FOOD));
-        User user2 = new User("testuser2", "Testing2", "User2", User.AuthenticationLevel.STAFF, Collections.singletonList(Request.RequestType.INTERNAL_TRANSPORT));
-        User user3 = new User("testuser3", "Testing3", "User3", User.AuthenticationLevel.STAFF, jobs);
+        User user1 = new User("testuser1", "", "Testing1", "User1", User.AuthenticationLevel.STAFF, Collections.singletonList(Request.RequestType.FOOD));
+        User user2 = new User("testuser2", "", "Testing2", "User2", User.AuthenticationLevel.STAFF, Collections.singletonList(Request.RequestType.INTERNAL_TRANSPORT));
+        User user3 = new User("testuser3", "", "Testing3", "User3", User.AuthenticationLevel.STAFF, jobs);
 
         try {
             db.addUser(user1, "p1");
@@ -644,7 +645,7 @@ public class DatabaseHandlerTest {
 
     @Test
     public void testDeleteUser() {
-        User user = new User("testuser", "Testing", "User", User.AuthenticationLevel.STAFF, Collections.singletonList(Request.RequestType.CASE_MANAGER));
+        User user = new User("testuser", "", "Testing", "User", User.AuthenticationLevel.STAFF, Collections.singletonList(Request.RequestType.CASE_MANAGER));
         try {
             db.addUser(user, "password");
         } catch (SQLException e) {
@@ -662,8 +663,8 @@ public class DatabaseHandlerTest {
 
     @Test
     public void testUpdateUser() {
-        User user = new User("testuser", "Testing", "User", User.AuthenticationLevel.STAFF, Collections.singletonList(Request.RequestType.CASE_MANAGER));
-        User altuser = new User("testuser", "Alternate", "User", User.AuthenticationLevel.ADMIN, Collections.singletonList(Request.RequestType.FOOD));
+        User user = new User("testuser", "", "Testing", "User", User.AuthenticationLevel.STAFF, Collections.singletonList(Request.RequestType.CASE_MANAGER));
+        User altuser = new User("testuser", "", "Alternate", "User", User.AuthenticationLevel.ADMIN, User.CovidStatus.SAFE, Collections.singletonList(Request.RequestType.FOOD));
         try {
             db.addUser(user, "password");
         } catch (SQLException e) {
@@ -688,8 +689,8 @@ public class DatabaseHandlerTest {
 
     @Test
     public void testGetUsersByAuthenticationLevel() {
-        User user = new User("testUser", "Testing", "User", User.AuthenticationLevel.STAFF, Collections.singletonList(Request.RequestType.CASE_MANAGER));
-        User altuser = new User("altUser", "Alternate", "User", User.AuthenticationLevel.ADMIN, Collections.singletonList(Request.RequestType.FOOD));
+        User user = new User("testUser", "", "Testing", "User", User.AuthenticationLevel.STAFF, Collections.singletonList(Request.RequestType.CASE_MANAGER));
+        User altuser = new User("altUser", "", "Alternate", "User", User.AuthenticationLevel.ADMIN, Collections.singletonList(Request.RequestType.FOOD));
 
         try {
             db.addUser(user, "user");
@@ -704,9 +705,9 @@ public class DatabaseHandlerTest {
 
     @Test
     public void testGetUsers() {
-        User user1 = new User("testuser1","Testing1","User1", User.AuthenticationLevel.STAFF, Collections.singletonList(Request.RequestType.FOOD));
-        User user2 = new User("testuser2","Testing2","User2", User.AuthenticationLevel.STAFF, Collections.singletonList(Request.RequestType.INTERNAL_TRANSPORT));
-        User user3 = new User("testuser3","Testing3","User3", User.AuthenticationLevel.STAFF, new ArrayList<>());
+        User user1 = new User("testuser1","","Testing1","User1", User.AuthenticationLevel.STAFF, Collections.singletonList(Request.RequestType.FOOD));
+        User user2 = new User("testuser2","","Testing2","User2", User.AuthenticationLevel.STAFF, Collections.singletonList(Request.RequestType.INTERNAL_TRANSPORT));
+        User user3 = new User("testuser3","","Testing3","User3", User.AuthenticationLevel.STAFF, new ArrayList<>());
 
         try {
             db.addUser(user1, "p1");

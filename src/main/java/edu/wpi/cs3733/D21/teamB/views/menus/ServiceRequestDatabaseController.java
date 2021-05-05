@@ -27,13 +27,13 @@ import java.util.Map;
 import java.util.ResourceBundle;
 
 @SuppressWarnings("unchecked") // Added so Java doesn't get mad at the raw use of TableView that is necessary
-public class ServiceRequestDatabaseController extends BasePageController implements Initializable {
+public class   ServiceRequestDatabaseController extends BasePageController implements Initializable {
 
     @FXML
     private TableView tblRequests;
 
     @FXML
-    private StackPane stackContainer;
+    private StackPane stackPane;
 
     @FXML
     private TableColumn<String, JFXButton> editCol;
@@ -134,9 +134,14 @@ public class ServiceRequestDatabaseController extends BasePageController impleme
                 break;
             case "btnEmergency":
                 SceneSwitcher.isEmergencyBtn = true;
-                SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
+                SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
                 break;
         }
+    }
+
+    @FXML
+    public void handleOnChange(ActionEvent actionEvent) {
+
     }
 
     private void loadHelpDialog() {
@@ -151,7 +156,7 @@ public class ServiceRequestDatabaseController extends BasePageController impleme
 
         helpLayout.setHeading(headerLabel);
         helpLayout.setBody(helpText);
-        JFXDialog helpWindow = new JFXDialog(stackContainer, helpLayout, JFXDialog.DialogTransition.CENTER);
+        JFXDialog helpWindow = new JFXDialog(stackPane, helpLayout, JFXDialog.DialogTransition.CENTER);
 
         JFXButton button = new JFXButton("Close");
         button.setOnAction(event -> helpWindow.close());
@@ -162,6 +167,7 @@ public class ServiceRequestDatabaseController extends BasePageController impleme
     }
 
     public void setRowColor() {
+        TableColumn<String, Label> tc5 = (TableColumn<String, Label>) tblRequests.getColumns().get(5);
         TableColumn<String, Label> tc = (TableColumn<String, Label>) tblRequests.getColumns().get(1);
         tc.setCellFactory(column -> new TableCell<String, Label>() {
             @Override
@@ -176,6 +182,25 @@ public class ServiceRequestDatabaseController extends BasePageController impleme
                         currentRow.setStyle("-fx-background-color: #0264AA");
                     } else if (getTableRow().getIndex() % 2 != 0) {
                         currentRow.setStyle("-fx-background-color: #0067B1");
+                    }
+
+                }
+            }
+        });
+
+
+        tc5.setCellFactory(column -> new TableCell<String, Label>() {
+            @Override
+            protected void updateItem(Label item5, boolean empty) {
+                super.updateItem(item5, empty);
+                setGraphic(item5);
+                TableRow<String> currentRow = getTableRow();
+                if (!isEmpty()) {
+                    if (item5.getText().equals("Nobody")&& !currentRow.getStyle().equals("-fx-background-color: #CE2029") && getTableRow().getIndex() %2 ==0) {
+                        currentRow.setStyle("-fx-background-color: #479AD6");
+                    }
+                    else if (item5.getText().equals("Nobody")&& !currentRow.getStyle().equals("-fx-background-color: #CE2029") && getTableRow().getIndex() %2 !=0) {
+                        currentRow.setStyle("-fx-background-color: #66B4EC");
                     }
                 }
             }

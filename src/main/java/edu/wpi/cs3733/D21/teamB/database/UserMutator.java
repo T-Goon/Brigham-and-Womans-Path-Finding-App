@@ -26,9 +26,11 @@ public class UserMutator implements IDatabaseEntityMutator<UserMutator.UserPassw
         String hash = db.passwordHash(user.password);
         String query = "INSERT INTO Users VALUES " +
                 "('" + user.user.getUsername()
+                + "', '" + user.user.getEmail()
                 + "', '" + user.user.getFirstName()
                 + "', '" + user.user.getLastName()
                 + "', '" + user.user.getAuthenticationLevel().toString()
+                + "', '" + user.user.getCovidStatus().toString()
                 + "', '" + hash
                 + "')";
         db.runStatement(query, false);
@@ -51,14 +53,16 @@ public class UserMutator implements IDatabaseEntityMutator<UserMutator.UserPassw
     public void updateEntity(UserPasswordMatch newUser) throws SQLException {
         String updateUser = "UPDATE Users " +
                 "SET username = '" + newUser.user.getUsername() + "'," +
+                "email = '" + newUser.user.getEmail() + "'," +
                 "firstName = '" + newUser.user.getFirstName() + "'," +
                 "lastName = '" + newUser.user.getLastName() + "'," +
-                "authenticationLevel = '" + newUser.user.getAuthenticationLevel().toString() + "'" +
+                "authenticationLevel = '" + newUser.user.getAuthenticationLevel().toString() + "'," +
+                "covidStatus = '" + newUser.user.getCovidStatus().toString() + "'" +
                 "WHERE (username = '" + newUser.user.getUsername() + "')";
         String deleteJobs = "DELETE FROM Jobs WHERE (username = '" + newUser.user.getUsername() + "')";
         if (db.getUserByUsername(newUser.user.getUsername()) != null) {
-            db.runStatement(updateUser, false);
             db.runStatement(deleteJobs, false);
+            db.runStatement(updateUser, false);
             for (Request.RequestType job : newUser.user.getJobs()) {
                 String query = "INSERT INTO Jobs VALUES " +
                         "('" + newUser.user.getUsername()
@@ -125,10 +129,36 @@ public class UserMutator implements IDatabaseEntityMutator<UserMutator.UserPassw
             if (rs == null) return null;
             User outUser = new User(
                     rs.getString("username"),
+                    rs.getString("email"),
                     rs.getString("firstName"),
                     rs.getString("lastName"),
                     User.AuthenticationLevel.valueOf(rs.getString("authenticationLevel")),
+                    User.CovidStatus.valueOf(rs.getString("covidStatus")),
                     jobs
+            );
+            rs.close();
+            return outUser;
+        } catch (SQLException e) {
+            return null;
+        }
+    }
+
+    /**
+     * @param email email to query by
+     * @return User object with that email, or null if that user doesn't exist
+     */
+    public User getUserByEmail(String email) {
+        try {
+            String query = "SELECT * FROM Users WHERE (email = '" + email + "')";
+            ResultSet rs = db.runStatement(query, true);
+            if (rs == null) return null;
+            User outUser = new User(
+                    rs.getString("username"),
+                    rs.getString("email"),
+                    rs.getString("firstName"),
+                    rs.getString("lastName"),
+                    User.AuthenticationLevel.valueOf(rs.getString("authenticationLevel")),
+                    null
             );
             rs.close();
             return outUser;
@@ -195,7 +225,6 @@ public class UserMutator implements IDatabaseEntityMutator<UserMutator.UserPassw
      */
     public User authenticate(String username, String password) {
         try {
-            db.deauthenticate();
             String query = "SELECT passwordHash FROM Users WHERE (username = '" + username + "')";
             ResultSet rs = db.runStatement(query, true);
             if (rs == null) return null;
@@ -205,9 +234,7 @@ public class UserMutator implements IDatabaseEntityMutator<UserMutator.UserPassw
             // Make sure the hashed password matches
             if (!BCrypt.checkpw(password, storedHash)) return null;
 
-            User outUser = this.getUserByUsername(username);
-            DatabaseHandler.AuthenticationUser = outUser;
-            return outUser;
+            return this.getUserByUsername(username);
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
@@ -221,7 +248,7 @@ public class UserMutator implements IDatabaseEntityMutator<UserMutator.UserPassw
      */
     public boolean deauthenticate() {
         if (DatabaseHandler.AuthenticationUser.getAuthenticationLevel() != User.AuthenticationLevel.GUEST) {
-            DatabaseHandler.AuthenticationUser = new User(null, null, null, User.AuthenticationLevel.GUEST, null);
+            DatabaseHandler.AuthenticationUser = new User(null, null, null, null, User.AuthenticationLevel.GUEST, null);
             return true;
         } else return false;
     }
@@ -243,7 +270,15 @@ public class UserMutator implements IDatabaseEntityMutator<UserMutator.UserPassw
 
         String query = "DELETE FROM FavoriteLocations WHERE username = '" + username + "' AND favoriteLocation = '" + favoriteLocation + "'";
         db.runStatement(query, false);
+    }
 
+    public void updateParkingForUser(String favoriteLocation) throws SQLException {
+        User user = db.getAuthenticationUser();
+        String username = user.getUsername();
+
+        String query = "UPDATE FavoriteLocations SET favoriteLocation = '" + favoriteLocation
+                + "' WHERE username = '" + username + "' AND (favoriteLocation LIKE '%Parking%' OR favoriteLocation LIKE '%parking%')";
+        db.runStatement(query, false);
     }
 
     public List<String> getFavoritesForUser() throws SQLException {

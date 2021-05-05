@@ -66,22 +66,25 @@
               </HBox>
               <AnchorPane fx:id="anchorPane" maxHeight="1.7976931348623157E308" VBox.vgrow="ALWAYS">
                <children>
-                  <StackPane fx:id="mapHolder" alignment="TOP_LEFT" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                     <children>
-                        <VBox maxHeight="-Infinity" maxWidth="-Infinity" spacing="5.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 10; -fx-border-color: #000000; -fx-border-width: 2; -fx-border-radius: 7;" StackPane.alignment="TOP_RIGHT">
-                           <children>
-                              <GridPane>
-                                 <columnConstraints>
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" />
-                                 </columnConstraints>
-                                 <rowConstraints>
-                                    <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                  <StackPane fx:id="stackPane" alignment="TOP_LEFT" AnchorPane.bottomAnchor="0.0"
+                             AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                      <children>
+                          <VBox maxHeight="-Infinity" maxWidth="-Infinity" spacing="5.0"
+                                style="-fx-background-color: #FFFFFF; -fx-background-radius: 10; -fx-border-color: #000000; -fx-border-width: 2; -fx-border-radius: 7;"
+                                StackPane.alignment="TOP_RIGHT">
+                              <children>
+                                  <GridPane>
+                                      <columnConstraints>
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0"/>
+                                          <ColumnConstraints hgrow="SOMETIMES"/>
+                                      </columnConstraints>
+                                      <rowConstraints>
+                                          <RowConstraints minHeight="10.0" vgrow="SOMETIMES"/>
                                     <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
                                     <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
                                  </rowConstraints>
                                  <children>
-                                    <JFXButton fx:id="btnSubmit" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39; -fx-background-radius: 7;" text="Submit" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2">
+                                    <JFXButton fx:id="btnSubmit" disable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39; -fx-background-radius: 7;" text="Submit" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2">
                                        <GridPane.margin>
                                           <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                        </GridPane.margin>
@@ -91,12 +94,12 @@
                                     </JFXButton>
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Start Location: " />
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="End Location:" GridPane.rowIndex="1" />
-                                    <JFXTextField fx:id="txtStartLocation" prefColumnCount="24" GridPane.columnIndex="1">
+                                    <JFXTextField fx:id="txtStartLocation" onAction="#validateButton" prefColumnCount="24" GridPane.columnIndex="1">
                                        <GridPane.margin>
                                           <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                        </GridPane.margin>
                                     </JFXTextField>
-                                    <JFXComboBox fx:id="comboEndLocation" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1">
+                                    <JFXComboBox fx:id="comboEndLocation" maxWidth="1.7976931348623157E308" onAction="#validateButton" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1">
                                        <GridPane.margin>
                                           <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                        </GridPane.margin>
@@ -111,7 +114,7 @@
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </padding>
                         </VBox>
-                         <JFXButton fx:id="btnBack" alignment="CENTER" buttonType="RAISED" cancelButton="true" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#handleButtonAction" prefHeight="56" prefWidth="56" style="-fx-background-color: #0067B1; -fx-background-radius: 50%;" text="🡰" textAlignment="CENTER" textFill="WHITE" StackPane.alignment="BOTTOM_LEFT">
+                         <JFXButton fx:id="btnBack" accessibleText="Leave page" alignment="CENTER" buttonType="RAISED" cancelButton="true" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#handleButtonAction" prefHeight="56" prefWidth="56" style="-fx-background-color: #0067B1; -fx-background-radius: 50%;" text="🡰" textAlignment="CENTER" textFill="WHITE" StackPane.alignment="BOTTOM_LEFT">
                              <font>
                                  <Font size="27.0" />
                              </font>

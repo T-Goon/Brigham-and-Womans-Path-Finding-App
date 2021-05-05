@@ -4,7 +4,6 @@ import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.DelEdgePopupData;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Edge;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Node;
-import edu.wpi.cs3733.D21.teamB.pathfinding.Graph;
 import edu.wpi.cs3733.D21.teamB.util.Popup.Window;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Pane;
@@ -66,8 +65,6 @@ public class AddNodeFromEdgeWindow extends Window<VBox, DelEdgePopupData, VBox> 
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-        Graph.getGraph().updateGraph();
 
         // Refresh map editor
         data.getMd().refreshEditor();

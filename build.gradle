@@ -9,6 +9,7 @@
  * be built in more complicated ways.
 */
 plugins {
+    id 'com.github.johnrengelman.shadow' version '6.1.0'
     id 'application'
     id 'java'
     id "io.freefair.lombok" version "5.3.0"
@@ -24,6 +25,7 @@ repositories {
     maven {
         url 'https://apisite.crmyers.dev/maven'
     }
+
 }
 
 //This is where you declare your dependencies and their version.s
@@ -32,19 +34,28 @@ dependencies {
     compile 'com.jfoenix:jfoenix:8.0.10'
     implementation(
             'com.jfoenix:jfoenix:8.0.10',
-
-            // You may comment out the database dependency you do not use
             'org.xerial:sqlite-jdbc:3.30.1',
-//            'org.apache.derby:derby:10.14.2.0',
-
-            'org.slf4j:slf4j-api:1.7.30',
-            'org.slf4j:slf4j-simple:1.7.30',
             'org.projectlombok:lombok:1.18.20',
             'net.kurobako:gesturefx:0.6.0',
     )
     implementation 'junit:junit:4.12'
     implementation group: 'org.mindrot', name: 'jbcrypt', version: '0.4'
-    implementation 'com.dlsc:GMapsFX:8.0.0'
+    implementation group: 'com.sun.mail', name: 'javax.mail', version: '1.6.2'
+    implementation group: 'javax.activation', name: 'activation', version: '1.1.1'
+    implementation('com.dlsc:GMapsFX:8.0.0'){
+        exclude group:'ch.qos.logback', module:'logback-classic'
+    }
+
+    compile 'de.dfki.mary:marytts:5.2'
+    compile 'de.dfki.mary:marytts-lang-en:5.2'
+    compile 'de.dfki.mary:voice-cmu-rms-hsmm:5.2'
+    compile 'de.dfki.mary:voice-cmu-slt-hsmm:5.2'
+    compile 'de.dfki.mary:voice-dfki-poppy-hsmm:5.2'
+
+    shadowJar{
+        mergeServiceFiles()
+    }
+
 //These are test dependencies. These are only used for running verification tasks via Gradle.
     testCompile(
             'org.mindrot:jbcrypt:0.4',
@@ -52,6 +63,8 @@ dependencies {
             'org.junit.jupiter:junit-jupiter:5.6.0',
             'org.testfx:testfx-junit5:4.0.16-alpha',
             'org.projectlombok:lombok:1.18.20',
+            'com.sun.mail:javax.mail:1.6.2',
+            'javax.activation:activation:1.1.1',
     )
 }
 
