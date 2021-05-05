@@ -60,7 +60,7 @@ public class OnScreenKeyboard {
         keyboard.setPrefWidth(Region.USE_COMPUTED_SIZE);
         keyboard.setMaxHeight(Region.USE_PREF_SIZE);
         keyboard.setMaxWidth(Region.USE_PREF_SIZE);
-        BackgroundFill bgFill = new BackgroundFill(javafx.scene.paint.Color.BLUE, CornerRadii.EMPTY, Insets.EMPTY);
+        BackgroundFill bgFill = new BackgroundFill(javafx.scene.paint.Color.web("0x012D5A"), CornerRadii.EMPTY, Insets.EMPTY);
         Background keyboardBG = new Background(bgFill);
         keyboard.setBackground(keyboardBG);
         keyboard.setOnMouseDragged(event -> drag(event));
@@ -96,7 +96,7 @@ public class OnScreenKeyboard {
                 altText.add(Character.toString(altkeys[j]));
                 baseText.add(Character.toString(keys[j]));
                 buttonList.add(button);
-                button.setTextFill(Color.YELLOW);
+                button.setTextFill(Color.WHITE);
                 Character keyIs = Character.toUpperCase(button.getText().toCharArray()[0]);
                 button.setOnAction(event -> {
                     if (!(lastFocused.getAnode().isFocused())) {
@@ -163,8 +163,8 @@ public class OnScreenKeyboard {
         });
         numRow.getChildren().add(bckSpce);
         bottomRow.getChildren().add(shift);
-        bckSpce.setTextFill(Color.YELLOW);
-        shift.setTextFill(Color.YELLOW);
+        bckSpce.setTextFill(Color.WHITE);
+        shift.setTextFill(Color.WHITE);
         if(!(aParent.getChildren().contains(keyboard))) {
             aParent.getChildren().add(keyboard);
         }
