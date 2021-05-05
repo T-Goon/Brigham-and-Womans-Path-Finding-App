@@ -57,6 +57,7 @@ public abstract class DefaultServiceRequestFormController extends BasePageContro
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        super.initialize(location,resources);
         App.getPrimaryStage().getScene().addEventFilter(MouseEvent.MOUSE_CLICKED, event -> {
             if (helpPopup != null && !justClicked) {
                 helpHolder.getChildren().remove(helpPopup);
