@@ -35,7 +35,7 @@ public abstract class BasePageController implements Initializable {
     private StackPane stackPane;
 
     public TextToSpeech tts = new TextToSpeech();
-    rivate boolean keyboardVisible = false;
+    private boolean keyboardVisible = false;
 
     OnScreenKeyboard onScreenKeyboard = OnScreenKeyboard.getInstance();
     LastFocused lastFocused = LastFocused.getInstance();
