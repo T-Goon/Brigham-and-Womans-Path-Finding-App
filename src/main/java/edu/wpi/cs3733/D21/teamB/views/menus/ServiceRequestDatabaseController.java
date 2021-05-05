@@ -33,7 +33,7 @@ public class   ServiceRequestDatabaseController extends BasePageController imple
     private TableView tblRequests;
 
     @FXML
-    private StackPane stackContainer;
+    private StackPane stackPane;
 
     @FXML
     private TableColumn<String, JFXButton> editCol;
@@ -156,7 +156,7 @@ public class   ServiceRequestDatabaseController extends BasePageController imple
 
         helpLayout.setHeading(headerLabel);
         helpLayout.setBody(helpText);
-        JFXDialog helpWindow = new JFXDialog(stackContainer, helpLayout, JFXDialog.DialogTransition.CENTER);
+        JFXDialog helpWindow = new JFXDialog(stackPane, helpLayout, JFXDialog.DialogTransition.CENTER);
 
         JFXButton button = new JFXButton("Close");
         button.setOnAction(event -> helpWindow.close());

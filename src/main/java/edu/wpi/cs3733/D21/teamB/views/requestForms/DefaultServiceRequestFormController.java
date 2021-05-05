@@ -43,7 +43,7 @@ public abstract class DefaultServiceRequestFormController extends BasePageContro
     private HBox helpHolder;
 
     @FXML
-    private StackPane stackContainer;
+    private StackPane stackPane;
 
     @FXML
     protected JFXComboBox<String> loc;
@@ -119,7 +119,7 @@ public abstract class DefaultServiceRequestFormController extends BasePageContro
 
         helpLayout.setHeading(headerLabel);
         helpLayout.setBody(helpText);
-        JFXDialog helpWindow = new JFXDialog(stackContainer, helpLayout, JFXDialog.DialogTransition.CENTER);
+        JFXDialog helpWindow = new JFXDialog(stackPane, helpLayout, JFXDialog.DialogTransition.CENTER);
 
         JFXButton button = new JFXButton("Close");
         button.setOnAction(event -> helpWindow.close());
