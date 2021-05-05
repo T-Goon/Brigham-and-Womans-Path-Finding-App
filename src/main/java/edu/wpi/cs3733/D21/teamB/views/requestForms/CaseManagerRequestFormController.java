@@ -191,7 +191,7 @@ public class CaseManagerRequestFormController extends DefaultServiceRequestFormC
     private void validateButton() {
         btnSubmit.setDisable(
                 patientName.getText().isEmpty() || loc.getValue() == null || arrivalDate.getValue() == null || timeForArrival.getValue() == null ||
-                        messageForCaseManager.getText().isEmpty()
+                        messageForCaseManager.getText().isEmpty() || super.validateCommon()
         );
     }
 }

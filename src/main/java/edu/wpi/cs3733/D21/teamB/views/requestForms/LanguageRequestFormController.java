@@ -249,7 +249,7 @@ public class LanguageRequestFormController extends DefaultServiceRequestFormCont
     private void validateButton() {
         btnSubmit.setDisable(
                 patientName.getText().isEmpty() || loc.getValue() == null || arrivalDate.getValue() == null || timeForArrival.getValue() == null ||
-                        message.getText().isEmpty()
+                        message.getText().isEmpty() || super.validateCommon() || !language.getItems().contains(language.getValue())
         );
     }
 }

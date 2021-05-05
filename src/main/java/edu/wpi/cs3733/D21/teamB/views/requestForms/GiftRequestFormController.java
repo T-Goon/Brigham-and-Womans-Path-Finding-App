@@ -268,7 +268,8 @@ public class GiftRequestFormController extends DefaultServiceRequestFormControll
                 patientName.getText().isEmpty() || loc.getValue() == null ||
                         deliveryDate.getValue() == null || startTime.getValue() == null ||
                         endTime.getValue() == null || message.getText().isEmpty() ||
-                        !(balloons.isSelected() || teddyBear.isSelected() || chocolate.isSelected())
+                        !(balloons.isSelected() || teddyBear.isSelected() || chocolate.isSelected()
+                        || super.validateCommon())
         );
     }
 

@@ -302,7 +302,9 @@ public class FloralDeliveryRequestFormController extends DefaultServiceRequestFo
                 patientName.getText().isEmpty() || loc.getValue() == null ||
                         deliveryDate.getValue() == null || startTime.getValue() == null ||
                         endTime.getValue() == null || message.getText().isEmpty() ||
-                        !(roses.isSelected() || tulips.isSelected() || daisies.isSelected() || lilies.isSelected() || sunflowers.isSelected() || carnations.isSelected() || orchids.isSelected())
+                        !(roses.isSelected() || tulips.isSelected() || daisies.isSelected() || lilies.isSelected() ||
+                                sunflowers.isSelected() || carnations.isSelected() || orchids.isSelected()
+                                || super.validateCommon())
         );
     }
 }
