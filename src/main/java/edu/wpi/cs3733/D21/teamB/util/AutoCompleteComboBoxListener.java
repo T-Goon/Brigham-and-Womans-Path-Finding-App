@@ -56,7 +56,7 @@ public class AutoCompleteComboBoxListener<T> implements EventHandler<KeyEvent> {
 
         ObservableList<T> list = FXCollections.observableArrayList();
         for (T datum : data) {
-            if (datum.toString().toLowerCase().startsWith(
+            if (datum.toString().toLowerCase().contains(
                     AutoCompleteComboBoxListener.this.comboBox
                             .getEditor().getText().toLowerCase())) {
                 list.add(datum);

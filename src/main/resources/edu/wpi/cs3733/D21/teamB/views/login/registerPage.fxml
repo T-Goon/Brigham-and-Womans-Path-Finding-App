@@ -244,11 +244,6 @@
                                                   <Insets top="20.0" />
                                               </padding>
                                           </VBox>
-                                    <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Email Address:">
-                                       <font>
-                                          <Font size="20.0" />
-                                       </font>
-                                    </Text>
                                       </children>
                                       <VBox.margin>
                                           <Insets />
