@@ -49,11 +49,8 @@ public abstract class DefaultServiceRequestFormController extends BasePageContro
     protected JFXComboBox<String> loc;
 
     private VBox helpPopup;
-    private double x = 0;
-    private double y = 0;
     private boolean justClicked = false;
     protected ArrayList<Node> nodesList = new ArrayList<>();
-    private String location;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
