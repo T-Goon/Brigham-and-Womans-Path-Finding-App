@@ -5,16 +5,14 @@ import edu.wpi.cs3733.D21.teamB.App;
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.User;
 import edu.wpi.cs3733.D21.teamB.entities.requests.Request;
+import edu.wpi.cs3733.D21.teamB.util.HelpDialog;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
 import edu.wpi.cs3733.D21.teamB.views.BasePageController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.Label;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 import java.net.URL;
@@ -88,6 +86,7 @@ public class EditUserController extends BasePageController implements Initializa
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        super.initialize(location, resources);
         authenticationLevel.getItems().add(new Label(User.AuthenticationLevel.ADMIN.toString()));
         authenticationLevel.getItems().add(new Label(User.AuthenticationLevel.STAFF.toString()));
         authenticationLevel.getItems().add(new Label(User.AuthenticationLevel.PATIENT.toString()));
@@ -186,34 +185,13 @@ public class EditUserController extends BasePageController implements Initializa
                 SceneSwitcher.goBack(1);
                 break;
             case "btnHelp":
-                loadHelpDialog();
+                HelpDialog.loadHelpDialog(stackPane, "Please fill out this form completely. Once each field is full, you can submit the form and the user will be added.\n" +
+                        "If you wish to end your request early, click the back button.");
                 break;
             case "btnEmergency":
                 SceneSwitcher.switchScene("/edu/wpi/cs3733/D21/teamB/views/menus/editUserMenu.fxml", "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
                 break;
         }
-    }
-
-    private void loadHelpDialog() {
-        JFXDialogLayout helpLayout = new JFXDialogLayout();
-
-        Text helpText = new Text("Please fill out this form completely. Once each field is full, you can submit the form and the user will be added.\n" +
-                "If you wish to end your request early, click the back button.");
-        helpText.setFont(new Font("MS Reference Sans Serif", 14));
-
-        Label headerLabel = new Label("Help");
-        headerLabel.setFont(new Font("MS Reference Sans Serif", 18));
-
-        helpLayout.setHeading(headerLabel);
-        helpLayout.setBody(helpText);
-        JFXDialog helpWindow = new JFXDialog(stackPane, helpLayout, JFXDialog.DialogTransition.CENTER);
-
-        JFXButton button = new JFXButton("Close");
-        button.setOnAction(event -> helpWindow.close());
-        helpLayout.setActions(button);
-
-        helpWindow.show();
-
     }
 
     @FXML

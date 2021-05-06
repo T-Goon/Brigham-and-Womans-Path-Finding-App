@@ -1,22 +1,18 @@
 package edu.wpi.cs3733.D21.teamB.views.menus;
 
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXDialog;
-import com.jfoenix.controls.JFXDialogLayout;
 import com.jfoenix.controls.JFXToggleButton;
 import edu.wpi.cs3733.D21.teamB.App;
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.User;
+import edu.wpi.cs3733.D21.teamB.util.HelpDialog;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
 import edu.wpi.cs3733.D21.teamB.views.BasePageController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.net.URL;
@@ -84,7 +80,7 @@ public class SettingsMenuController extends BasePageController implements Initia
                 SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/menus/changePassword.fxml");
                 break;
             case "btnHelp":
-                loadHelpDialog();
+                HelpDialog.loadHelpDialog(stackPane, "Click the toggle button to enable or disable text-to-speech functionality.\\n You may also click on 'Edit Profile' to edit your profile or 'Change Password' to change your password.");
                 break;
         }
     }
@@ -104,26 +100,5 @@ public class SettingsMenuController extends BasePageController implements Initia
                 err.printStackTrace();
             }
         }
-    }
-
-    private void loadHelpDialog() {
-        JFXDialogLayout helpLayout = new JFXDialogLayout();
-
-        Text helpText = new Text("Click the toggle button to enable or disable text-to-speech functionality.");
-        helpText.setFont(new Font("MS Reference Sans Serif", 14));
-
-        Label headerLabel = new Label("Help");
-        headerLabel.setFont(new Font("MS Reference Sans Serif", 18));
-
-        helpLayout.setHeading(headerLabel);
-        helpLayout.setBody(helpText);
-        JFXDialog helpWindow = new JFXDialog(stackPane, helpLayout, JFXDialog.DialogTransition.CENTER);
-
-        JFXButton button = new JFXButton("Close");
-        button.setOnAction(event -> helpWindow.close());
-        helpLayout.setActions(button);
-
-        helpWindow.show();
-
     }
 }
