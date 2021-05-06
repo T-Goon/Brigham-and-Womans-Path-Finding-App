@@ -7,6 +7,7 @@ import java.util.*;
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.User;
 import edu.wpi.cs3733.D21.teamB.util.CSVHandler;
+import edu.wpi.cs3733.D21.teamB.util.ExternalCommunication;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -112,6 +113,9 @@ public class App extends Application {
     public void stop() {
         if (dbThread != null)
             dbThread.stop();
+        for (Thread t : ExternalCommunication.threads)
+            t.stop();
+        ExternalCommunication.threads.clear();
         DatabaseHandler.getHandler().shutdown();
         System.out.println("Shutting Down");
     }

@@ -713,8 +713,8 @@ public class DatabaseHandlerTest {
             db.addUser(user1, "p1");
             db.addUser(user2, "p2");
             db.addUser(user3, "p3");
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
         Collection<User> set1 = db.getUsers();
