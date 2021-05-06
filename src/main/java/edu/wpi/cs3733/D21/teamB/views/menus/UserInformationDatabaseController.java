@@ -115,7 +115,7 @@ public class UserInformationDatabaseController extends BasePageController implem
             case "btnAdd":
                 Stage stage = App.getPrimaryStage();
                 stage.setUserData(new User("", "", "", "", User.AuthenticationLevel.PATIENT, "F", new ArrayList<>()));
-                SceneSwitcher.addingUser = true;
+                SceneSwitcher.editingUserState = SceneSwitcher.UserState.ADD;
                 SceneSwitcher.switchScene("/edu/wpi/cs3733/D21/teamB/views/menus/userInformationDatabase.fxml", "/edu/wpi/cs3733/D21/teamB/views/menus/editUserMenu.fxml");
                 break;
             case "btnHelp":

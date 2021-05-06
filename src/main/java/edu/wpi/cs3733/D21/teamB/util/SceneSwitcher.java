@@ -15,7 +15,7 @@ public class SceneSwitcher {
 
     //State variables
     public static boolean isEmergencyBtn;
-    public static boolean addingUser;
+    public static UserState editingUserState;
 
     public static String peekLastScene(){
         return stack.peek();
@@ -82,7 +82,13 @@ public class SceneSwitcher {
      *
      * @param path the path to the FXML file to push
      */
-    public static void pushPath(String path){
+    public static void pushPath(String path) {
         stack.push(path);
+    }
+
+    public enum UserState {
+        ADD,
+        EDIT,
+        EDIT_SELF
     }
 }

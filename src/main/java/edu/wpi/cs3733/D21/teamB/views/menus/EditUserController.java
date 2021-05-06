@@ -10,7 +10,9 @@ import edu.wpi.cs3733.D21.teamB.views.BasePageController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -42,10 +44,19 @@ public class EditUserController extends BasePageController implements Initializa
     private JFXTextField lastName;
 
     @FXML
+    private Text passwordText;
+
+    @FXML
     private JFXPasswordField password;
 
     @FXML
+    private Text authenticationLevelText;
+
+    @FXML
     private JFXComboBox<Label> authenticationLevel;
+
+    @FXML
+    private Text jobText;
 
     @FXML
     private JFXComboBox<Label> job;
@@ -122,6 +133,17 @@ public class EditUserController extends BasePageController implements Initializa
         }
 
         validateButtons();
+
+        if (SceneSwitcher.editingUserState == SceneSwitcher.UserState.EDIT_SELF) {
+            bigText.setText("User Profile");
+            smallText.setText("Edit User Profile");
+            passwordText.setVisible(false);
+            password.setVisible(false);
+            authenticationLevelText.setVisible(false);
+            authenticationLevel.setVisible(false);
+            jobText.setVisible(false);
+            job.setVisible(false);
+        }
     }
 
     public void handleButtonAction(ActionEvent actionEvent) {
@@ -147,7 +169,7 @@ public class EditUserController extends BasePageController implements Initializa
                 }
                 User uUpdated = new User(uUsername, uEmail, uFirstName, uLastName, uAuthLevel, tts, uJobs);
                 try {
-                    if (SceneSwitcher.addingUser) {
+                    if (SceneSwitcher.editingUserState == SceneSwitcher.UserState.ADD) {
                         DatabaseHandler.getHandler().addUser(uUpdated, password.getText());
                     } else {
                         DatabaseHandler.getHandler().updateUser(uUpdated);
@@ -198,8 +220,8 @@ public class EditUserController extends BasePageController implements Initializa
                         authenticationLevel.getValue() == null
         );
 
-        username.setDisable(!SceneSwitcher.addingUser);
-        password.setDisable(!SceneSwitcher.addingUser);
+        username.setDisable(SceneSwitcher.editingUserState != SceneSwitcher.UserState.ADD);
+        password.setDisable(SceneSwitcher.editingUserState != SceneSwitcher.UserState.ADD);
 
         validateEmail();
     }
@@ -207,11 +229,11 @@ public class EditUserController extends BasePageController implements Initializa
     @FXML
     private void validateEmail() {
         Matcher matcher = emailPattern.matcher(email.getText());
-        if (!originalEmail.equals(email.getText()) && DatabaseHandler.getHandler().getUserByEmail(email.getText()) != null) {
+        if (!username.getText().equals("temporary") && !originalEmail.equals(email.getText()) && DatabaseHandler.getHandler().getUserByEmail(email.getText()) != null) {
             lblError.setText("Email address is already taken!");
             lblError.setVisible(true);
             btnSubmit.setDisable(true);
-        } else if (!matcher.matches()) {
+        } else if (username.getText().equals("temporary") && !matcher.matches()) {
             lblError.setText("Email address must be valid!");
             lblError.setVisible(true);
             btnSubmit.setDisable(true);

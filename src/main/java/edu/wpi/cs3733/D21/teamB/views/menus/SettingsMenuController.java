@@ -13,15 +13,14 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.net.URL;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class SettingsMenuController extends BasePageController implements Initializable {
@@ -42,12 +41,21 @@ public class SettingsMenuController extends BasePageController implements Initia
     private StackPane stackPane;
 
     @FXML
+    private HBox profileHolder;
+
+    @FXML
     private JFXToggleButton toggleTTS;
+
+    @FXML
+    private JFXButton btnEditProfile;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location, resources);
         toggleTTS.setSelected(DatabaseHandler.getHandler().getAuthenticationUser().getTtsEnabled().equals("T"));
+        if (!DatabaseHandler.getHandler().getAuthenticationUser().isAtLeast(User.AuthenticationLevel.PATIENT)) {
+            profileHolder.getChildren().remove(btnEditProfile);
+        }
     }
 
     @FXML
@@ -58,6 +66,12 @@ public class SettingsMenuController extends BasePageController implements Initia
             case "btnEmergency":
                 SceneSwitcher.switchScene("/edu/wpi/cs3733/D21/teamB/views/menus/settingsMenu.fxml", "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
                 break;
+            case "btnEditProfile":
+                Stage stage = App.getPrimaryStage();
+                stage.setUserData(DatabaseHandler.getHandler().getAuthenticationUser());
+                SceneSwitcher.editingUserState = SceneSwitcher.UserState.EDIT_SELF;
+                SceneSwitcher.switchScene("/edu/wpi/cs3733/D21/teamB/views/menus/settingsMenu.fxml", "/edu/wpi/cs3733/D21/teamB/views/menus/editUserMenu.fxml");
+                break;
             case "btnHelp":
                 loadHelpDialog();
                 break;
@@ -67,19 +81,17 @@ public class SettingsMenuController extends BasePageController implements Initia
     @FXML
     public void handleToggleAction(ActionEvent e) {
         JFXToggleButton toggleButton = (JFXToggleButton) e.getSource();
-        switch (toggleButton.getId()) {
-            case "toggleTTS":
-                DatabaseHandler db = DatabaseHandler.getHandler();
-                User user = db.getAuthenticationUser();
-                if (toggleButton.isSelected())
-                    tts.speak("Text-to-speech has been activated.", 1.0f, false, false);
-                user.setTtsEnabled(user.getTtsEnabled().equals("F") ? "T" : "F");
-                try {
-                    db.updateUser(user);
-                } catch (SQLException err) {
-                    err.printStackTrace();
-                }
-                break;
+        if (toggleButton.getId().equals("toggleTTS")) {
+            DatabaseHandler db = DatabaseHandler.getHandler();
+            User user = db.getAuthenticationUser();
+            if (toggleButton.isSelected())
+                tts.speak("Text-to-speech has been activated.", 1.0f, false, false);
+            user.setTtsEnabled(user.getTtsEnabled().equals("F") ? "T" : "F");
+            try {
+                db.updateUser(user);
+            } catch (SQLException err) {
+                err.printStackTrace();
+            }
         }
     }
 
