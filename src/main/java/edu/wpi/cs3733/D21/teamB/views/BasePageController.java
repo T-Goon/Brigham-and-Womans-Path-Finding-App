@@ -20,6 +20,7 @@ import java.util.ResourceBundle;
 public abstract class BasePageController implements Initializable {
 
     public static boolean ttsOn = false;
+    public boolean firstFocused;
 
     @FXML
     private JFXButton btnBack;
@@ -35,11 +36,17 @@ public abstract class BasePageController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        for (Node aNode : stackPane.lookupAll("*")) {
+        firstFocused = true;
+        Platform.runLater( () -> stackPane.requestFocus() );
+                for (Node aNode : stackPane.lookupAll("*")) {
             aNode.focusedProperty().addListener((observable, oldValue, newValue) -> {
                 if (ttsOn) {
                     if (newValue) {
                         String speechOut = aNode.getAccessibleText();
+                        if (firstFocused){
+                            speechOut = null;
+                            firstFocused = false;
+                        }
                         if (speechOut != null) {
                             tts.speak(speechOut, 1.0f, false, false);
                         }
@@ -47,6 +54,7 @@ public abstract class BasePageController implements Initializable {
                 }
             });
         }
+        tts.stopSpeaking();
     }
 
     public void handleButtonAction(ActionEvent e) {
