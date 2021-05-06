@@ -553,6 +553,15 @@ public class DatabaseHandler {
         return DatabaseHandler.AuthenticationUser;
     }
 
+    /**
+     * Updates a password for the current user
+     *
+     * @param passwordHash the hashed password
+     * @throws SQLException if the query is malformed
+     */
+    public void updatePasswordForUser(String passwordHash) throws SQLException {
+        userMutator.updatePasswordForUser(passwordHash);
+    }
 
     // NODES
 

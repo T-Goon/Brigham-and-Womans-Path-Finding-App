@@ -134,6 +134,7 @@ public class EditUserController extends BasePageController implements Initializa
 
         validateButtons();
 
+        // TODO: Make it look less bad
         if (SceneSwitcher.editingUserState == SceneSwitcher.UserState.EDIT_SELF) {
             bigText.setText("User Profile");
             smallText.setText("Edit User Profile");

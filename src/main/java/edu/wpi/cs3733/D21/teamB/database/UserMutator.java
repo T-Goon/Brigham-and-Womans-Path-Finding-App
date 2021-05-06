@@ -294,4 +294,15 @@ public class UserMutator implements IDatabaseEntityMutator<UserMutator.UserPassw
         String password;
     }
 
+    /**
+     * Updates a password for the current user
+     *
+     * @param passwordHash the hashed password
+     * @throws SQLException if the query is malformed
+     */
+    public void updatePasswordForUser(String passwordHash) throws SQLException {
+        String username = db.getAuthenticationUser().getUsername();
+        String query = "UPDATE Users SET passwordHash = '" + passwordHash + "' WHERE username = '" + username + "'";
+        db.runStatement(query, false);
+    }
 }

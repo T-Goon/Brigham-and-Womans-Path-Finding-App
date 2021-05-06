@@ -60,6 +60,7 @@ public class SettingsMenuController extends BasePageController implements Initia
 
     @FXML
     public void handleButtonAction(ActionEvent e) {
+        String currentPath = "/edu/wpi/cs3733/D21/teamB/views/menus/settingsMenu.fxml";
         JFXButton btn = (JFXButton) e.getSource();
         super.handleButtonAction(e);
         switch (btn.getId()) {
@@ -70,7 +71,10 @@ public class SettingsMenuController extends BasePageController implements Initia
                 Stage stage = App.getPrimaryStage();
                 stage.setUserData(DatabaseHandler.getHandler().getAuthenticationUser());
                 SceneSwitcher.editingUserState = SceneSwitcher.UserState.EDIT_SELF;
-                SceneSwitcher.switchScene("/edu/wpi/cs3733/D21/teamB/views/menus/settingsMenu.fxml", "/edu/wpi/cs3733/D21/teamB/views/menus/editUserMenu.fxml");
+                SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/menus/editUserMenu.fxml");
+                break;
+            case "btnChangePassword":
+                SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/menus/changePassword.fxml");
                 break;
             case "btnHelp":
                 loadHelpDialog();
