@@ -40,7 +40,6 @@ public abstract class BasePageController implements Initializable {
         Platform.runLater(() -> stackPane.requestFocus());
         for (Node aNode : stackPane.lookupAll("*")) {
             aNode.focusedProperty().addListener((observable, oldValue, newValue) -> {
-                System.out.println(DatabaseHandler.getHandler().getAuthenticationUser().getUsername());
                 if (DatabaseHandler.getHandler().getAuthenticationUser().getTtsEnabled().equals("T")) {
                     if (newValue) {
                         String speechOut = aNode.getAccessibleText();
