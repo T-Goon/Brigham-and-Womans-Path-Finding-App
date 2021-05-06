@@ -20,6 +20,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 public class EditUserController extends BasePageController implements Initializable {
@@ -49,6 +51,9 @@ public class EditUserController extends BasePageController implements Initializa
     private JFXComboBox<Label> job;
 
     @FXML
+    private JFXToggleButton ttsEnabled;
+
+    @FXML
     private JFXButton btnBack;
 
     @FXML
@@ -67,6 +72,8 @@ public class EditUserController extends BasePageController implements Initializa
     private Text smallText;
 
     private String originalEmail;
+
+    private final Pattern emailPattern = Pattern.compile(".+@.+");
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -89,6 +96,7 @@ public class EditUserController extends BasePageController implements Initializa
         originalEmail = email.getText();
         firstName.setText(u.getFirstName());
         lastName.setText(u.getLastName());
+        ttsEnabled.setSelected("T".equals(u.getTtsEnabled()));
         int i = 0;
         if (!u.getJobs().isEmpty()) {
             for (Label label : job.getItems()) {
@@ -127,6 +135,7 @@ public class EditUserController extends BasePageController implements Initializa
                 String uFirstName = firstName.getText();
                 String uLastName = lastName.getText();
                 User.AuthenticationLevel uAuthLevel = User.AuthenticationLevel.valueOf(authenticationLevel.getValue().getText());
+                String tts = ttsEnabled.isSelected() ? "T" : "F";
                 List<Request.RequestType> uJobs = new ArrayList<>();
                 if (job.getValue() != null) {
                     if (job.getValue().getText().equals("None")) {
@@ -136,7 +145,7 @@ public class EditUserController extends BasePageController implements Initializa
                         uJobs.add(uJob);
                     }
                 }
-                User uUpdated = new User(uUsername, uEmail, uFirstName, uLastName, uAuthLevel, uJobs);
+                User uUpdated = new User(uUsername, uEmail, uFirstName, uLastName, uAuthLevel, tts, uJobs);
                 try {
                     if (SceneSwitcher.addingUser) {
                         DatabaseHandler.getHandler().addUser(uUpdated, password.getText());
@@ -197,11 +206,12 @@ public class EditUserController extends BasePageController implements Initializa
 
     @FXML
     private void validateEmail() {
+        Matcher matcher = emailPattern.matcher(email.getText());
         if (!originalEmail.equals(email.getText()) && DatabaseHandler.getHandler().getUserByEmail(email.getText()) != null) {
             lblError.setText("Email address is already taken!");
             lblError.setVisible(true);
             btnSubmit.setDisable(true);
-        } else if (!email.getText().isEmpty() && !email.getText().contains("@")) {
+        } else if (!matcher.matches()) {
             lblError.setText("Email address must be valid!");
             lblError.setVisible(true);
             btnSubmit.setDisable(true);

@@ -5,6 +5,7 @@ import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXDialogLayout;
 import com.jfoenix.controls.JFXToggleButton;
 import edu.wpi.cs3733.D21.teamB.App;
+import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.User;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
 import edu.wpi.cs3733.D21.teamB.views.BasePageController;
@@ -19,6 +20,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -45,7 +47,7 @@ public class SettingsMenuController extends BasePageController implements Initia
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location, resources);
-        toggleTTS.setSelected(ttsOn);
+        toggleTTS.setSelected(DatabaseHandler.getHandler().getAuthenticationUser().getTtsEnabled().equals("T"));
     }
 
     @FXML
@@ -55,12 +57,6 @@ public class SettingsMenuController extends BasePageController implements Initia
         switch (btn.getId()) {
             case "btnEmergency":
                 SceneSwitcher.switchScene("/edu/wpi/cs3733/D21/teamB/views/menus/settingsMenu.fxml", "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
-                break;
-            case "btnAdd":
-                Stage stage = App.getPrimaryStage();
-                stage.setUserData(new User("", "", "", "", User.AuthenticationLevel.PATIENT, new ArrayList<>()));
-                SceneSwitcher.addingUser = true;
-                SceneSwitcher.switchScene("/edu/wpi/cs3733/D21/teamB/views/menus/settingsMenu.fxml", "/edu/wpi/cs3733/D21/teamB/views/menus/editUserMenu.fxml");
                 break;
             case "btnHelp":
                 loadHelpDialog();
@@ -73,17 +69,21 @@ public class SettingsMenuController extends BasePageController implements Initia
         JFXToggleButton toggleButton = (JFXToggleButton) e.getSource();
         switch (toggleButton.getId()) {
             case "toggleTTS":
-                if (ttsOn) {
-                    ttsOn = false;
-                } else {
-                    ttsOn = true;
+                DatabaseHandler db = DatabaseHandler.getHandler();
+                User user = db.getAuthenticationUser();
+                if (toggleButton.isSelected())
                     tts.speak("Text-to-speech has been activated.", 1.0f, false, false);
+                user.setTtsEnabled(user.getTtsEnabled().equals("F") ? "T" : "F");
+                try {
+                    db.updateUser(user);
+                } catch (SQLException err) {
+                    err.printStackTrace();
                 }
                 break;
         }
     }
 
-    private void loadHelpDialog(){
+    private void loadHelpDialog() {
         JFXDialogLayout helpLayout = new JFXDialogLayout();
 
         Text helpText = new Text("Click the toggle button to enable or disable text-to-speech functionality.");
