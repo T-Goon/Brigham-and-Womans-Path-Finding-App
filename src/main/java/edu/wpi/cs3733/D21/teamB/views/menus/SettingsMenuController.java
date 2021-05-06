@@ -41,13 +41,19 @@ public class SettingsMenuController extends BasePageController implements Initia
     private StackPane stackPane;
 
     @FXML
-    private HBox profileHolder;
-
-    @FXML
     private JFXToggleButton toggleTTS;
 
     @FXML
+    private HBox profileHolder;
+
+    @FXML
     private JFXButton btnEditProfile;
+
+    @FXML
+    private HBox passwordHolder;
+
+    @FXML
+    private JFXButton btnChangePassword;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -55,6 +61,7 @@ public class SettingsMenuController extends BasePageController implements Initia
         toggleTTS.setSelected(DatabaseHandler.getHandler().getAuthenticationUser().getTtsEnabled().equals("T"));
         if (!DatabaseHandler.getHandler().getAuthenticationUser().isAtLeast(User.AuthenticationLevel.PATIENT)) {
             profileHolder.getChildren().remove(btnEditProfile);
+            passwordHolder.getChildren().remove(btnChangePassword);
         }
     }
 

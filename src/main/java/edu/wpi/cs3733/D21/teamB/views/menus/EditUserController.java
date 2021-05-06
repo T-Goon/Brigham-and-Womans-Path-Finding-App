@@ -153,6 +153,8 @@ public class EditUserController extends BasePageController implements Initializa
         JFXButton btn = (JFXButton) actionEvent.getSource();
         switch (btn.getId()) {
             case "btnSubmit":
+                if (!validateEmail()) return;
+
                 String uUsername = username.getText();
                 String uEmail = email.getText();
                 String uFirstName = firstName.getText();
@@ -223,23 +225,24 @@ public class EditUserController extends BasePageController implements Initializa
 
         username.setDisable(SceneSwitcher.editingUserState != SceneSwitcher.UserState.ADD);
         password.setDisable(SceneSwitcher.editingUserState != SceneSwitcher.UserState.ADD);
-
-        validateEmail();
     }
 
     @FXML
-    private void validateEmail() {
+    private boolean validateEmail() {
         Matcher matcher = emailPattern.matcher(email.getText());
         if (!username.getText().equals("temporary") && !originalEmail.equals(email.getText()) && DatabaseHandler.getHandler().getUserByEmail(email.getText()) != null) {
             lblError.setText("Email address is already taken!");
             lblError.setVisible(true);
             btnSubmit.setDisable(true);
-        } else if (username.getText().equals("temporary") && !matcher.matches()) {
+            return false;
+        } else if (!username.getText().equals("temporary") && !matcher.matches()) {
             lblError.setText("Email address must be valid!");
             lblError.setVisible(true);
             btnSubmit.setDisable(true);
+            return false;
         } else {
             lblError.setVisible(false);
+            return true;
         }
     }
 }
