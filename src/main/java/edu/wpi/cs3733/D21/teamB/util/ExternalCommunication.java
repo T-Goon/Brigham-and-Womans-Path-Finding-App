@@ -1,5 +1,7 @@
 package edu.wpi.cs3733.D21.teamB.util;
 
+import edu.wpi.cs3733.D21.teamB.pathfinding.Directions;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -152,6 +154,38 @@ public class ExternalCommunication {
                 message.setSubject("Brigham and Women's Hospital Application - COVID-19 Survey Approved");
                 message.setText("Hello " + name + ",\n\nYour COVID-19 survey was recently approved with status " + status +
                         ".\n\n\nBrigham and Women's Hospital Application Team");
+
+                Transport.send(message);
+            } catch (MessagingException e) {
+                e.printStackTrace();
+            }
+        });
+        emailThread.start();
+        threads.add(emailThread);
+    }
+
+    /**
+     * Send text directions to user
+     *
+     * @param email         the email address of the user requesting text directions
+     * @param name          the name of the user requesting text directions
+     * @param directions    the text directions to send
+     */
+    public static void sendTextDirections(String email, String name, List<Directions.Direction> directions) {
+        StringBuilder text = new StringBuilder();
+        for (Directions.Direction direction : directions) {
+            text.append(direction.getInstruction()).append("\n");
+        }
+
+        Thread emailThread = new Thread(() -> {
+            MimeMessage message = setUpSender();
+
+            try {
+                message.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
+
+                message.setSubject("Brigham and Women's Hospital Application - View Your Text Directions");
+                message.setText("Hello " + name + ",\n\nYour text directions are below:\n\n" + text +
+                        "\n\nBrigham and Women's Hospital Application Team");
 
                 Transport.send(message);
             } catch (MessagingException e) {
