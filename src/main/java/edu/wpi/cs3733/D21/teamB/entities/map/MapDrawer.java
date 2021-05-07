@@ -189,6 +189,10 @@ public class MapDrawer implements PoppableManager {
                 double scaleY = gPane.getHeight() / (maxY - minY);
                 double scaleAmount = Math.min(scaleX, scaleY);
 
+                mapCache.setAvgX(avgX);
+                mapCache.setAvgY(avgY);
+                mapCache.setScaleAmount(scaleAmount);
+
                 gPane.zoomTo(scaleAmount, new Point2D(gPane.getWidth() / 2, gPane.getHeight() / 2));
                 gPane.centreOn(new Point2D(avgX, avgY));
             }
