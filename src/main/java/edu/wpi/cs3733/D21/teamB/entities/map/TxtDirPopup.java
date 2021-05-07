@@ -226,24 +226,13 @@ public class TxtDirPopup extends Popup<VBox, TxtDirPopupData> implements Poppabl
             maxX += padding;
             maxY += padding;
 
-            System.out.println("min X: " + minX);
-            System.out.println("max X: " + maxX);
-            System.out.println("min Y: " + minY);
-            System.out.println("max Y: " + maxY);
-
             double avgX = (minX + maxX) / 2;
             double avgY = (minY + maxY) / 2;
-
-            System.out.println("avg X: " + avgX);
-            System.out.println("avg Y: " + avgY);
 
             // Figure out how much to zoom
             double scaleX = gPane.getWidth() / (maxX - minX);
             double scaleY = gPane.getHeight() / (maxY - minY);
             double scaleAmount = Math.min(scaleX, scaleY);
-
-            System.out.println("scale X: " + scaleX);
-            System.out.println("scale Y: " + scaleY);
 
             gPane.zoomTo(scaleAmount, new Point2D(gPane.getWidth() / 2, gPane.getHeight() / 2));
             gPane.centreOn(new Point2D(avgX, avgY));
