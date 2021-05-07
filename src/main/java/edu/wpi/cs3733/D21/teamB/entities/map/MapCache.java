@@ -75,9 +75,13 @@ public class MapCache {
     private Path finalPath;
 
     @Getter
+    @Setter
+    private double avgX, avgY, scaleAmount;
+
+    @Getter
     private final Map<String, String> categoryNameMap = new HashMap<>(); // Map of category short name -> category long name
 
-    public MapCache(){
+    public MapCache() {
         categoryNameMap.put("SERV", "Services");
         categoryNameMap.put("REST", "Restrooms");
         categoryNameMap.put("LABS", "Lab Rooms");

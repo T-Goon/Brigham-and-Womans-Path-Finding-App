@@ -95,6 +95,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
             textDirectionsHolder;
 
     @FXML
+    @Getter
     private GesturePane gpane;
 
     @FXML
