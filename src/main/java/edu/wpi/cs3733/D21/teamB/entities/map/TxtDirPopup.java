@@ -8,11 +8,13 @@ import edu.wpi.cs3733.D21.teamB.pathfinding.Directions;
 import edu.wpi.cs3733.D21.teamB.util.ExternalCommunication;
 import edu.wpi.cs3733.D21.teamB.util.Popup.Poppable;
 import edu.wpi.cs3733.D21.teamB.util.Popup.Popup;
+import edu.wpi.cs3733.D21.teamB.util.tts.TextToSpeech;
 import edu.wpi.cs3733.D21.teamB.views.map.PathfindingMenuController;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point2D;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
@@ -55,6 +57,10 @@ public class TxtDirPopup extends Popup<VBox, TxtDirPopupData> implements Poppabl
 
     private final double avgX, avgY, scaleAmount;
 
+    private final StackPane stackPane;
+
+    private final TextToSpeech tts = new TextToSpeech();
+
     public TxtDirPopup(Pane parent, TxtDirPopupData data) {
         super(parent, data);
 
@@ -62,6 +68,7 @@ public class TxtDirPopup extends Popup<VBox, TxtDirPopupData> implements Poppabl
         mapCache = data.getMapCache();
         gPane = data.getGesturePane();
         floorSwitcher = data.getFloorSwitcher();
+        stackPane = data.getStackPane();
         directions = new ArrayList<>();
         directions.addAll(data.getInstructions());
         maxIndex = directions.size() - 1;
@@ -69,6 +76,24 @@ public class TxtDirPopup extends Popup<VBox, TxtDirPopupData> implements Poppabl
         avgX = mapCache.getAvgX();
         avgY = mapCache.getAvgY();
         scaleAmount = mapCache.getScaleAmount();
+
+        // You can use up/down arrows for directions, as well as tab/shift-tab
+        stackPane.setOnKeyPressed(e -> {
+            if (e.getCode() == KeyCode.DOWN) {
+                next();
+                e.consume();
+            } else if (e.getCode() == KeyCode.UP) {
+                previous();
+                e.consume();
+            } else if (e.getCode() == KeyCode.TAB && e.isShiftDown()) {
+                previous();
+                e.consume();
+            } else if (e.getCode() == KeyCode.TAB) {
+                next();
+                e.consume();
+            }
+        });
+
     }
 
     public void show() {
@@ -137,6 +162,7 @@ public class TxtDirPopup extends Popup<VBox, TxtDirPopupData> implements Poppabl
         highlight(true);
         gPane.zoomTo(scaleAmount, new Point2D(gPane.getWidth() / 2, gPane.getHeight() / 2));
         gPane.centreOn(new Point2D(avgX, avgY));
+        stackPane.setOnKeyPressed(null);
         hide();
     }
 
@@ -193,6 +219,12 @@ public class TxtDirPopup extends Popup<VBox, TxtDirPopupData> implements Poppabl
             }
             previousText = label;
             previousLines = lines;
+
+            // If the user has TTS enabled, speak the direction
+            if (DatabaseHandler.getHandler().getAuthenticationUser().getTtsEnabled().equals("T")) {
+                String toSpeak = label.getText();
+                tts.speak(toSpeak, 1.0f, false, false);
+            }
 
             // Update the scrollpane
             if (updateScrollPane) {
