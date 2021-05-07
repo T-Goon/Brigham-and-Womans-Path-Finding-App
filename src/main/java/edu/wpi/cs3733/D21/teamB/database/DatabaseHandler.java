@@ -175,6 +175,7 @@ public class DatabaseHandler {
                 + "location CHAR(20), "
                 + "description VARCHAR(200), "
                 + "submitter CHAR(30), "
+                + "name CHAR(30), "
                 + "FOREIGN KEY (location) REFERENCES Nodes(nodeID))";
 
         String sanitationRequestsTable = "CREATE TABLE IF NOT EXISTS SanitationRequests("

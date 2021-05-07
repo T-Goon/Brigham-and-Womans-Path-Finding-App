@@ -40,7 +40,7 @@ public class RequestWrapper {
         this.type = new Label(Request.RequestType.prettify(r.getRequestType()));
         this.time = new Label(r.getTime());
         this.date = new Label(r.getDate());
-        this.name = new Label(r.getSubmitter());
+        this.name = new Label(r.getName().equals("null") ? "N/A" : r.getName());
         switch (r.getProgress()) {
             case "F":
                 this.progress = new Label("Not Started");

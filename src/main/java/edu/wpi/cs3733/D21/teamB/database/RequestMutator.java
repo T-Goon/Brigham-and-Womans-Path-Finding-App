@@ -36,7 +36,8 @@ public class RequestMutator implements IDatabaseEntityMutator<Request> {
                     rs.getString("employeeName"),
                     rs.getString("location"),
                     rs.getString("description"),
-                    rs.getString("submitter")
+                    rs.getString("submitter"),
+                    rs.getString("name")
             );
             requests.put(rs.getString("requestID"), outRequest);
         } while (rs.next());
@@ -64,6 +65,7 @@ public class RequestMutator implements IDatabaseEntityMutator<Request> {
                 + "', '" + request.getLocation()
                 + "', '" + request.getDescription().replace("'", "''")
                 + "', '" + username
+                + "', '" + request.getName()
                 + "')";
         db.runStatement(query, false);
 
@@ -423,7 +425,8 @@ public class RequestMutator implements IDatabaseEntityMutator<Request> {
                     rs.getString("employeeName"),
                     rs.getString("location"),
                     rs.getString("description"),
-                    rs.getString("submitter")
+                    rs.getString("submitter"),
+                    rs.getString("name")
             );
         } while (rs.next());
         rs.close();
@@ -677,6 +680,7 @@ public class RequestMutator implements IDatabaseEntityMutator<Request> {
                         rs.getString("location"),
                         rs.getString("description"),
                         rs.getString("submitter"),
+                        rs.getString("name"),
                         User.CovidStatus.valueOf(rs.getString("status")),
                         rs.getString("fever"),
                         rs.getString("chills"),
