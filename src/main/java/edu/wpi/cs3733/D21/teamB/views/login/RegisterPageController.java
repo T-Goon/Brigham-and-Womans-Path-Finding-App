@@ -154,8 +154,7 @@ public class RegisterPageController extends BasePageController implements Initia
             e.printStackTrace();
         }
 
-        ExternalCommunication externalCommunication = new ExternalCommunication();
-        externalCommunication.sendConfirmation(email.getText(), firstName.getText());
+        ExternalCommunication.sendConfirmation(email.getText(), firstName.getText());
         SceneSwitcher.switchFromTemp("/edu/wpi/cs3733/D21/teamB/views/login/successfulRegistration.fxml");
     }
 

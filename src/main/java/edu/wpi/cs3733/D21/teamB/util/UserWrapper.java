@@ -66,8 +66,8 @@ public class UserWrapper {
         btnDel.setOnAction(event -> {
             try {
                 DatabaseHandler.getHandler().deleteUser(u.getUsername());
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
             parentTable.getItems().removeIf((Object o) -> ((UserWrapper) o).u.getUsername().equals(u.getUsername()));
         });
