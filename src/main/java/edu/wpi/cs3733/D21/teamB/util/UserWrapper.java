@@ -5,8 +5,6 @@ import edu.wpi.cs3733.D21.teamB.App;
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.User;
 import edu.wpi.cs3733.D21.teamB.entities.requests.Request;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
@@ -54,7 +52,7 @@ public class UserWrapper {
         btnEdit.setOnAction(event -> {
             Stage stage = App.getPrimaryStage();
             stage.setUserData(u);
-            SceneSwitcher.addingUser = false;
+            SceneSwitcher.editingUserState = SceneSwitcher.UserState.EDIT;
             SceneSwitcher.switchScene("/edu/wpi/cs3733/D21/teamB/views/menus/userInformationDatabase.fxml", "/edu/wpi/cs3733/D21/teamB/views/menus/editUserMenu.fxml");
         });
 

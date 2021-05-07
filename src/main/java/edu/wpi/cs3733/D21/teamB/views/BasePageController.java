@@ -1,25 +1,21 @@
 package edu.wpi.cs3733.D21.teamB.views;
 
 import com.jfoenix.controls.JFXButton;
+import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
 import edu.wpi.cs3733.D21.teamB.util.tts.TextToSpeech;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public abstract class BasePageController implements Initializable {
 
-    public static boolean ttsOn = false;
     public boolean firstFocused;
 
     @FXML
@@ -37,13 +33,13 @@ public abstract class BasePageController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         firstFocused = true;
-        Platform.runLater( () -> stackPane.requestFocus() );
-                for (Node aNode : stackPane.lookupAll("*")) {
+        Platform.runLater(() -> stackPane.requestFocus());
+        for (Node aNode : stackPane.lookupAll("*")) {
             aNode.focusedProperty().addListener((observable, oldValue, newValue) -> {
-                if (ttsOn) {
+                if (DatabaseHandler.getHandler().getAuthenticationUser().getTtsEnabled().equals("T")) {
                     if (newValue) {
                         String speechOut = aNode.getAccessibleText();
-                        if (firstFocused){
+                        if (firstFocused) {
                             speechOut = null;
                             firstFocused = false;
                         }
