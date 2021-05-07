@@ -22,6 +22,7 @@ import java.util.Objects;
 public class RequestWrapper {
 
     private final Request r;
+    private final Label name;
     private final Label type;
     private final Label time;
     private final Label date;
@@ -39,6 +40,7 @@ public class RequestWrapper {
         this.type = new Label(Request.RequestType.prettify(r.getRequestType()));
         this.time = new Label(r.getTime());
         this.date = new Label(r.getDate());
+        this.name = new Label(r.getSubmitter());
         switch (r.getProgress()) {
             case "F":
                 this.progress = new Label("Not Started");

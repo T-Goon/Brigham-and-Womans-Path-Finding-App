@@ -53,6 +53,9 @@ public class   ServiceRequestDatabaseController extends BasePageController imple
     @FXML
     private TableColumn<String, JFXButton> delCol;
 
+    @FXML
+    private TableColumn<String, JFXButton> nameCol;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Map<String, Request> allRequests;
@@ -103,6 +106,9 @@ public class   ServiceRequestDatabaseController extends BasePageController imple
                     break;
                 case "delCol":
                     c.setCellValueFactory(new PropertyValueFactory<>("btnDel"));
+                    break;
+                case "nameCol":
+                    c.setCellValueFactory(new PropertyValueFactory<>("name"));
                     break;
             }
         }
