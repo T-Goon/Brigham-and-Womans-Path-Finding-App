@@ -220,7 +220,11 @@ public class RequestWrapper {
                     SceneSwitcher.switchScene("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml", "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
                     break;
                 case COVID:
-                    SceneSwitcher.switchScene("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml", "/edu/wpi/cs3733/D21/teamB/views/requestForms/covidRequestForm.fxml");
+                    if(r.getProgress().equals("F")) {
+                        SceneSwitcher.switchScene("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml", "/edu/wpi/cs3733/D21/teamB/views/requestForms/covidRequestForm.fxml");
+                    }else if(r.getProgress().equals("P")){
+                        SceneSwitcher.switchScene("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml", "/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidSurveyNurseCheck.fxml");
+                    }
                     break;
                 default:
                     throw new IllegalStateException("How did we get here?");
