@@ -96,16 +96,15 @@ public class CovidRequestFormController extends DefaultServiceRequestFormControl
 
                     // Check if the user has an email address
                     if (status != User.CovidStatus.UNCHECKED && submitter.getEmail() != null) {
-                        ExternalCommunication externalCommunication = new ExternalCommunication();
-                        externalCommunication.sendCovidSurveyApproval(submitter.getEmail(), submitter.getFirstName(), reviewStatus.getValue().getText());
+                        ExternalCommunication.sendCovidSurveyApproval(submitter.getEmail(), submitter.getFirstName(), reviewStatus.getValue().getText());
                     }
                 }
             }
 
             try {
                 DatabaseHandler.getHandler().updateRequest(request);
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
         }
     }
