@@ -76,7 +76,7 @@
                                     <Insets bottom="5.0" />
                                  </VBox.margin>
                               </Text>
-                              <JFXTextField fx:id="username" accessibleText="Username" focusColor="#ffffff00" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#validateButton" onKeyReleased="#validateButton" prefHeight="50.0" prefWidth="400.0" style="-fx-background-color: #0067B1; -fx-opacity: 30%; -fx-border-color: white; -fx-border-width: 3; -fx-border-radius: 3;" stylesheets="@../../css/login.css">
+                              <JFXTextField fx:id="username" accessibleText="Username" focusColor="#ffffff00" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#validateButton" onKeyReleased="#validateButton" prefHeight="50.0" prefWidth="400.0" style="-fx-background-color: #0067B1; -fx-border-color: white; -fx-border-width: 1; -fx-border-radius: 3;" stylesheets="@../../css/login.css">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
@@ -102,7 +102,7 @@
                                     <Insets bottom="5.0" />
                                  </VBox.margin>
                               </Text>
-                              <JFXPasswordField fx:id="password" accessibleText="Password" focusColor="#ffffff00" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#validateButton" onKeyReleased="#validateButton" prefHeight="50.0" prefWidth="400.0" style="-fx-background-color: #0067B1; -fx-opacity: 30%; -fx-border-color: white; -fx-border-width: 3; -fx-border-radius: 3;" stylesheets="@../../css/login.css">
+                              <JFXPasswordField fx:id="password" accessibleText="Password" focusColor="#ffffff00" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#validateButton" onKeyReleased="#validateButton" prefHeight="50.0" prefWidth="400.0" style="-fx-background-color: #0067B1; -fx-border-color: white; -fx-border-width: 1; -fx-border-radius: 3;" stylesheets="@../../css/login.css">
                                  <font>
                                     <Font size="20.0" />
                                  </font>

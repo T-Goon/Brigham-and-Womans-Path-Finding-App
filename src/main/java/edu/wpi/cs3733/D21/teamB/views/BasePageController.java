@@ -3,6 +3,7 @@ package edu.wpi.cs3733.D21.teamB.views;
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.cs3733.D21.teamB.entities.LastFocused;
 import edu.wpi.cs3733.D21.teamB.entities.OnScreenKeyboard;
+import edu.wpi.cs3733.D21.teamB.entities.OnScreenKeyboard;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
 import edu.wpi.cs3733.D21.teamB.util.tts.TextToSpeech;
 import javafx.application.Platform;
@@ -19,6 +20,7 @@ import javafx.scene.layout.VBox;
 
 import javax.xml.stream.EventFilter;
 import java.awt.*;
+import java.awt.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -26,6 +28,7 @@ public abstract class BasePageController implements Initializable {
 
     public static boolean ttsOn = false;
     public static boolean oskOn = false;
+    public boolean firstFocused;
 
     @FXML
     private JFXButton btnBack;
@@ -44,6 +47,8 @@ public abstract class BasePageController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        firstFocused = true;
+        Platform.runLater( () -> stackPane.requestFocus() );
         if (oskOn){
             onScreenKeyboard.getKeyboard().setVisible(true);
         }
@@ -70,12 +75,15 @@ public abstract class BasePageController implements Initializable {
         } catch (AWTException e) {
             e.printStackTrace();
         }
-
         for (Node aNode : stackPane.lookupAll("*")) {
             aNode.focusedProperty().addListener((observable, oldValue, newValue) -> {
                 if (ttsOn) {
                     if (newValue) {
                         String speechOut = aNode.getAccessibleText();
+                        if (firstFocused){
+                            speechOut = null;
+                            firstFocused = false;
+                        }
                         if (speechOut != null) {
                             tts.speak(speechOut, 1.0f, false, false);
                         }
@@ -83,6 +91,7 @@ public abstract class BasePageController implements Initializable {
                 }
             });
         }
+        tts.stopSpeaking();
     }
 
     public void handleButtonAction(ActionEvent e) {
