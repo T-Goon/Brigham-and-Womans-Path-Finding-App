@@ -4,6 +4,8 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXDialogLayout;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -33,6 +35,12 @@ public class HelpDialog {
         button.setOnAction(event -> helpWindow.close());
         helpLayout.setActions(button);
         button.setDefaultButton(true);
+        stackPane.addEventFilter(KeyEvent.KEY_PRESSED, e -> {
+            if (e.getCode() == KeyCode.SPACE && helpWindow.isVisible()) {
+                helpWindow.close();
+                e.consume();
+            }
+        });
         helpWindow.show();
     }
 }
