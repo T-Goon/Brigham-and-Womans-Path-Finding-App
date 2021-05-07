@@ -7,6 +7,8 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
+import javafx.scene.control.OverrunStyle;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
@@ -22,6 +24,9 @@ public class ChatBoxController implements Initializable {
 
     @FXML
     public VBox base;
+
+    @FXML
+    public ScrollPane scrollPane;
 
     @FXML
     public JFXTextField input;
@@ -79,19 +84,7 @@ public class ChatBoxController implements Initializable {
         // Hey, it exists!
         messageHolder.getChildren().add(messageBox);
         messages.add(messageBox);
-
-        // If there are too many messages, get rid of the oldest ones
-        while (getHeightOfMessages() > messageHolder.getHeight() - 20) {
-            messages.remove(0);
-            messageHolder.getChildren().remove(0);
-        }
-    }
-
-    private double getHeightOfMessages() {
-        double height = 0;
-        for (HBox box : messages)
-            height += box.getHeight() + messageHolder.getSpacing(); // Accounts for VBox spacing
-        return height;
+        scrollPane.setVvalue(1);
     }
 
     /**

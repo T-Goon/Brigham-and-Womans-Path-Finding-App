@@ -4,6 +4,7 @@
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
@@ -22,11 +23,16 @@
                 </JFXButton>
             </children>
         </HBox>
-        <VBox fx:id="messageHolder" prefHeight="9999.0" spacing="5.0">
+        <ScrollPane fx:id="scrollPane" hbarPolicy="NEVER" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="9999.0"
+                    prefWidth="336.0" style="-fx-background-color: transparent;" stylesheets="@../../css/treeView.css">
+            <content>
+                <VBox fx:id="messageHolder" maxWidth="-Infinity" minHeight="320.0" minWidth="-Infinity"
+                      prefWidth="318.0" spacing="5.0"/>
+            </content>
             <VBox.margin>
-                <Insets bottom="7.0" left="7.0" right="7.0" top="7.0"/>
+                <Insets bottom="7.0" left="7.0" right="2.0" top="7.0"/>
             </VBox.margin>
-        </VBox>
+        </ScrollPane>
         <VBox>
             <children>
                 <JFXTextField fx:id="input" focusColor="#405aa800" onKeyReleased="#handleSendMessage"
