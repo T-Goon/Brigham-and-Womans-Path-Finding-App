@@ -2,25 +2,21 @@ package edu.wpi.cs3733.D21.teamB.views.requestForms;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
-import com.jfoenix.controls.JFXDialog;
-import com.jfoenix.controls.JFXDialogLayout;
 import edu.wpi.cs3733.D21.teamB.App;
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Node;
+import edu.wpi.cs3733.D21.teamB.util.HelpDialog;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
 import edu.wpi.cs3733.D21.teamB.util.AutoCompleteComboBoxListener;
 import edu.wpi.cs3733.D21.teamB.views.BasePageController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -100,33 +96,12 @@ public abstract class DefaultServiceRequestFormController extends BasePageContro
                 SceneSwitcher.switchFromTemp("/edu/wpi/cs3733/D21/teamB/views/requestForms/formSubmitted.fxml");
                 break;
             case "btnHelp":
-                loadHelpDialog();
+                HelpDialog.loadHelpDialog(stackPane, "Please fill out this form completely. Once each field is full, you can submit the form and an employee will be assigned.\nIf you wish to end your request early, click 'Cancel'. If your request is an emergency please click 'Emergency'.");
                 break;
             case "btnEmergency":
                 SceneSwitcher.switchFromTemp("/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
                 break;
         }
-    }
-
-    private void loadHelpDialog() {
-        JFXDialogLayout helpLayout = new JFXDialogLayout();
-
-        Text helpText = new Text("Please fill out this form completely. Once each field is full, you can submit the form and an employee will be assigned.\nIf you wish to end your request early, click 'Cancel'. If your request is an emergency please click 'Emergency'.");
-        helpText.setFont(new Font("MS Reference Sans Serif", 14));
-
-        Label headerLabel = new Label("Help");
-        headerLabel.setFont(new Font("MS Reference Sans Serif", 18));
-
-        helpLayout.setHeading(headerLabel);
-        helpLayout.setBody(helpText);
-        JFXDialog helpWindow = new JFXDialog(stackPane, helpLayout, JFXDialog.DialogTransition.CENTER);
-
-        JFXButton button = new JFXButton("Close");
-        button.setOnAction(event -> helpWindow.close());
-        helpLayout.setActions(button);
-
-        helpWindow.show();
-
     }
 
     /**

@@ -5,6 +5,7 @@ import edu.wpi.cs3733.D21.teamB.App;
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.User;
 import edu.wpi.cs3733.D21.teamB.entities.requests.Request;
+import edu.wpi.cs3733.D21.teamB.util.HelpDialog;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
 import edu.wpi.cs3733.D21.teamB.views.BasePageController;
 import javafx.event.ActionEvent;
@@ -12,7 +13,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 import java.net.URL;
@@ -20,6 +20,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 public class EditUserController extends BasePageController implements Initializable {
@@ -40,13 +42,25 @@ public class EditUserController extends BasePageController implements Initializa
     private JFXTextField lastName;
 
     @FXML
+    private Text passwordText;
+
+    @FXML
     private JFXPasswordField password;
+
+    @FXML
+    private Text authenticationLevelText;
 
     @FXML
     private JFXComboBox<Label> authenticationLevel;
 
     @FXML
+    private Text jobText;
+
+    @FXML
     private JFXComboBox<Label> job;
+
+    @FXML
+    private JFXToggleButton ttsEnabled;
 
     @FXML
     private JFXButton btnBack;
@@ -68,8 +82,11 @@ public class EditUserController extends BasePageController implements Initializa
 
     private String originalEmail;
 
+    private final Pattern emailPattern = Pattern.compile(".+@.+");
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        super.initialize(location, resources);
         authenticationLevel.getItems().add(new Label(User.AuthenticationLevel.ADMIN.toString()));
         authenticationLevel.getItems().add(new Label(User.AuthenticationLevel.STAFF.toString()));
         authenticationLevel.getItems().add(new Label(User.AuthenticationLevel.PATIENT.toString()));
@@ -89,6 +106,7 @@ public class EditUserController extends BasePageController implements Initializa
         originalEmail = email.getText();
         firstName.setText(u.getFirstName());
         lastName.setText(u.getLastName());
+        ttsEnabled.setSelected("T".equals(u.getTtsEnabled()));
         int i = 0;
         if (!u.getJobs().isEmpty()) {
             for (Label label : job.getItems()) {
@@ -114,6 +132,18 @@ public class EditUserController extends BasePageController implements Initializa
         }
 
         validateButtons();
+
+        // TODO: Make it look less bad
+        if (SceneSwitcher.editingUserState == SceneSwitcher.UserState.EDIT_SELF) {
+            bigText.setText("User Profile");
+            smallText.setText("Edit User Profile");
+            passwordText.setVisible(false);
+            password.setVisible(false);
+            authenticationLevelText.setVisible(false);
+            authenticationLevel.setVisible(false);
+            jobText.setVisible(false);
+            job.setVisible(false);
+        }
     }
 
     public void handleButtonAction(ActionEvent actionEvent) {
@@ -122,11 +152,14 @@ public class EditUserController extends BasePageController implements Initializa
         JFXButton btn = (JFXButton) actionEvent.getSource();
         switch (btn.getId()) {
             case "btnSubmit":
+                if (!validateEmail()) return;
+
                 String uUsername = username.getText();
                 String uEmail = email.getText();
                 String uFirstName = firstName.getText();
                 String uLastName = lastName.getText();
                 User.AuthenticationLevel uAuthLevel = User.AuthenticationLevel.valueOf(authenticationLevel.getValue().getText());
+                String tts = ttsEnabled.isSelected() ? "T" : "F";
                 List<Request.RequestType> uJobs = new ArrayList<>();
                 if (job.getValue() != null) {
                     if (job.getValue().getText().equals("None")) {
@@ -136,9 +169,9 @@ public class EditUserController extends BasePageController implements Initializa
                         uJobs.add(uJob);
                     }
                 }
-                User uUpdated = new User(uUsername, uEmail, uFirstName, uLastName, uAuthLevel, uJobs);
+                User uUpdated = new User(uUsername, uEmail, uFirstName, uLastName, uAuthLevel, tts, uJobs);
                 try {
-                    if (SceneSwitcher.addingUser) {
+                    if (SceneSwitcher.editingUserState == SceneSwitcher.UserState.ADD) {
                         DatabaseHandler.getHandler().addUser(uUpdated, password.getText());
                     } else {
                         DatabaseHandler.getHandler().updateUser(uUpdated);
@@ -152,34 +185,13 @@ public class EditUserController extends BasePageController implements Initializa
                 SceneSwitcher.goBack(1);
                 break;
             case "btnHelp":
-                loadHelpDialog();
+                HelpDialog.loadHelpDialog(stackPane, "Please fill out this form completely. Once each field is full, you can submit the form and the user will be added.\n" +
+                        "If you wish to end your request early, click the back button.");
                 break;
             case "btnEmergency":
                 SceneSwitcher.switchScene("/edu/wpi/cs3733/D21/teamB/views/menus/editUserMenu.fxml", "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
                 break;
         }
-    }
-
-    private void loadHelpDialog() {
-        JFXDialogLayout helpLayout = new JFXDialogLayout();
-
-        Text helpText = new Text("Please fill out this form completely. Once each field is full, you can submit the form and the user will be added.\n" +
-                "If you wish to end your request early, click the back button.");
-        helpText.setFont(new Font("MS Reference Sans Serif", 14));
-
-        Label headerLabel = new Label("Help");
-        headerLabel.setFont(new Font("MS Reference Sans Serif", 18));
-
-        helpLayout.setHeading(headerLabel);
-        helpLayout.setBody(helpText);
-        JFXDialog helpWindow = new JFXDialog(stackPane, helpLayout, JFXDialog.DialogTransition.CENTER);
-
-        JFXButton button = new JFXButton("Close");
-        button.setOnAction(event -> helpWindow.close());
-        helpLayout.setActions(button);
-
-        helpWindow.show();
-
     }
 
     @FXML
@@ -189,24 +201,26 @@ public class EditUserController extends BasePageController implements Initializa
                         authenticationLevel.getValue() == null
         );
 
-        username.setDisable(!SceneSwitcher.addingUser);
-        password.setDisable(!SceneSwitcher.addingUser);
-
-        validateEmail();
+        username.setDisable(SceneSwitcher.editingUserState != SceneSwitcher.UserState.ADD);
+        password.setDisable(SceneSwitcher.editingUserState != SceneSwitcher.UserState.ADD);
     }
 
     @FXML
-    private void validateEmail() {
-        if (!originalEmail.equals(email.getText()) && DatabaseHandler.getHandler().getUserByEmail(email.getText()) != null) {
+    private boolean validateEmail() {
+        Matcher matcher = emailPattern.matcher(email.getText());
+        if (!username.getText().equals("temporary") && !originalEmail.equals(email.getText()) && DatabaseHandler.getHandler().getUserByEmail(email.getText()) != null) {
             lblError.setText("Email address is already taken!");
             lblError.setVisible(true);
             btnSubmit.setDisable(true);
-        } else if (!email.getText().isEmpty() && !email.getText().contains("@")) {
+            return false;
+        } else if (!username.getText().equals("temporary") && !matcher.matches()) {
             lblError.setText("Email address must be valid!");
             lblError.setVisible(true);
             btnSubmit.setDisable(true);
+            return false;
         } else {
             lblError.setVisible(false);
+            return true;
         }
     }
 }

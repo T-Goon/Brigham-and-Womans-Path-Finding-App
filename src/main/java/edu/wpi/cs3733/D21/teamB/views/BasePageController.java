@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXButton;
 import edu.wpi.cs3733.D21.teamB.entities.LastFocused;
 import edu.wpi.cs3733.D21.teamB.entities.OnScreenKeyboard;
 import edu.wpi.cs3733.D21.teamB.entities.OnScreenKeyboard;
+import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
 import edu.wpi.cs3733.D21.teamB.util.tts.TextToSpeech;
 import javafx.application.Platform;
@@ -16,7 +17,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 
 import javax.xml.stream.EventFilter;
 import java.awt.*;
@@ -47,8 +47,9 @@ public abstract class BasePageController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        // On screen keyboard stuff
         firstFocused = true;
-        Platform.runLater( () -> stackPane.requestFocus() );
+        Platform.runLater(() -> stackPane.requestFocus());
         if (oskOn){
             onScreenKeyboard.getKeyboard().setVisible(true);
         }
@@ -75,12 +76,14 @@ public abstract class BasePageController implements Initializable {
         } catch (AWTException e) {
             e.printStackTrace();
         }
+
+        // tts stuff
         for (Node aNode : stackPane.lookupAll("*")) {
             aNode.focusedProperty().addListener((observable, oldValue, newValue) -> {
-                if (ttsOn) {
+                if (DatabaseHandler.getHandler().getAuthenticationUser().getTtsEnabled().equals("T")) {
                     if (newValue) {
                         String speechOut = aNode.getAccessibleText();
-                        if (firstFocused){
+                        if (firstFocused) {
                             speechOut = null;
                             firstFocused = false;
                         }
