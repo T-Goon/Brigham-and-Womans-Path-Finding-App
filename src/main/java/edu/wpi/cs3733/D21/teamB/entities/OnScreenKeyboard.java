@@ -133,6 +133,10 @@ public class OnScreenKeyboard {
         bckSpce.setOnAction(event -> {
             if (!(lastFocused.getAnode().isFocused())) {
                 lastFocused.requestFocus();
+                for (int k = 0; k < 100; k++) {
+                    robot.keyPress(KeyEvent.VK_RIGHT);
+                    robot.keyRelease(KeyEvent.VK_RIGHT);
+                }
             }
             if (!shifted) {
                 robot.keyPress(KeyEvent.VK_BACK_SPACE);
