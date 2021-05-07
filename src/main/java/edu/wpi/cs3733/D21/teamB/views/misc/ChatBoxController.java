@@ -21,6 +21,9 @@ import java.util.ResourceBundle;
 public class ChatBoxController implements Initializable {
 
     @FXML
+    public VBox base;
+
+    @FXML
     public JFXTextField input;
 
     @FXML
@@ -33,7 +36,7 @@ public class ChatBoxController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        btnClose.setOnAction(e -> System.out.println("should close now"));
+        btnClose.setOnAction(e -> ((AnchorPane) base.getParent()).getChildren().remove(base));
     }
 
     @FXML
