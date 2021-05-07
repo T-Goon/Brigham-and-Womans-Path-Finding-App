@@ -75,6 +75,14 @@
                                                       <Insets bottom="20.0" right="10.0" />
                                                   </HBox.margin>
                                               </JFXButton>
+                                    <JFXButton fx:id="btnSTT" accessibleText="Log in" buttonType="RAISED" onAction="#testSTT" style="-fx-background-color: #012d5a;" text="STT" textFill="WHITE">
+                                       <font>
+                                          <Font name="MS Reference Sans Serif" size="23.0" />
+                                       </font>
+                                       <HBox.margin>
+                                          <Insets bottom="20.0" right="15.0" />
+                                       </HBox.margin>
+                                    </JFXButton>
                                           </children>
                                       </HBox>
                                   </children>

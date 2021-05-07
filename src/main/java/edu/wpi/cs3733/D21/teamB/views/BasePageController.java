@@ -35,8 +35,33 @@ public abstract class BasePageController implements Initializable {
     public TextToSpeech tts = new TextToSpeech();
 
 
+
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+        firstFocused = true;
+        Platform.runLater( () -> stackPane.requestFocus() );
+                for (Node aNode : stackPane.lookupAll("*")) {
+            aNode.focusedProperty().addListener((observable, oldValue, newValue) -> {
+                if (ttsOn) {
+                    if (newValue) {
+                        String speechOut = aNode.getAccessibleText();
+                        if (firstFocused){
+                            speechOut = null;
+                            firstFocused = false;
+                        }
+                        if (speechOut != null) {
+                            tts.speak(speechOut, 1.0f, false, false);
+                        }
+                    }
+                }
+            });
+        }
+        tts.stopSpeaking();
+    }
+
+    public void testSTT(){
         Configuration configuration = new Configuration();
 
         configuration.setAcousticModelPath("resource:/edu/cmu/sphinx/models/en-us/en-us");
@@ -61,25 +86,6 @@ public abstract class BasePageController implements Initializable {
             System.out.format("Hypothesis: %s\n", result.getHypothesis());
         }
         recognizer.stopRecognition();
-        firstFocused = true;
-        Platform.runLater( () -> stackPane.requestFocus() );
-                for (Node aNode : stackPane.lookupAll("*")) {
-            aNode.focusedProperty().addListener((observable, oldValue, newValue) -> {
-                if (ttsOn) {
-                    if (newValue) {
-                        String speechOut = aNode.getAccessibleText();
-                        if (firstFocused){
-                            speechOut = null;
-                            firstFocused = false;
-                        }
-                        if (speechOut != null) {
-                            tts.speak(speechOut, 1.0f, false, false);
-                        }
-                    }
-                }
-            });
-        }
-        tts.stopSpeaking();
     }
 
     public void handleButtonAction(ActionEvent e) {
