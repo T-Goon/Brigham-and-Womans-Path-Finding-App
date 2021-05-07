@@ -19,6 +19,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
+import javax.swing.*;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -65,7 +66,7 @@ public class TxtDirPopupController implements Initializable {
                 HBox first = new HBox();
                 first.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY)));
                 Label firstText = new Label(directions.get(0).getInstruction());
-                firstText.setFont(Font.font("MS Reference Sans Serif", FontWeight.BOLD, 25));
+                firstText.setFont(Font.font("MS Reference Sans Serif", FontWeight.BOLD, 16));
                 first.getChildren().add(firstText);
                 textHolder.getChildren().add(first);
             } else {
@@ -78,7 +79,7 @@ public class TxtDirPopupController implements Initializable {
                 instructionBox.setAlignment(Pos.CENTER_LEFT);
                 // Label in HBox
                 Label text = new Label(dir.getInstruction());
-                text.setFont(new Font("MS Reference Sans Serif", 15));
+                text.setFont(new Font("MS Reference Sans Serif", 13));
                 text.setPadding(new Insets(10, 10, 10, 10));
                 text.setAlignment(Pos.TOP_LEFT);
                 instructionBox.getChildren().add(text);
@@ -106,6 +107,8 @@ public class TxtDirPopupController implements Initializable {
         switch (btn.getId()) {
             case "btnEmail":
                 popup.email();
+                btnEmail.setStyle("-fx-background-color: #0f9d58");
+                btnEmail.setDisable(true);
                 break;
             case "btnRestart":
                 popup.restart();
