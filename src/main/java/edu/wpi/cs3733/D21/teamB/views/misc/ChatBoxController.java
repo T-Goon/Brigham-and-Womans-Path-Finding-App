@@ -2,18 +2,21 @@ package edu.wpi.cs3733.D21.teamB.views.misc;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
+import edu.wpi.cs3733.D21.teamB.util.PageCache;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
 import javafx.scene.control.Label;
-import javafx.scene.control.OverrunStyle;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -41,30 +44,41 @@ public class ChatBoxController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        btnClose.setOnAction(e -> ((AnchorPane) base.getParent()).getChildren().remove(base));
+        // Add all the messages in the cache
+        for (Message m : PageCache.getMessages())
+            addMessage(m);
+
+        // Scroll pane goes down to the bottom when a new message is sent
+        scrollPane.vvalueProperty().bind(messageHolder.heightProperty());
+
+        // When closed, wipe the cache and remove itself
+        btnClose.setOnAction(e -> {
+            ((AnchorPane) base.getParent()).getChildren().remove(base);
+            PageCache.getMessages().clear();
+        });
     }
 
     @FXML
     public void handleSendMessage(KeyEvent e) {
         if (e.getCode() == KeyCode.ENTER) {
-            String message = input.getText();
+            Message message = new Message(input.getText(), true);
+            addMessage(message);
             input.clear();
-            addMessage(message, Math.random() > 0.5); // todo change back to true
+            PageCache.getMessages().add(message);
         }
     }
 
     /**
      * Given a message and whether it's from the user, add it to the chatbot
      *
-     * @param message  the message to show
-     * @param fromUser whether the message is from the user or not
+     * @param message the message to show
      */
-    public void addMessage(String message, boolean fromUser) {
-        if (message == null || message.isEmpty()) return;
+    public void addMessage(Message message) {
+        if (message == null || message.message.isEmpty()) return;
 
         // Adds HBox with text
         HBox messageBox = new HBox();
-        Label text = new Label(message);
+        Label text = new Label(message.message);
         text.setFont(new Font("MS Reference Sans Serif", 13));
         text.setStyle("-fx-text-fill: white");
         text.setWrapText(true);
@@ -73,7 +87,7 @@ public class ChatBoxController implements Initializable {
         messageBox.getChildren().add(text);
 
         // Determines alignment if sent from user or not
-        if (fromUser) {
+        if (message.fromUser) {
             messageBox.setPadding(new Insets(0, 0, 0, 75));
             messageBox.setAlignment(Pos.CENTER_RIGHT);
         } else {
@@ -84,22 +98,17 @@ public class ChatBoxController implements Initializable {
         // Hey, it exists!
         messageHolder.getChildren().add(messageBox);
         messages.add(messageBox);
-        scrollPane.setVvalue(1);
     }
 
-    /**
-     * @return the most recent saved messages
-     */
-    public List<String> getMessages() {
-        List<String> messageList = new ArrayList<>();
-        messages.forEach(elem -> messageList.add(((Label) elem.getChildren().get(0)).getText()));
-        return messageList;
-    }
+    @Getter
+    @AllArgsConstructor
+    public static class Message {
+        private final String message;
+        private final boolean fromUser;
 
-    /**
-     * @return the last message sent
-     */
-    public String getLastMessage() {
-        return ((Label) messages.get(messages.size() - 1).getChildren().get(0)).getText();
+        @Override
+        public String toString() {
+            return "[" + message + (fromUser ? " from User" : " from Chatbot") + "]";
+        }
     }
 }

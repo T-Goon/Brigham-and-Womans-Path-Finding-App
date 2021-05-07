@@ -8,7 +8,9 @@ import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.User;
 import edu.wpi.cs3733.D21.teamB.util.CSVHandler;
 import edu.wpi.cs3733.D21.teamB.util.ExternalCommunication;
+import edu.wpi.cs3733.D21.teamB.util.PageCache;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
+import edu.wpi.cs3733.D21.teamB.views.misc.ChatBoxController;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -44,6 +46,14 @@ public class App extends Application {
 
         // Open first view
         try {
+
+            List<ChatBoxController.Message> messages = new ArrayList<>();
+            messages.add(new ChatBoxController.Message("test", false));
+            messages.add(new ChatBoxController.Message("yeppppp", false));
+            messages.add(new ChatBoxController.Message("APOIHTOPIAWHTPOIAHWTPOIHAWPTHAPOIWTHPOAIWHTOPIAHWTHAIWOTHPOIAHWTPOIHAWTPOIH", true));
+            messages.add(new ChatBoxController.Message("what the heck is wrong with you?", false));
+            PageCache.getMessages().addAll(messages);
+
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("views/misc/chatBox.fxml")));
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);
