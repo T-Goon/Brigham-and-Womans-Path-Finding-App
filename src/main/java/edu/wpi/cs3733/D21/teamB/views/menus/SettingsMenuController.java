@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXToggleButton;
 import edu.wpi.cs3733.D21.teamB.App;
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
+import edu.wpi.cs3733.D21.teamB.entities.OnScreenKeyboard;
 import edu.wpi.cs3733.D21.teamB.entities.User;
 import edu.wpi.cs3733.D21.teamB.util.HelpDialog;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
@@ -40,6 +41,10 @@ public class SettingsMenuController extends BasePageController implements Initia
     private JFXToggleButton toggleTTS;
 
     @FXML
+    private JFXToggleButton toggleOSK;
+
+
+    @FXML
     private HBox profileHolder;
 
     @FXML
@@ -54,6 +59,7 @@ public class SettingsMenuController extends BasePageController implements Initia
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location, resources);
+        toggleOSK.setSelected(oskOn);
         toggleTTS.setSelected(DatabaseHandler.getHandler().getAuthenticationUser().getTtsEnabled().equals("T"));
         if (!DatabaseHandler.getHandler().getAuthenticationUser().isAtLeast(User.AuthenticationLevel.PATIENT)) {
             profileHolder.getChildren().remove(btnEditProfile);
@@ -88,17 +94,28 @@ public class SettingsMenuController extends BasePageController implements Initia
     @FXML
     public void handleToggleAction(ActionEvent e) {
         JFXToggleButton toggleButton = (JFXToggleButton) e.getSource();
-        if (toggleButton.getId().equals("toggleTTS")) {
-            DatabaseHandler db = DatabaseHandler.getHandler();
-            User user = db.getAuthenticationUser();
-            if (toggleButton.isSelected())
-                tts.speak("Text-to-speech has been activated.", 1.0f, false, false);
-            user.setTtsEnabled(user.getTtsEnabled().equals("F") ? "T" : "F");
-            try {
-                db.updateUser(user);
-            } catch (SQLException err) {
-                err.printStackTrace();
-            }
+        switch (toggleButton.getId()) {
+            case "toggleTTS":
+                DatabaseHandler db = DatabaseHandler.getHandler();
+                User user = db.getAuthenticationUser();
+                if (toggleButton.isSelected())
+                    tts.speak("Text-to-speech has been activated.", 1.0f, false, false);
+                user.setTtsEnabled(user.getTtsEnabled().equals("F") ? "T" : "F");
+                try {
+                    db.updateUser(user);
+                } catch (SQLException err) {
+                    err.printStackTrace();
+                }
+                break;
+            case "toggleOSK":
+                if (oskOn) {
+                    oskOn = false;
+                    OnScreenKeyboard.getInstance().getKeyboard().setVisible(false);
+                } else {
+                    oskOn = true;
+                    OnScreenKeyboard.getInstance().getKeyboard().setVisible(true);
+                }
+                break;
         }
     }
 }
