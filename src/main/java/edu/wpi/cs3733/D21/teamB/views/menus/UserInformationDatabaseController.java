@@ -1,11 +1,10 @@
 package edu.wpi.cs3733.D21.teamB.views.menus;
 
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXDialog;
-import com.jfoenix.controls.JFXDialogLayout;
 import edu.wpi.cs3733.D21.teamB.App;
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.User;
+import edu.wpi.cs3733.D21.teamB.util.HelpDialog;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
 import edu.wpi.cs3733.D21.teamB.util.UserWrapper;
 import edu.wpi.cs3733.D21.teamB.views.BasePageController;
@@ -18,8 +17,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.StackPane;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -96,7 +93,9 @@ public class UserInformationDatabaseController extends BasePageController implem
         if (users != null) {
             for (User u : users) {
                 try {
-                    tblStaff.getItems().add(new UserWrapper(u , tblStaff));
+                    if (!(u.getUsername().equals("temporary"))) {
+                        tblStaff.getItems().add(new UserWrapper(u , tblStaff));
+                    }
                 } catch (IOException err) {
                     err.printStackTrace();
                 }
@@ -114,34 +113,13 @@ public class UserInformationDatabaseController extends BasePageController implem
                 break;
             case "btnAdd":
                 Stage stage = App.getPrimaryStage();
-                stage.setUserData(new User("", "", "", "", User.AuthenticationLevel.PATIENT, new ArrayList<>()));
-                SceneSwitcher.addingUser = true;
+                stage.setUserData(new User("", "", "", "", User.AuthenticationLevel.PATIENT, "F", new ArrayList<>()));
+                SceneSwitcher.editingUserState = SceneSwitcher.UserState.ADD;
                 SceneSwitcher.switchScene("/edu/wpi/cs3733/D21/teamB/views/menus/userInformationDatabase.fxml", "/edu/wpi/cs3733/D21/teamB/views/menus/editUserMenu.fxml");
                 break;
             case "btnHelp":
-                loadHelpDialog();
+                HelpDialog.loadHelpDialog(stackPane, "To view an employee's full information, click on the edit button. Editing passwords is achieved by deleting a user and recreating them with a new password. Deleting a user will delete all requests assigned to that user.");
                 break;
         }
-    }
-
-    private void loadHelpDialog(){
-        JFXDialogLayout helpLayout = new JFXDialogLayout();
-
-        Text helpText = new Text("To view an employee's full information, click on the edit button. Editing passwords is achieved by deleting a user and recreating them with a new password. Deleting a user will delete all requests assigned to that user.");
-        helpText.setFont(new Font("MS Reference Sans Serif", 14));
-
-        Label headerLabel = new Label("Help");
-        headerLabel.setFont(new Font("MS Reference Sans Serif", 18));
-
-        helpLayout.setHeading(headerLabel);
-        helpLayout.setBody(helpText);
-        JFXDialog helpWindow = new JFXDialog(stackPane, helpLayout, JFXDialog.DialogTransition.CENTER);
-
-        JFXButton button = new JFXButton("Close");
-        button.setOnAction(event -> helpWindow.close());
-        helpLayout.setActions(button);
-
-        helpWindow.show();
-
     }
 }

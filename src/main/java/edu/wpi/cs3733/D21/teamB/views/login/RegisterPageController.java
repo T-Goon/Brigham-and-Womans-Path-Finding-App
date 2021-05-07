@@ -3,6 +3,7 @@ package edu.wpi.cs3733.D21.teamB.views.login;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.JFXToggleButton;
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.User;
 import edu.wpi.cs3733.D21.teamB.util.ExternalCommunication;
@@ -45,6 +46,9 @@ public class RegisterPageController extends BasePageController implements Initia
 
     @FXML
     public JFXPasswordField retypePassword;
+
+    @FXML
+    public JFXToggleButton ttsEnabled;
 
     @FXML
     public Label error;
@@ -143,15 +147,14 @@ public class RegisterPageController extends BasePageController implements Initia
         }
 
         // Add the user to the database
-        User newUser = new User(username.getText(), email.getText(), firstName.getText(), lastName.getText(), User.AuthenticationLevel.PATIENT, new ArrayList<>());
+        User newUser = new User(username.getText(), email.getText(), firstName.getText(), lastName.getText(), User.AuthenticationLevel.PATIENT, ttsEnabled.isSelected() ? "T" : "F", new ArrayList<>());
         try {
             db.addUser(newUser, password.getText());
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        ExternalCommunication externalCommunication = new ExternalCommunication();
-        externalCommunication.sendConfirmation(email.getText(), firstName.getText());
+        ExternalCommunication.sendConfirmation(email.getText(), firstName.getText());
         SceneSwitcher.switchFromTemp("/edu/wpi/cs3733/D21/teamB/views/login/successfulRegistration.fxml");
     }
 

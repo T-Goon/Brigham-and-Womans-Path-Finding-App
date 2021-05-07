@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.D21.teamB.entities;
 
+import edu.wpi.cs3733.D21.teamB.App;
 import edu.wpi.cs3733.D21.teamB.entities.requests.Request;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -40,11 +41,13 @@ public class User implements IStoredEntity {
 
     private CovidStatus covidStatus;
 
+    private String ttsEnabled;
+
     private List<Request.RequestType> jobs;
 
 
-    public User(String username, String email, String firstName, String lastName, AuthenticationLevel authenticationLevel, List<Request.RequestType> jobs) {
-        this(username, email, firstName, lastName, authenticationLevel, CovidStatus.UNCHECKED, jobs);
+    public User(String username, String email, String firstName, String lastName, AuthenticationLevel authenticationLevel, String ttsEnabled, List<Request.RequestType> jobs) {
+        this(username, email, firstName, lastName, authenticationLevel, CovidStatus.UNCHECKED, ttsEnabled, jobs);
     }
 
     public boolean addJob(Request.RequestType job) {

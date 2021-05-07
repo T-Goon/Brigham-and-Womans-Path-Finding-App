@@ -1,11 +1,16 @@
 package edu.wpi.cs3733.D21.teamB.entities.map;
 
+import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
+import edu.wpi.cs3733.D21.teamB.entities.User;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Node;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.TxtDirPopupData;
 import edu.wpi.cs3733.D21.teamB.pathfinding.Directions;
+import edu.wpi.cs3733.D21.teamB.util.ExternalCommunication;
 import edu.wpi.cs3733.D21.teamB.util.Popup.Poppable;
 import edu.wpi.cs3733.D21.teamB.util.Popup.Popup;
+import edu.wpi.cs3733.D21.teamB.views.map.PathfindingMenuController;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Point2D;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
@@ -13,6 +18,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import lombok.Getter;
 import lombok.Setter;
+import net.kurobako.gesturefx.GesturePane;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -42,19 +48,27 @@ public class TxtDirPopup extends Popup<VBox, TxtDirPopupData> implements Poppabl
     private final MapCache mapCache;
     private final FloorSwitcher floorSwitcher;
 
+    private final GesturePane gPane;
+
     private Label previousText;
     private List<Line> previousLines;
+
+    private final double avgX, avgY, scaleAmount;
 
     public TxtDirPopup(Pane parent, TxtDirPopupData data) {
         super(parent, data);
 
         mapDrawer = data.getMapDrawer();
         mapCache = data.getMapCache();
+        gPane = data.getGesturePane();
         floorSwitcher = data.getFloorSwitcher();
         directions = new ArrayList<>();
         directions.addAll(data.getInstructions());
         maxIndex = directions.size() - 1;
 
+        avgX = mapCache.getAvgX();
+        avgY = mapCache.getAvgY();
+        scaleAmount = mapCache.getScaleAmount();
     }
 
     public void show() {
@@ -71,6 +85,14 @@ public class TxtDirPopup extends Popup<VBox, TxtDirPopupData> implements Poppabl
         restart();
         scrollPane.setVvalue(0.0);
         super.show(txtDirBox);
+    }
+
+    /**
+     * Email the text directions to the current user
+     */
+    public void email() {
+        User currentUser = DatabaseHandler.getHandler().getAuthenticationUser();
+        ExternalCommunication.sendTextDirections(currentUser.getEmail(), currentUser.getFirstName(), directions);
     }
 
     /**
@@ -113,6 +135,8 @@ public class TxtDirPopup extends Popup<VBox, TxtDirPopupData> implements Poppabl
     public void close() {
         index = 0;
         highlight(true);
+        gPane.zoomTo(scaleAmount, new Point2D(gPane.getWidth() / 2, gPane.getHeight() / 2));
+        gPane.centreOn(new Point2D(avgX, avgY));
         hide();
     }
 
@@ -151,7 +175,7 @@ public class TxtDirPopup extends Popup<VBox, TxtDirPopupData> implements Poppabl
      */
     public void highlight(boolean updateScrollPane) {
         // Reset the previous colors to the normal color
-       // Background transparentBG = new Background(new BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY));
+        // Background transparentBG = new Background(new BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY));
         if (previousText != null && previousLines != null) {
             previousText.getParent().setStyle("-fx-background-color: transparent; -fx-padding: 0;");
             for (Line l : previousLines) l.setStroke(Color.rgb(0, 103, 177));
@@ -176,6 +200,42 @@ public class TxtDirPopup extends Popup<VBox, TxtDirPopupData> implements Poppabl
                 double y = box.getBoundsInParent().getMaxY();
                 scrollPane.setVvalue(y / height);
             }
+
+            // Adjust coordinate scales
+            if (lines.isEmpty()) return;
+            Line l = lines.get(0);
+            double minX = Math.min(l.getStartX(), l.getEndX());
+            double minY = Math.min(l.getStartY(), l.getEndY());
+            double maxX = Math.max(l.getStartX(), l.getEndX());
+            double maxY = Math.max(l.getStartY(), l.getEndY());
+
+            for (Line current : lines) {
+                if (current.getStartX() < minX) minX = current.getStartX();
+                if (current.getEndX() < minX) minX = current.getEndX();
+                if (current.getStartY() < minY) minY = current.getStartY();
+                if (current.getEndY() < minY) minY = current.getEndY();
+                if (current.getStartX() > maxX) maxX = current.getStartX();
+                if (current.getEndX() > maxX) maxX = current.getEndX();
+                if (current.getStartY() > maxY) maxY = current.getStartY();
+                if (current.getEndY() > maxY) maxY = current.getEndY();
+            }
+
+            int padding = 75;
+            minX -= padding;
+            minY -= padding;
+            maxX += padding;
+            maxY += padding;
+
+            double avgX = (minX + maxX) / 2;
+            double avgY = (minY + maxY) / 2;
+
+            // Figure out how much to zoom
+            double scaleX = gPane.getWidth() / (maxX - minX);
+            double scaleY = gPane.getHeight() / (maxY - minY);
+            double scaleAmount = Math.min(scaleX, scaleY);
+
+            gPane.zoomTo(scaleAmount, new Point2D(gPane.getWidth() / 2, gPane.getHeight() / 2));
+            gPane.centreOn(new Point2D(avgX, avgY));
         }
     }
 }

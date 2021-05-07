@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.D21.teamB.entities.map.data;
 
 import edu.wpi.cs3733.D21.teamB.entities.IStoredEntity;
+import edu.wpi.cs3733.D21.teamB.entities.map.FloorSwitcher;
 import javafx.scene.paint.Color;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -52,21 +53,8 @@ public class Node implements Comparable<Node>, IStoredEntity {
         this.color = color;
     }
 
-    public int getFloorAsInt(){
-        switch(floor){
-            case "L2":
-                return 0;
-            case "L1":
-                return 1;
-            case "1":
-                return 2;
-            case "2":
-                return 3;
-            case "3":
-                return 4;
-            default:
-                return -1;
-        }
+    public int getFloorAsInt() {
+        return FloorSwitcher.floorIDtoInt(floor);
     }
 
     @Override
@@ -88,8 +76,8 @@ public class Node implements Comparable<Node>, IStoredEntity {
         return Double.compare(this.fVal, o.getFVal());
     }
 
-    public static int floorAsInt(String floorString){
-        switch(floorString){
+    public static int floorAsInt(String floorString) {
+        switch (floorString) {
             case "L2":
                 return 0;
             case "L1":
