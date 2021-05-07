@@ -9,9 +9,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.layout.StackPane;
-import voce.SpeechInterface;
+
+import java.io.*;
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import edu.cmu.sphinx.api.Configuration;
+import edu.cmu.sphinx.api.SpeechResult;
+import edu.cmu.sphinx.api.StreamSpeechRecognizer;
 
 public abstract class BasePageController implements Initializable {
 
@@ -32,8 +37,30 @@ public abstract class BasePageController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        SpeechInterface.init("C:/Users/G/Documents/CS3733/TTS/voce-0.9.1/lib",false,true, "file:/C:/Users/G/Documents/CS3733/TTS/voce-0.9.1/lib/gram",
-                "digits");
+        Configuration configuration = new Configuration();
+
+        configuration.setAcousticModelPath("resource:/edu/cmu/sphinx/models/en-us/en-us");
+        configuration.setDictionaryPath("resource:/edu/cmu/sphinx/models/en-us/cmudict-en-us.dict");
+        configuration.setLanguageModelPath("resource:/edu/cmu/sphinx/models/en-us/en-us.lm.bin");
+        StreamSpeechRecognizer recognizer = null;
+        try {
+            recognizer = new StreamSpeechRecognizer(configuration);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        InputStream stream = null;
+        try {
+            stream = new FileInputStream(new File("test.wav"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        recognizer.startRecognition(stream);
+        SpeechResult result;
+        while ((result = recognizer.getResult()) != null) {
+            System.out.format("Hypothesis: %s\n", result.getHypothesis());
+        }
+        recognizer.stopRecognition();
         firstFocused = true;
         Platform.runLater( () -> stackPane.requestFocus() );
                 for (Node aNode : stackPane.lookupAll("*")) {

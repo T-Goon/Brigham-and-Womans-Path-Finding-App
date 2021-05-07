@@ -24,6 +24,7 @@ repositories {
     jcenter()
     maven {
         url 'https://apisite.crmyers.dev/maven'
+        url "https://oss.sonatype.org/content/repositories/snapshots"
     }
 
 }
@@ -51,6 +52,9 @@ dependencies {
     compile 'de.dfki.mary:voice-cmu-rms-hsmm:5.2'
     compile 'de.dfki.mary:voice-cmu-slt-hsmm:5.2'
     compile 'de.dfki.mary:voice-dfki-poppy-hsmm:5.2'
+
+    compile group: 'edu.cmu.sphinx', name: 'sphinx4-core', version:'5prealpha-SNAPSHOT'
+    compile group: 'edu.cmu.sphinx', name: 'sphinx4-data', version:'5prealpha-SNAPSHOT'
 
     shadowJar{
         mergeServiceFiles()
