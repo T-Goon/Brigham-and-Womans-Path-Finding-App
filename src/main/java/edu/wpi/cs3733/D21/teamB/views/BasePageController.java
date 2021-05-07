@@ -47,36 +47,15 @@ public abstract class BasePageController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        // On screen keyboard stuff
-        firstFocused = true;
-        Platform.runLater(() -> stackPane.requestFocus());
-        if (oskOn){
-            onScreenKeyboard.getKeyboard().setVisible(true);
-        }
-        else {
-            onScreenKeyboard.getKeyboard().setVisible(false);
+        initOSK();
+        initTTS();
 
-        }
-        EventHandler<MouseEvent> onClick = new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                lastFocused.setAnode(event.getPickResult().getIntersectedNode());
-            }
-        };
-        stackPane.addEventFilter(MouseEvent.MOUSE_CLICKED,onClick);
-        onScreenKeyboard = OnScreenKeyboard.getInstance();
-        keyboardVisible = false;
-        try {
-            if(!onScreenKeyboard.getInitialized()) {
-                onScreenKeyboard.initKeyboard(stackPane);
-            }
-            else {
-                onScreenKeyboard.setParent(stackPane);
-            }
-        } catch (AWTException e) {
-            e.printStackTrace();
-        }
+    }
 
+    /**
+     * Initializes the text to speech
+     */
+    private void initTTS() {
         // tts stuff
         for (Node aNode : stackPane.lookupAll("*")) {
             aNode.focusedProperty().addListener((observable, oldValue, newValue) -> {
@@ -95,6 +74,39 @@ public abstract class BasePageController implements Initializable {
             });
         }
         tts.stopSpeaking();
+    }
+
+    /**
+     * Initializes the on-screen keyboard
+     */
+    private void initOSK() {
+        // On screen keyboard stuff
+        firstFocused = true;
+        Platform.runLater(() -> stackPane.requestFocus());
+        if (oskOn) {
+            onScreenKeyboard.getKeyboard().setVisible(true);
+        } else {
+            onScreenKeyboard.getKeyboard().setVisible(false);
+
+        }
+        EventHandler<MouseEvent> onClick = new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                lastFocused.setAnode(event.getPickResult().getIntersectedNode());
+            }
+        };
+        stackPane.addEventFilter(MouseEvent.MOUSE_CLICKED, onClick);
+        onScreenKeyboard = OnScreenKeyboard.getInstance();
+        keyboardVisible = false;
+        try {
+            if (!onScreenKeyboard.getInitialized()) {
+                onScreenKeyboard.initKeyboard(stackPane);
+            } else {
+                onScreenKeyboard.setParent(stackPane);
+            }
+        } catch (AWTException e) {
+            e.printStackTrace();
+        }
     }
 
     public void handleButtonAction(ActionEvent e) {
