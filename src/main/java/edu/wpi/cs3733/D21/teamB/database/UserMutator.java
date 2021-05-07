@@ -31,6 +31,7 @@ public class UserMutator implements IDatabaseEntityMutator<UserMutator.UserPassw
                 + "', '" + user.user.getLastName()
                 + "', '" + user.user.getAuthenticationLevel().toString()
                 + "', '" + user.user.getCovidStatus().toString()
+                + "', '" + user.user.getTtsEnabled()
                 + "', '" + hash
                 + "')";
         db.runStatement(query, false);
@@ -57,7 +58,8 @@ public class UserMutator implements IDatabaseEntityMutator<UserMutator.UserPassw
                 "firstName = '" + newUser.user.getFirstName() + "'," +
                 "lastName = '" + newUser.user.getLastName() + "'," +
                 "authenticationLevel = '" + newUser.user.getAuthenticationLevel().toString() + "'," +
-                "covidStatus = '" + newUser.user.getCovidStatus().toString() + "'" +
+                "covidStatus = '" + newUser.user.getCovidStatus().toString() + "'," +
+                "ttsEnabled = '" + newUser.user.getTtsEnabled() + "' " +
                 "WHERE (username = '" + newUser.user.getUsername() + "')";
         String deleteJobs = "DELETE FROM Jobs WHERE (username = '" + newUser.user.getUsername() + "')";
         if (db.getUserByUsername(newUser.user.getUsername()) != null) {
@@ -134,6 +136,7 @@ public class UserMutator implements IDatabaseEntityMutator<UserMutator.UserPassw
                     rs.getString("lastName"),
                     User.AuthenticationLevel.valueOf(rs.getString("authenticationLevel")),
                     User.CovidStatus.valueOf(rs.getString("covidStatus")),
+                    rs.getString("ttsEnabled"),
                     jobs
             );
             rs.close();
@@ -158,6 +161,7 @@ public class UserMutator implements IDatabaseEntityMutator<UserMutator.UserPassw
                     rs.getString("firstName"),
                     rs.getString("lastName"),
                     User.AuthenticationLevel.valueOf(rs.getString("authenticationLevel")),
+                    rs.getString("ttsEnabled"),
                     null
             );
             rs.close();
@@ -239,18 +243,6 @@ public class UserMutator implements IDatabaseEntityMutator<UserMutator.UserPassw
             e.printStackTrace();
             return null;
         }
-    }
-
-    /**
-     * Sets authentication level to guest
-     *
-     * @return if the user successfully lowered their authentication level (false if already guest)
-     */
-    public boolean deauthenticate() {
-        if (DatabaseHandler.AuthenticationUser.getAuthenticationLevel() != User.AuthenticationLevel.GUEST) {
-            DatabaseHandler.AuthenticationUser = new User(null, null, null, null, User.AuthenticationLevel.GUEST, null);
-            return true;
-        } else return false;
     }
 
     public void addFavoriteToUser(String favoriteLocation) throws SQLException {

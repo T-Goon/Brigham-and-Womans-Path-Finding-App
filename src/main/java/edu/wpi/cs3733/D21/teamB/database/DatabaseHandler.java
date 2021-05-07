@@ -26,7 +26,7 @@ public class DatabaseHandler {
     private final UserMutator userMutator;
 
     //State
-    static User AuthenticationUser = new User("temporary", null, null, null, User.AuthenticationLevel.GUEST, null);
+    static User AuthenticationUser = new User("temporary", null, null, null, User.AuthenticationLevel.GUEST, "F", null);
     private final String salt = BCrypt.gensalt();
 
     private DatabaseHandler() {
@@ -320,6 +320,7 @@ public class DatabaseHandler {
                 + "lastName CHAR(30), "
                 + "authenticationLevel CHAR(30) CHECK (authenticationLevel in ('ADMIN','STAFF','PATIENT', 'GUEST')), "
                 + "covidStatus CHAR(10) CHECK (covidStatus in ('UNCHECKED','PENDING','DANGEROUS', 'SAFE')), "
+                + "ttsEnabled CHAR(1) CHECK (ttsEnabled in ('T', 'F')), "
                 + "passwordHash CHAR(30))";
 
         String jobsTable = "CREATE TABLE IF NOT EXISTS Jobs("
@@ -464,7 +465,7 @@ public class DatabaseHandler {
     }
 
     /**
-     * Retreive all users in database
+     * Retrieve all users in database
      *
      * @return List of users in database
      */
@@ -532,7 +533,7 @@ public class DatabaseHandler {
      * Resets the temporary user
      */
     public User resetTemporaryUser() {
-        User user = new User("temporary", null, null, null, User.AuthenticationLevel.GUEST, User.CovidStatus.UNCHECKED, null);
+        User user = new User("temporary", null, null, null, User.AuthenticationLevel.GUEST, User.CovidStatus.UNCHECKED, "F", null);
         try {
             deleteUser("temporary");
         } catch (SQLException ignored) {
