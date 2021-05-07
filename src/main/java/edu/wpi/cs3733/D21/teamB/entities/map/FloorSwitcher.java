@@ -163,7 +163,7 @@ public class FloorSwitcher {
             case floorL2ID:
                 return -2;
             default:
-                throw new IllegalArgumentException("NO FLOOR! AAAAAAAAAAAAHHHHHHHHHHH!!!!!!!!!!!!!");
+                throw new IllegalArgumentException("NO FLOOR! AAAAAAAAAAAAHHHHHHHHHHH!!!!!!!!!!!!!" + " (the attempted floor was '" + floorID + "')");
         }
     }
 }
