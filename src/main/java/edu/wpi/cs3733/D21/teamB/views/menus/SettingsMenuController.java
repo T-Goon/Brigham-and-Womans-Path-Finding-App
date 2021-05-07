@@ -5,6 +5,7 @@ import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXDialogLayout;
 import com.jfoenix.controls.JFXToggleButton;
 import edu.wpi.cs3733.D21.teamB.App;
+import edu.wpi.cs3733.D21.teamB.entities.OnScreenKeyboard;
 import edu.wpi.cs3733.D21.teamB.entities.User;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
 import edu.wpi.cs3733.D21.teamB.views.BasePageController;
@@ -88,8 +89,10 @@ public class SettingsMenuController extends BasePageController implements Initia
             case "toggleOSK":
                 if (oskOn) {
                     oskOn = false;
+                    OnScreenKeyboard.getInstance().getKeyboard().setVisible(false);
                 } else {
                     oskOn = true;
+                    OnScreenKeyboard.getInstance().getKeyboard().setVisible(true);
                 }
                 break;
         }
