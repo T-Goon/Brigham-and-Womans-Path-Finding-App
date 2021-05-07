@@ -93,7 +93,9 @@ public class UserInformationDatabaseController extends BasePageController implem
         if (users != null) {
             for (User u : users) {
                 try {
-                    tblStaff.getItems().add(new UserWrapper(u , tblStaff));
+                    if (!(u.getUsername().equals("temporary"))) {
+                        tblStaff.getItems().add(new UserWrapper(u , tblStaff));
+                    }
                 } catch (IOException err) {
                     err.printStackTrace();
                 }

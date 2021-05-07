@@ -143,6 +143,7 @@ public class EditUserController extends BasePageController implements Initializa
             authenticationLevel.setVisible(false);
             jobText.setVisible(false);
             job.setVisible(false);
+            ttsEnabled.setVisible(false);
         }
     }
 
