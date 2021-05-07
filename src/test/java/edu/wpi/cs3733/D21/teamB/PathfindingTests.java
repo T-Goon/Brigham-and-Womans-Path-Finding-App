@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PathfindingTests {
 
-    AStar aStar = new AStar();
+    final AStar aStar = new AStar();
 
     @BeforeAll
     static void initDB() {
