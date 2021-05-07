@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.D21.teamB.views;
 
 import com.jfoenix.controls.JFXButton;
+import edu.cmu.sphinx.api.LiveSpeechRecognizer;
 import edu.wpi.cs3733.D21.teamB.entities.LastFocused;
 import edu.wpi.cs3733.D21.teamB.entities.OnScreenKeyboard;
 import edu.wpi.cs3733.D21.teamB.entities.OnScreenKeyboard;
@@ -23,6 +24,7 @@ import java.io.*;
 import java.awt.*;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.Timer;
 
 import edu.cmu.sphinx.api.Configuration;
 import edu.cmu.sphinx.api.SpeechResult;
@@ -48,11 +50,14 @@ public abstract class BasePageController implements Initializable {
 
     OnScreenKeyboard onScreenKeyboard = OnScreenKeyboard.getInstance();
     LastFocused lastFocused = LastFocused.getInstance();
-
+    Configuration configuration = new Configuration();
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        configuration.setAcousticModelPath("resource:/edu/cmu/sphinx/models/en-us/en-us");
+        configuration.setDictionaryPath("resource:/edu/cmu/sphinx/models/en-us/cmudict-en-us.dict");
+        configuration.setLanguageModelPath("resource:/edu/cmu/sphinx/models/en-us/en-us.lm.bin");
         // On screen keyboard stuff
         firstFocused = true;
         Platform.runLater(() -> stackPane.requestFocus());
@@ -104,30 +109,18 @@ public abstract class BasePageController implements Initializable {
     }
 
     public void testSTT(){
-        Configuration configuration = new Configuration();
-
-        configuration.setAcousticModelPath("resource:/edu/cmu/sphinx/models/en-us/en-us");
-        configuration.setDictionaryPath("resource:/edu/cmu/sphinx/models/en-us/cmudict-en-us.dict");
-        configuration.setLanguageModelPath("resource:/edu/cmu/sphinx/models/en-us/en-us.lm.bin");
-        StreamSpeechRecognizer recognizer = null;
+        LiveSpeechRecognizer recognizer = null;
         try {
-            recognizer = new StreamSpeechRecognizer(configuration);
+            recognizer = new LiveSpeechRecognizer(configuration);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        InputStream stream = null;
-        try {
-            stream = new FileInputStream(new File("test.wav"));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+        recognizer.startRecognition(true);
+        SpeechResult result = recognizer.getResult();
+        // Pause recognition process. It can be resumed then with startRecognition(false).
 
-        recognizer.startRecognition(stream);
-        SpeechResult result;
-        while ((result = recognizer.getResult()) != null) {
-            System.out.format("Hypothesis: %s\n", result.getHypothesis());
-        }
         recognizer.stopRecognition();
+        System.out.format("Hypothesis: %s\n", result.getHypothesis());
     }
 
     public void handleButtonAction(ActionEvent e) {
