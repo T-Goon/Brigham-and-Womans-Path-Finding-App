@@ -221,7 +221,7 @@ public class MapDrawer implements PoppableManager {
 
             //Creates the eta popup for this floor only
             //etaPopup = mapPathPopupManager.createETAPopup(new Path(currentFloorPath, Graph.getGraph().calculateCost(currentFloorPath)));
-            etaPopup = mapPathPopupManager.createETAPopup(mapCache.getFinalPath());
+            etaPopup = mapPathPopupManager.createETAPopup(mapCache.getFinalPath(), new Path(currentFloorPath, Graph.getGraph().calculateCost(currentFloorPath)));
             redrawNodes();
         }
 
