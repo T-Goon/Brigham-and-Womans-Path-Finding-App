@@ -60,7 +60,7 @@ public class OnScreenKeyboard {
         keyboard.setPrefWidth(Region.USE_COMPUTED_SIZE);
         keyboard.setMaxHeight(Region.USE_PREF_SIZE);
         keyboard.setMaxWidth(Region.USE_PREF_SIZE);
-        BackgroundFill bgFill = new BackgroundFill(javafx.scene.paint.Color.web("0x012D5A"), CornerRadii.EMPTY, Insets.EMPTY);
+        BackgroundFill bgFill = new BackgroundFill(Color.GRAY, CornerRadii.EMPTY, Insets.EMPTY);
         Background keyboardBG = new Background(bgFill);
         keyboard.setBackground(keyboardBG);
         keyboard.setOnMouseDragged(event -> drag(event));
