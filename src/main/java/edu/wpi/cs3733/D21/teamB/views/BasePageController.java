@@ -32,7 +32,7 @@ public abstract class BasePageController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        voce.SpeechInterface.init("C:/Users/G/Documents/CS3733/TTS/voce-0.9.1/lib",false,true, "file:/C:/Users/G/Documents/CS3733/TTS/voce-0.9.1/lib/gram",
+        SpeechInterface.init("C:/Users/G/Documents/CS3733/TTS/voce-0.9.1/lib",false,true, "file:/C:/Users/G/Documents/CS3733/TTS/voce-0.9.1/lib/gram",
                 "digits");
         firstFocused = true;
         Platform.runLater( () -> stackPane.requestFocus() );
