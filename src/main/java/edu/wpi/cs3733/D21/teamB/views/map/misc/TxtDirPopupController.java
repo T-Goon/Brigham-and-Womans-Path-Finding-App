@@ -2,6 +2,8 @@ package edu.wpi.cs3733.D21.teamB.views.map.misc;
 
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.cs3733.D21.teamB.App;
+import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
+import edu.wpi.cs3733.D21.teamB.entities.User;
 import edu.wpi.cs3733.D21.teamB.entities.map.TxtDirPopup;
 import edu.wpi.cs3733.D21.teamB.pathfinding.Directions;
 import javafx.event.ActionEvent;
@@ -22,6 +24,9 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class TxtDirPopupController implements Initializable {
+
+    @FXML
+    private JFXButton btnEmail;
 
     @FXML
     private JFXButton btnRestart;
@@ -88,12 +93,20 @@ public class TxtDirPopupController implements Initializable {
                 textHolder.getChildren().add(instructionBox);
             }
         }
+
+        // Hide email button for text directions if the user is not logged in
+        if (!DatabaseHandler.getHandler().getAuthenticationUser().isAtLeast(User.AuthenticationLevel.PATIENT)) {
+            btnEmail.setVisible(false);
+        }
     }
 
     @FXML
     private void handleButtonAction(ActionEvent e) {
         JFXButton btn = (JFXButton) e.getSource();
         switch (btn.getId()) {
+            case "btnEmail":
+                popup.email();
+                break;
             case "btnRestart":
                 popup.restart();
                 break;

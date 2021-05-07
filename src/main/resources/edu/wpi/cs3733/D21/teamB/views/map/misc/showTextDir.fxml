@@ -23,6 +23,14 @@
       </ScrollPane>
        <HBox alignment="CENTER" spacing="55.0" VBox.vgrow="ALWAYS">
           <children>
+            <JFXButton fx:id="btnEmail" alignment="CENTER" buttonType="RAISED" maxWidth="-Infinity" minWidth="-Infinity" onAction="#handleButtonAction" prefWidth="130.0" style="-fx-background-color: #012D5A; -fx-background-radius: 7;" text="Email Directions" textFill="WHITE">
+               <padding>
+                  <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+               </padding>
+               <font>
+                  <Font name="MS Reference Sans Serif" size="12.0" />
+               </font>
+            </JFXButton>
               <JFXButton fx:id="btnRestart" alignment="CENTER" buttonType="RAISED" maxWidth="-Infinity" minWidth="-Infinity" onAction="#handleButtonAction" prefWidth="90.0" style="-fx-background-color: #012D5A; -fx-background-radius: 7;" text="Restart" textFill="WHITE">
                   <HBox.margin>
                       <Insets />
@@ -42,7 +50,7 @@
                       <Font name="MS Reference Sans Serif" size="12.0" />
                   </font>
               </JFXButton>
-            <JFXButton fx:id="btnNext" alignment="CENTER" buttonType="RAISED" maxWidth="-Infinity" minWidth="-Infinity" onAction="#handleButtonAction" prefWidth="90.0" style="-fx-background-color: #012D5A; -fx-background-radius: 7;" text="Next" textFill="WHITE">
+            <JFXButton fx:id="btnNext" alignment="CENTER" buttonType="RAISED" maxWidth="120.0" minWidth="-Infinity" onAction="#handleButtonAction" prefWidth="90.0" style="-fx-background-color: #012D5A; -fx-background-radius: 7;" text="Next" textFill="WHITE">
                <padding>
                   <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
                </padding>

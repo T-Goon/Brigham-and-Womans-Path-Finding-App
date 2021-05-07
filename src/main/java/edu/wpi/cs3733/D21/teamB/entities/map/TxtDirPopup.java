@@ -1,8 +1,11 @@
 package edu.wpi.cs3733.D21.teamB.entities.map;
 
+import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
+import edu.wpi.cs3733.D21.teamB.entities.User;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Node;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.TxtDirPopupData;
 import edu.wpi.cs3733.D21.teamB.pathfinding.Directions;
+import edu.wpi.cs3733.D21.teamB.util.ExternalCommunication;
 import edu.wpi.cs3733.D21.teamB.util.Popup.Poppable;
 import edu.wpi.cs3733.D21.teamB.util.Popup.Popup;
 import javafx.fxml.FXMLLoader;
@@ -71,6 +74,14 @@ public class TxtDirPopup extends Popup<VBox, TxtDirPopupData> implements Poppabl
         restart();
         scrollPane.setVvalue(0.0);
         super.show(txtDirBox);
+    }
+
+    /**
+     * Email the text directions to the current user
+     */
+    public void email() {
+        User currentUser = DatabaseHandler.getHandler().getAuthenticationUser();
+        ExternalCommunication.sendTextDirections(currentUser.getEmail(), currentUser.getFirstName(), directions);
     }
 
     /**
