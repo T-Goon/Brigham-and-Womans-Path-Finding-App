@@ -20,6 +20,8 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class RegisterPageController extends BasePageController implements Initializable {
 
@@ -56,9 +58,11 @@ public class RegisterPageController extends BasePageController implements Initia
     @FXML
     private StackPane stackPane;
 
+    private final Pattern emailPattern = Pattern.compile(".+@.+");
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        super.initialize(location,resources);
+        super.initialize(location, resources);
         username.setOnKeyPressed(event -> {
             if (event.getCode().equals(KeyCode.ENTER) && !areFormsEmpty())
                 handleRegisterSubmit();
@@ -124,7 +128,8 @@ public class RegisterPageController extends BasePageController implements Initia
         }
 
         // Check if the email address is valid
-        if (!email.getText().contains("@")) {
+        Matcher matcher = emailPattern.matcher(email.getText());
+        if (!matcher.matches()) {
             error.setText("Email address must be valid!");
             error.setVisible(true);
             return;
