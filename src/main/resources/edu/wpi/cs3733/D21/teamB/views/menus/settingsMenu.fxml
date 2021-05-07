@@ -92,17 +92,41 @@
                                  <children>
                                     <JFXToggleButton fx:id="toggleTTS" accessibleText="Text-to-speech toggle button" contentDisplay="GRAPHIC_ONLY" onAction="#handleToggleAction" prefHeight="181.0" size="24.0" toggleColor="#f6bd39" toggleLineColor="#ffe3ac">
                                        <VBox.margin>
-                                          <Insets />
+                                           <Insets/>
                                        </VBox.margin>
                                     </JFXToggleButton>
                                  </children>
                               </VBox>
                            </children>
-                           <VBox.margin>
-                              <Insets />
-                           </VBox.margin>
+                            <VBox.margin>
+                                <Insets/>
+                            </VBox.margin>
                         </HBox>
-                        <HBox prefHeight="100.0" prefWidth="200.0" />
+                         <HBox fx:id="profileHolder" alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                             <children>
+                                 <JFXButton fx:id="btnEditProfile" accessibleText="Edit Profile Button"
+                                            buttonType="RAISED" onAction="#handleButtonAction" prefHeight="60.0"
+                                            prefWidth="206.0"
+                                            style="-fx-background-color: #F6BD39; -fx-background-radius: 7;"
+                                            text="Edit User Profile">
+                                     <font>
+                                         <Font name="MS Reference Sans Serif" size="20.0"/>
+                                     </font>
+                                 </JFXButton>
+                             </children>
+                         </HBox>
+                         <HBox fx:id="passwordHolder" alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                             <children>
+                                 <JFXButton fx:id="btnChangePassword" accessibleText="Change Password Button"
+                                            buttonType="RAISED" onAction="#handleButtonAction" prefHeight="60.0"
+                                            style="-fx-background-color: #F6BD39; -fx-background-radius: 7;"
+                                            text="Change Password">
+                                     <font>
+                                         <Font name="MS Reference Sans Serif" size="20.0"/>
+                                     </font>
+                                 </JFXButton>
+                             </children>
+                         </HBox>
                      </children>
                   </VBox>
                         <HBox maxHeight="-Infinity">

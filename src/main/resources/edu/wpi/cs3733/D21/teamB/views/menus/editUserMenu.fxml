@@ -41,24 +41,31 @@
                                                 <Image url="@../../images/general/hospitalLogo.png"/>
                                             </image>
                                         </ImageView>
-                                        <JFXButton fx:id="btnEmergency" buttonType="RAISED" onAction="#handleButtonAction" style="-fx-background-color: #CE2029;" text="EMERGENCY" textFill="WHITE">
+                                        <JFXButton fx:id="btnEmergency" accessibleText="Emergency" buttonType="RAISED"
+                                                   onAction="#handleButtonAction" style="-fx-background-color: #CE2029;"
+                                                   text="EMERGENCY" textFill="WHITE">
                                             <font>
-                                                <Font name="MS Reference Sans Serif" size="16.0" />
+                                                <Font name="MS Reference Sans Serif" size="16.0"/>
                                             </font>
                                             <VBox.margin>
-                                                <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
+                                                <Insets bottom="5.0" left="10.0" right="10.0" top="5.0"/>
                                             </VBox.margin>
                                         </JFXButton>
                                     </children>
                                 </VBox>
                                 <VBox alignment="TOP_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
                                     <children>
-                                        <JFXButton fx:id="btnExit" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" onAction="#handleButtonAction" prefHeight="40.0" prefWidth="40.0" rotate="45.0" style="-fx-background-color: transparent; -fx-background-radius: 50%;" text="+" textAlignment="CENTER">
+                                        <JFXButton fx:id="btnExit" accessibleText="Exit" alignment="CENTER"
+                                                   buttonType="RAISED" contentDisplay="CENTER"
+                                                   onAction="#handleButtonAction" prefHeight="40.0" prefWidth="40.0"
+                                                   rotate="45.0"
+                                                   style="-fx-background-color: transparent; -fx-background-radius: 50%;"
+                                                   text="+" textAlignment="CENTER">
                                             <padding>
-                                                <Insets bottom="-10.0" left="-10.0" right="-10.0" top="-10.0" />
+                                                <Insets bottom="-10.0" left="-10.0" right="-10.0" top="-10.0"/>
                                             </padding>
                                             <font>
-                                                <Font size="30.0" />
+                                                <Font size="30.0"/>
                                             </font>
                                         </JFXButton>
                                         <Text fx:id="bigText" strokeType="OUTSIDE" strokeWidth="0.0" text="Edit User Form">
@@ -88,74 +95,104 @@
                                         <Insets top="10.0" />
                                     </VBox.margin>
                                     <children>
-                                        <GridPane>
+                                        <GridPane fx:id="gridpane">
                                             <columnConstraints>
-                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="30.0" minWidth="10.0" prefWidth="1.0" />
-                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="30.0" minWidth="10.0"
+                                                                   prefWidth="1.0"/>
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
                                             </columnConstraints>
                                             <rowConstraints>
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
                                             </rowConstraints>
                                             <children>
                                                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Username">
                                                     <font>
-                                                        <Font size="14.0" />
+                                                        <Font size="14.0"/>
                                                     </font>
                                                 </Text>
-                                                <JFXTextField fx:id="username" onKeyReleased="#validateButtons" style="-fx-background-color: #e5e5e5; -fx-background-radius: 7;" unFocusColor="#f0f0f0" GridPane.rowIndex="1" />
-                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Password" GridPane.columnIndex="2">
+                                                <JFXTextField fx:id="username" accessibleText="Username"
+                                                              onKeyReleased="#validateButtons"
+                                                              style="-fx-background-color: #e5e5e5; -fx-background-radius: 7;"
+                                                              unFocusColor="#f0f0f0" GridPane.rowIndex="1"/>
+                                                <Text fx:id="passwordText" strokeType="OUTSIDE" strokeWidth="0.0"
+                                                      text="Password" GridPane.columnIndex="2">
                                                     <font>
-                                                        <Font size="14.0" />
+                                                        <Font size="14.0"/>
                                                     </font>
                                                 </Text>
-                                                <JFXPasswordField fx:id="password" focusColor="#ffffff00" style="-fx-background-color: #e5e5e5; -fx-background-radius: 7;" unFocusColor="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Email Address" GridPane.rowIndex="2">
-                                       <font>
-                                          <Font size="14.0" />
-                                       </font>
-                                    </Text>
-                                    <JFXTextField fx:id="email" onKeyReleased="#validateButtons" style="-fx-background-color: #e5e5e5; -fx-background-radius: 7;" unFocusColor="#f0f0f0" GridPane.rowIndex="3" />
-                                    <Label fx:id="lblError" style="-fx-background-color: #CE2029; -fx-background-radius: 7;" text="Email address is already taken!" textAlignment="CENTER" textFill="WHITE" visible="false" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="3">
-                                       <font>
-                                          <Font name="MS Reference Sans Serif" size="14.0" />
-                                       </font>
-                                    </Label>
-                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="First Name" GridPane.rowIndex="4">
+                                                <JFXPasswordField fx:id="password" accessibleText="Password"
+                                                                  focusColor="#ffffff00"
+                                                                  style="-fx-background-color: #e5e5e5; -fx-background-radius: 7;"
+                                                                  unFocusColor="WHITE" GridPane.columnIndex="2"
+                                                                  GridPane.rowIndex="1"/>
+                                                <Text fx:id="emailText" strokeType="OUTSIDE" strokeWidth="0.0"
+                                                      text="Email Address" GridPane.rowIndex="2">
                                                     <font>
-                                                        <Font size="14.0" />
+                                                        <Font size="14.0"/>
                                                     </font>
                                                 </Text>
-                                                <JFXTextField fx:id="firstName" onKeyReleased="#validateButtons" style="-fx-background-color: #e5e5e5; -fx-background-radius: 7;" unFocusColor="#f0f0f0" GridPane.rowIndex="5" />
-                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Last Name" GridPane.columnIndex="2" GridPane.rowIndex="4">
+                                                <JFXTextField fx:id="email" accessibleText="E mail Address"
+                                                              onKeyReleased="#validateButtons"
+                                                              style="-fx-background-color: #e5e5e5; -fx-background-radius: 7;"
+                                                              unFocusColor="#f0f0f0" GridPane.rowIndex="3"/>
+                                                <Label fx:id="lblError"
+                                                       style="-fx-background-color: #CE2029; -fx-background-radius: 7;"
+                                                       text="Email address is already taken!" textAlignment="CENTER"
+                                                       textFill="WHITE" visible="false" wrapText="true"
+                                                       GridPane.columnIndex="2" GridPane.rowIndex="3">
                                                     <font>
-                                                        <Font size="14.0" />
+                                                        <Font name="MS Reference Sans Serif" size="14.0"/>
                                                     </font>
-                                                </Text>
-                                                <JFXTextField fx:id="lastName" onKeyReleased="#validateButtons" style="-fx-background-color: #e5e5e5; -fx-background-radius: 7;" unFocusColor="#f0f0f0" GridPane.columnIndex="2" GridPane.rowIndex="5" />
-                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Authentication Level" GridPane.rowIndex="6">
+                                                </Label>
+                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="First Name"
+                                                      GridPane.rowIndex="4">
                                                     <font>
-                                                        <Font size="14.0" />
+                                                        <Font size="14.0"/>
                                                     </font>
                                                 </Text>
-                                                <JFXComboBox fx:id="authenticationLevel" onHiding="#validateButtons"
-                                                             prefWidth="9999.0"
+                                                <JFXTextField fx:id="firstName" accessibleText="First Name"
+                                                              onKeyReleased="#validateButtons"
+                                                              style="-fx-background-color: #e5e5e5; -fx-background-radius: 7;"
+                                                              unFocusColor="#f0f0f0" GridPane.rowIndex="5"/>
+                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Last Name"
+                                                      GridPane.columnIndex="2" GridPane.rowIndex="4">
+                                                    <font>
+                                                        <Font size="14.0"/>
+                                                    </font>
+                                                </Text>
+                                                <JFXTextField fx:id="lastName" accessibleText="Last Name"
+                                                              onKeyReleased="#validateButtons"
+                                                              style="-fx-background-color: #e5e5e5; -fx-background-radius: 7;"
+                                                              unFocusColor="#f0f0f0" GridPane.columnIndex="2"
+                                                              GridPane.rowIndex="5"/>
+                                                <Text fx:id="authenticationLevelText" strokeType="OUTSIDE"
+                                                      strokeWidth="0.0" text="Authentication Level"
+                                                      GridPane.rowIndex="6">
+                                                    <font>
+                                                        <Font size="14.0"/>
+                                                    </font>
+                                                </Text>
+                                                <JFXComboBox fx:id="authenticationLevel"
+                                                             accessibleText="Authentication Level"
+                                                             onHiding="#validateButtons" prefWidth="9999.0"
                                                              style="-fx-background-color: e5e5e5; -fx-background-radius: 7;"
                                                              unFocusColor="#4d4d4d00" GridPane.rowIndex="7"/>
-                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Job"
+                                                <Text fx:id="jobText" strokeType="OUTSIDE" strokeWidth="0.0" text="Job"
                                                       GridPane.columnIndex="2" GridPane.rowIndex="6">
                                                     <font>
                                                         <Font size="14.0"/>
                                                     </font>
                                                 </Text>
-                                                <JFXComboBox fx:id="job" onHiding="#validateButtons" prefWidth="9001.0"
+                                                <JFXComboBox fx:id="job" accessibleText="Job"
+                                                             onHiding="#validateButtons" prefWidth="9001.0"
                                                              style="-fx-background-color: e5e5e5; -fx-background-radius: 7;"
                                                              unFocusColor="#4d4d4d00" GridPane.columnIndex="2"
                                                              GridPane.rowIndex="7"/>
@@ -163,7 +200,9 @@
                                         </GridPane>
                                         <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0">
                                             <children>
-                                                <JFXToggleButton fx:id="ttsEnabled" text="Enable Text-To-Speech">
+                                                <JFXToggleButton fx:id="ttsEnabled"
+                                                                 accessibleText="Enable Text-To-Speech For User"
+                                                                 text="Text-To-Speech Enabled For User">
                                                     <font>
                                                         <Font size="14.0"/>
                                                     </font>
@@ -202,25 +241,31 @@
                      </children>
                   </HBox>
                   <HBox alignment="CENTER" fillHeight="false" spacing="10.0" HBox.hgrow="ALWAYS">
-                     <children>
-                        <JFXButton fx:id="btnSubmit" buttonType="RAISED" onAction="#handleButtonAction" prefHeight="60.0" prefWidth="150.0" style="-fx-background-color: #F6BD39; -fx-background-radius: 7;" text="Submit">
-                           <font>
-                              <Font name="MS Reference Sans Serif" size="20.0" />
-                           </font>
-                        </JFXButton>
-                     </children>
+                      <children>
+                          <JFXButton fx:id="btnSubmit" accessibleText="Submit" buttonType="RAISED"
+                                     onAction="#handleButtonAction" prefHeight="60.0" prefWidth="150.0"
+                                     style="-fx-background-color: #F6BD39; -fx-background-radius: 7;" text="Submit">
+                              <font>
+                                  <Font name="MS Reference Sans Serif" size="20.0"/>
+                              </font>
+                          </JFXButton>
+                      </children>
                   </HBox>
                   <HBox alignment="CENTER_RIGHT" fillHeight="false" spacing="10.0" HBox.hgrow="ALWAYS">
-                     <children>
-                        <JFXButton fx:id="btnHelp" buttonType="RAISED" maxHeight="56.0" maxWidth="56.0" minHeight="-Infinity" minWidth="-Infinity" onAction="#handleButtonAction" prefHeight="56.0" prefWidth="56.0" style="-fx-background-color: #9A9999; -fx-background-radius: 50%;" text="?" textFill="WHITE">
-                           <font>
-                              <Font name="MS Reference Sans Serif" size="27.0" />
-                           </font>
-                           <HBox.margin>
-                              <Insets />
-                           </HBox.margin>
-                        </JFXButton>
-                     </children>
+                      <children>
+                          <JFXButton fx:id="btnHelp" accessibleText="Help" buttonType="RAISED" maxHeight="56.0"
+                                     maxWidth="56.0" minHeight="-Infinity" minWidth="-Infinity"
+                                     onAction="#handleButtonAction" prefHeight="56.0" prefWidth="56.0"
+                                     style="-fx-background-color: #9A9999; -fx-background-radius: 50%;" text="?"
+                                     textFill="WHITE">
+                              <font>
+                                  <Font name="MS Reference Sans Serif" size="27.0"/>
+                              </font>
+                              <HBox.margin>
+                                  <Insets/>
+                              </HBox.margin>
+                          </JFXButton>
+                      </children>
                   </HBox>
                </children>
                <padding>
