@@ -42,10 +42,15 @@ public class SettingsMenuController extends BasePageController implements Initia
     @FXML
     private JFXToggleButton toggleTTS;
 
+    @FXML
+    private JFXToggleButton toggleOSK;
+
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location, resources);
         toggleTTS.setSelected(ttsOn);
+        toggleOSK.setSelected(oskOn);
     }
 
     @FXML
@@ -78,6 +83,13 @@ public class SettingsMenuController extends BasePageController implements Initia
                 } else {
                     ttsOn = true;
                     tts.speak("Text-to-speech has been activated.", 1.0f, false, false);
+                }
+                break;
+            case "toggleOSK":
+                if (oskOn) {
+                    oskOn = false;
+                } else {
+                    oskOn = true;
                 }
                 break;
         }

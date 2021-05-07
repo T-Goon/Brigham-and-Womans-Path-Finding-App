@@ -78,6 +78,31 @@
                            <children>
                               <VBox prefHeight="100.0">
                                  <children>
+                                    <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="191.0" text="On screen keyboard" textFill="WHITE">
+                                       <font>
+                                          <Font name="System Bold" size="48.0" />
+                                       </font>
+                                       <VBox.margin>
+                                          <Insets />
+                                       </VBox.margin>
+                                    </Label>
+                                 </children>
+                              </VBox>
+                              <VBox prefHeight="100.0">
+                                 <children>
+                                    <JFXToggleButton fx:id="toggleOSK" accessibleText="Text-to-speech toggle button" contentDisplay="GRAPHIC_ONLY" onAction="#handleToggleAction" prefHeight="181.0" size="24.0" toggleColor="#f6bd39" toggleLineColor="#ffe3ac">
+                                       <VBox.margin>
+                                          <Insets />
+                                       </VBox.margin>
+                                    </JFXToggleButton>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                        <HBox alignment="TOP_CENTER" prefHeight="100.0">
+                           <children>
+                              <VBox prefHeight="100.0">
+                                 <children>
                                     <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="191.0" text="Text-to-speech:" textFill="WHITE">
                                        <font>
                                           <Font name="System Bold" size="48.0" />
