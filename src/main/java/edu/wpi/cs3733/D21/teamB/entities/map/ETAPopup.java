@@ -40,8 +40,16 @@ public class ETAPopup extends Popup<VBox, ETAPopupData> implements Poppable {
         estimatedTimeBox.setId("estimatedTimeDialog");
         double horizPosition, vertPosition;
         Graph graph = Graph.getGraph();
-        Node secToLastNode = graph.getNodes().get(data.getPath().getPath().get(data.getPath().getPath().size() - 2));
+
         Node endNode = graph.getNodes().get(data.getPath().getPath().get(data.getPath().getPath().size() - 1));
+
+        Node secToLastNode = null;
+        try {
+            secToLastNode = graph.getNodes().get(data.getPath().getPath().get(data.getPath().getPath().size() - 2));
+        } catch (IndexOutOfBoundsException e){
+            secToLastNode = endNode;
+        }
+
         if ((secToLastNode.getXCoord() / PathfindingMenuController.COORDINATE_SCALE) < (endNode.getXCoord() / PathfindingMenuController.COORDINATE_SCALE)) {
             horizPosition = 0;
         } else {
