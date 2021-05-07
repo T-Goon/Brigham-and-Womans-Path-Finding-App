@@ -44,7 +44,7 @@ public class App extends Application {
 
         // Open first view
         try {
-            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("views/login/mainPage.fxml")));
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("views/misc/chatBox.fxml")));
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);
 
@@ -56,7 +56,7 @@ public class App extends Application {
                 }
             });
 
-            primaryStage.setFullScreen(true);
+//            primaryStage.setFullScreen(true);
 
             // If the database is uninitialized, fill it with the csv files
             try {
