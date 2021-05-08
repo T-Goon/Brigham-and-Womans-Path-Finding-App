@@ -34,6 +34,9 @@ public class Snake {
         this.nodeHolder = nodeHolder;
     }
 
+    /**
+     * Display the nodes and edges for the game on the map and start the game
+     */
     public void initializeMap() {
         // Load nodes and edges
         nodes = CSVHandler.loadCSVNodes("/edu/wpi/cs3733/D21/teamB/csvFiles/snakeNodes.csv");
@@ -49,6 +52,9 @@ public class Snake {
         initializeGame();
     }
 
+    /**
+     * Set the starting locations for the snake and apple
+     */
     public void initializeGame() {
         // Set the snake at a starting location (Francis Lobby Entrance)
         Node snake = nodes.get(122);
@@ -62,11 +68,14 @@ public class Snake {
             e.printStackTrace();
         }
 
-        // restart size of snake
+        // Restart size of snake
         snakeSize = 1;
         placeApple();
     }
 
+    /**
+     * Randomly select a location for the apple
+     */
     public void placeApple() {
         // Randomly select a node to place the apple at
         int index = (int) (Math.random() * nodes.size());
@@ -84,9 +93,11 @@ public class Snake {
         appleCoord = new Coord(appleNode.getXCoord(), appleNode.getYCoord());
     }
 
+    /**
+     * Check if the current location is the location of the apple
+     */
     public void checkApple() {
-        // Check if the current node location is the location of the apple
-        // Add to length of snake and call placeApple()
+        // Add to length of snake and place apple
         if(appleCoord.equals(snakeHeadLoc)){
             //delete the apple off of the map
             snakeSize++;
