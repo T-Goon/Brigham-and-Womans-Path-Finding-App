@@ -29,6 +29,8 @@ public class Request implements IStoredEntity {
 
     private String submitter;
 
+    private String name;
+
     public Request(String requestID, RequestType requestType, String time, String date, String progress, String employeeName, String location, String description) {
         this.requestID = requestID;
         this.requestType = requestType;
@@ -39,6 +41,7 @@ public class Request implements IStoredEntity {
         this.location = location;
         this.description = description;
         this.submitter = null;
+        this.name=null;
     }
 
     public enum RequestType {
