@@ -45,7 +45,7 @@ public class ChatBoxController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         // Add all the messages in the cache
         for (Message m : PageCache.getMessages())
-            sendMessage(m);
+            sendMessage(m, false);
 
         // Scroll pane goes down to the bottom when a new message is sent
         scrollPane.vvalueProperty().bind(messageHolder.heightProperty());
@@ -73,6 +73,16 @@ public class ChatBoxController implements Initializable {
      * @param message the message to show
      */
     public void sendMessage(Message message) {
+        sendMessage(message, true);
+    }
+
+    /**
+     * Exists so
+     *
+     * @param message              the message to send
+     * @param playAudioIfRequested whether to play audio
+     */
+    private void sendMessage(Message message, boolean playAudioIfRequested) {
         if (message == null || message.getMessage().isEmpty()) return;
 
         // Adds HBox with text
@@ -95,7 +105,7 @@ public class ChatBoxController implements Initializable {
         }
 
         // Play the text if text-to-speech is enabled and it's from the chatbot
-        if (!message.isFromUser() && DatabaseHandler.getHandler().getAuthenticationUser().getTtsEnabled().equals("T")) {
+        if (playAudioIfRequested && !message.isFromUser() && DatabaseHandler.getHandler().getAuthenticationUser().getTtsEnabled().equals("T")) {
             tts.speak(message.getMessage(), 1.0f, false, false);
         }
 
