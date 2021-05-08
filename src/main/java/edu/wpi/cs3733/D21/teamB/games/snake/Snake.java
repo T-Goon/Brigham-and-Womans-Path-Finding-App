@@ -130,7 +130,6 @@ public class Snake extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         move();
-
     }
 
     public void move() {
@@ -166,7 +165,7 @@ public class Snake extends JPanel implements ActionListener {
 
 
             switch (e.getKeyCode()) {
-                case KeyEvent.VK_LEFT:
+                case KeyEvent.VK_A:
                     if (isValid()) {
                         left = true;
                         right = false;
@@ -174,7 +173,7 @@ public class Snake extends JPanel implements ActionListener {
                         down = false;
                     }
                     break;
-                case KeyEvent.VK_RIGHT:
+                case KeyEvent.VK_D:
                     if (isValid()) {
                         right = true;
                         left = false;
@@ -182,7 +181,7 @@ public class Snake extends JPanel implements ActionListener {
                         down = false;
                     }
                     break;
-                case KeyEvent.VK_UP:
+                case KeyEvent.VK_W:
                     if (isValid()) {
                         left = false;
                         right = false;
@@ -190,7 +189,7 @@ public class Snake extends JPanel implements ActionListener {
                         down = false;
                     }
                     break;
-                case KeyEvent.VK_DOWN:
+                case KeyEvent.VK_S:
                     if (isValid()) {
                         left = false;
                         right = false;
@@ -210,7 +209,6 @@ public class Snake extends JPanel implements ActionListener {
             } catch (IOException exception) {
                 exception.printStackTrace();
             }
-
         }
     }
 }

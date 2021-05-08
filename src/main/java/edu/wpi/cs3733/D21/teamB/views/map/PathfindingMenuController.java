@@ -8,7 +8,7 @@ import edu.wpi.cs3733.D21.teamB.entities.map.*;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Edge;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Node;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.NodeType;
-import edu.wpi.cs3733.D21.teamB.games.snake.Snake;
+import edu.wpi.cs3733.D21.teamB.entities.map.data.StartGamePopupData;
 import edu.wpi.cs3733.D21.teamB.pathfinding.Dijkstra;
 import edu.wpi.cs3733.D21.teamB.pathfinding.Graph;
 import edu.wpi.cs3733.D21.teamB.util.CSVHandler;
@@ -572,9 +572,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
                 }
                 break;
             case "btnPlay":
-                mapDrawer.removeAllEdges();
-                Snake snake = new Snake(mapDrawer, mapCache, nodeHolder);
-                snake.initializeMap();
+                mapEditorPopupManager.showStartGamePopup(mapDrawer, nodeHolder);
                 break;
         }
 

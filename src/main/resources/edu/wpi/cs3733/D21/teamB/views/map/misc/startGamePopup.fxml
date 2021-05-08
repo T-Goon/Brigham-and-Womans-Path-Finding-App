@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<VBox fx:id="root" alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="400.0" prefWidth="400.0" spacing="10.0" style="-fx-border-width: 3; -fx-background-radius: 33; -fx-border-radius: 30; -fx-border-color: black; -fx-background-color: #0067B1;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D21.teamB.views.map.misc.StartGamePopupController">
+   <padding>
+      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+   </padding>
+   <children>
+      <VBox fx:id="mainMenu" alignment="TOP_CENTER" style="-fx-background-color: #f1f1f1; -fx-background-radius: 30;" VBox.vgrow="ALWAYS">
+         <children>
+            <HBox alignment="TOP_CENTER">
+               <children>
+                  <Text fill="#3f8046" strokeType="OUTSIDE" strokeWidth="0.0" text="Snake" textAlignment="CENTER" wrappingWidth="150.0">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </Text>
+               </children>
+            </HBox>
+            <HBox alignment="TOP_CENTER">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="description" textAlignment="CENTER" wrappingWidth="150.0">
+                     <font>
+                        <Font name="MS Reference Sans Serif" size="20.0" />
+                     </font>
+                  </Text>
+               </children>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </HBox>
+            <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="300.0" VBox.vgrow="ALWAYS">
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+               <children>
+                  <HBox alignment="BOTTOM_CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0" VBox.vgrow="ALWAYS">
+                     <children>
+                        <JFXButton fx:id="btnCancel" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" onAction="#handleButtonAction" prefWidth="999999.0" style="-fx-background-color: #0067B1; -fx-background-radius: 10;" text="Cancel" textFill="WHITE">
+                           <font>
+                              <Font name="MS Reference Sans Serif" size="24.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                        </JFXButton>
+                        <JFXButton fx:id="btnStartGame" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" onAction="#handleButtonAction" prefWidth="999999.0" style="-fx-background-color: #0067B1; -fx-background-radius: 10;" text="Start" textFill="WHITE">
+                           <font>
+                              <Font name="MS Reference Sans Serif" size="24.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                        </JFXButton>
+                     </children>
+                     <VBox.margin>
+                        <Insets top="450.0" />
+                     </VBox.margin>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+         <padding>
+            <Insets left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </VBox>
+   </children>
+</VBox>

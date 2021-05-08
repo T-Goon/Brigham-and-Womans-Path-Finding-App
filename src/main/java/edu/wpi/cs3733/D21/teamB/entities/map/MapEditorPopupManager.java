@@ -10,6 +10,7 @@ import edu.wpi.cs3733.D21.teamB.entities.map.node.NodeMenuPopup;
 import edu.wpi.cs3733.D21.teamB.util.Popup.PoppableManager;
 import edu.wpi.cs3733.D21.teamB.views.map.PathfindingMenuController;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Circle;
@@ -29,6 +30,7 @@ public class MapEditorPopupManager implements PoppableManager {
     private DelEdgePopup dePopup;
     private NodeMenuPopup nmPopup;
     private AlignNodePopup alignNodePopup;
+    private StartGamePopup startGamePopup;
 
     public MapEditorPopupManager(MapDrawer md, MapCache mc, GesturePane gPane, StackPane mapStack) {
         this.md = md;
@@ -162,6 +164,22 @@ public class MapEditorPopupManager implements PoppableManager {
     }
 
     /**
+     * Shows the start game popup
+     *
+     * @param mapDrawer the map drawer in stance
+     */
+    public void showStartGamePopup(MapDrawer mapDrawer, AnchorPane nodeHolder) {
+        md.removeAllPopups();
+
+        StartGamePopupData data = new StartGamePopupData(mapDrawer, mc, nodeHolder, gPane);
+
+        startGamePopup = new StartGamePopup(mapStack, data);
+
+        App.getPrimaryStage().setUserData(startGamePopup);
+        startGamePopup.show();
+    }
+
+    /**
      * Hide all popups
      */
     public void removeAllPopups() {
@@ -188,6 +206,11 @@ public class MapEditorPopupManager implements PoppableManager {
         if (alignNodePopup != null) {
             alignNodePopup.hide();
             alignNodePopup = null;
+        }
+
+        if (startGamePopup != null) {
+            startGamePopup.hide();
+            startGamePopup = null;
         }
     }
 }
