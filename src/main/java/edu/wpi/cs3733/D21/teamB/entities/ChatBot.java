@@ -1,10 +1,11 @@
 package edu.wpi.cs3733.D21.teamB.entities;
 
+import edu.wpi.cs3733.D21.teamB.chatbot.ab.Bot;
+import edu.wpi.cs3733.D21.teamB.chatbot.ab.Chat;
 import edu.wpi.cs3733.D21.teamB.util.PageCache;
 import edu.wpi.cs3733.D21.teamB.views.misc.ChatBoxController;
-import org.alicebot.ab.Bot;
-import org.alicebot.ab.Chat;
 
+import java.io.File;
 import java.net.URL;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -13,12 +14,19 @@ public class ChatBot implements Runnable {
     private final Chat chatSession;
 
     public ChatBot() {
-        URL resource = getClass().getResource("/edu/wpi/cs3733/D21/teamB/bots");
-
-        String path = resource.getPath().substring(0, resource.getPath().length() - 5);
-        if (path.startsWith("file:/")) path = path.substring(6);
-        System.out.println(path);
-        Bot bot = new Bot("Mike Bedard", path);
+//        URL resource = getClass().getResource("/edu/wpi/cs3733/D21/teamB");
+//
+//        String path = resource.getPath().substring(0, resource.getPath().length() - 5);
+//        if (path.startsWith("file:/")) path = path.substring(6);
+//        System.out.println(path);
+        File f = new File(".");
+        for(File f1 : f.listFiles()){
+            System.out.println(f1.getAbsolutePath());
+        }
+        String path = f.getAbsolutePath().replaceAll("\\\\","/");
+        path = path.substring(0, path.length()-2);
+        path = path + "/src/main/resources/edu/wpi/cs3733/D21/teamB";
+        Bot bot = new Bot("Mike Bedard", "edu/wpi/cs3733/D21/teamB");
         chatSession = new Chat(bot);
     }
 

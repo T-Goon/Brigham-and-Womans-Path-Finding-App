@@ -45,8 +45,6 @@ public class ChatBoxController implements Initializable {
     private final TextToSpeech tts = new TextToSpeech();
     public static Thread userThread;
 
-    private Chat chatSession;
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
