@@ -51,13 +51,20 @@ public abstract class BasePageController implements Initializable {
     OnScreenKeyboard onScreenKeyboard = OnScreenKeyboard.getInstance();
     LastFocused lastFocused = LastFocused.getInstance();
     Configuration configuration = new Configuration();
+    LiveSpeechRecognizer recognizer = null;
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
         configuration.setAcousticModelPath("resource:/edu/cmu/sphinx/models/en-us/en-us");
         configuration.setDictionaryPath("resource:/edu/cmu/sphinx/models/en-us/cmudict-en-us.dict");
         configuration.setLanguageModelPath("resource:/edu/cmu/sphinx/models/en-us/en-us.lm.bin");
+        try {
+            recognizer = new LiveSpeechRecognizer(configuration);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         // On screen keyboard stuff
         firstFocused = true;
         Platform.runLater(() -> stackPane.requestFocus());
@@ -109,16 +116,10 @@ public abstract class BasePageController implements Initializable {
     }
 
     public void testSTT(){
-        LiveSpeechRecognizer recognizer = null;
-        try {
-            recognizer = new LiveSpeechRecognizer(configuration);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
         recognizer.startRecognition(true);
         SpeechResult result = recognizer.getResult();
         // Pause recognition process. It can be resumed then with startRecognition(false).
-
         recognizer.stopRecognition();
         System.out.format("Hypothesis: %s\n", result.getHypothesis());
     }
