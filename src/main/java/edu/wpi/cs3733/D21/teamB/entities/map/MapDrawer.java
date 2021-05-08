@@ -221,8 +221,8 @@ public class MapDrawer implements PoppableManager {
             etaPopup = mapPathPopupManager.createETAPopup(mapCache.getFinalPath(), new Path(currentFloorPath, Graph.getGraph().calculateCost(currentFloorPath)));
 
             // Color nodes that indicate a floor swap in the path
-            colorNodesOnPathFloorSwitch(currentFloorPath);
-
+            if (!currentFloorPath.isEmpty())
+                colorNodesOnPathFloorSwitch(currentFloorPath);
         }
 
     }
