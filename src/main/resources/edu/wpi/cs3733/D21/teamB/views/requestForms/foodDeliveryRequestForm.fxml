@@ -189,7 +189,7 @@
                         </VBox>
                     </children>
                 </VBox>
-            <HBox alignment="CENTER_LEFT" fillHeight="false" maxHeight="-Infinity" prefWidth="200.0" StackPane.alignment="BOTTOM_CENTER">
+            <HBox alignment="BOTTOM_CENTER" fillHeight="false" maxHeight="-Infinity" prefWidth="200.0" StackPane.alignment="BOTTOM_CENTER">
                <children>
                    <HBox alignment="BOTTOM_LEFT" HBox.hgrow="ALWAYS">
                        <children>

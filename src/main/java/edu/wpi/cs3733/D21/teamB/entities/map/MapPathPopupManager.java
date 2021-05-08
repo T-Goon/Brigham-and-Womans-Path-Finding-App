@@ -6,7 +6,6 @@ import edu.wpi.cs3733.D21.teamB.App;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.*;
 import edu.wpi.cs3733.D21.teamB.entities.map.node.ChangeParkingSpotPopup;
 import edu.wpi.cs3733.D21.teamB.entities.map.node.GraphicalInputPopup;
-import edu.wpi.cs3733.D21.teamB.pathfinding.AStar;
 import edu.wpi.cs3733.D21.teamB.pathfinding.Directions;
 import edu.wpi.cs3733.D21.teamB.pathfinding.Graph;
 import edu.wpi.cs3733.D21.teamB.util.Popup.PoppableManager;
@@ -62,7 +61,7 @@ public class MapPathPopupManager implements PoppableManager {
      */
     public void createGraphicalInputPopup(Node n) {
 
-        GraphicalInputData giData = new GraphicalInputData(n.getLongName(), txtStartLocation, txtEndLocation,
+        GraphicalInputData giData = new GraphicalInputData(n, txtStartLocation, txtEndLocation,
                 btnRemoveStop, md, mc, pfmc, this);
 
         giPopup = new GraphicalInputPopup(mapStack, giData, gpane);

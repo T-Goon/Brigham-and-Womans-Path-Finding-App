@@ -8,13 +8,13 @@ import edu.wpi.cs3733.D21.teamB.entities.User;
 import edu.wpi.cs3733.D21.teamB.entities.requests.CovidSurveyRequest;
 import edu.wpi.cs3733.D21.teamB.entities.requests.Request;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
-import edu.wpi.cs3733.D21.teamB.views.BasePageController;
 import edu.wpi.cs3733.D21.teamB.views.requestForms.DefaultServiceRequestFormController;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.StackPane;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -83,6 +83,9 @@ public class CovidSurveyController extends DefaultServiceRequestFormController i
     @FXML
     private ToggleGroup testGroup;
 
+    @FXML
+    private StackPane stackPane;
+
     //State (per-view)
     private CovidSurveyRequest request;
 
@@ -144,13 +147,13 @@ public class CovidSurveyController extends DefaultServiceRequestFormController i
                 break;
             case "btnSubmit":
                 this.handleSubmission();
-                SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidFormPending.fxml");
+                SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidFormPending.fxml");
                 return; // Don't go to form submission view from superclass
             case "btnExit":
                 Platform.exit();
                 break;
             case "btnEmergency":
-                SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
+                SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
                 break;
         }
         super.handleButtonAction(e);

@@ -53,20 +53,11 @@ public class ServiceRequestMenuController extends BasePageController {
     private JFXButton btnSocialWorker;
 
     @FXML
-    private VBox medicineDelivery;
-
-    @FXML
-    private VBox internalTransport;
-
-    @FXML
-    private VBox externalTransport;
-
-    @FXML
     private JFXButton btnShowCredits;
-
 
     @FXML
     private JFXButton btnLanguageInterpreter;
+
 
     @FXML
     public void handleButtonAction(ActionEvent e) {
@@ -123,6 +114,6 @@ public class ServiceRequestMenuController extends BasePageController {
         }
 
         if (path != null)
-            SceneSwitcher.switchScene(getClass(), "/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestMenu.fxml", path);
+            SceneSwitcher.switchScene("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestMenu.fxml", path);
     }
 }

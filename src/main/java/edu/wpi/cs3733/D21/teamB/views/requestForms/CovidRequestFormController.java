@@ -1,14 +1,12 @@
 package edu.wpi.cs3733.D21.teamB.views.requestForms;
 
 import com.jfoenix.controls.*;
-import com.jfoenix.validation.RequiredFieldValidator;
 import edu.wpi.cs3733.D21.teamB.App;
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.User;
-import edu.wpi.cs3733.D21.teamB.entities.requests.CaseManagerRequest;
 import edu.wpi.cs3733.D21.teamB.entities.requests.CovidSurveyRequest;
 import edu.wpi.cs3733.D21.teamB.entities.requests.Request;
-import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
+import edu.wpi.cs3733.D21.teamB.util.ExternalCommunication;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -17,13 +15,7 @@ import javafx.scene.text.Text;
 
 import java.net.URL;
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.time.DayOfWeek;
-import java.time.LocalTime;
-import java.util.Date;
 import java.util.ResourceBundle;
-import java.util.UUID;
 
 public class CovidRequestFormController extends DefaultServiceRequestFormController implements Initializable {
 
@@ -45,6 +37,7 @@ public class CovidRequestFormController extends DefaultServiceRequestFormControl
             e.printStackTrace();
         }
         String symptoms = "";
+        assert request != null;
         if(request.getSymptomFever().equals("T")) symptoms += " - Fever\n";
         if(request.getSymptomChills().equals("T")) symptoms += " - Chills\n";
         if(request.getSymptomCough().equals("T")) symptoms += " - Cough\n";
@@ -93,9 +86,20 @@ public class CovidRequestFormController extends DefaultServiceRequestFormControl
             }
             User.CovidStatus status = User.CovidStatus.valueOf(reviewStatus.getValue().getText());
 
+            assert request != null;
             request.setStatus(status);
-            if(status != User.CovidStatus.PENDING){
+            if (status != User.CovidStatus.PENDING) {
                 request.setProgress("T");
+
+                if (!request.getSubmitter().equals("temporary")) {
+                    User submitter = DatabaseHandler.getHandler().getUserByUsername(request.getSubmitter());
+
+                    // Check if the user has an email address
+                    if (status != User.CovidStatus.UNCHECKED && submitter.getEmail() != null) {
+                        ExternalCommunication externalCommunication = new ExternalCommunication();
+                        externalCommunication.sendCovidSurveyApproval(submitter.getEmail(), submitter.getFirstName(), reviewStatus.getValue().getText());
+                    }
+                }
             }
 
             try {

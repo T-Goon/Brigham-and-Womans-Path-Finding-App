@@ -27,6 +27,12 @@ public class App extends Application {
 
     @Override
     public void init() {
+        try {
+            Class.forName("org.sqlite.JDBC");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
         System.out.println("Starting Up");
         db = DatabaseHandler.getHandler();
     }
@@ -55,7 +61,7 @@ public class App extends Application {
             try {
                 db.executeSchema();
                 if (!db.isInitialized()) {
-                    SceneSwitcher.switchFromTemp(getClass(), "/edu/wpi/cs3733/D21/teamB/views/login/databaseInit.fxml");
+                    SceneSwitcher.switchFromTemp("/edu/wpi/cs3733/D21/teamB/views/login/databaseInit.fxml");
                     primaryStage.show();
 
                     dbThread = new Thread(() -> {
@@ -64,7 +70,7 @@ public class App extends Application {
                         } catch (SQLException e) {
                             e.printStackTrace();
                         }
-                        Platform.runLater(() -> SceneSwitcher.switchFromTemp(getClass(), "/edu/wpi/cs3733/D21/teamB/views/login/mainPage.fxml"));
+                        Platform.runLater(() -> SceneSwitcher.switchFromTemp("/edu/wpi/cs3733/D21/teamB/views/login/mainPage.fxml"));
                     });
                     dbThread.start();
                 } else primaryStage.show();
@@ -81,10 +87,10 @@ public class App extends Application {
                 requiredUsers.put(new User("staff", "bwhapplication@gmail.com", "Mike", "Bedard", User.AuthenticationLevel.STAFF, null), "staff");
                 requiredUsers.put(new User("guest", "guest@fakeemail.com", "T", "Goon", User.AuthenticationLevel.PATIENT, null), "guest");
 
-                for(User u : requiredUsers.keySet()){
-                   if(db.getUserByUsername(u.getUsername()) == null){
-                       db.addUser(u,requiredUsers.get(u));
-                   }
+                for (User u : requiredUsers.keySet()) {
+                    if (db.getUserByUsername(u.getUsername()) == null) {
+                        db.addUser(u, requiredUsers.get(u));
+                    }
                 }
                 db.resetTemporaryUser();
                 db.deauthenticate();
@@ -92,6 +98,7 @@ public class App extends Application {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+
         } catch (IOException e) {
             e.printStackTrace();
         }

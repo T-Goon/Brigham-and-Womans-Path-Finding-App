@@ -24,6 +24,7 @@ repositories {
     maven {
         url 'https://apisite.crmyers.dev/maven'
     }
+
 }
 
 //This is where you declare your dependencies and their version.s
@@ -43,6 +44,13 @@ dependencies {
     implementation('com.dlsc:GMapsFX:8.0.0'){
         exclude group:'ch.qos.logback', module:'logback-classic'
     }
+
+    implementation 'de.dfki.mary:marytts:5.2'
+    implementation 'de.dfki.mary:marytts-lang-en:5.2'
+    implementation 'de.dfki.mary:voice-cmu-rms-hsmm:5.2'
+    implementation 'de.dfki.mary:voice-cmu-slt-hsmm:5.2'
+    implementation 'de.dfki.mary:voice-dfki-poppy-hsmm:5.2'
+
 //These are test dependencies. These are only used for running verification tasks via Gradle.
     testCompile(
             'org.mindrot:jbcrypt:0.4',

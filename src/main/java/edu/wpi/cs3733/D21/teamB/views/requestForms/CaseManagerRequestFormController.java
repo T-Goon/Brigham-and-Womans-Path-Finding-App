@@ -1,9 +1,6 @@
 package edu.wpi.cs3733.D21.teamB.views.requestForms;
 
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXTextArea;
-import com.jfoenix.controls.JFXTextField;
-import com.jfoenix.controls.JFXTimePicker;
+import com.jfoenix.controls.*;
 import com.jfoenix.validation.RequiredFieldValidator;
 import edu.wpi.cs3733.D21.teamB.App;
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
@@ -18,7 +15,10 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.ZoneId;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.UUID;
@@ -27,6 +27,9 @@ public class CaseManagerRequestFormController extends DefaultServiceRequestFormC
 
     @FXML
     private JFXTextField patientName;
+
+    @FXML
+    private JFXDatePicker arrivalDate;
 
     @FXML
     private JFXTimePicker timeForArrival;
@@ -51,6 +54,9 @@ public class CaseManagerRequestFormController extends DefaultServiceRequestFormC
             }
             patientName.setText(caseManagerRequest.getPatientName());
             getLocationIndex(caseManagerRequest.getLocation());
+            String date = caseManagerRequest.getArrivalDate();
+            LocalDate ld = LocalDate.of(Integer.parseInt(date.substring(0, 4)), Integer.parseInt(date.substring(5, 7)), Integer.parseInt(date.substring(8, 10)));
+            arrivalDate.setValue(ld);
             String time = caseManagerRequest.getTimeForArrival();
             LocalTime lt = LocalTime.of(Integer.parseInt(time.substring(0, 2)), Integer.parseInt(time.substring(3, 5)));
             timeForArrival.setValue(lt);
@@ -80,6 +86,30 @@ public class CaseManagerRequestFormController extends DefaultServiceRequestFormC
         loc.focusedProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue) {
                 loc.validate();
+            }
+        });
+
+        //arrival date picker
+        RequiredFieldValidator validatorDate = new RequiredFieldValidator();
+
+        arrivalDate.getValidators().add(validatorDate);
+        validatorDate.setMessage("Please select a valid date of arrival!");
+
+        Calendar currentDate = Calendar.getInstance();
+        currentDate.add(Calendar.DATE, -1);
+        Calendar selectedDate = Calendar.getInstance();
+
+        arrivalDate.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                try {
+                    selectedDate.setTime(Date.from(arrivalDate.getValue().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()));
+                    if (selectedDate.compareTo(currentDate) < 0) {
+                        arrivalDate.setValue(null);
+                    }
+                } catch (Exception ignored) {
+
+                }
+                arrivalDate.validate();
             }
         });
 
@@ -113,6 +143,7 @@ public class CaseManagerRequestFormController extends DefaultServiceRequestFormC
         JFXButton btn = (JFXButton) e.getSource();
         if (btn.getId().equals("btnSubmit")) {
             String givenPatientName = patientName.getText();
+            String givenArrivalDate = arrivalDate.getValue().toString();
             String givenTimeForArrival = timeForArrival.getValue().toString();
 
             DateFormat timeFormat = new SimpleDateFormat("HH:mm");
@@ -143,7 +174,7 @@ public class CaseManagerRequestFormController extends DefaultServiceRequestFormC
                 employeeName = null;
             }
 
-            CaseManagerRequest request = new CaseManagerRequest(givenPatientName, givenTimeForArrival,
+            CaseManagerRequest request = new CaseManagerRequest(givenPatientName, givenArrivalDate, givenTimeForArrival,
                     requestID, time, date, complete, employeeName, getLocation(), givenDescription);
 
             try {
@@ -159,8 +190,8 @@ public class CaseManagerRequestFormController extends DefaultServiceRequestFormC
     @FXML
     private void validateButton() {
         btnSubmit.setDisable(
-                patientName.getText().isEmpty() || loc.getValue() == null || timeForArrival.getValue() == null ||
-                        messageForCaseManager.getText().isEmpty()
+                patientName.getText().isEmpty() || loc.getValue() == null || arrivalDate.getValue() == null || timeForArrival.getValue() == null ||
+                        messageForCaseManager.getText().isEmpty() || super.validateCommon()
         );
     }
 }

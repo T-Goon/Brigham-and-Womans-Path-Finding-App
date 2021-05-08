@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Objects;
 import javax.mail.*;
 import javax.mail.internet.*;
-import javax.activation.*;
 import java.util.Properties;
 import java.util.stream.Collectors;
 
@@ -17,8 +16,8 @@ public class ExternalCommunication {
      * @return the message to be sent to recipient
      */
     public MimeMessage setUpSender() {
-        String email = null;
-        String password = null;
+        String email;
+        String password;
         InputStream s = CSVHandler.class.getResourceAsStream("/edu/wpi/cs3733/D21/teamB/account/account.txt");
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(Objects.requireNonNull(s)));
         List<String> lines = bufferedReader.lines().collect(Collectors.toList());
@@ -114,6 +113,29 @@ public class ExternalCommunication {
             message.setSubject("Brigham and Women's Hospital Application - Task Complete");
             message.setText("Hello " + name + ",\n\nThe following task that you assigned to " + assignee + " was recently completed:\n" +
                     task + "\n\n\nBrigham and Women's Hospital Application Team");
+
+            Transport.send(message);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Send email to user when their COVID survey is marked complete
+     *
+     * @param email the email address of the survey submitter
+     * @param name the name of the survey submitter
+     * @param status the submitter's status on the COVID survey
+     */
+    public void sendCovidSurveyApproval(String email, String name, String status) {
+        MimeMessage message = setUpSender();
+
+        try {
+            message.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
+
+            message.setSubject("Brigham and Women's Hospital Application - COVID-19 Survey Approved");
+            message.setText("Hello " + name + ",\n\nYour COVID-19 survey was recently approved with status " + status +
+                    ".\n\n\nBrigham and Women's Hospital Application Team");
 
             Transport.send(message);
         } catch (MessagingException e) {

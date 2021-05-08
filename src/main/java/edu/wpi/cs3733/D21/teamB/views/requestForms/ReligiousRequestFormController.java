@@ -17,6 +17,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.ZoneId;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.UUID;
@@ -105,10 +107,22 @@ public class ReligiousRequestFormController extends DefaultServiceRequestFormCon
         RequiredFieldValidator validatorDate = new RequiredFieldValidator();
 
         date.getValidators().add(validatorDate);
-        validatorDate.setMessage("Please select the date!");
+        validatorDate.setMessage("Please select a valid date!");
+
+        Calendar currentDate = Calendar.getInstance();
+        currentDate.add(Calendar.DATE, -1);
+        Calendar selectedDate = Calendar.getInstance();
 
         date.focusedProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue) {
+                try {
+                    selectedDate.setTime(Date.from(date.getValue().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()));
+                    if (selectedDate.compareTo(currentDate) < 0) {
+                        date.setValue(null);
+                    }
+                } catch (Exception ignored) {
+
+                }
                 date.validate();
             }
         });
@@ -117,10 +131,17 @@ public class ReligiousRequestFormController extends DefaultServiceRequestFormCon
         RequiredFieldValidator validatorStartTime = new RequiredFieldValidator();
 
         startTime.getValidators().add(validatorStartTime);
-        validatorStartTime.setMessage("Please select the start time!");
+        validatorStartTime.setMessage("Please select a valid start time!");
 
         startTime.focusedProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue) {
+                try {
+                    if (startTime.getValue().getHour() > endTime.getValue().getHour()) {
+                        startTime.setValue(null);
+                    }
+                } catch (Exception ignored) {
+
+                }
                 startTime.validate();
             }
         });
@@ -129,10 +150,17 @@ public class ReligiousRequestFormController extends DefaultServiceRequestFormCon
         RequiredFieldValidator validatorEndTime = new RequiredFieldValidator();
 
         endTime.getValidators().add(validatorEndTime);
-        validatorEndTime.setMessage("Please select the end time!");
+        validatorEndTime.setMessage("Please select a valid end time!");
 
         endTime.focusedProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue) {
+                try {
+                    if (endTime.getValue().getHour() < startTime.getValue().getHour()) {
+                        endTime.setValue(null);
+                    }
+                } catch (Exception ignored) {
+
+                }
                 endTime.validate();
             }
         });
@@ -223,7 +251,7 @@ public class ReligiousRequestFormController extends DefaultServiceRequestFormCon
         btnSubmit.setDisable(
             name.getText().isEmpty() || loc.getValue() == null || date.getValue() == null ||
             startTime.getValue() == null || endTime.getValue() == null || faith.getText().isEmpty() ||
-            description.getText().isEmpty()
+            description.getText().isEmpty() || super.validateCommon()
         );
     }
 }

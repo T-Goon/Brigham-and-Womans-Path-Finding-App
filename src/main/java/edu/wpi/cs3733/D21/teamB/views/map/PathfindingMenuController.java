@@ -92,7 +92,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
 
     @FXML
     private StackPane mapStack,
-            stackContainer,
+            stackPane,
             textDirectionsHolder;
 
     @FXML
@@ -134,12 +134,14 @@ public class PathfindingMenuController extends BasePageController implements Ini
     private String previousFrom = "";
     private String previousStops = "";
     private String previousTo = "";
-
+    private String previousAlgorithm = "";
+    private boolean previousMobility = false;
+    private boolean mapInEditMode = false;
     // JavaFX code **************************************************************************************
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        super.initialize(location, resources);
         //Add better category names to a hash map
         initCategoriesMap();
 
@@ -458,7 +460,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
      * are not equal to each other.
      */
     public void validateFindPathButton() {
-        btnFindPath.setDisable(txtStartLocation.getText().isEmpty() || txtEndLocation.getText().isEmpty() || txtStartLocation.getText().equals(txtEndLocation.getText()));
+        btnFindPath.setDisable(mapInEditMode || txtStartLocation.getText().isEmpty() || txtEndLocation.getText().isEmpty() || txtStartLocation.getText().equals(txtEndLocation.getText()));
     }
 
     /**
@@ -472,7 +474,8 @@ public class PathfindingMenuController extends BasePageController implements Ini
 
         switch (b.getId()) {
             case "btnFindPath":
-                if (!previousFrom.equals(txtStartLocation.getText()) || !previousStops.equals(String.join(" ", mapCache.getStopsList())) || !previousTo.equals(txtEndLocation.getText())) {
+                if (!previousFrom.equals(txtStartLocation.getText()) || !previousStops.equals(String.join(" ", mapCache.getStopsList())) || !previousTo.equals(txtEndLocation.getText())
+                        || !previousAlgorithm.equals(comboPathingType.getSelectionModel().getSelectedItem()) || previousMobility != btnMobility.isSelected()) {
                     mapCache.updateLocations();
                     Map<String, String> longToId = mapCache.makeLongToIDMap();
                     mapPathPopupManager.removeTxtDirPopup();
@@ -486,14 +489,15 @@ public class PathfindingMenuController extends BasePageController implements Ini
                     previousFrom = txtStartLocation.getText();
                     previousStops = String.join(" ", mapCache.getStopsList());
                     previousTo = txtEndLocation.getText();
-
+                    previousAlgorithm = comboPathingType.getSelectionModel().getSelectedItem();
+                    previousMobility = btnMobility.isSelected();
                 }
                 break;
             case "btnEditMap":
                 mapPathPopupManager.removeTxtDirPopup();
                 mapDrawer.removeAllPopups();
                 mapDrawer.removeAllEdges();
-
+                mapInEditMode = !mapInEditMode;
                 mapDrawer.setEditing(!mapDrawer.isEditing());
                 btnFindPath.setDisable(!btnFindPath.isDisable());
 
@@ -531,7 +535,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
 
                 break;
             case "btnEmergency":
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/cs3733/D21/teamB/views/map/pathfindingMenu.fxml", "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
+                SceneSwitcher.switchScene("/edu/wpi/cs3733/D21/teamB/views/map/pathfindingMenu.fxml", "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
                 break;
             case "btnHelp":
                 loadHelpDialog();
@@ -540,7 +544,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
                 handleItemSearched();
                 break;
             case "btnAbout":
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/cs3733/D21/teamB/views/map/pathfindingMenu.fxml", "/edu/wpi/cs3733/D21/teamB/views/misc/aboutPage.fxml");
+                SceneSwitcher.switchScene("/edu/wpi/cs3733/D21/teamB/views/map/pathfindingMenu.fxml", "/edu/wpi/cs3733/D21/teamB/views/misc/aboutPage.fxml");
                 break;
             case "btnBack":
                 // Reset all the colors of the nodes
@@ -719,7 +723,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
 
         helpLayout.setHeading(headerLabel);
         helpLayout.setBody(helpText);
-        JFXDialog helpWindow = new JFXDialog(stackContainer, helpLayout, JFXDialog.DialogTransition.CENTER);
+        JFXDialog helpWindow = new JFXDialog(stackPane, helpLayout, JFXDialog.DialogTransition.CENTER);
 
         JFXButton button = new JFXButton("Close");
         button.setOnAction(event -> helpWindow.close());

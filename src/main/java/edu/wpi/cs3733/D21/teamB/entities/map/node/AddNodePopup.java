@@ -8,6 +8,7 @@ import edu.wpi.cs3733.D21.teamB.util.Popup.Popup;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -48,9 +49,10 @@ public class AddNodePopup extends Popup<VBox, AddNodePopupData> implements Poppa
      * @param longName Long name of the node
      * @param shortName short name of the node
      */
-    public void addNode(String nodeID, int x, int y, String floor, String building, String type, String longName, String shortName){
+    public void addNode(String nodeID, int x, int y, String floor, String building, String type, String longName, String shortName,
+                        Color c){
 
-        Node aNode = new Node(nodeID, x, y, floor, building, type, longName, shortName);
+        Node aNode = new Node(nodeID, x, y, floor, building, type, longName, shortName, c);
 
         try {
             DatabaseHandler.getHandler().addNode(aNode);

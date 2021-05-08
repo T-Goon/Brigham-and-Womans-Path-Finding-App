@@ -2,9 +2,11 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXDatePicker?>
 <?import com.jfoenix.controls.JFXTextArea?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import com.jfoenix.controls.JFXTimePicker?>
+<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.image.Image?>
@@ -110,6 +112,23 @@
                                                         </VBox>
                                                         <HBox>
                                                             <children>
+                                                <VBox prefHeight="57.0" prefWidth="253.0">
+                                                   <children>
+                                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Date of Arrival:">
+                                                         <font>
+                                                            <Font size="14.0" />
+                                                         </font>
+                                                      </Text>
+                                                      <JFXDatePicker fx:id="arrivalDate" defaultColor="#012d5a" onAction="#validateButton" prefHeight="25.0" prefWidth="250.0" style="-fx-background-radius: 7; -fx-background-color: e5e5e5;">
+                                                         <stylesheets>
+                                                            <URL value="@../../css/dateTimeFix.css" />
+                                                         </stylesheets>
+                                                      </JFXDatePicker>
+                                                   </children>
+                                                   <padding>
+                                                      <Insets left="10.0" right="10.0" />
+                                                   </padding>
+                                                </VBox>
                                                                 <VBox prefHeight="44.0" prefWidth="318.0">
                                                                     <children>
                                                                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Time for Arrival:">
@@ -163,7 +182,7 @@
                         </HBox>
                     </children>
                 </VBox>
-            <HBox alignment="CENTER_LEFT" fillHeight="false" maxHeight="-Infinity" prefWidth="200.0" StackPane.alignment="BOTTOM_CENTER">
+            <HBox alignment="BOTTOM_CENTER" fillHeight="false" maxHeight="-Infinity" prefWidth="200.0" StackPane.alignment="BOTTOM_CENTER">
                <children>
                    <HBox alignment="BOTTOM_LEFT" HBox.hgrow="ALWAYS">
                        <children>

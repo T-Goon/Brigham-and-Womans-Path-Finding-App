@@ -15,7 +15,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -23,7 +22,7 @@ import java.util.ResourceBundle;
 public class DirectionsMenuController extends BasePageController implements Initializable, MapComponentInitializedListener, DirectionsServiceCallback {
 
     @FXML
-    private StackPane mapHolder;
+    private StackPane stackPane;
 
     @FXML
     private JFXTextField txtStartLocation;
@@ -66,13 +65,13 @@ public class DirectionsMenuController extends BasePageController implements Init
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        super.initialize(location, resources);
         comboEndLocation.getItems().add("BWH Visitor Parking");
         comboEndLocation.getItems().add("15-51 New Whitney St Parking");
 
 
         mapView = new GoogleMapView("en", "AIzaSyD4MPvha5ZUWDmOuuvxPSMW0NH1h3bZUXs");
-        mapHolder.getChildren().add(0, mapView);
+        stackPane.getChildren().add(0, mapView);
 
 
         mapView.addMapInitializedListener(this);
@@ -122,7 +121,7 @@ public class DirectionsMenuController extends BasePageController implements Init
                 getRoute();
                 break;
             case "btnEmergency":
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/cs3733/D21/teamB/views/map/directionsMenu.fxml", "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
+                SceneSwitcher.switchScene("/edu/wpi/cs3733/D21/teamB/views/map/directionsMenu.fxml", "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
                 break;
         }
     }
