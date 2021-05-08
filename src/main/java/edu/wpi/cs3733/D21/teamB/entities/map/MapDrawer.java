@@ -322,7 +322,7 @@ public class MapDrawer implements PoppableManager {
         floorIndicator.setLayoutY((n.getYCoord() / PathfindingMenuController.COORDINATE_SCALE) - 30);
 
         floorIndicator.setOnMouseClicked(event -> {
-            switch (floorString.replaceAll("0", "")){
+            switch (floorString.replaceAll("0", "")) {
                 case FloorSwitcher.floor3ID:
                     removeAllEdges();
                     floorSwitcher.switchFloor(FloorSwitcher.floor3ID);
@@ -387,21 +387,21 @@ public class MapDrawer implements PoppableManager {
      */
     private void animatePath(List<String> currentFloorPath) {
         javafx.scene.shape.Path animationPath = new javafx.scene.shape.Path();
-        double x,y,oldX,oldY;
+        double x, y, oldX, oldY;
         int steps = 0;
         int pathLength = 0;
         // Place head at first node
         x = Graph.getGraph().getNodes().get(currentFloorPath.get(0)).getXCoord() / PathfindingMenuController.COORDINATE_SCALE;
         y = Graph.getGraph().getNodes().get(currentFloorPath.get(0)).getYCoord() / PathfindingMenuController.COORDINATE_SCALE;
-        animationPath.getElements().add(new MoveTo(x,y));
+        animationPath.getElements().add(new MoveTo(x, y));
 
         for (int i = 0; i < currentFloorPath.size() - 1; i++) {
             steps++;
-            oldX=x;
-            oldY=y;
+            oldX = x;
+            oldY = y;
             x = Graph.getGraph().getNodes().get(currentFloorPath.get(i + 1)).getXCoord() / PathfindingMenuController.COORDINATE_SCALE;
             y = Graph.getGraph().getNodes().get(currentFloorPath.get(i + 1)).getYCoord() / PathfindingMenuController.COORDINATE_SCALE;
-            pathLength += Math.sqrt(Math.pow((x-oldX),2) + Math.pow((y-oldY),2));
+            pathLength += Math.sqrt(Math.pow((x - oldX), 2) + Math.pow((y - oldY), 2));
             if (Graph.getGraph().verifyEdge(currentFloorPath.get(i), currentFloorPath.get(i + 1))) {
                 // Valid edge move along it
                 animationPath.getElements().add(new LineTo(x, y));
@@ -476,9 +476,11 @@ public class MapDrawer implements PoppableManager {
             Node start = db.getNodeById(e.getStartNodeID());
             Node end = db.getNodeById(e.getEndNodeID());
 
-            if (start.getFloor().equals(mapCache.getCurrentFloor()) &&
-                    end.getFloor().equals(mapCache.getCurrentFloor())) {
-                placeEdge(start, end);
+            if (start != null && end != null) {
+                if (start.getFloor().equals(mapCache.getCurrentFloor()) &&
+                        end.getFloor().equals(mapCache.getCurrentFloor())) {
+                    placeEdge(start, end);
+                }
             }
         }
     }

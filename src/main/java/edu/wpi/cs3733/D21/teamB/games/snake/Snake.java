@@ -71,7 +71,7 @@ public class Snake extends JPanel implements ActionListener {
      */
     public void initializeGame() {
         // Set the snake at a starting location (Francis Lobby Entrance)
-        Node snake = nodes.get(122);
+        Node snake = nodes. get(10);
         snakeHeadLoc = new Coord(snake.getXCoord(), snake.getYCoord());
         try {
             ImageView i = FXMLLoader.load(Objects.requireNonNull(Snake.class.getResource("/edu/wpi/cs3733/D21/teamB/views/map/misc/snake.fxml")));
