@@ -2,10 +2,25 @@ package edu.wpi.cs3733.D21.teamB.entities;
 
 import edu.wpi.cs3733.D21.teamB.util.PageCache;
 import edu.wpi.cs3733.D21.teamB.views.misc.ChatBoxController;
+import org.alicebot.ab.Bot;
+import org.alicebot.ab.Chat;
+import org.alicebot.ab.MagicBooleans;
 
+import java.io.File;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class ChatBot implements Runnable {
+
+    private Chat chatSession;
+
+    public ChatBot(){
+        String resourcesPath = new File(".").getAbsolutePath();
+        System.out.println(resourcesPath);
+        MagicBooleans.trace_mode = false;
+        Bot bot = new Bot("super", resourcesPath);
+        chatSession = new Chat(bot);
+        bot.brain.nodeStats();
+    }
 
     @Override
     public void run() {
@@ -45,7 +60,7 @@ public class ChatBot implements Runnable {
 
         // TODO do more than return the input of whatever it is
         if (input.getMessage().equals("hello world")) sendMessage("hey");
-        else sendMessage(new StringBuilder(input.getMessage()).reverse().toString());
+        else sendMessage(chatSession.multisentenceRespond(input.getMessage()));
     }
 
     /**

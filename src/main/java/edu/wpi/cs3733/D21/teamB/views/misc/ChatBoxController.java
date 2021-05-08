@@ -52,13 +52,6 @@ public class ChatBoxController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        String resourcesPath = new File(".").getAbsolutePath();
-        System.out.println(resourcesPath);
-        MagicBooleans.trace_mode = false;
-        Bot bot = new Bot("super", resourcesPath);
-        chatSession = new Chat(bot);
-        bot.brain.nodeStats();
-
         // Thread for getting messages from the bot
         userThread = new Thread(() -> {
 
@@ -67,8 +60,8 @@ public class ChatBoxController implements Initializable {
                 if (PageCache.getNewMessagesWaitingForUser().get() != 0) {
                     // Get message and mark as read
                     PageCache.getNewMessagesWaitingForUser().getAndDecrement();
-                    String response = chatSession.multisentenceRespond(PageCache.getBotLastMessage().getMessage());
-                    Platform.runLater(() -> sendMessage(new Message(response, false)));
+
+                    Platform.runLater(() -> sendMessage(PageCache.getBotLastMessage()));
                 }
             }
         });
