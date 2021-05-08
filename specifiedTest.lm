@@ -1,0 +1,97 @@
+Language model created by QuickLM on Sat May  8 16:12:02 EDT 2021
+Copyright (c) 1996-2010 Carnegie Mellon University and Alexander I. Rudnicky
+
+The model is in standard ARPA format, designed by Doug Paul while he was at MITRE.
+
+The code that was used to produce this language model is available in Open Source.
+Please visit http://www.speech.cs.cmu.edu/tools/ for more information
+
+The (fixed) discount mass is 0.5. The backoffs are computed using the ratio method.
+This model based on a corpus of 1 sentences and 23 words
+
+\data\
+ngram 1=23
+ngram 2=26
+ngram 3=25
+
+\1-grams:
+-1.7324 </s> -0.3010
+-1.7324 <s> -0.2762
+-1.7324 A -0.2929
+-1.4314 AM -0.2846
+-1.7324 COVID -0.2929
+-1.7324 DO -0.2762
+-1.7324 GO -0.2846
+-1.7324 HELP. -0.2929
+-1.7324 HOSPITAL. -0.2929
+-1.7324 HOW -0.2929
+-1.2553 I -0.2676
+-1.7324 I. -0.2929
+-1.7324 LIKE -0.2846
+-1.7324 LOST. -0.2929
+-1.7324 MY -0.2929
+-1.7324 NAVIGATE -0.2929
+-1.7324 ROOM. -0.2929
+-1.7324 SURVEY. -0.2762
+-1.7324 TAKE -0.2929
+-1.7324 THE -0.2929
+-1.4314 TO -0.2846
+-1.7324 WHERE -0.2846
+-1.7324 WOULD -0.2929
+
+\2-grams:
+-0.3010 <s> I -0.2218
+-0.3010 A COVID 0.0000
+-0.6021 AM I. 0.0000
+-0.6021 AM LOST. 0.0000
+-0.3010 COVID SURVEY. 0.0000
+-0.3010 DO I -0.2218
+-0.3010 GO TO -0.1761
+-0.3010 HELP. WHERE 0.0000
+-0.3010 HOSPITAL. HELP. 0.0000
+-0.3010 HOW DO 0.0000
+-0.7782 I AM -0.1761
+-0.7782 I NAVIGATE 0.0000
+-0.7782 I WOULD 0.0000
+-0.3010 I. GO 0.0000
+-0.3010 LIKE TO -0.1761
+-0.3010 LOST. HOW 0.0000
+-0.3010 MY ROOM. 0.0000
+-0.3010 NAVIGATE THE 0.0000
+-0.3010 ROOM. </s> -0.3010
+-0.3010 SURVEY. I -0.2218
+-0.3010 TAKE A 0.0000
+-0.3010 THE HOSPITAL. 0.0000
+-0.6021 TO MY 0.0000
+-0.6021 TO TAKE 0.0000
+-0.3010 WHERE AM -0.1761
+-0.3010 WOULD LIKE 0.0000
+
+\3-grams:
+-0.3010 <s> I WOULD
+-0.3010 A COVID SURVEY.
+-0.3010 AM I. GO
+-0.3010 AM LOST. HOW
+-0.3010 COVID SURVEY. I
+-0.3010 DO I NAVIGATE
+-0.3010 GO TO MY
+-0.3010 HELP. WHERE AM
+-0.3010 HOSPITAL. HELP. WHERE
+-0.3010 HOW DO I
+-0.3010 I AM LOST.
+-0.3010 I NAVIGATE THE
+-0.3010 I WOULD LIKE
+-0.3010 I. GO TO
+-0.3010 LIKE TO TAKE
+-0.3010 LOST. HOW DO
+-0.3010 MY ROOM. </s>
+-0.3010 NAVIGATE THE HOSPITAL.
+-0.3010 SURVEY. I AM
+-0.3010 TAKE A COVID
+-0.3010 THE HOSPITAL. HELP.
+-0.3010 TO MY ROOM.
+-0.3010 TO TAKE A
+-0.3010 WHERE AM I.
+-0.3010 WOULD LIKE TO
+
+\end\

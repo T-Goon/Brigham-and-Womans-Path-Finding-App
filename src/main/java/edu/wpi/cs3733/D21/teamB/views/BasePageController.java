@@ -105,7 +105,10 @@ public abstract class BasePageController implements Initializable {
         SpeechResult result = recognizer.getResult();
         // Pause recognition process. It can be resumed then with startRecognition(false).
         recognizer.stopRecognition();
-        System.out.format("Hypothesis: %s\n", result.getHypothesis());
+        if (result.getNbest(3).toString().contains("hello")){
+            System.out.println("Contains keyword");
+        }
+        System.out.format("Hypothesis: %s\n", result.getNbest(5).toString());
     }
 
     public void handleButtonAction(ActionEvent e) {
