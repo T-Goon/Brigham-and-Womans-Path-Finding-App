@@ -185,6 +185,7 @@ public class CovidSurveyController extends DefaultServiceRequestFormController i
                 username,
                 txtName.getText(),
                 User.CovidStatus.PENDING,
+                "F",
                 chkFever.isSelected() ? "T" : "F",
                 chkCough.isSelected() ? "T" : "F",
                 chkChills.isSelected() ? "T" : "F",

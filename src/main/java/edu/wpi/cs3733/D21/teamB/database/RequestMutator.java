@@ -236,6 +236,7 @@ public class RequestMutator implements IDatabaseEntityMutator<Request> {
                         + "', '" + covidSurveyRequest.getSymptomNausea()
                         + "', '" + covidSurveyRequest.getHadCloseContact()
                         + "', '" + covidSurveyRequest.getHadPositiveTest()
+                        + "', '" + covidSurveyRequest.getAdmitted()
                         + "')";
                 break;
         }
@@ -682,6 +683,7 @@ public class RequestMutator implements IDatabaseEntityMutator<Request> {
                         rs.getString("submitter"),
                         rs.getString("name"),
                         User.CovidStatus.valueOf(rs.getString("status")),
+                        rs.getString("admitted"),
                         rs.getString("fever"),
                         rs.getString("chills"),
                         rs.getString("cough"),
@@ -701,5 +703,14 @@ public class RequestMutator implements IDatabaseEntityMutator<Request> {
         }
         rs.close();
         return outRequest;
+    }
+
+    /**
+     * Sets the admitted flag in the database for a given CovidSurveyRequest
+     * @param request
+     */
+    public void setCovidRequestAdmitted(CovidSurveyRequest request, String flag) throws SQLException {
+        String query = "UPDATE CovidSurveyRequests SET admitted = '" + flag + "' WHERE  requestID = '" + request.getRequestID() + "'";
+        db.runStatement(query, false);
     }
 }

@@ -34,6 +34,8 @@ public class CovidSurveyRequest extends Request {
 
         private User.CovidStatus status;
 
+        private String admitted;
+
     public CovidSurveyRequest( String requestID,
                                String time,
                                String date,
@@ -44,6 +46,7 @@ public class CovidSurveyRequest extends Request {
                                String submitter,
                                String name,
                                User.CovidStatus status,
+                               String admitted,
                                String symptomFever,
                                String symptomChills,
                                String symptomCough,
@@ -70,6 +73,8 @@ public class CovidSurveyRequest extends Request {
         this.symptomNausea = symptomNausea;
         this.hadCloseContact = hadCloseContact;
         this.hadPositiveTest = hadPositiveTest;
+        this.admitted = admitted;
+
 
     }
 }
