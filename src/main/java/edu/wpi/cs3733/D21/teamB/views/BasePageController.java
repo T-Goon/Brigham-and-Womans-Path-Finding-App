@@ -34,10 +34,10 @@ public abstract class BasePageController implements Initializable {
     @FXML
     private StackPane stackPane;
 
-    public TextToSpeech tts = new TextToSpeech();
+    public final TextToSpeech tts = new TextToSpeech();
 
     OnScreenKeyboard onScreenKeyboard = OnScreenKeyboard.getInstance();
-    LastFocused lastFocused = LastFocused.getInstance();
+    final LastFocused lastFocused = LastFocused.getInstance();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

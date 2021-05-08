@@ -46,7 +46,7 @@ public abstract class DefaultServiceRequestFormController extends BasePageContro
 
     private VBox helpPopup;
     private boolean justClicked = false;
-    protected ArrayList<Node> nodesList = new ArrayList<>();
+    protected final ArrayList<Node> nodesList = new ArrayList<>();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

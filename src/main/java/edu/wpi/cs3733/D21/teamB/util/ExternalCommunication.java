@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 public class ExternalCommunication {
 
-    public static List<Thread> threads = new ArrayList<>();
+    public static final List<Thread> threads = new ArrayList<>();
 
     /**
      * Read account information from file to set up the sender
