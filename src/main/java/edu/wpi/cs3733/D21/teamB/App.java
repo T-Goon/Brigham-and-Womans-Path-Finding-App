@@ -25,7 +25,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
-import sun.misc.Launcher;
 
 @SuppressWarnings("deprecation")
 public class App extends Application {
@@ -43,7 +42,7 @@ public class App extends Application {
             e.printStackTrace();
         }
 
-        listFiles("/edu/wpi/cs3733/D21/teamB/bots");
+        listFiles("edu/wpi/cs3733/D21/teamB/bots/Mike Bedard/aiml/");
 
         System.out.println("Starting Up");
         db = DatabaseHandler.getHandler();
@@ -131,11 +130,14 @@ public class App extends Application {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            System.out.println("ok");
             final Enumeration<JarEntry> entries = jar.entries(); //gives ALL entries in jar
             while(entries.hasMoreElements()) {
+
                 final String name = entries.nextElement().getName();
+//                System.out.println(name);
                 if (name.startsWith(path + "/")) { //filter according to the path
-                    InputStream inputStream = App.class.getResourceAsStream(name);
+                    InputStream inputStream = getClass().getResourceAsStream(name);
                     System.out.println(inputStream);
                     System.out.println(name);
                     System.out.println();
@@ -153,6 +155,8 @@ public class App extends Application {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        } else{
+            System.out.println("what?");
         }
     }
 
