@@ -106,9 +106,7 @@ public class ChatBoxController implements Initializable {
         HBox messageBox = new HBox();
         Label text = new Label(message.getMessage());
         text.setFont(new Font("MS Reference Sans Serif", 13));
-        text.setStyle("-fx-text-fill: white");
         text.setWrapText(true);
-        text.setBackground(new Background(new BackgroundFill(Color.DARKBLUE, new CornerRadii(7), Insets.EMPTY)));
         text.setPadding(new Insets(5, 10, 5, 10));
         messageBox.getChildren().add(text);
 
@@ -116,9 +114,13 @@ public class ChatBoxController implements Initializable {
         if (message.isFromUser()) {
             messageBox.setPadding(new Insets(0, 0, 0, 75));
             messageBox.setAlignment(Pos.CENTER_RIGHT);
+            text.setBackground(new Background(new BackgroundFill(Color.BLUE, new CornerRadii(7), Insets.EMPTY)));
+            text.setStyle("-fx-text-fill: white");
         } else {
             messageBox.setPadding(new Insets(0, 75, 0, 0));
             messageBox.setAlignment(Pos.CENTER_LEFT);
+            text.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, new CornerRadii(7), Insets.EMPTY)));
+            text.setStyle("-fx-text-fill: black");
         }
 
         // Play the text if text-to-speech is enabled and it's from the chatbot

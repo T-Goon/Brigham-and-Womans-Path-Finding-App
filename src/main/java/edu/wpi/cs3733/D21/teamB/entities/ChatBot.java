@@ -3,8 +3,9 @@ package edu.wpi.cs3733.D21.teamB.entities;
 import edu.wpi.cs3733.D21.teamB.util.PageCache;
 import edu.wpi.cs3733.D21.teamB.views.misc.ChatBoxController;
 
-public class ChatBot implements Runnable {
+import java.util.concurrent.ThreadLocalRandom;
 
+public class ChatBot implements Runnable {
 
     @Override
     public void run() {
@@ -36,17 +37,23 @@ public class ChatBot implements Runnable {
      * @param input the input from the user
      */
     private void respond(ChatBoxController.Message input) {
+        try {
+            Thread.sleep(ThreadLocalRandom.current().nextInt(1000, 3000 + 1));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         // TODO do more than return the input of whatever it is
-        ChatBoxController.Message returnMessage = new ChatBoxController.Message(input.getMessage(), false);
-        sendMessage(returnMessage);
+        if (input.getMessage().equals("hello world")) sendMessage("hey");
+        else sendMessage(new StringBuilder(input.getMessage()).reverse().toString());
     }
 
     /**
      * Actually send the message to the user
      *
-     * @param input the message to send
+     * @param message the message to send
      */
-    private void sendMessage(ChatBoxController.Message input) {
-        PageCache.addBotMessage(input);
+    private void sendMessage(String message) {
+        PageCache.addBotMessage(new ChatBoxController.Message(message, false));
     }
 }
