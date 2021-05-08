@@ -160,6 +160,7 @@ public class TxtDirPopup extends Popup<VBox, TxtDirPopupData> implements Poppabl
     public void close() {
         index = 0;
         highlight(true);
+        floorSwitcher.switchFloor(directions.get(1).getFloor());
         gPane.zoomTo(scaleAmount, new Point2D(gPane.getWidth() / 2, gPane.getHeight() / 2));
         gPane.centreOn(new Point2D(avgX, avgY));
         stackPane.setOnKeyPressed(null);
