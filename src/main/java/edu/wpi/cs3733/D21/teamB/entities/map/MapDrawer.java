@@ -68,6 +68,10 @@ public class MapDrawer implements PoppableManager {
     @Setter
     private FloorSwitcher floorSwitcher;
 
+    @Getter
+    @Setter
+    private boolean playingSnake;
+
     public MapDrawer(PathfindingMenuController pathfindingMenuController, MapCache mapCache, AnchorPane nodeHolder, AnchorPane mapHolder, AnchorPane intermediateNodeHolder,
                      Label lblError, StackPane mapStack, GesturePane gPane) {
         this.pathfindingMenuController = pathfindingMenuController;
@@ -674,6 +678,30 @@ public class MapDrawer implements PoppableManager {
     }
 
     /**
+     * Draws an edge between 2 points on the map for the game.
+     *
+     * @param start start node
+     * @param end   end node
+     */
+    public void placeEdgesForGame(Node start, Node end) {
+        try {
+            Line l = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/cs3733/D21/teamB/views/map/misc/edge.fxml")));
+
+            l.setStartX(start.getXCoord() / PathfindingMenuController.COORDINATE_SCALE);
+            l.setStartY(start.getYCoord() / PathfindingMenuController.COORDINATE_SCALE);
+
+            l.setEndX(end.getXCoord() / PathfindingMenuController.COORDINATE_SCALE);
+            l.setEndY(end.getYCoord() / PathfindingMenuController.COORDINATE_SCALE);
+
+            mapHolder.getChildren().add(l);
+            mapCache.getEdgesPlaced().add(l);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
      * Refresh the nodes on the map.
      * <p>
      * FOR MAP EDITOR MODE ONLY!!!
@@ -710,8 +738,23 @@ public class MapDrawer implements PoppableManager {
             removeAllEdges();
             removeIntermediateNodes();
             removeNodes();
-            drawNodesOnFloor();
+            if (!playingSnake) {
+                drawNodesOnFloor();
+            }
         }
+    }
+
+    /**
+     * Draws all the elements of the map base on direction or map edit mode.
+     */
+    public void drawGameNodesEdges() {
+        removeAllPopups();
+
+        mapCache.updateLocations();
+        removeAllEdges();
+        removeIntermediateNodes();
+        removeNodes();
+        drawNodesOnFloor();
     }
 
     /**

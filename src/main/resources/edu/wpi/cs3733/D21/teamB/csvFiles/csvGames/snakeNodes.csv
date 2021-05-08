@@ -1,281 +1,90 @@
 nodeID,xcoord,ycoord,floor,building,nodeType,longName,shortName
-DHALL03502,3955,829,2,15 Francis,HALL,Hallway 35 Floor 5,Hallway D3502
-DHALL05802,3420,853,2,15 Francis,HALL,Hallway 58 Floor 2,Hallway D5802
 bPARK00901,607,2086,1,Parking,HALL,Left Parking Lot Spot 9,LLot9
-IHALL00103,2255,1290,3,45 Francis,HALL,Hallway Node 1,H1
-BDEPT00102,2260,786,2,45 Francis,HALL,Comprehensive Breast Health,DEPT B0102
-DHALL02402,4295,475,2,15 Francis,HALL,Hallway 24 Floor 4,Hallway D2402
-WELEV00KL2,2215,973,L2,45 Francis,HALL,Elevator K Floor L2,Elevator KL2
-GDEPT02402,1578,1932,2,Shapiro,HALL,Watkins A Node 24 Floor 2 Floor 2,Watkins A
 AHALL00601,1604,2862,1,BTM,HALL,Hall,Hall
-DHALL04702,3654,803,2,15 Francis,HALL,Hallway 47 Floor 6,Hallway D4702
-AHALL004L2,1696,2687,L2,BTM,HALL,Hall,Hall
 bCONF00201,1276,2215,1,Shapiro,HALL,1234,1234
-DHALL05702,3510,790,2,15 Francis,HALL,Hallway 57 Floor 2,Hallway D5702
 EHALL02801,2925,1064,1,45 Francis,HALL,Hallway Node 26 Floor 1,HallE26
-BINFO00202,3136,963,2,45 Francis,HALL,Valet Service Level 2,INFO B0202
-CSERV001L1,2490,1043,L1,45 Francis,HALL,Volunteers Floor L1,Service C001L1
 ELABS00201,2790,1293,1,45 Francis,HALL,Ambulatory X-Ray Floor 1,X-Ray 1
 bPARK00801,518,2086,1,Parking,HALL,Left Parking Lot Spot 8,LLot8
-ASTAI00102,1666,2601,2,BTM,HALL,Stairs Floor 2,Stairs Floor 2
-GSTAI02602,1686,1931,2,Shapiro,HALL,Stairs Node 26 Floor 2,Floor 2 Stairs Upper
 FHALL00801,1752,850,1,Tower,HALL,Tower Hallway 1,Hallway F00801
-DHALL02302,4283,433,2,15 Francis,HALL,Hallway 23 Floor 4,Hallway D2302
 AHALL00701,1017,2865,1,BTM,HALL,Hall,Hall
-WELEV00LL1,1785,924,L1,Tower,HALL,Elevator L Floor L1,Elevator LL1
-WELEV00LL2,1785,924,L2,Tower,HALL,Elevator L Floor L2,Elevator LL2
-IHALL01203,2220,1034,3,45 Francis,HALL,Hallway Node 12,H12
 bCONF00301,3158,1539,1,park,HALL,2345,2435
-BHALL00902,2330,590,2,45 Francis,HALL,Hallway Intersection 9 Level 2,Hallway B0902
 ELABS00101,3055,738,1,45 Francis,HALL,Asthma Research Floor 1,Asthma 1
-DHALL03702,3970,879,2,15 Francis,HALL,Hallway 37 Floor 5,Hallway D3702
-DHALL01402,4570,455,2,15 Francis,HALL,Hallway 14 Floor 3,Hallway D1402
 bPARK00701,151,2086,1,Parking,HALL,Left Parking Lot Spot 7,LLot7
-IHALL02203,2363,764,3,45 Francis,HALL,Hallway Node 22,H22
-BDEPT00302,2385,753,2,45 Francis,HALL,Lee Bell Breast Center,DEPT B0302
 bWALK01101,2604,1539,1,Parking,HALL,Francis Top Sidewalk 2,FrancisSidewalk2
-BREST00402,2554,1389,2,45 Francis,HALL,Restroom 4 Level 2,REST B0402
-AELEV00S02,1527,2777,2,BTM,HALL,Elevator S 02,Elevator S 2
 AHALL00801,1532,2737,1,BTM,HALL,Hall,Hall
-DHALL00302,4725,995,2,15 Francis,HALL,Hallway 3 Floor 2,Hallway D0302
-HHALL01103,1690,820,3,Tower,HALL,Hallway Connector 11 Floor 3,Hallway H01103
-WELEV00ML2,1820,1280,L2,Tower,HALL,Elevator M Floor L2,Elevator ML2
-bHALL00202,1627,2094,2,45 Francis,HALL,Hall,Hall
 bCONF00401,3364,980,1,Francis,HALL,765,65
-DHALL01302,4545,460,2,15 Francis,HALL,Hallway 13 Floor 3,Hallway D1302
-HHALL00102,1875,925,2,Tower,HALL,Hallway Connector 1 Floor 2,Hallway H00102
-HHALL00103,1325,655,3,Tower,HALL,Hallway Connector 1 Floor 3,Hallway H00103
-GHALL009L2,1578,2031,L2,Shapiro,HALL,Hallway MapNode 9 Floor L2,Hall
-BDEPT00402,2439,902,2,45 Francis,HALL,Jen Center for Primary Care,DEPT B0402
-DLABS00102,3828,777,2,15 Francis,HALL,MRI Associates Floor 2,MRI Associates
 bWALK01001,2469,1539,1,Parking,HALL,Francis Top Sidewalk 1,FrancisSidewalk1
-BREST00502,2782,1152,2,45 Francis,HALL,Restroom 5 Level 2,REST B0502
 EHALL01901,2951,885,1,45 Francis,HALL,Hallway Node 17 Floor 1,HallE17
 bCONF00501,3057,623,1,Francis,HALL,re,re
-HHALL01203,1600,820,3,Tower,HALL,Hallway Connector 12 Floor 3,Hallway H01203
 bPARK01801,3364,1130,1,Parking,HALL,Right Parking Lot Spot 8,RLot8
 GSTAI01301,1752,2015,1,Shapiro,HALL,Staircase MapNode 13 Floor 1,Southbound Stairs Floor 1
-bHALL00302,1649,1025,2,45 Francis,HALL,Hall,Hall
-WHALL00402,2105,900,2,45 Francis,HALL,Hallway Connector 4 Floor 2,Hallway W0402
-AINFO001L2,1681,2747,L2,BTM,HALL,BTM Security Desk,Security
 bPARK00501,674,1893,1,Parking,HALL,Left Parking Lot Spot 5,LLot5
-HDEPT00103,1725,900,3,Tower,HALL,Dialysis Waiting Room,Dialysis WR
-DHALL03902,3910,687,2,15 Francis,HALL,Hallway 39 Floor 5,Hallway D3902
 FHALL02601,2013,1238,1,Tower,HALL,Lobby Hallway 4,Hallway F02601
-ALABS00203,1656,2695,3,BTM,HALL,Clinical Trials,Clinical Trials
-BHALL03202,2554,1472,2,45 Francis,HALL,Hallway Intersection 32 Level 2,Hallway B3202
-IHALL00503,2730,1290,3,45 Francis,HALL,Hallway Node 5,H5
-HRETL00302,1828,1078,2,Tower,HALL,Gift Shop Tower Floor 2,Gift Shop
 bEXIT00401,1752,1389,1,Parking,HALL,75 Francis Lobby Entrance,FrancisLobbyEnt
-BSTAI01002,2238,932,2,45 Francis,HALL,Staircase Intersection 10 Level 2,Stair B1002
-DHALL02802,4185,668,2,15 Francis,HALL,Hallway 28 Floor 4,Hallway D2802
 bPARK01701,3158,1279,1,Parking,HALL,Right Parking Lot Spot 7,RLot7
-AHALL00203,1600,2732,3,BTM,HALL,Hall,Hall
 AHALL00201,1607,2569,1,BTM,HALL,Hall,Hall
 FHALL01401,1627,1029,1,Tower,HALL,Tower Hallway 6,Hallway F01401
 bWALK00901,2135,1238,1,Parking,HALL,Francis Drop Off Sidewalk 2,FrancisDrop2
-BHALL02102,2841,1032,2,45 Francis,HALL,Hallway Intersection 21 Level 2,Hallway B2102
-GHALL02902,1728,2042,2,Shapiro,HALL,Hall Node 29 Floor 2,Hall
-GLABS003L2,1729,2089,L2,Shapiro,HALL,Cardiovascular Imaging Center Floor L2,Cardiovascular Imaging Center
 GHALL00601,1703,2015,1,Shapiro,HALL,Hallway MapNode 6 Floor 1,Hall
-WHALL00302,2085,900,2,45 Francis,HALL,Hallway Connector 3 Floor 2,Hallway W0302
 bPARK00401,451,1893,1,Parking,HALL,Left Parking Lot Spot 4,LLot4
-DHALL03802,3979,910,2,15 Francis,HALL,Hallway 38 Floor 5,Hallway D3802
-AHALL001L2,1631,2773,L2,BTM,HALL,Hallway to Elevator,Hall
-BHALL03102,2554,1280,2,45 Francis,HALL,Hallway Intersection 31 Level 2,Hallway B3102
-GHALL003L1,1688,2167,L1,Shapiro,HALL,Hallway MapNode 3 Floor L1,Hall
 GHALL01701,1604,2093,1,Shapiro,HALL,Hallway MapNode 17 Floor 1,Hall
-HRETL00202,1607,1033,2,Tower,HALL,Vending Machine Floor 2?,Vending Machine
 bPARK01601,3158,1253,1,Parking,HALL,Right Parking Lot Spot 6,RLot6
-AHALL00303,1650,2732,3,BTM,HALL,Hall,Hall
 AHALL00301,1604,2737,1,BTM,HALL,Hall,Hall
 FHALL01501,1627,1058,1,Tower,HALL,Tower Hallway 7,Hallway F01501
-BHALL02002,2761,1032,2,45 Francis,HALL,Hallway Intersection 20 Level 2,Hallway B2002
 bWALK00801,2135,1539,1,Parking,HALL,Francis Drop Off Sidewalk 1,FrancisDrop1
 GHALL02801,1276,1830,1,Shapiro,HALL,Hallway MapNode 28 Floor 1,Hall
-IREST00203,2570,1257,3,45 Francis,HALL,Restroom 2,R2
-WHALL00203,2080,1290,3,45 Francis,HALL,Hallway Connector 2 Floor 3,Hallway W0203
-AREST00103,1551,2855,3,BTM,HALL,Restroom BTM conference center 3rd floor,Restroom
-DREST00302,3635,830,2,15 Francis,HALL,Restroom C-D elevator Floor 2,Restroom C-D
 bPARK00301,363,1893,1,Parking,HALL,Left Parking Lot Spot 3,LLot3
-BSTAI00102,2177,902,2,45 Francis,HALL,Staircase Intersection 1 Level 2,Stair B0102
 FHALL02401,1964,1282,1,Tower,HALL,Lobby Hallway 2,Hallway F02401
-GHALL006L1,1665,2116,L1,Shapiro,HALL,Hallway MapNode 6 Floor L1,Hall
-HRETL00102,1935,860,2,Tower,HALL,Garden Cafe,Garden Cafe
-AHALL00402,1528,2745,2,BTM,HALL,Hall,Hall
-ALABS001L2,1667,2682,L2,BTM,HALL,MRI CT Scan Imaging,MRI CT Imaging
 AHALL00401,1421,2737,1,BTM,HALL,Hall,Hall
-GHALL017L2,1512,1539,L2,Shapiro,HALL,Hallway MapNode 17 Floor L2,Hall
-GHALL00803,1685,2106,3,Shapiro,HALL,Hallway Node 8 Floor 3,Hall
 GHALL00801,1703,2152,1,Shapiro,HALL,Hallway MapNode 8 Floor 1,Hall
-HSTAI00202,1695,1165,2,Tower,HALL,Stairwell 2 Tower Floor 2,Stairwell 0202
-WHALL00103,2060,1290,3,45 Francis,HALL,Hallway Connector 1 Floor 3,Hallway W0103
-WHALL00102,3330,868,2,45 Francis,HALL,Hallway Connector 1 Floor 2,Hallway W0102
 bPARK00201,267,1893,1,Parking,HALL,Left Parking Lot Spot 2,LLot2
-DHALL01702,4385,585,2,15 Francis,HALL,Hallway 17 Floor 3,Hallway D1702
-BSTAI00202,2279,827,2,45 Francis,HALL,Staircase Intersection 2 Level 2,Stair B0202
-IHALL00203,2323,1290,3,45 Francis,HALL,Hallway Node 2,H2
 FHALL02501,1964,1238,1,Tower,HALL,Lobby Hallway 3,Hallway F02501
-GHALL005L2,1642,2089,L2,Shapiro,HALL,Hallway MapNode 5 Floor L2,Hall
-DHALL00602,4690,870,2,15 Francis,HALL,Hallway 6 Floor 2,Hallway D0602
 AHALL00501,1421,2865,1,BTM,HALL,Hall,Hall
 EEXIT00201,2951,623,1,45 Francis,HALL,Exit 2 Floor 1,Exit 2
 EHALL03001,2790,1064,1,45 Francis,HALL,Hallway Node 28 Floor 1,HallE28
-GHALL00703,1685,2230,3,Shapiro,HALL,Hallway Node 7 Floor 3,Hall
-BHALL04102,2678,1067,2,45 Francis,HALL,Hallway Intersection 41 Level 2,Hallway B04102
 GHALL00701,1703,2092,1,Shapiro,HALL,Hallway MapNode 7 Floor 1,Hall
-HSTAI00302,1790,1230,2,Tower,HALL,Escalator 1 Floor 2,Escalator 1 Floor 2
 bCONF00101,1604,2215,1,Shapiro,HALL,123,123
-HHALL00603,1735,925,3,Tower,HALL,Hallway Connector 6 Floor 3,Hallway H00603
-DHALL05002,3574,827,2,15 Francis,HALL,Hallway 50 Floor 2,Hallway D5002
 EDEPT00301,3199,885,1,45 Francis,HALL,Occupational Health Floor 1,Occupational 1
 bPARK02401,3364,1279,1,Parking,HALL,Right Parking Lot Spot 14,RLot14
-BHALL00202,2279,902,2,45 Francis,HALL,Hallway Intersection 2 Level 2,Hallway B0202
 bPARK00101,151,1893,1,Parking,HALL,Left Parking Lot Spot 1,LLot1
-BLABS00102,2246,1350,2,45 Francis,HALL,Vascular Diagnostic Lab,Labs B0102
-DSTAI00202,4330,580,2,15 Francis,HALL,Staircase2 Floor2,Staircase2
 FHALL02201,1752,1282,1,Tower,HALL,Hallway Lobby Entrance,Entrance Hallway
-BHALL01302,3135,890,2,45 Francis,HALL,Hallway Intersection 13 Level 2,Hallway B1302
-BHALL03602,2279,762,2,45 Francis,HALL,Hallway Intersection 36 Level 2,Hallway B3602
 GHALL01401,1752,2151,1,Shapiro,HALL,Hallway MapNode 14 Floor 1,Hall
-DINFO00202,3490,825,2,15 Francis,HALL,Security Desk Thorn Floor 2,Security Desk
 bPARK01301,3158,1182,1,Parking,HALL,Right Parking Lot Spot 3,RLot3
-GELEV00Q02,1627,2107,2,Shapiro,HALL,Elevator Q Node 31a Floor 2,Elevator Q Floor 2
-DHALL00902,4635,680,2,15 Francis,HALL,Hallway 9 Floor 2,Hallway D0902
 EHALL03101,2790,1462,1,45 Francis,HALL,Hallway Node 29 Floor 1,HallE29
 bWALK00501,1754,1681,1,Parking,HALL,Francis Vining Intersection Bottom Left,FrancisViningIntBotLeft
-WELEV00E02,3235,882,2,45 Francis,HALL,Elevator E Floor 2,Elevator E2
-CHALL003L1,2445,1284,L1,45 Francis,HALL,Hallway 3 Floor L1,Hallway C003L1
-BHALL02502,3163,945,2,45 Francis,HALL,Hallway Intersection 25 Level 2,Hallway B2502
-GHALL00203,1580,2230,3,Shapiro,HALL,Hallway Node 2 Floor 3,Hall
-IREST00503,2277,995,3,45 Francis,HALL,Restroom 5 - F wheelchair,R5
-CLABS003L1,2290,1284,L1,45 Francis,HALL,Nuclear Medicine Floor L1,Lab C003L1
 bPARK02301,3364,1253,1,Parking,HALL,Right Parking Lot Spot 13,RLot13
-BHALL00102,2238,902,2,45 Francis,HALL,Hallway Intersection 1 Level 2,Hallway B0102
 EDEPT00201,3090,885,1,45 Francis,HALL,Wound and Ambulatory 1,WCCAT 1
 ESTAI00401,2604,1293,1,45 Francis,HALL,Staircase H2 Floor 1,Stair H2
 EHALL02001,2951,738,1,45 Francis,HALL,Hallway Node 18 Floor 1,HallE18
-WHALL00702,1740,1500,2,Tower,HALL,Hallway Connector 7 Floor 2,Hallway W0702
-BHALL01202,2945,902,2,45 Francis,HALL,Hallway Intersection 12 Level 2,Hallway B1202
-IHALL00803,2772,1147,3,45 Francis,HALL,Hallway Node 8,H8
-GHALL01302,1450,1780,2,Shapiro,HALL,Hall Node 13 Floor 2,Hall
-DSTAI00302,4250,440,2,15 Francis,HALL,Staircase3 Floor2,Staircase3
-DDEPT00102,4330,700,2,15 Francis,HALL,Chest Diseases Floor 2,Chest Diseases
 bWALK00401,1110,1690,1,Parking,HALL,Francis Street Biney Street Intersection Right,FrancisBineyIntRight
-WELEV00F02,3074,942,2,45 Francis,HALL,Elevator F Floor 2,Elevator F2
-CHALL004L2,2130,908,L2,45 Francis,HALL,Hallway 4 Floor L2,Hallway C004L2
 FHALL01101,1627,930,1,Tower,HALL,Tower Hallway 4,Hallway F01101
-GHALL010L2,1550,2031,L2,Shapiro,HALL,Hallway MapNode 10 Floor L2,Hall
 GHALL02401,1604,2015,1,Shapiro,HALL,Hallway MapNode 24 Floor 1,Hall
-HSTAI00102,2060,880,2,Tower,HALL,Stairwell 1 Floor 2,Stairwell 0102
-HHALL00802,1740,1230,2,Tower,HALL,Hallway Connector 8 Floor 2,Hallway H00802
-DHALL05202,3524,836,2,15 Francis,HALL,Hallway 52 Floor 2,Hallway D5202
 EHALL02101,3234,885,1,45 Francis,HALL,Hallway Node 19 Floor 1,HallE19
-CREST001L1,1732,1019,L1,Tower,HALL,Restroom L Elevator Floor L1,Restroom C001L1
-GHALL01602,1500,1819,2,Shapiro,HALL,Hall Node 16 Floor 2,Hall
 GHALL01601,1703,2215,1,Shapiro,HALL,Hallway MapNode 16 Floor 1,Hall
-IHALL00703,2772,1227,3,45 Francis,HALL,Hallway Node 7,H7
-DHALL04102,3868,540,2,15 Francis,HALL,Hallway 41 Floor 6,Hallway D4102
 bPARK01101,3158,1130,1,Parking,HALL,Right Parking Lot Spot 1,RLot1
-GDEPT00702,1340,1780,2,Shapiro,HALL,Waiting room? Node 7 Floor 2,Waiting Area Shapiro Floor 2
 EHALL03301,2604,1380,1,45 Francis,HALL,Hallway Node 31 Floor 1,HallE31
-CHALL001L2,2360,854,L2,45 Francis,HALL,Hallway K Elevator Floor L2,Hallway C001L2
-IDEPT00203,2448,1328,3,45 Francis,HALL,Gynecology Oncology MIGS,D2
 FHALL03101,2013,886,1,Tower,HALL,Lobby Hallway 6,Hallway F02801
 bWALK00701,2013,1539,1,Parking,HALL,Francis Vining Intersection Top Right,FrancisViningIntTopRight
-BHALL02302,2912,963,2,45 Francis,HALL,Hallway Intersection 23 Level 2,Hallway B2302
-GHALL02702,1726,1930,2,Shapiro,HALL,Hall Node 27 Floor 2,Hall
-IREST00303,2745,1147,3,45 Francis,HALL,Restroom 3,R3
-GSTAI008L1,1720,2131,L1,Shapiro,HALL,Stairs MapNode 8 Floor L1,L1 Stairs
-HHALL00902,1740,1280,2,Tower,HALL,Hallway Connector 9 Floor 2,Hallway H00902
-CLABS001L1,1965,1284,L1,Tower,HALL,Outpatient Fluoroscopy Floor L1,Lab C001L1
-DEXIT00102,4294,750,2,15 Francis,HALL,15 Lobby Entrance Floor 2,15 Lobby Entrance
 EDEPT00401,2790,1380,1,45 Francis,HALL,Rehabilitation Services Floor 1,Rehab 1
 EHALL02201,3274,885,1,45 Francis,HALL,Hallway Node 20 Floor 1,HallE20
-CHALL013L1,2130,844,L1,45 Francis,HALL,Hallway 13 Floor L1,Hallway C013L1
-BHALL01002,2713,902,2,45 Francis,HALL,Hallway Intersection 10 Level 2,Hallway B1002
-IHALL00603,2772,1290,3,45 Francis,HALL,Hallway Node 6,H6
-GHALL001L2,1730,1584,L2,Shapiro,HALL,Hallway MapNode 1 Floor L2,Hall
 GHALL01501,1752,2215,1,Shapiro,HALL,Hallway MapNode 15 Floor 1,Hall
 GEXIT00101,1752,1830,1,Shapiro,HALL,Francis Street Exit MapNode 1 Floor 1,Francis Street Exit Floor 1
-GELEV00N03,1628,1904,3,Shapiro,HALL,Elevator N Node 15 Floor 3,Elevator N Floor 3
-BCONF00102,2150,1025,2,45 Francis,HALL,Duncan Reid Conference Room,Conf B0102
 bPARK01001,674,2086,1,Parking,HALL,Left Parking Lot Spot 10,LLot10
-AHALL00103,1538,2732,3,BTM,HALL,Hall,Hall
 WELEV00H01,2604,1064,1,45 Francis,HALL,Elevator H Floor 1,Elevator H1
-CHALL002L1,2444,1042,L1,45 Francis,HALL,Hallway 2 Floor L1,Hallway C002L1
-WELEV00H03,2715,1075,3,45 Francis,HALL,Elevator H Floor 3,Elevator H3
 bWALK00601,1752,1539,1,Parking,HALL,Francis Vining Intersection Top Left,FrancisViningIntTopLeft
-GHALL012L2,1512,1966,L2,Shapiro,HALL,Hallway MapNode 12 Floor L2,Hall
-GHALL00302,1231,1780,2,Shapiro,HALL,Hall Node 3 Floor 2,Hall
-IREST00403,2300,1018,3,45 Francis,HALL,Restroom 4 - M wheelchair,R4
-DHALL05402,3449,848,2,15 Francis,HALL,Hallway 54 Floor 2,Hallway D5402
 bPARK02001,3364,1182,1,Parking,HALL,Right Parking Lot Spot 10,RLot10
-BHALL00602,2603,902,2,45 Francis,HALL,Hallway Intersection 6 Level 2,Hallway B0602
-CHALL007L2,1730,1009,L2,Tower,HALL,Hallway 7 Floor L2,Hallway C007L2
 EHALL02301,3364,885,1,45 Francis,HALL,Hallway Node 21 Floor 1,HallE21
-HHALL00202,1955,900,2,Tower,HALL,Hallway Connector 2 Floor 2,Hallway H00202
-BSTAI00702,2811,1165,2,45 Francis,HALL,Staircase Intersection 7 Level 2,Stair B0702
 bWALK01301,3364,1539,1,Parking,HALL,Right Parking Lot Walkway 1,RlotWalk1
-BREST00202,2605,841,2,45 Francis,HALL,Restroom 2 Level 2,REST B0202
-GHALL01003,1580,2070,3,Shapiro,HALL,Hallway Node 10 Floor 3,Hall
-DHALL02002,4295,530,2,15 Francis,HALL,Hallway 20 Floor 3,Hallway D2002
 ADEPT00101,1421,2569,1,BTM,HALL,Neuroscience Waiting Room,Neuro Waiting Room
 bCONF00601,1752,1058,1,Francis,HALL,2434,32
-HHALL01303,1600,1030,3,Tower,HALL,Hallway Connector 13 Floor 3,Hallway H01303
-HLABS00103,1235,865,3,Tower,HALL,Reproductive Endocrine Labs,Reproductive Endocrine Labs
 bWALK00101,571,1893,1,Parking,HALL,Left Parking Lot Walkway,Llot Walk
-GHALL02102,1679,1820,2,Shapiro,HALL,Hall Node 21 Floor 2,Hall
 GHALL02101,1604,1830,1,Shapiro,HALL,Hallway MapNode 21 Floor 1,Hall
-GHALL03202,1689,2091,2,Shapiro,HALL,Hall Node 32 Floor 2,Hall
-BHALL00502,2385,902,2,45 Francis,HALL,Hallway Intersection 5 Level 2,Hallway B0502
-DHALL05302,3489,841,2,15 Francis,HALL,Hallway 53 Floor 2,Hallway D5302
-CHALL008L2,1730,924,L2,Tower,HALL,Hallway 8 Floor L2,Hallway C008L2
-BSTAI00802,2554,1316,2,45 Francis,HALL,Staircase Intersection 8 Level 2,Stair B0802
-HHALL00303,1325,985,3,Tower,HALL,Hallway Connector 3 Floor 3,Hallway H00303
-DSTAI00702,3855,565,2,15 Francis,HALL,Staircase7 Floor2,Staircase7
-BREST00302,2225,1280,2,45 Francis,HALL,Restroom 3 Level 2,REST B0302
-DHALL04202,3865,752,2,15 Francis,HALL,Hallway 42 Floor 6,Hallway D4202
 EHALL01301,2604,978,1,45 Francis,HALL,Hallway Node 11 Floor 1,HallE11
 EHALL03601,2604,1462,1,45 Francis,HALL,Hallway Node 34 Floor 1,HallE34
-CREST002L2,1930,1280,L2,45 Francis,HALL,Restroom L Elevator Floor L2,Restroom C002L2
-ACONF00103,1648,2968,3,BTM,HALL,BTM Conference Center,BTM Conference
-WELEV00J03,2363,802,3,45 Francis,HALL,Elevator J Floor 3,Elevator J3
-BHALL02802,3063,1043,2,45 Francis,HALL,Hallway Intersection 28 Level 2,Hallway B2802
-GHALL02002,1679,1801,2,Shapiro,HALL,Hall Node 20 Floor 2,Hall
-DHALL05602,3480,790,2,15 Francis,HALL,Hallway 56 Floor 2,Hallway D5602
-DHALL01002,4625,650,2,15 Francis,HALL,Hallway 10 Floor 2,Hallway D1002
 EHALL02501,2925,978,1,45 Francis,HALL,Hallway Node 23 Floor 1,HallE23
-HHALL00402,1875,1025,2,Tower,HALL,Hallway Connector 4 Floor 2,Hallway H00402
-BINFO00102,2962,963,2,45 Francis,HALL,Information Desk Level 2,INFO B0102
-BSTAI00902,2190,1280,2,45 Francis,HALL,Staircase Intersection 9 Level 2,Stair B0902
-BHALL01502,2672,820,2,45 Francis,HALL,Hallway Intersection 15 Level 2,Hallway B1502
-BHALL03802,2279,786,2,45 Francis,HALL,Hallway Intersection 38 Level 2,Hallway B3802
 FHALL00901,1627,850,1,Tower,HALL,Tower Hallway 2,Hallway F00901
-DHALL04502,3825,761,2,15 Francis,HALL,Hallway 45 Floor 6,Hallway D4502
 ADEPT00301,1017,2569,1,BTM,HALL,CART Waiting,CART Waiting
 FEXIT00101,2017,799,1,Tower,HALL,Shattuck Street Lobby Exit,Shattuck St. Exit
-DDEPT00202,4240,730,2,15 Francis,HALL,Thoracic Surgery Clinic Floor 2,Thoracic Surgery Clinic
 bWALK00301,917,1692,1,Parking,HALL,Francis Street Biney Street Intersection Left,FrancisBineyIntLeft
-WELEV00K03,2220,985,3,45 Francis,HALL,Elevator K Floor 3,Elevator K3
-CHALL005L1,1750,1284,L1,Tower,HALL,Hallway 5 Floor L1,Hallway C005L1
-BHALL02702,3296,1043,2,45 Francis,HALL,Hallway Intersection 27 Level 2,Hallway B2702
-BDEPT00802,3154,888,2,45 Francis,HALL,Outpatient Pharmacy,DEPT B0802
-GHALL03402,1725,2125,2,Shapiro,HALL,Hall Node 34 Floor 2,Hall
-DHALL03202,4000,645,2,15 Francis,HALL,Hallway 32 Floor 5,Hallway D3202
-CHALL006L2,1745,1009,L2,Tower,HALL,Hallway 6 Floor L2,Hallway C006L2
 EHALL02601,3090,978,1,45 Francis,HALL,Hallway Node 24 Floor 1,HallE24
-WHALL00902,1686,2245,2,Shapiro,HALL,Hallway Connector 9 Floor 2,Hallway W0902
-HHALL00503,1680,1290,3,Tower,HALL,Hallway Connector 5 Floor 3,Hallway H00502
-BHALL03702,2322,641,2,45 Francis,HALL,Hallway Intersection 37 Level 2,Hallway B3702
-DSTAI00502,4079,621,2,15 Francis,HALL,Staircase5 Floor2,Staircase5
-GHALL01102,1396,1780,2,Shapiro,HALL,Hall Node 11 Floor 2,Hall
-CLABS005L1,2770,1284,L1,45 Francis,HALL,CSIR MRI Floor L1,Lab C005L1
-DHALL04402,3775,745,2,15 Francis,HALL,Hallway 44 Floor 6,Hallway D4402
-GREST03102,1627,2083,2,Shapiro,HALL,Restroom Node 31 Floor 2,Handicap Accessible Restrooms Shapiro Floor 2
-DDEPT00302,3898,640,2,15 Francis,HALL,Brigham Health Floor 2,Brigham Health
-WELEV00JL1,2360,799,L1,45 Francis,HALL,Elevator J Floor L1,Elevator JL1
-CREST004L1,2770,1160,L1,45 Francis,HALL,Restroom H Elevator Floor L1,Restroom C004L1
 bWALK00201,571,1696,1,Parking,HALL,Francis Street Left Walkway,FrancisWalk
-CHALL006L1,2130,1284,L1,Tower,HALL,Hallway 6 Floor L1,Hallway C006L1
-GHALL02202,1720,1801,2,Shapiro,HALL,Hall Node 22 Floor 2,Hall
