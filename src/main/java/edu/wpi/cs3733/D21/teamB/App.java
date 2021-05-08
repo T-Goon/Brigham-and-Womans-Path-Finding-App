@@ -1,8 +1,12 @@
 package edu.wpi.cs3733.D21.teamB;
 
-import java.io.IOException;
+import java.io.*;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.sql.SQLException;
 import java.util.*;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.ChatBot;
@@ -20,6 +24,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
+import sun.misc.Launcher;
 
 @SuppressWarnings("deprecation")
 public class App extends Application {
@@ -111,6 +116,55 @@ public class App extends Application {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static List<InputStream> listFiles(String path, File jarFile) {
+
+        if(jarFile.isFile()) {  // Run with JAR file
+            JarFile jar = null;
+            try {
+                jar = new JarFile(jarFile);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            final Enumeration<JarEntry> entries = jar.entries(); //gives ALL entries in jar
+            while(entries.hasMoreElements()) {
+                final String name = entries.nextElement().getName();
+                if (name.startsWith(path + "/")) { //filter according to the path
+                    InputStream inputStream = Launcher.class.getResourceAsStream(name);
+                    try {
+                        FileUtil.copy(getClass().getResourceAsStream("/edu/wpi/cs3733/D21/teamB/xml/lbpcascade_frontalface.xml"),
+                                new File("").getAbsolutePath()+"/lbpcascade_frontalface.xml");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            try {
+                jar.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else { // Run with IDE
+            final URL url = Launcher.class.getResource("/" + path);
+            if (url != null) {
+                try {
+                    final File apps = new File(url.toURI());
+                    for (File app : apps.listFiles()) {
+                        System.out.println(app);
+                        try {
+                            fileList.add(new FileInputStream(app));
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                } catch (URISyntaxException ex) {
+                    // never happens
+                }
+            }
+        }
+
+        return fileList;
     }
 
     public static Stage getPrimaryStage() {
