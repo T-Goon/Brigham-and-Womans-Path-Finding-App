@@ -9,6 +9,7 @@
  * be built in more complicated ways.
 */
 plugins {
+    id 'com.github.johnrengelman.shadow' version '6.1.0'
     id 'application'
     id 'java'
     id "io.freefair.lombok" version "5.3.0"
@@ -45,11 +46,15 @@ dependencies {
         exclude group:'ch.qos.logback', module:'logback-classic'
     }
 
-    implementation 'de.dfki.mary:marytts:5.2'
-    implementation 'de.dfki.mary:marytts-lang-en:5.2'
-    implementation 'de.dfki.mary:voice-cmu-rms-hsmm:5.2'
-    implementation 'de.dfki.mary:voice-cmu-slt-hsmm:5.2'
-    implementation 'de.dfki.mary:voice-dfki-poppy-hsmm:5.2'
+    compile 'de.dfki.mary:marytts:5.2'
+    compile 'de.dfki.mary:marytts-lang-en:5.2'
+    compile 'de.dfki.mary:voice-cmu-rms-hsmm:5.2'
+    compile 'de.dfki.mary:voice-cmu-slt-hsmm:5.2'
+    compile 'de.dfki.mary:voice-dfki-poppy-hsmm:5.2'
+
+    shadowJar{
+        mergeServiceFiles()
+    }
 
 //These are test dependencies. These are only used for running verification tasks via Gradle.
     testCompile(

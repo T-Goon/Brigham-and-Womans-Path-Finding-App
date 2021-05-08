@@ -1,11 +1,10 @@
 package edu.wpi.cs3733.D21.teamB.views.menus;
 
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXDialog;
-import com.jfoenix.controls.JFXDialogLayout;
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.User;
 import edu.wpi.cs3733.D21.teamB.entities.requests.Request;
+import edu.wpi.cs3733.D21.teamB.util.HelpDialog;
 import edu.wpi.cs3733.D21.teamB.util.RequestWrapper;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
 import edu.wpi.cs3733.D21.teamB.views.BasePageController;
@@ -16,8 +15,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.StackPane;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 
 import java.io.IOException;
 import java.net.URL;
@@ -33,7 +30,7 @@ public class   ServiceRequestDatabaseController extends BasePageController imple
     private TableView tblRequests;
 
     @FXML
-    private StackPane stackContainer;
+    private StackPane stackPane;
 
     @FXML
     private TableColumn<String, JFXButton> editCol;
@@ -130,40 +127,14 @@ public class   ServiceRequestDatabaseController extends BasePageController imple
         JFXButton btn = (JFXButton) e.getSource();
         switch (btn.getId()) {
             case "btnHelp":
-                loadHelpDialog();
+                HelpDialog.loadHelpDialog(stackPane, "To assign an employee to a request, right click on the text in the 'Assigned To' column and select a staff member from the context menu.\n" +
+                        "To set the current status of the request, right click on the text in the 'Complete' column and select the status of the request.\n");
                 break;
             case "btnEmergency":
                 SceneSwitcher.isEmergencyBtn = true;
                 SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
                 break;
         }
-    }
-
-    @FXML
-    public void handleOnChange(ActionEvent actionEvent) {
-
-    }
-
-    private void loadHelpDialog() {
-        JFXDialogLayout helpLayout = new JFXDialogLayout();
-
-        Text helpText = new Text("To assign an employee to a request, right click on the text in the 'Assigned To' column and select a staff member from the context menu.\n" +
-                "To set the current status of the request, right click on the text in the 'Complete' column and select the status of the request.\n");
-        helpText.setFont(new Font("MS Reference Sans Serif", 14));
-
-        Label headerLabel = new Label("Help");
-        headerLabel.setFont(new Font("MS Reference Sans Serif", 18));
-
-        helpLayout.setHeading(headerLabel);
-        helpLayout.setBody(helpText);
-        JFXDialog helpWindow = new JFXDialog(stackContainer, helpLayout, JFXDialog.DialogTransition.CENTER);
-
-        JFXButton button = new JFXButton("Close");
-        button.setOnAction(event -> helpWindow.close());
-        helpLayout.setActions(button);
-
-        helpWindow.show();
-
     }
 
     public void setRowColor() {

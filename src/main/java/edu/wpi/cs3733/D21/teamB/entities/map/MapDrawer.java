@@ -9,6 +9,7 @@ import edu.wpi.cs3733.D21.teamB.util.Popup.PoppableManager;
 import edu.wpi.cs3733.D21.teamB.views.map.PathfindingMenuController;
 import javafx.animation.*;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Point2D;
 import javafx.scene.control.Label;
 import javafx.scene.image.*;
 import javafx.scene.input.MouseEvent;
@@ -155,13 +156,45 @@ public class MapDrawer implements PoppableManager {
             colorStartStopEndNodes();
 
             //Draw the segment of the path that is on the current floor
-            for (int i = 0; i < currentFloorPath.size() - 1; i++) {
+            if (currentFloorPath.size() > 0) {
+                Node n = db.getNodeById(currentFloorPath.get(0));
+                double minX = n.getXCoord(), minY = n.getYCoord(), maxX = n.getXCoord(), maxY = n.getYCoord();
+                for (int i = 0; i < currentFloorPath.size() - 1; i++) {
 
-                //Test if the edge you are trying to place is valid
-                if (Graph.getGraph().verifyEdge(currentFloorPath.get(i), currentFloorPath.get(i + 1))) {
-                    placeEdge(nodes.get(currentFloorPath.get(i)),
-                            nodes.get(currentFloorPath.get(i + 1)));
+                    Node current = db.getNodeById(currentFloorPath.get(i));
+                    if (current.getXCoord() < minX) minX = current.getXCoord();
+                    if (current.getYCoord() < minY) minY = current.getYCoord();
+                    if (current.getXCoord() > maxX) maxX = current.getXCoord();
+                    if (current.getYCoord() > maxY) maxY = current.getYCoord();
+
+                    //Test if the edge you are trying to place is valid
+                    if (Graph.getGraph().verifyEdge(currentFloorPath.get(i), currentFloorPath.get(i + 1))) {
+                        placeEdge(nodes.get(currentFloorPath.get(i)),
+                                nodes.get(currentFloorPath.get(i + 1)));
+                    }
                 }
+
+                // Adjust coordinate scales
+                int padding = 75;
+                minX = (minX / PathfindingMenuController.COORDINATE_SCALE) - padding;
+                minY = (minY / PathfindingMenuController.COORDINATE_SCALE) - padding;
+                maxX = (maxX / PathfindingMenuController.COORDINATE_SCALE) + padding;
+                maxY = (maxY / PathfindingMenuController.COORDINATE_SCALE) + padding;
+
+                double avgX = (minX + maxX) / 2;
+                double avgY = (minY + maxY) / 2;
+
+                // Figure out how much to zoom
+                double scaleX = gPane.getWidth() / (maxX - minX);
+                double scaleY = gPane.getHeight() / (maxY - minY);
+                double scaleAmount = Math.min(scaleX, scaleY);
+
+                mapCache.setAvgX(avgX);
+                mapCache.setAvgY(avgY);
+                mapCache.setScaleAmount(scaleAmount);
+
+                gPane.zoomTo(scaleAmount, new Point2D(gPane.getWidth() / 2, gPane.getHeight() / 2));
+                gPane.centreOn(new Point2D(avgX, avgY));
             }
 
             //If there is a path segment on this floor
@@ -170,9 +203,6 @@ public class MapDrawer implements PoppableManager {
                 if (currentFloorPath.size() == 1) {
                     nodeHolder.getChildren().remove(head);
                 }
-
-                // Color nodes that indicate a floor swap in the path
-                colorNodesOnPathFloorSwitch(currentFloorPath);
 
                 // Animate the path
                 animatePath(currentFloorPath);
@@ -185,10 +215,14 @@ public class MapDrawer implements PoppableManager {
                 etaPopup.hide();
                 etaPopup = null;
             }
-
-            //Creates the eta popup for this floor only
-            etaPopup = mapPathPopupManager.createETAPopup(new Path(currentFloorPath, Graph.getGraph().calculateCost(currentFloorPath)));
             redrawNodes();
+            //Creates the eta popup for this floor only
+            //etaPopup = mapPathPopupManager.createETAPopup(new Path(currentFloorPath, Graph.getGraph().calculateCost(currentFloorPath)));
+            etaPopup = mapPathPopupManager.createETAPopup(mapCache.getFinalPath(), new Path(currentFloorPath, Graph.getGraph().calculateCost(currentFloorPath)));
+
+            // Color nodes that indicate a floor swap in the path
+            colorNodesOnPathFloorSwitch(currentFloorPath);
+
         }
 
     }
@@ -486,6 +520,20 @@ public class MapDrawer implements PoppableManager {
                 if (e.isStillSincePress()) {
                     removeAllPopups();
                     mapPathPopupManager.createGraphicalInputPopup(n);
+                }
+            });
+
+            // Enlarge nodes when hovering over them
+            i.setOnMouseEntered(event -> {
+                if (!isEditing) {
+                    i.setScaleX(2);
+                    i.setScaleY(2);
+                }
+            });
+            i.setOnMouseExited(event -> {
+                if (!isEditing) {
+                    i.setScaleX(1);
+                    i.setScaleY(1);
                 }
             });
 

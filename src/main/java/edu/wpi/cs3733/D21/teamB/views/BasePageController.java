@@ -1,6 +1,9 @@
 package edu.wpi.cs3733.D21.teamB.views;
 
 import com.jfoenix.controls.JFXButton;
+import edu.wpi.cs3733.D21.teamB.entities.LastFocused;
+import edu.wpi.cs3733.D21.teamB.entities.OnScreenKeyboard;
+import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
 import edu.wpi.cs3733.D21.teamB.util.tts.TextToSpeech;
 import javafx.application.Platform;
@@ -9,17 +12,18 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 
+import java.awt.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public abstract class BasePageController implements Initializable {
 
     public static boolean ttsOn = false;
+    public static boolean oskOn = false;
+    public boolean firstFocused;
 
     @FXML
     private JFXButton btnBack;
@@ -30,16 +34,42 @@ public abstract class BasePageController implements Initializable {
     @FXML
     private StackPane stackPane;
 
-    public TextToSpeech tts = new TextToSpeech();
+    public final TextToSpeech tts = new TextToSpeech();
+    private boolean keyboardVisible = false;
 
+    OnScreenKeyboard onScreenKeyboard = OnScreenKeyboard.getInstance();
+    final LastFocused lastFocused = LastFocused.getInstance();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        // On screen keyboard stuff
+        firstFocused = true;
+        Platform.runLater(() -> stackPane.requestFocus());
+        onScreenKeyboard.getKeyboard().setVisible(oskOn);
+        EventHandler<MouseEvent> onClick = event -> lastFocused.setAnode(event.getPickResult().getIntersectedNode());
+        stackPane.addEventFilter(MouseEvent.MOUSE_CLICKED, onClick);
+        onScreenKeyboard = OnScreenKeyboard.getInstance();
+        keyboardVisible = false;
+        try {
+            if (!onScreenKeyboard.getInitialized()) {
+                onScreenKeyboard.initKeyboard(stackPane);
+            } else {
+                onScreenKeyboard.setParent(stackPane);
+            }
+        } catch (AWTException e) {
+            e.printStackTrace();
+        }
+
+        // tts stuff
         for (Node aNode : stackPane.lookupAll("*")) {
             aNode.focusedProperty().addListener((observable, oldValue, newValue) -> {
-                if (ttsOn) {
+                if (DatabaseHandler.getHandler().getAuthenticationUser().getTtsEnabled().equals("T")) {
                     if (newValue) {
                         String speechOut = aNode.getAccessibleText();
+                        if (firstFocused) {
+                            speechOut = null;
+                            firstFocused = false;
+                        }
                         if (speechOut != null) {
                             tts.speak(speechOut, 1.0f, false, false);
                         }
@@ -47,6 +77,7 @@ public abstract class BasePageController implements Initializable {
                 }
             });
         }
+        tts.stopSpeaking();
     }
 
     public void handleButtonAction(ActionEvent e) {

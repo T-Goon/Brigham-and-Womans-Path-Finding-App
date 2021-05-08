@@ -11,6 +11,7 @@ import edu.wpi.cs3733.D21.teamB.entities.map.data.NodeType;
 import edu.wpi.cs3733.D21.teamB.pathfinding.Dijkstra;
 import edu.wpi.cs3733.D21.teamB.pathfinding.Graph;
 import edu.wpi.cs3733.D21.teamB.util.CSVHandler;
+import edu.wpi.cs3733.D21.teamB.util.HelpDialog;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
 import edu.wpi.cs3733.D21.teamB.views.BasePageController;
 import javafx.collections.ObservableList;
@@ -27,8 +28,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -92,10 +91,14 @@ public class PathfindingMenuController extends BasePageController implements Ini
 
     @FXML
     private StackPane mapStack,
-            stackPane,
             textDirectionsHolder;
 
     @FXML
+    @Getter
+    private StackPane stackPane;
+
+    @FXML
+    @Getter
     private GesturePane gpane;
 
     @FXML
@@ -538,7 +541,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
                 SceneSwitcher.switchScene("/edu/wpi/cs3733/D21/teamB/views/map/pathfindingMenu.fxml", "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
                 break;
             case "btnHelp":
-                loadHelpDialog();
+                HelpDialog.loadHelpDialog(stackPane, getHelpDialog());
                 break;
             case "btnSearch":
                 handleItemSearched();
@@ -688,48 +691,31 @@ public class PathfindingMenuController extends BasePageController implements Ini
     /**
      * Shows the help dialog box.
      */
-    private void loadHelpDialog() {
-        JFXDialogLayout helpLayout = new JFXDialogLayout();
-
-        Text helpText;
+    private String getHelpDialog() {
+        String helpText;
         if (!mapDrawer.isEditing() && DatabaseHandler.getHandler().getAuthenticationUser().isAtLeast(User.AuthenticationLevel.PATIENT)) {
-            helpText = new Text("Enter your start and end location and any stops graphically or using our menu selector. " +
+            helpText = "Enter your start and end location and any stops graphically or using our menu selector. " +
                     "To use the graphical selection,\nsimply click on the node and click on the set button. " +
                     "To enter a location using the menu, click on the appropriate\ndrop down and choose your location. " +
                     "The node you selected will show up on your map where you can either\nset it to your start or end location or a stop. " +
                     "Once both the start and end nodes are filled in you can press \"Go\" to generate\nyour path. " +
                     "If you want to remove your stops, click on the \"Remove Stop\" button. " +
-                    "Favorites can be chosen by clicking\non them in the menu selector and pressing the add button, and removed by pressing the minus button on the node.\n"
-            );
+                    "Favorites can be chosen by clicking\non them in the menu selector and pressing the add button, and removed by pressing the minus button on the node.\n";
         } else if (!mapDrawer.isEditing()) {
-            helpText = new Text("Enter your start and end location and any stops graphically or using our menu selector. " +
+            helpText = "Enter your start and end location and any stops graphically or using our menu selector. " +
                     "To use the graphical selection,\nsimply click on the node and click on the set button. " +
                     "To enter a location using the menu, click on the appropriate\ndrop down and choose your location. " +
                     "The node you selected will show up on your map where you can either\nset it to your start or end location or a stop. " +
                     "Once both the start and end nodes are filled in you can press \"Go\" to generate\nyour path. " +
-                    "If you want to remove your stops, click on the \"Remove Stop\" button.\n"
-            );
-        } else
-            helpText = new Text("Double click to add a node. Click on a node or an edge to edit or remove them. To add a new edge click on\n" +
+                    "If you want to remove your stops, click on the \"Remove Stop\" button.\n";
+        } else {
+            helpText = "Double click to add a node. Click on a node or an edge to edit or remove them. To add a new edge click on\n" +
                     "one of the nodes, then \"Add Edge\". Click on another node and click \"Yes\" to add the new edge or \"No\" to cancel it.\n" +
                     "If you control-click on several nodes, then release control, a popup appears to ask if the nodes should be aligned.\n" +
                     "If you select \"Yes\", the nodes will be aligned according to the line of best fit; otherwise, nothing will occur.\n" +
-                    "Additionally, if you control-click on an already selected node, it will be deselected.");
-
-        helpText.setFont(new Font("MS Reference Sans Serif", 14));
-
-        Label headerLabel = new Label("Help");
-        headerLabel.setFont(new Font("MS Reference Sans Serif", 18));
-
-        helpLayout.setHeading(headerLabel);
-        helpLayout.setBody(helpText);
-        JFXDialog helpWindow = new JFXDialog(stackPane, helpLayout, JFXDialog.DialogTransition.CENTER);
-
-        JFXButton button = new JFXButton("Close");
-        button.setOnAction(event -> helpWindow.close());
-        helpLayout.setActions(button);
-
-        helpWindow.show();
+                    "Additionally, if you control-click on an already selected node, it will be deselected.";
+        }
+        return helpText;
     }
 
     @FXML
@@ -798,7 +784,6 @@ public class PathfindingMenuController extends BasePageController implements Ini
             List<String> stopsList = mapCache.getStopsList();
             stopsList.add("Emergency Department Entrance");
             displayStops(stopsList);
-            SceneSwitcher.popLastScene();
         }
 
     }

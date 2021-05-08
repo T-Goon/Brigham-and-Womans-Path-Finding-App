@@ -2,6 +2,8 @@ package edu.wpi.cs3733.D21.teamB.views.map.misc;
 
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.cs3733.D21.teamB.App;
+import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
+import edu.wpi.cs3733.D21.teamB.entities.User;
 import edu.wpi.cs3733.D21.teamB.entities.map.TxtDirPopup;
 import edu.wpi.cs3733.D21.teamB.pathfinding.Directions;
 import javafx.event.ActionEvent;
@@ -22,6 +24,9 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class TxtDirPopupController implements Initializable {
+
+    @FXML
+    private JFXButton btnEmail;
 
     @FXML
     private JFXButton btnRestart;
@@ -60,7 +65,7 @@ public class TxtDirPopupController implements Initializable {
                 HBox first = new HBox();
                 first.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY)));
                 Label firstText = new Label(directions.get(0).getInstruction());
-                firstText.setFont(Font.font("MS Reference Sans Serif", FontWeight.BOLD, 25));
+                firstText.setFont(Font.font("MS Reference Sans Serif", FontWeight.BOLD, 16));
                 first.getChildren().add(firstText);
                 textHolder.getChildren().add(first);
             } else {
@@ -73,7 +78,7 @@ public class TxtDirPopupController implements Initializable {
                 instructionBox.setAlignment(Pos.CENTER_LEFT);
                 // Label in HBox
                 Label text = new Label(dir.getInstruction());
-                text.setFont(new Font("MS Reference Sans Serif", 15));
+                text.setFont(new Font("MS Reference Sans Serif", 13));
                 text.setPadding(new Insets(10, 10, 10, 10));
                 text.setAlignment(Pos.TOP_LEFT);
                 instructionBox.getChildren().add(text);
@@ -88,12 +93,22 @@ public class TxtDirPopupController implements Initializable {
                 textHolder.getChildren().add(instructionBox);
             }
         }
+
+        // Hide email button for text directions if the user is not logged in
+        if (!DatabaseHandler.getHandler().getAuthenticationUser().isAtLeast(User.AuthenticationLevel.PATIENT)) {
+            btnEmail.setVisible(false);
+        }
     }
 
     @FXML
     private void handleButtonAction(ActionEvent e) {
         JFXButton btn = (JFXButton) e.getSource();
         switch (btn.getId()) {
+            case "btnEmail":
+                popup.email();
+                btnEmail.setStyle("-fx-background-color: #0f9d58");
+                btnEmail.setDisable(true);
+                break;
             case "btnRestart":
                 popup.restart();
                 break;
@@ -163,12 +178,10 @@ public class TxtDirPopupController implements Initializable {
 
         ImageView imageView = new ImageView(path);
         imageView.setPreserveRatio(true);
-        //imageView.setFitWidth(50);
         imageView.setFitHeight(50);
 
         VBox r = new VBox();
         r.setAlignment(Pos.CENTER);
-        //r.setStyle("-fx-border-color: transparent;\n-fx-border-insets: 5;\n-fx-border-width: 3;\n-fx-border-style: solid;\n");
         r.getChildren().add(imageView);
         return r;
     }

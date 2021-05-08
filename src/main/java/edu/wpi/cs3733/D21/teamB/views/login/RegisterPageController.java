@@ -3,6 +3,7 @@ package edu.wpi.cs3733.D21.teamB.views.login;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.JFXToggleButton;
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.User;
 import edu.wpi.cs3733.D21.teamB.util.ExternalCommunication;
@@ -20,6 +21,8 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class RegisterPageController extends BasePageController implements Initializable {
 
@@ -45,6 +48,9 @@ public class RegisterPageController extends BasePageController implements Initia
     public JFXPasswordField retypePassword;
 
     @FXML
+    public JFXToggleButton ttsEnabled;
+
+    @FXML
     public Label error;
 
     @FXML
@@ -56,9 +62,11 @@ public class RegisterPageController extends BasePageController implements Initia
     @FXML
     private StackPane stackPane;
 
+    private final Pattern emailPattern = Pattern.compile(".+@.+");
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        super.initialize(location,resources);
+        super.initialize(location, resources);
         username.setOnKeyPressed(event -> {
             if (event.getCode().equals(KeyCode.ENTER) && !areFormsEmpty())
                 handleRegisterSubmit();
@@ -124,7 +132,8 @@ public class RegisterPageController extends BasePageController implements Initia
         }
 
         // Check if the email address is valid
-        if (!email.getText().contains("@")) {
+        Matcher matcher = emailPattern.matcher(email.getText());
+        if (!matcher.matches()) {
             error.setText("Email address must be valid!");
             error.setVisible(true);
             return;
@@ -138,15 +147,14 @@ public class RegisterPageController extends BasePageController implements Initia
         }
 
         // Add the user to the database
-        User newUser = new User(username.getText(), email.getText(), firstName.getText(), lastName.getText(), User.AuthenticationLevel.PATIENT, new ArrayList<>());
+        User newUser = new User(username.getText(), email.getText(), firstName.getText(), lastName.getText(), User.AuthenticationLevel.PATIENT, ttsEnabled.isSelected() ? "T" : "F", new ArrayList<>());
         try {
             db.addUser(newUser, password.getText());
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        ExternalCommunication externalCommunication = new ExternalCommunication();
-        externalCommunication.sendConfirmation(email.getText(), firstName.getText());
+        ExternalCommunication.sendConfirmation(email.getText(), firstName.getText());
         SceneSwitcher.switchFromTemp("/edu/wpi/cs3733/D21/teamB/views/login/successfulRegistration.fxml");
     }
 

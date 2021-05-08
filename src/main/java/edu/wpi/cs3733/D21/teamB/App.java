@@ -7,6 +7,7 @@ import java.util.*;
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.User;
 import edu.wpi.cs3733.D21.teamB.util.CSVHandler;
+import edu.wpi.cs3733.D21.teamB.util.ExternalCommunication;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -83,9 +84,9 @@ public class App extends Application {
                 HashMap<User, String> requiredUsers = new HashMap<>();
 
                 //Required users
-                requiredUsers.put(new User("admin", "admin@fakeemail.com", "Professor", "X", User.AuthenticationLevel.ADMIN, null), "admin");
-                requiredUsers.put(new User("staff", "bwhapplication@gmail.com", "Mike", "Bedard", User.AuthenticationLevel.STAFF, null), "staff");
-                requiredUsers.put(new User("guest", "guest@fakeemail.com", "T", "Goon", User.AuthenticationLevel.PATIENT, null), "guest");
+                requiredUsers.put(new User("admin", "admin@fakeemail.com", "Professor", "X", User.AuthenticationLevel.ADMIN, "F", null), "admin");
+                requiredUsers.put(new User("staff", "bwhapplication@gmail.com", "Mike", "Bedard", User.AuthenticationLevel.STAFF, "F", null), "staff");
+                requiredUsers.put(new User("patient", "patient@fakeemail.com", "T", "Goon", User.AuthenticationLevel.PATIENT, "F", null), "patient");
 
                 for (User u : requiredUsers.keySet()) {
                     if (db.getUserByUsername(u.getUsername()) == null) {
@@ -112,6 +113,9 @@ public class App extends Application {
     public void stop() {
         if (dbThread != null)
             dbThread.stop();
+        for (Thread t : ExternalCommunication.threads)
+            t.stop();
+        ExternalCommunication.threads.clear();
         DatabaseHandler.getHandler().shutdown();
         System.out.println("Shutting Down");
     }

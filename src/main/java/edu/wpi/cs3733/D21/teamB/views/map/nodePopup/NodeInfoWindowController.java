@@ -48,12 +48,10 @@ public class NodeInfoWindowController implements Initializable {
     private void handleButtonAction(ActionEvent event) {
         JFXButton btn = (JFXButton) event.getSource();
 
-        switch (btn.getId()){
-            case "btnBack":
-                window.hide();
-                break;
-            default:
-                throw new IllegalArgumentException("Unregistered UI element");
+        if ("btnBack".equals(btn.getId())) {
+            window.hide();
+        } else {
+            throw new IllegalArgumentException("Unregistered UI element");
         }
     }
 }
