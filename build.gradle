@@ -25,7 +25,9 @@ repositories {
     maven {
         url 'https://apisite.crmyers.dev/maven'
     }
-
+    maven {
+        url 'http://nexus.bippo.co.id/nexus/content/groups/public/'
+    }
 }
 
 //This is where you declare your dependencies and their version.s
@@ -42,7 +44,6 @@ dependencies {
     implementation group: 'org.mindrot', name: 'jbcrypt', version: '0.4'
     implementation group: 'com.sun.mail', name: 'javax.mail', version: '1.6.2'
     implementation group: 'javax.activation', name: 'activation', version: '1.1.1'
-    implementation files('libs/Ab.jar')
     implementation('com.dlsc:GMapsFX:8.0.0'){
         exclude group:'ch.qos.logback', module:'logback-classic'
     }
@@ -52,6 +53,9 @@ dependencies {
     compile 'de.dfki.mary:voice-cmu-rms-hsmm:5.2'
     compile 'de.dfki.mary:voice-cmu-slt-hsmm:5.2'
     compile 'de.dfki.mary:voice-dfki-poppy-hsmm:5.2'
+
+//    implementation group: 'org.goldrenard', name: 'ab', version: '1.0.7'
+    implementation 'org.alicebot.ab:ab:4.0.4-SNAPSHOT'
 
     shadowJar{
         mergeServiceFiles()

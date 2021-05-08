@@ -4,22 +4,22 @@ import edu.wpi.cs3733.D21.teamB.util.PageCache;
 import edu.wpi.cs3733.D21.teamB.views.misc.ChatBoxController;
 import org.alicebot.ab.Bot;
 import org.alicebot.ab.Chat;
-import org.alicebot.ab.MagicBooleans;
 
-import java.io.File;
+import java.net.URL;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class ChatBot implements Runnable {
 
-    private Chat chatSession;
+    private final Chat chatSession;
 
-    public ChatBot(){
-        String resourcesPath = new File(".").getAbsolutePath();
-        System.out.println(resourcesPath);
-        MagicBooleans.trace_mode = false;
-        Bot bot = new Bot("super", resourcesPath);
+    public ChatBot() {
+        URL resource = getClass().getResource("/edu/wpi/cs3733/D21/teamB/bots");
+
+        String path = resource.getPath().substring(0, resource.getPath().length() - 5);
+        if (path.startsWith("file:/")) path = path.substring(6);
+        System.out.println(path);
+        Bot bot = new Bot("Mike Bedard", path);
         chatSession = new Chat(bot);
-        bot.brain.nodeStats();
     }
 
     @Override
@@ -60,7 +60,11 @@ public class ChatBot implements Runnable {
 
         // TODO do more than return the input of whatever it is
         if (input.getMessage().equals("hello world")) sendMessage("hey");
-        else sendMessage(chatSession.multisentenceRespond(input.getMessage()));
+        else try {
+            // TODO change host to prevent UnknownHostException
+            sendMessage(chatSession.multisentenceRespond(input.getMessage()));
+        } catch (Exception ignored) {
+        }
     }
 
     /**

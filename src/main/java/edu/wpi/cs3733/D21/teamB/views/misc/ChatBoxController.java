@@ -21,9 +21,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.alicebot.ab.*;
-import org.alicebot.ab.utils.IOUtils;
 
-import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
