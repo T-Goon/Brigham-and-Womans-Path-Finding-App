@@ -58,6 +58,8 @@ public class LoginPageController extends BasePageController implements Initializ
                 handleLoginSubmit();
             }
         });
+
+        username.requestFocus();
     }
 
     @FXML
