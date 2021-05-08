@@ -11,7 +11,6 @@ import edu.wpi.cs3733.D21.teamB.views.map.PathfindingMenuController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import sun.security.mscapi.CKeyPairGenerator;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -119,8 +118,9 @@ public class Snake extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        move();
-
+        while(true) {
+            move();
+        }
     }
 
     public void move() {
@@ -156,7 +156,7 @@ public class Snake extends JPanel implements ActionListener {
 
 
             switch (e.getKeyCode()) {
-                case KeyEvent.VK_LEFT:
+                case KeyEvent.VK_A:
                     if (isValid()) {
                         left = true;
                         right = false;
@@ -164,7 +164,7 @@ public class Snake extends JPanel implements ActionListener {
                         down = false;
                     }
                     break;
-                case KeyEvent.VK_RIGHT:
+                case KeyEvent.VK_D:
                     if (isValid()) {
                         right = true;
                         left = false;
@@ -172,7 +172,7 @@ public class Snake extends JPanel implements ActionListener {
                         down = false;
                     }
                     break;
-                case KeyEvent.VK_UP:
+                case KeyEvent.VK_W:
                     if (isValid()) {
                         left = false;
                         right = false;
@@ -180,7 +180,7 @@ public class Snake extends JPanel implements ActionListener {
                         down = false;
                     }
                     break;
-                case KeyEvent.VK_DOWN:
+                case KeyEvent.VK_S:
                     if (isValid()) {
                         left = false;
                         right = false;
