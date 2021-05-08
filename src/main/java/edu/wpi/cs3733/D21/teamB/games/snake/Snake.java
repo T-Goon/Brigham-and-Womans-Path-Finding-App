@@ -23,7 +23,7 @@ public class Snake {
     private static List<Edge> edges;
     private static int snakeSize;
     private static Coord snakeHeadLoc;
-    private static Coord appleLocationList;
+    private static Coord appleCoord;
 
     public static void initializeMap(MapDrawer mapDrawer, MapCache mapCache, AnchorPane nodeHolder) {
         // Load nodes and edges
@@ -62,15 +62,15 @@ public class Snake {
         // Randomly select a node to place the apple at
         int index = (int) (Math.random() * nodes.size());
         Node appleNode = nodes.get(index);
-        Coord appleCoord = new Coord(appleNode.getXCoord(), appleNode.getYCoord());
+        appleCoord = new Coord(appleNode.getXCoord(), appleNode.getYCoord());
     }
 
     public static void checkApple() {
         // Check if the current node location is the location of the apple
         // Add to length of snake and call placeApple()
-        if(appleLocationList.equals(snakeHeadLoc)){
+        if(appleCoord.equals(snakeHeadLoc)){
             //delete the apple off of the map
-            appleLocationList.equals(snakeHeadLoc);
+            appleCoord.equals(snakeHeadLoc);
             snakeSize++;
         }
         placeApple();
