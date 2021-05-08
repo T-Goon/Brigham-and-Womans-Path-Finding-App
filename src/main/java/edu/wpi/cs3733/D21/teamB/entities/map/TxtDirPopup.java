@@ -200,6 +200,14 @@ public class TxtDirPopup extends Popup<VBox, TxtDirPopupData> implements Poppabl
      * Highlights the selected box in red, and the path in red as well
      */
     public void highlight(boolean updateScrollPane) {
+
+        // Tab in directions if on the same floor
+        for (int i = 1; i < directions.size(); i++) {
+            HBox box = (HBox) instructionBox.getChildren().get(i);
+            if (directions.get(i).getFloor().equals(mapCache.getCurrentFloor())) box.setSpacing(50);
+            else box.setSpacing(20);
+        }
+
         // Reset the previous colors to the normal color
         // Background transparentBG = new Background(new BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY));
         if (previousText != null && previousLines != null) {
