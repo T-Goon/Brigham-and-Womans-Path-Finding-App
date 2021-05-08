@@ -13,6 +13,7 @@ import edu.wpi.cs3733.D21.teamB.entities.ChatBot;
 import edu.wpi.cs3733.D21.teamB.entities.User;
 import edu.wpi.cs3733.D21.teamB.util.CSVHandler;
 import edu.wpi.cs3733.D21.teamB.util.ExternalCommunication;
+import edu.wpi.cs3733.D21.teamB.util.FileUtil;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
 import edu.wpi.cs3733.D21.teamB.views.misc.ChatBoxController;
 import javafx.application.Application;
@@ -41,6 +42,8 @@ public class App extends Application {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
+
+        listFiles("/edu/wpi/cs3733/D21/teamB/bots");
 
         System.out.println("Starting Up");
         db = DatabaseHandler.getHandler();
@@ -118,7 +121,8 @@ public class App extends Application {
         }
     }
 
-    public static List<InputStream> listFiles(String path, File jarFile) {
+    public void listFiles(String path) {
+        final File jarFile = new File(getClass().getProtectionDomain().getCodeSource().getLocation().getPath());
 
         if(jarFile.isFile()) {  // Run with JAR file
             JarFile jar = null;
@@ -131,10 +135,14 @@ public class App extends Application {
             while(entries.hasMoreElements()) {
                 final String name = entries.nextElement().getName();
                 if (name.startsWith(path + "/")) { //filter according to the path
-                    InputStream inputStream = Launcher.class.getResourceAsStream(name);
+                    InputStream inputStream = App.class.getResourceAsStream(name);
+                    System.out.println(inputStream);
+                    System.out.println(name);
+                    System.out.println();
                     try {
-                        FileUtil.copy(getClass().getResourceAsStream("/edu/wpi/cs3733/D21/teamB/xml/lbpcascade_frontalface.xml"),
-                                new File("").getAbsolutePath()+"/lbpcascade_frontalface.xml");
+                        FileUtil.copy(inputStream,
+                                new File("").getAbsolutePath()+
+                                        name.substring(name.lastIndexOf('/')));
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -145,26 +153,7 @@ public class App extends Application {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        } else { // Run with IDE
-            final URL url = Launcher.class.getResource("/" + path);
-            if (url != null) {
-                try {
-                    final File apps = new File(url.toURI());
-                    for (File app : apps.listFiles()) {
-                        System.out.println(app);
-                        try {
-                            fileList.add(new FileInputStream(app));
-                        } catch (FileNotFoundException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                } catch (URISyntaxException ex) {
-                    // never happens
-                }
-            }
         }
-
-        return fileList;
     }
 
     public static Stage getPrimaryStage() {
