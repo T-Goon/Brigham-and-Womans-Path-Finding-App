@@ -1,14 +1,18 @@
-package edu.wpi.cs3733.D21.teamB.games;
+package edu.wpi.cs3733.D21.teamB.games.snake;
 
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
+import edu.wpi.cs3733.D21.teamB.entities.map.MapCache;
 import edu.wpi.cs3733.D21.teamB.entities.map.MapDrawer;
 import edu.wpi.cs3733.D21.teamB.entities.map.Coord;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Edge;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Node;
 import edu.wpi.cs3733.D21.teamB.util.CSVHandler;
+import edu.wpi.cs3733.D21.teamB.views.map.PathfindingMenuController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Objects;
@@ -21,7 +25,7 @@ public class Snake {
     private static Coord snakeHeadLoc;
     private static List<Coord> appleLocationList;
 
-    public static void initializeMap(MapDrawer mapDrawer) {
+    public static void initializeMap(MapDrawer mapDrawer, MapCache mapCache, AnchorPane nodeHolder) {
         // Load nodes and edges
         nodes = CSVHandler.loadCSVNodes("/edu/wpi/cs3733/D21/teamB/csvFiles/snakeNodes.csv");
         edges = CSVHandler.loadCSVEdges("/edu/wpi/cs3733/D21/teamB/csvFiles/snakeEdges.csv");
@@ -33,12 +37,22 @@ public class Snake {
 
         mapDrawer.drawAllElements();
         mapDrawer.drawEdgesOnFloor();
+        initializeGame(mapCache, nodeHolder);
     }
 
-    public static void initializeGame() {
+    public static void initializeGame(MapCache mapCache, AnchorPane nodeHolder) {
         // set the snake at a starting location
-        Node snake = nodes.get(0);
-//        ImageView i = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/cs3733/D21/teamB/views/map/misc/node.fxml")));
+        Node snake = nodes.get(32);
+        try {
+            ImageView i = FXMLLoader.load(Objects.requireNonNull(Snake.class.getResource("/edu/wpi/cs3733/D21/teamB/views/map/misc/snake.fxml")));
+            i.setLayoutX((snake.getXCoord() / PathfindingMenuController.COORDINATE_SCALE) - (i.getFitWidth() / 4));
+            i.setLayoutY((snake.getYCoord() / PathfindingMenuController.COORDINATE_SCALE) - (i.getFitHeight()));
+            nodeHolder.getChildren().add(i);
+            mapCache.getNodePlaced().add(i);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         // restart size of snake
         snakeSize = 1;
         // call placeApple()
