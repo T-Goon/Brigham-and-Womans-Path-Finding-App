@@ -178,12 +178,10 @@ public class TxtDirPopupController implements Initializable {
 
         ImageView imageView = new ImageView(path);
         imageView.setPreserveRatio(true);
-        //imageView.setFitWidth(50);
         imageView.setFitHeight(50);
 
         VBox r = new VBox();
         r.setAlignment(Pos.CENTER);
-        //r.setStyle("-fx-border-color: transparent;\n-fx-border-insets: 5;\n-fx-border-width: 3;\n-fx-border-style: solid;\n");
         r.getChildren().add(imageView);
         return r;
     }
