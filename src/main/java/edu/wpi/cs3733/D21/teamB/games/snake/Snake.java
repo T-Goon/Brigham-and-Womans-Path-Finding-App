@@ -77,6 +77,7 @@ public class Snake {
     }
 
     public static void moveSnake(){
+
         //
     }
 }
