@@ -43,54 +43,8 @@ public class App extends Application {
             e.printStackTrace();
         }
 
-        try {
-
-            String resourcesPath = getResourcesPath();
-            System.out.println(resourcesPath);
-            MagicBooleans.trace_mode = false;
-            Bot bot = new Bot("super", resourcesPath);
-            Chat chatSession = new Chat(bot);
-            bot.brain.nodeStats();
-            String textLine = "";
-
-            while(true) {
-                System.out.print("Human : ");
-                textLine = IOUtils.readInputTextLine();
-                if ((textLine == null) || (textLine.length() < 1))
-                textLine = MagicStrings.null_input;
-                if (textLine.equals("q")) {
-                    System.exit(0);
-                } else if (textLine.equals("wq")) {
-                    bot.writeQuit();
-                    System.exit(0);
-                } else {
-                    String request = textLine;
-                    if (MagicBooleans.trace_mode)
-                        System.out.println("STATE=" + request + ":THAT=" + ((History) chatSession.thatHistory.get(0)).get(0) + ":TOPIC=" + chatSession.predicates.get("topic"));
-                    String response = chatSession.multisentenceRespond(request);
-                    while (response.contains("<"))
-                    response = response.replace("<", "<");
-                    while (response.contains(">"))
-                    response = response.replace(">", ">");
-                    System.out.println("Robot : " + response);
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
         System.out.println("Starting Up");
         db = DatabaseHandler.getHandler();
-    }
-
-    private static String getResourcesPath() {
-        File currDir = new File(".");
-        String path = currDir.getAbsolutePath();
-        path = path.substring(0, path.length() - 2);
-        System.out.println(path);
-        String resourcesPath = path + File.separator + "src" + File.separator + "main" +
-                File.separator + "resources"+File.separator+"chat"+File.separator+"bots";
-        return resourcesPath;
     }
 
     @Override
