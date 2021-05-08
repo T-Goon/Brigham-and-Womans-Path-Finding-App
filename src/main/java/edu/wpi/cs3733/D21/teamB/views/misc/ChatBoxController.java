@@ -2,12 +2,13 @@ package edu.wpi.cs3733.D21.teamB.views.misc;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
+import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.util.PageCache;
+import edu.wpi.cs3733.D21.teamB.util.tts.TextToSpeech;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.KeyCode;
@@ -19,8 +20,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class ChatBoxController implements Initializable {
@@ -40,13 +39,13 @@ public class ChatBoxController implements Initializable {
     @FXML
     public JFXButton btnClose;
 
-    List<HBox> messages = new ArrayList<>();
+    private final TextToSpeech tts = new TextToSpeech();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         // Add all the messages in the cache
         for (Message m : PageCache.getMessages())
-            addMessage(m);
+            sendMessage(m);
 
         // Scroll pane goes down to the bottom when a new message is sent
         scrollPane.vvalueProperty().bind(messageHolder.heightProperty());
@@ -61,8 +60,8 @@ public class ChatBoxController implements Initializable {
     @FXML
     public void handleSendMessage(KeyEvent e) {
         if (e.getCode() == KeyCode.ENTER) {
-            Message message = new Message(input.getText(), true);
-            addMessage(message);
+            Message message = new Message(input.getText(), false);
+            sendMessage(message);
             input.clear();
             PageCache.getMessages().add(message);
         }
@@ -73,12 +72,12 @@ public class ChatBoxController implements Initializable {
      *
      * @param message the message to show
      */
-    public void addMessage(Message message) {
-        if (message == null || message.message.isEmpty()) return;
+    public void sendMessage(Message message) {
+        if (message == null || message.getMessage().isEmpty()) return;
 
         // Adds HBox with text
         HBox messageBox = new HBox();
-        Label text = new Label(message.message);
+        Label text = new Label(message.getMessage());
         text.setFont(new Font("MS Reference Sans Serif", 13));
         text.setStyle("-fx-text-fill: white");
         text.setWrapText(true);
@@ -87,7 +86,7 @@ public class ChatBoxController implements Initializable {
         messageBox.getChildren().add(text);
 
         // Determines alignment if sent from user or not
-        if (message.fromUser) {
+        if (message.isFromUser()) {
             messageBox.setPadding(new Insets(0, 0, 0, 75));
             messageBox.setAlignment(Pos.CENTER_RIGHT);
         } else {
@@ -95,9 +94,13 @@ public class ChatBoxController implements Initializable {
             messageBox.setAlignment(Pos.CENTER_LEFT);
         }
 
+        // Play the text if text-to-speech is enabled and it's from the chatbot
+        if (!message.isFromUser() && DatabaseHandler.getHandler().getAuthenticationUser().getTtsEnabled().equals("T")) {
+            tts.speak(message.getMessage(), 1.0f, false, false);
+        }
+
         // Hey, it exists!
         messageHolder.getChildren().add(messageBox);
-        messages.add(messageBox);
     }
 
     @Getter
