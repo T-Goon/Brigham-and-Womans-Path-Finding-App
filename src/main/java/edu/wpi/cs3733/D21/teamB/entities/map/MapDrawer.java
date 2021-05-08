@@ -204,9 +204,6 @@ public class MapDrawer implements PoppableManager {
                     nodeHolder.getChildren().remove(head);
                 }
 
-                // Color nodes that indicate a floor swap in the path
-                colorNodesOnPathFloorSwitch(currentFloorPath);
-
                 // Animate the path
                 animatePath(currentFloorPath);
 
@@ -218,10 +215,14 @@ public class MapDrawer implements PoppableManager {
                 etaPopup.hide();
                 etaPopup = null;
             }
-
-            //Creates the eta popup for this floor only
-            etaPopup = mapPathPopupManager.createETAPopup(new Path(currentFloorPath, Graph.getGraph().calculateCost(currentFloorPath)));
             redrawNodes();
+            //Creates the eta popup for this floor only
+            //etaPopup = mapPathPopupManager.createETAPopup(new Path(currentFloorPath, Graph.getGraph().calculateCost(currentFloorPath)));
+            etaPopup = mapPathPopupManager.createETAPopup(mapCache.getFinalPath(), new Path(currentFloorPath, Graph.getGraph().calculateCost(currentFloorPath)));
+
+            // Color nodes that indicate a floor swap in the path
+            colorNodesOnPathFloorSwitch(currentFloorPath);
+
         }
 
     }
