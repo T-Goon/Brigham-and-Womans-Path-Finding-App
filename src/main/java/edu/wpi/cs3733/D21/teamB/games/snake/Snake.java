@@ -70,10 +70,10 @@ public class Snake {
         // Add to length of snake and call placeApple()
         if(appleCoord.equals(snakeHeadLoc)){
             //delete the apple off of the map
-            appleCoord.equals(snakeHeadLoc);
             snakeSize++;
+            placeApple();
+
         }
-        placeApple();
     }
 
     public static void moveSnake(){
