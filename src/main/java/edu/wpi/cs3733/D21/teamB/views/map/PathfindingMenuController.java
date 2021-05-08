@@ -573,7 +573,8 @@ public class PathfindingMenuController extends BasePageController implements Ini
                 break;
             case "btnPlay":
                 mapDrawer.removeAllEdges();
-                Snake.initializeMap(mapDrawer, mapCache, nodeHolder);
+                Snake snake = new Snake(mapDrawer, mapCache, nodeHolder);
+                snake.initializeMap();
                 break;
         }
 

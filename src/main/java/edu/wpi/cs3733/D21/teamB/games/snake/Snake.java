@@ -19,13 +19,22 @@ import java.util.Objects;
 
 public class Snake {
 
-    private static List<Node> nodes;
-    private static List<Edge> edges;
-    private static int snakeSize;
-    private static Coord snakeHeadLoc;
-    private static Coord appleCoord;
+    private List<Node> nodes;
+    private List<Edge> edges;
+    private MapDrawer mapDrawer;
+    private MapCache mapCache;
+    private AnchorPane nodeHolder;
+    private int snakeSize;
+    private Coord snakeHeadLoc;
+    private Coord appleCoord;
 
-    public static void initializeMap(MapDrawer mapDrawer, MapCache mapCache, AnchorPane nodeHolder) {
+    public Snake(MapDrawer mapDrawer, MapCache mapCache, AnchorPane nodeHolder) {
+        this.mapDrawer = mapDrawer;
+        this.mapCache = mapCache;
+        this.nodeHolder = nodeHolder;
+    }
+
+    public void initializeMap() {
         // Load nodes and edges
         nodes = CSVHandler.loadCSVNodes("/edu/wpi/cs3733/D21/teamB/csvFiles/snakeNodes.csv");
         edges = CSVHandler.loadCSVEdges("/edu/wpi/cs3733/D21/teamB/csvFiles/snakeEdges.csv");
@@ -37,12 +46,12 @@ public class Snake {
 
         mapDrawer.drawAllElements();
         mapDrawer.drawEdgesOnFloor();
-        initializeGame(mapCache, nodeHolder);
+        initializeGame();
     }
 
-    public static void initializeGame(MapCache mapCache, AnchorPane nodeHolder) {
-        // set the snake at a starting location
-        Node snake = nodes.get(32);
+    public void initializeGame() {
+        // Set the snake at a starting location (Francis Lobby Entrance)
+        Node snake = nodes.get(122);
         try {
             ImageView i = FXMLLoader.load(Objects.requireNonNull(Snake.class.getResource("/edu/wpi/cs3733/D21/teamB/views/map/misc/snake.fxml")));
             i.setLayoutX((snake.getXCoord() / PathfindingMenuController.COORDINATE_SCALE) - (i.getFitWidth() / 4));
@@ -55,17 +64,27 @@ public class Snake {
 
         // restart size of snake
         snakeSize = 1;
-        // call placeApple()
+        placeApple();
     }
 
-    public static void placeApple() {
+    public void placeApple() {
         // Randomly select a node to place the apple at
         int index = (int) (Math.random() * nodes.size());
         Node appleNode = nodes.get(index);
+        try {
+            ImageView i = FXMLLoader.load(Objects.requireNonNull(Snake.class.getResource("/edu/wpi/cs3733/D21/teamB/views/map/misc/apple.fxml")));
+            i.setLayoutX((appleNode.getXCoord() / PathfindingMenuController.COORDINATE_SCALE) - (i.getFitWidth() / 4));
+            i.setLayoutY((appleNode.getYCoord() / PathfindingMenuController.COORDINATE_SCALE) - (i.getFitHeight()));
+            nodeHolder.getChildren().add(i);
+            mapCache.getNodePlaced().add(i);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         appleCoord = new Coord(appleNode.getXCoord(), appleNode.getYCoord());
     }
 
-    public static void checkApple() {
+    public void checkApple() {
         // Check if the current node location is the location of the apple
         // Add to length of snake and call placeApple()
         if(appleCoord.equals(snakeHeadLoc)){
