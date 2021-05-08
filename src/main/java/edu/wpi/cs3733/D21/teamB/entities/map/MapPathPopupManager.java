@@ -94,17 +94,19 @@ public class MapPathPopupManager implements PoppableManager {
 
     public TxtDirPopup createTxtDirPopup(Path path) {
 
+        removeTxtDirPopup();
+
         Map<String, String> longToId = mc.makeLongToIDMap();
 
         List<String> ids = new ArrayList<>();
 
-        for(String longName : mc.getStopsList()){
+        for (String longName : mc.getStopsList()) {
             ids.add(longToId.get(longName));
         }
 
         List<Directions.Direction> instructions = Directions.instructions(path, ids);
         if (instructions == null) return null;
-        TxtDirPopupData txtDirPopupData = new TxtDirPopupData(instructions, md, mc, pfmc.getFloorSwitcher(), gpane);
+        TxtDirPopupData txtDirPopupData = new TxtDirPopupData(instructions, md, mc, pfmc.getFloorSwitcher(), gpane, pfmc.getStackPane());
         txtDirPopup = new TxtDirPopup(textDirectionsHolder, txtDirPopupData);
         App.getPrimaryStage().setUserData(txtDirPopup);
         txtDirPopup.show();
