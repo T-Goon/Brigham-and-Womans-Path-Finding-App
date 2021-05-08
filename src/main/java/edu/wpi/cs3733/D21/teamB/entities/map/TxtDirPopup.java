@@ -9,6 +9,7 @@ import edu.wpi.cs3733.D21.teamB.util.ExternalCommunication;
 import edu.wpi.cs3733.D21.teamB.util.Popup.Poppable;
 import edu.wpi.cs3733.D21.teamB.util.Popup.Popup;
 import edu.wpi.cs3733.D21.teamB.util.tts.TextToSpeech;
+import edu.wpi.cs3733.D21.teamB.views.map.PathfindingMenuController;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point2D;
 import javafx.scene.control.Label;
@@ -207,7 +208,7 @@ public class TxtDirPopup extends Popup<VBox, TxtDirPopupData> implements Poppabl
         }
 
         // Change the color to red for the new lines and scroll the scrollpane down to the element
-        if (index != 0) {
+        if (index != 0 && index < instructionBox.getChildren().size()) {
             HBox box = (HBox) instructionBox.getChildren().get(index);
             Label label = (Label) box.getChildren().get(1);
             box.setStyle("-fx-background-color: #0067B1; -fx-padding: 0;");
@@ -228,27 +229,39 @@ public class TxtDirPopup extends Popup<VBox, TxtDirPopupData> implements Poppabl
             // Update the scrollpane
             if (updateScrollPane) {
                 double height = scrollPane.getContent().getBoundsInLocal().getHeight();
-                double y = box.getBoundsInParent().getMaxY();
+                double y;
+                if (index == 1) y = 0;
+                else if (box.getBoundsInParent().getMaxY() < height / 2) y = box.getBoundsInParent().getMinY();
+                else y = box.getBoundsInParent().getMaxY();
                 scrollPane.setVvalue(y / height);
             }
 
             // Adjust coordinate scales
-            if (lines.isEmpty()) return;
-            Line l = lines.get(0);
-            double minX = Math.min(l.getStartX(), l.getEndX());
-            double minY = Math.min(l.getStartY(), l.getEndY());
-            double maxX = Math.max(l.getStartX(), l.getEndX());
-            double maxY = Math.max(l.getStartY(), l.getEndY());
+            double minX, minY, maxX, maxY;
+            if (lines.isEmpty() && !directions.get(index).getNodes().isEmpty()) { // If lines are empty, it's going up/down stairs, so get last node
+                Node n = directions.get(index).getNodes().get(directions.get(index).getNodes().size() - 1);
+                minX = n.getXCoord() / PathfindingMenuController.COORDINATE_SCALE;
+                minY = n.getYCoord() / PathfindingMenuController.COORDINATE_SCALE;
+                maxX = n.getXCoord() / PathfindingMenuController.COORDINATE_SCALE;
+                maxY = n.getYCoord() / PathfindingMenuController.COORDINATE_SCALE;
+            } else { // Otherwise, go through the highlighted lines
+                if (lines.isEmpty()) return;
+                Line l = lines.get(0);
+                minX = Math.min(l.getStartX(), l.getEndX());
+                minY = Math.min(l.getStartY(), l.getEndY());
+                maxX = Math.max(l.getStartX(), l.getEndX());
+                maxY = Math.max(l.getStartY(), l.getEndY());
 
-            for (Line current : lines) {
-                if (current.getStartX() < minX) minX = current.getStartX();
-                if (current.getEndX() < minX) minX = current.getEndX();
-                if (current.getStartY() < minY) minY = current.getStartY();
-                if (current.getEndY() < minY) minY = current.getEndY();
-                if (current.getStartX() > maxX) maxX = current.getStartX();
-                if (current.getEndX() > maxX) maxX = current.getEndX();
-                if (current.getStartY() > maxY) maxY = current.getStartY();
-                if (current.getEndY() > maxY) maxY = current.getEndY();
+                for (Line current : lines) {
+                    if (current.getStartX() < minX) minX = current.getStartX();
+                    if (current.getEndX() < minX) minX = current.getEndX();
+                    if (current.getStartY() < minY) minY = current.getStartY();
+                    if (current.getEndY() < minY) minY = current.getEndY();
+                    if (current.getStartX() > maxX) maxX = current.getStartX();
+                    if (current.getEndX() > maxX) maxX = current.getEndX();
+                    if (current.getStartY() > maxY) maxY = current.getStartY();
+                    if (current.getEndY() > maxY) maxY = current.getEndY();
+                }
             }
 
             int padding = 75;
