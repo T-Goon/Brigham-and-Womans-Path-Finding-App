@@ -469,7 +469,7 @@ public class MapDrawer implements PoppableManager {
     /**
      * Draws all edges on a floor
      */
-    private void drawEdgesOnFloor() {
+    public void drawEdgesOnFloor() {
         Map<String, Edge> edges = Graph.getGraph().getEdges();
         for (Edge e : edges.values()) {
             Node start = db.getNodeById(e.getStartNodeID());
