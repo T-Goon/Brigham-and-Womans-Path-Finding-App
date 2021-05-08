@@ -1,8 +1,6 @@
 package edu.wpi.cs3733.D21.teamB.entities;
 
 import com.jfoenix.controls.JFXButton;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -19,15 +17,15 @@ public class OnScreenKeyboard {
 
     private boolean shifted;
     private boolean initialized;
-    private VBox keyboard;
-    private HBox numRow;
-    private HBox topRow;
-    private HBox midRow;
-    private HBox bottomRow;
+    private final VBox keyboard;
+    private final HBox numRow;
+    private final HBox topRow;
+    private final HBox midRow;
+    private final HBox bottomRow;
     private Pane parent;
-    private LastFocused lastFocused;
+    private final LastFocused lastFocused;
 
-    private OnScreenKeyboard(){
+    private OnScreenKeyboard() {
         this.shifted = false;
         this.initialized = false;
         this.keyboard = new VBox();
@@ -63,7 +61,7 @@ public class OnScreenKeyboard {
         BackgroundFill bgFill = new BackgroundFill(Color.GRAY, CornerRadii.EMPTY, Insets.EMPTY);
         Background keyboardBG = new Background(bgFill);
         keyboard.setBackground(keyboardBG);
-        keyboard.setOnMouseDragged(event -> drag(event));
+        keyboard.setOnMouseDragged(this::drag);
     }
 
     private void drag(MouseEvent event) {
@@ -74,7 +72,7 @@ public class OnScreenKeyboard {
 
     public void initKeyboard(Pane aParent) throws AWTException {
         keyboardAesthethic();
-        ArrayList<JFXButton> buttonList = new ArrayList<JFXButton>();
+        ArrayList<JFXButton> buttonList = new ArrayList<>();
         ArrayList<String> altText = new ArrayList<>();
         ArrayList<String> baseText = new ArrayList<>();
         Robot robot = new Robot();
@@ -97,7 +95,7 @@ public class OnScreenKeyboard {
                 baseText.add(Character.toString(keys[j]));
                 buttonList.add(button);
                 button.setTextFill(Color.WHITE);
-                Character keyIs = Character.toUpperCase(button.getText().toCharArray()[0]);
+                char keyIs = Character.toUpperCase(button.getText().toCharArray()[0]);
                 button.setOnAction(event -> {
                     if (!(lastFocused.getAnode().isFocused())) {
                         lastFocused.requestFocus();
@@ -123,7 +121,7 @@ public class OnScreenKeyboard {
                     topRow.getChildren().add(button);
                 } else if (i == 2) {
                     midRow.getChildren().add(button);
-                } else if (i == 3) {
+                } else {
                     bottomRow.getChildren().add(button);
                 }
             }

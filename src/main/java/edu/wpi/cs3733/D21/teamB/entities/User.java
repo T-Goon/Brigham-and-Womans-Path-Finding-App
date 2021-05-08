@@ -1,6 +1,5 @@
 package edu.wpi.cs3733.D21.teamB.entities;
 
-import edu.wpi.cs3733.D21.teamB.App;
 import edu.wpi.cs3733.D21.teamB.entities.requests.Request;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;

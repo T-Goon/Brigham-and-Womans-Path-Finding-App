@@ -1,29 +1,15 @@
 package edu.wpi.cs3733.D21.teamB.views.login;
 
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXTextArea;
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
-import edu.wpi.cs3733.D21.teamB.entities.LastFocused;
 //import edu.wpi.cs3733.D21.teamB.entities.TextAreaFocusable;
-import edu.wpi.cs3733.D21.teamB.entities.OnScreenKeyboard;
-import edu.wpi.cs3733.D21.teamB.entities.TextAreaFocusable;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
 import edu.wpi.cs3733.D21.teamB.views.BasePageController;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
-import javafx.scene.control.TextArea;
-import javafx.scene.image.Image;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
-import lombok.SneakyThrows;
 
-import java.awt.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 
