@@ -136,6 +136,7 @@ public class CovidSurveyController extends DefaultServiceRequestFormController i
             btnCCNo.setSelected(!request.getHadCloseContact().equals("T"));
             btnTestYes.setSelected(request.getHadPositiveTest().equals("T"));
             btnTestNo.setSelected(!request.getHadPositiveTest().equals("T"));
+            txtName.setText(request.getName());
         }
 
         this.validateButton();

@@ -256,6 +256,7 @@ public class RequestMutator implements IDatabaseEntityMutator<Request> {
                 + "', employeeName = '" + request.getEmployeeName()
                 + "', location = '" + request.getLocation().replace("'", "''")
                 + "', description = '" + request.getDescription().replace("'", "''")
+                + "', name = '" + request.getName().replace("'", "''")
                 + "' WHERE requestID = '" + request.getRequestID() + "'";
         db.runStatement(query, false);
 
