@@ -43,7 +43,7 @@ public class ETAPopup extends Popup<VBox, ETAPopupData> implements Poppable {
 
         Node endNode = graph.getNodes().get(data.getPath().getPath().get(data.getPath().getPath().size() - 1));
 
-        Node secToLastNode = null;
+        Node secToLastNode;
         try {
             secToLastNode = graph.getNodes().get(data.getPath().getPath().get(data.getPath().getPath().size() - 2));
         } catch (IndexOutOfBoundsException e){

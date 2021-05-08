@@ -1,9 +1,9 @@
 package edu.wpi.cs3733.D21.teamB.views;
 
 import com.jfoenix.controls.JFXButton;
+import edu.cmu.sphinx.api.Configuration;
 import edu.cmu.sphinx.api.LiveSpeechRecognizer;
 import edu.wpi.cs3733.D21.teamB.entities.LastFocused;
-import edu.wpi.cs3733.D21.teamB.entities.OnScreenKeyboard;
 import edu.wpi.cs3733.D21.teamB.entities.OnScreenKeyboard;
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
@@ -14,12 +14,9 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 
-import javax.xml.stream.EventFilter;
 import java.io.*;
 import java.awt.*;
 import java.net.URL;
@@ -45,14 +42,13 @@ public abstract class BasePageController implements Initializable {
     @FXML
     private StackPane stackPane;
 
-    public TextToSpeech tts = new TextToSpeech();
+    public final TextToSpeech tts = new TextToSpeech();
     private boolean keyboardVisible = false;
 
     OnScreenKeyboard onScreenKeyboard = OnScreenKeyboard.getInstance();
-    LastFocused lastFocused = LastFocused.getInstance();
+    final LastFocused lastFocused = LastFocused.getInstance();
     Configuration configuration = new Configuration();
     LiveSpeechRecognizer recognizer = null;
-
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -68,27 +64,15 @@ public abstract class BasePageController implements Initializable {
         // On screen keyboard stuff
         firstFocused = true;
         Platform.runLater(() -> stackPane.requestFocus());
-        if (oskOn){
-            onScreenKeyboard.getKeyboard().setVisible(true);
-        }
-        else {
-            onScreenKeyboard.getKeyboard().setVisible(false);
-
-        }
-        EventHandler<MouseEvent> onClick = new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                lastFocused.setAnode(event.getPickResult().getIntersectedNode());
-            }
-        };
-        stackPane.addEventFilter(MouseEvent.MOUSE_CLICKED,onClick);
+        onScreenKeyboard.getKeyboard().setVisible(oskOn);
+        EventHandler<MouseEvent> onClick = event -> lastFocused.setAnode(event.getPickResult().getIntersectedNode());
+        stackPane.addEventFilter(MouseEvent.MOUSE_CLICKED, onClick);
         onScreenKeyboard = OnScreenKeyboard.getInstance();
         keyboardVisible = false;
         try {
-            if(!onScreenKeyboard.getInitialized()) {
+            if (!onScreenKeyboard.getInitialized()) {
                 onScreenKeyboard.initKeyboard(stackPane);
-            }
-            else {
+            } else {
                 onScreenKeyboard.setParent(stackPane);
             }
         } catch (AWTException e) {

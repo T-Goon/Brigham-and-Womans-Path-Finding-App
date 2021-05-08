@@ -75,16 +75,17 @@ public class MapPathPopupManager implements PoppableManager {
     /**
      * Draw the estimated time dialog box
      *
-     * @param path the path to draw the box on
+     * @param totalPath the path to get the estimated time for
+     * @param floorPath the path to draw the eta popup on
      */
-    public ETAPopup createETAPopup(Path path) {
+    public ETAPopup createETAPopup(Path totalPath, Path floorPath) {
 
         // No path
-        if (path.getPath().size() == 0) return null;
+        if (floorPath.getPath().size() == 0) return null;
 
-        String estimatedTime = Graph.getEstimatedTime(path);
+        String estimatedTime = Graph.getEstimatedTime(totalPath);
 
-        ETAPopupData etaPopupData = new ETAPopupData(estimatedTime, path);
+        ETAPopupData etaPopupData = new ETAPopupData(estimatedTime, floorPath);
         etaPopup = new ETAPopup(nodeHolder, etaPopupData);
 
         etaPopup.show();
@@ -94,17 +95,19 @@ public class MapPathPopupManager implements PoppableManager {
 
     public TxtDirPopup createTxtDirPopup(Path path) {
 
+        removeTxtDirPopup();
+
         Map<String, String> longToId = mc.makeLongToIDMap();
 
         List<String> ids = new ArrayList<>();
 
-        for(String longName : mc.getStopsList()){
+        for (String longName : mc.getStopsList()) {
             ids.add(longToId.get(longName));
         }
 
         List<Directions.Direction> instructions = Directions.instructions(path, ids);
         if (instructions == null) return null;
-        TxtDirPopupData txtDirPopupData = new TxtDirPopupData(instructions, md, mc, pfmc.getFloorSwitcher(), gpane);
+        TxtDirPopupData txtDirPopupData = new TxtDirPopupData(instructions, md, mc, pfmc.getFloorSwitcher(), gpane, pfmc.getStackPane());
         txtDirPopup = new TxtDirPopup(textDirectionsHolder, txtDirPopupData);
         App.getPrimaryStage().setUserData(txtDirPopup);
         txtDirPopup.show();
