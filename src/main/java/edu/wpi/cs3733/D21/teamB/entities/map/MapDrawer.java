@@ -522,6 +522,20 @@ public class MapDrawer implements PoppableManager {
                 }
             });
 
+            // Enlarge nodes when hovering over them
+            i.setOnMouseEntered(event -> {
+                if (!isEditing) {
+                    i.setScaleX(2);
+                    i.setScaleY(2);
+                }
+            });
+            i.setOnMouseExited(event -> {
+                if (!isEditing) {
+                    i.setScaleX(1);
+                    i.setScaleY(1);
+                }
+            });
+
             nodeHolder.getChildren().add(i);
             mapCache.getNodePlaced().add(i);
 
