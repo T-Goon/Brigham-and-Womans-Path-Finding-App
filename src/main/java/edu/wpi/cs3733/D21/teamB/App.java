@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.*;
 
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
+import edu.wpi.cs3733.D21.teamB.entities.ChatBot;
 import edu.wpi.cs3733.D21.teamB.entities.User;
 import edu.wpi.cs3733.D21.teamB.util.CSVHandler;
 import edu.wpi.cs3733.D21.teamB.util.ExternalCommunication;
@@ -27,6 +28,7 @@ public class App extends Application {
     private static Stage primaryStage;
     private DatabaseHandler db;
     private Thread dbThread;
+    private Thread chatBotThread;
 
     @Override
     public void init() {
@@ -46,14 +48,6 @@ public class App extends Application {
 
         // Open first view
         try {
-
-            List<ChatBoxController.Message> messages = new ArrayList<>();
-            messages.add(new ChatBoxController.Message("test", false));
-            messages.add(new ChatBoxController.Message("yeppppp", false));
-            messages.add(new ChatBoxController.Message("APOIHTOPIAWHTPOIAHWTPOIHAWPTHAPOIWTHPOAIWHTOPIAHWTHAIWOTHPOIAHWTPOIHAWTPOIH", true));
-            messages.add(new ChatBoxController.Message("what the heck is wrong with you?", false));
-            PageCache.getMessages().addAll(messages);
-
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("views/misc/chatBox.fxml")));
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);
@@ -65,6 +59,10 @@ public class App extends Application {
                     return event.getCode().equals(KeyCode.F11);
                 }
             });
+
+            // Starts the chat bot thread
+            chatBotThread = new Thread(new ChatBot());
+            chatBotThread.start();
 
 //            primaryStage.setFullScreen(true);
 
@@ -123,6 +121,10 @@ public class App extends Application {
     public void stop() {
         if (dbThread != null)
             dbThread.stop();
+        if (chatBotThread != null)
+            chatBotThread.stop();
+        if (ChatBoxController.userThread != null)
+            ChatBoxController.userThread.stop();
         for (Thread t : ExternalCommunication.threads)
             t.stop();
         ExternalCommunication.threads.clear();

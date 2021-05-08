@@ -5,6 +5,7 @@ import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.util.PageCache;
 import edu.wpi.cs3733.D21.teamB.util.tts.TextToSpeech;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
@@ -16,8 +17,9 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -40,11 +42,25 @@ public class ChatBoxController implements Initializable {
     public JFXButton btnClose;
 
     private final TextToSpeech tts = new TextToSpeech();
+    public static Thread userThread;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        // Thread for getting messages from the bot
+        userThread = new Thread(() -> {
+            while (true) {
+                // Wait for a new message
+                if (PageCache.getNewMessagesWaitingForUser().get() != 0) {
+                    // Get message and mark as read
+                    PageCache.getNewMessagesWaitingForUser().getAndDecrement();
+                    Platform.runLater(() -> sendMessage(PageCache.getBotLastMessage()));
+                }
+            }
+        });
+        userThread.start();
+
         // Add all the messages in the cache
-        for (Message m : PageCache.getMessages())
+        for (Message m : PageCache.getAllMessages())
             sendMessage(m, false);
 
         // Scroll pane goes down to the bottom when a new message is sent
@@ -53,7 +69,8 @@ public class ChatBoxController implements Initializable {
         // When closed, wipe the cache and remove itself
         btnClose.setOnAction(e -> {
             ((AnchorPane) base.getParent()).getChildren().remove(base);
-            PageCache.getMessages().clear();
+            PageCache.getUserMessages().clear();
+            PageCache.getBotMessages().clear();
         });
     }
 
@@ -63,7 +80,7 @@ public class ChatBoxController implements Initializable {
             Message message = new Message(input.getText(), true);
             sendMessage(message);
             input.clear();
-            PageCache.getMessages().add(message);
+            PageCache.addUserMessage(message);
         }
     }
 
@@ -77,7 +94,7 @@ public class ChatBoxController implements Initializable {
     }
 
     /**
-     * Exists so
+     * Exists so audio is not played when loading
      *
      * @param message              the message to send
      * @param playAudioIfRequested whether to play audio
@@ -110,18 +127,22 @@ public class ChatBoxController implements Initializable {
         }
 
         // Hey, it exists!
+        message.setIndex(messageHolder.getChildren().size());
         messageHolder.getChildren().add(messageBox);
     }
 
     @Getter
-    @AllArgsConstructor
+    @RequiredArgsConstructor
     public static class Message {
         private final String message;
         private final boolean fromUser;
 
+        @Setter
+        private int index;
+
         @Override
         public String toString() {
-            return "[" + message + (fromUser ? " from User" : " from Chatbot") + "]";
+            return "[" + message + (fromUser ? " from User" : " from Chatbot") + " at index " + index + "]";
         }
     }
 }
