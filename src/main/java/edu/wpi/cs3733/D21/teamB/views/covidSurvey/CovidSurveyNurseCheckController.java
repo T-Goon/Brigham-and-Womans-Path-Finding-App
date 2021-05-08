@@ -51,7 +51,9 @@ public class CovidSurveyNurseCheckController extends BasePageController implemen
         switch (button.getId()){
             case "btnDeny":
                 try {
+                    covidSurveyRequest.setProgress("T");
                     DatabaseHandler.getHandler().updateCovidRequestAdmitted(covidSurveyRequest, "F");
+                    DatabaseHandler.getHandler().updateRequest(covidSurveyRequest);
                 } catch (SQLException error) {
                     System.err.println("You fucking donkey");
                 }
@@ -59,7 +61,9 @@ public class CovidSurveyNurseCheckController extends BasePageController implemen
                 break;
             case "btnAccept":
                 try {
+                    covidSurveyRequest.setProgress("T");
                     DatabaseHandler.getHandler().updateCovidRequestAdmitted(covidSurveyRequest, "T");
+                    DatabaseHandler.getHandler().updateRequest(covidSurveyRequest);
                 } catch (SQLException throwables) {
                     System.err.println("You fucking donkey");
                 }
