@@ -20,15 +20,12 @@ import java.io.StringWriter;
 public class DomUtils {
 
 
-	public static Node parseFile(String fileName) throws Exception {
-		// TODO this needs to be fixed
-		File file = new File(fileName);
-
+	public static Node parseFile(InputStream stream) throws Exception {
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 		// from AIMLProcessor.evalTemplate and AIMLProcessor.validTemplate:
 		//   dbFactory.setIgnoringComments(true); // fix this
-		Document doc = dBuilder.parse(file);
+		Document doc = dBuilder.parse(stream);
 		doc.getDocumentElement().normalize();
 		Node root = doc.getDocumentElement();
 		return root;

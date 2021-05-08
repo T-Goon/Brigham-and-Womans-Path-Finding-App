@@ -259,7 +259,8 @@ public class Bot {
                     if (file.endsWith(".aiml") || file.endsWith(".AIML")) {
                         if (MagicBooleans.trace_mode) System.out.println(file);
                         try {
-                            ArrayList<Category> moreCategories = AIMLProcessor.AIMLToCategories(aiml_path, file);
+                            ArrayList<Category> moreCategories = AIMLProcessor.AIMLToCategories(aiml_path, file,
+                                    Bot.class.getResourceAsStream("/"+aiml_path+"/"+file));
                             addMoreCategories(file, moreCategories);
                             cnt += moreCategories.size();
                         } catch (Exception iex) {
@@ -319,7 +320,7 @@ public class Bot {
                     if (file.endsWith(MagicStrings.aimlif_file_suffix) || file.endsWith(MagicStrings.aimlif_file_suffix.toUpperCase())) {
                         if (MagicBooleans.trace_mode) System.out.println(file);
                         try {
-                            ArrayList<Category> moreCategories = readIFCategories(aimlif_path + "/" + file);
+                            ArrayList<Category> moreCategories = readIFCategories("/"+aimlif_path + "/" + file);
                             cnt += moreCategories.size();
                             addMoreCategories(file, moreCategories);
                             //   MemStats.memStats();
@@ -362,7 +363,7 @@ public class Bot {
         File file = new File(aimlif_path+"/"+fileName+MagicStrings.aimlif_file_suffix);
         if (file.exists()) {
             try {
-                ArrayList<Category> certainCategories = readIFCategories(aimlif_path+"/"+fileName+MagicStrings.aimlif_file_suffix);
+                ArrayList<Category> certainCategories = readIFCategories("/"+aimlif_path+"/"+fileName+MagicStrings.aimlif_file_suffix);
                 for (Category d : certainCategories) graph.addCategory(d);
                 cnt = certainCategories.size();
                 System.out.println("readCertainIFCategories "+cnt+" categories from "+fileName+MagicStrings.aimlif_file_suffix);
@@ -570,9 +571,13 @@ public class Bot {
         try{
             // Open the file that is the first
             // command line parameter
-            FileInputStream fstream = new FileInputStream(filename);
+            InputStream resource = Bot.class.getResourceAsStream(filename);
+//            File file = new File(resource.toURI());
+//            FileInputStream input = new FileInputStream(file);
+
+//            FileInputStream fstream = new FileInputStream(filename);
             // Get the object
-            BufferedReader br = new BufferedReader(new InputStreamReader(fstream));
+            BufferedReader br = new BufferedReader(new InputStreamReader(resource));
             String strLine;
             //Read File Line By Line
             while ((strLine = br.readLine()) != null)   {

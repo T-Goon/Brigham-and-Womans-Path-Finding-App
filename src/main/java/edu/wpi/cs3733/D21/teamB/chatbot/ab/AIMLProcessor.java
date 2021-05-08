@@ -24,6 +24,7 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -112,10 +113,10 @@ public class AIMLProcessor {
      * @param aimlFile      AIML file name.
      * @return              list of categories.
      */
-    public static ArrayList<Category> AIMLToCategories (String directory, String aimlFile) {
+    public static ArrayList<Category> AIMLToCategories (String directory, String aimlFile, InputStream stream) {
         try {
             ArrayList categories = new ArrayList<Category>();
-            Node root = DomUtils.parseFile(directory+"/"+aimlFile);      // <aiml> tag
+            Node root = DomUtils.parseFile(stream);      // <aiml> tag
             String language = MagicStrings.default_language;
             if (root.hasAttributes()) {
                 NamedNodeMap XMLAttributes = root.getAttributes();
