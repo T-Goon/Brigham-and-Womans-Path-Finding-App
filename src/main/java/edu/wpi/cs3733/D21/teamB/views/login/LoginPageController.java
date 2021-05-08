@@ -44,6 +44,7 @@ public class LoginPageController extends BasePageController implements Initializ
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
         super.initialize(location,resources);
         //Add event listeners to the text boxes so user can submit by pressing enter
         username.setOnKeyPressed(event -> {
