@@ -40,6 +40,7 @@ dependencies {
             'org.projectlombok:lombok:1.18.20',
             'net.kurobako:gesturefx:0.6.0',
     )
+    implementation group: 'commons-io', name: 'commons-io', version: '2.6'
     implementation 'junit:junit:4.12'
     implementation group: 'org.mindrot', name: 'jbcrypt', version: '0.4'
     implementation group: 'com.sun.mail', name: 'javax.mail', version: '1.6.2'
