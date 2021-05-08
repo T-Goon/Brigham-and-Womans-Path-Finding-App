@@ -1,6 +1,5 @@
 package edu.wpi.cs3733.D21.teamB.games.snake;
 
-import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.map.MapCache;
 import edu.wpi.cs3733.D21.teamB.entities.map.MapDrawer;
 import edu.wpi.cs3733.D21.teamB.entities.map.Coord;
@@ -17,8 +16,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.sql.SQLException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -48,19 +50,75 @@ public class Snake extends JPanel implements ActionListener {
 
     }
 
+    public void cleanCSV(){
+
+        List<String> idsToUse = new ArrayList<>();
+
+        nodes = CSVHandler.loadCSVNodes("/edu/wpi/cs3733/D21/teamB/csvFiles/snakeNodes.csv");
+        for(int i=0; i<nodes.size(); i++){
+            Node node = nodes.get(i);
+            if(!node.getFloor().equals("1")){
+                nodes.remove(node);
+                System.out.println("REMOVED " + node.getNodeID());
+            }
+            else{
+                idsToUse.add(node.getNodeID());
+            }
+        }
+
+        edges = CSVHandler.loadCSVEdges("/edu/wpi/cs3733/D21/teamB/csvFiles/snakeEdges.csv");
+        edges.removeIf(edge -> !idsToUse.contains(edge.getStartNodeID()) && !idsToUse.contains(edge.getEdgeID()));
+
+        //putting the correct values into the CSV
+        StringBuilder sb = new StringBuilder();
+        sb.append("nodeID,xcoord,ycoord,floor,building,nodeType,longName,shortName\n");
+        for (Node n : nodes) {
+            sb.append(n.getNodeID()).append(",")
+                    .append(n.getXCoord()).append(",")
+                    .append(n.getYCoord()).append(",")
+                    .append(n.getFloor()).append(",")
+                    .append(n.getBuilding()).append(",")
+                    .append(n.getNodeType()).append(",")
+                    .append(n.getLongName()).append(",")
+                    .append(n.getShortName()).append("\n");
+        }
+
+        // Write to the file
+        try {
+            FileOutputStream out = new FileOutputStream(Paths.get("src/main/resources/edu/wpi/cs3733/D21/teamB/csvFiles/csvGames") + "/snakeNodes.csv");
+            out.write(sb.toString().getBytes(StandardCharsets.UTF_8));
+            out.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        StringBuilder sb1 = new StringBuilder();
+        sb.append("edgeID,startNode,endNode\n");
+        for (Edge e : edges) {
+            sb1.append(e.getEdgeID()).append(",")
+                    .append(e.getStartNodeID()).append(",")
+                    .append(e.getEndNodeID()).append("\n");
+        }
+
+        // Write to the file
+        try {
+            FileOutputStream out = new FileOutputStream("src/main/resources/edu/wpi/cs3733/D21/teamB/csvFiles/csvGames" + "/snakeEdges.csv");
+            out.write(sb1.toString().getBytes(StandardCharsets.UTF_8));
+            out.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
     /**
      * Display the nodes and edges for the game on the map and start the game
      */
     public void initializeMap() {
+        cleanCSV();
         // Load nodes and edges
-        nodes = CSVHandler.loadCSVNodes("/edu/wpi/cs3733/D21/teamB/csvFiles/snakeNodes.csv");
-        edges = CSVHandler.loadCSVEdges("/edu/wpi/cs3733/D21/teamB/csvFiles/snakeEdges.csv");
-        try {
-            DatabaseHandler.getHandler().loadNodesEdges(nodes, edges);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
+        edges = CSVHandler.loadCSVEdges("/edu/wpi/cs3733/D21/teamB/csvFiles/csvGames/snakeEdges.csv");
+        nodes = CSVHandler.loadCSVNodes("/edu/wpi/cs3733/D21/teamB/csvFiles/csvGames/snakeNodes.csv");
         mapDrawer.drawAllElements();
         mapDrawer.drawEdgesOnFloor();
         initializeGame();
@@ -74,7 +132,7 @@ public class Snake extends JPanel implements ActionListener {
         Node snake = nodes. get(10);
         snakeHeadLoc = new Coord(snake.getXCoord(), snake.getYCoord());
         try {
-            ImageView i = FXMLLoader.load(Objects.requireNonNull(Snake.class.getResource("/edu/wpi/cs3733/D21/teamB/views/map/misc/snake.fxml")));
+            ImageView i = FXMLLoader.load(Objects.requireNonNull(Snake.class.getResource("")));
             i.setLayoutX((snake.getXCoord() / PathfindingMenuController.COORDINATE_SCALE) - (i.getFitWidth() / 4));
             i.setLayoutY((snake.getYCoord() / PathfindingMenuController.COORDINATE_SCALE) - (i.getFitHeight()));
             nodeHolder.getChildren().add(i);
