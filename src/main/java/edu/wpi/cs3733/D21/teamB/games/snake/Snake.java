@@ -129,7 +129,9 @@ public class Snake extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        move();
+        while(true) {
+            move();
+        }
     }
 
     public void move() {

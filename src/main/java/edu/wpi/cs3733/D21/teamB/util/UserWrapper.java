@@ -22,7 +22,7 @@ public class UserWrapper {
     private final Label username;
     private final Label firstName;
     private final Label lastName;
-    private Label employeeName;
+    private final Label employeeName;
     private final TableView parentTable;
     private final JFXButton btnEdit;
     private final JFXButton btnDel;

@@ -93,8 +93,11 @@ public class PathfindingMenuController extends BasePageController implements Ini
 
     @FXML
     private StackPane mapStack,
-            stackPane,
             textDirectionsHolder;
+
+    @FXML
+    @Getter
+    private StackPane stackPane;
 
     @FXML
     @Getter
