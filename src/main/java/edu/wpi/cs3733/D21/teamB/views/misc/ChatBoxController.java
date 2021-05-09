@@ -2,6 +2,7 @@ package edu.wpi.cs3733.D21.teamB.views.misc;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
+import edu.wpi.cs3733.D21.teamB.App;
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.util.PageCache;
 import edu.wpi.cs3733.D21.teamB.util.tts.TextToSpeech;
@@ -60,7 +61,7 @@ public class ChatBoxController implements Initializable {
         if (userThread == null) {
             userThread = new Thread(() -> {
 
-                while (true) {
+                while (App.isRunning()) {
                     // Wait for a new message
                     if (PageCache.getNewMessagesWaitingForUser().get() != 0) {
                         // Get message and mark as read
@@ -70,6 +71,7 @@ public class ChatBoxController implements Initializable {
                     }
                 }
             });
+            userThread.setName("userThread");
             userThread.start();
         }
 

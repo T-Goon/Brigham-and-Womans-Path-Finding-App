@@ -20,14 +20,18 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
+import lombok.Getter;
 
-@SuppressWarnings("deprecation")
 public class App extends Application {
 
     private static Stage primaryStage;
     private DatabaseHandler db;
-    private Thread dbThread;
+
     private Thread chatBotThread;
+
+    @Getter
+    private static boolean running = false;
+
     private final PrintStream printStream = System.out;
 
     @Override
@@ -38,7 +42,7 @@ public class App extends Application {
             e.printStackTrace();
         }
 
-
+        running = true;
         System.out.println("Starting Up");
         db = DatabaseHandler.getHandler();
 
@@ -68,7 +72,6 @@ public class App extends Application {
                 }
             });
 
-
             primaryStage.setFullScreen(true);
 
             // If the database is uninitialized, fill it with the csv files
@@ -78,31 +81,26 @@ public class App extends Application {
                     SceneSwitcher.switchFromTemp("/edu/wpi/cs3733/D21/teamB/views/login/databaseInit.fxml");
                     primaryStage.show();
 
-                    dbThread = new Thread(() -> {
+                    // Load database in a separate thread to help with performance
+                    Thread dbThread = new Thread(() -> {
                         try {
                             db.loadNodesEdges(CSVHandler.loadCSVNodes("/edu/wpi/cs3733/D21/teamB/csvFiles/bwBnodes.csv"), CSVHandler.loadCSVEdges("/edu/wpi/cs3733/D21/teamB/csvFiles/bwBedges.csv"));
                         } catch (SQLException e) {
                             e.printStackTrace();
                         }
-                        Platform.runLater(() -> {
-                            SceneSwitcher.switchFromTemp("/edu/wpi/cs3733/D21/teamB/views/login/mainPage.fxml");
-
-                            // Starts the chat bot thread
-                            chatBotThread = new Thread(new ChatBot());
-                            chatBotThread.start();
-                        });
+                        Platform.runLater(() -> SceneSwitcher.switchFromTemp("/edu/wpi/cs3733/D21/teamB/views/login/mainPage.fxml"));
                     });
+                    dbThread.setName("dbThread");
                     dbThread.start();
-                } else {
-                    primaryStage.show();
-
-                    // Starts the chat bot thread
-                    chatBotThread = new Thread(new ChatBot());
-                    chatBotThread.start();
-                }
+                } else primaryStage.show();
             } catch (SQLException e) {
                 e.printStackTrace();
                 return;
+            } finally {
+                // Starts the chat bot thread
+                chatBotThread = new Thread(new ChatBot());
+                chatBotThread.setName("chatBotThread");
+                chatBotThread.start();
             }
 
             try {
@@ -136,16 +134,7 @@ public class App extends Application {
 
     @Override
     public void stop() {
-        if (dbThread != null)
-            dbThread.stop();
-        if (chatBotThread != null)
-            chatBotThread.stop();
-        if (ChatBoxController.userThread != null)
-            ChatBoxController.userThread.stop();
-        for (Thread t : ExternalCommunication.threads)
-            t.stop();
-        ExternalCommunication.threads.clear();
-
+        running = false;
         System.setOut(printStream);
         DatabaseHandler.getHandler().shutdown();
         System.out.println("Shutting Down");

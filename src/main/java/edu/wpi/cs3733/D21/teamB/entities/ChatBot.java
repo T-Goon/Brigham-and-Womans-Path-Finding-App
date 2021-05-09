@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.D21.teamB.entities;
 
+import edu.wpi.cs3733.D21.teamB.App;
 import edu.wpi.cs3733.D21.teamB.util.FileUtil;
 import edu.wpi.cs3733.D21.teamB.util.PageCache;
 import edu.wpi.cs3733.D21.teamB.views.misc.ChatBoxController;
@@ -35,7 +36,7 @@ public class ChatBot implements Runnable {
     @Override
     public void run() {
         // Constantly wait for message, then respond
-        while (true) {
+        while (App.isRunning()) {
             ChatBoxController.Message input = waitForMessage();
             respond(input);
         }
@@ -49,6 +50,7 @@ public class ChatBot implements Runnable {
     private ChatBoxController.Message waitForMessage() {
         // Wait for a new message
         while (PageCache.getNewMessagesWaitingForBot().get() == 0) {
+            if (!App.isRunning()) return null;
         }
 
         // Get message and mark as read
@@ -62,6 +64,8 @@ public class ChatBot implements Runnable {
      * @param input the input from the user
      */
     private void respond(ChatBoxController.Message input) {
+        if (input == null) return;
+
         try {
             Thread.sleep(ThreadLocalRandom.current().nextInt(1000, 3000 + 1));
         } catch (InterruptedException e) {
