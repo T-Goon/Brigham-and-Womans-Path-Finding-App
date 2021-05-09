@@ -1,53 +1,32 @@
 package edu.wpi.cs3733.D21.teamB.views.face;
 
-import ai.djl.MalformedModelException;
-import ai.djl.inference.Predictor;
-import ai.djl.modality.Classifications;
 import ai.djl.modality.cv.BufferedImageFactory;
-import ai.djl.modality.cv.ImageFactory;
-import ai.djl.repository.zoo.Criteria;
-import ai.djl.repository.zoo.ModelNotFoundException;
-import ai.djl.repository.zoo.ModelZoo;
-import ai.djl.repository.zoo.ZooModel;
-import ai.djl.util.Progress;
 import com.jfoenix.controls.JFXButton;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import org.opencv.core.*;
-import org.opencv.features2d.*;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.objdetect.CascadeClassifier;
 import org.opencv.objdetect.Objdetect;
 import org.opencv.videoio.VideoCapture;
 
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-
-import static org.opencv.imgproc.Imgproc.grabCut;
-
-import ai.djl.modality.cv.transform.*;
-import ai.djl.modality.cv.translator.*;
-import ai.djl.translate.*;
-import ai.djl.training.util.*;
-
-import javax.imageio.ImageIO;
 
 public class FD_Controller implements Initializable {
     // FXML buttons
@@ -83,9 +62,6 @@ public class FD_Controller implements Initializable {
     private Mat grayFrame;
 
     private Mat picture;
-
-    private int counter = 0;
-    private double ratioSum = 0;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -240,13 +216,9 @@ public class FD_Controller implements Initializable {
         img_name = img_name.replaceAll("\\\\", "/");
         Mat loadedImg = Imgcodecs.imread(img_name, Imgcodecs.IMREAD_UNCHANGED);
 
-        AKAZE detector2 = AKAZE.create();
-
-        BFMatcher matcher1 = BFMatcher.create();
-
         EmbeddingModel facenet = EmbeddingModel.getModel();
 
-        detect(detector2, matcher1, facenet, loadedImg, "AKAZE");
+        detect(facenet, loadedImg, "AKAZE");
     }
 
     private static BufferedImage MatConvert(Mat image) throws IOException {
@@ -256,21 +228,12 @@ public class FD_Controller implements Initializable {
         return ImageIO.read(new ByteArrayInputStream(array));
     }
 
-    private void detect(Feature2D detector, DescriptorMatcher matcher, EmbeddingModel facenet, Mat loadedImg, String which) {
-        MatOfKeyPoint keypoints1 = new MatOfKeyPoint(), keypoints2 = new MatOfKeyPoint();
-        Mat descriptors1 = new Mat(), descriptors2 = new Mat();
+    private void detect(EmbeddingModel facenet, Mat loadedImg, String which) {
 
-        detector.detectAndCompute(loadedImg, new Mat(), keypoints1, descriptors1);
-        detector.detectAndCompute(picture, new Mat(), keypoints2, descriptors2);
-
-        Mat loadedKP = new Mat();
-        Features2d.drawKeypoints(loadedImg, keypoints1, loadedKP);
-        Image imageToShow = Utils.mat2Image(loadedKP);
+        Image imageToShow = Utils.mat2Image(loadedImg);
         updateImageView(oldPicture, imageToShow);
 
-        Mat newKP = new Mat();
-        Features2d.drawKeypoints(picture, keypoints2, newKP);
-        Image imageToShow2 = Utils.mat2Image(newKP);
+        Image imageToShow2 = Utils.mat2Image(picture);
         updateImageView(detectedPicture, imageToShow2);
 
         double[] storedImageEmbedding = null;
@@ -282,34 +245,6 @@ public class FD_Controller implements Initializable {
             e.printStackTrace();
         }
         System.out.println(facenet.cosineDistance(storedImageEmbedding,newImageEmbedding));
-
-
-        List<MatOfDMatch> matches = new ArrayList<>();
-        matcher.knnMatch(descriptors1, descriptors2, matches, 2);
-
-        List<DMatch> goodMatches = new ArrayList<>();
-        for (int i = 0; i < matches.size() - 1; i++) {
-            if (matches.get(i).rows() > 1) {
-                DMatch[] m = matches.get(i).toArray();
-                if (m[0].distance < .9 * m[1].distance) {
-                    goodMatches.add(m[0]);
-                }
-            }
-        }
-
-        if (counter < 100) {
-            ratioSum += ((double) goodMatches.size()) / ((double) matches.size());
-            counter++;
-        } else {
-            System.out.println(which + " Ratio: " + ratioSum / 100f);
-
-            if (ratioSum / 100f >= .55) {
-                System.out.println("Match");
-            }
-
-            counter = 0;
-            ratioSum = 0;
-        }
     }
 
     /**
