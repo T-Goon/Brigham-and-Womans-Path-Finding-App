@@ -53,6 +53,9 @@ public class   ServiceRequestDatabaseController extends BasePageController imple
     @FXML
     private TableColumn<String, JFXButton> delCol;
 
+    @FXML
+    private TableColumn<String, JFXButton> nameCol;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Map<String, Request> allRequests;
@@ -73,7 +76,8 @@ public class   ServiceRequestDatabaseController extends BasePageController imple
         } else if (level == User.AuthenticationLevel.STAFF) {
             if (allRequests != null) {
                 for (Request request : allRequests.values()) {
-                    if (request.getEmployeeName().equals(employeeName) || request.getSubmitter().equals(username) || request.getRequestType().equals(Request.RequestType.EMERGENCY)) {
+                    if (request.getEmployeeName().equals(employeeName) || request.getSubmitter().equals(username) || request.getRequestType().equals(Request.RequestType.EMERGENCY)|| (request.getRequestType().equals(Request.RequestType.COVID) && request.getProgress().equals("P"))) {
+
                         requests.put(request.getRequestID(), request);
                     }
                 }
@@ -103,6 +107,9 @@ public class   ServiceRequestDatabaseController extends BasePageController imple
                     break;
                 case "delCol":
                     c.setCellValueFactory(new PropertyValueFactory<>("btnDel"));
+                    break;
+                case "nameCol":
+                    c.setCellValueFactory(new PropertyValueFactory<>("name"));
                     break;
             }
         }

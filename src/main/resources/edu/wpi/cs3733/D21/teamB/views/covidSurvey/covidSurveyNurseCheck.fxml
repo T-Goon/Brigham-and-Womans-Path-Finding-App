@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXScrollPane?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<StackPane fx:id="stackPane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D21.teamB.views.covidSurvey.CovidSurveyNurseCheckController">
+   <children>
+      <VBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: #012d5a;">
+         <children>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #FFFFFF;">
+               <children>
+                  <VBox>
+                     <HBox.margin>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </HBox.margin>
+                     <children>
+                        <ImageView fitHeight="114.0" fitWidth="314.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../images/general/hospitalLogo.png" />
+                           </image>
+                        </ImageView>
+                        <JFXButton fx:id="btnEmergency" accessibleText="Emergency" buttonType="RAISED" onAction="#handleButtonAction" style="-fx-background-color: #CE2029;" text="EMERGENCY" textFill="WHITE">
+                           <font>
+                              <Font name="MS Reference Sans Serif" size="16.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
+                           </VBox.margin>
+                        </JFXButton>
+                     </children>
+                  </VBox>
+                  <VBox alignment="TOP_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <JFXButton fx:id="btnExit" accessibleText="Exit" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" onAction="#handleButtonAction" prefHeight="40.0" prefWidth="40.0" rotate="45.0" style="-fx-background-color: transparent; -fx-background-radius: 50%;" text="+" textAlignment="CENTER">
+                           <padding>
+                              <Insets bottom="-10.0" left="-10.0" right="-10.0" top="-10.0" />
+                           </padding>
+                           <font>
+                              <Font size="30.0" />
+                           </font>
+                        </JFXButton>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="COVID-19 Symptom Survey">
+                           <font>
+                              <Font size="45.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
+                           </VBox.margin>
+                        </Text>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <JFXScrollPane style="-fx-background-color: #f1f1f1;">
+               <VBox.margin>
+                  <Insets bottom="10.0" left="50.0" right="50.0" top="10.0" />
+               </VBox.margin>
+               <children>
+                  <VBox alignment="CENTER" spacing="10.0" style="-fx-background-color: white;">
+                     <children>
+                        <Text fill="#0067b1" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Check In" textAlignment="CENTER" VBox.vgrow="NEVER">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                           <font>
+                              <Font name="MS Reference Sans Serif" size="30.0" />
+                           </font>
+                        </Text>
+                        <HBox alignment="CENTER" spacing="20.0">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                           <padding>
+                              <Insets bottom="15.0" right="15.0" top="10.0" />
+                           </padding>
+                           <children>
+                              <JFXButton fx:id="btnDeny" accessibleText="submit" buttonType="RAISED" onAction="#handleButtonAction" prefHeight="60.0" prefWidth="150.0" style="-fx-background-color: #CE2029; -fx-background-radius: 7;" text="Deny" textFill="WHITE">
+                                 <font>
+                                    <Font name="MS Reference Sans Serif" size="20.0" />
+                                 </font>
+                              </JFXButton>
+                              <JFXButton fx:id="btnAccept" accessibleText="submit" buttonType="RAISED" layoutX="838.0" layoutY="20.0" onAction="#handleButtonAction" prefHeight="60.0" prefWidth="150.0" style="-fx-background-color: #F6BD39; -fx-background-radius: 7;" text="Accept">
+                                 <font>
+                                    <Font name="MS Reference Sans Serif" size="20.0" />
+                                 </font>
+                              </JFXButton>
+                           </children>
+                        </HBox>
+                     </children>
+                     <padding>
+                        <Insets top="10.0" />
+                     </padding>
+                  </VBox>
+               </children>
+            </JFXScrollPane>
+            <HBox alignment="BOTTOM_LEFT" fillHeight="false" prefHeight="77.0" prefWidth="0.0" VBox.vgrow="SOMETIMES">
+               <padding>
+                  <Insets top="10.0" />
+               </padding>
+               <VBox.margin>
+                  <Insets bottom="15.0" left="15.0" />
+               </VBox.margin>
+               <children>
+                  <HBox alignment="BOTTOM_LEFT" prefWidth="9999.0">
+                     <children>
+                        <JFXButton fx:id="btnBack" accessibleText="Leave page" alignment="CENTER" buttonType="RAISED" cancelButton="true" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#handleButtonAction" prefHeight="56" prefWidth="56" style="-fx-background-color: #0067B1; -fx-background-radius: 50%;" text="🡰" textAlignment="CENTER" textFill="WHITE">
+                           <font>
+                              <Font size="27.0" />
+                           </font>
+                           <padding>
+                              <Insets top="1.0" />
+                           </padding>
+                        </JFXButton>
+                     </children>
+                  </HBox>
+                  <HBox alignment="BOTTOM_CENTER" prefWidth="9999.0" HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets left="60.0" />
+                     </HBox.margin>
+                  </HBox>
+                  <HBox prefWidth="9999.0" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</StackPane>

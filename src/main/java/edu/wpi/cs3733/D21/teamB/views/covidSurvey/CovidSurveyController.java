@@ -3,6 +3,7 @@ package edu.wpi.cs3733.D21.teamB.views.covidSurvey;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXRadioButton;
+import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.User;
 import edu.wpi.cs3733.D21.teamB.entities.requests.CovidSurveyRequest;
@@ -86,13 +87,16 @@ public class CovidSurveyController extends DefaultServiceRequestFormController i
     @FXML
     private StackPane stackPane;
 
+    @FXML
+    private JFXTextField txtName;
+
     //State (per-view)
     private CovidSurveyRequest request;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        super.initialize(location,resources);
+        super.initialize(location, resources);
         btnCCYes.setToggleGroup(ccGroup);
         btnCCNo.setToggleGroup(ccGroup);
         btnTestYes.setToggleGroup(testGroup);
@@ -100,8 +104,8 @@ public class CovidSurveyController extends DefaultServiceRequestFormController i
 
         request = null;
         try {
-            for(Request r : DatabaseHandler.getHandler().getRequests().values()){
-                if(r.getRequestType().equals(Request.RequestType.COVID)){
+            for (Request r : DatabaseHandler.getHandler().getRequests().values()) {
+                if (r.getRequestType().equals(Request.RequestType.COVID)) {
                     CovidSurveyRequest cr = (CovidSurveyRequest) DatabaseHandler.getHandler().getSpecificRequestById(r.getRequestID(), Request.RequestType.COVID);
                     if (cr.getSubmitter().equals(DatabaseHandler.getDatabaseHandler("main.db").getAuthenticationUser().getUsername())) {
                         request = cr;
@@ -116,7 +120,7 @@ public class CovidSurveyController extends DefaultServiceRequestFormController i
             e.printStackTrace();
         }
 
-        if(request != null){
+        if (request != null) {
             getLocationIndex(request.getLocation());
             chkFever.setSelected(request.getSymptomFever().equals("T"));
             chkChills.setSelected(request.getSymptomChills().equals("T"));
@@ -132,6 +136,7 @@ public class CovidSurveyController extends DefaultServiceRequestFormController i
             btnCCNo.setSelected(!request.getHadCloseContact().equals("T"));
             btnTestYes.setSelected(request.getHadPositiveTest().equals("T"));
             btnTestNo.setSelected(!request.getHadPositiveTest().equals("T"));
+            txtName.setText(request.getName());
         }
 
         this.validateButton();
@@ -159,19 +164,19 @@ public class CovidSurveyController extends DefaultServiceRequestFormController i
         super.handleButtonAction(e);
     }
 
-    private void handleSubmission(){
+    private void handleSubmission() {
         DateFormat timeFormat = new SimpleDateFormat("HH:mm");
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date dateInfo = new Date();
 
         String id = UUID.randomUUID().toString();
-        if(request != null){
+        if (request != null) {
             id = request.getRequestID();
         }
         String username = DatabaseHandler.getHandler().getAuthenticationUser().getUsername();
-        if(username == null) username = "null";
+        if (username == null) username = "null";
 
-        CovidSurveyRequest newRequest = new CovidSurveyRequest( id ,
+        CovidSurveyRequest newRequest = new CovidSurveyRequest(id,
                 timeFormat.format(dateInfo),
                 dateFormat.format(dateInfo),
                 "F",
@@ -179,7 +184,9 @@ public class CovidSurveyController extends DefaultServiceRequestFormController i
                 getLocation(),
                 "",
                 username,
+                txtName.getText(),
                 User.CovidStatus.PENDING,
+                "F",
                 chkFever.isSelected() ? "T" : "F",
                 chkCough.isSelected() ? "T" : "F",
                 chkChills.isSelected() ? "T" : "F",
@@ -192,12 +199,12 @@ public class CovidSurveyController extends DefaultServiceRequestFormController i
                 chkNausea.isSelected() ? "T" : "F",
                 btnCCYes.isSelected() ? "T" : "F",
                 btnTestYes.isSelected() ? "T" : "F"
-                );
+        );
 
         try {
-            if(request == null){
+            if (request == null) {
                 DatabaseHandler.getDatabaseHandler("main.db").addRequest(newRequest);
-            }else{
+            } else {
                 DatabaseHandler.getDatabaseHandler("main.db").updateRequest(newRequest);
             }
         } catch (SQLException e) {
@@ -206,7 +213,7 @@ public class CovidSurveyController extends DefaultServiceRequestFormController i
     }
 
     @FXML
-    private void validateButton(){
+    private void validateButton() {
         btnSubmit.setDisable(
                 !(btnCCYes.isSelected() || btnCCNo.isSelected()) || !(btnTestYes.isSelected() || btnTestNo.isSelected()) || loc.getValue() == null
         );

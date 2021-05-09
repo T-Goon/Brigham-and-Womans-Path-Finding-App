@@ -36,7 +36,8 @@ public class RequestMutator implements IDatabaseEntityMutator<Request> {
                     rs.getString("employeeName"),
                     rs.getString("location"),
                     rs.getString("description"),
-                    rs.getString("submitter")
+                    rs.getString("submitter"),
+                    rs.getString("name")
             );
             requests.put(rs.getString("requestID"), outRequest);
         } while (rs.next());
@@ -64,6 +65,7 @@ public class RequestMutator implements IDatabaseEntityMutator<Request> {
                 + "', '" + request.getLocation()
                 + "', '" + request.getDescription().replace("'", "''")
                 + "', '" + username
+                + "', '" + request.getName()
                 + "')";
         db.runStatement(query, false);
 
@@ -234,6 +236,7 @@ public class RequestMutator implements IDatabaseEntityMutator<Request> {
                         + "', '" + covidSurveyRequest.getSymptomNausea()
                         + "', '" + covidSurveyRequest.getHadCloseContact()
                         + "', '" + covidSurveyRequest.getHadPositiveTest()
+                        + "', '" + covidSurveyRequest.getAdmitted()
                         + "')";
                 break;
         }
@@ -253,6 +256,7 @@ public class RequestMutator implements IDatabaseEntityMutator<Request> {
                 + "', employeeName = '" + request.getEmployeeName()
                 + "', location = '" + request.getLocation().replace("'", "''")
                 + "', description = '" + request.getDescription().replace("'", "''")
+                + "', name = '" + request.getName().replace("'", "''")
                 + "' WHERE requestID = '" + request.getRequestID() + "'";
         db.runStatement(query, false);
 
@@ -423,7 +427,8 @@ public class RequestMutator implements IDatabaseEntityMutator<Request> {
                     rs.getString("employeeName"),
                     rs.getString("location"),
                     rs.getString("description"),
-                    rs.getString("submitter")
+                    rs.getString("submitter"),
+                    rs.getString("name")
             );
         } while (rs.next());
         rs.close();
@@ -677,7 +682,9 @@ public class RequestMutator implements IDatabaseEntityMutator<Request> {
                         rs.getString("location"),
                         rs.getString("description"),
                         rs.getString("submitter"),
+                        rs.getString("name"),
                         User.CovidStatus.valueOf(rs.getString("status")),
+                        rs.getString("admitted"),
                         rs.getString("fever"),
                         rs.getString("chills"),
                         rs.getString("cough"),
@@ -697,5 +704,14 @@ public class RequestMutator implements IDatabaseEntityMutator<Request> {
         }
         rs.close();
         return outRequest;
+    }
+
+    /**
+     * Sets the admitted flag in the database for a given CovidSurveyRequest
+     * @param request
+     */
+    public void setCovidRequestAdmitted(CovidSurveyRequest request, String flag) throws SQLException {
+        String query = "UPDATE CovidSurveyRequests SET admitted = '" + flag + "' WHERE  requestID = '" + request.getRequestID() + "'";
+        db.runStatement(query, false);
     }
 }

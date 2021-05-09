@@ -60,6 +60,8 @@ public class SanitationRequestFormController extends DefaultServiceRequestFormCo
 
         int indexType = -1;
         int indexSize = -1;
+
+        //If you're editing
         if (SceneSwitcher.peekLastScene().equals("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml")) {
             this.id = (String) App.getPrimaryStage().getUserData();
             SanitationRequest sanitationRequest;

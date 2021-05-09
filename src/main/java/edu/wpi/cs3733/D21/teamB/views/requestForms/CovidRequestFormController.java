@@ -89,7 +89,7 @@ public class CovidRequestFormController extends DefaultServiceRequestFormControl
             assert request != null;
             request.setStatus(status);
             if (status != User.CovidStatus.PENDING) {
-                request.setProgress("T");
+                request.setProgress("P");
 
                 if (!request.getSubmitter().equals("temporary")) {
                     User submitter = DatabaseHandler.getHandler().getUserByUsername(request.getSubmitter());
