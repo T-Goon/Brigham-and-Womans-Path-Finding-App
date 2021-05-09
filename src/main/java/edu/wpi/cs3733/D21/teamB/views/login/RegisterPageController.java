@@ -7,10 +7,12 @@ import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.User;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
 import edu.wpi.cs3733.D21.teamB.views.BasePageController;
+import edu.wpi.cs3733.D21.teamB.views.face.Camera;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
@@ -49,6 +51,14 @@ RegisterPageController extends BasePageController implements Initializable {
     @FXML
     private JFXButton btnLoginPage;
 
+    @FXML
+    private ImageView pictureImage,
+                    cameraImage;
+    @FXML
+    private JFXButton btnTakePicture;
+
+    private Camera camera;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         username.setOnKeyPressed(event -> {
@@ -75,20 +85,31 @@ RegisterPageController extends BasePageController implements Initializable {
             if (event.getCode().equals(KeyCode.ENTER) && !areFormsEmpty())
                 handleRegisterSubmit();
         });
+
+        camera = new Camera(pictureImage, cameraImage, btnTakePicture, false);
+        camera.toggleCamera();
     }
 
+    @FXML
     public void handleButtonAction(ActionEvent actionEvent) {
         final String currentPath = "/edu/wpi/cs3733/D21/teamB/views/login/registerPage.fxml";
         JFXButton btn = (JFXButton) actionEvent.getSource();
+
         switch (btn.getId()) {
             case "btnRegister":
+                Camera.stopAcquisition();
                 handleRegisterSubmit();
                 break;
             case "btnEmergency":
+                Camera.stopAcquisition();
                 SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
                 break;
             case "btnLoginPage":
+                Camera.stopAcquisition();
                 SceneSwitcher.switchFromTemp(getClass(), "/edu/wpi/cs3733/D21/teamB/views/login/loginPage.fxml");
+                break;
+            case "btnBack":
+                Camera.stopAcquisition();
                 break;
         }
         super.handleButtonAction(actionEvent);
@@ -128,6 +149,7 @@ RegisterPageController extends BasePageController implements Initializable {
      * @return whether any of the fields are empty
      */
     private boolean areFormsEmpty() {
-        return username.getText().isEmpty() || firstName.getText().isEmpty() || lastName.getText().isEmpty() || password.getText().isEmpty() || retypePassword.getText().isEmpty();
+        return username.getText().isEmpty() || firstName.getText().isEmpty() || lastName.getText().isEmpty() ||
+                password.getText().isEmpty() || retypePassword.getText().isEmpty() || !camera.isPictureTaken();
     }
 }

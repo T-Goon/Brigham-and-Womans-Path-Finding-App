@@ -244,7 +244,13 @@ public class FD_Controller implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println(facenet.cosineDistance(storedImageEmbedding,newImageEmbedding));
+        double dist = facenet.cosineDistance(storedImageEmbedding,newImageEmbedding);
+
+        System.out.println(dist);
+
+        if(dist >= .60){
+            System.out.println("match");
+        }
     }
 
     /**

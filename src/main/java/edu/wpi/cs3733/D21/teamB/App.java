@@ -12,6 +12,7 @@ import edu.wpi.cs3733.D21.teamB.entities.User;
 import edu.wpi.cs3733.D21.teamB.util.CSVHandler;
 import edu.wpi.cs3733.D21.teamB.util.FileUtil;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
+import edu.wpi.cs3733.D21.teamB.views.face.Camera;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -132,10 +133,16 @@ public class App extends Application {
         DatabaseHandler.getHandler().shutdown();
         try {
             FileUtils.forceDelete(new File("haarcascade_frontalface_alt.xml"));
-            FileUtils.forceDelete(new File("lbpcascade_frontalface.xml"));
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        // Turn off camera when
+        if (Camera.cameraActive) {
+            // release the camera
+            Camera.stopAcquisition();
+        }
+
         System.out.println("Shutting Down");
     }
 }

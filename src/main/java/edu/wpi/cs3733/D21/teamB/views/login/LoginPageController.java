@@ -7,13 +7,14 @@ import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.User;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
 import edu.wpi.cs3733.D21.teamB.views.BasePageController;
+import edu.wpi.cs3733.D21.teamB.views.face.Camera;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
-
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -40,6 +41,11 @@ public class LoginPageController extends BasePageController implements Initializ
     @FXML
     private JFXButton btnFace;
 
+    @FXML
+    private ImageView faceImage;
+
+    private Camera camera;
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -56,6 +62,9 @@ public class LoginPageController extends BasePageController implements Initializ
                 handleLoginSubmit();
             }
         });
+
+        camera = new Camera(null, faceImage, null, true);
+        camera.toggleCamera();
     }
 
     @FXML
@@ -63,6 +72,9 @@ public class LoginPageController extends BasePageController implements Initializ
         final String currentPath = "/edu/wpi/cs3733/D21/teamB/views/login/loginPage.fxml";
         super.handleButtonAction(e);
         JFXButton btn = (JFXButton) e.getSource();
+
+        Camera.stopAcquisition();
+
         switch (btn.getId()) {
             case "btnLogin":
                 handleLoginSubmit();
