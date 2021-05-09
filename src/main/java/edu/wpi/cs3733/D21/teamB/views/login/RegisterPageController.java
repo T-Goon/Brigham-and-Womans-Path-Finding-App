@@ -177,27 +177,29 @@ public class RegisterPageController extends BasePageController implements Initia
             e.printStackTrace();
         }
 
-        ArrayList<Double> embeddingArray = new ArrayList<>();
-        try {
-
-            double [] temp = EmbeddingModel.getModel().embedding((new BufferedImageFactory()).fromImage(Camera.MatConvert(camera.getPictureTaken())));
-
-            for(double d : temp){
-                embeddingArray.add(d);
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        Embedding embedding = new Embedding(username.getText(), embeddingArray);
-
         // Store in db
-        try {
-            db.addEmbedding(embedding);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
+        Thread addEmbedding = new Thread(()->{
+            try {
+                ArrayList<Double> embeddingArray = new ArrayList<>();
+                try {
+
+                    double [] temp = EmbeddingModel.getModel().embedding((new BufferedImageFactory()).fromImage(Camera.MatConvert(camera.getPictureTaken())));
+
+                    for(double d : temp){
+                        embeddingArray.add(d);
+                    }
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                Embedding embedding = new Embedding(username.getText(), embeddingArray);
+                db.addEmbedding(embedding);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+        addEmbedding.start();
 
         Camera.stopAcquisition();
         ExternalCommunication.sendConfirmation(email.getText(), firstName.getText());

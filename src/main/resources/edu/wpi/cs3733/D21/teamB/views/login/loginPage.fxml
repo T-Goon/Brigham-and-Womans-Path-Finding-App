@@ -3,6 +3,7 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXPasswordField?>
 <?import com.jfoenix.controls.JFXTextField?>
+<?import com.jfoenix.controls.JFXToggleButton?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
@@ -68,6 +69,11 @@
                         <ImageView fx:id="faceImage" fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
                      </children>
                   </VBox>
+                  <JFXToggleButton fx:id="togCamera" onAction="#toggleCamera" selected="true" text="Toggle FaceID" textFill="WHITE" toggleColor="#0067b1" toggleLineColor="#f6bd39">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </JFXToggleButton>
                   <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="400.0">
                      <children>
                         <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Username:">

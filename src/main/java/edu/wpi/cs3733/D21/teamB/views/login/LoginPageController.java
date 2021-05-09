@@ -3,6 +3,7 @@ package edu.wpi.cs3733.D21.teamB.views.login;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.JFXToggleButton;
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.User;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
@@ -94,6 +95,17 @@ public class LoginPageController extends BasePageController implements Initializ
 
     public void setUserName(String name){
         username.setText(name);
+    }
+
+    @FXML
+    private void toggleCamera(ActionEvent event){
+        JFXToggleButton tog = (JFXToggleButton) event.getSource();
+
+        if(!tog.isSelected()){
+            camera.toggleCamera();
+        } else{
+            camera.toggleCamera();
+        }
     }
 
     /**

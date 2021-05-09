@@ -148,12 +148,13 @@ public class EmbeddingModel {
            double cosineDistance = cosineDistance(a, storedEmbedding);
            if(cosineDistance > threshold){
               count++;
-              username = key;
+              return key;
+//              username = key;
            }
         }
-        if(count > 1){
-            throw new Exception("more than one valid embedding");
-        }
+//        if(count > 1){
+//            throw new Exception("more than one valid embedding");
+//        }
 
         return username;
     }
