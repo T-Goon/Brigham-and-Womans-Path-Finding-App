@@ -7,6 +7,7 @@ import edu.wpi.cs3733.D21.teamB.entities.map.data.NodeType;
 import edu.wpi.cs3733.D21.teamB.entities.requests.*;
 import edu.wpi.cs3733.D21.teamB.entities.User;
 import edu.wpi.cs3733.D21.teamB.pathfinding.Graph;
+import edu.wpi.cs3733.D21.teamB.views.face.EmbeddingModel;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.*;
@@ -369,6 +370,7 @@ public class DatabaseHandler {
         runStatement(usersTable, false);
         runStatement(jobsTable, false);
         runStatement(favoriteLocationsTable, false);
+        runStatement(embeddingsTable, false);
     }
 
     /**
@@ -858,14 +860,17 @@ public class DatabaseHandler {
 
     public void addEmbedding(Embedding e) throws SQLException {
         faceMutator.addEntity(e);
+        EmbeddingModel.getModel().addUpdateEmbedding(e);
     }
 
     public void removeEmbedding(String s) throws SQLException {
         faceMutator.removeEntity(s);
+        EmbeddingModel.getModel().resetEmbeddings();
     }
 
     public void updateEmbedding(Embedding e) throws SQLException {
         faceMutator.updateEntity(e);
+        EmbeddingModel.getModel().addUpdateEmbedding(e);
     }
 
     public HashMap<String, ArrayList<Double>> getEmbeddings() throws SQLException {
