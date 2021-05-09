@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXButton;
 import edu.wpi.cs3733.D21.teamB.App;
 import edu.wpi.cs3733.D21.teamB.entities.map.StartGamePopup;
 import edu.wpi.cs3733.D21.teamB.games.snake.Snake;
+import edu.wpi.cs3733.D21.teamB.views.map.PathfindingMenuController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -27,6 +28,8 @@ public class StartGamePopupController implements Initializable {
 
     private StartGamePopup popup;
 
+    private Snake snake;
+
     private ImageView snakeImage;
 
     @Override
@@ -34,21 +37,23 @@ public class StartGamePopupController implements Initializable {
         popup = (StartGamePopup) App.getPrimaryStage().getUserData();
         try {
             snakeImage = FXMLLoader.load(Objects.requireNonNull(Snake.class.getResource("/edu/wpi/cs3733/D21/teamB/views/map/misc/snake.fxml")));
-            System.out.println(App.getPrimaryStage().getScene().getFocusOwner().toString());
             popup.getData().getAp().getScene().addEventFilter(KeyEvent.KEY_PRESSED, e -> {
 
                 if (e.getCode().equals(KeyCode.W)) {
                     snakeImage.setLayoutY(snakeImage.getLayoutY() - 10);
+                    snake.getSnakeHeadLoc().setY((int) (snakeImage.getLayoutY() * PathfindingMenuController.COORDINATE_SCALE) - 10);
                 } else if (e.getCode().equals(KeyCode.A)) {
                     snakeImage.setLayoutX(snakeImage.getLayoutX() - 10);
+                    snake.getSnakeHeadLoc().setX((int) (snakeImage.getLayoutX() * PathfindingMenuController.COORDINATE_SCALE) - 10);
                 } else if (e.getCode().equals(KeyCode.S)) {
                     snakeImage.setLayoutY(snakeImage.getLayoutY() + 10);
+                    snake.getSnakeHeadLoc().setY((int) (snakeImage.getLayoutY() * PathfindingMenuController.COORDINATE_SCALE) + 10);
                 } else if (e.getCode().equals(KeyCode.D)) {
                     snakeImage.setLayoutX(snakeImage.getLayoutX() + 10);
+                    snake.getSnakeHeadLoc().setX((int) (snakeImage.getLayoutX() * PathfindingMenuController.COORDINATE_SCALE) + 10);
                 }
-
+                snake.checkApple();
             });
-
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -62,7 +67,7 @@ public class StartGamePopupController implements Initializable {
         switch (b.getId()) {
             case "btnStartGame":
                 popup.getData().getMd().removeAllEdges();
-                Snake snake = new Snake(popup.getData().getMd(), popup.getData().getMc(), popup.getData().getAp());
+                snake = new Snake(popup.getData().getMd(), popup.getData().getMc(), popup.getData().getAp());
                 snake.initializeMap(snakeImage);
                 break;
             case "btnCancel":

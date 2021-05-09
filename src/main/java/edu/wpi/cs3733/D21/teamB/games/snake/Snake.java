@@ -9,8 +9,8 @@ import edu.wpi.cs3733.D21.teamB.util.CSVHandler;
 import edu.wpi.cs3733.D21.teamB.views.map.PathfindingMenuController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
+import lombok.Getter;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -31,7 +31,10 @@ public class Snake extends JPanel implements ActionListener {
     private MapCache mapCache;
     private AnchorPane nodeHolder;
     private int snakeSize;
+
+    @Getter
     private Coord snakeHeadLoc;
+
     private Coord appleCoord;
     boolean left;
     boolean right;
@@ -40,6 +43,9 @@ public class Snake extends JPanel implements ActionListener {
     private int x[] = new int[snakeSize];
     private int y[] = new int[snakeSize];
     private int DOT_SIZE = 10;
+    private Node snake;
+    private Node appleNode;
+    private ImageView imageView;
 
     public Snake(MapDrawer mapDrawer, MapCache mapCache, AnchorPane nodeHolder) {
         this.mapDrawer = mapDrawer;
@@ -50,7 +56,6 @@ public class Snake extends JPanel implements ActionListener {
     }
 
     public void cleanCSV(){
-
         List<String> idsToUse = new ArrayList<>();
         List<Node> nodesToRemove = new ArrayList<>();
 
@@ -60,11 +65,9 @@ public class Snake extends JPanel implements ActionListener {
             Node node = nodes.get(i);
             if(!node.getFloor().equals("1")){
                 nodesToRemove.add(node);
-//                System.out.println("REMOVED " + node.getNodeID() + " with floor " + node.getFloor());
             }
             else{
                 idsToUse.add(node.getNodeID());
-//                System.out.println("ADDED " + node.getNodeID() + " with floor " + node.getFloor());
                 count++;
             }
         }
@@ -76,8 +79,6 @@ public class Snake extends JPanel implements ActionListener {
                 }
             }
         }
-
-        System.out.println(count);
 
         edges = CSVHandler.loadCSVEdges("/edu/wpi/cs3733/D21/teamB/csvFiles/snakeEdges.csv");
         edges.removeIf(edge -> !idsToUse.contains(edge.getStartNodeID()) || !idsToUse.contains(edge.getEndNodeID()));
@@ -122,7 +123,6 @@ public class Snake extends JPanel implements ActionListener {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     /**
@@ -154,14 +154,13 @@ public class Snake extends JPanel implements ActionListener {
      */
     public void initializeGame(ImageView i) {
         // Set the snake at a starting location (Francis Lobby Entrance)
-        Node snake = nodes.get(10);
+        snake = nodes.get(10);
         snakeHeadLoc = new Coord(snake.getXCoord(), snake.getYCoord());
 
         i.setLayoutX((snake.getXCoord() / PathfindingMenuController.COORDINATE_SCALE) - (i.getFitWidth() / 4));
         i.setLayoutY((snake.getYCoord() / PathfindingMenuController.COORDINATE_SCALE) - (i.getFitHeight()));
         nodeHolder.getChildren().add(i);
         mapCache.getNodePlaced().add(i);
-
 
         // Restart size of snake
         snakeSize = 1;
@@ -174,14 +173,13 @@ public class Snake extends JPanel implements ActionListener {
     public void placeApple() {
         // Randomly select a node to place the apple at
         int index = (int) (Math.random() * nodes.size());
-        Node appleNode = nodes.get(index);
-        System.out.println(nodes.get(index).getNodeID());
+        appleNode = nodes.get(index);
         try {
-            ImageView i = FXMLLoader.load(Objects.requireNonNull(Snake.class.getResource("/edu/wpi/cs3733/D21/teamB/views/map/misc/apple.fxml")));
-            i.setLayoutX((appleNode.getXCoord() / PathfindingMenuController.COORDINATE_SCALE) - (i.getFitWidth() / 4));
-            i.setLayoutY((appleNode.getYCoord() / PathfindingMenuController.COORDINATE_SCALE) - (i.getFitHeight()));
-            nodeHolder.getChildren().add(i);
-            mapCache.getNodePlaced().add(i);
+            imageView = FXMLLoader.load(Objects.requireNonNull(Snake.class.getResource("/edu/wpi/cs3733/D21/teamB/views/map/misc/apple.fxml")));
+            imageView.setLayoutX((appleNode.getXCoord() / PathfindingMenuController.COORDINATE_SCALE) - (imageView.getFitWidth() / 4));
+            imageView.setLayoutY((appleNode.getYCoord() / PathfindingMenuController.COORDINATE_SCALE) - (imageView.getFitHeight()));
+            nodeHolder.getChildren().add(imageView);
+            mapCache.getNodePlaced().add(imageView);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -193,12 +191,13 @@ public class Snake extends JPanel implements ActionListener {
      * Check if the current location is the location of the apple
      */
     public void checkApple() {
-        // Add to length of snake and place apple
-        if(appleCoord.equals(snakeHeadLoc)){
-            //delete the apple off of the map
-            snakeSize++;
+        if ((snakeHeadLoc.getX() <= (appleCoord.getX() + 40) && snakeHeadLoc.getX() >= (appleCoord.getX() - 40))
+                && (snakeHeadLoc.getY() <= (appleCoord.getY() + 40) && snakeHeadLoc.getY() >= (appleCoord.getY() - 40))) {
+            // Remove apple from previous location
+            nodeHolder.getChildren().remove(imageView);
+            mapCache.getNodePlaced().remove(imageView);
+            // Place apple in new location
             placeApple();
-
         }
     }
 
