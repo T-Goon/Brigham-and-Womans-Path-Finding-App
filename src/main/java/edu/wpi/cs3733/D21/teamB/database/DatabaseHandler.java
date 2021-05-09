@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.D21.teamB.database;
 
+import edu.wpi.cs3733.D21.teamB.entities.Embedding;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Edge;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Node;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.NodeType;
@@ -24,6 +25,7 @@ public class DatabaseHandler {
     private final EdgeMutator edgeMutator;
     private final RequestMutator requestMutator;
     private final UserMutator userMutator;
+    private final FaceMutator faceMutator;
 
     //State
     static User AuthenticationUser = new User("temporary", null, null, null, User.AuthenticationLevel.GUEST, "F", null);
@@ -34,6 +36,7 @@ public class DatabaseHandler {
         edgeMutator = new EdgeMutator(this);
         requestMutator = new RequestMutator(this);
         userMutator = new UserMutator(this);
+        faceMutator = new FaceMutator(this);
     }
 
     /**
@@ -121,7 +124,7 @@ public class DatabaseHandler {
             tables.add("CaseManagerRequests");
             tables.add("SocialWorkerRequests");
             tables.add("GiftRequests");
-            tables.add("LanguageRequests");
+            tables.add("LanguageInterpretationRequests");
             tables.add("EmergencyRequests");
             tables.add("Requests");
             tables.add("Edges");
@@ -129,6 +132,8 @@ public class DatabaseHandler {
             tables.add("Jobs");
             tables.add("Users");
             tables.add("FavoriteLocations");
+            tables.add("CovidSurveyRequests");
+            tables.add("Embeddings");
         }
 
         for (String table : tables) {
@@ -333,6 +338,13 @@ public class DatabaseHandler {
         String favoriteLocationsTable = "CREATE TABLE IF NOT EXISTS FavoriteLocations("
                 + "username CHAR(30), "
                 + "favoriteLocation CHAR(30), "
+                + "FOREIGN KEY (username) REFERENCES Users(username))";
+
+        String embeddingsTable = "CREATE TABLE IF NOT EXISTS Embeddings("
+                + "username CHAR(30), "
+                + "index INTEGER, "
+                + "value REAL, "
+                + "PRIMARY KEY (username, index), "
                 + "FOREIGN KEY (username) REFERENCES Users(username))";
 
         runStatement(configuration, false);
@@ -842,5 +854,21 @@ public class DatabaseHandler {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public void addEmbedding(Embedding e) throws SQLException {
+        faceMutator.addEntity(e);
+    }
+
+    public void removeEmbedding(String s) throws SQLException {
+        faceMutator.removeEntity(s);
+    }
+
+    public void updateEmbedding(Embedding e) throws SQLException {
+        faceMutator.updateEntity(e);
+    }
+
+    public HashMap<String, ArrayList<Double>> getEmbeddings() throws SQLException {
+        return faceMutator.getEmbeddings();
     }
 }

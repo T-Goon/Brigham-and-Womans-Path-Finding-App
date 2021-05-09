@@ -2,8 +2,14 @@ package edu.wpi.cs3733.D21.teamB.views.face;
 
 import ai.djl.MalformedModelException;
 import ai.djl.inference.Predictor;
+import ai.djl.modality.Classifications;
 import ai.djl.modality.cv.Image;
+import ai.djl.modality.cv.ImageFactory;
+import ai.djl.modality.cv.transform.CenterCrop;
+import ai.djl.modality.cv.transform.Normalize;
 import ai.djl.modality.cv.transform.Resize;
+import ai.djl.modality.cv.transform.ToTensor;
+import ai.djl.modality.cv.translator.ImageClassificationTranslator;
 import ai.djl.ndarray.NDArray;
 import ai.djl.ndarray.NDList;
 import ai.djl.repository.zoo.Criteria;
@@ -15,8 +21,15 @@ import ai.djl.translate.Batchifier;
 import ai.djl.translate.TranslateException;
 import ai.djl.translate.Translator;
 import ai.djl.translate.TranslatorContext;
+import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
+import edu.wpi.cs3733.D21.teamB.database.FaceMutator;
+import edu.wpi.cs3733.D21.teamB.entities.Embedding;
 
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.stream.IntStream;
 
 public class EmbeddingModel {
@@ -27,9 +40,7 @@ public class EmbeddingModel {
     private ZooModel zooModel;
     private Predictor<Image,double[]> predictor;
 
-    public static void test(){
-        (new EmbeddingModel()).embedding(null);
-    }
+    private HashMap<String, ArrayList<Double>> embeddings;
 
     public static EmbeddingModel getModel(){
         if(model == null){
@@ -39,10 +50,14 @@ public class EmbeddingModel {
     }
 
     private EmbeddingModel(){
-        this.initialize();
+        try {
+            this.initialize();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 
-    private void initialize(){
+    private void initialize() throws SQLException {
         try {
             DownloadUtils.download(modelURL, "src/main/resources/edu/wpi/cs3733/D21/teamB/faces/pytorch_models/facenet/facenet.pt", new ai.djl.training.util.ProgressBar());
         } catch (
@@ -52,6 +67,15 @@ public class EmbeddingModel {
 
         System.setProperty("ai.djl.repository.zoo.location", "src/main/resources/edu/wpi/cs3733/D21/teamB/faces/pytorch_models/facenet");
         this.buildModel();
+        resetEmbeddings();
+    }
+
+    public void resetEmbeddings() throws SQLException {
+        this.embeddings = DatabaseHandler.getHandler().getEmbeddings();
+    }
+
+    public void addUpdateEmbedding(Embedding e){
+        this.embeddings.put(e.getUsername(),e.getEmbedding());
     }
 
     private ZooModel buildModel(){
@@ -101,6 +125,37 @@ public class EmbeddingModel {
         amag = Math.sqrt(amag);
         bmag = Math.sqrt(bmag);
         return (dotproduct)/(amag * bmag);
+    }
+
+    public double euclideanDistance(double[] a, double[] b){
+        double acc = 0;
+        for(int i = 0; i < a.length; i++){
+            acc += Math.pow(b[i] - a[i], 2);
+        }
+        System.out.println(a.length);
+        return Math.sqrt(acc);
+    }
+
+    public String userFromEmbedding(double[] a) throws Exception {
+       return userFromEmbedding(a, 0.65);
+    }
+
+    public String userFromEmbedding(double[] a, double threshold) throws Exception {
+        Integer count = 0;
+        String username = null;
+        for(String key : this.embeddings.keySet()){
+           double[] storedEmbedding = this.embeddings.get(key).stream().mapToDouble(d -> d).toArray();
+           double cosineDistance = cosineDistance(a, storedEmbedding);
+           if(cosineDistance > threshold){
+              count++;
+              username = key;
+           }
+        }
+        if(count > 1){
+            throw new Exception("more than one valid embedding");
+        }
+
+        return username;
     }
 
 
