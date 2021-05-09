@@ -95,25 +95,13 @@ public class ChatBot implements Runnable {
             e.printStackTrace();
         }
 
-        System.out.println(state);
         if (state == ChatState.COVID) respondCovid(input.getMessage());
         else if (state == ChatState.LOGIN) respondLogin(input.getMessage());
         else if (state == ChatState.REGISTER) respondRegister(input.getMessage());
         else if (state == ChatState.PATHFINDING) respondPathfinding(input.getMessage());
         else if (state == ChatState.GOOGLE_MAPS) respondGoogleMaps(input.getMessage());
         else if (state == ChatState.NORMAL) respondNormal(input.getMessage());
-        else try { // Otherwise, just respond however it normally would
-                // Suppress System.out
-                PrintStream printStream = System.out;
-                System.setOut(new PrintStream(new OutputStream() {
-                    public void write(int b) {
-                        // NO-OP
-                    }
-                }));
-                sendMessage(chatSession.multisentenceRespond(input.getMessage()));
-                System.setOut(printStream);
-            } catch (Exception ignored) {
-            }
+        else unsureResponse(input.getMessage());
         previousUserMessage = input.getMessage();
     }
 
@@ -204,14 +192,18 @@ public class ChatBot implements Runnable {
     }
 
     private void unsureResponse(String input) {
-        PrintStream printStream = System.out;
-        System.setOut(new PrintStream(new OutputStream() {
-            public void write(int b) {
-                // NO-OP
-            }
-        }));
-        sendMessage(chatSession.multisentenceRespond(input));
-        System.setOut(printStream);
+        try { // Otherwise, just respond however it normally would
+            // Suppress System.out
+            PrintStream printStream = System.out;
+            System.setOut(new PrintStream(new OutputStream() {
+                public void write(int b) {
+                    // NO-OP
+                }
+            }));
+            sendMessage(chatSession.multisentenceRespond(input));
+            System.setOut(printStream);
+        } catch (Exception ignored) {
+        }
     }
 
     /**
