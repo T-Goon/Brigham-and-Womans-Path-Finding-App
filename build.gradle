@@ -55,8 +55,8 @@ dependencies {
     compile 'de.dfki.mary:voice-cmu-slt-hsmm:5.2'
     compile 'de.dfki.mary:voice-dfki-poppy-hsmm:5.2'
 
-//    implementation group: 'org.goldrenard', name: 'ab', version: '1.0.7'
     implementation 'org.alicebot.ab:ab:4.0.4-SNAPSHOT'
+    implementation group: 'net.lingala.zip4j', name: 'zip4j', version: '2.7.0'
 
     shadowJar{
         mergeServiceFiles()

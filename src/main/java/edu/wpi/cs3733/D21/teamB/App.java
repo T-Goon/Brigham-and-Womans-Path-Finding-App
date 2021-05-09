@@ -42,7 +42,6 @@ public class App extends Application {
             e.printStackTrace();
         }
 
-        listFiles("edu/wpi/cs3733/D21/teamB/bots/Mike Bedard/aiml/");
 
         System.out.println("Starting Up");
         db = DatabaseHandler.getHandler();
@@ -117,46 +116,6 @@ public class App extends Application {
 
         } catch (IOException e) {
             e.printStackTrace();
-        }
-    }
-
-    public void listFiles(String path) {
-        final File jarFile = new File(getClass().getProtectionDomain().getCodeSource().getLocation().getPath());
-
-        if(jarFile.isFile()) {  // Run with JAR file
-            JarFile jar = null;
-            try {
-                jar = new JarFile(jarFile);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            System.out.println("ok");
-            final Enumeration<JarEntry> entries = jar.entries(); //gives ALL entries in jar
-            while(entries.hasMoreElements()) {
-
-                final String name = entries.nextElement().getName();
-//                System.out.println(name);
-                if (name.startsWith(path + "/")) { //filter according to the path
-                    InputStream inputStream = getClass().getResourceAsStream(name);
-                    System.out.println(inputStream);
-                    System.out.println(name);
-                    System.out.println();
-                    try {
-                        FileUtil.copy(inputStream,
-                                new File("").getAbsolutePath()+
-                                        name.substring(name.lastIndexOf('/')));
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-            try {
-                jar.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } else{
-            System.out.println("what?");
         }
     }
 

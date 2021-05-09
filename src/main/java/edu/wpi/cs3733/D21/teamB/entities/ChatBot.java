@@ -1,12 +1,14 @@
 package edu.wpi.cs3733.D21.teamB.entities;
 
+import edu.wpi.cs3733.D21.teamB.util.FileUtil;
 import edu.wpi.cs3733.D21.teamB.util.PageCache;
 import edu.wpi.cs3733.D21.teamB.views.misc.ChatBoxController;
+import net.lingala.zip4j.ZipFile;
+import net.lingala.zip4j.exception.ZipException;
 import org.alicebot.ab.Bot;
 import org.alicebot.ab.Chat;
 
 import java.io.File;
-import java.net.URL;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class ChatBot implements Runnable {
@@ -14,8 +16,20 @@ public class ChatBot implements Runnable {
     private final Chat chatSession;
 
     public ChatBot() {
-        Bot bot = new Bot("Mike Bedard",new File("").getAbsolutePath());
-        chatSession = new Chat(bot);
+        String base = new File("").getAbsolutePath().replace("\\", "/");
+        String copiedPath = base + "/bots.zip";
+        try {
+            FileUtil.copy(getClass().getResourceAsStream("/edu/wpi/cs3733/D21/teamB/bots.zip"), copiedPath);
+            ZipFile zipFile = new ZipFile(copiedPath);
+            zipFile.extractAll(base);
+        } catch (ZipException e) {
+            e.printStackTrace();
+        } finally {
+            Bot bot = new Bot("Mike Bedard", base);
+            chatSession = new Chat(bot);
+            new File(copiedPath).delete();
+            FileUtil.deleteDirectory(new File(base + "/bots"));
+        }
     }
 
     @Override

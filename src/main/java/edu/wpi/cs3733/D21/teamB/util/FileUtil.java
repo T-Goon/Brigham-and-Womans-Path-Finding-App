@@ -1,29 +1,32 @@
 package edu.wpi.cs3733.D21.teamB.util;
 
 import java.io.InputStream;
-import java.nio.file.Files;
+import java.nio.file.*;
 import java.io.*;
 import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-import java.util.logging.Level;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 
 public class FileUtil {
-    public static boolean copy(InputStream source , String destination) {
-        boolean succeess = true;
 
-        System.out.println("Copying ->" + source + "\n\tto ->" + destination);
-
+    public static void copy(InputStream source, String destination) {
         try {
+            System.out.println("copy to " + destination);
             Files.copy(source, Paths.get(destination), StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException ex) {
-//            logger.log(Level.WARNING, "", ex);
             ex.printStackTrace();
-            succeess = false;
         }
+    }
 
-        return succeess;
-
+    public static void deleteDirectory(File directoryToBeDeleted) {
+        File[] allContents = directoryToBeDeleted.listFiles();
+        if (allContents != null) {
+            for (File file : allContents) {
+                deleteDirectory(file);
+            }
+        }
+        System.out.println("DELETING: " + allContents);
+        directoryToBeDeleted.delete();
     }
 }
