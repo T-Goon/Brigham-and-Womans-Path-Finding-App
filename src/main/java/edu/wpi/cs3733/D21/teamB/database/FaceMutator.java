@@ -18,10 +18,10 @@ public class FaceMutator implements IDatabaseEntityMutator<Embedding>{
     @Override
     public void addEntity(Embedding entity) throws SQLException {
         for(int i = 0; i < entity.getEmbedding().size(); i++){
-            String query = "INSERT VALUES Embeddings VALUES " +
+            String query = "INSERT INTO Embeddings VALUES " +
                     " ('" + entity.getUsername() +
                     "', '"+ i +
-                    "', '"+ entity.getEmbedding() +
+                    "', '"+ entity.getEmbedding().get(i) +
                     "')";
             db.runStatement(query, false);
         }
@@ -43,13 +43,18 @@ public class FaceMutator implements IDatabaseEntityMutator<Embedding>{
         HashMap<String, ArrayList<Double>> embeddings = new HashMap<String, ArrayList<Double>>();
         String query = "SELECT * FROM Embeddings";
         ResultSet embeddingResultSet = db.runStatement(query,true);
-        while(embeddingResultSet.next()){
+
+        if(embeddingResultSet == null){
+            return embeddings;
+        }
+
+        do{
             if(!embeddings.containsKey(embeddingResultSet.getString("username"))){
                 embeddings.put(embeddingResultSet.getString("username"), new ArrayList<Double>());
             }
 
             embeddings.get(embeddingResultSet.getString("username")).add(embeddingResultSet.getDouble("value"));
-        }
+        } while(embeddingResultSet.next());
         return embeddings;
     }
 }

@@ -343,9 +343,9 @@ public class DatabaseHandler {
 
         String embeddingsTable = "CREATE TABLE IF NOT EXISTS Embeddings("
                 + "username CHAR(30), "
-                + "index INTEGER, "
-                + "value REAL, "
-                + "PRIMARY KEY (username, index), "
+                + "i INTEGER, "
+                + "value DOUBLE, "
+                + "PRIMARY KEY (username, i), "
                 + "FOREIGN KEY (username) REFERENCES Users(username))";
 
         runStatement(configuration, false);

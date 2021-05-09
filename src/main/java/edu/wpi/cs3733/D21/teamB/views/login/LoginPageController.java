@@ -63,6 +63,7 @@ public class LoginPageController extends BasePageController implements Initializ
         });
 
         camera = new Camera(null, faceImage, null, true);
+        camera.setLoginPageController(this);
         camera.toggleCamera();
     }
 
@@ -89,6 +90,10 @@ public class LoginPageController extends BasePageController implements Initializ
         }
 
         super.handleButtonAction(e);
+    }
+
+    public void setUserName(String name){
+        username.setText(name);
     }
 
     /**

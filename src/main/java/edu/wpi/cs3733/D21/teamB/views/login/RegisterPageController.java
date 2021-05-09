@@ -1,15 +1,18 @@
 package edu.wpi.cs3733.D21.teamB.views.login;
 
+import ai.djl.modality.cv.BufferedImageFactory;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXToggleButton;
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
+import edu.wpi.cs3733.D21.teamB.entities.Embedding;
 import edu.wpi.cs3733.D21.teamB.entities.User;
 import edu.wpi.cs3733.D21.teamB.util.ExternalCommunication;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
 import edu.wpi.cs3733.D21.teamB.views.BasePageController;
 import edu.wpi.cs3733.D21.teamB.views.face.Camera;
+import edu.wpi.cs3733.D21.teamB.views.face.EmbeddingModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -19,10 +22,10 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -172,6 +175,28 @@ public class RegisterPageController extends BasePageController implements Initia
             db.addUser(newUser, password.getText());
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+
+        ArrayList<Double> embeddingArray = new ArrayList<>();
+        try {
+
+            double [] temp = EmbeddingModel.getModel().embedding((new BufferedImageFactory()).fromImage(Camera.MatConvert(camera.getPictureTaken())));
+
+            for(double d : temp){
+                embeddingArray.add(d);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Embedding embedding = new Embedding(username.getText(), embeddingArray);
+
+        // Store in db
+        try {
+            db.addEmbedding(embedding);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
 
         Camera.stopAcquisition();

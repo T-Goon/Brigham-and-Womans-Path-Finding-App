@@ -2,6 +2,7 @@ package edu.wpi.cs3733.D21.teamB.views.face;
 
 import ai.djl.modality.cv.BufferedImageFactory;
 import com.jfoenix.controls.JFXButton;
+import edu.wpi.cs3733.D21.teamB.views.login.LoginPageController;
 import edu.wpi.cs3733.D21.teamB.views.login.RegisterPageController;
 import javafx.event.Event;
 import javafx.event.EventType;
@@ -10,6 +11,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import lombok.Getter;
+import lombok.Setter;
 import org.opencv.core.*;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
@@ -47,13 +50,14 @@ public class Camera {
     private int absoluteFaceSize;
 
     private Mat picture;
+    @Getter
     private Mat pictureTaken;
-    private double[] storedImageEmbedding;
     private boolean authenticating;
 
-
-
     private Thread authenticator;
+
+    @Setter
+    private LoginPageController loginPageController;
 
     public Camera(ImageView oldPicture, ImageView detectedPicture, JFXButton btnTakePicture, boolean authenticating) {
         this.oldPicture = oldPicture;
@@ -196,6 +200,8 @@ public class Camera {
 
         if(!faces.empty()){
             picture = frame.submat(facesArray[0]);
+        } else {
+            picture = null;
         }
 
         // display a taken picture
@@ -208,8 +214,10 @@ public class Camera {
         if(authenticating && (authenticator == null || !authenticator.isAlive())) {
             authenticator = new Thread(() -> {
                 // Compare the faces
-                EmbeddingModel facenet = EmbeddingModel.getModel();
-                detect(facenet);
+                if(picture != null){
+                    detect();
+                }
+
                 authenticator.interrupt();
             });
 
@@ -219,28 +227,33 @@ public class Camera {
 
     /**
      * Compare 2 faces to look for a match
-     * @param facenet the model to compare faces
      */
-    private void detect(EmbeddingModel facenet) {
+    private void detect() {
+        EmbeddingModel facenet = EmbeddingModel.getModel();
 
         double[] newImageEmbedding = null;
         try {
-            // TODO get image from database
-            storedImageEmbedding = facenet.embedding((new BufferedImageFactory()).fromImage(MatConvert(picture)));
             newImageEmbedding = facenet.embedding((new BufferedImageFactory()).fromImage(MatConvert(picture)));
         } catch (IOException e) {
             e.printStackTrace();
         }
-        double dist = facenet.cosineDistance(storedImageEmbedding, newImageEmbedding);
 
-        System.out.println(dist);
+        String userName = null;
+        try {
+            System.out.println(newImageEmbedding.length);
+            userName = facenet.userFromEmbedding(newImageEmbedding);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-        if(dist >= .60){
-            System.out.println("match");
+        System.out.println(userName);
+
+        if(userName != null){
+            loginPageController.setUserName(userName);
         }
     }
 
-    private static BufferedImage MatConvert(Mat image) throws IOException {
+    public static BufferedImage MatConvert(Mat image) throws IOException {
         MatOfByte mat = new MatOfByte();
         Imgcodecs.imencode(".jpg",image,mat);
         byte array[] = mat.toArray();
