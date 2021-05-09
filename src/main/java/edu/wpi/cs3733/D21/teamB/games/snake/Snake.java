@@ -161,9 +161,14 @@ public class Snake extends JPanel implements ActionListener {
             i.setLayoutY((snake.getYCoord() / PathfindingMenuController.COORDINATE_SCALE) - (i.getFitHeight()));
             nodeHolder.getChildren().add(i);
             mapCache.getNodePlaced().add(i);
+            i.setOnKeyPressed(e -> {
+               // if (e.)
+            });
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+
 
         // Restart size of snake
         snakeSize = 1;
