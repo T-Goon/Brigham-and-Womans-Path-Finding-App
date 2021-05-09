@@ -1,23 +1,13 @@
 package edu.wpi.cs3733.D21.teamB;
 
 import java.io.*;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.sql.SQLException;
 import java.util.*;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
 
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.ChatBot;
-import edu.wpi.cs3733.D21.teamB.entities.User;
-import edu.wpi.cs3733.D21.teamB.util.CSVHandler;
 import edu.wpi.cs3733.D21.teamB.util.ExternalCommunication;
-import edu.wpi.cs3733.D21.teamB.util.FileUtil;
-import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
 import edu.wpi.cs3733.D21.teamB.views.misc.ChatBoxController;
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -33,6 +23,7 @@ public class App extends Application {
     private DatabaseHandler db;
     private Thread dbThread;
     private Thread chatBotThread;
+    private PrintStream printStream = System.out;
 
     @Override
     public void init() {
@@ -45,6 +36,14 @@ public class App extends Application {
 
         System.out.println("Starting Up");
         db = DatabaseHandler.getHandler();
+
+        // Suppress
+
+        System.setOut(new PrintStream(new OutputStream() {
+            public void write(int b) {
+                // NO-OP
+            }
+        }));
     }
 
     @Override
@@ -134,6 +133,8 @@ public class App extends Application {
         for (Thread t : ExternalCommunication.threads)
             t.stop();
         ExternalCommunication.threads.clear();
+
+        System.setOut(printStream);
         DatabaseHandler.getHandler().shutdown();
         System.out.println("Shutting Down");
     }

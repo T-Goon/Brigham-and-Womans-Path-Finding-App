@@ -12,7 +12,6 @@ public class FileUtil {
 
     public static void copy(InputStream source, String destination) {
         try {
-            System.out.println("copy to " + destination);
             Files.copy(source, Paths.get(destination), StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -26,7 +25,6 @@ public class FileUtil {
                 deleteDirectory(file);
             }
         }
-        System.out.println("DELETING: " + allContents);
         directoryToBeDeleted.delete();
     }
 }
