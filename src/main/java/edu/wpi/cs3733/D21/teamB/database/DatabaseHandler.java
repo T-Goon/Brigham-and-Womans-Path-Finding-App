@@ -94,7 +94,8 @@ public class DatabaseHandler {
      */
     public void loadNodesEdges(List<Node> nodes, List<Edge> edges) throws SQLException {
         resetDatabase(Arrays.asList("SanitationRequests", "MedicineRequests", "InternalTransportRequests", "ReligiousRequests", "FoodRequests", "FloralRequests",
-                "SecurityRequests", "ExternalTransportRequests", "LaundryRequests", "CaseManagerRequests", "SocialWorkerRequests", "Requests", "Edges", "Nodes"));
+                "SecurityRequests", "ExternalTransportRequests", "LaundryRequests", "CaseManagerRequests", "SocialWorkerRequests", "CovidSurveyRequests",
+                "EmergencyRequests", "GiftRequests", "LanguageInterpretationRequests", "Requests", "Edges", "Nodes"));
         executeSchema();
         loadDatabaseNodes(nodes);
         loadDatabaseEdges(edges);
