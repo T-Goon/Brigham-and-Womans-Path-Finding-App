@@ -14,7 +14,7 @@
 <AnchorPane fx:id="basePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
             prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8.0.171"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="edu.wpi.cs3733.D21.teamB.views.menus.AboutPageController">
+            fx:controller="edu.wpi.cs3733.D21.teamB.views.misc.AboutPageController">
     <children>
         <StackPane fx:id="stackPane" layoutY="-28.083261489868164" prefHeight="851.0" prefWidth="933.0"
                    AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"

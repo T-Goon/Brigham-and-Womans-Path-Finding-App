@@ -9,6 +9,7 @@ import edu.wpi.cs3733.D21.teamB.entities.User;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
 import edu.wpi.cs3733.D21.teamB.views.BasePageController;
 import edu.wpi.cs3733.D21.teamB.views.face.Camera;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -49,7 +50,9 @@ public class LoginPageController extends BasePageController implements Initializ
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
         super.initialize(location,resources);
+
         //Add event listeners to the text boxes so user can submit by pressing enter
         username.setOnKeyPressed(event -> {
             if (event.getCode().equals(KeyCode.ENTER) && !areFormsEmpty()) {
@@ -62,6 +65,8 @@ public class LoginPageController extends BasePageController implements Initializ
                 handleLoginSubmit();
             }
         });
+
+        Platform.runLater(() -> username.requestFocus());
 
         camera = new Camera(null, faceImage, null, true);
         camera.setLoginPageController(this);

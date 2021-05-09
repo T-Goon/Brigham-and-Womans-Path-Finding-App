@@ -13,6 +13,7 @@ import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
 import edu.wpi.cs3733.D21.teamB.views.BasePageController;
 import edu.wpi.cs3733.D21.teamB.views.face.Camera;
 import edu.wpi.cs3733.D21.teamB.views.face.EmbeddingModel;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -112,6 +113,8 @@ public class RegisterPageController extends BasePageController implements Initia
 
         camera = new Camera(pictureImage, cameraImage, btnTakePicture, false);
         camera.toggleCamera();
+
+        Platform.runLater(() -> username.requestFocus());
     }
 
     @FXML
