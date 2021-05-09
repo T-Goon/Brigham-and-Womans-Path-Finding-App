@@ -235,11 +235,11 @@ public class Snake extends JPanel implements ActionListener {
     public boolean isValid() {
 
         //did snake hit itself
-        for(int i=0; i<x.length; i++){
-            if(x[i] == snakeHeadLoc.getX() && y[i] == snakeHeadLoc.getY()){
-                return true;
-            }
-        }
+//        for(int i=0; i<x.length; i++){
+//            if(x[i] == snakeHeadLoc.getX() && y[i] == snakeHeadLoc.getY()){
+//                return true;
+//            }
+//        }
 
 
 
