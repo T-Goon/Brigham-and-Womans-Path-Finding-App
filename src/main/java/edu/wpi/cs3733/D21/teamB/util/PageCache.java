@@ -2,12 +2,17 @@ package edu.wpi.cs3733.D21.teamB.util;
 
 import edu.wpi.cs3733.D21.teamB.views.misc.ChatBoxController;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class PageCache {
+
+    @Getter
+    @Setter
+    private static boolean pageMinimized = false;
 
     @Getter
     private static final AtomicInteger newMessagesWaitingForBot = new AtomicInteger();
@@ -50,9 +55,9 @@ public class PageCache {
         int userIndex = 0;
         List<ChatBoxController.Message> finalList = new ArrayList<>();
         while (index < userMessages.size() + botMessages.size()) {
-            if (botIndex >= botMessages.size() || userMessages.get(userIndex).getIndex() < botMessages.get(botIndex).getIndex()) {
+            if (botIndex >= botMessages.size() || (userMessages.size() > userIndex && userMessages.get(userIndex).getIndex() < botMessages.get(botIndex).getIndex())) {
                 finalList.add(userMessages.get(userIndex++));
-            } else if (userIndex >= userMessages.size() || userMessages.get(userIndex).getIndex() > botMessages.get(botIndex).getIndex()) {
+            } else if (userIndex >= userMessages.size() || (botMessages.size() > botIndex && userMessages.get(userIndex).getIndex() > botMessages.get(botIndex).getIndex())) {
                 finalList.add(botMessages.get(botIndex++));
             }
             index++;

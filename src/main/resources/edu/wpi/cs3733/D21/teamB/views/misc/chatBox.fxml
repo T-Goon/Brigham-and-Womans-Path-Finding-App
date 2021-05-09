@@ -10,15 +10,29 @@
 <?import javafx.scene.layout.VBox?>
 
 <VBox fx:id="base" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-      prefHeight="400.0" prefWidth="350.0" style="-fx-background-color: ffffff;"
+      prefHeight="400.0" prefWidth="350.0"
+      style="-fx-border-color: black; -fx-border-width: 1; -fx-background-color: ffffff"
       xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="edu.wpi.cs3733.D21.teamB.views.misc.ChatBoxController">
     <children>
-        <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="190.0"
-              style="-fx-background-color: d5d5d5;">
+        <HBox fx:id="topBar" alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+              minWidth="-Infinity" prefHeight="31.0" prefWidth="348.0" style="-fx-background-color: d5d5d5;">
             <children>
-                <Label text="How may we assist you?"/>
-                <JFXButton fx:id="btnClose" style="-fx-background-color: ff0000; -fx-background-radius: 4;" text="X">
+                <Label text="How may we assist you?">
+                    <HBox.margin>
+                        <Insets bottom="3.0" left="3.0" right="3.0" top="3.0"/>
+                    </HBox.margin>
+                </Label>
+                <JFXButton fx:id="btnMinimize" buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity"
+                           minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="25.0"
+                           style="-fx-background-color: #32CD32; -fx-background-radius: 4;" text="-">
+                    <HBox.margin>
+                        <Insets bottom="3.0" left="150.0" right="3.0" top="3.0"/>
+                    </HBox.margin>
+                </JFXButton>
+                <JFXButton fx:id="btnClose" buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity"
+                           minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="25.0"
+                           style="-fx-background-color: #FF0000; -fx-background-radius: 4;" text="X">
                     <HBox.margin>
                         <Insets bottom="3.0" right="3.0" top="3.0"/>
                     </HBox.margin>
@@ -39,7 +53,7 @@
                 <URL value="@../../css/scrollPane.css"/>
             </stylesheets>
         </ScrollPane>
-        <VBox>
+        <VBox fx:id="textFieldHolder">
             <children>
                 <JFXTextField fx:id="input" focusColor="#405aa800" onKeyReleased="#handleSendMessage"
                               promptText="Type a message..."

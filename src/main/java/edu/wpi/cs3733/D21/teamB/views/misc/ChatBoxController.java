@@ -20,7 +20,6 @@ import javafx.scene.text.Font;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.alicebot.ab.*;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -40,28 +39,44 @@ public class ChatBoxController implements Initializable {
     public VBox messageHolder;
 
     @FXML
+    public HBox topBar;
+
+    @FXML
+    public VBox textFieldHolder;
+
+    @FXML
+    public JFXButton btnMinimize;
+
+    @FXML
     public JFXButton btnClose;
 
     private final TextToSpeech tts = new TextToSpeech();
-    public static Thread userThread;
+    public static Thread userThread = null;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
         // Thread for getting messages from the bot
-        userThread = new Thread(() -> {
+        if (userThread == null) {
+            userThread = new Thread(() -> {
 
-            while (true) {
-                // Wait for a new message
-                if (PageCache.getNewMessagesWaitingForUser().get() != 0) {
-                    // Get message and mark as read
-                    PageCache.getNewMessagesWaitingForUser().getAndDecrement();
+                while (true) {
+                    // Wait for a new message
+                    if (PageCache.getNewMessagesWaitingForUser().get() != 0) {
+                        // Get message and mark as read
+                        PageCache.getNewMessagesWaitingForUser().getAndDecrement();
 
-                    Platform.runLater(() -> sendMessage(PageCache.getBotLastMessage()));
+                        Platform.runLater(() -> sendMessage(PageCache.getBotLastMessage()));
+                    }
                 }
-            }
+            });
+            userThread.start();
+        }
+
+        // If the page starts minimized, keep it minimized
+        Platform.runLater(() -> {
+            if (PageCache.isPageMinimized()) minimize();
         });
-        userThread.start();
 
         // Add all the messages in the cache
         for (Message m : PageCache.getAllMessages())
@@ -69,6 +84,15 @@ public class ChatBoxController implements Initializable {
 
         // Scroll pane goes down to the bottom when a new message is sent
         scrollPane.vvalueProperty().bind(messageHolder.heightProperty());
+
+        topBar.setOnMouseClicked(e -> {
+            if (PageCache.isPageMinimized()) expand();
+        });
+
+        btnMinimize.setOnAction(e -> {
+            if (!PageCache.isPageMinimized()) minimize();
+            else expand();
+        });
 
         // When closed, wipe the cache and remove itself
         btnClose.setOnAction(e -> {
@@ -86,6 +110,28 @@ public class ChatBoxController implements Initializable {
             input.clear();
             PageCache.addUserMessage(message);
         }
+    }
+
+    /**
+     * Minimizes the chat window
+     */
+    private void minimize() {
+        PageCache.setPageMinimized(true);
+        scrollPane.setMaxHeight(0);
+        textFieldHolder.setMaxHeight(0);
+        base.setPrefHeight(topBar.getHeight());
+        base.setMaxHeight(topBar.getHeight());
+    }
+
+    /**
+     * Expands the chat window
+     */
+    private void expand() {
+        PageCache.setPageMinimized(false);
+        scrollPane.setMaxHeight(Region.USE_COMPUTED_SIZE);
+        textFieldHolder.setMaxHeight(Region.USE_COMPUTED_SIZE);
+        base.setPrefHeight(400);
+        base.setMaxHeight(Region.USE_PREF_SIZE);
     }
 
     /**

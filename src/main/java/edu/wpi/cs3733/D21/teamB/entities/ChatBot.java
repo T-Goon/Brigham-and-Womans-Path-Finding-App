@@ -69,9 +69,8 @@ public class ChatBot implements Runnable {
         }
 
         // TODO do more than return the input of whatever it is
-        if (input.getMessage().equals("hello world")) sendMessage("hey");
+        if (input.getMessage().toLowerCase().contains("covid")) sendMessage("COIVD?????");
         else try {
-            // TODO change host to prevent UnknownHostException
             sendMessage(chatSession.multisentenceRespond(input.getMessage()));
         } catch (Exception ignored) {
         }
