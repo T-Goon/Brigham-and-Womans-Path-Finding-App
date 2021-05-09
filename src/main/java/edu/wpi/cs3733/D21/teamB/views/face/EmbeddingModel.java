@@ -2,34 +2,25 @@ package edu.wpi.cs3733.D21.teamB.views.face;
 
 import ai.djl.MalformedModelException;
 import ai.djl.inference.Predictor;
-import ai.djl.modality.Classifications;
 import ai.djl.modality.cv.Image;
-import ai.djl.modality.cv.ImageFactory;
-import ai.djl.modality.cv.transform.CenterCrop;
-import ai.djl.modality.cv.transform.Normalize;
 import ai.djl.modality.cv.transform.Resize;
-import ai.djl.modality.cv.transform.ToTensor;
-import ai.djl.modality.cv.translator.ImageClassificationTranslator;
 import ai.djl.ndarray.NDArray;
 import ai.djl.ndarray.NDList;
 import ai.djl.repository.zoo.Criteria;
 import ai.djl.repository.zoo.ModelNotFoundException;
 import ai.djl.repository.zoo.ModelZoo;
 import ai.djl.repository.zoo.ZooModel;
-import ai.djl.training.util.DownloadUtils;
 import ai.djl.translate.Batchifier;
 import ai.djl.translate.TranslateException;
 import ai.djl.translate.Translator;
 import ai.djl.translate.TranslatorContext;
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
-import edu.wpi.cs3733.D21.teamB.database.FaceMutator;
 import edu.wpi.cs3733.D21.teamB.entities.Embedding;
 
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.stream.IntStream;
 
 public class EmbeddingModel {
@@ -58,14 +49,16 @@ public class EmbeddingModel {
     }
 
     private void initialize() throws SQLException {
-        try {
-            DownloadUtils.download(modelURL, "src/main/resources/edu/wpi/cs3733/D21/teamB/faces/pytorch_models/facenet/facenet.pt", new ai.djl.training.util.ProgressBar());
-        } catch (
-                IOException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            DownloadUtils.download(modelURL, "src/main/resources/edu/wpi/cs3733/D21/teamB/faces/pytorch_models/facenet/facenet.pt",
+//                    new ai.djl.training.util.ProgressBar());
+//        } catch (
+//                IOException e) {
+//            e.printStackTrace();
+//        }
 
-        System.setProperty("ai.djl.repository.zoo.location", "src/main/resources/edu/wpi/cs3733/D21/teamB/faces/pytorch_models/facenet");
+//        System.setProperty("ai.djl.repository.zoo.location", "src/main/resources/edu/wpi/cs3733/D21/teamB/faces/pytorch_models/facenet");
+        System.setProperty("ai.djl.repository.zoo.location", "facenet");
         this.buildModel();
         resetEmbeddings();
     }

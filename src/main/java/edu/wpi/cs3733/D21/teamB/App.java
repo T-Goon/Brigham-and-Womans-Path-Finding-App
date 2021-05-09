@@ -45,6 +45,9 @@ public class App extends Application {
         try {
             FileUtil.copy(getClass().getResourceAsStream("/edu/wpi/cs3733/D21/teamB/xml/haarcascade_frontalface_alt.xml"),
                     new File("").getAbsolutePath()+"/haarcascade_frontalface_alt.xml");
+            FileUtil.copy(getClass().getResourceAsStream("/edu/wpi/cs3733/D21/teamB/faces/pytorch_models/facenet/facenet.pt"),
+                    new File("").getAbsolutePath()+"/facenet/facenet.pt",
+                    new File("").getAbsolutePath()+"/facenet");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -138,6 +141,7 @@ public class App extends Application {
         DatabaseHandler.getHandler().shutdown();
         try {
             FileUtils.forceDelete(new File("haarcascade_frontalface_alt.xml"));
+            FileUtils.forceDelete(new File("facenet"));
         } catch (IOException e) {
             e.printStackTrace();
         }

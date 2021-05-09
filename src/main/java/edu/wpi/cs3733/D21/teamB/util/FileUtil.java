@@ -24,4 +24,27 @@ public class FileUtil {
         return succeess;
 
     }
+
+    public static boolean copy(InputStream source , String destination, String dir) {
+        boolean succeess = true;
+
+        File directory = new File(dir);
+        if (! directory.exists()){
+            directory.mkdir();
+            // If you require it to make the entire directory path including parents,
+            // use directory.mkdirs(); here instead.
+        }
+
+        System.out.println("Copying ->" + source + "\n\tto ->" + destination);
+
+        try {
+            Files.copy(source, Paths.get(destination), StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException ex) {
+//            logger.log(Level.WARNING, "", ex);
+            ex.printStackTrace();
+            succeess = false;
+        }
+        return succeess;
+
+    }
 }
