@@ -35,13 +35,7 @@ public class LoginPageController extends BasePageController implements Initializ
     private Label error;
 
     @FXML
-    private AnchorPane basePane;
-
-    @FXML
     private JFXButton btnRegisterPage;
-
-    @FXML
-    private JFXButton btnFace;
 
     @FXML
     private ImageView faceImage;
@@ -86,9 +80,6 @@ public class LoginPageController extends BasePageController implements Initializ
                 break;
             case "btnEmergency":
                 SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
-                break;
-            case "btnFace":
-                SceneSwitcher.switchScene("/edu/wpi/cs3733/D21/teamB/views/face/FaceDetection.fxml");
                 break;
             case "btnRegisterPage":
                 SceneSwitcher.switchFromTemp("/edu/wpi/cs3733/D21/teamB/views/login/registerPage.fxml");

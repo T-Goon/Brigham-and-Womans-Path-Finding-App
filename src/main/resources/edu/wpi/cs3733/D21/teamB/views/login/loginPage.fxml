@@ -13,8 +13,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
-<StackPane style="-fx-background-color: #012d5a;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D21.teamB.views.login.LoginPageController">
+<StackPane fx:id="stackPane" style="-fx-background-color: #012d5a;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D21.teamB.views.login.LoginPageController">
    <children>
         <VBox alignment="TOP_CENTER" prefHeight="600.0" prefWidth="900.0" spacing="20.0">
             <children>
@@ -64,7 +63,7 @@
             </HBox>
             <VBox alignment="CENTER" fillWidth="false" prefHeight="200.0" prefWidth="100.0">
                <children>
-                  <VBox  alignment="CENTER" style="-fx-border-color: #ffffff77; -fx-border-width: 3;">
+                  <VBox alignment="CENTER" style="-fx-border-color: #ffffff77; -fx-border-width: 3;">
                      <VBox.margin>
                         <Insets top="10.0" />
                      </VBox.margin>
@@ -137,7 +136,6 @@
                               <Font size="20.0" />
                            </font>
                         </JFXButton>
-                        <JFXButton fx:id="btnFace" onAction="#handleButtonAction" style="-fx-background-color: white;" />
                      </children>
                      <padding>
                         <Insets top="20.0" />
