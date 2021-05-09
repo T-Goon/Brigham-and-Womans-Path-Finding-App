@@ -9,6 +9,7 @@ import edu.wpi.cs3733.D21.teamB.util.CSVHandler;
 import edu.wpi.cs3733.D21.teamB.views.map.PathfindingMenuController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 
 import javax.swing.*;
@@ -127,7 +128,7 @@ public class Snake extends JPanel implements ActionListener {
     /**
      * Display the nodes and edges for the game on the map and start the game
      */
-    public void initializeMap() {
+    public void initializeMap(ImageView i) {
 //        cleanCSV();
         // Load nodes and edges
         edges = CSVHandler.loadCSVEdges("/edu/wpi/cs3733/D21/teamB/csvFiles/csvGames/snakeEdges.csv");
@@ -145,29 +146,21 @@ public class Snake extends JPanel implements ActionListener {
             mapDrawer.placeEdgesForGame(startNode, endNode);
         }
 
-        initializeGame();
+        initializeGame(i);
     }
 
     /**
      * Set the starting locations for the snake and apple
      */
-    public void initializeGame() {
+    public void initializeGame(ImageView i) {
         // Set the snake at a starting location (Francis Lobby Entrance)
         Node snake = nodes.get(10);
         snakeHeadLoc = new Coord(snake.getXCoord(), snake.getYCoord());
-        try {
-            ImageView i = FXMLLoader.load(Objects.requireNonNull(Snake.class.getResource("/edu/wpi/cs3733/D21/teamB/views/map/misc/snake.fxml")));
-            i.setLayoutX((snake.getXCoord() / PathfindingMenuController.COORDINATE_SCALE) - (i.getFitWidth() / 4));
-            i.setLayoutY((snake.getYCoord() / PathfindingMenuController.COORDINATE_SCALE) - (i.getFitHeight()));
-            nodeHolder.getChildren().add(i);
-            mapCache.getNodePlaced().add(i);
-            i.setOnKeyPressed(e -> {
-               // if (e.)
-            });
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
+        i.setLayoutX((snake.getXCoord() / PathfindingMenuController.COORDINATE_SCALE) - (i.getFitWidth() / 4));
+        i.setLayoutY((snake.getYCoord() / PathfindingMenuController.COORDINATE_SCALE) - (i.getFitHeight()));
+        nodeHolder.getChildren().add(i);
+        mapCache.getNodePlaced().add(i);
 
 
         // Restart size of snake
@@ -217,9 +210,9 @@ public class Snake extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        while(true) {
-            move();
-        }
+//        while(true) {
+//            move();
+//        }
     }
 
     public void move() {
