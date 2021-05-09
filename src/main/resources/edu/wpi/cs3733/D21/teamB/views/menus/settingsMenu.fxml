@@ -145,6 +145,15 @@
                                  </JFXButton>
                              </children>
                          </HBox>
+                        <HBox fx:id="passwordHolder1" alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <JFXButton fx:id="btnCredits" accessibleText="Change Password Button" buttonType="RAISED" onAction="#handleButtonAction" prefHeight="60.0" prefWidth="206.0" style="-fx-background-color: #F6BD39; -fx-background-radius: 7;" text="Credits">
+                                 <font>
+                                    <Font name="MS Reference Sans Serif" size="20.0" />
+                                 </font>
+                              </JFXButton>
+                           </children>
+                        </HBox>
                      </children>
                   </VBox>
                         <HBox maxHeight="-Infinity">
