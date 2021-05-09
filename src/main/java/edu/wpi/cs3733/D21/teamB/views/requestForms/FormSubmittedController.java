@@ -24,10 +24,10 @@ public class FormSubmittedController {
 
         switch (btn.getId()) {
             case "btnReturn":
-                SceneSwitcher.goBack(getClass(), 2);
+                SceneSwitcher.goBack(2);
                 break;
             case "btnEmergency":
-                SceneSwitcher.switchFromTemp(getClass(), "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
+                SceneSwitcher.switchFromTemp("/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
                 break;
             case "btnExit":
                 Platform.exit();

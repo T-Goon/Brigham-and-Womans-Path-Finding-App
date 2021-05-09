@@ -7,10 +7,10 @@ import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.requests.ExternalTransportRequest;
 import edu.wpi.cs3733.D21.teamB.entities.requests.Request;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
+import edu.wpi.cs3733.D21.teamB.util.AutoCompleteComboBoxListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -26,7 +26,7 @@ public class ExternalTransportationRequestFormController extends DefaultServiceR
     private JFXTextField name;
 
     @FXML
-    private JFXComboBox<Label> comboTranspType;
+    private JFXComboBox<String> comboTranspType;
 
     @FXML
     private JFXTextField destination;
@@ -51,10 +51,11 @@ public class ExternalTransportationRequestFormController extends DefaultServiceR
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location, resources);
-        comboTranspType.getItems().add(new Label("Bus"));
-        comboTranspType.getItems().add(new Label("Ambulance"));
-        comboTranspType.getItems().add(new Label("Helicopter"));
+        comboTranspType.getItems().add("Bus");
+        comboTranspType.getItems().add("Ambulance");
+        comboTranspType.getItems().add("Helicopter");
 
+        int index = -1;
         if (SceneSwitcher.peekLastScene().equals("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml")) {
             this.id = (String) App.getPrimaryStage().getUserData();
             ExternalTransportRequest externalTransportRequest;
@@ -66,7 +67,6 @@ public class ExternalTransportationRequestFormController extends DefaultServiceR
             }
             name.setText(externalTransportRequest.getPatientName());
             getLocationIndex(externalTransportRequest.getLocation());
-            int index = -1;
             switch (externalTransportRequest.getTransportType()) {
                 case "Bus":
                     index = 0;
@@ -78,7 +78,6 @@ public class ExternalTransportationRequestFormController extends DefaultServiceR
                     index = 2;
                     break;
             }
-            comboTranspType.getSelectionModel().select(index);
             destination.setText(externalTransportRequest.getDestination());
             description.setText(externalTransportRequest.getDescription());
             allergies.setText(externalTransportRequest.getPatientAllergies());
@@ -160,6 +159,11 @@ public class ExternalTransportationRequestFormController extends DefaultServiceR
                 allergies.validate();
             }
         });
+
+        //add searchable combo boxes
+        comboTranspType.setVisibleRowCount(3);
+        new AutoCompleteComboBoxListener<String>(comboTranspType);
+        if (index != -1) comboTranspType.getSelectionModel().select(index);
     }
 
     public void handleButtonAction(ActionEvent e) {
@@ -167,7 +171,7 @@ public class ExternalTransportationRequestFormController extends DefaultServiceR
         JFXButton btn = (JFXButton) e.getSource();
         if (btn.getId().equals("btnSubmit")) {
             String givenPatientName = name.getText();
-            String givenTransportType = comboTranspType.getValue().getText();
+            String givenTransportType = comboTranspType.getValue();
             String givenDestination = destination.getText();
             String givenPatientAllergies = allergies.getText();
             String givenOutNetwork = outNetwork.isSelected() ? "T" : "F";
@@ -219,6 +223,7 @@ public class ExternalTransportationRequestFormController extends DefaultServiceR
         btnSubmit.setDisable(
                 name.getText().isEmpty() || loc.getValue() == null || comboTranspType.getValue() == null ||
                         description.getText().isEmpty() || allergies.getText().isEmpty() || destination.getText().isEmpty()
+                        || super.validateCommon() || !comboTranspType.getItems().contains(comboTranspType.getValue())
         );
     }
 }

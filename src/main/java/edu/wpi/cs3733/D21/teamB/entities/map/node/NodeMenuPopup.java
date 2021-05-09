@@ -21,6 +21,10 @@ public class NodeMenuPopup extends Popup<VBox, NodeMenuPopupData> implements Pop
         this.gpane = gpane;
     }
 
+    /**
+     * Show the popup
+     */
+    @Override
     public void show() {
         VBox nmPopup = null;
         try {
@@ -34,15 +38,13 @@ public class NodeMenuPopup extends Popup<VBox, NodeMenuPopupData> implements Pop
         gpane.setGestureEnabled(false);
     }
 
+    /**
+     * Set start edge for adding an edge
+     */
     public void setStartEdge() {
         data.getMc().setStartNode(data.getCircle());
         data.getMc().setNewEdgeStart(data.getNodeID());
         data.getCircle().setStroke(Color.RED);
         data.getMd().removeAllPopups();
-    }
-
-    @Override
-    public void hide() {
-        super.hide();
     }
 }

@@ -3,17 +3,15 @@ package edu.wpi.cs3733.D21.teamB.views.map;
 import com.jfoenix.controls.*;
 import edu.wpi.cs3733.D21.teamB.App;
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
-import edu.wpi.cs3733.D21.teamB.entities.map.FloorSwitcher;
 import edu.wpi.cs3733.D21.teamB.entities.User;
-import edu.wpi.cs3733.D21.teamB.entities.map.MapCache;
-import edu.wpi.cs3733.D21.teamB.entities.map.MapDrawer;
-import edu.wpi.cs3733.D21.teamB.entities.map.MapEditorPopupManager;
-import edu.wpi.cs3733.D21.teamB.entities.map.MapPathPopupManager;
+import edu.wpi.cs3733.D21.teamB.entities.map.*;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Edge;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Node;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.NodeType;
+import edu.wpi.cs3733.D21.teamB.pathfinding.Dijkstra;
 import edu.wpi.cs3733.D21.teamB.pathfinding.Graph;
 import edu.wpi.cs3733.D21.teamB.util.CSVHandler;
+import edu.wpi.cs3733.D21.teamB.util.HelpDialog;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
 import edu.wpi.cs3733.D21.teamB.views.BasePageController;
 import javafx.collections.ObservableList;
@@ -30,8 +28,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -40,11 +36,10 @@ import net.kurobako.gesturefx.GesturePane;
 
 import java.io.File;
 import java.net.URL;
-import java.util.*;
 import java.sql.SQLException;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 public class PathfindingMenuController extends BasePageController implements Initializable {
 
@@ -86,6 +81,9 @@ public class PathfindingMenuController extends BasePageController implements Ini
     private JFXCheckBox btnMobility;
 
     @FXML
+    private JFXButton btnAbout;
+
+    @FXML
     private JFXTreeView<String> treeLocations;
 
     @FXML
@@ -93,10 +91,14 @@ public class PathfindingMenuController extends BasePageController implements Ini
 
     @FXML
     private StackPane mapStack,
-            stackContainer,
             textDirectionsHolder;
 
     @FXML
+    @Getter
+    private StackPane stackPane;
+
+    @FXML
+    @Getter
     private GesturePane gpane;
 
     @FXML
@@ -104,6 +106,9 @@ public class PathfindingMenuController extends BasePageController implements Ini
 
     @FXML
     private Circle pathHead;
+
+    @FXML
+    private JFXComboBox<String> findClosestLocation;
 
     public static final double COORDINATE_SCALE = 25 / 9.0;
     public static final int MAX_X = 5000;
@@ -124,15 +129,22 @@ public class PathfindingMenuController extends BasePageController implements Ini
     private MapDrawer mapDrawer;
     private MapEditorPopupManager mapEditorPopupManager;
     private MapPathPopupManager mapPathPopupManager;
+    @Getter
     private FloorSwitcher floorSwitcher;
 
     private static final Color grey = Color.web("#9A9999");
 
+    private String previousFrom = "";
+    private String previousStops = "";
+    private String previousTo = "";
+    private String previousAlgorithm = "";
+    private boolean previousMobility = false;
+    private boolean mapInEditMode = false;
     // JavaFX code **************************************************************************************
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        super.initialize(location, resources);
         //Add better category names to a hash map
         initCategoriesMap();
 
@@ -144,7 +156,8 @@ public class PathfindingMenuController extends BasePageController implements Ini
         populateTreeView();
 
         // Class that draws things on the map
-        mapDrawer = new MapDrawer(this, mapCache, nodeHolder, mapHolder, intermediateNodeHolder, lblError, mapStack, gpane);
+        mapDrawer = new MapDrawer(this, mapCache, nodeHolder, mapHolder,
+                intermediateNodeHolder, lblError, mapStack, gpane);
 
         // Class that handles the popups for the map editor
         mapEditorPopupManager = new MapEditorPopupManager(mapDrawer, mapCache, gpane, mapStack);
@@ -155,8 +168,9 @@ public class PathfindingMenuController extends BasePageController implements Ini
         mapDrawer.setMapPathPopupManager(mapPathPopupManager);
 
         // Set up floor switching
-        floorSwitcher = new FloorSwitcher(mapDrawer, mapCache, map, btnF3, btnF2, btnF1, btnFL1, btnFL2);
+        floorSwitcher = new FloorSwitcher(mapDrawer, mapCache, mapPathPopupManager, map, btnF3, btnF2, btnF1, btnFL1, btnFL2);
         floorSwitcher.switchFloor(FloorSwitcher.floor1ID);
+        mapDrawer.setFloorSwitcher(floorSwitcher);
 
         // Fill in proper fields if the last scene is the covid survey
         checkFromCovidSurvey();
@@ -184,10 +198,24 @@ public class PathfindingMenuController extends BasePageController implements Ini
         // Set up the pathing type combo box
         setUpPathfindingChoices();
 
+        // Set up the find closest location combo box
+        setUpClosestLocChoices();
+
         // Set up control-click functionality for aligning nodes
         gpane.setOnKeyReleased(e -> {
             if (e.getCode() == KeyCode.CONTROL && !mapDrawer.getAligned().isEmpty()) {
                 mapEditorPopupManager.showAlignNodePopup(mapDrawer);
+            }
+        });
+
+        // Find Closest exit validation if start ID is null
+        findClosestLocation.setOnAction(e -> {
+            if (txtStartLocation.getText().isEmpty()) {
+                lblError.setText("Please choose a starting location");
+                lblError.setVisible(true);
+            } else {
+                lblError.setVisible(false);
+                findClosestLocationTo();
             }
         });
     }
@@ -435,7 +463,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
      * are not equal to each other.
      */
     public void validateFindPathButton() {
-        btnFindPath.setDisable(txtStartLocation.getText().isEmpty() || txtEndLocation.getText().isEmpty() || txtStartLocation.getText().equals(txtEndLocation.getText()));
+        btnFindPath.setDisable(mapInEditMode || txtStartLocation.getText().isEmpty() || txtEndLocation.getText().isEmpty() || txtStartLocation.getText().equals(txtEndLocation.getText()));
     }
 
     /**
@@ -449,18 +477,30 @@ public class PathfindingMenuController extends BasePageController implements Ini
 
         switch (b.getId()) {
             case "btnFindPath":
-                Map<String, String> longToId = mapCache.makeLongToIDMap();
-                mapDrawer.removeAllEdges();
+                if (!previousFrom.equals(txtStartLocation.getText()) || !previousStops.equals(String.join(" ", mapCache.getStopsList())) || !previousTo.equals(txtEndLocation.getText())
+                        || !previousAlgorithm.equals(comboPathingType.getSelectionModel().getSelectedItem()) || previousMobility != btnMobility.isSelected()) {
+                    mapCache.updateLocations();
+                    Map<String, String> longToId = mapCache.makeLongToIDMap();
+                    mapPathPopupManager.removeTxtDirPopup();
+                    mapDrawer.removeAllEdges();
 
-                floorSwitcher.switchFloor(DatabaseHandler.getHandler().getNodeById(longToId.get(txtStartLocation.getText())).getFloor());
-                mapDrawer.calculatePath(txtStartLocation.getText(), txtEndLocation.getText());
-                btnTxtDir.setDisable(false);
+                    floorSwitcher.switchFloor(DatabaseHandler.getHandler().getNodeById(longToId.get(txtStartLocation.getText())).getFloor());
+                    mapDrawer.calculatePath(txtStartLocation.getText(), txtEndLocation.getText());
+                    btnTxtDir.setDisable(false);
+
+                    // Set previous ones
+                    previousFrom = txtStartLocation.getText();
+                    previousStops = String.join(" ", mapCache.getStopsList());
+                    previousTo = txtEndLocation.getText();
+                    previousAlgorithm = comboPathingType.getSelectionModel().getSelectedItem();
+                    previousMobility = btnMobility.isSelected();
+                }
                 break;
             case "btnEditMap":
-
+                mapPathPopupManager.removeTxtDirPopup();
                 mapDrawer.removeAllPopups();
                 mapDrawer.removeAllEdges();
-
+                mapInEditMode = !mapInEditMode;
                 mapDrawer.setEditing(!mapDrawer.isEditing());
                 btnFindPath.setDisable(!btnFindPath.isDisable());
 
@@ -489,6 +529,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
                 floorSwitcher.switchFloor(FloorSwitcher.floorL2ID);
                 break;
             case "btnRemoveStop":
+                mapPathPopupManager.removeTxtDirPopup();
                 mapCache.getStopsList().remove(mapCache.getStopsList().size() - 1);
                 displayStops(mapCache.getStopsList());
 
@@ -497,13 +538,16 @@ public class PathfindingMenuController extends BasePageController implements Ini
 
                 break;
             case "btnEmergency":
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/cs3733/D21/teamB/views/map/pathfindingMenu.fxml", "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
+                SceneSwitcher.switchScene("/edu/wpi/cs3733/D21/teamB/views/map/pathfindingMenu.fxml", "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
                 break;
             case "btnHelp":
-                loadHelpDialog();
+                HelpDialog.loadHelpDialog(stackPane, getHelpDialog());
                 break;
             case "btnSearch":
                 handleItemSearched();
+                break;
+            case "btnAbout":
+                SceneSwitcher.switchScene("/edu/wpi/cs3733/D21/teamB/views/map/pathfindingMenu.fxml", "/edu/wpi/cs3733/D21/teamB/views/misc/aboutPage.fxml");
                 break;
             case "btnBack":
                 // Reset all the colors of the nodes
@@ -585,10 +629,11 @@ public class PathfindingMenuController extends BasePageController implements Ini
     /**
      * alphabetizes the strings to go into the treeview list
      */
-    private ObservableList<TreeItem<String>> alphabetize(ObservableList<TreeItem<String>> strings){
-       strings.sort(Comparator.comparing(TreeItem::toString));
-       return strings;
+    private ObservableList<TreeItem<String>> alphabetize(ObservableList<TreeItem<String>> strings) {
+        strings.sort(Comparator.comparing(TreeItem::toString));
+        return strings;
     }
+
     /**
      * Populates the tree view with favorite locations from the database
      */
@@ -646,48 +691,31 @@ public class PathfindingMenuController extends BasePageController implements Ini
     /**
      * Shows the help dialog box.
      */
-    private void loadHelpDialog() {
-        JFXDialogLayout helpLayout = new JFXDialogLayout();
-
-        Text helpText;
+    private String getHelpDialog() {
+        String helpText;
         if (!mapDrawer.isEditing() && DatabaseHandler.getHandler().getAuthenticationUser().isAtLeast(User.AuthenticationLevel.PATIENT)) {
-            helpText = new Text("Enter your start and end location and any stops graphically or using our menu selector. " +
+            helpText = "Enter your start and end location and any stops graphically or using our menu selector. " +
                     "To use the graphical selection,\nsimply click on the node and click on the set button. " +
                     "To enter a location using the menu, click on the appropriate\ndrop down and choose your location. " +
                     "The node you selected will show up on your map where you can either\nset it to your start or end location or a stop. " +
                     "Once both the start and end nodes are filled in you can press \"Go\" to generate\nyour path. " +
                     "If you want to remove your stops, click on the \"Remove Stop\" button. " +
-                    "Favorites can be chosen by clicking\non them in the menu selector and pressing the add button, and removed by pressing the minus button on the node.\n"
-            );
+                    "Favorites can be chosen by clicking\non them in the menu selector and pressing the add button, and removed by pressing the minus button on the node.\n";
         } else if (!mapDrawer.isEditing()) {
-            helpText = new Text("Enter your start and end location and any stops graphically or using our menu selector. " +
+            helpText = "Enter your start and end location and any stops graphically or using our menu selector. " +
                     "To use the graphical selection,\nsimply click on the node and click on the set button. " +
                     "To enter a location using the menu, click on the appropriate\ndrop down and choose your location. " +
                     "The node you selected will show up on your map where you can either\nset it to your start or end location or a stop. " +
                     "Once both the start and end nodes are filled in you can press \"Go\" to generate\nyour path. " +
-                    "If you want to remove your stops, click on the \"Remove Stop\" button.\n"
-            );
-        } else
-            helpText = new Text("Double click to add a node. Click on a node or an edge to edit or remove them. To add a new edge click on\n" +
+                    "If you want to remove your stops, click on the \"Remove Stop\" button.\n";
+        } else {
+            helpText = "Double click to add a node. Click on a node or an edge to edit or remove them. To add a new edge click on\n" +
                     "one of the nodes, then \"Add Edge\". Click on another node and click \"Yes\" to add the new edge or \"No\" to cancel it.\n" +
                     "If you control-click on several nodes, then release control, a popup appears to ask if the nodes should be aligned.\n" +
                     "If you select \"Yes\", the nodes will be aligned according to the line of best fit; otherwise, nothing will occur.\n" +
-                    "Additionally, if you control-click on an already selected node, it will be deselected.");
-
-        helpText.setFont(new Font("MS Reference Sans Serif", 14));
-
-        Label headerLabel = new Label("Help");
-        headerLabel.setFont(new Font("MS Reference Sans Serif", 18));
-
-        helpLayout.setHeading(headerLabel);
-        helpLayout.setBody(helpText);
-        JFXDialog helpWindow = new JFXDialog(stackContainer, helpLayout, JFXDialog.DialogTransition.CENTER);
-
-        JFXButton button = new JFXButton("Close");
-        button.setOnAction(event -> helpWindow.close());
-        helpLayout.setActions(button);
-
-        helpWindow.show();
+                    "Additionally, if you control-click on an already selected node, it will be deselected.";
+        }
+        return helpText;
     }
 
     @FXML
@@ -752,17 +780,12 @@ public class PathfindingMenuController extends BasePageController implements Ini
      */
     private void checkFromCovidSurvey() {
         //test if we came from a failed covid survey
-        if (SceneSwitcher.peekLastScene().equals("/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidFormSubmittedWithSymp.fxml")) {
-            txtEndLocation.setText("Emergency Department Entrance");
-            SceneSwitcher.popLastScene();
+        if (DatabaseHandler.getHandler().getAuthenticationUser().getCovidStatus().equals(User.CovidStatus.DANGEROUS)) {
+            List<String> stopsList = mapCache.getStopsList();
+            stopsList.add("Emergency Department Entrance");
+            displayStops(stopsList);
         }
 
-
-        //test if we came from a not failed covid survey
-        if (SceneSwitcher.peekLastScene().equals("/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidFormSubmittedNoSymp.fxml")) {
-            txtEndLocation.setText("75 Francis Lobby Entrance");
-            SceneSwitcher.popLastScene();
-        }
     }
 
     /**
@@ -776,5 +799,89 @@ public class PathfindingMenuController extends BasePageController implements Ini
         comboPathingType.getItems().add("Dijkstra");
         comboPathingType.getSelectionModel().select(Graph.getGraph().getPathingTypeIndex());
         comboPathingType.setOnAction(e -> Graph.getGraph().setPathingTypeIndex(comboPathingType.getSelectionModel().getSelectedIndex()));
+    }
+
+    /**
+     * set up the combo boxes for the different closest locations that we can path find to
+     */
+    private void setUpClosestLocChoices() {
+        findClosestLocation.getItems().add("Restroom");
+        findClosestLocation.getItems().add("Food Place");
+        findClosestLocation.getItems().add("Service Desk");
+        findClosestLocation.getItems().add("Entrance");
+    }
+
+    /**
+     * finding closest location to the specified category
+     */
+    @FXML
+    private void findClosestLocationTo() {
+
+        String category = findClosestLocation.getSelectionModel().getSelectedItem();
+        String startID = mapCache.getMapLongToID().get(txtStartLocation.getText());
+        String endID = null;
+
+        if (startID != null) {
+            Dijkstra dijkstra = new Dijkstra();
+            mapCache.updateLocations();
+
+            switch (category) {
+                case "Restroom":
+
+                    List<TreeItem<String>> restrooms = mapCache.getCatNameMap().get("REST");
+                    List<String> restroomsList = new ArrayList<>();
+                    for (TreeItem<String> restroom : restrooms) {
+                        restroomsList.add(mapCache.getMapLongToID().get(restroom.getValue()));
+                    }
+                    List<String> restroomsPath = dijkstra.findPath(startID, mapDrawer.isMobility(), restroomsList).getPath();
+                    if (restroomsPath.isEmpty()) break;
+                    endID = restroomsPath.get(restroomsPath.size() - 1);
+                    break;
+
+                //all the food places that are not vending machines
+                case "Food Place":
+                    List<String> foodPlacesList = new ArrayList<>();
+                    foodPlacesList.add("ARETL00101");
+                    foodPlacesList.add("DRETL00102");
+                    foodPlacesList.add("FRETL00201");
+                    foodPlacesList.add("HRETL00102");
+
+                    List<String> foodPlacesPath = dijkstra.findPath(startID, mapDrawer.isMobility(), foodPlacesList).getPath();
+                    if (foodPlacesPath.isEmpty()) break;
+                    endID = foodPlacesPath.get(foodPlacesPath.size() - 1);
+                    break;
+
+                //all services desks that are not security desks
+                case "Service Desk":
+                    List<String> serviceDesksList = new ArrayList<>();
+                    serviceDesksList.add("BINFO00102");
+                    serviceDesksList.add("BINFO00202");
+                    serviceDesksList.add("FINFO00101");
+                    serviceDesksList.add("GINFO01902");
+                    List<String> serviceDesksPath = dijkstra.findPath(startID, mapDrawer.isMobility(), serviceDesksList).getPath();
+                    if (serviceDesksPath.isEmpty()) break;
+                    endID = serviceDesksPath.get(serviceDesksPath.size() - 1);
+                    break;
+
+                case "Entrance":
+                    List<TreeItem<String>> entrances = mapCache.getCatNameMap().get("EXIT");
+                    List<String> entrancesList = new ArrayList<>();
+                    for (TreeItem<String> entrance : entrances) {
+                        entrancesList.add(mapCache.getMapLongToID().get(entrance.getValue()));
+                    }
+                    List<String> entrancesPath = dijkstra.findPath(startID, mapDrawer.isMobility(), entrancesList).getPath();
+                    if (entrancesPath.isEmpty()) break;
+                    endID = entrancesPath.get(entrancesPath.size() - 1);
+                    break;
+            }
+
+            if (endID == null) {
+                lblError.setText("Path could not be found between the selected locations!");
+                lblError.setVisible(true);
+            } else {
+                txtEndLocation.setText(Graph.getGraph().getNodes().get(endID).getLongName());
+                btnFindPath.setDisable(false);
+            }
+        }
     }
 }

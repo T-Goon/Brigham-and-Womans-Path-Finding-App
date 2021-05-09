@@ -3,8 +3,10 @@ package edu.wpi.cs3733.D21.teamB.views.login;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.JFXToggleButton;
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.User;
+import edu.wpi.cs3733.D21.teamB.util.ExternalCommunication;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
 import edu.wpi.cs3733.D21.teamB.views.BasePageController;
 import edu.wpi.cs3733.D21.teamB.views.face.Camera;
@@ -15,20 +17,25 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.StackPane;
 
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-public class
-RegisterPageController extends BasePageController implements Initializable {
+public class RegisterPageController extends BasePageController implements Initializable {
 
     @FXML
     public JFXButton btnEmergency;
 
     @FXML
     public JFXTextField username;
+
+    @FXML
+    public JFXTextField email;
 
     @FXML
     public JFXTextField firstName;
@@ -43,6 +50,9 @@ RegisterPageController extends BasePageController implements Initializable {
     public JFXPasswordField retypePassword;
 
     @FXML
+    public JFXToggleButton ttsEnabled;
+
+    @FXML
     public Label error;
 
     @FXML
@@ -50,6 +60,11 @@ RegisterPageController extends BasePageController implements Initializable {
 
     @FXML
     private JFXButton btnLoginPage;
+
+    @FXML
+    private StackPane stackPane;
+
+    private final Pattern emailPattern = Pattern.compile(".+@.+");
 
     @FXML
     private ImageView pictureImage,
@@ -61,7 +76,13 @@ RegisterPageController extends BasePageController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        super.initialize(location, resources);
         username.setOnKeyPressed(event -> {
+            if (event.getCode().equals(KeyCode.ENTER) && !areFormsEmpty())
+                handleRegisterSubmit();
+        });
+
+        email.setOnKeyPressed(event -> {
             if (event.getCode().equals(KeyCode.ENTER) && !areFormsEmpty())
                 handleRegisterSubmit();
         });
@@ -102,11 +123,11 @@ RegisterPageController extends BasePageController implements Initializable {
                 break;
             case "btnEmergency":
                 Camera.stopAcquisition();
-                SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
+                SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
                 break;
             case "btnLoginPage":
                 Camera.stopAcquisition();
-                SceneSwitcher.switchFromTemp(getClass(), "/edu/wpi/cs3733/D21/teamB/views/login/loginPage.fxml");
+                SceneSwitcher.switchFromTemp("/edu/wpi/cs3733/D21/teamB/views/login/loginPage.fxml");
                 break;
             case "btnBack":
                 Camera.stopAcquisition();
@@ -123,6 +144,21 @@ RegisterPageController extends BasePageController implements Initializable {
             return;
         }
 
+        // Check if the email address is already associated with an account
+        if (db.getUserByEmail(email.getText()) != null) {
+            error.setText("Email address already has an account!");
+            error.setVisible(true);
+            return;
+        }
+
+        // Check if the email address is valid
+        Matcher matcher = emailPattern.matcher(email.getText());
+        if (!matcher.matches()) {
+            error.setText("Email address must be valid!");
+            error.setVisible(true);
+            return;
+        }
+
         // Check to make sure the passwords are the same
         if (!password.getText().equals(retypePassword.getText())) {
             error.setText("Passwords do not match!");
@@ -131,14 +167,15 @@ RegisterPageController extends BasePageController implements Initializable {
         }
 
         // Add the user to the database
-        User newUser = new User(username.getText(), firstName.getText(), lastName.getText(), User.AuthenticationLevel.PATIENT, new ArrayList<>());
+        User newUser = new User(username.getText(), email.getText(), firstName.getText(), lastName.getText(), User.AuthenticationLevel.PATIENT, ttsEnabled.isSelected() ? "T" : "F", new ArrayList<>());
         try {
             db.addUser(newUser, password.getText());
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        SceneSwitcher.switchFromTemp(getClass(), "/edu/wpi/cs3733/D21/teamB/views/login/successfulRegistration.fxml");
+        ExternalCommunication.sendConfirmation(email.getText(), firstName.getText());
+        SceneSwitcher.switchFromTemp("/edu/wpi/cs3733/D21/teamB/views/login/successfulRegistration.fxml");
     }
 
     public void validateButton(KeyEvent keyEvent) {
@@ -149,7 +186,7 @@ RegisterPageController extends BasePageController implements Initializable {
      * @return whether any of the fields are empty
      */
     private boolean areFormsEmpty() {
-        return username.getText().isEmpty() || firstName.getText().isEmpty() || lastName.getText().isEmpty() ||
-                password.getText().isEmpty() || retypePassword.getText().isEmpty() || !camera.isPictureTaken();
+        return username.getText().isEmpty() || email.getText().isEmpty() || firstName.getText().isEmpty() || lastName.getText().isEmpty()
+                || password.getText().isEmpty() || retypePassword.getText().isEmpty()|| !camera.isPictureTaken();
     }
 }

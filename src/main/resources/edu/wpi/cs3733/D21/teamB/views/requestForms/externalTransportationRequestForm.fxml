@@ -21,15 +21,19 @@
 
 <AnchorPane fx:id="basePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #012d5a;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D21.teamB.views.requestForms.ExternalTransportationRequestFormController">
     <children>
-        <StackPane fx:id="stackContainer" layoutY="-28.083261489868164" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <StackPane fx:id="stackPane" layoutY="-28.083261489868164" AnchorPane.bottomAnchor="0.0"
+                   AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
-                <VBox alignment="TOP_CENTER" layoutX="220.0" layoutY="27.0" prefHeight="600.0" prefWidth="1086.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                <VBox alignment="TOP_CENTER" layoutX="220.0" layoutY="27.0" prefHeight="600.0" prefWidth="1086.0"
+                      AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                      AnchorPane.topAnchor="0.0">
                     <children>
-                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #FFFFFF;">
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0"
+                              style="-fx-background-color: #FFFFFF;">
                             <children>
                                 <VBox>
                                     <HBox.margin>
-                                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
                                     </HBox.margin>
                                     <children>
                                         <ImageView fitHeight="114.0" fitWidth="314.0" pickOnBounds="true" preserveRatio="true">
@@ -84,8 +88,8 @@
                                 </Text>
                                 <GridPane vgap="10.0">
                                     <columnConstraints>
-                                        <ColumnConstraints hgrow="SOMETIMES" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                                        <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" />
+                                        <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="10.0" />
                                     </columnConstraints>
                                     <rowConstraints>
                                         <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
@@ -102,7 +106,9 @@
                                                         <Font size="14.0" />
                                                     </font>
                                                 </Text>
-                                    <JFXComboBox fx:id="loc" maxWidth="1.7976931348623157E308" onAction="#validateButton" style="-fx-background-color: #e5e5e5; -fx-background-radius: 7;" unFocusColor="WHITE" />
+                                    <JFXComboBox fx:id="loc" onAction="#validateButton" prefWidth="9999.0"
+                                                 style="-fx-background-color: #e5e5e5; -fx-background-radius: 7;"
+                                                 unFocusColor="WHITE"/>
                                             </children>
                                             <padding>
                                                 <Insets left="10.0" right="10.0" />
@@ -118,7 +124,11 @@
                                                         <Font size="14.0" />
                                                     </font>
                                                 </Text>
-                                                <JFXTextField fx:id="name" onAction="#validateButton" onKeyReleased="#validateButton" prefHeight="25.0" promptText="Ex. &quot;Jane Doe&quot;" style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" />
+                                                <JFXTextField fx:id="name" onAction="#validateButton"
+                                                              onKeyReleased="#validateButton" prefHeight="25.0"
+                                                              prefWidth="9999.0" promptText="Ex. &quot;Jane Doe&quot;"
+                                                              style="-fx-background-color: e5e5e5; -fx-background-radius: 7;"
+                                                              unFocusColor="#4d4d4d00"/>
                                             </children>
                                             <padding>
                                                 <Insets left="10.0" right="10.0" />
@@ -137,7 +147,11 @@
                                                         <Insets top="10.0" />
                                                     </VBox.margin>
                                                 </Text>
-                                                <JFXTextField fx:id="destination" onAction="#validateButton" onKeyReleased="#validateButton" promptText="Ex. &quot;123 Hospital St&quot;" style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" />
+                                                <JFXTextField fx:id="destination" onAction="#validateButton"
+                                                              onKeyReleased="#validateButton" prefWidth="9999.0"
+                                                              promptText="Ex. &quot;123 Hospital St&quot;"
+                                                              style="-fx-background-color: e5e5e5; -fx-background-radius: 7;"
+                                                              unFocusColor="#4d4d4d00"/>
                                             </children>
                                             <padding>
                                                 <Insets left="10.0" right="10.0" />
@@ -153,7 +167,11 @@
                                                         <Insets top="10.0" />
                                                     </VBox.margin>
                                                 </Text>
-                                                <JFXComboBox fx:id="comboTranspType" onAction="#validateButton" prefHeight="25.0" prefWidth="204.0" promptText="Choose one" style="-fx-background-color: e5e5e5; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" />
+                                                <JFXComboBox fx:id="comboTranspType" onAction="#validateButton"
+                                                             prefHeight="25.0" prefWidth="9999.0"
+                                                             promptText="Choose one"
+                                                             style="-fx-background-color: e5e5e5; -fx-background-radius: 7;"
+                                                             unFocusColor="#4d4d4d00"/>
                                             </children>
                                             <padding>
                                                 <Insets left="10.0" right="10.0" />
@@ -218,11 +236,11 @@
                         </HBox>
                     </children>
                 </VBox>
-            <HBox alignment="CENTER_LEFT" fillHeight="false" maxHeight="-Infinity" prefWidth="200.0" StackPane.alignment="BOTTOM_CENTER">
+            <HBox alignment="BOTTOM_CENTER" fillHeight="false" maxHeight="-Infinity" prefWidth="200.0" StackPane.alignment="BOTTOM_CENTER">
                <children>
                   <HBox alignment="CENTER_LEFT" fillHeight="false" HBox.hgrow="ALWAYS">
                      <children>
-                        <JFXButton fx:id="btnBack" alignment="CENTER" buttonType="RAISED" cancelButton="true" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#handleButtonAction" prefHeight="56" prefWidth="56" style="-fx-background-color: #0067B1; -fx-background-radius: 50%;" text="🡰" textAlignment="CENTER" textFill="WHITE">
+                        <JFXButton fx:id="btnBack" accessibleText="Leave page" alignment="CENTER" buttonType="RAISED" cancelButton="true" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#handleButtonAction" prefHeight="56" prefWidth="56" style="-fx-background-color: #0067B1; -fx-background-radius: 50%;" text="🡰" textAlignment="CENTER" textFill="WHITE">
                            <font>
                               <Font size="27.0" />
                            </font>

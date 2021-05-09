@@ -21,10 +21,8 @@ import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.ResourceBundle;
-import java.util.UUID;
+import java.time.ZoneId;
+import java.util.*;
 
 public class GiftRequestFormController extends DefaultServiceRequestFormController implements Initializable {
 
@@ -126,12 +124,25 @@ public class GiftRequestFormController extends DefaultServiceRequestFormControll
             }
         });
 
-        //patient name text field
+        //date picker
         RequiredFieldValidator validatorDate = new RequiredFieldValidator();
         deliveryDate.getValidators().add(validatorDate);
-        validatorDate.setMessage("Please select the date!");
+        validatorDate.setMessage("Please select a valid date!");
+
+        Calendar currentDate = Calendar.getInstance();
+        currentDate.add(Calendar.DATE, -1);
+        Calendar selectedDate = Calendar.getInstance();
+
         deliveryDate.focusedProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue) {
+                try {
+                    selectedDate.setTime(Date.from(deliveryDate.getValue().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()));
+                    if (selectedDate.compareTo(currentDate) < 0) {
+                        deliveryDate.setValue(null);
+                    }
+                } catch (Exception ignored) {
+
+                }
                 deliveryDate.validate();
             }
         });
@@ -139,9 +150,16 @@ public class GiftRequestFormController extends DefaultServiceRequestFormControll
         //start time picker
         RequiredFieldValidator validatorStart = new RequiredFieldValidator();
         startTime.getValidators().add(validatorStart);
-        validatorStart.setMessage("Please select a start time!");
+        validatorStart.setMessage("Please select a valid start time!");
         startTime.focusedProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue) {
+                try {
+                    if (startTime.getValue().getHour() > endTime.getValue().getHour()) {
+                        startTime.setValue(null);
+                    }
+                } catch (Exception ignored) {
+
+                }
                 startTime.validate();
             }
         });
@@ -149,9 +167,16 @@ public class GiftRequestFormController extends DefaultServiceRequestFormControll
         //end time picker
         RequiredFieldValidator validatorEnd = new RequiredFieldValidator();
         endTime.getValidators().add(validatorEnd);
-        validatorEnd.setMessage("Please select an end time!");
+        validatorEnd.setMessage("Please select a valid end time!");
         endTime.focusedProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue) {
+                try {
+                    if (endTime.getValue().getHour() < startTime.getValue().getHour()) {
+                        endTime.setValue(null);
+                    }
+                } catch (Exception ignored) {
+
+                }
                 endTime.validate();
             }
         });
@@ -243,7 +268,8 @@ public class GiftRequestFormController extends DefaultServiceRequestFormControll
                 patientName.getText().isEmpty() || loc.getValue() == null ||
                         deliveryDate.getValue() == null || startTime.getValue() == null ||
                         endTime.getValue() == null || message.getText().isEmpty() ||
-                        !(balloons.isSelected() || teddyBear.isSelected() || chocolate.isSelected())
+                        !(balloons.isSelected() || teddyBear.isSelected() || chocolate.isSelected()
+                        || super.validateCommon())
         );
     }
 

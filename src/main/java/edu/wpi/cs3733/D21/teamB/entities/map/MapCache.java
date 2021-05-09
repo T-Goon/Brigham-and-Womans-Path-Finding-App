@@ -8,7 +8,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
-import javafx.scene.text.Text;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,13 +15,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class MapCache {
 
     @Getter
     @Setter
     private List<Line> edgesPlaced = new ArrayList<>(); // All of the lines currently placed on the map
+
+    @Getter
+    @Setter
+    private Map<String, List<Line>> instructionsToEdges = new HashMap<>(); // Instructions to lists of lines involved with that instruction
 
     @Getter
     @Setter
@@ -73,9 +75,13 @@ public class MapCache {
     private Path finalPath;
 
     @Getter
-    private final Map<String, String> categoryNameMap = new HashMap<>();
+    @Setter
+    private double avgX, avgY, scaleAmount;
 
-    public MapCache(){
+    @Getter
+    private final Map<String, String> categoryNameMap = new HashMap<>(); // Map of category short name -> category long name
+
+    public MapCache() {
         categoryNameMap.put("SERV", "Services");
         categoryNameMap.put("REST", "Restrooms");
         categoryNameMap.put("LABS", "Lab Rooms");
@@ -111,7 +117,7 @@ public class MapCache {
                     tempList.add(tempItem);
                     catNameMap.put(n.getNodeType(), tempList);
                 } else {
-                    if (catNameMap.get(n.getNodeType()).stream().filter(item -> item.getValue().equals(n.getLongName())).count() == 0) {
+                    if (catNameMap.get(n.getNodeType()).stream().noneMatch(item -> item.getValue().equals(n.getLongName()))) {
 
                         catNameMap.get(n.getNodeType()).add(new TreeItem<>(n.getLongName()));
                     }

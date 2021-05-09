@@ -5,8 +5,6 @@ import edu.wpi.cs3733.D21.teamB.App;
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.User;
 import edu.wpi.cs3733.D21.teamB.entities.requests.Request;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
@@ -24,7 +22,7 @@ public class UserWrapper {
     private final Label username;
     private final Label firstName;
     private final Label lastName;
-    private Label employeeName;
+    private final Label employeeName;
     private final TableView parentTable;
     private final JFXButton btnEdit;
     private final JFXButton btnDel;
@@ -51,14 +49,11 @@ public class UserWrapper {
         JFXButton btnEdit = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/cs3733/D21/teamB/views/misc/tableEditBtn.fxml")));
         btnEdit.setId(u.getUsername() + "EditBtn");
 
-        btnEdit.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                Stage stage = App.getPrimaryStage();
-                stage.setUserData(u);
-                SceneSwitcher.addingUser = false;
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/cs3733/D21/teamB/views/menus/userInformationDatabase.fxml", "/edu/wpi/cs3733/D21/teamB/views/menus/editUserMenu.fxml");
-            }
+        btnEdit.setOnAction(event -> {
+            Stage stage = App.getPrimaryStage();
+            stage.setUserData(u);
+            SceneSwitcher.editingUserState = SceneSwitcher.UserState.EDIT;
+            SceneSwitcher.switchScene("/edu/wpi/cs3733/D21/teamB/views/menus/userInformationDatabase.fxml", "/edu/wpi/cs3733/D21/teamB/views/menus/editUserMenu.fxml");
         });
 
 
@@ -71,8 +66,8 @@ public class UserWrapper {
         btnDel.setOnAction(event -> {
             try {
                 DatabaseHandler.getHandler().deleteUser(u.getUsername());
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
             parentTable.getItems().removeIf((Object o) -> ((UserWrapper) o).u.getUsername().equals(u.getUsername()));
         });

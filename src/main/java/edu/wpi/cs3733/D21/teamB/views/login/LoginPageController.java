@@ -15,6 +15,8 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
+
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -46,10 +48,13 @@ public class LoginPageController extends BasePageController implements Initializ
 
     private Camera camera;
 
+    @FXML
+    private StackPane stackPane;
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        super.initialize(location,resources);
         //Add event listeners to the text boxes so user can submit by pressing enter
         username.setOnKeyPressed(event -> {
             if (event.getCode().equals(KeyCode.ENTER) && !areFormsEmpty()) {
@@ -80,13 +85,13 @@ public class LoginPageController extends BasePageController implements Initializ
                 handleLoginSubmit();
                 break;
             case "btnEmergency":
-                SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
+                SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
                 break;
             case "btnFace":
-                SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/cs3733/D21/teamB/views/face/FaceDetection.fxml");
+                SceneSwitcher.switchScene("/edu/wpi/cs3733/D21/teamB/views/face/FaceDetection.fxml");
                 break;
             case "btnRegisterPage":
-                SceneSwitcher.switchFromTemp(getClass(), "/edu/wpi/cs3733/D21/teamB/views/login/registerPage.fxml");
+                SceneSwitcher.switchFromTemp("/edu/wpi/cs3733/D21/teamB/views/login/registerPage.fxml");
                 break;
         }
     }
@@ -102,7 +107,7 @@ public class LoginPageController extends BasePageController implements Initializ
             error.setVisible(true);
             return;
         }
-        SceneSwitcher.switchFromTemp(getClass(), "/edu/wpi/cs3733/D21/teamB/views/menus/userDirectoryMenu.fxml");
+        SceneSwitcher.switchFromTemp("/edu/wpi/cs3733/D21/teamB/views/menus/userDirectoryMenu.fxml");
     }
 
     /**

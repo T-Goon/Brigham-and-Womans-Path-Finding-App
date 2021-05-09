@@ -6,7 +6,6 @@ import edu.wpi.cs3733.D21.teamB.App;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.*;
 import edu.wpi.cs3733.D21.teamB.entities.map.node.ChangeParkingSpotPopup;
 import edu.wpi.cs3733.D21.teamB.entities.map.node.GraphicalInputPopup;
-import edu.wpi.cs3733.D21.teamB.entities.map.node.TxtDirPopup;
 import edu.wpi.cs3733.D21.teamB.pathfinding.Directions;
 import edu.wpi.cs3733.D21.teamB.pathfinding.Graph;
 import edu.wpi.cs3733.D21.teamB.util.Popup.PoppableManager;
@@ -14,6 +13,7 @@ import edu.wpi.cs3733.D21.teamB.views.map.PathfindingMenuController;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import lombok.Getter;
 import net.kurobako.gesturefx.GesturePane;
 
 import java.util.ArrayList;
@@ -35,6 +35,7 @@ public class MapPathPopupManager implements PoppableManager {
 
     private GraphicalInputPopup giPopup;
     private ETAPopup etaPopup;
+    @Getter
     private TxtDirPopup txtDirPopup;
     private ChangeParkingSpotPopup cpsPopup;
 
@@ -60,7 +61,7 @@ public class MapPathPopupManager implements PoppableManager {
      */
     public void createGraphicalInputPopup(Node n) {
 
-        GraphicalInputData giData = new GraphicalInputData(n.getLongName(), txtStartLocation, txtEndLocation,
+        GraphicalInputData giData = new GraphicalInputData(n, txtStartLocation, txtEndLocation,
                 btnRemoveStop, md, mc, pfmc, this);
 
         giPopup = new GraphicalInputPopup(mapStack, giData, gpane);
@@ -74,16 +75,17 @@ public class MapPathPopupManager implements PoppableManager {
     /**
      * Draw the estimated time dialog box
      *
-     * @param path the path to draw the box on
+     * @param totalPath the path to get the estimated time for
+     * @param floorPath the path to draw the eta popup on
      */
-    public ETAPopup createETAPopup(Path path) {
+    public ETAPopup createETAPopup(Path totalPath, Path floorPath) {
 
         // No path
-        if (path.getPath().size() == 0) return null;
+        if (floorPath.getPath().size() == 0) return null;
 
-        String estimatedTime = Graph.getEstimatedTime(path);
+        String estimatedTime = Graph.getEstimatedTime(totalPath);
 
-        ETAPopupData etaPopupData = new ETAPopupData(estimatedTime, path);
+        ETAPopupData etaPopupData = new ETAPopupData(estimatedTime, floorPath);
         etaPopup = new ETAPopup(nodeHolder, etaPopupData);
 
         etaPopup.show();
@@ -93,17 +95,19 @@ public class MapPathPopupManager implements PoppableManager {
 
     public TxtDirPopup createTxtDirPopup(Path path) {
 
+        removeTxtDirPopup();
+
         Map<String, String> longToId = mc.makeLongToIDMap();
 
         List<String> ids = new ArrayList<>();
 
-        for(String longName : mc.getStopsList()){
+        for (String longName : mc.getStopsList()) {
             ids.add(longToId.get(longName));
         }
 
-        List<String> instructions = Directions.instructions(path, ids);
-
-        TxtDirPopupData txtDirPopupData = new TxtDirPopupData(instructions);
+        List<Directions.Direction> instructions = Directions.instructions(path, ids);
+        if (instructions == null) return null;
+        TxtDirPopupData txtDirPopupData = new TxtDirPopupData(instructions, md, mc, pfmc.getFloorSwitcher(), gpane, pfmc.getStackPane());
         txtDirPopup = new TxtDirPopup(textDirectionsHolder, txtDirPopupData);
         App.getPrimaryStage().setUserData(txtDirPopup);
         txtDirPopup.show();
@@ -130,6 +134,12 @@ public class MapPathPopupManager implements PoppableManager {
         return cpsPopup;
     }
 
+
+    public boolean hasTxtDirPopup() {
+        return txtDirPopup != null;
+    }
+
+
     /**
      * Remove the etaPopup from the map
      */
@@ -141,6 +151,16 @@ public class MapPathPopupManager implements PoppableManager {
     }
 
     /**
+     * Returns the text direction popup from the map
+     */
+    public void removeTxtDirPopup() {
+        if (txtDirPopup != null) {
+            txtDirPopup.hide();
+            txtDirPopup = null;
+        }
+    }
+
+    /**
      * Remove all popups managed my this class.
      */
     public void removeAllPopups() {
@@ -148,9 +168,10 @@ public class MapPathPopupManager implements PoppableManager {
             giPopup.hide();
             giPopup = null;
         }
-        if (txtDirPopup != null) {
-            txtDirPopup.hide();
-            txtDirPopup = null;
+
+        if (cpsPopup != null) {
+            cpsPopup.hide();
+            cpsPopup = null;
         }
     }
 }

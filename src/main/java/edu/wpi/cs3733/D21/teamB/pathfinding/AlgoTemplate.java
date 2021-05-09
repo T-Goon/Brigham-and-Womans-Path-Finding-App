@@ -9,8 +9,8 @@ public abstract class AlgoTemplate {
      * this value will determine which algorithm is being run
      *
      * @param newCost accumulated edge cost
-     * @param heur the calculated heuristic
-     * @return
+     * @param heur    the calculated heuristic
+     * @return the calculated cost
      */
     abstract double calculateFVal(double newCost, double heur);
 
@@ -56,7 +56,8 @@ public abstract class AlgoTemplate {
                 for (Node neighbor : graph.getAdjNodesById(current.getNodeID())) {
 
                     // Deals with mobility
-                    if (mobility && neighbor.getNodeType().equals("STAI")) continue;
+                    if (mobility && current.getNodeType().equals("STAI") && neighbor.getNodeType().equals("STAI"))
+                        continue;
 
                     //Calculate the cost of reaching the next node
                     double newCost = costSoFar.get(current.getNodeID()) + Graph.dist(current, neighbor);

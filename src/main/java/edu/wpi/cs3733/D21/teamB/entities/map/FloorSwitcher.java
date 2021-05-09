@@ -7,6 +7,7 @@ import javafx.scene.image.ImageView;
 public class FloorSwitcher {
     private final MapDrawer mapDrawer;
     private final MapCache mapCache;
+    private final MapPathPopupManager mapPathPopupManager;
     private final ImageView map;
 
     private final JFXButton btnF3;
@@ -17,11 +18,11 @@ public class FloorSwitcher {
 
     private JFXButton currentlySelected;
 
-    private final static String floor3Path = "/edu/wpi/cs3733/D21/teamB/images/maps/03_thethirdfloor.png";
-    private final static String floor2Path = "/edu/wpi/cs3733/D21/teamB/images/maps/02_thesecondfloor.png";
-    private final static String floor1Path = "/edu/wpi/cs3733/D21/teamB/images/maps/01_thefirstfloor-Edited.png";
-    private final static String floorL1Path = "/edu/wpi/cs3733/D21/teamB/images/maps/00_thelowerlevel1.png";
-    private final static String floorL2Path = "/edu/wpi/cs3733/D21/teamB/images/maps/00_thelowerlevel2.png";
+    private final static String floor3Path = "/edu/wpi/cs3733/D21/teamB/images/maps/floors/03_thethirdfloor.png";
+    private final static String floor2Path = "/edu/wpi/cs3733/D21/teamB/images/maps/floors/02_thesecondfloor.png";
+    private final static String floor1Path = "/edu/wpi/cs3733/D21/teamB/images/maps/floors/01_thefirstfloor-Edited.png";
+    private final static String floorL1Path = "/edu/wpi/cs3733/D21/teamB/images/maps/floors/00_thelowerlevel1.png";
+    private final static String floorL2Path = "/edu/wpi/cs3733/D21/teamB/images/maps/floors/00_thelowerlevel2.png";
 
     public final static String floor3ID = "3";
     public final static String floor2ID = "2";
@@ -29,9 +30,10 @@ public class FloorSwitcher {
     public final static String floorL1ID = "L1";
     public final static String floorL2ID = "L2";
 
-    public FloorSwitcher(MapDrawer mapDrawer, MapCache mapCache, ImageView map, JFXButton btnF3, JFXButton btnF2, JFXButton btnF1, JFXButton btnFL1, JFXButton btnFL2) {
+    public FloorSwitcher(MapDrawer mapDrawer, MapCache mapCache, MapPathPopupManager mapPathPopupManager, ImageView map, JFXButton btnF3, JFXButton btnF2, JFXButton btnF1, JFXButton btnFL1, JFXButton btnFL2) {
         this.mapDrawer = mapDrawer;
         this.mapCache = mapCache;
+        this.mapPathPopupManager = mapPathPopupManager;
         this.map = map;
         this.btnF3 = btnF3;
         this.btnF2 = btnF2;
@@ -49,58 +51,64 @@ public class FloorSwitcher {
     public void switchFloor(String floor) {
         switch (floor) {
             case floor3ID:
-                if(mapCache.getFinalPath()!=null && !mapCache.getCurrentFloor().equals(floor3ID)){
-                    mapDrawer.drawPath();
-                }
 
-                map.setImage(new Image(floor3Path));
                 mapCache.setCurrentFloor(floor3ID);
+                map.setImage(new Image(floor3Path));
                 mapDrawer.drawAllElements();
                 highlightFloorButton(floor3ID);
+                if (mapCache.getFinalPath() != null) {
+                    mapDrawer.drawPath();
+                }
                 break;
             case floor2ID:
-                if(mapCache.getFinalPath()!=null && !mapCache.getCurrentFloor().equals(floor2ID)){
-                    mapDrawer.drawPath();
-                }
 
-                map.setImage(new Image(floor2Path));
                 mapCache.setCurrentFloor(floor2ID);
+                map.setImage(new Image(floor2Path));
                 mapDrawer.drawAllElements();
                 highlightFloorButton(floor2ID);
+                if (mapCache.getFinalPath() != null) {
+                    mapDrawer.drawPath();
+                }
                 break;
             case floor1ID:
-                if(mapCache.getFinalPath()!=null && !mapCache.getCurrentFloor().equals(floor1ID)){
-                    mapDrawer.drawPath();
-                }
 
-                map.setImage(new Image(floor1Path));
                 mapCache.setCurrentFloor(floor1ID);
+                map.setImage(new Image(floor1Path));
                 mapDrawer.drawAllElements();
                 highlightFloorButton(floor1ID);
+                if (mapCache.getFinalPath() != null) {
+                    mapDrawer.drawPath();
+                }
                 break;
             case floorL1ID:
-                if(mapCache.getFinalPath()!=null && !mapCache.getCurrentFloor().equals(floorL1ID)){
-                    mapDrawer.drawPath();
-                }
 
-                map.setImage(new Image(floorL1Path));
+
                 mapCache.setCurrentFloor(floorL1ID);
+                map.setImage(new Image(floorL1Path));
                 mapDrawer.drawAllElements();
                 highlightFloorButton(floorL1ID);
-                break;
-            case floorL2ID:
-                if(mapCache.getFinalPath()!=null && !mapCache.getCurrentFloor().equals(floorL2ID)){
+                if (mapCache.getFinalPath() != null) {
                     mapDrawer.drawPath();
                 }
+                break;
+            case floorL2ID:
 
-                map.setImage(new Image(floorL2Path));
                 mapCache.setCurrentFloor(floorL2ID);
+                map.setImage(new Image(floorL2Path));
                 mapDrawer.drawAllElements();
                 highlightFloorButton(floorL2ID);
+                if (mapCache.getFinalPath() != null) {
+                    mapDrawer.drawPath();
+                }
                 break;
             default:
-                System.err.println("NO FLOOR! AAAAAAAAAAAAHHHHHHHHHHH!!!!!!!!!!!!!");
-                break;
+                throw new IllegalStateException("NO FLOOR! AAAAAAAAAAAAHHHHHHHHHHH!!!!!!!!!!!!!");
+        }
+
+        // Update the edges for the text direction popup
+        if (mapPathPopupManager.hasTxtDirPopup()) {
+            TxtDirPopup popup = mapPathPopupManager.getTxtDirPopup();
+            popup.updateEdges();
         }
     }
 
@@ -129,8 +137,7 @@ public class FloorSwitcher {
                 currentlySelected = btnFL2;
                 break;
             default:
-                System.err.println("NO FLOOR! AAAAAAAAAAAAHHHHHHHHHHH!!!!!!!!!!!!!");
-                break;
+                throw new IllegalStateException("NO FLOOR! AAAAAAAAAAAAHHHHHHHHHHH!!!!!!!!!!!!!");
         }
 
         currentlySelected.setStyle("-fx-border-color: RED; -fx-border-width: 3; -fx-background-color:  F6BD39;");
@@ -138,6 +145,7 @@ public class FloorSwitcher {
 
     /**
      * Converts a floor id to a int.
+     *
      * @param floorID A floor id.
      * @return An int that represents the placement of the floor
      */
@@ -154,7 +162,7 @@ public class FloorSwitcher {
             case floorL2ID:
                 return -2;
             default:
-                throw new IllegalArgumentException("NO FLOOR! AAAAAAAAAAAAHHHHHHHHHHH!!!!!!!!!!!!!");
+                throw new IllegalArgumentException("NO FLOOR! AAAAAAAAAAAAHHHHHHHHHHH!!!!!!!!!!!!!" + " (the attempted floor was '" + floorID + "')");
         }
     }
 }

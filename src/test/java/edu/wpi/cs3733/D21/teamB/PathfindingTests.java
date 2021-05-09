@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PathfindingTests {
 
-    AStar aStar = new AStar();
+    final AStar aStar = new AStar();
 
     @BeforeAll
     static void initDB() {
@@ -355,6 +355,15 @@ public class PathfindingTests {
 
         double slightRight = Directions.angleBetweenEdges(a, b, c);
     }
+
+//    @Test
+    //tested on app
+//    public void DijkstraFindPathCat(){
+//        List<String> ids = new ArrayList<>();
+//        ids.add("AREST00101");
+//
+//        Path path = new Dijkstra().findPath("bPARK01501", false, ids);
+//    }
 
 //    @Test
 //    public void testSimplePath() {

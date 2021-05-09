@@ -7,13 +7,14 @@ import com.dlsc.gmapsfx.service.directions.*;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.validation.RequiredFieldValidator;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
 import edu.wpi.cs3733.D21.teamB.views.BasePageController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -21,7 +22,7 @@ import java.util.ResourceBundle;
 public class DirectionsMenuController extends BasePageController implements Initializable, MapComponentInitializedListener, DirectionsServiceCallback {
 
     @FXML
-    private StackPane mapHolder;
+    private StackPane stackPane;
 
     @FXML
     private JFXTextField txtStartLocation;
@@ -64,16 +65,39 @@ public class DirectionsMenuController extends BasePageController implements Init
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        super.initialize(location, resources);
         comboEndLocation.getItems().add("BWH Visitor Parking");
         comboEndLocation.getItems().add("15-51 New Whitney St Parking");
 
 
         mapView = new GoogleMapView("en", "AIzaSyD4MPvha5ZUWDmOuuvxPSMW0NH1h3bZUXs");
-        mapHolder.getChildren().add(0, mapView);
+        stackPane.getChildren().add(0, mapView);
 
 
         mapView.addMapInitializedListener(this);
+
+
+        RequiredFieldValidator startLocationValidator = new RequiredFieldValidator();
+        startLocationValidator.setMessage("Please enter a starting location");
+        txtStartLocation.getValidators().add(startLocationValidator);
+
+        RequiredFieldValidator endLocationValidator = new RequiredFieldValidator();
+        startLocationValidator.setMessage("Please select a ending location");
+        comboEndLocation.getValidators().add(endLocationValidator);
+
+
+        txtStartLocation.setOnKeyPressed(event -> {
+            if(event.getCode().equals(KeyCode.ENTER)&&canSubmit()){
+                getRoute();
+            }
+        });
+
+        comboEndLocation.setOnKeyPressed(event -> {
+            if(event.getCode().equals(KeyCode.ENTER)&&canSubmit()){
+                getRoute();
+            }
+        });
+
     }
 
     private void getRoute() {
@@ -97,12 +121,20 @@ public class DirectionsMenuController extends BasePageController implements Init
                 getRoute();
                 break;
             case "btnEmergency":
-                SceneSwitcher.switchScene(getClass(), "/edu/wpi/cs3733/D21/teamB/views/map/directionsMenu.fxml", "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
+                SceneSwitcher.switchScene("/edu/wpi/cs3733/D21/teamB/views/map/directionsMenu.fxml", "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
                 break;
         }
     }
 
     @Override
     public void directionsReceived(DirectionsResult results, DirectionStatus status) {
+    }
+
+    public void validateButton(ActionEvent actionEvent) {
+        btnSubmit.setDisable(!canSubmit());
+    }
+
+    private boolean canSubmit(){
+        return !txtStartLocation.getText().isEmpty() && !comboEndLocation.getSelectionModel().getSelectedItem().isEmpty();
     }
 }

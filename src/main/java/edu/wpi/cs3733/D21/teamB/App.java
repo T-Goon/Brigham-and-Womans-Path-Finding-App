@@ -10,6 +10,7 @@ import java.util.*;
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.User;
 import edu.wpi.cs3733.D21.teamB.util.CSVHandler;
+import edu.wpi.cs3733.D21.teamB.util.ExternalCommunication;
 import edu.wpi.cs3733.D21.teamB.util.FileUtil;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
 import edu.wpi.cs3733.D21.teamB.views.face.Camera;
@@ -35,11 +36,9 @@ public class App extends Application {
 
     @Override
     public void init() {
-
         try {
-            FileUtil.copy(getClass().getResourceAsStream("/edu/wpi/cs3733/D21/teamB/xml/lbpcascade_frontalface.xml"),
-                    new File("").getAbsolutePath()+"/lbpcascade_frontalface.xml");
-        } catch (Exception e) {
+            Class.forName("org.sqlite.JDBC");
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
 
@@ -82,7 +81,7 @@ public class App extends Application {
             try {
                 db.executeSchema();
                 if (!db.isInitialized()) {
-                    SceneSwitcher.switchFromTemp(getClass(), "/edu/wpi/cs3733/D21/teamB/views/login/databaseInit.fxml");
+                    SceneSwitcher.switchFromTemp("/edu/wpi/cs3733/D21/teamB/views/login/databaseInit.fxml");
                     primaryStage.show();
 
                     dbThread = new Thread(() -> {
@@ -91,7 +90,7 @@ public class App extends Application {
                         } catch (SQLException e) {
                             e.printStackTrace();
                         }
-                        Platform.runLater(() -> SceneSwitcher.switchFromTemp(getClass(), "/edu/wpi/cs3733/D21/teamB/views/login/mainPage.fxml"));
+                        Platform.runLater(() -> SceneSwitcher.switchFromTemp("/edu/wpi/cs3733/D21/teamB/views/login/mainPage.fxml"));
                     });
                     dbThread.start();
                 } else primaryStage.show();
@@ -104,19 +103,22 @@ public class App extends Application {
                 HashMap<User, String> requiredUsers = new HashMap<>();
 
                 //Required users
-                requiredUsers.put(new User("admin", "Professor", "X", User.AuthenticationLevel.ADMIN, null), "admin");
-                requiredUsers.put(new User("staff", "Mike", "Bedard", User.AuthenticationLevel.STAFF, null), "staff");
-                requiredUsers.put(new User("guest", "T", "Goon", User.AuthenticationLevel.PATIENT, null), "guest");
+                requiredUsers.put(new User("admin", "admin@fakeemail.com", "Professor", "X", User.AuthenticationLevel.ADMIN, "F", null), "admin");
+                requiredUsers.put(new User("staff", "bwhapplication@gmail.com", "Mike", "Bedard", User.AuthenticationLevel.STAFF, "F", null), "staff");
+                requiredUsers.put(new User("patient", "patient@fakeemail.com", "T", "Goon", User.AuthenticationLevel.PATIENT, "F", null), "patient");
 
                 for (User u : requiredUsers.keySet()) {
                     if (db.getUserByUsername(u.getUsername()) == null) {
                         db.addUser(u, requiredUsers.get(u));
                     }
                 }
+                db.resetTemporaryUser();
+                db.deauthenticate();
 
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -130,6 +132,9 @@ public class App extends Application {
     public void stop() {
         if (dbThread != null)
             dbThread.stop();
+        for (Thread t : ExternalCommunication.threads)
+            t.stop();
+        ExternalCommunication.threads.clear();
         DatabaseHandler.getHandler().shutdown();
         try {
             FileUtils.forceDelete(new File("haarcascade_frontalface_alt.xml"));

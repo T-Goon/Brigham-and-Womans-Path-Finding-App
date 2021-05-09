@@ -16,7 +16,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" style="-fx-background-color: #012d5a;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D21.teamB.views.menus.ServiceRequestDatabaseController">
     <children>
-        <StackPane fx:id="stackContainer" layoutY="-28.083261489868164" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <StackPane fx:id="stackPane" layoutY="-28.083261489868164" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
                 <VBox prefHeight="600.0" prefWidth="900.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <children>
@@ -74,12 +74,13 @@
                                         <TableView fx:id="tblRequests" prefHeight="634.0" prefWidth="1181.0" style="-fx-background-color: #0067B1;" stylesheets="@../../css/editorTable.css">
                                             <columns>
                                                 <TableColumn fx:id="editCol" minWidth="80.0" prefWidth="-1.0" />
-                                                <TableColumn fx:id="typeCol" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="500.0" text="Service Request Type" />
-                                                <TableColumn fx:id="timeCol" prefWidth="100.0" text="Time" />
-                                                <TableColumn fx:id="dateCol" prefWidth="100.0" text="Date" />
-                                                <TableColumn fx:id="completeCol" minWidth="80.0" prefWidth="100.0" text="Complete" />
-                                                <TableColumn fx:id="employeeCol" minWidth="80.0" prefWidth="204.0" text="Assigned To" />
-                                                <TableColumn fx:id="delCol" minWidth="74.0" prefWidth="89.0" />
+                                    <TableColumn fx:id="nameCol" prefWidth="100.0" text="Name" />
+                                                <TableColumn fx:id="typeCol" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="432.0" text="Service Request Type" />
+                                                <TableColumn fx:id="timeCol" prefWidth="136.0" text="Time" />
+                                                <TableColumn fx:id="dateCol" prefWidth="106.0" text="Date" />
+                                                <TableColumn fx:id="completeCol" minWidth="80.0" prefWidth="126.0" text="Complete" />
+                                                <TableColumn fx:id="employeeCol" minWidth="80.0" prefWidth="124.0" text="Assigned To" />
+                                                <TableColumn fx:id="delCol" minWidth="72.0" prefWidth="72.0" />
                                             </columns>
                                         </TableView>
                                     </content>
@@ -93,7 +94,7 @@
                             <children>
                                 <HBox alignment="BOTTOM_LEFT" HBox.hgrow="ALWAYS">
                                     <children>
-                              <JFXButton fx:id="btnBack" alignment="CENTER" buttonType="RAISED" cancelButton="true" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#handleButtonAction" prefHeight="56" prefWidth="56" style="-fx-background-color: #0067B1; -fx-background-radius: 50%;" text="🡰" textAlignment="CENTER" textFill="WHITE">
+                              <JFXButton fx:id="btnBack" accessibleText="Leave page" alignment="CENTER" buttonType="RAISED" cancelButton="true" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#handleButtonAction" prefHeight="56" prefWidth="56" style="-fx-background-color: #0067B1; -fx-background-radius: 50%;" text="🡰" textAlignment="CENTER" textFill="WHITE">
                                  <font>
                                     <Font size="27.0" />
                                  </font>

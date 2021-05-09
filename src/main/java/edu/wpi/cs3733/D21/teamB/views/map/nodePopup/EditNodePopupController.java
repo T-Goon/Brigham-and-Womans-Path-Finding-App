@@ -56,30 +56,11 @@ public class EditNodePopupController implements Initializable {
 
     private EditNodeWindow window;
 
-    private Map<String, String> categoryNameMap;
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         window = (EditNodeWindow) App.getPrimaryStage().getUserData();
 
-        categoryNameMap = new HashMap<>();
-
-        //Add better category names to a hash map
-        categoryNameMap.put("SERV", "Services");
-        categoryNameMap.put("REST", "Restrooms");
-        categoryNameMap.put("LABS", "Lab Rooms");
-        categoryNameMap.put("ELEV", "Elevators");
-        categoryNameMap.put("DEPT", "Departments");
-        categoryNameMap.put("CONF", "Conference Rooms");
-        categoryNameMap.put("INFO", "Information Locations");
-        categoryNameMap.put("RETL", "Retail Locations");
-        categoryNameMap.put("EXIT", "Entrances");
-        categoryNameMap.put("STAI", "Stairs");
-        categoryNameMap.put("PARK", "Parking Spots");
-        categoryNameMap.put("HALL", "Hallway");
-        categoryNameMap.put("WALK", "Sidewalk");
-
-        List<String> temp = new ArrayList<>(categoryNameMap.values());
+        List<String> temp = new ArrayList<>(window.getData().getMc().getCategoryNameMap().values());
         Collections.sort(temp);
         nodeType.getItems().addAll(temp);
 
@@ -89,7 +70,7 @@ public class EditNodePopupController implements Initializable {
         floor.setText(window.getData().getFloor());
         floor.setDisable(true);
         building.setText(window.getData().getBuilding());
-        nodeType.getSelectionModel().select(categoryNameMap.get(window.getData().getNodeType()));
+        nodeType.getSelectionModel().select(window.getData().getMc().getCategoryNameMap().get(window.getData().getNodeType()));
         longName.setText(window.getData().getLongName());
         shortName.setText(window.getData().getShortName());
         clrPicker.setValue(window.getData().getColor());
@@ -133,8 +114,8 @@ public class EditNodePopupController implements Initializable {
                 String b = building.getText().trim();
                 String aNodeType = nodeType.getValue().trim();
                 String t = "ERROR!";
-                for (String s : categoryNameMap.keySet()) {
-                    if (categoryNameMap.get(s).equals(aNodeType)) {
+                for (String s : window.getData().getMc().getCategoryNameMap().keySet()) {
+                    if (window.getData().getMc().getCategoryNameMap().get(s).equals(aNodeType)) {
                         t = s;
                         break;
                     }

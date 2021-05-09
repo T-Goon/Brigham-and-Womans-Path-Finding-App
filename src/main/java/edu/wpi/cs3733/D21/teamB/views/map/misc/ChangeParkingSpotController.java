@@ -30,7 +30,7 @@ public class ChangeParkingSpotController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         popup = (ChangeParkingSpotPopup) App.getPrimaryStage().getUserData();
-        parkingName.setText(popup.getData().getNodeName());
+        parkingName.setText(popup.getData().getNode().getLongName());
     }
 
     @FXML
@@ -39,7 +39,7 @@ public class ChangeParkingSpotController implements Initializable {
 
         switch (btn.getId()) {
             case "btnChangeParking":
-                popup.setParkingSpot(popup.getData().getNodeName());
+                popup.setParkingSpot(popup.getData().getNode().getLongName());
                 popup.notifyObserver();
                 popup.hide();
                 break;

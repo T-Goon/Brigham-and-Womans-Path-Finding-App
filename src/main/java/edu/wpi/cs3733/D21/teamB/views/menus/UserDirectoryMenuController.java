@@ -9,6 +9,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 import java.net.URL;
@@ -17,39 +18,74 @@ import java.util.ResourceBundle;
 public class UserDirectoryMenuController extends BasePageController implements Initializable {
 
     @FXML
-    private HBox buttonPane;
+    private VBox buttonPane;
 
     @FXML
     private Text directoryText;
 
     @FXML
+    private VBox covidHolder;
+
+    @FXML
     private JFXButton btnCovid;
 
     @FXML
-    private JFXButton btnDatabase;
+    private VBox directionsHolder;
+
+    @FXML
+    private JFXButton btnDirections;
+
+    @FXML
+    private VBox googleMapsHolder;
+
+    @FXML
+    private JFXButton btnGoogle;
+
+    @FXML
+    private VBox serviceRequestHolder;
 
     @FXML
     private JFXButton btnServiceRequests;
 
     @FXML
-    private JFXButton btnEmergency;
+    private VBox requestDBHolder;
+
+    @FXML
+    private JFXButton btnDatabase;
+
+    @FXML
+    private VBox userDBHolder;
 
     @FXML
     private JFXButton btnUsers;
 
+    @FXML
+    private VBox settingsHolder;
+
+    @FXML
+    private JFXButton btnSettings;
+
+    @FXML
+    private JFXButton btnEmergency;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         if (DatabaseHandler.getHandler().getAuthenticationUser().isAtLeast(User.AuthenticationLevel.ADMIN)) {
             directoryText.setText("Admin Directory");
-            buttonPane.getChildren().remove(0);
+            ((HBox) buttonPane.getChildren().get(0)).getChildren().remove(covidHolder);
+            ((HBox) buttonPane.getChildren().get(1)).getChildren().remove(serviceRequestHolder);
+            ((HBox) buttonPane.getChildren().get(0)).getChildren().add(serviceRequestHolder);
         } else if (DatabaseHandler.getHandler().getAuthenticationUser().isAtLeast(User.AuthenticationLevel.STAFF)) {
             directoryText.setText("Staff Directory");
-            buttonPane.getChildren().remove(5);
-            buttonPane.getChildren().remove(0);
+            ((HBox) buttonPane.getChildren().get(0)).getChildren().remove(covidHolder);
+            ((HBox) buttonPane.getChildren().get(1)).getChildren().remove(userDBHolder);
         } else {
             directoryText.setText("Patient Directory");
-            buttonPane.getChildren().remove(3, 6);
+            ((HBox) buttonPane.getChildren().get(1)).getChildren().remove(serviceRequestHolder);
+            ((HBox) buttonPane.getChildren().get(1)).getChildren().remove(requestDBHolder);
+            ((HBox) buttonPane.getChildren().get(1)).getChildren().remove(userDBHolder);
+            ((HBox) buttonPane.getChildren().get(1)).getChildren().remove(settingsHolder);
+            ((HBox) buttonPane.getChildren().get(0)).getChildren().add(settingsHolder);
         }
     }
 
@@ -60,25 +96,58 @@ public class UserDirectoryMenuController extends BasePageController implements I
         JFXButton btn = (JFXButton) e.getSource();
         switch (btn.getId()) {
             case "btnCovid":
-                SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidSurvey.fxml");
+                switch (DatabaseHandler.getHandler().getAuthenticationUser().getCovidStatus()) {
+                    case UNCHECKED:
+                        SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidSurvey.fxml");
+                        break;
+                    case PENDING:
+                        SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidFormPending.fxml");
+                        //Insert intermediate back target
+                        SceneSwitcher.pushPath("/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidSurvey.fxml");
+                        break;
+                    default:
+                        SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidFormAccepted.fxml");
+                        //Insert intermediate back target
+                        SceneSwitcher.pushPath("/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidSurvey.fxml");
+                        break;
+                }
                 break;
             case "btnDirections":
-                SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/cs3733/D21/teamB/views/map/pathfindingMenu.fxml");
+                if (DatabaseHandler.getHandler().getAuthenticationUser().getAuthenticationLevel().equals(User.AuthenticationLevel.PATIENT)){
+                    switch (DatabaseHandler.getHandler().getAuthenticationUser().getCovidStatus()) {
+                        case UNCHECKED:
+                            SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidSurvey.fxml");
+                            break;
+                        case PENDING:
+                            SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidFormPending.fxml");
+                            //Insert intermediate back target
+                            SceneSwitcher.pushPath("/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidSurvey.fxml");
+                            break;
+                        default:
+                            SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/map/pathfindingMenu.fxml");
+                            break;
+                    }
+                }else {
+                    SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/map/pathfindingMenu.fxml");
+                }
                 break;
             case "btnGoogle":
-                SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/cs3733/D21/teamB/views/map/directionsMenu.fxml");
+                SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/map/directionsMenu.fxml");
                 break;
             case "btnServiceRequests":
-                SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestMenu.fxml");
+                SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestMenu.fxml");
                 break;
             case "btnDatabase":
-                SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml");
+                SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml");
                 break;
             case "btnUsers":
-                SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/cs3733/D21/teamB/views/menus/userInformationDatabase.fxml");
+                SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/menus/userInformationDatabase.fxml");
+                break;
+            case "btnSettings":
+                SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/menus/settingsMenu.fxml");
                 break;
             case "btnEmergency":
-                SceneSwitcher.switchScene(getClass(), currentPath, "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
+                SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
                 break;
             case "btnBack":
                 DatabaseHandler.getHandler().deauthenticate();

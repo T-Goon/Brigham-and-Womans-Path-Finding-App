@@ -29,6 +29,8 @@ public class Request implements IStoredEntity {
 
     private String submitter;
 
+    private String name;
+
     public Request(String requestID, RequestType requestType, String time, String date, String progress, String employeeName, String location, String description) {
         this.requestID = requestID;
         this.requestType = requestType;
@@ -39,6 +41,7 @@ public class Request implements IStoredEntity {
         this.location = location;
         this.description = description;
         this.submitter = null;
+        this.name=null;
     }
 
     public enum RequestType {
@@ -55,7 +58,8 @@ public class Request implements IStoredEntity {
         SANITATION,
         SECURITY,
         SOCIAL_WORKER,
-        EMERGENCY;
+        EMERGENCY,
+        COVID;
 
         public static String prettify(RequestType requestType) {
             switch (requestType) {
@@ -87,6 +91,8 @@ public class Request implements IStoredEntity {
                     return "Language Interpretation";
                 case EMERGENCY:
                     return "Emergency";
+                case COVID:
+                    return "Covid Survey";
                 default:
                     throw new IllegalStateException("How did we get here?");
             }
@@ -122,6 +128,8 @@ public class Request implements IStoredEntity {
                     return LANGUAGE; 
                 case "Emergency":
                     return EMERGENCY;
+                case "Covid Survey":
+                    return COVID;
                 default:
                     throw new IllegalArgumentException("Enum string not valid");
             }

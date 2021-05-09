@@ -36,7 +36,7 @@
                                 <Image url="@../../images/general/hospitalLogo.png" />
                             </image>
                         </ImageView>
-                        <JFXButton fx:id="btnEmergency" buttonType="RAISED" onAction="#handleButtonAction" style="-fx-background-color: #CE2029;" text="EMERGENCY" textFill="WHITE">
+                        <JFXButton fx:id="btnEmergency" accessibleText="Emergency" buttonType="RAISED" onAction="#handleButtonAction" style="-fx-background-color: #CE2029;" text="EMERGENCY" textFill="WHITE">
                             <font>
                                 <Font name="MS Reference Sans Serif" size="16.0" />
                             </font>
@@ -48,7 +48,7 @@
                 </VBox>
                 <VBox alignment="TOP_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
                     <children>
-                        <JFXButton fx:id="btnExit" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" onAction="#handleButtonAction" prefHeight="40.0" prefWidth="40.0" rotate="45.0" style="-fx-background-color: transparent; -fx-background-radius: 50%;" text="+" textAlignment="CENTER">
+                        <JFXButton fx:id="btnExit" accessibleText="Exit" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" onAction="#handleButtonAction" prefHeight="40.0" prefWidth="40.0" rotate="45.0" style="-fx-background-color: transparent; -fx-background-radius: 50%;" text="+" textAlignment="CENTER">
                             <padding>
                                 <Insets bottom="-10.0" left="-10.0" right="-10.0" top="-10.0" />
                             </padding>
@@ -64,30 +64,38 @@
                                 <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
                             </VBox.margin>
                         </Text>
+                  <JFXButton fx:id="btnAbout" buttonType="RAISED" onAction="#handleButtonAction" style="-fx-background-color: #012D5A;" text="About the Project" textFill="WHITE">
+                     <font>
+                        <Font name="MS Reference Sans Serif" size="20.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets right="15.0" top="10.0" />
+                     </VBox.margin>
+                  </JFXButton>
                     </children>
                 </VBox>
             </children>
         </HBox>
-      <StackPane fx:id="stackContainer">
-         <children>
+      <StackPane fx:id="stackPane">
+          <children>
               <HBox alignment="TOP_RIGHT" prefHeight="9.999999999E9" prefWidth="9.99999999E8">
                   <children>
                       <VBox alignment="BOTTOM_CENTER" minWidth="300.0" prefHeight="675.0" prefWidth="300.0" style="-fx-background-color: #012D5A;">
                           <children>
-                        <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
-                           <children>
-                              <VBox prefHeight="200.0" prefWidth="75.0" spacing="5.0" HBox.hgrow="NEVER">
-                                 <children>
-                                     <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="From:">
+                              <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                                  <children>
+                                      <VBox prefHeight="200.0" prefWidth="75.0" spacing="5.0" HBox.hgrow="NEVER">
+                                          <children>
+                                              <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="From:">
                                          <font>
                                              <Font size="18.0" />
                                          </font>
                                      </Text>
-                                     <HBox prefHeight="67.0">
+                                     <HBox prefHeight="40.0">
                                          <children>
                                              <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Stops:">
                                                  <font>
-                                                     <Font size="18.0" />
+                                                     <Font size="18.0"/>
                                                  </font>
                                              </Text>
                                          </children>
@@ -101,19 +109,19 @@
                               </VBox>
                               <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="100.0" spacing="5.0" HBox.hgrow="ALWAYS">
                                   <children>
-                                      <JFXTextField fx:id="txtStartLocation" editable="false" focusColor="#405aa800" maxWidth="-Infinity" onAction="#validateFindPathButton" prefWidth="230.0" style="-fx-background-color: white; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" />
-                                      <JFXTextArea fx:id="txtAreaStops" editable="false" maxHeight="1.7976931348623157E308" prefHeight="300.0" prefWidth="300.0" style="-fx-background-color: white; -fx-background-radius: 7;" />
-                                      <JFXTextField fx:id="txtEndLocation" editable="false" focusColor="#405aa800" maxWidth="-Infinity" onAction="#validateFindPathButton" prefWidth="230.0" style="-fx-background-color: white; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" />
+                                      <JFXTextField fx:id="txtStartLocation" accessibleText="Start Location" editable="false" focusColor="#405aa800" maxWidth="-Infinity" onAction="#validateFindPathButton" prefWidth="230.0" style="-fx-background-color: white; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" />
+                                      <JFXTextArea fx:id="txtAreaStops" accessibleText="Area Stops" editable="false" maxHeight="1.7976931348623157E308" prefHeight="300.0" prefWidth="300.0" style="-fx-background-color: white; -fx-background-radius: 7;" />
+                                      <JFXTextField fx:id="txtEndLocation" accessibleText="End Location" editable="false" focusColor="#405aa800" maxWidth="-Infinity" onAction="#validateFindPathButton" prefWidth="230.0" style="-fx-background-color: white; -fx-background-radius: 7;" unFocusColor="#4d4d4d00" />
                                       <VBox spacing="5.0">
                                           <children>
                                               <HBox spacing="10.0">
                                                   <children>
-                                                      <JFXButton fx:id="btnRemoveStop" disable="true" onAction="#handleButtonAction" prefHeight="30.0" prefWidth="100.0" style="-fx-background-color: #CE2029; -fx-background-radius: 5;" text="Remove Stop" textFill="WHITE">
+                                                      <JFXButton fx:id="btnRemoveStop" accessibleText="Remove Stop" disable="true" onAction="#handleButtonAction" prefHeight="30.0" prefWidth="100.0" style="-fx-background-color: #CE2029; -fx-background-radius: 5;" text="Remove Stop" textFill="WHITE">
                                                           <font>
                                                               <Font name="System Bold" size="12.0" />
                                                           </font>
                                                       </JFXButton>
-                                                      <JFXButton fx:id="btnFindPath" onAction="#handleButtonAction" prefHeight="30.0" prefWidth="100.0" style="-fx-background-color: #F6BD39; -fx-background-radius: 5;" text="Go" textFill="#012d5a">
+                                                      <JFXButton fx:id="btnFindPath" accessibleText="Find Path" onAction="#handleButtonAction" prefHeight="30.0" prefWidth="100.0" style="-fx-background-color: #F6BD39; -fx-background-radius: 5;" text="Go" textFill="#012d5a">
                                                           <font>
                                                               <Font name="System Bold" size="12.0" />
                                                           </font>
@@ -122,7 +130,10 @@
                                               </HBox>
                                               <HBox alignment="CENTER">
                                                   <children>
-                                                      <JFXCheckBox fx:id="btnMobility" stylesheets="@../../css/covidSurvey.css" text="Limited Mobility Path" textFill="WHITE" unCheckedColor="#595959" />
+                                                      <JFXCheckBox fx:id="btnMobility" accessibleText="Limited Mobility Path" stylesheets="@../../css/covidSurvey.css" text="Limited Mobility Path" textFill="WHITE" unCheckedColor="#595959">
+                                                   <HBox.margin>
+                                                      <Insets top="5.0" />
+                                                   </HBox.margin></JFXCheckBox>
                                                   </children>
                                               </HBox>
                                           </children>
@@ -133,6 +144,26 @@
                            <padding>
                               <Insets left="5.0" right="5.0" />
                            </padding>
+                        </HBox>
+                              <HBox>
+                                  <children>
+                                      <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Closest Location:">
+                                          <font>
+                                              <Font size="18.0" />
+                                          </font>
+                                          <HBox.margin>
+                                              <Insets bottom="10.0" left="10.0" right="10.0" />
+                                          </HBox.margin>
+                                      </Text>
+                                      <JFXComboBox fx:id="findClosestLocation" focusColor="#405aa800" prefWidth="9999.0" promptText="Find Closest Location" style="-fx-background-radius: 7; -fx-background-color: white;" unFocusColor="#4d4d4d00">
+                                 <HBox.margin>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" />
+                                 </HBox.margin>
+                              </JFXComboBox>
+                           </children>
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin>
                         </HBox>
                               <HBox alignment="CENTER" minHeight="36.0">
                                   <children>
@@ -148,7 +179,7 @@
                               </HBox>
                         <HBox>
                             <children>
-                                <JFXTextField fx:id="txtSearch" focusColor="#405aa800" onKeyReleased="#handleKeysPressedSearchBar" promptText="Search location..." style="-fx-background-color: #FFFFFF; -fx-background-radius: 5px;" unFocusColor="#4d4d4d00" HBox.hgrow="ALWAYS">
+                                <JFXTextField fx:id="txtSearch" accessibleText="Search" focusColor="#405aa800" onKeyReleased="#handleKeysPressedSearchBar" promptText="Search location..." style="-fx-background-color: #FFFFFF; -fx-background-radius: 5px;" unFocusColor="#4d4d4d00" HBox.hgrow="ALWAYS">
                                     <HBox.margin>
                                         <Insets left="5.0" right="5.0" />
                                     </HBox.margin>
@@ -157,7 +188,7 @@
                         </HBox>
                         <HBox alignment="CENTER" layoutX="15.0" layoutY="197.0" maxHeight="1.7976931348623157E308" VBox.vgrow="ALWAYS">
                            <children>
-                              <JFXTreeView fx:id="treeLocations" onMouseClicked="#handleLocationSelected" style="-fx-background-radius: 7;" stylesheets="@../../css/treeView.css" HBox.hgrow="ALWAYS">
+                              <JFXTreeView fx:id="treeLocations" accessibleText="Locations by category" onMouseClicked="#handleLocationSelected" style="-fx-background-radius: 7;" stylesheets="@../../css/treeView.css" HBox.hgrow="ALWAYS">
                                  <HBox.margin>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </HBox.margin>
@@ -166,7 +197,7 @@
                         </HBox>
                               <HBox>
                                   <children>
-                                      <JFXButton fx:id="btnTxtDir" buttonType="RAISED" disable="true" onAction="#handleButtonAction" prefWidth="9001.0" style="-fx-background-color: F6BD39;" text="Text Directions" textOverrun="CLIP">
+                                      <JFXButton fx:id="btnTxtDir" accessibleText="Text Directions" buttonType="RAISED" disable="true" onAction="#handleButtonAction" prefWidth="9001.0" style="-fx-background-color: F6BD39;" text="Text Directions" textOverrun="CLIP">
                                           <font>
                                               <Font size="14.0" />
                                           </font>
@@ -221,7 +252,7 @@
                                   <children>
                                       <VBox alignment="BOTTOM_LEFT" HBox.hgrow="ALWAYS">
                                           <children>
-                                              <JFXButton fx:id="btnBack" alignment="CENTER" buttonType="RAISED" cancelButton="true" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" onAction="#handleButtonAction" prefHeight="56" prefWidth="56" style="-fx-background-color: #0067B1; -fx-background-radius: 50%;" text="🡰" textAlignment="CENTER" textFill="WHITE">
+                                              <JFXButton fx:id="btnBack" accessibleText="Leave page" alignment="CENTER" buttonType="RAISED" cancelButton="true" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" onAction="#handleButtonAction" prefHeight="56" prefWidth="56" style="-fx-background-color: #0067B1; -fx-background-radius: 50%;" text="🡰" textAlignment="CENTER" textFill="WHITE">
                                                   <font>
                                                       <Font size="27.0" />
                                                   </font>
@@ -255,7 +286,7 @@
                                       </VBox>
                               <VBox alignment="BOTTOM_RIGHT" HBox.hgrow="ALWAYS">
                                  <children>
-                                    <JFXButton fx:id="btnHelp" buttonType="RAISED" maxHeight="56.0" maxWidth="56.0" onAction="#handleButtonAction" prefHeight="56.0" prefWidth="56.0" style="-fx-background-color: #9A9999; -fx-background-radius: 50%;" text="?" textFill="WHITE">
+                                    <JFXButton fx:id="btnHelp" accessibleText="Help" buttonType="RAISED" maxHeight="56.0" maxWidth="56.0" onAction="#handleButtonAction" prefHeight="56.0" prefWidth="56.0" style="-fx-background-color: #9A9999; -fx-background-radius: 50%;" text="?" textFill="WHITE">
                                        <font>
                                           <Font name="MS Reference Sans Serif" size="27.0" />
                                        </font>
@@ -287,7 +318,7 @@
                                                                   <children>
                                                                       <ImageView fx:id="map" fitHeight="1800.0" fitWidth="1800.0" pickOnBounds="true" preserveRatio="true">
                                                                           <image>
-                                                                            <Image url="@../../images/maps/01_thefirstfloor-Edited.png" />
+                                                                            <Image url="@../../images/maps/floors/01_thefirstfloor-Edited.png" />
                                                                         </image>
                                                                     </ImageView>
                                                                 </children>
@@ -299,20 +330,53 @@
                                         </GesturePane>
                                  </children>
                               </StackPane>
-                              <HBox alignment="TOP_RIGHT" fillHeight="false" maxHeight="-Infinity" maxWidth="-Infinity">
+                              <HBox alignment="BOTTOM_RIGHT" fillHeight="false" maxHeight="-Infinity" maxWidth="-Infinity" StackPane.alignment="BOTTOM_RIGHT">
                                  <children>
-                                     <VBox alignment="BOTTOM_RIGHT" maxHeight="-Infinity" maxWidth="250.0" prefHeight="220.0">
+                                    <VBox alignment="TOP_RIGHT" maxHeight="100.0" maxWidth="55.0">
+                                       <children>
+                                          <JFXButton fx:id="btnF3" accessibleText="Floor 3" maxHeight="20.0" maxWidth="45.0" onAction="#handleButtonAction" style="-fx-background-color: F6BD39; -fx-border-color: #012D5A;" text="3">
+                                             <font>
+                                                <Font name="MS Reference Sans Serif" size="14.0" />
+                                             </font>
+                                          </JFXButton>
+                                          <JFXButton fx:id="btnF2" accessibleText="Floor 2" maxHeight="20.0" maxWidth="45.0" onAction="#handleButtonAction" style="-fx-background-color: F6BD39; -fx-border-color: #012D5A;" text="2">
+                                             <font>
+                                                <Font name="MS Reference Sans Serif" size="14.0" />
+                                             </font>
+                                          </JFXButton>
+                                          <JFXButton fx:id="btnF1" accessibleText="Floor 1" maxHeight="20.0" maxWidth="45.0" onAction="#handleButtonAction" style="-fx-background-color: F6BD39; -fx-border-color: #012D5A;" text="1">
+                                             <font>
+                                                <Font name="MS Reference Sans Serif" size="14.0" />
+                                             </font>
+                                          </JFXButton>
+                                          <JFXButton fx:id="btnFL1" accessibleText="Floor lower 1" maxHeight="20.0" maxWidth="45.0" onAction="#handleButtonAction" style="-fx-background-color: F6BD39; -fx-border-color: #012D5A;" text="L1">
+                                             <font>
+                                                <Font name="MS Reference Sans Serif" size="14.0" />
+                                             </font>
+                                          </JFXButton>
+                                          <JFXButton fx:id="btnFL2" accessibleText="Floor lower 2" maxHeight="20.0" maxWidth="45.0" onAction="#handleButtonAction" style="-fx-background-color: F6BD39; -fx-border-color: #012D5A;" text="L2">
+                                             <font>
+                                                <Font name="MS Reference Sans Serif" size="14.0" />
+                                             </font>
+                                          </JFXButton>
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="10.0" right="10.0" />
+                                       </padding>
+                                    </VBox>
+                                     <VBox alignment="BOTTOM_RIGHT" maxHeight="-Infinity" maxWidth="250.0" prefHeight="250.0">
                                          <padding>
                                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                          </padding>
                                          <children>
-                                             <GridPane alignment="BOTTOM_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" style="-fx-background-color: #0067B1; -fx-border-color: #000000;" VBox.vgrow="NEVER">
+                                             <GridPane alignment="BOTTOM_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" style="-fx-background-color: #0067B1; -fx-border-color: #000000;" vgap="3.0" VBox.vgrow="NEVER">
                                                  <columnConstraints>
                                                      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="107.3333740234375" minWidth="10.0" prefWidth="25.0" />
                                                      <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="195.333251953125" minWidth="10.0" prefWidth="183.0" />
                                                  </columnConstraints>
                                                  <rowConstraints>
                                                      <RowConstraints minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                                                     <RowConstraints minHeight="10.0" prefHeight="70.0" valignment="CENTER" vgrow="ALWAYS" />
                                                      <RowConstraints minHeight="10.0" prefHeight="70.0" valignment="CENTER" vgrow="ALWAYS" />
                                                      <RowConstraints minHeight="10.0" prefHeight="70.0" valignment="CENTER" vgrow="ALWAYS" />
                                                      <RowConstraints minHeight="10.0" prefHeight="70.0" valignment="CENTER" vgrow="ALWAYS" />
@@ -324,6 +388,9 @@
                                                          <font>
                                                              <Font name="MS Reference Sans Serif" size="18.0" />
                                                          </font>
+                                                   <GridPane.margin>
+                                                      <Insets />
+                                                   </GridPane.margin>
                                                      </Text>
                                                      <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1">
                                                          <image>
@@ -349,35 +416,36 @@
                                                       <ColorAdjust brightness="0.97" contrast="0.71" hue="0.76" />
                                                    </effect>
                                                      </ImageView>
-                                                     <Text fill="WHITE" layoutX="10.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Location" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                                                         <font>
-                                                             <Font name="MS Reference Sans Serif" size="12.0" />
-                                                         </font>
-                                                     </Text>
+                                                     <Text fill="WHITE" layoutX="10.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Location" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                                      <Text fill="WHITE" layoutX="42.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Go Up a Floor" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                                                     <Text fill="WHITE" layoutX="42.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Go Down a Floor" GridPane.columnIndex="1" GridPane.rowIndex="3">
-                                                         <font>
-                                                             <Font name="MS Reference Sans Serif" size="12.0" />
-                                                         </font>
-                                                     </Text>
-                                                <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="4">
-                                                   <image>
-                                                      <Image url="@../../images/maps/node.png" />
-                                                   </image>
-                                                   <effect>
-                                                      <ColorAdjust brightness="0.96" contrast="0.77" hue="-0.81" saturation="-0.33" />
-                                                   </effect>
-                                                </ImageView>
-                                                <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Start Node" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                                                <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="End Node" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                                                <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="5">
-                                                   <image>
-                                                      <Image url="@../../images/maps/node.png" />
-                                                   </image>
-                                                   <effect>
-                                                      <ColorAdjust brightness="0.84" contrast="0.71" hue="0.5" />
-                                                   </effect>
-                                                </ImageView>
+                                                     <Text fill="WHITE" layoutX="42.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Go Down a Floor" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                                     <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="4">
+                                                         <image>
+                                                             <Image url="@../../images/maps/node.png" />
+                                                         </image>
+                                                         <effect>
+                                                             <ColorAdjust brightness="0.96" contrast="0.77" hue="-0.81" saturation="-0.33" />
+                                                         </effect>
+                                                     </ImageView>
+                                                     <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Start Node" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                                     <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="End Node" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                                                     <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="6">
+                                                         <image>
+                                                             <Image url="@../../images/maps/node.png" />
+                                                         </image>
+                                                         <effect>
+                                                             <ColorAdjust brightness="0.84" contrast="0.71" hue="0.5" />
+                                                         </effect>
+                                                     </ImageView>
+                                                     <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="5">
+                                                         <image>
+                                                             <Image url="@../../images/maps/node.png" />
+                                                         </image>
+                                                         <effect>
+                                                             <ColorAdjust brightness="0.52" contrast="0.76" hue="-1.0" saturation="-0.1" />
+                                                         </effect>
+                                                     </ImageView>
+                                                     <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Stop Node" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                                                  </children>
                                                  <padding>
                                                      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -385,38 +453,6 @@
                                              </GridPane>
                                          </children>
                                      </VBox>
-                                    <VBox alignment="TOP_RIGHT" maxHeight="100.0" maxWidth="55.0">
-                                       <children>
-                                          <JFXButton fx:id="btnF3" maxHeight="20.0" maxWidth="45.0" onAction="#handleButtonAction" style="-fx-background-color: F6BD39; -fx-border-color: #012D5A;" text="3">
-                                             <font>
-                                                <Font name="MS Reference Sans Serif" size="14.0" />
-                                             </font>
-                                          </JFXButton>
-                                          <JFXButton fx:id="btnF2" maxHeight="20.0" maxWidth="45.0" onAction="#handleButtonAction" style="-fx-background-color: F6BD39; -fx-border-color: #012D5A;" text="2">
-                                             <font>
-                                                <Font name="MS Reference Sans Serif" size="14.0" />
-                                             </font>
-                                          </JFXButton>
-                                          <JFXButton fx:id="btnF1" maxHeight="20.0" maxWidth="45.0" onAction="#handleButtonAction" style="-fx-background-color: F6BD39; -fx-border-color: #012D5A;" text="1">
-                                             <font>
-                                                <Font name="MS Reference Sans Serif" size="14.0" />
-                                             </font>
-                                          </JFXButton>
-                                          <JFXButton fx:id="btnFL1" maxHeight="20.0" maxWidth="45.0" onAction="#handleButtonAction" style="-fx-background-color: F6BD39; -fx-border-color: #012D5A;" text="L1">
-                                             <font>
-                                                <Font name="MS Reference Sans Serif" size="14.0" />
-                                             </font>
-                                          </JFXButton>
-                                          <JFXButton fx:id="btnFL2" maxHeight="20.0" maxWidth="45.0" onAction="#handleButtonAction" style="-fx-background-color: F6BD39; -fx-border-color: #012D5A;" text="L2">
-                                             <font>
-                                                <Font name="MS Reference Sans Serif" size="14.0" />
-                                             </font>
-                                          </JFXButton>
-                                       </children>
-                                       <padding>
-                                          <Insets right="10.0" top="10.0" />
-                                       </padding>
-                                    </VBox>
                                  </children>
                               </HBox>
                            </children>
