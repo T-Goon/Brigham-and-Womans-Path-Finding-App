@@ -69,22 +69,26 @@ public class LoginPageController extends BasePageController implements Initializ
     @FXML
     public void handleButtonAction(ActionEvent e) {
         final String currentPath = "/edu/wpi/cs3733/D21/teamB/views/login/loginPage.fxml";
-        super.handleButtonAction(e);
         JFXButton btn = (JFXButton) e.getSource();
-
-        Camera.stopAcquisition();
 
         switch (btn.getId()) {
             case "btnLogin":
                 handleLoginSubmit();
                 break;
             case "btnEmergency":
+                Camera.stopAcquisition();
                 SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
                 break;
             case "btnRegisterPage":
+                Camera.stopAcquisition();
                 SceneSwitcher.switchFromTemp("/edu/wpi/cs3733/D21/teamB/views/login/registerPage.fxml");
                 break;
+            case "btnBack":
+                Camera.stopAcquisition();
+                break;
         }
+
+        super.handleButtonAction(e);
     }
 
     /**
@@ -98,6 +102,7 @@ public class LoginPageController extends BasePageController implements Initializ
             error.setVisible(true);
             return;
         }
+        Camera.stopAcquisition();
         SceneSwitcher.switchFromTemp("/edu/wpi/cs3733/D21/teamB/views/menus/userDirectoryMenu.fxml");
     }
 

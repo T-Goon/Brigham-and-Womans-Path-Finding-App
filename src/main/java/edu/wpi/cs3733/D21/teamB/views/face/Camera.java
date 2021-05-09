@@ -2,8 +2,14 @@ package edu.wpi.cs3733.D21.teamB.views.face;
 
 import ai.djl.modality.cv.BufferedImageFactory;
 import com.jfoenix.controls.JFXButton;
+import edu.wpi.cs3733.D21.teamB.views.login.RegisterPageController;
+import javafx.event.Event;
+import javafx.event.EventType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import org.opencv.core.*;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
@@ -45,6 +51,8 @@ public class Camera {
     private double[] storedImageEmbedding;
     private boolean authenticating;
 
+
+
     private Thread authenticator;
 
     public Camera(ImageView oldPicture, ImageView detectedPicture, JFXButton btnTakePicture, boolean authenticating) {
@@ -68,6 +76,8 @@ public class Camera {
         if(this.btnTakePicture != null) {
             this.btnTakePicture.setOnMouseClicked((e) -> {
                 takePicture();
+                oldPicture.fireEvent(new KeyEvent(KeyEvent.KEY_PRESSED,
+                        "/", "", KeyCode.SLASH, false, false, false, false));
             });
         }
     }
@@ -189,7 +199,7 @@ public class Camera {
         }
 
         // display a taken picture
-        if( pictureTaken != null || !authenticating){
+        if(pictureTaken != null && !authenticating){
             Image imageToShow = Utils.mat2Image(pictureTaken);
             updateImageView(oldPicture, imageToShow);
         }

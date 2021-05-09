@@ -61,12 +61,9 @@
                   </VBox>
                </children>
             </HBox>
-            <VBox alignment="CENTER" fillWidth="false" prefHeight="200.0" prefWidth="100.0">
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
                <children>
-                  <VBox alignment="CENTER" style="-fx-border-color: #ffffff77; -fx-border-width: 3;">
-                     <VBox.margin>
-                        <Insets top="10.0" />
-                     </VBox.margin>
+                  <VBox alignment="CENTER" fillWidth="false" maxWidth="200.0" style="-fx-border-color: #ffffff77; -fx-border-width: 3;">
                      <children>
                         <ImageView fx:id="faceImage" fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
                      </children>
@@ -81,7 +78,7 @@
                               <Insets bottom="5.0" />
                            </VBox.margin>
                         </Text>
-                        <JFXTextField fx:id="username" focusColor="#ffffff00" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#validateButton" onKeyReleased="#validateButton" prefHeight="50.0" prefWidth="400.0" style="-fx-background-color: #0067B1; -fx-opacity: 30%; -fx-border-color: white; -fx-border-width: 3; -fx-border-radius: 3;" stylesheets="@../../css/login.css">
+                        <JFXTextField fx:id="username" accessibleText="Username" focusColor="#ffffff00" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#validateButton" onKeyReleased="#validateButton" prefHeight="50.0" prefWidth="400.0" style="-fx-background-color: #0067B1; -fx-border-color: white; -fx-border-width: 1; -fx-border-radius: 3;" stylesheets="@../../css/login.css">
                            <font>
                               <Font size="20.0" />
                            </font>
@@ -107,7 +104,7 @@
                               <Insets bottom="5.0" />
                            </VBox.margin>
                         </Text>
-                        <JFXPasswordField fx:id="password" focusColor="#ffffff00" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#validateButton" onKeyReleased="#validateButton" prefHeight="50.0" prefWidth="400.0" style="-fx-background-color: #0067B1; -fx-opacity: 30%; -fx-border-color: white; -fx-border-width: 3; -fx-border-radius: 3;" stylesheets="@../../css/login.css">
+                        <JFXPasswordField fx:id="password" accessibleText="Password" focusColor="#ffffff00" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#validateButton" onKeyReleased="#validateButton" prefHeight="50.0" prefWidth="400.0" style="-fx-background-color: #0067B1; -fx-border-color: white; -fx-border-width: 1; -fx-border-radius: 3;" stylesheets="@../../css/login.css">
                            <font>
                               <Font size="20.0" />
                            </font>
@@ -117,9 +114,9 @@
                         <Insets bottom="10.0" top="10.0" />
                      </padding>
                   </VBox>
-                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                  <HBox alignment="CENTER">
                      <children>
-                        <Label fx:id="error" style="-fx-background-color: #CE2029; -fx-background-radius: 7;" text="ERROR" textFill="WHITE" visible="false">
+                        <Label fx:id="error" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #CE2029; -fx-background-radius: 7;" text="ERROR" textFill="WHITE" visible="false" HBox.hgrow="NEVER">
                            <padding>
                               <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
                            </padding>
@@ -128,10 +125,10 @@
                            </font>
                         </Label>
                      </children>
-                  </VBox>
+                  </HBox>
                   <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0">
                      <children>
-                        <JFXButton fx:id="btnLogin" buttonType="RAISED" defaultButton="true" disable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#handleButtonAction" prefHeight="40.0" prefWidth="150.0" style="-fx-background-color: #F6BD39;" text="Login" textFill="#012d5a">
+                        <JFXButton fx:id="btnLogin" accessibleText="Log in" buttonType="RAISED" defaultButton="true" disable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#handleButtonAction" prefHeight="40.0" prefWidth="150.0" style="-fx-background-color: #F6BD39;" text="Login" textFill="#012d5a">
                            <font>
                               <Font size="20.0" />
                            </font>
@@ -142,9 +139,6 @@
                      </padding>
                   </VBox>
                </children>
-               <VBox.margin>
-                  <Insets />
-               </VBox.margin>
             </VBox>
             <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
                <children>

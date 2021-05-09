@@ -118,7 +118,6 @@ public class RegisterPageController extends BasePageController implements Initia
 
         switch (btn.getId()) {
             case "btnRegister":
-                Camera.stopAcquisition();
                 handleRegisterSubmit();
                 break;
             case "btnEmergency":
@@ -133,6 +132,7 @@ public class RegisterPageController extends BasePageController implements Initia
                 Camera.stopAcquisition();
                 break;
         }
+
         super.handleButtonAction(actionEvent);
     }
 
@@ -174,6 +174,7 @@ public class RegisterPageController extends BasePageController implements Initia
             e.printStackTrace();
         }
 
+        Camera.stopAcquisition();
         ExternalCommunication.sendConfirmation(email.getText(), firstName.getText());
         SceneSwitcher.switchFromTemp("/edu/wpi/cs3733/D21/teamB/views/login/successfulRegistration.fxml");
     }
