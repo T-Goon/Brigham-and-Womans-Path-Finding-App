@@ -10,6 +10,8 @@ import marytts.signalproc.effects.AudioEffects;
 
 import javax.sound.sampled.AudioInputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;
@@ -23,7 +25,16 @@ public class TextToSpeech {
 
     public TextToSpeech() {
         try {
+            // Suppress System.out
+            PrintStream printStream = System.out;
+            System.setOut(new PrintStream(new OutputStream() {
+                public void write(int b) {
+                    // NO-OP
+                }
+            }));
             marytts = new LocalMaryInterface();
+            System.setOut(printStream);
+
         } catch (MaryConfigurationException e) {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, e);
         }

@@ -8,9 +8,7 @@ import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.ChatBot;
 import edu.wpi.cs3733.D21.teamB.entities.User;
 import edu.wpi.cs3733.D21.teamB.util.CSVHandler;
-import edu.wpi.cs3733.D21.teamB.util.ExternalCommunication;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
-import edu.wpi.cs3733.D21.teamB.views.misc.ChatBoxController;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -26,8 +24,6 @@ public class App extends Application {
 
     private static Stage primaryStage;
     private DatabaseHandler db;
-
-    private Thread chatBotThread;
 
     @Getter
     private static boolean running = false;
@@ -45,13 +41,6 @@ public class App extends Application {
         running = true;
         System.out.println("Starting Up");
         db = DatabaseHandler.getHandler();
-
-        // Suppress
-        System.setOut(new PrintStream(new OutputStream() {
-            public void write(int b) {
-                // NO-OP
-            }
-        }));
     }
 
     @Override
@@ -60,7 +49,7 @@ public class App extends Application {
 
         // Open first view
         try {
-            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/cs3733/D21/teamB/views/login/mainPage.fxml")));
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/cs3733/D21/teamB/views/login/databaseInit.fxml")));
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);
 
@@ -78,9 +67,7 @@ public class App extends Application {
             try {
                 db.executeSchema();
                 if (!db.isInitialized()) {
-                    SceneSwitcher.switchFromTemp("/edu/wpi/cs3733/D21/teamB/views/login/databaseInit.fxml");
                     primaryStage.show();
-
                     // Load database in a separate thread to help with performance
                     Thread dbThread = new Thread(() -> {
                         try {
@@ -92,13 +79,16 @@ public class App extends Application {
                     });
                     dbThread.setName("dbThread");
                     dbThread.start();
-                } else primaryStage.show();
+                } else {
+                    SceneSwitcher.switchFromTemp("/edu/wpi/cs3733/D21/teamB/views/login/mainPage.fxml");
+                    primaryStage.show();
+                }
             } catch (SQLException e) {
                 e.printStackTrace();
                 return;
             } finally {
                 // Starts the chat bot thread
-                chatBotThread = new Thread(new ChatBot());
+                Thread chatBotThread = new Thread(new ChatBot());
                 chatBotThread.setName("chatBotThread");
                 chatBotThread.start();
             }

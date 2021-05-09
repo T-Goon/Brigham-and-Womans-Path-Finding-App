@@ -11,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.KeyCode;
@@ -66,7 +67,6 @@ public class ChatBoxController implements Initializable {
                     if (PageCache.getNewMessagesWaitingForUser().get() != 0) {
                         // Get message and mark as read
                         PageCache.getNewMessagesWaitingForUser().getAndDecrement();
-
                         Platform.runLater(() -> sendMessage(PageCache.getBotLastMessage()));
                     }
                 }
@@ -157,6 +157,7 @@ public class ChatBoxController implements Initializable {
         // Adds HBox with text
         HBox messageBox = new HBox();
         Label text = new Label(message.getMessage());
+        messageBox.setId(text.getText() + "Box");
         text.setFont(new Font("MS Reference Sans Serif", 13));
         text.setWrapText(true);
         text.setPadding(new Insets(5, 10, 5, 10));

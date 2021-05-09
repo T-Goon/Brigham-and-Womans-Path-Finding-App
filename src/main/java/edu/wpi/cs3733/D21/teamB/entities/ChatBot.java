@@ -10,6 +10,8 @@ import org.alicebot.ab.Bot;
 import org.alicebot.ab.Chat;
 
 import java.io.File;
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class ChatBot implements Runnable {
@@ -26,10 +28,23 @@ public class ChatBot implements Runnable {
         } catch (ZipException e) {
             e.printStackTrace();
         } finally {
+
+            // Suppress System.out
+            PrintStream printStream = System.out;
+            System.setOut(new PrintStream(new OutputStream() {
+                public void write(int b) {
+                    // NO-OP
+                }
+            }));
+
+            // Make bot and delete temp files
             Bot bot = new Bot("Mike Bedard", base);
             chatSession = new Chat(bot);
             new File(copiedPath).delete();
             FileUtil.deleteDirectory(new File(base + "/bots"));
+
+            System.setOut(printStream);
+
         }
     }
 
@@ -75,7 +90,15 @@ public class ChatBot implements Runnable {
         // TODO do more than return the input of whatever it is
         if (input.getMessage().toLowerCase().contains("covid")) sendMessage("COIVD?????");
         else try {
+            // Suppress System.out
+            PrintStream printStream = System.out;
+            System.setOut(new PrintStream(new OutputStream() {
+                public void write(int b) {
+                    // NO-OP
+                }
+            }));
             sendMessage(chatSession.multisentenceRespond(input.getMessage()));
+            System.setOut(printStream);
         } catch (Exception ignored) {
         }
     }
