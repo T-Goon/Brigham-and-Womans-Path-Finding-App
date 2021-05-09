@@ -40,6 +40,8 @@ public class Snake extends JPanel implements ActionListener {
     private int x[] = new int[snakeSize];
     private int y[] = new int[snakeSize];
     private int DOT_SIZE = 10;
+    private HashMap<String, List<Node>> adjMap;
+    private HashMap<String, Node> idToNode;
 
     public Snake(MapDrawer mapDrawer, MapCache mapCache, AnchorPane nodeHolder) {
         this.mapDrawer = mapDrawer;
@@ -49,22 +51,19 @@ public class Snake extends JPanel implements ActionListener {
 
     }
 
-    public void cleanCSV(){
+    public void cleanCSV() {
 
         List<String> idsToUse = new ArrayList<>();
         List<Node> nodesToRemove = new ArrayList<>();
 
         int count = 0;
         nodes = CSVHandler.loadCSVNodes("/edu/wpi/cs3733/D21/teamB/csvFiles/snakeNodes.csv");
-        for(int i=0; i<nodes.size(); i++){
+        for (int i = 0; i < nodes.size(); i++) {
             Node node = nodes.get(i);
-            if(!node.getFloor().equals("1")){
+            if (!node.getFloor().equals("1")) {
                 nodesToRemove.add(node);
-//                System.out.println("REMOVED " + node.getNodeID() + " with floor " + node.getFloor());
-            }
-            else{
+            } else {
                 idsToUse.add(node.getNodeID());
-//                System.out.println("ADDED " + node.getNodeID() + " with floor " + node.getFloor());
                 count++;
             }
         }
@@ -124,6 +123,7 @@ public class Snake extends JPanel implements ActionListener {
         }
 
     }
+
 
     /**
      * Display the nodes and edges for the game on the map and start the game
@@ -194,7 +194,7 @@ public class Snake extends JPanel implements ActionListener {
      */
     public void checkApple() {
         // Add to length of snake and place apple
-        if(appleCoord.equals(snakeHeadLoc)){
+        if (appleCoord.equals(snakeHeadLoc)) {
             //delete the apple off of the map
             snakeSize++;
             placeApple();
@@ -202,17 +202,52 @@ public class Snake extends JPanel implements ActionListener {
         }
     }
 
+    public void LoadIDToNode(){
+        for(Node node: nodes){
+            idToNode.put(node.getNodeID(), node);
+        }
+    }
+
+    public void loadAdjMap() {
+
+        for (int i=0; i<edges.size(); i++) {
+
+            if (!adjMap.containsKey(edges.get(i).getStartNodeID())) {
+                LinkedList<Node> tempList = new LinkedList<>();
+                tempList.add(idToNode.get(edges.get(i).getEndNodeID()));
+                adjMap.put(edges.get(i).getStartNodeID(), tempList);
+            } else {
+                adjMap.get(edges.get(i).getStartNodeID()).add(idToNode.get(edges.get(i).getEndNodeID()));
+            }
+
+            if (!adjMap.containsKey(edges.get(i).getEndNodeID())) {
+                LinkedList<Node> tempList = new LinkedList<>();
+                tempList.add(idToNode.get(edges.get(i).getStartNodeID()));
+                adjMap.put(edges.get(i).getEndNodeID(), tempList);
+            } else {
+                adjMap.get(edges.get(i).getEndNodeID()).add(idToNode.get(edges.get(i).getStartNodeID()));
+            }
+        }
+    }
+
+
     public boolean isValid() {
-        //if snake part is there it is invalid
-        //if there is no adjacent edge to where you are travelling to it is invalid
+
+        //did snake hit itself
+        for(int i=0; i<x.length; i++){
+            if(x[i] == snakeHeadLoc.getX() && y[i] == snakeHeadLoc.getY()){
+                return true;
+            }
+        }
+
+
+
         return true;
-    } //stub
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-//        while(true) {
-//            move();
-//        }
+
     }
 
     public void move() {
@@ -242,10 +277,6 @@ public class Snake extends JPanel implements ActionListener {
 
         @Override
         public void keyPressed(KeyEvent e) {
-
-            int xVal = 0;
-            int yVal = 0;
-
 
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_A:
