@@ -7,6 +7,7 @@ import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.requests.CaseManagerRequest;
 import edu.wpi.cs3733.D21.teamB.entities.requests.Request;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -136,6 +137,8 @@ public class CaseManagerRequestFormController extends DefaultServiceRequestFormC
                 messageForCaseManager.validate();
             }
         });
+
+        Platform.runLater(() -> patientName.requestFocus());
     }
 
     public void handleButtonAction(ActionEvent e) {
