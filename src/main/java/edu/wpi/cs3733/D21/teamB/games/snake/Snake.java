@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.D21.teamB.games.snake;
 
+import edu.wpi.cs3733.D21.teamB.App;
 import edu.wpi.cs3733.D21.teamB.entities.map.MapCache;
 import edu.wpi.cs3733.D21.teamB.entities.map.MapDrawer;
 import edu.wpi.cs3733.D21.teamB.entities.map.Coord;
@@ -8,6 +9,7 @@ import edu.wpi.cs3733.D21.teamB.entities.map.data.Node;
 import edu.wpi.cs3733.D21.teamB.util.CSVHandler;
 import edu.wpi.cs3733.D21.teamB.views.map.PathfindingMenuController;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import lombok.Getter;
@@ -30,6 +32,7 @@ public class Snake extends JPanel implements ActionListener {
     private MapDrawer mapDrawer;
     private MapCache mapCache;
     private AnchorPane nodeHolder;
+    private Label score;
     private int snakeSize;
 
     @Getter
@@ -48,13 +51,14 @@ public class Snake extends JPanel implements ActionListener {
     private Node snake;
     private Node appleNode;
     private ImageView imageView;
+    private int appleCount;
 
-    public Snake(MapDrawer mapDrawer, MapCache mapCache, AnchorPane nodeHolder) {
+    public Snake(MapDrawer mapDrawer, MapCache mapCache, AnchorPane nodeHolder, Label score) {
         this.mapDrawer = mapDrawer;
         this.mapCache = mapCache;
         this.nodeHolder = nodeHolder;
+        this.score = score;
         this.addKeyListener(new MyKeyAdapter());
-
     }
 
     public void cleanCSV() {
@@ -62,7 +66,6 @@ public class Snake extends JPanel implements ActionListener {
         List<String> idsToUse = new ArrayList<>();
         List<Node> nodesToRemove = new ArrayList<>();
 
-        int count = 0;
         nodes = CSVHandler.loadCSVNodes("/edu/wpi/cs3733/D21/teamB/csvFiles/snakeNodes.csv");
         for (int i = 0; i < nodes.size(); i++) {
             Node node = nodes.get(i);
@@ -70,7 +73,6 @@ public class Snake extends JPanel implements ActionListener {
                 nodesToRemove.add(node);
             } else {
                 idsToUse.add(node.getNodeID());
-                count++;
             }
         }
 
@@ -137,7 +139,7 @@ public class Snake extends JPanel implements ActionListener {
         nodes = CSVHandler.loadCSVNodes("/edu/wpi/cs3733/D21/teamB/csvFiles/csvGames/snakeNodes.csv");
         mapDrawer.setPlayingSnake(true);
         mapDrawer.drawAllElements();
-        mapDrawer.setPlayingSnake(false);
+
         Map<String, Node> nodeMap = new HashMap<String, Node>();
         for (Node node : nodes) {
             nodeMap.put(node.getNodeID(), node);
@@ -149,6 +151,7 @@ public class Snake extends JPanel implements ActionListener {
         }
 
         initializeGame(i);
+        mapDrawer.setPlayingSnake(false);
     }
 
     /**
@@ -167,6 +170,7 @@ public class Snake extends JPanel implements ActionListener {
         // Restart size of snake
         snakeSize = 1;
         placeApple();
+        appleCount = 0;
     }
 
     /**
@@ -198,6 +202,9 @@ public class Snake extends JPanel implements ActionListener {
             // Remove apple from previous location
             nodeHolder.getChildren().remove(imageView);
             mapCache.getNodePlaced().remove(imageView);
+            appleCount++;
+            score.setText("Score: " + appleCount);
+
             // Place apple in new location
             placeApple();
         }

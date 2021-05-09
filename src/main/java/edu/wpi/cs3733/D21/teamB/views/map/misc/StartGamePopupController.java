@@ -9,6 +9,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -35,6 +36,7 @@ public class StartGamePopupController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         popup = (StartGamePopup) App.getPrimaryStage().getUserData();
+
         try {
             snakeImage = FXMLLoader.load(Objects.requireNonNull(Snake.class.getResource("/edu/wpi/cs3733/D21/teamB/views/map/misc/snake.fxml")));
             popup.getData().getAp().getScene().addEventFilter(KeyEvent.KEY_PRESSED, e -> {
@@ -67,8 +69,9 @@ public class StartGamePopupController implements Initializable {
         switch (b.getId()) {
             case "btnStartGame":
                 popup.getData().getMd().removeAllEdges();
-                snake = new Snake(popup.getData().getMd(), popup.getData().getMc(), popup.getData().getAp());
+                snake = new Snake(popup.getData().getMd(), popup.getData().getMc(), popup.getData().getAp(), popup.getData().getScore());
                 snake.initializeMap(snakeImage);
+                popup.getData().getScore().setVisible(true);
                 break;
             case "btnCancel":
                 popup.getData().getMd().removeAllPopups();

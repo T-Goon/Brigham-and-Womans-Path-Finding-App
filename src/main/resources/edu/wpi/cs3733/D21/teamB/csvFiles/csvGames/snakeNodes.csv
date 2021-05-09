@@ -84,7 +84,6 @@ EHALL03601,2604,1462,1,45 Francis,HALL,Hallway Node 34 Floor 1,HallE34
 EHALL02501,2925,978,1,45 Francis,HALL,Hallway Node 23 Floor 1,HallE23
 FHALL00901,1627,850,1,Tower,HALL,Tower Hallway 2,Hallway F00901
 ADEPT00301,1017,2569,1,BTM,HALL,CART Waiting,CART Waiting
-FEXIT00101,2017,799,1,Tower,HALL,Shattuck Street Lobby Exit,Shattuck St. Exit
 bWALK00301,917,1692,1,Parking,HALL,Francis Street Biney Street Intersection Left,FrancisBineyIntLeft
 EHALL02601,3090,978,1,45 Francis,HALL,Hallway Node 24 Floor 1,HallE24
 bWALK00201,571,1696,1,Parking,HALL,Francis Street Left Walkway,FrancisWalk

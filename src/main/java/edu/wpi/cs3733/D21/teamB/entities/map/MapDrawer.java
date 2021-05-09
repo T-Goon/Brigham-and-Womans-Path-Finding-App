@@ -70,7 +70,7 @@ public class MapDrawer implements PoppableManager {
 
     @Getter
     @Setter
-    private boolean playingSnake;
+    public boolean playingSnake;
 
     public MapDrawer(PathfindingMenuController pathfindingMenuController, MapCache mapCache, AnchorPane nodeHolder, AnchorPane mapHolder, AnchorPane intermediateNodeHolder,
                      Label lblError, StackPane mapStack, GesturePane gPane) {

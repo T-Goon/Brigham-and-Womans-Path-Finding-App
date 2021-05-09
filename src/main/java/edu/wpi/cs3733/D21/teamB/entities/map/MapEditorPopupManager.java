@@ -9,6 +9,7 @@ import edu.wpi.cs3733.D21.teamB.entities.map.node.AlignNodePopup;
 import edu.wpi.cs3733.D21.teamB.entities.map.node.NodeMenuPopup;
 import edu.wpi.cs3733.D21.teamB.util.Popup.PoppableManager;
 import edu.wpi.cs3733.D21.teamB.views.map.PathfindingMenuController;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -168,10 +169,10 @@ public class MapEditorPopupManager implements PoppableManager {
      *
      * @param mapDrawer the map drawer in stance
      */
-    public void showStartGamePopup(MapDrawer mapDrawer, AnchorPane nodeHolder) {
+    public void showStartGamePopup(MapDrawer mapDrawer, AnchorPane nodeHolder, Label score) {
         md.removeAllPopups();
 
-        StartGamePopupData data = new StartGamePopupData(mapDrawer, mc, nodeHolder, gPane);
+        StartGamePopupData data = new StartGamePopupData(mapDrawer, mc, nodeHolder, gPane, score);
 
         startGamePopup = new StartGamePopup(mapStack, data);
 

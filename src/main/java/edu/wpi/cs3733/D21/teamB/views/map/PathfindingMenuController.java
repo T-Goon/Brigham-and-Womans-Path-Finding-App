@@ -115,6 +115,9 @@ public class PathfindingMenuController extends BasePageController implements Ini
     @FXML
     private JFXComboBox<String> findClosestLocation;
 
+    @FXML
+    private Label score;
+
     public static final double COORDINATE_SCALE = 25 / 9.0;
     public static final int MAX_X = 5000;
     public static final int MAX_Y = 3400;
@@ -224,11 +227,9 @@ public class PathfindingMenuController extends BasePageController implements Ini
             }
         });
 
-
-
-
-
-
+        if (!mapDrawer.playingSnake) {
+            score.setVisible(false);
+        }
     }
 
     /**
@@ -584,7 +585,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
                 }
                 break;
             case "btnPlay":
-                mapEditorPopupManager.showStartGamePopup(mapDrawer, nodeHolder);
+                mapEditorPopupManager.showStartGamePopup(mapDrawer, nodeHolder, score);
                 break;
         }
 
