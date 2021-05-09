@@ -58,7 +58,6 @@ public class PathfindingMenuController extends BasePageController implements Ini
 
     @FXML
     private JFXButton btnFindPath,
-            btnEmergency,
             btnEditMap,
             btnLoad,
             btnSave,
@@ -536,9 +535,6 @@ public class PathfindingMenuController extends BasePageController implements Ini
                 // Validate button
                 btnRemoveStop.setDisable(mapCache.getStopsList().isEmpty());
 
-                break;
-            case "btnEmergency":
-                SceneSwitcher.switchScene("/edu/wpi/cs3733/D21/teamB/views/map/pathfindingMenu.fxml", "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
                 break;
             case "btnHelp":
                 HelpDialog.loadHelpDialog(stackPane, getHelpDialog());

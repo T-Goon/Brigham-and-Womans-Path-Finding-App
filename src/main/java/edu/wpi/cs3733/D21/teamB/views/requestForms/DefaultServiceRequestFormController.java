@@ -98,9 +98,6 @@ public abstract class DefaultServiceRequestFormController extends BasePageContro
             case "btnHelp":
                 HelpDialog.loadHelpDialog(stackPane, "Please fill out this form completely. Once each field is full, you can submit the form and an employee will be assigned.\nIf you wish to end your request early, click 'Cancel'. If your request is an emergency please click 'Emergency'.");
                 break;
-            case "btnEmergency":
-                SceneSwitcher.switchFromTemp("/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
-                break;
         }
     }
 

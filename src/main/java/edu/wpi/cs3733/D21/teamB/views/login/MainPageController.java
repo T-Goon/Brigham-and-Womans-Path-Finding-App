@@ -28,9 +28,6 @@ public class MainPageController extends BasePageController implements Initializa
     private StackPane stackPane;
 
     @FXML
-    private JFXButton btnEmergency;
-
-    @FXML
     private JFXButton btnSettings;
 
     @FXML
@@ -79,9 +76,6 @@ public class MainPageController extends BasePageController implements Initializa
                         SceneSwitcher.pushPath("/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidSurvey.fxml");
                         break;
                 }
-                break;
-            case "btnEmergency":
-                SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
                 break;
             case "btnSettings":
                 SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/menus/settingsMenu.fxml");

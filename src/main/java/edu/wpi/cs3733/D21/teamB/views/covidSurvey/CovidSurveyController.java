@@ -152,9 +152,6 @@ public class CovidSurveyController extends DefaultServiceRequestFormController i
             case "btnExit":
                 Platform.exit();
                 break;
-            case "btnEmergency":
-                SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
-                break;
         }
         super.handleButtonAction(e);
     }

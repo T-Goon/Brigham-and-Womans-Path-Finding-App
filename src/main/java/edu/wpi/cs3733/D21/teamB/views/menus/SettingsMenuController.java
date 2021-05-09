@@ -29,9 +29,6 @@ public class SettingsMenuController extends BasePageController implements Initia
     private JFXButton btnExit;
 
     @FXML
-    private JFXButton btnEmergency;
-
-    @FXML
     private JFXButton btnHelp;
 
     @FXML
@@ -73,9 +70,6 @@ public class SettingsMenuController extends BasePageController implements Initia
         JFXButton btn = (JFXButton) e.getSource();
         super.handleButtonAction(e);
         switch (btn.getId()) {
-            case "btnEmergency":
-                SceneSwitcher.switchScene("/edu/wpi/cs3733/D21/teamB/views/menus/settingsMenu.fxml", "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
-                break;
             case "btnEditProfile":
                 Stage stage = App.getPrimaryStage();
                 stage.setUserData(DatabaseHandler.getHandler().getAuthenticationUser());

@@ -15,6 +15,10 @@ public class PageCache {
     private static boolean pageMinimized = false;
 
     @Getter
+    @Setter
+    private static String currentPage;
+
+    @Getter
     private static final AtomicInteger newMessagesWaitingForBot = new AtomicInteger();
 
     @Getter

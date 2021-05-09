@@ -16,9 +16,6 @@ public class CovidFormPendingController extends BasePageController {
     private JFXButton btnEdit;
 
     @FXML
-    private JFXButton btnEmergency;
-
-    @FXML
     private StackPane stackPane;
 
     @FXML
@@ -31,9 +28,6 @@ public class CovidFormPendingController extends BasePageController {
                 return;
             case "btnEdit":
                 SceneSwitcher.goBack(1);
-                break;
-            case "btnEmergency":
-                SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
                 break;
         }
         super.handleButtonAction(e);

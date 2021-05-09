@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXButton;
 import edu.wpi.cs3733.D21.teamB.entities.LastFocused;
 import edu.wpi.cs3733.D21.teamB.entities.OnScreenKeyboard;
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
+import edu.wpi.cs3733.D21.teamB.util.PageCache;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
 import edu.wpi.cs3733.D21.teamB.util.tts.TextToSpeech;
 import javafx.application.Platform;
@@ -35,6 +36,9 @@ public abstract class BasePageController implements Initializable {
 
     @FXML
     private JFXButton btnExit;
+
+    @FXML
+    private JFXButton btnEmergency;
 
     @FXML
     private StackPane stackPane;
@@ -115,6 +119,9 @@ public abstract class BasePageController implements Initializable {
                 break;
             case "btnExit":
                 Platform.exit();
+                break;
+            case "btnEmergency":
+                SceneSwitcher.switchScene(PageCache.getCurrentPage(), "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
                 break;
         }
     }

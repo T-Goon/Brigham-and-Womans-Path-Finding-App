@@ -27,9 +27,6 @@ import java.util.regex.Pattern;
 public class RegisterPageController extends BasePageController implements Initializable {
 
     @FXML
-    public JFXButton btnEmergency;
-
-    @FXML
     public JFXTextField username;
 
     @FXML
@@ -105,9 +102,6 @@ public class RegisterPageController extends BasePageController implements Initia
         switch (btn.getId()) {
             case "btnRegister":
                 handleRegisterSubmit();
-                break;
-            case "btnEmergency":
-                SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
                 break;
             case "btnLoginPage":
                 SceneSwitcher.switchFromTemp("/edu/wpi/cs3733/D21/teamB/views/login/loginPage.fxml");

@@ -108,9 +108,6 @@ public class ServiceRequestMenuCreditsController extends BasePageController {
             case "btnSocialWorker":
                 path = VIEWS_PATH + "socialWorkerRequestForm.fxml";
                 break;
-            case "btnEmergency":
-                path = VIEWS_PATH + "emergencyForm.fxml";
-                break;
             case "btnGiftDelivery":
                 path = VIEWS_PATH + "giftRequestForm.fxml";
                 break;

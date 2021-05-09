@@ -38,6 +38,7 @@ public class SceneSwitcher {
             if (!stack.isEmpty()) path = stack.pop();
         try {
             Pane root = FXMLLoader.load(Objects.requireNonNull(SceneSwitcher.class.getResource(path)));
+            PageCache.setCurrentPage(path);
             App.getPrimaryStage().getScene().setRoot(root);
         } catch (IOException e) {
             System.err.println("Path \"" + path + "\" is malformed or nonexistent!");
@@ -54,6 +55,7 @@ public class SceneSwitcher {
     public static void switchFromTemp(String path) {
         try {
             Parent root = FXMLLoader.load(Objects.requireNonNull(SceneSwitcher.class.getResource(path)));
+            PageCache.setCurrentPage(path);
             App.getPrimaryStage().getScene().setRoot(root);
         } catch (IOException e) {
             System.err.println("Path \"" + path + "\" is malformed or nonexistent!");
@@ -70,6 +72,7 @@ public class SceneSwitcher {
         stack.push(oldPath);
         try {
             Parent root = FXMLLoader.load(Objects.requireNonNull(SceneSwitcher.class.getResource(path)));
+            PageCache.setCurrentPage(path);
             App.getPrimaryStage().getScene().setRoot(root);
         } catch (IOException e) {
             System.err.println("Path \"" + path + "\" is malformed or nonexistent!");

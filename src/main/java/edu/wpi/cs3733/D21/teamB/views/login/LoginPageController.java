@@ -68,9 +68,6 @@ public class LoginPageController extends BasePageController implements Initializ
             case "btnLogin":
                 handleLoginSubmit();
                 break;
-            case "btnEmergency":
-                SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
-                break;
             case "btnRegisterPage":
                 SceneSwitcher.switchFromTemp("/edu/wpi/cs3733/D21/teamB/views/login/registerPage.fxml");
                 break;
