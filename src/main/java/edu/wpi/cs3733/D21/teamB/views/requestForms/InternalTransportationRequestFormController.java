@@ -8,6 +8,7 @@ import edu.wpi.cs3733.D21.teamB.entities.requests.InternalTransportRequest;
 import edu.wpi.cs3733.D21.teamB.entities.requests.Request;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
 import edu.wpi.cs3733.D21.teamB.util.AutoCompleteComboBoxListener;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -129,6 +130,8 @@ public class InternalTransportationRequestFormController extends DefaultServiceR
         comboTranspType.setVisibleRowCount(3);
         new AutoCompleteComboBoxListener<>(comboTranspType);
         if (index != -1) comboTranspType.getSelectionModel().select(index);
+
+        Platform.runLater(() -> name.requestFocus());
     }
 
     public void handleButtonAction(ActionEvent e) {
