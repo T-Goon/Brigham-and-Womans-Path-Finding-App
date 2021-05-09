@@ -3,6 +3,7 @@ package edu.wpi.cs3733.D21.teamB.views.face;
 import ai.djl.MalformedModelException;
 import ai.djl.inference.Predictor;
 import ai.djl.modality.Classifications;
+import ai.djl.modality.cv.BufferedImageFactory;
 import ai.djl.modality.cv.ImageFactory;
 import ai.djl.repository.zoo.Criteria;
 import ai.djl.repository.zoo.ModelNotFoundException;
@@ -27,6 +28,8 @@ import org.opencv.objdetect.CascadeClassifier;
 import org.opencv.objdetect.Objdetect;
 import org.opencv.videoio.VideoCapture;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -43,6 +46,8 @@ import ai.djl.modality.cv.transform.*;
 import ai.djl.modality.cv.translator.*;
 import ai.djl.translate.*;
 import ai.djl.training.util.*;
+
+import javax.imageio.ImageIO;
 
 public class FD_Controller implements Initializable {
     // FXML buttons
@@ -99,60 +104,6 @@ public class FD_Controller implements Initializable {
         originalFrame.setFitWidth(600);
         // preserve image ratio
         originalFrame.setPreserveRatio(true);
-
-        //testing TODO remove
-        try {
-            DownloadUtils.download("https://djl-ai.s3.amazonaws.com/mlrepo/model/cv/image_classification/ai/djl/pytorch/resnet/0.0.1/traced_resnet18.pt.gz", "build/pytorch_models/resnet18/resnet18.pt", new ai.djl.training.util.ProgressBar());
-            DownloadUtils.download("https://djl-ai.s3.amazonaws.com/mlrepo/model/cv/image_classification/ai/djl/pytorch/synset.txt", "build/pytorch_models/resnet18/synset.txt", new ai.djl.training.util.ProgressBar());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Pipeline pipeline = new Pipeline();
-        pipeline.add(new Resize(256))
-                .add(new CenterCrop(224, 224))
-                .add(new ToTensor())
-                .add(new Normalize(
-                        new float[] {0.485f, 0.456f, 0.406f},
-                        new float[] {0.229f, 0.224f, 0.225f}));
-
-        Translator<ai.djl.modality.cv.Image,Classifications> translator= ImageClassificationTranslator.builder()
-                .setPipeline(pipeline)
-                .optApplySoftmax(true)
-                .build();
-        System.setProperty("ai.djl.repository.zoo.location", "build/pytorch_models/resnet18");
-
-        Criteria<ai.djl.modality.cv.Image, Classifications> criteria = Criteria.builder()
-                .setTypes(ai.djl.modality.cv.Image.class, Classifications.class)
-                // only search the model in local directory
-                // "ai.djl.localmodelzoo:{name of the model}"
-                .optArtifactId("ai.djl.localmodelzoo:resnet18")
-                .optTranslator(translator)
-                .optProgress(new ai.djl.training.util.ProgressBar()).build();
-
-        ZooModel model = null;
-        try {
-            model = ModelZoo.loadModel(criteria);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ModelNotFoundException e) {
-            e.printStackTrace();
-        } catch (MalformedModelException e) {
-            e.printStackTrace();
-        }
-        ai.djl.modality.cv.Image img = null;
-        try {
-            img = ImageFactory.getInstance().fromUrl("https://raw.githubusercontent.com/pytorch/hub/master/images/dog.jpg");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Predictor<ai.djl.modality.cv.Image, Classifications> predictor = model.newPredictor();
-        Classifications classifications = null;
-        try {
-            classifications = predictor.predict(img);
-        } catch (TranslateException e) {
-            e.printStackTrace();
-        }
-        System.out.println(classifications);
     }
 
     /**
@@ -293,10 +244,19 @@ public class FD_Controller implements Initializable {
 
         BFMatcher matcher1 = BFMatcher.create();
 
-        detect(detector2, matcher1, loadedImg, "AKAZE");
+        EmbeddingModel facenet = EmbeddingModel.getModel();
+
+        detect(detector2, matcher1, facenet, loadedImg, "AKAZE");
     }
 
-    private void detect(Feature2D detector, DescriptorMatcher matcher, Mat loadedImg, String which) {
+    private static BufferedImage MatConvert(Mat image) throws IOException {
+        MatOfByte mat = new MatOfByte();
+        Imgcodecs.imencode(".jpg",image,mat);
+        byte array[] = mat.toArray();
+        return ImageIO.read(new ByteArrayInputStream(array));
+    }
+
+    private void detect(Feature2D detector, DescriptorMatcher matcher, EmbeddingModel facenet, Mat loadedImg, String which) {
         MatOfKeyPoint keypoints1 = new MatOfKeyPoint(), keypoints2 = new MatOfKeyPoint();
         Mat descriptors1 = new Mat(), descriptors2 = new Mat();
 
@@ -312,6 +272,17 @@ public class FD_Controller implements Initializable {
         Features2d.drawKeypoints(picture, keypoints2, newKP);
         Image imageToShow2 = Utils.mat2Image(newKP);
         updateImageView(detectedPicture, imageToShow2);
+
+        double[] storedImageEmbedding = null;
+        double[] newImageEmbedding = null;
+        try {
+            storedImageEmbedding = facenet.embedding((new BufferedImageFactory()).fromImage(MatConvert(loadedImg)));
+            newImageEmbedding = facenet.embedding((new BufferedImageFactory()).fromImage(MatConvert(picture)));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println(facenet.cosineDistance(storedImageEmbedding,newImageEmbedding));
+
 
         List<MatOfDMatch> matches = new ArrayList<>();
         matcher.knnMatch(descriptors1, descriptors2, matches, 2);

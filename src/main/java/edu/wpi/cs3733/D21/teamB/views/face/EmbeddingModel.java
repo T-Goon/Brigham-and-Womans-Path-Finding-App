@@ -1,0 +1,147 @@
+package edu.wpi.cs3733.D21.teamB.views.face;
+
+import ai.djl.MalformedModelException;
+import ai.djl.inference.Predictor;
+import ai.djl.modality.Classifications;
+import ai.djl.modality.cv.Image;
+import ai.djl.modality.cv.ImageFactory;
+import ai.djl.modality.cv.transform.CenterCrop;
+import ai.djl.modality.cv.transform.Normalize;
+import ai.djl.modality.cv.transform.Resize;
+import ai.djl.modality.cv.transform.ToTensor;
+import ai.djl.modality.cv.translator.ImageClassificationTranslator;
+import ai.djl.ndarray.NDArray;
+import ai.djl.ndarray.NDList;
+import ai.djl.repository.zoo.Criteria;
+import ai.djl.repository.zoo.ModelNotFoundException;
+import ai.djl.repository.zoo.ModelZoo;
+import ai.djl.repository.zoo.ZooModel;
+import ai.djl.training.util.DownloadUtils;
+import ai.djl.translate.*;
+
+import java.io.IOException;
+import java.util.stream.IntStream;
+
+public class EmbeddingModel {
+
+    private static EmbeddingModel model = null;
+    private static final String modelURL = "https://nihilistkitten.me/traced_facenet.pt";
+
+    private ZooModel zooModel;
+    private Predictor<Image,double[]> predictor;
+
+    public static void test(){
+        (new EmbeddingModel()).embedding(null);
+    }
+
+    public static EmbeddingModel getModel(){
+        if(model == null){
+            model = new EmbeddingModel();
+        }
+        return model;
+    }
+
+    private EmbeddingModel(){
+        this.initialize();
+    }
+
+    private void initialize(){
+        try {
+            DownloadUtils.download(modelURL, "src/main/resources/edu/wpi/cs3733/D21/teamB/faces/pytorch_models/facenet/facenet.pt", new ai.djl.training.util.ProgressBar());
+        } catch (
+                IOException e) {
+            e.printStackTrace();
+        }
+
+        System.setProperty("ai.djl.repository.zoo.location", "src/main/resources/edu/wpi/cs3733/D21/teamB/faces/pytorch_models/facenet");
+        this.buildModel();
+    }
+
+    private ZooModel buildModel(){
+
+        Criteria<Image, double[]> criteria = Criteria.builder()
+                .setTypes(ai.djl.modality.cv.Image.class, double[].class)
+                .optTranslator(new customTranslator())
+                .optArtifactId("ai.djl.localmodelzoo:facenet")
+                .optProgress(new ai.djl.training.util.ProgressBar()).build();
+
+        ZooModel model = null;
+        try {
+            model = ModelZoo.loadModel(criteria);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (
+                ModelNotFoundException e) {
+            e.printStackTrace();
+        } catch (
+                MalformedModelException e) {
+            e.printStackTrace();
+        }
+        zooModel = model;
+        predictor = model.newPredictor();
+        return zooModel;
+    }
+
+    public double[] embedding(Image imgIn){
+        try {
+            double[] embedding = predictor.predict(imgIn);
+            return embedding;
+        } catch (TranslateException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public double cosineDistance(double[] a, double[] b){
+        double dotproduct = 0;
+        double amag = 0;
+        double bmag = 0;
+        for(int i = 0; i < a.length; i++){
+           dotproduct += a[i]*b[i];
+           amag += a[i]*a[i];
+           bmag += b[i]*b[i];
+        }
+        amag = Math.sqrt(amag);
+        bmag = Math.sqrt(bmag);
+        return (dotproduct)/(amag * bmag);
+    }
+
+
+
+    class customTranslator implements Translator<Image,double[]> {
+        public customTranslator() {
+        }
+
+        @Override
+        public double[] processOutput(TranslatorContext ctx, NDList list) {
+            if (list != null && !list.isEmpty()) {
+                float[] floatArray = list.get(0).toFloatArray();
+                return IntStream.range(0, floatArray.length).mapToDouble(i -> floatArray[i]).toArray();
+            } else {
+                return null;
+            }
+        }
+
+        @Override
+        public NDList processInput(TranslatorContext ctx, Image input) {
+            NDArray array = input.toNDArray(ctx.getNDManager(), Image.Flag.COLOR);
+
+            Resize resize = new Resize(160, 160);
+            array = resize.transform(array);
+
+            // fixed image standardization (used in MTCNN post process faces for trained
+            // pytorch model)
+            array = array.sub(0.498).div(0.5);
+
+            array = array.expandDims(0);
+
+            array = array.getNDArrayInternal().toTensor();
+            return new NDList(array);
+        }
+
+        @Override
+        public Batchifier getBatchifier() {
+            return null;
+        }
+    }
+}
