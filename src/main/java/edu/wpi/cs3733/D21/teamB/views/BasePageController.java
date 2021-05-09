@@ -10,13 +10,18 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 
 import java.awt.*;
+import java.io.IOException;
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public abstract class BasePageController implements Initializable {
@@ -43,7 +48,7 @@ public abstract class BasePageController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         initOSK();
         initTTS();
-
+        initChatbot();
     }
 
     /**
@@ -88,6 +93,16 @@ public abstract class BasePageController implements Initializable {
                 onScreenKeyboard.setParent(stackPane);
             }
         } catch (AWTException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void initChatbot() {
+        try {
+            Node chatBox = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/cs3733/D21/teamB/views/misc/chatBox.fxml")));
+            stackPane.getChildren().add(chatBox);
+            stackPane.setAlignment(Pos.BOTTOM_RIGHT);
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

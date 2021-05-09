@@ -2,6 +2,7 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXTextField?>
+<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
@@ -9,7 +10,8 @@
 <?import javafx.scene.layout.VBox?>
 
 <VBox fx:id="base" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-      prefHeight="400.0" prefWidth="350.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
+      prefHeight="400.0" prefWidth="350.0" style="-fx-background-color: ffffff;"
+      xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="edu.wpi.cs3733.D21.teamB.views.misc.ChatBoxController">
     <children>
         <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="190.0"
@@ -24,7 +26,7 @@
             </children>
         </HBox>
         <ScrollPane fx:id="scrollPane" hbarPolicy="NEVER" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="9999.0"
-                    prefWidth="336.0" style="-fx-background-color: transparent;" stylesheets="@../../css/treeView.css">
+                    prefWidth="336.0" style="-fx-background-color: transparent;">
             <content>
                 <VBox fx:id="messageHolder" maxWidth="-Infinity" minHeight="320.0" minWidth="-Infinity"
                       prefWidth="318.0" spacing="5.0"/>
@@ -32,6 +34,10 @@
             <VBox.margin>
                 <Insets bottom="7.0" left="7.0" right="2.0" top="7.0"/>
             </VBox.margin>
+            <stylesheets>
+                <URL value="@../../css/treeView.css"/>
+                <URL value="@../../css/scrollPane.css"/>
+            </stylesheets>
         </ScrollPane>
         <VBox>
             <children>

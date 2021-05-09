@@ -72,7 +72,7 @@ public class ChatBoxController implements Initializable {
 
         // When closed, wipe the cache and remove itself
         btnClose.setOnAction(e -> {
-            ((AnchorPane) base.getParent()).getChildren().remove(base);
+            ((StackPane) base.getParent()).getChildren().remove(base);
             PageCache.getUserMessages().clear();
             PageCache.getBotMessages().clear();
         });
