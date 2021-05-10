@@ -78,14 +78,14 @@ public class ChatBot implements Runnable {
     }
 
     /**
-     * Here, this should split into different methods to determine
-     * how to respond
+     * Actually responds to the user's message
      *
      * @param input the input from the user
      */
     private void respond(ChatBoxController.Message input) {
         if (input == null) return;
 
+        // Wait for a bit to seem more human
         try {
             Thread.sleep(ThreadLocalRandom.current().nextInt(1000, 2001));
         } catch (InterruptedException e) {
