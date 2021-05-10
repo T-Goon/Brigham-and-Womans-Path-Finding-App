@@ -187,7 +187,7 @@
                                           <Insets bottom="5.0" />
                                        </VBox.margin>
                                     </Text>
-                                    <JFXPasswordField fx:id="passPassword" prefHeight="50.0" prefWidth="400.0" style="-fx-background-color: #0067B1; -fx-border-color: white; -fx-border-width: 1; -fx-border-radius: 3;" stylesheets="@../../css/login.css" unFocusColor="#4d4d4d00" />
+                                    <JFXPasswordField fx:id="passPassword" onKeyReleased="#validateButtons" prefHeight="50.0" prefWidth="400.0" style="-fx-background-color: #0067B1; -fx-border-color: white; -fx-border-width: 1; -fx-border-radius: 3;" stylesheets="@../../css/login.css" unFocusColor="#4d4d4d00" />
                                  </children>
                               </VBox>
                            </children>

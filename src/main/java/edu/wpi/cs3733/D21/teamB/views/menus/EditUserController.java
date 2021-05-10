@@ -191,7 +191,7 @@ public class EditUserController extends BasePageController implements Initializa
     private void validateButtons() {
         btnSubmit.setDisable(
                 txtUsername.getText().isEmpty() || txtEmail.getText().isEmpty() || txtFirstName.getText().isEmpty() || txtLastName.getText().isEmpty() ||
-                        comboAuth.getValue() == null
+                        comboAuth.getValue() == null || (passPassword.getText().isEmpty() && SceneSwitcher.editingUserState.equals(SceneSwitcher.UserState.ADD))
         );
 
         txtUsername.setDisable(SceneSwitcher.editingUserState != SceneSwitcher.UserState.ADD);
