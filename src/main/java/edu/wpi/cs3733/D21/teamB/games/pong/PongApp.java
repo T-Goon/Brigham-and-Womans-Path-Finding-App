@@ -34,10 +34,7 @@ import com.almasb.fxgl.core.math.Vec2;
 import com.almasb.fxgl.entity.Entities;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.components.CollidableComponent;
-import com.almasb.fxgl.input.ActionType;
-import com.almasb.fxgl.input.Input;
-import com.almasb.fxgl.input.InputMapping;
-import com.almasb.fxgl.input.OnUserAction;
+import com.almasb.fxgl.input.*;
 import com.almasb.fxgl.net.Server;
 import com.almasb.fxgl.particle.ParticleComponent;
 import com.almasb.fxgl.particle.ParticleEmitter;
@@ -114,22 +111,44 @@ public class PongApp extends GameApplication {
 
     @Override
     protected void initInput() {
-        Input input = getInput();
 
-        getGameScene().getContentRoot().addEventFilter(KeyEvent.KEY_PRESSED, e -> {
-            if (e.getCode().equals(KeyCode.W)) {
+        getInput().addAction(new UserAction("Up") {
+            @Override
+            protected void onAction() {
                 playerBat.up();
-            } else if (e.getCode().equals(KeyCode.S)) {
+            }
+            @Override
+            protected void onActionEnd() {
+                playerBat.stop();
+            }
+        }, KeyCode.W);
+
+        getInput().addAction(new UserAction("Down") {
+            @Override
+            protected void onAction() {
                 playerBat.down();
             }
-        });
-        getGameScene().getContentRoot().addEventFilter(KeyEvent.KEY_RELEASED, e -> {
-            if (e.getCode().equals(KeyCode.W)) {
-                playerBat.stop();
-            } else if (e.getCode().equals(KeyCode.S)) {
+            @Override
+            protected void onActionEnd() {
                 playerBat.stop();
             }
-        });
+        }, KeyCode.S);
+
+        //getGameScene().getRoot().
+//        getGameScene().getRoot().addEventFilter(KeyEvent.KEY_PRESSED, e -> {
+//            if (e.getCode().equals(KeyCode.W)) {
+//                playerBat.up();
+//            } else if (e.getCode().equals(KeyCode.S)) {
+//                playerBat.down();
+//            }
+//        });
+//        getGameScene().getRoot().addEventFilter(KeyEvent.KEY_RELEASED, e -> {
+//            if (e.getCode().equals(KeyCode.W)) {
+//                playerBat.stop();
+//            } else if (e.getCode().equals(KeyCode.S)) {
+//                playerBat.stop();
+//            }
+//        });
 //        input.addInputMapping(new InputMapping("Up", KeyCode.W));
 //        input.addInputMapping(new InputMapping("Down", KeyCode.S));
     }
