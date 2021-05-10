@@ -23,6 +23,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class ChatBoxController implements Initializable {
@@ -53,31 +54,36 @@ public class ChatBoxController implements Initializable {
 
     private final TextToSpeech tts = new TextToSpeech();
     public static Thread userThread = null;
+    private List<String> cachedResponses;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+        cachedResponses = (List<String>) App.getPrimaryStage().getUserData();
 
         // If the page starts minimized, keep it minimized
         Platform.runLater(() -> {
             if (PageCache.isPageMinimized()) minimize();
         });
 
+//        // If a message slips through the cracks, refresh
+//        if (PageCache.getAllMessages().size() > messageHolder.getChildren().size()) {
+//            // Add all the messages in the cache
+//
+//            messageHolder.getChildren().clear();
+//
+        if (cachedResponses != null)
+            for (String s : cachedResponses)
+                PageCache.addBotMessage(new ChatBoxController.Message(s, false));
+
+//
+//        }
+
         // Thread for getting messages from the bot
         if (userThread == null) {
             userThread = new Thread(() -> {
 
                 while (App.isRunning()) {
-
-                    // If a message slips through the cracks, refresh
-                    if (PageCache.getAllMessages().size() > messageHolder.getChildren().size()) {
-                        // Add all the messages in the cache
-                        Platform.runLater(() -> {
-                            messageHolder.getChildren().clear();
-
-                            for (Message m : PageCache.getAllMessages())
-                                addMessage(m, false);
-                        });
-                    }
 
                     // Wait for a new message
                     if (PageCache.getNewMessagesWaitingForUser().get() != 0) {

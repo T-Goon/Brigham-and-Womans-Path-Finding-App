@@ -96,9 +96,11 @@ public class ChatBot implements Runnable {
                 e.printStackTrace();
             }
             unsureResponse(input.getMessage());
+
         } else {
             for (String message : response) {
                 if (message.contains("/")) {
+                    App.getPrimaryStage().setUserData(LoginState.cachedResponses);
                     switchToPage(message);
                     continue;
                 }

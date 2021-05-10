@@ -8,11 +8,13 @@ public class LoginState implements IState {
 
     private final Stack<String> messagesSent = new Stack<>();
     private final Stack<String> messagesReceived = new Stack<>();
+    public static List<String> cachedResponses;
 
     @Override
     public List<String> respond(String input) {
         messagesReceived.push(input);
         List<String> response = new ArrayList<>();
+        cachedResponses = new ArrayList<>();
 
         // First message
         if (messagesSent.isEmpty()) {
@@ -21,7 +23,7 @@ public class LoginState implements IState {
             if (StateManager.containsAny(input, new String[]{"y", "ye", "yes", "yeah", "yup"})) {
                 response.add("Okay! Taking you there now...");
                 response.add("/edu/wpi/cs3733/D21/teamB/views/login/loginPage.fxml");
-                response.add("How can I help?");
+                cachedResponses.add("How can I help?");
             } else {
                 response.add("No worries!");
                 response.add("return");
