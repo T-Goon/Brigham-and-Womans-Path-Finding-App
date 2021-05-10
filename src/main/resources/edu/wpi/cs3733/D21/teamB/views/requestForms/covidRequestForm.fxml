@@ -130,7 +130,7 @@
             </VBox>
          </children>
       </JFXScrollPane>
-      <HBox alignment="BOTTOM_LEFT" prefHeight="77.0" prefWidth="0.0" VBox.vgrow="ALWAYS">
+      <HBox alignment="BOTTOM_LEFT" prefHeight="527.0" prefWidth="2202.0" VBox.vgrow="ALWAYS">
          <padding>
             <Insets top="10.0" />
          </padding>
@@ -138,17 +138,30 @@
             <Insets bottom="15.0" left="15.0" />
          </VBox.margin>
          <children>
-            <HBox alignment="BOTTOM_LEFT" prefWidth="9999.0">
+            <HBox alignment="BOTTOM_LEFT" HBox.hgrow="ALWAYS">
                <children>
-                  <JFXButton fx:id="btnBack" accessibleText="Leave page" alignment="CENTER" buttonType="RAISED" cancelButton="true" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#handleButtonAction" prefHeight="56" prefWidth="56" style="-fx-background-color: #0067B1; -fx-background-radius: 50%;" text="🡰" textAlignment="CENTER" textFill="WHITE">
+                  <JFXButton fx:id="btnBack" alignment="CENTER_RIGHT" buttonType="RAISED" cancelButton="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#handleButtonAction" prefHeight="56" prefWidth="100.0" style="-fx-background-color: #0067B1; -fx-background-radius: 7;" text="Back  " textAlignment="RIGHT" textFill="WHITE">
                      <font>
-                        <Font size="27.0" />
+                        <Font size="18.0" />
                      </font>
                      <padding>
                         <Insets top="1.0" />
                      </padding>
+                     <graphic>
+                        <ImageView fitHeight="35.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../images/menus/backButton.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
                   </JFXButton>
                </children>
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+               <padding>
+                  <Insets bottom="15.0" left="15.0" />
+               </padding>
             </HBox>
             <HBox alignment="BOTTOM_CENTER" prefWidth="9999.0" HBox.hgrow="ALWAYS">
                <children>
@@ -159,10 +172,9 @@
                   </JFXButton>
                </children>
                <HBox.margin>
-                  <Insets left="60.0" />
+                  <Insets bottom="15.0" left="15.0" />
                </HBox.margin>
             </HBox>
-            <HBox prefWidth="9999.0" />
          </children>
       </HBox>
    </children>
