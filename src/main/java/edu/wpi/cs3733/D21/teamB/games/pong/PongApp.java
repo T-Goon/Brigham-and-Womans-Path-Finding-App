@@ -41,19 +41,28 @@ import com.almasb.fxgl.particle.ParticleEmitter;
 import com.almasb.fxgl.particle.ParticleEmitters;
 import com.almasb.fxgl.physics.CollisionHandler;
 import com.almasb.fxgl.physics.HitBox;
+import com.almasb.fxgl.scene.GameScene;
 import com.almasb.fxgl.settings.GameSettings;
 import com.almasb.fxgl.settings.MenuItem;
 import com.almasb.fxgl.ui.UI;
+import edu.wpi.cs3733.D21.teamB.App;
 import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point2D;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.effect.BlendMode;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.io.IOException;
 import java.util.EnumSet;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * A simple multiplayer pong.
@@ -69,6 +78,8 @@ public class PongApp extends GameApplication {
     private Entity bat1;
     private Entity bat2;
 
+    private static Stage pongStage;
+
     @Override
     protected void initSettings(GameSettings settings) {
         settings.setTitle("Pong");
@@ -77,7 +88,6 @@ public class PongApp extends GameApplication {
         settings.setEnabledMenuItems(EnumSet.of(MenuItem.ONLINE));
     }
 
-    @Override
     protected void preInit() {
         FXGL.getNet().addDataParser(ServerMessage.class, message -> {
             Platform.runLater(() -> {
@@ -112,43 +122,42 @@ public class PongApp extends GameApplication {
     @Override
     protected void initInput() {
 
-        getInput().addAction(new UserAction("Up") {
-            @Override
-            protected void onAction() {
-                playerBat.up();
-            }
-            @Override
-            protected void onActionEnd() {
-                playerBat.stop();
-            }
-        }, KeyCode.W);
-
-        getInput().addAction(new UserAction("Down") {
-            @Override
-            protected void onAction() {
-                playerBat.down();
-            }
-            @Override
-            protected void onActionEnd() {
-                playerBat.stop();
-            }
-        }, KeyCode.S);
-
-        //getGameScene().getRoot().
-//        getGameScene().getRoot().addEventFilter(KeyEvent.KEY_PRESSED, e -> {
-//            if (e.getCode().equals(KeyCode.W)) {
+//        getInput().addAction(new UserAction("Up") {
+//            @Override
+//            protected void onAction() {
 //                playerBat.up();
-//            } else if (e.getCode().equals(KeyCode.S)) {
+//            }
+//            @Override
+//            protected void onActionEnd() {
+//                playerBat.stop();
+//            }
+//        }, KeyCode.W);
+//
+//        getInput().addAction(new UserAction("Down") {
+//            @Override
+//            protected void onAction() {
 //                playerBat.down();
 //            }
-//        });
-//        getGameScene().getRoot().addEventFilter(KeyEvent.KEY_RELEASED, e -> {
-//            if (e.getCode().equals(KeyCode.W)) {
-//                playerBat.stop();
-//            } else if (e.getCode().equals(KeyCode.S)) {
+//            @Override
+//            protected void onActionEnd() {
 //                playerBat.stop();
 //            }
-//        });
+//        }, KeyCode.S);
+//
+        pongStage.addEventFilter(KeyEvent.KEY_PRESSED, e -> {
+            if (e.getCode().equals(KeyCode.W)) {
+                playerBat.up();
+            } else if (e.getCode().equals(KeyCode.S)) {
+                playerBat.down();
+            }
+        });
+        pongStage.addEventFilter(KeyEvent.KEY_RELEASED, e -> {
+            if (e.getCode().equals(KeyCode.W)) {
+                playerBat.stop();
+            } else if (e.getCode().equals(KeyCode.S)) {
+                playerBat.stop();
+            }
+        });
 //        input.addInputMapping(new InputMapping("Up", KeyCode.W));
 //        input.addInputMapping(new InputMapping("Down", KeyCode.S));
     }
@@ -163,23 +172,19 @@ public class PongApp extends GameApplication {
 
     @Override
     protected void initGame() {
-        if (getNet().getConnection().isPresent()) {
-            mode = getNet().getConnection().get() instanceof Server ? GameMode.MP_HOST : GameMode.MP_CLIENT;
-        } else {
-            mode = GameMode.SP;
+        mode = GameMode.SP;
 
-            getGameState().<Integer>addListener("player1score", (old, newScore) -> {
-                if (newScore == 11) {
-                    showGameOver("Player 1");
-                }
-            });
+        getGameState().<Integer>addListener("player1score", (old, newScore) -> {
+            if (newScore == 11) {
+                showGameOver("Player 1");
+            }
+        });
 
-            getGameState().<Integer>addListener("player2score", (old, newScore) -> {
-                if (newScore == 11) {
-                    showGameOver("Player 2");
-                }
-            });
-        }
+        getGameState().<Integer>addListener("player2score", (old, newScore) -> {
+            if (newScore == 11) {
+                showGameOver("Player 2");
+            }
+        });
 
         factory = new PongFactory(mode);
 
@@ -203,7 +208,7 @@ public class PongApp extends GameApplication {
                     getGameState().increment("player1score", +1);
                 }
 
-                getAudioPlayer().playSound("hit_wall.wav");
+                //getAudioPlayer().playSound("hit_wall.wav");
                 getGameScene().getViewport().shake(5);
             }
         });
@@ -211,7 +216,7 @@ public class PongApp extends GameApplication {
         CollisionHandler ballBatHandler = new CollisionHandler(EntityType.BALL, EntityType.PLAYER_BAT) {
             @Override
             protected void onCollisionBegin(Entity a, Entity bat) {
-                getAudioPlayer().playSound("hit_bat.wav");
+                //getAudioPlayer().playSound("hit_bat.wav");
                 playHitAnimation(bat);
             }
         };
@@ -282,49 +287,49 @@ public class PongApp extends GameApplication {
         getGameWorld().addEntity(bat2);
     }
 
-    @OnUserAction(name = "Up", type = ActionType.ON_ACTION)
-    public void up() {
-        if (mode == GameMode.MP_CLIENT) {
-            getNet().getConnection().ifPresent(conn -> {
-                conn.send(new ClientMessage(true, false, false));
-            });
-        } else {
-            playerBat.up();
-        }
-    }
-
-    @OnUserAction(name = "Down", type = ActionType.ON_ACTION)
-    public void down() {
-        if (mode == GameMode.MP_CLIENT) {
-            getNet().getConnection().ifPresent(conn -> {
-                conn.send(new ClientMessage(false, true, false));
-            });
-        } else {
-            playerBat.down();
-        }
-    }
-
-    @OnUserAction(name = "Up", type = ActionType.ON_ACTION_END)
-    public void stopBat() {
-        if (mode == GameMode.MP_CLIENT) {
-            getNet().getConnection().ifPresent(conn -> {
-                conn.send(new ClientMessage(false, false, true));
-            });
-        } else {
-            playerBat.stop();
-        }
-    }
-
-    @OnUserAction(name = "Down", type = ActionType.ON_ACTION_END)
-    public void stopBat2() {
-        if (mode == GameMode.MP_CLIENT) {
-            getNet().getConnection().ifPresent(conn -> {
-                conn.send(new ClientMessage(false, false, true));
-            });
-        } else {
-            playerBat.stop();
-        }
-    }
+//    @OnUserAction(name = "Up", type = ActionType.ON_ACTION)
+//    public void up() {
+//        if (mode == GameMode.MP_CLIENT) {
+//            getNet().getConnection().ifPresent(conn -> {
+//                conn.send(new ClientMessage(true, false, false));
+//            });
+//        } else {
+//            playerBat.up();
+//        }
+//    }
+//
+//    @OnUserAction(name = "Down", type = ActionType.ON_ACTION)
+//    public void down() {
+//        if (mode == GameMode.MP_CLIENT) {
+//            getNet().getConnection().ifPresent(conn -> {
+//                conn.send(new ClientMessage(false, true, false));
+//            });
+//        } else {
+//            playerBat.down();
+//        }
+//    }
+//
+//    @OnUserAction(name = "Up", type = ActionType.ON_ACTION_END)
+//    public void stopBat() {
+//        if (mode == GameMode.MP_CLIENT) {
+//            getNet().getConnection().ifPresent(conn -> {
+//                conn.send(new ClientMessage(false, false, true));
+//            });
+//        } else {
+//            playerBat.stop();
+//        }
+//    }
+//
+//    @OnUserAction(name = "Down", type = ActionType.ON_ACTION_END)
+//    public void stopBat2() {
+//        if (mode == GameMode.MP_CLIENT) {
+//            getNet().getConnection().ifPresent(conn -> {
+//                conn.send(new ClientMessage(false, false, true));
+//            });
+//        } else {
+//            playerBat.stop();
+//        }
+//    }
 
     private void playHitAnimation(Entity bat) {
         Entities.animationBuilder()
@@ -342,6 +347,25 @@ public class PongApp extends GameApplication {
     }
 
     public static void main(String[] args) {
-        launch(args);
+//        launch(args);
+        PongApp pongApp = new PongApp();
+        PongApp.pongStage = new Stage();
+        pongApp.initInput();
+        pongApp.initGame();
+        pongApp.initPhysics();
+        pongApp.initUI();
+        Scene scene = pongApp.getGameScene().getRoot().getScene();
+        pongStage.setScene(scene);
+        pongStage.setFullScreenExitKeyCombination(new KeyCombination() {
+            @Override
+            public boolean match(KeyEvent event) {
+                return event.getCode().equals(KeyCode.F11);
+            }
+        });
+        pongStage.setFullScreen(true);
+        App.getPrimaryStage().hide();
+        pongStage.show();
+
+
     }
 }
