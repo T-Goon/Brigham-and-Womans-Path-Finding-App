@@ -39,7 +39,7 @@ public class CovidFormPendingController extends BasePageController {
                 SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
                 break;
             case "btnGame":
-                SceneSwitcher.switchFromTemp("edu/wpi/cs3733/D21/teamB/views/misc/arcade.fxml");
+                SceneSwitcher.switchFromTemp("/edu/wpi/cs3733/D21/teamB/views/misc/arcade.fxml");
                 break;
         }
         super.handleButtonAction(e);
