@@ -4,6 +4,6 @@ public class CovidState implements IState {
 
     @Override
     public String respond(String input) {
-        return null;
+        return input + " covid!";
     }
 }

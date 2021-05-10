@@ -51,7 +51,7 @@ public class StateManager {
         } else if (containsAny(input, "google", "maps", "drive", "directions") && !(currentState instanceof GoogleMapsState)) {
             refresh();
             currentState = googleMapsState;
-        } else {
+        } else if (currentState == null) {
             return null;
         }
 
@@ -60,7 +60,7 @@ public class StateManager {
     }
 
     /**
-     * Given n amount of strings and a starting message,
+     * Given n amount of words and a starting message,
      * checks whether the message contains any of them
      *
      * @param message the message to check
@@ -68,11 +68,14 @@ public class StateManager {
      * @return true if message has one of those in it
      */
     private boolean containsAny(String message, String... check) {
+        String[] words = message.split("\\W+");
         boolean contains = false;
-        for (String s : check) {
-            if (message.contains(s)) {
-                contains = true;
-                break;
+        for (String word : words) {
+            for (String s : check) {
+                if (word.equals(s)) {
+                    contains = true;
+                    break;
+                }
             }
         }
         return contains;
