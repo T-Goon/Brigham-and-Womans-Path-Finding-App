@@ -37,37 +37,39 @@ public class CovidRequestFormController extends DefaultServiceRequestFormControl
             e.printStackTrace();
         }
         String symptoms = "";
-        assert request != null;
-        if(request.getSymptomFever().equals("T")) symptoms += " - Fever\n";
-        if(request.getSymptomChills().equals("T")) symptoms += " - Chills\n";
-        if(request.getSymptomCough().equals("T")) symptoms += " - Cough\n";
-        if(request.getSymptomShortBreath().equals("T")) symptoms += " - Shortness of Breath\n";
-        if(request.getSymptomSoreTht().equals("T")) symptoms += " - Sore Throat\n";
-        if(request.getSymptomHeadache().equals("T")) symptoms += " - Headache\n";
-        if(request.getSymptomAches().equals("T")) symptoms += " - Muscle/Body Ache\n";
-        if(request.getSymptomNose().equals("T")) symptoms += " - Runny Node/Congestion\n";
-        if(request.getSymptomLostTaste().equals("T")) symptoms += " - Loss of Taste/Smell\n";
-        if(request.getSymptomNausea().equals("T")) symptoms += " - Nausea/Vomiting\n";
-        if(symptoms.isEmpty()) symptoms = "- No Symptoms";
-        if(request.getHadCloseContact().equals("T")){
-            symptoms += "\n The patient has had close contact with Covid-19 exposed individuals in the past 2 weeks";
-        }
-        if(request.getHadPositiveTest().equals("T")){
-            symptoms += "\n The patient has had a positive Covid-19 test in the past 2 weeks";
-        }
-
-        symptomTxt.setText(symptoms);
-
-
-        for(User.CovidStatus stat : User.CovidStatus.values()){
-            reviewStatus.getItems().add(new Label(stat.toString()));
-        }
-        int i = 0;
-        for (Label label : reviewStatus.getItems()) {
-            if (label.getText().equals(request.getStatus().toString())) {
-                reviewStatus.getSelectionModel().select(i);
+        if(request != null) {
+            if (request.getSymptomFever().equals("T")) symptoms += " - Fever\n";
+            if (request.getSymptomChills().equals("T")) symptoms += " - Chills\n";
+            if (request.getSymptomCough().equals("T")) symptoms += " - Cough\n";
+            if (request.getSymptomShortBreath().equals("T")) symptoms += " - Shortness of Breath\n";
+            if (request.getSymptomSoreTht().equals("T")) symptoms += " - Sore Throat\n";
+            if (request.getSymptomHeadache().equals("T")) symptoms += " - Headache\n";
+            if (request.getSymptomAches().equals("T")) symptoms += " - Muscle/Body Ache\n";
+            if (request.getSymptomNose().equals("T")) symptoms += " - Runny Node/Congestion\n";
+            if (request.getSymptomLostTaste().equals("T")) symptoms += " - Loss of Taste/Smell\n";
+            if (request.getSymptomNausea().equals("T")) symptoms += " - Nausea/Vomiting\n";
+            if (request.getSymptomNone().equals("T")) symptoms += " - None\n";
+            if (symptoms.isEmpty()) symptoms = "- No Symptoms";
+            if (request.getHadCloseContact().equals("T")) {
+                symptoms += "\n The patient has had close contact with Covid-19 exposed individuals in the past 2 weeks";
             }
-            i++;
+            if (request.getHadPositiveTest().equals("T")) {
+                symptoms += "\n The patient has had a positive Covid-19 test in the past 2 weeks";
+            }
+
+            symptomTxt.setText(symptoms);
+
+
+            for (User.CovidStatus stat : User.CovidStatus.values()) {
+                reviewStatus.getItems().add(new Label(stat.toString()));
+            }
+            int i = 0;
+            for (Label label : reviewStatus.getItems()) {
+                if (label.getText().equals(request.getStatus().toString())) {
+                    reviewStatus.getSelectionModel().select(i);
+                }
+                i++;
+            }
         }
 
         validateButton();

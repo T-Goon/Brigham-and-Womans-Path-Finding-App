@@ -64,6 +64,9 @@ public class CovidSurveyController extends DefaultServiceRequestFormController i
     private JFXCheckBox chkNausea;
 
     @FXML
+    private JFXCheckBox chkNone;
+
+    @FXML
     private JFXButton btnExit;
 
     @FXML
@@ -90,6 +93,7 @@ public class CovidSurveyController extends DefaultServiceRequestFormController i
     @FXML
     private JFXTextField txtName;
 
+
     //State (per-view)
     private CovidSurveyRequest request;
 
@@ -101,6 +105,21 @@ public class CovidSurveyController extends DefaultServiceRequestFormController i
         btnCCNo.setToggleGroup(ccGroup);
         btnTestYes.setToggleGroup(testGroup);
         btnTestNo.setToggleGroup(testGroup);
+
+        chkNone.setOnAction(event -> {
+            if(chkNone.isSelected()){
+                chkFever.setSelected(false);
+                chkChills.setSelected(false);
+                chkCough.setSelected(false);
+                chkShortBreath.setSelected(false);
+                chkSoreTht.setSelected(false);
+                chkHeadache.setSelected(false);
+                chkAches.setSelected(false);
+                chkNose.setSelected(false);
+                chkLostTaste.setSelected(false);
+                chkNausea.setSelected(false);
+            }
+        });
 
         request = null;
         try {
@@ -197,6 +216,7 @@ public class CovidSurveyController extends DefaultServiceRequestFormController i
                 chkNose.isSelected() ? "T" : "F",
                 chkLostTaste.isSelected() ? "T" : "F",
                 chkNausea.isSelected() ? "T" : "F",
+                chkNone.isSelected()? "T" : "F",
                 btnCCYes.isSelected() ? "T" : "F",
                 btnTestYes.isSelected() ? "T" : "F"
         );
