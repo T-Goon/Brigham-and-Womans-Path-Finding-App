@@ -108,7 +108,7 @@
                                  <children>
                                             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Alex Bolduc - Assistant Lead Software Engineer">
                                                 <font>
-                                                    <Font size="14.0" />
+                                                    <Font name="MS Reference Sans Serif" size="14.0" />
                                                 </font>
                                             </Text>
                                             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Brian Francis - Product Owner/UI Engineer">
