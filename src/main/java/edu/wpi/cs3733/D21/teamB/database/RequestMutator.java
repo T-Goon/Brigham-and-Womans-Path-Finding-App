@@ -696,8 +696,7 @@ public class RequestMutator implements IDatabaseEntityMutator<Request> {
                         rs.getString("lostTaste"),
                         rs.getString("nausea"),
                         rs.getString("closeContact"),
-                        rs.getString("positiveTest"),
-                        rs.getString("none")
+                        rs.getString("positiveTest")
                 );
                 break;
             default:

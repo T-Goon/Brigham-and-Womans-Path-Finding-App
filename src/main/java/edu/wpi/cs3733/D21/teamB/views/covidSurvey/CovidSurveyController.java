@@ -216,7 +216,6 @@ public class CovidSurveyController extends DefaultServiceRequestFormController i
                 chkNose.isSelected() ? "T" : "F",
                 chkLostTaste.isSelected() ? "T" : "F",
                 chkNausea.isSelected() ? "T" : "F",
-                chkNone.isSelected()? "T" : "F",
                 btnCCYes.isSelected() ? "T" : "F",
                 btnTestYes.isSelected() ? "T" : "F"
         );
