@@ -5,6 +5,7 @@ import edu.wpi.cs3733.D21.teamB.App;
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.User;
 import edu.wpi.cs3733.D21.teamB.entities.requests.Request;
+import edu.wpi.cs3733.D21.teamB.views.face.EmbeddingModel;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
@@ -66,6 +67,7 @@ public class UserWrapper {
         btnDel.setOnAction(event -> {
             try {
                 DatabaseHandler.getHandler().deleteUser(u.getUsername());
+                EmbeddingModel.getModel().resetEmbeddings();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
