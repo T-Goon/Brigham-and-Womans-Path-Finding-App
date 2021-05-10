@@ -9,8 +9,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 public class ServiceRequestMenuController extends BasePageController {
 
@@ -100,7 +102,8 @@ public class ServiceRequestMenuController extends BasePageController {
     @FXML
     private Label lblLang;
 
-    private List<Label> creds = new ArrayList<>();
+    private boolean show = true;
+
 
     public void hide(){
         lblSocialWorker.setVisible(false);
@@ -132,6 +135,12 @@ public class ServiceRequestMenuController extends BasePageController {
         lblCase.setVisible(true);
         lblGift.setVisible(true);
         lblLang.setVisible(true);
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        super.initialize(location, resources);
+        hide();
     }
 
     @FXML
@@ -184,8 +193,16 @@ public class ServiceRequestMenuController extends BasePageController {
                 path = VIEWS_PATH + "languageRequestForm.fxml";
                 break;
             case "btnShowCredits":
-                
-                path = "/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestMenuCredits.fxml";
+                if(show){
+                    show();
+                    show = false;
+                }
+                else{
+                    hide();
+                    show = true;
+                }
+
+                //path = "/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestMenuCredits.fxml";
                 break;
         }
 
