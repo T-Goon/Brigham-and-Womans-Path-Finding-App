@@ -3,7 +3,9 @@ package edu.wpi.cs3733.D21.teamB.entities.chatbot;
 import edu.wpi.cs3733.D21.teamB.App;
 import edu.wpi.cs3733.D21.teamB.util.FileUtil;
 import edu.wpi.cs3733.D21.teamB.util.PageCache;
+import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
 import edu.wpi.cs3733.D21.teamB.views.misc.ChatBoxController;
+import javafx.application.Platform;
 import net.lingala.zip4j.ZipFile;
 import net.lingala.zip4j.exception.ZipException;
 import org.alicebot.ab.Bot;
@@ -12,6 +14,7 @@ import org.alicebot.ab.Chat;
 import java.io.File;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class ChatBot implements Runnable {
@@ -83,40 +86,50 @@ public class ChatBot implements Runnable {
     private void respond(ChatBoxController.Message input) {
         if (input == null) return;
 
-        // Wait for a bit to seem more human
-        try {
-            Thread.sleep(ThreadLocalRandom.current().nextInt(1000, 2001));
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
         // Respond
-        String response = stateManager.respond(input.getMessage().toLowerCase());
-        if (response == null) unsureResponse(input.getMessage());
-        else sendMessage(response);
+        List<String> response = stateManager.respond(input.getMessage().toLowerCase());
+        if (response.isEmpty()) {
+            // Wait for a bit to seem more human
+            try {
+                Thread.sleep(ThreadLocalRandom.current().nextInt(1000, 2001));
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            unsureResponse(input.getMessage());
+        } else {
+            for (String message : response) {
+                if (message.contains("/")) {
+                    switchToPage(message);
+                    continue;
+                }
+
+                if (message.equals("return")) {
+                    stateManager.setCurrentToPrev();
+                    continue;
+                }
+
+                // Wait for a bit to seem more human
+                try {
+                    Thread.sleep(ThreadLocalRandom.current().nextInt(1000, 2001));
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                sendMessage(message);
+            }
+        }
     }
 
-//    private void respondNormal(String message) {
-//        if (message.contains("covid") && !PageCache.getCurrentPage().equals("/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidSurvey.fxml")) {
-//            state = ChatState.COVID;
-//            sendMessage("Do you want to go to the COVID-19 survey?");
-//        } else if (message.contains("login")) {
-//            state = ChatState.LOGIN;
-//            sendMessage("Do you want to go to the login page?");
-//        } else if (message.contains("register") || (message.contains("make") && message.contains("user"))) {
-//            state = ChatState.REGISTER;
-//            sendMessage("Do you want to make a new user?");
-//        } else if (message.contains("directions") && (message.contains("where") || message.contains("hospital"))) {
-//            state = ChatState.PATHFINDING;
-//            sendMessage("Do you want to get directions within the hospital?");
-//        } else if (message.contains("directions") && (message.contains("car") || message.contains("drive"))) {
-//            state = ChatState.GOOGLE_MAPS;
-//            sendMessage("Do you want to get directions to the hospital?");
-//        } else {
-//            unsureResponse(message);
-//        }
-//    }
-//
+    /**
+     * Switches to a page later so JavaFX doesn't get mad
+     *
+     * @param path the path to the FXML file to switch to
+     */
+    private void switchToPage(String path) {
+        Platform.runLater(() -> SceneSwitcher.switchScene(PageCache.getCurrentPage(), path));
+    }
+
+
 //    private void respondLogin(String message) {
 //        // If just asked to go to the login page, take them there
 //        if (previousBotMessage.equals("Do you want to go to the login page?") && containsAny(message, "yes", "y", "ye") && !PageCache.getCurrentPage().equals("/edu/wpi/cs3733/D21/teamB/views/login/loginPage.fxml")) {
