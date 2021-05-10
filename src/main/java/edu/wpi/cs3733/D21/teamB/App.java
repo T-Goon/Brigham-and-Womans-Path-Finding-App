@@ -1,12 +1,5 @@
 package edu.wpi.cs3733.D21.teamB;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.sql.SQLException;
-import java.util.*;
-
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.User;
 import edu.wpi.cs3733.D21.teamB.util.CSVHandler;
@@ -25,6 +18,12 @@ import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import org.apache.commons.io.FileUtils;
 import org.opencv.core.Core;
+
+import java.io.File;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Objects;
 
 
 @SuppressWarnings("deprecation")
