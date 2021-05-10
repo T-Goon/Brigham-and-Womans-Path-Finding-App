@@ -106,6 +106,7 @@ public class CovidSurveyController extends DefaultServiceRequestFormController i
         btnTestYes.setToggleGroup(testGroup);
         btnTestNo.setToggleGroup(testGroup);
 
+        //check none all uncheck
         chkNone.setOnAction(event -> {
             if(chkNone.isSelected()){
                 chkFever.setSelected(false);
@@ -121,8 +122,8 @@ public class CovidSurveyController extends DefaultServiceRequestFormController i
             }
         });
 
-        chkBoxSymp(chkFever, chkChills, chkCough, chkShortBreath, chkSoreTht);
-        chkBoxSymp(chkHeadache, chkAches, chkNose, chkLostTaste, chkNausea);
+        //check something none unchecks
+        uncheckNone(chkFever, chkChills, chkCough, chkShortBreath, chkSoreTht, chkHeadache, chkAches, chkNose, chkLostTaste, chkNausea);
 
 
         request = null;
@@ -165,7 +166,40 @@ public class CovidSurveyController extends DefaultServiceRequestFormController i
         this.validateButton();
     }
 
-    private void chkBoxSymp(JFXCheckBox chkHeadache, JFXCheckBox chkAches, JFXCheckBox chkNose, JFXCheckBox chkLostTaste, JFXCheckBox chkNausea) {
+    
+
+    private void uncheckNone(JFXCheckBox chkFever, JFXCheckBox chkChills, JFXCheckBox chkCough, JFXCheckBox chkShortBreath, JFXCheckBox chkSoreTht,   JFXCheckBox chkHeadache, JFXCheckBox chkAches, JFXCheckBox chkNose, JFXCheckBox chkLostTaste, JFXCheckBox chkNausea) {
+
+        chkFever.setOnAction(event -> {
+            if(chkNone.isSelected()){
+                chkNone.setSelected(false);
+            }
+        });
+
+        chkChills.setOnAction(event -> {
+            if(chkNone.isSelected()){
+                chkNone.setSelected(false);
+            }
+        });
+
+        chkCough.setOnAction(event -> {
+            if(chkNone.isSelected()){
+                chkNone.setSelected(false);
+            }
+        });
+
+        chkShortBreath.setOnAction(event -> {
+            if(chkNone.isSelected()){
+                chkNone.setSelected(false);
+            }
+        });
+
+        chkSoreTht.setOnAction(event -> {
+            if(chkNone.isSelected()){
+                chkNone.setSelected(false);
+            }
+        });
+
         chkHeadache.setOnAction(event -> {
             if(chkNone.isSelected()){
                 chkNone.setSelected(false);
