@@ -58,6 +58,11 @@ public class ChatBoxController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+        // If the page starts minimized, keep it minimized
+        Platform.runLater(() -> {
+            if (PageCache.isPageMinimized()) minimize();
+        });
+
         // Thread for getting messages from the bot
         if (userThread == null) {
             userThread = new Thread(() -> {
@@ -74,11 +79,6 @@ public class ChatBoxController implements Initializable {
             userThread.setName("userThread");
             userThread.start();
         }
-
-        // If the page starts minimized, keep it minimized
-        Platform.runLater(() -> {
-            if (PageCache.isPageMinimized()) minimize();
-        });
 
         // Add all the messages in the cache
         for (Message m : PageCache.getAllMessages())
@@ -98,9 +98,9 @@ public class ChatBoxController implements Initializable {
 
         // When closed, wipe the cache and remove itself
         btnClose.setOnAction(e -> {
-            ((StackPane) base.getParent()).getChildren().remove(base);
-            PageCache.getUserMessages().clear();
-            PageCache.getBotMessages().clear();
+            if (!PageCache.isPageMinimized()) minimize();
+            else expand();
+            clearMessages();
         });
     }
 
@@ -112,6 +112,15 @@ public class ChatBoxController implements Initializable {
             input.clear();
             PageCache.addUserMessage(message);
         }
+    }
+
+    /**
+     * Clears messages from the chatbot
+     */
+    private void clearMessages() {
+        PageCache.getUserMessages().clear();
+        PageCache.getBotMessages().clear();
+        messageHolder.getChildren().clear();
     }
 
     /**

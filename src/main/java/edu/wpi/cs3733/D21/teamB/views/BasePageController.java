@@ -105,7 +105,7 @@ public abstract class BasePageController implements Initializable {
         try {
             Node chatBox = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/cs3733/D21/teamB/views/misc/chatBox.fxml")));
             stackPane.getChildren().add(chatBox);
-            stackPane.setAlignment(Pos.BOTTOM_RIGHT);
+            StackPane.setAlignment(chatBox, Pos.BOTTOM_RIGHT);
         } catch (IOException e) {
             e.printStackTrace();
         }
