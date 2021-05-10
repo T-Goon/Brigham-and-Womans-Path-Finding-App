@@ -1,5 +1,8 @@
 package edu.wpi.cs3733.D21.teamB.entities.chatbot;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class StateManager {
 
     // case insensitive
@@ -18,7 +21,7 @@ public class StateManager {
      *
      * @param input the message to check
      */
-    public String respond(String input) {
+    public List<String> respond(String input) {
         // If switching tracks, reset everything back to the beginning
         if (containsAny(input, COVID_KEYWORDS) && !(currentState instanceof CovidState)) {
             previousState = currentState;
@@ -36,16 +39,23 @@ public class StateManager {
             previousState = currentState;
             currentState = new GoogleMapsState();
         } else if (currentState == null) {
-            return null;
+            return new ArrayList<>();
         }
 
         // Let the current state deal with the response, and if null is returned, try with the previous state
-        String response = currentState.respond(input);
-        if (response == null) {
-            currentState = previousState;
-            response = currentState.respond(input);
+        List<String> response = currentState.respond(input);
+        if (response.isEmpty()) {
+            setCurrentToPrev();
+
+            if (currentState != null)
+                response = currentState.respond(input);
         }
         return response;
+    }
+
+    public void setCurrentToPrev() {
+        currentState = previousState;
+        previousState = null;
     }
 
     /**
@@ -56,7 +66,7 @@ public class StateManager {
      * @param toCheck list of things to check
      * @return true if message has one of those in it
      */
-    private boolean containsAny(String message, String[] toCheck) {
+    public static boolean containsAny(String message, String[] toCheck) {
         String[] words = message.split("\\W+");
         boolean contains = false;
         for (String word : words) {

@@ -1,8 +1,12 @@
 package edu.wpi.cs3733.D21.teamB.entities.chatbot;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 public class GoogleMapsState implements IState {
     @Override
-    public String respond(String input) {
-        return input + " google maps!";
+    public List<String> respond(String input) {
+        return new ArrayList<>(Collections.singletonList(input + " google maps!"));
     }
 }

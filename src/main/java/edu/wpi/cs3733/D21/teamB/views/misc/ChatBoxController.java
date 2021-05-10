@@ -11,7 +11,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.KeyCode;
@@ -68,11 +67,23 @@ public class ChatBoxController implements Initializable {
             userThread = new Thread(() -> {
 
                 while (App.isRunning()) {
+
+                    // If a message slips through the cracks, refresh
+                    if (PageCache.getAllMessages().size() > messageHolder.getChildren().size()) {
+                        // Add all the messages in the cache
+                        Platform.runLater(() -> {
+                            messageHolder.getChildren().clear();
+
+                            for (Message m : PageCache.getAllMessages())
+                                addMessage(m, false);
+                        });
+                    }
+
                     // Wait for a new message
                     if (PageCache.getNewMessagesWaitingForUser().get() != 0) {
                         // Get message and mark as read
                         PageCache.getNewMessagesWaitingForUser().getAndDecrement();
-                        Platform.runLater(() -> sendMessage(PageCache.getBotLastMessage()));
+                        Platform.runLater(() -> addMessage(PageCache.getBotLastMessage()));
                     }
                 }
             });
@@ -82,7 +93,7 @@ public class ChatBoxController implements Initializable {
 
         // Add all the messages in the cache
         for (Message m : PageCache.getAllMessages())
-            sendMessage(m, false);
+            addMessage(m, false);
 
         // Scroll pane goes down to the bottom when a new message is sent
         scrollPane.vvalueProperty().bind(messageHolder.heightProperty());
@@ -108,7 +119,7 @@ public class ChatBoxController implements Initializable {
     public void handleSendMessage(KeyEvent e) {
         if (e.getCode() == KeyCode.ENTER) {
             Message message = new Message(input.getText(), true);
-            sendMessage(message);
+            addMessage(message);
             input.clear();
             PageCache.addUserMessage(message);
         }
@@ -150,8 +161,8 @@ public class ChatBoxController implements Initializable {
      *
      * @param message the message to show
      */
-    public void sendMessage(Message message) {
-        sendMessage(message, true);
+    public void addMessage(Message message) {
+        addMessage(message, true);
     }
 
     /**
@@ -160,7 +171,7 @@ public class ChatBoxController implements Initializable {
      * @param message              the message to send
      * @param playAudioIfRequested whether to play audio
      */
-    private void sendMessage(Message message, boolean playAudioIfRequested) {
+    private void addMessage(Message message, boolean playAudioIfRequested) {
         if (message == null || message.getMessage().isEmpty()) return;
 
         // Adds HBox with text
