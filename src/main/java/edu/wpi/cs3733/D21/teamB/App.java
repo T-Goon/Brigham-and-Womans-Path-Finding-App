@@ -5,7 +5,7 @@ import java.sql.SQLException;
 import java.util.*;
 
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
-import edu.wpi.cs3733.D21.teamB.entities.ChatBot;
+import edu.wpi.cs3733.D21.teamB.entities.chatbot.ChatBot;
 import edu.wpi.cs3733.D21.teamB.entities.User;
 import edu.wpi.cs3733.D21.teamB.util.CSVHandler;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;

@@ -1,8 +1,8 @@
 package edu.wpi.cs3733.D21.teamB.views;
 
 import com.jfoenix.controls.JFXButton;
-import edu.wpi.cs3733.D21.teamB.entities.LastFocused;
-import edu.wpi.cs3733.D21.teamB.entities.OnScreenKeyboard;
+import edu.wpi.cs3733.D21.teamB.entities.keyboard.LastFocused;
+import edu.wpi.cs3733.D21.teamB.entities.keyboard.OnScreenKeyboard;
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.util.PageCache;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
@@ -15,7 +15,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 

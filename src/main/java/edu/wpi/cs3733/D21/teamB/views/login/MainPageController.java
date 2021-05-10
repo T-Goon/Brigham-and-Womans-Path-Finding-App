@@ -2,7 +2,7 @@ package edu.wpi.cs3733.D21.teamB.views.login;
 
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
-//import edu.wpi.cs3733.D21.teamB.entities.TextAreaFocusable;
+//import edu.wpi.cs3733.D21.teamB.entities.keyboard.TextAreaFocusable;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
 import edu.wpi.cs3733.D21.teamB.views.BasePageController;
 import javafx.event.ActionEvent;
