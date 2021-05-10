@@ -58,7 +58,10 @@
                   </VBox>
                     </children>
                 </HBox>
-                <VBox fx:id="buttonPane" alignment="CENTER" spacing="50.0" VBox.vgrow="ALWAYS">
+                <VBox fx:id="buttonPane" alignment="CENTER" prefWidth="1920.0" scaleX="1.8" scaleY="1.8">
+                    <VBox.margin>
+                        <Insets top="130.0" />
+                    </VBox.margin>
                     <children>
                         <HBox alignment="TOP_CENTER">
                             <children>
@@ -66,7 +69,7 @@
                                     <children>
                                         <JFXButton fx:id="btnCovid" accessibleText="Covid Survey" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" onAction="#handleButtonAction" ripplerFill="#007fff" text="Covid Survey" textOverrun="CLIP">
                                             <graphic>
-                                                <ImageView pickOnBounds="true" preserveRatio="true">
+                                                <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                                                     <image>
                                                         <Image url="@../../images/menus/checkButton.png" />
                                                     </image>
@@ -82,7 +85,7 @@
                                     <children>
                                         <JFXButton fx:id="btnDirections" accessibleText="Directions" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" onAction="#handleButtonAction" ripplerFill="#007fff" text="Directions" textOverrun="CLIP">
                                             <graphic>
-                                                <ImageView pickOnBounds="true" preserveRatio="true">
+                                                <ImageView fitHeight="150.0" pickOnBounds="true" preserveRatio="true">
                                                     <image>
                                                         <Image url="@../../images/menus/directionsButton.png" />
                                                     </image>
@@ -98,7 +101,7 @@
                                     <children>
                                         <JFXButton fx:id="btnGoogle" accessibleText="Google Maps" buttonType="RAISED" onAction="#handleButtonAction" prefHeight="158.0" prefWidth="126.0" ripplerFill="#007fff" text="Directions" textOverrun="CLIP">
                                             <graphic>
-                                                <ImageView pickOnBounds="true" preserveRatio="true">
+                                                <ImageView fitHeight="150.0" pickOnBounds="true" preserveRatio="true">
                                                     <image>
                                                         <Image url="@../../images/menus/googleMapsIcon.png" />
                                                     </image>
@@ -118,7 +121,7 @@
                                     <children>
                                         <JFXButton fx:id="btnServiceRequests" accessibleText="Service Requests" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" onAction="#handleButtonAction" ripplerFill="#0080ff" text="Service Requests" textOverrun="CLIP">
                                             <graphic>
-                                                <ImageView pickOnBounds="true" preserveRatio="true">
+                                                <ImageView fitHeight="150.0" pickOnBounds="true" preserveRatio="true">
                                                     <image>
                                                         <Image url="@../../images/menus/serviceRequestsButton.png" />
                                                     </image>
@@ -131,7 +134,7 @@
                                     <children>
                                         <JFXButton fx:id="btnDatabase" accessibleText="Request Database" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" onAction="#handleButtonAction" ripplerFill="#0080ff" text="Service Requests" textOverrun="CLIP">
                                             <graphic>
-                                                <ImageView pickOnBounds="true" preserveRatio="true">
+                                                <ImageView fitHeight="149.0" pickOnBounds="true" preserveRatio="true">
                                                     <image>
                                                         <Image url="@../../images/menus/requestDatabase.png" />
                                                     </image>
@@ -147,7 +150,7 @@
                                     <children>
                                         <JFXButton fx:id="btnUsers" accessibleText="User Database" buttonType="RAISED" contentDisplay="GRAPHIC_ONLY" onAction="#handleButtonAction" ripplerFill="#0080ff" textOverrun="CLIP">
                                             <graphic>
-                                                <ImageView pickOnBounds="true" preserveRatio="true">
+                                                <ImageView fitHeight="149.0" fitWidth="137.0" pickOnBounds="true" preserveRatio="true">
                                                     <image>
                                                         <Image url="@../../images/menus/userDatabaseButton.png" />
                                                     </image>
@@ -163,7 +166,7 @@
                                     <children>
                                         <JFXButton fx:id="btnSettings" accessibleText="Settings" buttonType="RAISED" onAction="#handleButtonAction" prefHeight="158.0" prefWidth="126.0" ripplerFill="#007fff" text="Settings" textOverrun="CLIP">
                                             <graphic>
-                                                <ImageView accessibleText="Setting" fitHeight="329.0" fitWidth="298.0" pickOnBounds="true" preserveRatio="true">
+                                                <ImageView accessibleText="Setting" fitHeight="144.0" fitWidth="122.0" pickOnBounds="true" preserveRatio="true">
                                                     <image>
                                                         <Image url="@../../images/menus/settingsButton.png" />
                                                     </image>
@@ -174,33 +177,23 @@
                                 </VBox>
                             </children>
                         </HBox>
-                  <HBox alignment="BOTTOM_LEFT" prefWidth="1473.0" VBox.vgrow="ALWAYS">
-                     <children>
-                        <JFXButton fx:id="btnBack" accessibleText="Leave page" alignment="CENTER" buttonType="RAISED" cancelButton="true" maxHeight="56" maxWidth="100.0" minHeight="-Infinity" minWidth="-Infinity" onAction="#handleButtonAction" prefHeight="56.0" prefWidth="100.0" style="-fx-background-color: #0067B1; -fx-background-radius: 7;" text="Back" textAlignment="CENTER" textFill="WHITE">
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                           <padding>
-                              <Insets top="1.0" />
-                           </padding>
-                           <graphic>
-                              <ImageView fitHeight="43.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../../images/menus/backButton.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                        </JFXButton>
-                     </children>
-                     <padding>
-                        <Insets bottom="15.0" left="15.0" />
-                     </padding>
-                  </HBox>
                     </children>
-               <VBox.margin>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </VBox.margin>
                 </VBox>
+            <HBox alignment="BOTTOM_LEFT" VBox.vgrow="ALWAYS">
+               <children>
+                  <JFXButton fx:id="btnBack" accessibleText="Leave page" alignment="CENTER" buttonType="RAISED" cancelButton="true" contentDisplay="CENTER" maxHeight="56" onAction="#handleButtonAction" prefHeight="56" style="-fx-background-color: #0067B1;" text="Log out" textAlignment="CENTER" textFill="WHITE">
+                     <font>
+                        <Font size="27.0" />
+                     </font>
+                     <padding>
+                        <Insets left="10.0" right="10.0" top="1.0" />
+                     </padding>
+                  </JFXButton>
+               </children>
+               <padding>
+                  <Insets bottom="15.0" left="15.0" />
+               </padding>
+            </HBox>
         </children>
     </VBox>
 </children>
