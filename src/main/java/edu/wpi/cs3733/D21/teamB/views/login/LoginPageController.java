@@ -100,6 +100,7 @@ public class LoginPageController extends BasePageController implements Initializ
     public void setUserName(String name){
         username.setText(name);
         Platform.runLater(() -> password.requestFocus());
+        validateButton();
     }
 
     @FXML
