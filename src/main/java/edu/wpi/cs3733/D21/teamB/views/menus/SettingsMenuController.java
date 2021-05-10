@@ -82,6 +82,9 @@ public class SettingsMenuController extends BasePageController implements Initia
             case "btnHelp":
                 HelpDialog.loadHelpDialog(stackPane, "Click the toggle button to enable or disable text-to-speech functionality.\\n You may also click on 'Edit Profile' to edit your profile or 'Change Password' to change your password.");
                 break;
+            case "btnCredits":
+                SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/misc/creditsPage.fxml");
+                break;
         }
     }
 

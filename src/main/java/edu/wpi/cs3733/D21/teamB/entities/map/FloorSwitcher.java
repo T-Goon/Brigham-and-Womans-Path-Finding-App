@@ -109,7 +109,6 @@ public class FloorSwitcher {
         if (mapPathPopupManager.hasTxtDirPopup()) {
             TxtDirPopup popup = mapPathPopupManager.getTxtDirPopup();
             popup.updateEdges();
-            popup.highlight(true);
         }
     }
 

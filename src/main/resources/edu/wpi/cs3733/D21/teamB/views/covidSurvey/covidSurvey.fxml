@@ -5,6 +5,7 @@
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXRadioButton?>
 <?import com.jfoenix.controls.JFXScrollPane?>
+<?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.image.Image?>
@@ -14,7 +15,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
-
 
 <StackPane fx:id="stackPane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D21.teamB.views.covidSurvey.CovidSurveyController">
    <children>
@@ -79,6 +79,22 @@
                               <Font name="MS Reference Sans Serif" size="30.0" />
                            </font>
                         </Text>
+                        <VBox layoutX="25.0" layoutY="82.0" prefHeight="37.0" prefWidth="780.0">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Name:">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                                 <VBox.margin>
+                                    <Insets />
+                                 </VBox.margin>
+                              </Text>
+                              <JFXTextField fx:id="txtName" maxWidth="500.0" />
+                           </children>
+                           <VBox.margin>
+                              <Insets left="15.0" right="15.0" top="15.0" />
+                           </VBox.margin>
+                        </VBox>
                         <VBox prefHeight="37.0" prefWidth="780.0">
                            <children>
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Current Location:">
@@ -86,7 +102,7 @@
                                     <Font size="14.0" />
                                  </font>
                                  <VBox.margin>
-                                    <Insets left="5.0" />
+                                    <Insets />
                                  </VBox.margin>
                               </Text>
                               <JFXComboBox fx:id="loc" accessibleText="Location dropdown" maxWidth="500.0" onAction="#validateButton" style="-fx-background-color: #e5e5e5; -fx-background-radius: 7;" unFocusColor="#ffffff00">
@@ -95,9 +111,6 @@
                                  </VBox.margin>
                               </JFXComboBox>
                            </children>
-                           <padding>
-                              <Insets top="10.0" />
-                           </padding>
                            <VBox.margin>
                               <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                            </VBox.margin>

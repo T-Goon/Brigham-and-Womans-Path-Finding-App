@@ -8,6 +8,7 @@ import edu.wpi.cs3733.D21.teamB.entities.requests.GiftRequest;
 import edu.wpi.cs3733.D21.teamB.entities.requests.Request;
 
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -190,6 +191,8 @@ public class GiftRequestFormController extends DefaultServiceRequestFormControll
                 message.validate();
             }
         });
+
+        Platform.runLater(() -> patientName.requestFocus());
     }
 
     @FXML

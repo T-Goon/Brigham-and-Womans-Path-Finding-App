@@ -22,6 +22,7 @@ import java.util.Objects;
 public class RequestWrapper {
 
     private final Request r;
+    private final Label name;
     private final Label type;
     private final Label time;
     private final Label date;
@@ -39,6 +40,7 @@ public class RequestWrapper {
         this.type = new Label(Request.RequestType.prettify(r.getRequestType()));
         this.time = new Label(r.getTime());
         this.date = new Label(r.getDate());
+        this.name = new Label(r.getName().equals("null") ? "N/A" : r.getName());
         switch (r.getProgress()) {
             case "F":
                 this.progress = new Label("Not Started");
@@ -218,7 +220,11 @@ public class RequestWrapper {
                     SceneSwitcher.switchScene("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml", "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
                     break;
                 case COVID:
-                    SceneSwitcher.switchScene("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml", "/edu/wpi/cs3733/D21/teamB/views/requestForms/covidRequestForm.fxml");
+                    if(r.getProgress().equals("F")) {
+                        SceneSwitcher.switchScene("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml", "/edu/wpi/cs3733/D21/teamB/views/requestForms/covidRequestForm.fxml");
+                    }else if(r.getProgress().equals("P")){
+                        SceneSwitcher.switchScene("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml", "/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidSurveyNurseCheck.fxml");
+                    }
                     break;
                 default:
                     throw new IllegalStateException("How did we get here?");

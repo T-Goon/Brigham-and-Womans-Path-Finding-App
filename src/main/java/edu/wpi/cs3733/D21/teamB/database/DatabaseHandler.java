@@ -94,7 +94,8 @@ public class DatabaseHandler {
      */
     public void loadNodesEdges(List<Node> nodes, List<Edge> edges) throws SQLException {
         resetDatabase(Arrays.asList("SanitationRequests", "MedicineRequests", "InternalTransportRequests", "ReligiousRequests", "FoodRequests", "FloralRequests",
-                "SecurityRequests", "ExternalTransportRequests", "LaundryRequests", "CaseManagerRequests", "SocialWorkerRequests", "Requests", "Edges", "Nodes"));
+                "SecurityRequests", "ExternalTransportRequests", "LaundryRequests", "CaseManagerRequests", "SocialWorkerRequests", "CovidSurveyRequests",
+                "EmergencyRequests", "GiftRequests", "LanguageInterpretationRequests", "Requests", "Edges", "Nodes"));
         executeSchema();
         loadDatabaseNodes(nodes);
         loadDatabaseEdges(edges);
@@ -175,6 +176,7 @@ public class DatabaseHandler {
                 + "location CHAR(20), "
                 + "description VARCHAR(200), "
                 + "submitter CHAR(30), "
+                + "name CHAR(30), "
                 + "FOREIGN KEY (location) REFERENCES Nodes(nodeID))";
 
         String sanitationRequestsTable = "CREATE TABLE IF NOT EXISTS SanitationRequests("
@@ -311,6 +313,7 @@ public class DatabaseHandler {
                 + "nausea CHAR(1) CHECK (nausea in ('T','F')), "
                 + "closeContact CHAR(1) CHECK (closeContact in ('T','F')), "
                 + "positiveTest CHAR(1) CHECK (positiveTest in ('T','F')), "
+                + "admitted CHAR(1) CHECK (admitted in ('T', 'F')), "
                 + "FOREIGN KEY (requestID) REFERENCES Requests(requestID))";
 
         String usersTable = "CREATE TABLE IF NOT EXISTS Users("
@@ -446,6 +449,16 @@ public class DatabaseHandler {
         if (newUser.getUsername() != null && newUser.getUsername().equals(this.getAuthenticationUser().getUsername())) {
             DatabaseHandler.AuthenticationUser = newUser;
         }
+    }
+
+    /**
+     * Updates the admitted flag for a covid request
+     * @param request request to be updated
+     * @param flag what to change it to
+     * @throws SQLException
+     */
+    public void updateCovidRequestAdmitted(CovidSurveyRequest request, String flag) throws SQLException {
+        requestMutator.setCovidRequestAdmitted(request,flag);
     }
 
     /**

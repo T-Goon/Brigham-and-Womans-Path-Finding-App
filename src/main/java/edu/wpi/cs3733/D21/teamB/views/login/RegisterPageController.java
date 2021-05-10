@@ -9,6 +9,7 @@ import edu.wpi.cs3733.D21.teamB.entities.User;
 import edu.wpi.cs3733.D21.teamB.util.ExternalCommunication;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
 import edu.wpi.cs3733.D21.teamB.views.BasePageController;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -93,6 +94,8 @@ public class RegisterPageController extends BasePageController implements Initia
             if (event.getCode().equals(KeyCode.ENTER) && !areFormsEmpty())
                 handleRegisterSubmit();
         });
+
+        Platform.runLater(() -> username.requestFocus());
     }
 
     public void handleButtonAction(ActionEvent actionEvent) {
