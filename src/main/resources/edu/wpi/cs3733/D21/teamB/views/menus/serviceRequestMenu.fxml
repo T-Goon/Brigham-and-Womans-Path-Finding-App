@@ -387,7 +387,7 @@
                         </JFXButton>
                      </children>
                      <padding>
-                        <Insets bottom="15.0" />
+                        <Insets bottom="15.0" right="370.0"/>
                      </padding>
                      <HBox.margin>
                         <Insets right="15.0" />

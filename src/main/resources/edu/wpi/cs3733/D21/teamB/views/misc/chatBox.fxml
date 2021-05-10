@@ -9,8 +9,8 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="base" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-      prefHeight="400.0" prefWidth="350.0"
+<VBox fx:id="base" maxHeight="31.0" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+      prefHeight="31.0" prefWidth="350.0"
       style="-fx-border-color: black; -fx-border-width: 1; -fx-background-color: ffffff"
       xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="edu.wpi.cs3733.D21.teamB.views.misc.ChatBoxController">
@@ -39,7 +39,8 @@
                 </JFXButton>
             </children>
         </HBox>
-        <ScrollPane fx:id="scrollPane" hbarPolicy="NEVER" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="9999.0"
+        <ScrollPane fx:id="scrollPane" hbarPolicy="NEVER" maxWidth="-Infinity" minWidth="-Infinity" maxHeight="0.0"
+                    prefHeight="9999.0"
                     prefWidth="336.0" style="-fx-background-color: transparent;">
             <content>
                 <VBox fx:id="messageHolder" maxWidth="-Infinity" minHeight="320.0" minWidth="-Infinity"
@@ -53,7 +54,7 @@
                 <URL value="@../../css/scrollPane.css"/>
             </stylesheets>
         </ScrollPane>
-        <VBox fx:id="textFieldHolder">
+        <VBox fx:id="textFieldHolder" maxHeight="0.0">
             <children>
                 <JFXTextField fx:id="input" focusColor="#405aa800" onKeyReleased="#handleSendMessage"
                               promptText="Type a message..."
