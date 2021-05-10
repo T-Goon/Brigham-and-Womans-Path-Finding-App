@@ -51,6 +51,7 @@ import javafx.application.Platform;
 import javafx.geometry.Point2D;
 import javafx.scene.effect.BlendMode;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
@@ -115,8 +116,22 @@ public class PongApp extends GameApplication {
     protected void initInput() {
         Input input = getInput();
 
-        input.addInputMapping(new InputMapping("Up", KeyCode.W));
-        input.addInputMapping(new InputMapping("Down", KeyCode.S));
+        getGameScene().getContentRoot().addEventFilter(KeyEvent.KEY_PRESSED, e -> {
+            if (e.getCode().equals(KeyCode.W)) {
+                playerBat.up();
+            } else if (e.getCode().equals(KeyCode.S)) {
+                playerBat.down();
+            }
+        });
+        getGameScene().getContentRoot().addEventFilter(KeyEvent.KEY_RELEASED, e -> {
+            if (e.getCode().equals(KeyCode.W)) {
+                playerBat.stop();
+            } else if (e.getCode().equals(KeyCode.S)) {
+                playerBat.stop();
+            }
+        });
+//        input.addInputMapping(new InputMapping("Up", KeyCode.W));
+//        input.addInputMapping(new InputMapping("Down", KeyCode.S));
     }
 
     private GameMode mode;
