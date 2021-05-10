@@ -108,7 +108,11 @@ public class LoginPageController extends BasePageController implements Initializ
 
         if(!tog.isSelected()){
             camera.toggleCamera();
+            username.setText("");
+            password.setText("");
+            Platform.runLater(() -> username.requestFocus());
         } else{
+            password.setText("");
             camera.toggleCamera();
         }
     }
