@@ -21,10 +21,24 @@ public class LoginState implements IState {
             if (StateManager.containsAny(input, new String[]{"y", "ye", "yes", "yeah", "yup"})) {
                 response.add("Okay! Taking you there now...");
                 response.add("/edu/wpi/cs3733/D21/teamB/views/login/loginPage.fxml");
-                response.add("Do you need any help on this page?");
+                response.add("How can I help?");
             } else {
                 response.add("No worries!");
                 response.add("return");
+            }
+        } else if (messagesSent.peek().equals("How can I help?")) {
+            if (StateManager.containsAny(input, new String[]{"y", "ye", "yes", "yeah", "yup"})) {
+                response.add("Please type in your username and password into the fields on the screen");
+                response.add("How can I help?");
+            }
+            else if (StateManager.containsAny(input, new String[]{"register", "don't have"})) {
+                response.add("Do you have an account already?");
+            }
+        }else if (messagesSent.peek().equals("Do you have an account already?")) {
+            if (StateManager.containsAny(input, new String[]{"n", "no", "nay", "nope", "nah"})) {
+                response.add("Okay! Taking you there now...");
+                response.add("/edu/wpi/cs3733/D21/teamB/views/login/registerPage.fxml");
+                response.add("How can I help?");
             }
         }
 
