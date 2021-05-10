@@ -27,6 +27,7 @@ import java.util.*;
 
 public class Snake extends JPanel implements ActionListener {
 
+    @Getter
     private List<Node> nodes;
     private List<Edge> edges;
     private MapDrawer mapDrawer;
@@ -52,6 +53,8 @@ public class Snake extends JPanel implements ActionListener {
     private Node appleNode;
     private ImageView imageView;
     private int appleCount;
+    @Getter
+    private boolean gameOver = false;
 
     public Snake(MapDrawer mapDrawer, MapCache mapCache, AnchorPane nodeHolder, Label score) {
         this.mapDrawer = mapDrawer;
@@ -143,6 +146,7 @@ public class Snake extends JPanel implements ActionListener {
         Map<String, Node> nodeMap = new HashMap<String, Node>();
         for (Node node : nodes) {
             nodeMap.put(node.getNodeID(), node);
+            mapDrawer.placeIntermediateNode(node);
         }
         for (Edge edge : edges) {
             Node startNode = nodeMap.get(edge.getStartNodeID());
@@ -157,7 +161,7 @@ public class Snake extends JPanel implements ActionListener {
     /**
      * Set the starting locations for the snake and apple
      */
-    public void initializeGame(ImageView i) {
+    public void initializeGame(ImageView i){
         // Set the snake at a starting location (Francis Lobby Entrance)
         snake = nodes.get(10);
         snakeHeadLoc = new Coord(snake.getXCoord(), snake.getYCoord());
@@ -171,6 +175,24 @@ public class Snake extends JPanel implements ActionListener {
         snakeSize = 1;
         placeApple();
         appleCount = 0;
+
+        while (!gameOver) {
+            int snakeCoordX = (int)(i.getLayoutX()* PathfindingMenuController.COORDINATE_SCALE);
+            int snakeCoordY = (int)(i.getLayoutY() * PathfindingMenuController.COORDINATE_SCALE);
+
+            for(Node node: nodes){
+                if(((node.getXCoord() <= snakeCoordX+40) && (node.getXCoord() <= snakeCoordX-40)) &&
+                        ((node.getYCoord() <= snakeCoordY+40) && (node.getYCoord() <= snakeCoordY-40))){
+                    System.out.println("HIT A NODE : " + node.getNodeID());
+                }
+            }
+
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     /**

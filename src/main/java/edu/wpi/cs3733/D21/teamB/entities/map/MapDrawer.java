@@ -43,6 +43,7 @@ public class MapDrawer implements PoppableManager {
     @Getter
     private final AnchorPane nodeHolder;
     private final AnchorPane mapHolder;
+    @Getter
     private final AnchorPane intermediateNodeHolder;
     private final Label lblError;
     private final GesturePane gPane;
