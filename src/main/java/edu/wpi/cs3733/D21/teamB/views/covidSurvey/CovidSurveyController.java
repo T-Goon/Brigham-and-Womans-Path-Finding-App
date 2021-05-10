@@ -121,6 +121,10 @@ public class CovidSurveyController extends DefaultServiceRequestFormController i
             }
         });
 
+        chkBoxSymp(chkFever, chkChills, chkCough, chkShortBreath, chkSoreTht);
+        chkBoxSymp(chkHeadache, chkAches, chkNose, chkLostTaste, chkNausea);
+
+
         request = null;
         try {
             for (Request r : DatabaseHandler.getHandler().getRequests().values()) {
@@ -159,6 +163,34 @@ public class CovidSurveyController extends DefaultServiceRequestFormController i
         }
 
         this.validateButton();
+    }
+
+    private void chkBoxSymp(JFXCheckBox chkHeadache, JFXCheckBox chkAches, JFXCheckBox chkNose, JFXCheckBox chkLostTaste, JFXCheckBox chkNausea) {
+        chkHeadache.setOnAction(event -> {
+            if(chkNone.isSelected()){
+                chkNone.setSelected(false);
+            }
+        });
+        chkAches.setOnAction(event -> {
+            if(chkNone.isSelected()){
+                chkNone.setSelected(false);
+            }
+        });
+        chkNose.setOnAction(event -> {
+            if(chkNone.isSelected()){
+                chkNone.setSelected(false);
+            }
+        });
+        chkLostTaste.setOnAction(event -> {
+            if(chkNone.isSelected()){
+                chkNone.setSelected(false);
+            }
+        });
+        chkNausea.setOnAction(event -> {
+            if(chkNone.isSelected()){
+                chkNone.setSelected(false);
+            }
+        });
     }
 
     @FXML
