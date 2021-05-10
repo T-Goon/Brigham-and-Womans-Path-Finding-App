@@ -11,31 +11,22 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="basePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-            prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8.0.171"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="edu.wpi.cs3733.D21.teamB.views.misc.AboutPageController">
+<AnchorPane fx:id="basePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D21.teamB.views.misc.AboutPageController">
     <children>
-        <StackPane fx:id="stackPane" layoutY="-28.083261489868164" prefHeight="851.0" prefWidth="933.0"
-                   AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
-                   AnchorPane.topAnchor="0.0">
+        <StackPane fx:id="stackPane" layoutY="-28.083261489868164" prefHeight="851.0" prefWidth="933.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
-                <VBox layoutY="28.083261489868164" prefHeight="632.0" prefWidth="846.0"
-                      style="-fx-background-color: #012d5a;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
-                      AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                <VBox layoutY="28.083261489868164" prefHeight="632.0" prefWidth="846.0" style="-fx-background-color: #012d5a;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <children>
-                        <HBox alignment="CENTER" prefHeight="135.0" prefWidth="782.0"
-                              style="-fx-background-color: #FFFFFF;">
+                        <HBox alignment="CENTER" prefHeight="135.0" prefWidth="782.0" style="-fx-background-color: #FFFFFF;">
                             <children>
                                 <VBox>
                                     <HBox.margin>
-                                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                     </HBox.margin>
                                     <children>
-                                        <ImageView fitHeight="114.0" fitWidth="314.0" pickOnBounds="true"
-                                                   preserveRatio="true">
+                                        <ImageView fitHeight="114.0" fitWidth="314.0" pickOnBounds="true" preserveRatio="true">
                                             <image>
-                                                <Image url="@../../images/general/hospitalLogo.png"/>
+                                                <Image url="@../../images/general/hospitalLogo.png" />
                                             </image>
                                         </ImageView>
                                         <JFXButton fx:id="btnEmergency" buttonType="RAISED" onAction="#handleButtonAction" style="-fx-background-color: #CE2029;" text="EMERGENCY" textFill="WHITE">
@@ -200,38 +191,32 @@
                                         <Insets bottom="10.0" />
                                     </VBox.margin>
                                 </Text>
-                                <Text strokeType="OUTSIDE" strokeWidth="0.0"
-                                      text="We would like to extend a special thank you to Brigham &amp; Womens and their special representative,"
-                                      textAlignment="CENTER" wrappingWidth="732.06591796875">
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="We would like to extend a special thank you to Brigham &amp; Womens and their special representative," textAlignment="CENTER" wrappingWidth="732.06591796875">
                                     <font>
-                                        <Font name="MS Reference Sans Serif" size="14.0"/>
+                                        <Font name="MS Reference Sans Serif" size="14.0" />
                                     </font>
                                 </Text>
-                                <Text strokeType="OUTSIDE" strokeWidth="0.0"
-                                      text="Andrew Shinn, for their time and input throughout this project.">
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Andrew Shinn, for their time and input throughout this project.">
                                     <font>
-                                        <Font name="MS Reference Sans Serif" size="14.0"/>
+                                        <Font name="MS Reference Sans Serif" size="14.0" />
                                     </font>
                                 </Text>
-                                <Text fill="#0067b1" strokeType="OUTSIDE" strokeWidth="0.0" text="Disclaimer"
-                                      textAlignment="CENTER" wrappingWidth="709.04833984375">
+                                <Text fill="#0067b1" strokeType="OUTSIDE" strokeWidth="0.0" text="Disclaimer" textAlignment="CENTER" wrappingWidth="709.04833984375">
                                     <font>
-                                        <Font name="MS Reference Sans Serif" size="16.0"/>
+                                        <Font name="MS Reference Sans Serif" size="16.0" />
                                     </font>
                                     <VBox.margin>
-                                        <Insets bottom="10.0" top="20.0"/>
+                                        <Insets bottom="10.0" top="20.0" />
                                     </VBox.margin>
                                 </Text>
-                                <Text strokeType="OUTSIDE" strokeWidth="0.0"
-                                      text="The Brigham &amp; Women's Hospital maps and data used in this application">
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="The Brigham &amp; Women's Hospital maps and data used in this application">
                                     <font>
-                                        <Font name="MS Reference Sans Serif" size="14.0"/>
+                                        <Font name="MS Reference Sans Serif" size="14.0" />
                                     </font>
                                 </Text>
-                                <Text strokeType="OUTSIDE" strokeWidth="0.0"
-                                      text="are copyrighted and provided for the sole use of educational purposes.">
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="are copyrighted and provided for the sole use of educational purposes.">
                                     <font>
-                                        <Font name="MS Reference Sans Serif" size="14.0"/>
+                                        <Font name="MS Reference Sans Serif" size="14.0" />
                                     </font>
                                 </Text>
                             </children>
@@ -256,13 +241,20 @@
                     <children>
                         <HBox alignment="CENTER_LEFT" fillHeight="false" HBox.hgrow="ALWAYS">
                             <children>
-                                <JFXButton fx:id="btnBack" accessibleText="Leave page" alignment="CENTER" buttonType="RAISED" cancelButton="true" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#handleButtonAction" prefHeight="56" prefWidth="56" style="-fx-background-color: #0067B1; -fx-background-radius: 50%;" text="🡰" textAlignment="CENTER" textFill="WHITE">
+                                <JFXButton fx:id="btnBack" accessibleText="Leave page" alignment="CENTER" buttonType="RAISED" cancelButton="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#handleButtonAction" prefHeight="56" prefWidth="100.0" style="-fx-background-color: #0067B1; -fx-background-radius: 7;" text="Back" textAlignment="CENTER" textFill="WHITE">
                                     <font>
-                                        <Font size="27.0" />
+                                        <Font size="18.0" />
                                     </font>
                                     <padding>
                                         <Insets top="1.0" />
                                     </padding>
+                           <graphic>
+                              <ImageView fitHeight="46.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../images/menus/backButton.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
                                 </JFXButton>
                             </children>
                         </HBox>
