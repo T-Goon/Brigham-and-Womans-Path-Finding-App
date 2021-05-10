@@ -16,7 +16,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 
 import java.net.URL;
@@ -65,7 +64,6 @@ public class LoginPageController extends BasePageController implements Initializ
                 handleLoginSubmit();
             }
         });
-
         Platform.runLater(() -> username.requestFocus());
 
         camera = new Camera(null, faceImage, null, true);
@@ -100,6 +98,8 @@ public class LoginPageController extends BasePageController implements Initializ
 
     public void setUserName(String name){
         username.setText(name);
+        Platform.runLater(() -> password.requestFocus());
+        validateButton();
     }
 
     @FXML
@@ -108,7 +108,11 @@ public class LoginPageController extends BasePageController implements Initializ
 
         if(!tog.isSelected()){
             camera.toggleCamera();
+            username.setText("");
+            password.setText("");
+            Platform.runLater(() -> username.requestFocus());
         } else{
+            password.setText("");
             camera.toggleCamera();
         }
     }
