@@ -94,6 +94,8 @@ public class DatabaseHandler {
         this.remote = status;
         if(this.remote) {
             this.databaseURL = "jdbc:mysql://167.99.120.152:3306/";
+        } else {
+            this.databaseURL = URL_BASE + "main.db";
         }
     }
 

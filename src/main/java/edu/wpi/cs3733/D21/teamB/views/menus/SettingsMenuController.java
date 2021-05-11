@@ -12,8 +12,10 @@ import edu.wpi.cs3733.D21.teamB.views.BasePageController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.net.URL;
@@ -43,9 +45,17 @@ public class SettingsMenuController extends BasePageController implements Initia
     @FXML
     private JFXToggleButton toggleOSK;
 
+    @FXML
+    private JFXToggleButton toggleRemoteDatabase;
+
+    @FXML
+    private HBox remoteDBHolder;
 
     @FXML
     private HBox profileHolder;
+
+    @FXML
+    private VBox settings;
 
     @FXML
     private JFXButton btnEditProfile;
@@ -62,6 +72,7 @@ public class SettingsMenuController extends BasePageController implements Initia
         toggleOSK.setSelected(oskOn);
         toggleTTS.setSelected(DatabaseHandler.getHandler().getAuthenticationUser().getTtsEnabled().equals("T"));
         if (!DatabaseHandler.getHandler().getAuthenticationUser().isAtLeast(User.AuthenticationLevel.PATIENT)) {
+            settings.getChildren().remove(remoteDBHolder);
             profileHolder.getChildren().remove(btnEditProfile);
             passwordHolder.getChildren().remove(btnChangePassword);
         }
