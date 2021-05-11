@@ -17,6 +17,7 @@ public class StateManager {
     private static final String[] LOGIN_KEYWORDS = {"login", "log", "in"};
     private static final String[] PATHFINDING_KEYWORDS = {"where", "hospital", "pathfinding", "directions", "map", "path"};
     private static final String[] GOOGLE_MAPS_KEYWORDS = {"google", "maps", "drive", "navigation", "Boston"};
+    private static final String[] SETTINGS_KEYWORDS = {"settings", "speech", "keyboard", "password", "credits"};
 
     private IState previousState;
     private IState currentState;
@@ -68,6 +69,9 @@ public class StateManager {
         } else if (containsAny(input, GOOGLE_MAPS_KEYWORDS) && !(currentState instanceof GoogleMapsState)) {
             previousState = currentState;
             currentState = new GoogleMapsState();
+        } else if (containsAny(input, SETTINGS_KEYWORDS) && !(currentState instanceof SettingsState)) {
+            previousState = currentState;
+            currentState = new SettingsState();
         } else if (currentState == null) {
             return new ArrayList<>();
         }
