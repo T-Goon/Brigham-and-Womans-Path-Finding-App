@@ -31,7 +31,6 @@ public class MapEditorPopupManager implements PoppableManager {
     private DelEdgePopup dePopup;
     private NodeMenuPopup nmPopup;
     private AlignNodePopup alignNodePopup;
-    private StartGamePopup startGamePopup;
 
     public MapEditorPopupManager(MapDrawer md, MapCache mc, GesturePane gPane, StackPane mapStack) {
         this.md = md;
@@ -165,22 +164,6 @@ public class MapEditorPopupManager implements PoppableManager {
     }
 
     /**
-     * Shows the start game popup
-     *
-     * @param mapDrawer the map drawer in stance
-     */
-    public void showStartGamePopup(MapDrawer mapDrawer, AnchorPane nodeHolder, Label score) {
-        md.removeAllPopups();
-
-        StartGamePopupData data = new StartGamePopupData(mapDrawer, mc, nodeHolder, gPane, score);
-
-        startGamePopup = new StartGamePopup(mapStack, data);
-
-        App.getPrimaryStage().setUserData(startGamePopup);
-        startGamePopup.show();
-    }
-
-    /**
      * Hide all popups
      */
     public void removeAllPopups() {
@@ -209,9 +192,5 @@ public class MapEditorPopupManager implements PoppableManager {
             alignNodePopup = null;
         }
 
-        if (startGamePopup != null) {
-            startGamePopup.hide();
-            startGamePopup = null;
-        }
     }
 }
