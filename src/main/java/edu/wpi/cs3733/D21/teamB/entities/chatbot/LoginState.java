@@ -31,7 +31,8 @@ public class LoginState implements IState {
                 response.add("Is there anything I can help you with?");
                 response.add("return");
             } else {
-                response.add("Do you need any assistance?");
+                response.add("unsure");
+                response.add("Do you want to log in?");
             }
         } else if (messagesSent.peek().equals("Do you need any assistance?")) { // Third message in
             if (StateManager.containsAny(input, new String[]{"y", "ye", "yes", "yeah", "yup"})) {
@@ -41,7 +42,7 @@ public class LoginState implements IState {
             } else if (StateManager.containsAny(input, new String[]{"n", "no", "nah", "nope"})) {
                 response.add("No worries! I'll be here.");
             } else {
-                response.add("I'm sorry, I didn't understand that.");
+                response.add("unsure");
                 response.add("Do you need any assistance?");
             }
         } else if (messagesSent.peek().equals("No worries! I'll be here.") || messagesSent.peek().equals("If you have any questions, feel free to ask!")) {

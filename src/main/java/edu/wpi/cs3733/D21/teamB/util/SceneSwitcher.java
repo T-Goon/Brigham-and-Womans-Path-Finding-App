@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.D21.teamB.util;
 
 import edu.wpi.cs3733.D21.teamB.App;
+import edu.wpi.cs3733.D21.teamB.entities.chatbot.ChatBot;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 
@@ -16,11 +17,11 @@ public class SceneSwitcher {
     public static boolean isEmergencyBtn;
     public static UserState editingUserState;
 
-    public static String peekLastScene(){
+    public static String peekLastScene() {
         return stack.peek();
     }
 
-    public static String popLastScene(){
+    public static String popLastScene() {
         return stack.pop();
     }
 
@@ -36,8 +37,11 @@ public class SceneSwitcher {
             return;
         }
         String path = "";
-        for (int i = 0; i < pagesBack; i++)
-            if (!stack.isEmpty()) path = stack.pop();
+        for (int i = 0; i < pagesBack; i++) {
+            if (!stack.isEmpty())
+                path = stack.pop();
+        }
+        ChatBot.stateManager.reset();
         switchFromTemp(path);
     }
 
@@ -63,9 +67,10 @@ public class SceneSwitcher {
     /**
      * Switches to a scene and removes it from the stack.
      *
-     * @param path     the path to the FXML file to switch to
+     * @param path the path to the FXML file to switch to
      */
     public static void switchScene(String oldPath, String path) {
+        ChatBot.stateManager.reset();
         stack.push(oldPath);
         switchFromTemp(path);
     }

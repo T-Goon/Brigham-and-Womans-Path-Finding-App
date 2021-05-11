@@ -149,7 +149,10 @@ public class ChatBot implements Runnable {
                     // NO-OP
                 }
             }));
-            sendMessage(chatSession.multisentenceRespond(input));
+            String message = chatSession.multisentenceRespond(input);
+            if (message.contains("<") && message.contains(">"))
+                message = "Sorry, I'm not well equipped enough to answer that.";
+            sendMessage(message);
             System.setOut(printStream);
         } catch (Exception ignored) {
         }
