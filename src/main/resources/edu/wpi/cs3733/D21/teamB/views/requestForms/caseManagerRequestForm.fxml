@@ -249,7 +249,7 @@
                         <Insets bottom="15.0" />
                     </StackPane.margin>
                 </HBox>
-            </children>
+            </children> 
         </StackPane>
     </children>
 </AnchorPane>

@@ -81,6 +81,7 @@ public class LoginPageController extends BasePageController implements Initializ
 
         switch (btn.getId()) {
             case "btnLogin":
+                //System.out.println(btn.getAccessibleText());
                 handleLoginSubmit();
                 break;
             case "btnEmergency":
