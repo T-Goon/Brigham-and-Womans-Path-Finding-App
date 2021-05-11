@@ -37,14 +37,18 @@ public class StateManager {
         }
 
         // Makes sure the user doesn't try to access something without taking the covid survey
-        if (containsAny(input, PATHFINDING_KEYWORDS) && (current.getCovidStatus() == User.CovidStatus.PENDING || current.getCovidStatus() == User.CovidStatus.UNCHECKED)) {
+        if (containsAny(input, PATHFINDING_KEYWORDS) && current.getAuthenticationLevel() == User.AuthenticationLevel.PATIENT && (current.getCovidStatus() == User.CovidStatus.PENDING || current.getCovidStatus() == User.CovidStatus.UNCHECKED)) {
             return Collections.singletonList("Sorry, but you must take the COVID-19 survey before accessing the map!");
         }
 
         // If switching tracks, reset everything back to the beginning
         if (containsAny(input, COVID_KEYWORDS) && !(currentState instanceof CovidState)) {
-            previousState = currentState;
-            currentState = new CovidState();
+            if (!current.isAtLeast(User.AuthenticationLevel.STAFF)) {
+                previousState = currentState;
+                currentState = new CovidState();
+            } else {
+                return Collections.singletonList("Sorry, only patients and guests can take the COVID-19 survey.");
+            }
         } else if (containsAny(input, REGISTER_KEYWORDS) && !(currentState instanceof RegisterState)) {
             previousState = currentState;
             currentState = new RegisterState();
