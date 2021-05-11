@@ -4,7 +4,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXToggleButton;
 import edu.wpi.cs3733.D21.teamB.App;
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
-import edu.wpi.cs3733.D21.teamB.entities.OnScreenKeyboard;
+import edu.wpi.cs3733.D21.teamB.entities.keyboard.OnScreenKeyboard;
 import edu.wpi.cs3733.D21.teamB.entities.User;
 import edu.wpi.cs3733.D21.teamB.util.HelpDialog;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
@@ -27,9 +27,6 @@ public class SettingsMenuController extends BasePageController implements Initia
 
     @FXML
     private JFXButton btnExit;
-
-    @FXML
-    private JFXButton btnEmergency;
 
     @FXML
     private JFXButton btnHelp;
@@ -76,9 +73,6 @@ public class SettingsMenuController extends BasePageController implements Initia
         JFXButton btn = (JFXButton) e.getSource();
         super.handleButtonAction(e);
         switch (btn.getId()) {
-            case "btnEmergency":
-                SceneSwitcher.switchScene("/edu/wpi/cs3733/D21/teamB/views/menus/settingsMenu.fxml", "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
-                break;
             case "btnEditProfile":
                 Stage stage = App.getPrimaryStage();
                 stage.setUserData(DatabaseHandler.getHandler().getAuthenticationUser());

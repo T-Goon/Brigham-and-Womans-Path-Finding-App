@@ -23,7 +23,6 @@ public class CSVHandler {
      */
     public static List<Node> loadCSVNodes(String path) {
 
-        System.out.println(CSVHandler.class.getResource(path).getPath());
         List<Node> list = new ArrayList<>();
         InputStream s = CSVHandler.class.getResourceAsStream(path);
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(Objects.requireNonNull(s)));

@@ -18,9 +18,6 @@ import java.util.ResourceBundle;
 public class ChangePasswordController extends BasePageController implements Initializable {
 
     @FXML
-    public JFXButton btnEmergency;
-
-    @FXML
     public JFXPasswordField oldPassword;
 
     @FXML
@@ -75,6 +72,8 @@ public class ChangePasswordController extends BasePageController implements Init
             case "btnChangePassword":
                 handleChangePassword();
                 break;
+        if ("btnChangePassword".equals(btn.getId())) {
+            handleChangePassword();
         }
     }
 

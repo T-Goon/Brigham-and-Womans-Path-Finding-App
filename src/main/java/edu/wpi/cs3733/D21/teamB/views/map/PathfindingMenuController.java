@@ -63,7 +63,6 @@ public class PathfindingMenuController extends BasePageController implements Ini
 
     @FXML
     private JFXButton btnFindPath,
-            btnEmergency,
             btnEditMap,
             btnLoad,
             btnSave,
@@ -547,9 +546,6 @@ public class PathfindingMenuController extends BasePageController implements Ini
                 btnRemoveStop.setDisable(mapCache.getStopsList().isEmpty());
 
                 break;
-            case "btnEmergency":
-                SceneSwitcher.switchScene("/edu/wpi/cs3733/D21/teamB/views/map/pathfindingMenu.fxml", "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
-                break;
             case "btnHelp":
                 HelpDialog.loadHelpDialog(stackPane, getHelpDialog());
                 break;
@@ -799,18 +795,20 @@ public class PathfindingMenuController extends BasePageController implements Ini
             displayStops(stopsList);
         }
 
-        Map<String, Request> requests=null;
+        Map<String, Request> requests = null;
 
         try {
             requests = DatabaseHandler.getHandler().getRequests();
 
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
-        for(Request request : requests.values()){
-            if(request.getSubmitter().equals(DatabaseHandler.getHandler().getAuthenticationUser().getUsername())){
-                txtStartLocation.setText(db.getNodeById(request.getLocation()).getLongName());
+        if (requests != null) {
+            for (Request request : requests.values()) {
+                if (request.getSubmitter().equals(DatabaseHandler.getHandler().getAuthenticationUser().getUsername())) {
+                    txtStartLocation.setText(db.getNodeById(request.getLocation()).getLongName());
+                }
             }
         }
     }

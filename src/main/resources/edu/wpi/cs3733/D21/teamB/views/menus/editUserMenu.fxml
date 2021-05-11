@@ -125,17 +125,18 @@
                               </VBox>
                            </children>
                               </HBox>
-                        <HBox fx:id="helpHolder1" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="25.0">
-                           <children>
-                              <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="400.0">
-                                 <children>
-                                    <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Username">
-                                       <font>
-                                          <Font size="20.0" />
-                                       </font>
-                                       <VBox.margin>
-                                          <Insets bottom="5.0" />
-                                       </VBox.margin>
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="25.0">
+                            <children>
+                                <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+                                      minWidth="-Infinity" prefWidth="400.0">
+                                    <children>
+                                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Username">
+                                            <font>
+                                                <Font size="20.0"/>
+                                            </font>
+                                            <VBox.margin>
+                                                <Insets bottom="5.0"/>
+                                            </VBox.margin>
                                     </Text>
                                     <JFXTextField fx:id="txtUsername" accessibleText="User name" focusColor="#ffffff00" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyReleased="#validateButtons" prefHeight="50.0" prefWidth="400.0" style="-fx-background-color: #0067B1; -fx-border-color: white; -fx-border-width: 1; -fx-border-radius: 3;" stylesheets="@../../css/login.css">
                                        <font>
@@ -176,17 +177,18 @@
                               </Text>
                            </children>
                         </HBox>
-                        <HBox fx:id="helpHolder1" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="25.0">
-                           <VBox.margin>
-                              <Insets left="50.0" right="50.0" top="10.0" />
-                           </VBox.margin>
-                           <children>
-                              <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="400.0">
-                                 <children>
-                                    <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Password:">
-                                       <font>
-                                          <Font size="20.0" />
-                                       </font>
+                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="25.0">
+                             <VBox.margin>
+                                 <Insets left="50.0" right="50.0" top="10.0"/>
+                             </VBox.margin>
+                             <children>
+                                 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+                                       minWidth="-Infinity" prefWidth="400.0">
+                                     <children>
+                                         <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Password:">
+                                             <font>
+                                                 <Font size="20.0"/>
+                                             </font>
                                        <VBox.margin>
                                           <Insets bottom="5.0" />
                                        </VBox.margin>

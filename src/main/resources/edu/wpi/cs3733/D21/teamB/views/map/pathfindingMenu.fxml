@@ -338,17 +338,24 @@
                                         </GesturePane>
                                  </children>
                               </StackPane>
-                              <HBox alignment="BOTTOM_RIGHT" fillHeight="false" maxHeight="-Infinity" maxWidth="-Infinity" StackPane.alignment="BOTTOM_RIGHT">
-                                 <children>
-                                    <VBox alignment="TOP_RIGHT" maxHeight="100.0" maxWidth="55.0">
-                                       <children>
-                                          <JFXButton fx:id="btnF3" accessibleText="Floor 3" maxHeight="20.0" maxWidth="45.0" onAction="#handleButtonAction" style="-fx-background-color: F6BD39; -fx-border-color: #012D5A;" text="3">
-                                             <font>
-                                                <Font name="MS Reference Sans Serif" size="14.0" />
-                                             </font>
-                                          </JFXButton>
-                                          <JFXButton fx:id="btnF2" accessibleText="Floor 2" maxHeight="20.0" maxWidth="45.0" onAction="#handleButtonAction" style="-fx-background-color: F6BD39; -fx-border-color: #012D5A;" text="2">
-                                             <font>
+                               <HBox alignment="TOP_CENTER" fillHeight="false" maxHeight="-Infinity"
+                                     maxWidth="-Infinity" StackPane.alignment="TOP_RIGHT">
+                                   <children>
+                                       <VBox alignment="TOP_RIGHT" maxHeight="100.0" maxWidth="55.0">
+                                           <children>
+                                               <JFXButton fx:id="btnF3" accessibleText="Floor 3" maxHeight="20.0"
+                                                          maxWidth="45.0" onAction="#handleButtonAction"
+                                                          style="-fx-background-color: F6BD39; -fx-border-color: #012D5A;"
+                                                          text="3">
+                                                   <font>
+                                                       <Font name="MS Reference Sans Serif" size="14.0"/>
+                                                   </font>
+                                               </JFXButton>
+                                               <JFXButton fx:id="btnF2" accessibleText="Floor 2" maxHeight="20.0"
+                                                          maxWidth="45.0" onAction="#handleButtonAction"
+                                                          style="-fx-background-color: F6BD39; -fx-border-color: #012D5A;"
+                                                          text="2">
+                                                   <font>
                                                 <Font name="MS Reference Sans Serif" size="14.0" />
                                              </font>
                                           </JFXButton>
@@ -369,7 +376,7 @@
                                           </JFXButton>
                                        </children>
                                        <padding>
-                                          <Insets bottom="10.0" right="10.0" />
+                                           <Insets bottom="10.0" right="10.0" top="10.0"/>
                                        </padding>
                                     </VBox>
                                      <VBox alignment="BOTTOM_RIGHT" maxHeight="-Infinity" maxWidth="250.0" prefHeight="250.0">

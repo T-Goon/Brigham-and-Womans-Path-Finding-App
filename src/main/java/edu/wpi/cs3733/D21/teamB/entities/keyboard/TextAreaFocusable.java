@@ -1,7 +1,7 @@
-package edu.wpi.cs3733.D21.teamB.entities;
+package edu.wpi.cs3733.D21.teamB.entities.keyboard;
 
 import javafx.scene.control.TextArea;
-import edu.wpi.cs3733.D21.teamB.entities.LastFocused;
+
 import java.awt.event.FocusEvent;
 
 public class TextAreaFocusable extends TextArea {

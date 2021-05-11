@@ -1,21 +1,15 @@
 package edu.wpi.cs3733.D21.teamB.views.covidSurvey;
 
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.validation.RequiredFieldValidator;
 import edu.wpi.cs3733.D21.teamB.App;
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.requests.CovidSurveyRequest;
 import edu.wpi.cs3733.D21.teamB.entities.requests.Request;
-import edu.wpi.cs3733.D21.teamB.entities.requests.SanitationRequest;
-import edu.wpi.cs3733.D21.teamB.util.AutoCompleteComboBoxListener;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
 import edu.wpi.cs3733.D21.teamB.views.BasePageController;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
-import org.hsqldb.Database;
 
-import javax.xml.crypto.Data;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
@@ -38,7 +32,6 @@ public class CovidSurveyNurseCheckController extends BasePageController implemen
             } catch (SQLException e) {
                 covidSurveyRequest = null;
                 e.printStackTrace();
-                return;
             }
         }
     }
@@ -55,7 +48,7 @@ public class CovidSurveyNurseCheckController extends BasePageController implemen
                     DatabaseHandler.getHandler().updateCovidRequestAdmitted(covidSurveyRequest, "F");
                     DatabaseHandler.getHandler().updateRequest(covidSurveyRequest);
                 } catch (SQLException error) {
-                    System.err.println("You fucking donkey");
+                    error.printStackTrace();
                 }
                 SceneSwitcher.goBack(1);
                 break;
@@ -64,8 +57,8 @@ public class CovidSurveyNurseCheckController extends BasePageController implemen
                     covidSurveyRequest.setProgress("T");
                     DatabaseHandler.getHandler().updateCovidRequestAdmitted(covidSurveyRequest, "T");
                     DatabaseHandler.getHandler().updateRequest(covidSurveyRequest);
-                } catch (SQLException throwables) {
-                    System.err.println("You fucking donkey");
+                } catch (SQLException error) {
+                    error.printStackTrace();
                 }
                 SceneSwitcher.goBack(1);
                 break;
