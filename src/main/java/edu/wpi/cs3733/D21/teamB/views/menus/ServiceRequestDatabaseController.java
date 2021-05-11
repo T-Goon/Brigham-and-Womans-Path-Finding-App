@@ -6,7 +6,6 @@ import edu.wpi.cs3733.D21.teamB.entities.User;
 import edu.wpi.cs3733.D21.teamB.entities.requests.Request;
 import edu.wpi.cs3733.D21.teamB.util.HelpDialog;
 import edu.wpi.cs3733.D21.teamB.util.RequestWrapper;
-import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
 import edu.wpi.cs3733.D21.teamB.views.BasePageController;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -128,18 +127,11 @@ public class   ServiceRequestDatabaseController extends BasePageController imple
 
     @FXML
     public void handleButtonAction(ActionEvent e) {
-        final String currentPath = "/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml";
         super.handleButtonAction(e);
         JFXButton btn = (JFXButton) e.getSource();
-        switch (btn.getId()) {
-            case "btnHelp":
-                HelpDialog.loadHelpDialog(stackPane, "To assign an employee to a request, right click on the text in the 'Assigned To' column and select a staff member from the context menu.\n" +
-                        "To set the current status of the request, right click on the text in the 'Complete' column and select the status of the request.\n");
-                break;
-            case "btnEmergency":
-                SceneSwitcher.isEmergencyBtn = true;
-                SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
-                break;
+        if ("btnHelp".equals(btn.getId())) {
+            HelpDialog.loadHelpDialog(stackPane, "To assign an employee to a request, right click on the text in the 'Assigned To' column and select a staff member from the context menu.\n" +
+                    "To set the current status of the request, right click on the text in the 'Complete' column and select the status of the request.\n");
         }
     }
 

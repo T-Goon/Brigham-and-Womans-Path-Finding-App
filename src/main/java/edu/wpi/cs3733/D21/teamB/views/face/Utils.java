@@ -41,9 +41,7 @@ public class Utils {
      */
     public static <T> void onFXThread(final ObjectProperty<T> property, final T value)
     {
-        Platform.runLater(() -> {
-            property.set(value);
-        });
+        Platform.runLater(() -> property.set(value));
     }
 
     /**
@@ -56,7 +54,7 @@ public class Utils {
     private static BufferedImage matToBufferedImage(Mat original)
     {
         // init
-        BufferedImage image = null;
+        BufferedImage image;
         int width = original.width(), height = original.height(), channels = original.channels();
         byte[] sourcePixels = new byte[width * height * channels];
         original.get(0, 0, sourcePixels);

@@ -709,7 +709,10 @@ public class RequestMutator implements IDatabaseEntityMutator<Request> {
 
     /**
      * Sets the admitted flag in the database for a given CovidSurveyRequest
-     * @param request
+     *
+     * @param request the request
+     * @param flag    the flag
+     * @throws SQLException if the request is malformed
      */
     public void setCovidRequestAdmitted(CovidSurveyRequest request, String flag) throws SQLException {
         String query = "UPDATE CovidSurveyRequests SET admitted = '" + flag + "' WHERE  requestID = '" + request.getRequestID() + "'";

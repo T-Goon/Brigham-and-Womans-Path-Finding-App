@@ -13,6 +13,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 import java.net.URL;
@@ -27,43 +28,34 @@ import java.util.regex.Pattern;
 public class EditUserController extends BasePageController implements Initializable {
 
     @FXML
-    private JFXTextField username;
+    private JFXTextField txtUsername;
 
     @FXML
-    private JFXTextField email;
+    private JFXTextField txtEmail;
 
     @FXML
     private Label lblError;
 
     @FXML
-    private JFXTextField firstName;
+    private JFXTextField txtFirstName;
 
     @FXML
-    private JFXTextField lastName;
+    private JFXTextField txtLastName;
 
     @FXML
-    private Text passwordText;
+    private JFXComboBox<Label> comboAuth;
 
     @FXML
-    private JFXPasswordField password;
-
-    @FXML
-    private Text authenticationLevelText;
-
-    @FXML
-    private JFXComboBox<Label> authenticationLevel;
+    private JFXPasswordField passPassword;
 
     @FXML
     private Text jobText;
 
     @FXML
-    private JFXComboBox<Label> job;
+    private JFXComboBox<Label> comboJob;
 
     @FXML
-    private JFXToggleButton ttsEnabled;
-
-    @FXML
-    private JFXButton btnBack;
+    private JFXToggleButton toggleTTS;
 
     @FXML
     private JFXButton btnHelp;
@@ -78,6 +70,9 @@ public class EditUserController extends BasePageController implements Initializa
     private Text bigText;
 
     @FXML
+    private VBox vAdminFields;
+
+    @FXML
     private Text smallText;
 
     private String originalEmail;
@@ -87,46 +82,46 @@ public class EditUserController extends BasePageController implements Initializa
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location, resources);
-        authenticationLevel.getItems().add(new Label(User.AuthenticationLevel.ADMIN.toString()));
-        authenticationLevel.getItems().add(new Label(User.AuthenticationLevel.STAFF.toString()));
-        authenticationLevel.getItems().add(new Label(User.AuthenticationLevel.PATIENT.toString()));
+        comboAuth.getItems().add(new Label(User.AuthenticationLevel.ADMIN.toString()));
+        comboAuth.getItems().add(new Label(User.AuthenticationLevel.STAFF.toString()));
+        comboAuth.getItems().add(new Label(User.AuthenticationLevel.PATIENT.toString()));
 
         for (Request.RequestType r : Request.RequestType.values()) {
-            job.getItems().add(new Label(Request.RequestType.prettify(r)));
+            comboJob.getItems().add(new Label(Request.RequestType.prettify(r)));
         }
-        job.getItems().add(0, new Label("None"));
+        comboJob.getItems().add(0, new Label("None"));
 
         User u = (User) App.getPrimaryStage().getUserData();
         if (u.getUsername().equals("")) {
             bigText.setText("Add User Form");
             smallText.setText("Add User");
         }
-        username.setText(u.getUsername());
-        email.setText(u.getEmail());
-        originalEmail = email.getText();
-        firstName.setText(u.getFirstName());
-        lastName.setText(u.getLastName());
-        ttsEnabled.setSelected("T".equals(u.getTtsEnabled()));
+        txtUsername.setText(u.getUsername());
+        txtEmail.setText(u.getEmail());
+        originalEmail = txtEmail.getText();
+        txtFirstName.setText(u.getFirstName());
+        txtLastName.setText(u.getLastName());
+        toggleTTS.setSelected("T".equals(u.getTtsEnabled()));
         int i = 0;
         if (!u.getJobs().isEmpty()) {
-            for (Label label : job.getItems()) {
+            for (Label label : comboJob.getItems()) {
                 if (label.getText().equals(Request.RequestType.prettify(u.getJobs().get(0)))) {
-                    job.getSelectionModel().select(i);
+                    comboJob.getSelectionModel().select(i);
                 }
                 i++;
             }
         } else {
-            for (Label label : job.getItems()) {
+            for (Label label : comboJob.getItems()) {
                 if (label.getText().equals("None")) {
-                    job.getSelectionModel().select(i);
+                    comboJob.getSelectionModel().select(i);
                 }
                 i++;
             }
         }
         i = 0;
-        for (Label label : authenticationLevel.getItems()) {
+        for (Label label : comboAuth.getItems()) {
             if (label.getText().equals(u.getAuthenticationLevel().toString())) {
-                authenticationLevel.getSelectionModel().select(i);
+                comboAuth.getSelectionModel().select(i);
             }
             i++;
         }
@@ -137,13 +132,7 @@ public class EditUserController extends BasePageController implements Initializa
         if (SceneSwitcher.editingUserState == SceneSwitcher.UserState.EDIT_SELF) {
             bigText.setText("User Profile");
             smallText.setText("Edit User Profile");
-            passwordText.setVisible(false);
-            password.setVisible(false);
-            authenticationLevelText.setVisible(false);
-            authenticationLevel.setVisible(false);
-            jobText.setVisible(false);
-            job.setVisible(false);
-            ttsEnabled.setVisible(false);
+            vAdminFields.setVisible(false);
         }
     }
 
@@ -155,25 +144,25 @@ public class EditUserController extends BasePageController implements Initializa
             case "btnSubmit":
                 if (!validateEmail()) return;
 
-                String uUsername = username.getText();
-                String uEmail = email.getText();
-                String uFirstName = firstName.getText();
-                String uLastName = lastName.getText();
-                User.AuthenticationLevel uAuthLevel = User.AuthenticationLevel.valueOf(authenticationLevel.getValue().getText());
-                String tts = ttsEnabled.isSelected() ? "T" : "F";
+                String uUsername = txtUsername.getText();
+                String uEmail = txtEmail.getText();
+                String uFirstName = txtFirstName.getText();
+                String uLastName = txtLastName.getText();
+                User.AuthenticationLevel uAuthLevel = User.AuthenticationLevel.valueOf(comboAuth.getValue().getText());
+                String tts = toggleTTS.isSelected() ? "T" : "F";
                 List<Request.RequestType> uJobs = new ArrayList<>();
-                if (job.getValue() != null) {
-                    if (job.getValue().getText().equals("None")) {
+                if (comboJob.getValue() != null) {
+                    if (comboJob.getValue().getText().equals("None")) {
                         uJobs = new ArrayList<>();
                     } else {
-                        Request.RequestType uJob = Request.RequestType.uglify(job.getValue().getText());
+                        Request.RequestType uJob = Request.RequestType.uglify(comboJob.getValue().getText());
                         uJobs.add(uJob);
                     }
                 }
                 User uUpdated = new User(uUsername, uEmail, uFirstName, uLastName, uAuthLevel, tts, uJobs);
                 try {
                     if (SceneSwitcher.editingUserState == SceneSwitcher.UserState.ADD) {
-                        DatabaseHandler.getHandler().addUser(uUpdated, password.getText());
+                        DatabaseHandler.getHandler().addUser(uUpdated, passPassword.getText());
                     } else {
                         DatabaseHandler.getHandler().updateUser(uUpdated);
                     }
@@ -198,23 +187,23 @@ public class EditUserController extends BasePageController implements Initializa
     @FXML
     private void validateButtons() {
         btnSubmit.setDisable(
-                username.getText().isEmpty() || email.getText().isEmpty() || firstName.getText().isEmpty() || lastName.getText().isEmpty() ||
-                        authenticationLevel.getValue() == null
+                txtUsername.getText().isEmpty() || txtEmail.getText().isEmpty() || txtFirstName.getText().isEmpty() || txtLastName.getText().isEmpty() ||
+                        comboAuth.getValue() == null || (passPassword.getText().isEmpty() && SceneSwitcher.editingUserState.equals(SceneSwitcher.UserState.ADD))
         );
 
-        username.setDisable(SceneSwitcher.editingUserState != SceneSwitcher.UserState.ADD);
-        password.setDisable(SceneSwitcher.editingUserState != SceneSwitcher.UserState.ADD);
+        txtUsername.setDisable(SceneSwitcher.editingUserState != SceneSwitcher.UserState.ADD);
+        passPassword.setDisable(SceneSwitcher.editingUserState != SceneSwitcher.UserState.ADD);
     }
 
     @FXML
     private boolean validateEmail() {
-        Matcher matcher = emailPattern.matcher(email.getText());
-        if (!username.getText().equals("temporary") && !originalEmail.equals(email.getText()) && DatabaseHandler.getHandler().getUserByEmail(email.getText()) != null) {
+        Matcher matcher = emailPattern.matcher(txtEmail.getText());
+        if (!txtUsername.getText().equals("temporary") && !originalEmail.equals(txtEmail.getText()) && DatabaseHandler.getHandler().getUserByEmail(txtEmail.getText()) != null) {
             lblError.setText("Email address is already taken!");
             lblError.setVisible(true);
             btnSubmit.setDisable(true);
             return false;
-        } else if (!username.getText().equals("temporary") && !matcher.matches()) {
+        } else if (!txtUsername.getText().equals("temporary") && !matcher.matches()) {
             lblError.setText("Email address must be valid!");
             lblError.setVisible(true);
             btnSubmit.setDisable(true);

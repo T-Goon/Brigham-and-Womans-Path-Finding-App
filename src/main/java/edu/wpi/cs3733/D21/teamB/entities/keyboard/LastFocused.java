@@ -1,4 +1,4 @@
-package edu.wpi.cs3733.D21.teamB.entities;
+package edu.wpi.cs3733.D21.teamB.entities.keyboard;
 
 import com.jfoenix.controls.JFXButton;
 import javafx.scene.Node;

@@ -525,9 +525,10 @@ public class DatabaseHandler {
 
     /**
      * Updates the admitted flag for a covid request
+     *
      * @param request request to be updated
-     * @param flag what to change it to
-     * @throws SQLException
+     * @param flag    what to change it to
+     * @throws SQLException if the request is malformed
      */
     public void updateCovidRequestAdmitted(CovidSurveyRequest request, String flag) throws SQLException {
         requestMutator.setCovidRequestAdmitted(request,flag);
