@@ -109,13 +109,11 @@ public class App extends Application {
                 requiredUsers.put(new User("staff", "bwhapplication@gmail.com", "Mike", "Bedard", User.AuthenticationLevel.STAFF, "F", null), "staff");
                 requiredUsers.put(new User("patient", "patient@fakeemail.com", "T", "Goon", User.AuthenticationLevel.PATIENT, "F", null), "patient");
 
-                if(!DatabaseHandler.getHandler().getRemote()) {
                     for (User u : requiredUsers.keySet()) {
                         if (db.getUserByUsername(u.getUsername()) == null) {
                             db.addUser(u, requiredUsers.get(u));
                         }
                     }
-                }
                 db.resetTemporaryUser();
                 db.deauthenticate();
 

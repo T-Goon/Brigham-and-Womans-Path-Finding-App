@@ -17,14 +17,14 @@ public class FaceMutator implements IDatabaseEntityMutator<Embedding>{
 
     @Override
     public void addEntity(Embedding entity) throws SQLException {
+        String query = "INSERT INTO Embeddings VALUES ";
         for(int i = 0; i < entity.getEmbedding().size(); i++){
-            String query = "INSERT INTO Embeddings VALUES " +
-                    " ('" + entity.getUsername() +
+            query += "('" + entity.getUsername() +
                     "', '"+ i +
                     "', '"+ entity.getEmbedding().get(i) +
-                    "')";
-            db.runStatement(query, false);
+                    "'),";
         }
+        db.runStatement(query.substring(0,query.length()-1), false);
     }
 
     @Override
