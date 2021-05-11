@@ -20,7 +20,7 @@ public class CovidState implements IState {
                 response.add("Okay! Taking you there now...");
                 PageCache.getCachedResponses().add("Do you need any assistance?");
                 response.add("/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidSurvey.fxml");
-            } else if (StateManager.containsAny(input, new String[]{"n", "no", "nah", "nope",})) {
+            } else if (StateManager.containsAny(input, new String[]{"n", "no", "nah", "nope"})) {
                 response.add("No worries!");
                 response.add("Is there anything I can help you with?");
                 response.add("return");
@@ -29,7 +29,7 @@ public class CovidState implements IState {
             if (StateManager.containsAny(input, new String[]{"y", "ye", "yes", "yeah", "yup"})) {
                 response.add("Please fill out the following questions regarding any symptoms you might be experiencing.");
                 response.add("If you have any questions, feel free to ask!");
-            } else if (StateManager.containsAny(input, new String[]{"n", "no", "nah", "nope",})) {
+            } else if (StateManager.containsAny(input, new String[]{"n", "no", "nah", "nope"})) {
                 response.add("No worries! I'll be here.");
             } else {
                 response.add("I'm sorry, I didn't understand that.");

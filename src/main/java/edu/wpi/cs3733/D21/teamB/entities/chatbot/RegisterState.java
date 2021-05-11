@@ -29,7 +29,7 @@ public class RegisterState implements IState {
                 response.add("Okay! Taking you there now...");
                 PageCache.getCachedResponses().add("Do you need any assistance?");
                 response.add("/edu/wpi/cs3733/D21/teamB/views/login/registerPage.fxml");
-            } else if (StateManager.containsAny(input, new String[]{"n", "no", "nah", "nope",})) {
+            } else if (StateManager.containsAny(input, new String[]{"n", "no", "nah", "nope"})) {
                 response.add("No worries!");
                 response.add("Is there anything I can help you with?");
                 response.add("return");
@@ -39,7 +39,7 @@ public class RegisterState implements IState {
                 response.add("Please fill in all the information in each field.");
                 response.add("You must also take a picture of your face using the 'Take Picture' button so Face ID can work.");
                 response.add("If you have any questions, feel free to ask!");
-            } else if (StateManager.containsAny(input, new String[]{"n", "no", "nah", "nope",})) {
+            } else if (StateManager.containsAny(input, new String[]{"n", "no", "nah", "nope"})) {
                 response.add("No worries! I'll be here.");
             } else {
                 response.add("I'm sorry, I didn't understand that.");

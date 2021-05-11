@@ -14,14 +14,14 @@ public class PathfindingState implements IState {
     public List<String> respond(String input) {
         List<String> response = new ArrayList<>();
 
-         if (messagesSent.isEmpty()) { // First message
+        if (messagesSent.isEmpty()) { // First message
             response.add("Do you need help navigating the hospital?");
         } else if (messagesSent.peek().equals("Do you need help navigating the hospital?")) { // Second message
             if (StateManager.containsAny(input, new String[]{"y", "ye", "yes", "yeah", "yup"})) {
                 response.add("Okay! Taking you there now...");
                 PageCache.getCachedResponses().add("Do you need any assistance?");
                 response.add("/edu/wpi/cs3733/D21/teamB/views/map/pathfindingMenu.fxml");
-            } else if (StateManager.containsAny(input, new String[]{"n", "no", "nah", "nope",})) {
+            } else if (StateManager.containsAny(input, new String[]{"n", "no", "nah", "nope"})) {
                 response.add("No worries!");
                 response.add("Is there anything I can help you with?");
                 response.add("return");
@@ -31,11 +31,11 @@ public class PathfindingState implements IState {
                 response.add("Please fill select your destination and starting point from the map.");
                 response.add("You may also use the categories on the side as well as adding intermediate stops.");
                 response.add("If you have any questions, feel free to ask!");
-            } else if (StateManager.containsAny(input, new String[]{"floor", "floors", "stairs", "elevator", "upstairs","downstairs"})) {
+            } else if (StateManager.containsAny(input, new String[]{"floor", "floors", "stairs", "elevator", "upstairs", "downstairs"})) {
                 response.add("You can select different floors using the yellow buttons at the top right. The locations of floor traversals are noted by color coding.");
             } else if (StateManager.containsAny(input, new String[]{"closest", "bathroom", "food", "exit"})) {
                 response.add("The dropdown next to closest location will allow you to find the closest bathroom, food, exit, or help you might need.");
-            } else if (StateManager.containsAny(input, new String[]{"n", "no", "nah", "nope",})) {
+            } else if (StateManager.containsAny(input, new String[]{"n", "no", "nah", "nope"})) {
                 response.add("No worries! I'll be here.");
             } else {
                 response.add("I'm sorry, I didn't understand that.");
