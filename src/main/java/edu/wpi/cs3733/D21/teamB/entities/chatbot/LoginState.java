@@ -25,7 +25,6 @@ public class LoginState implements IState {
                 response.add("Okay! Taking you there now...");
                 response.add("/edu/wpi/cs3733/D21/teamB/views/login/loginPage.fxml");
                 response.add("Do you need any assistance?");
-//                PageCache.getBotMessages().add(new ChatBoxController.Message("Do you need any assistance?", false));
                 PageCache.getCachedResponses().add("Do you need any assistance?");
             } else {
                 response.add("No worries!");

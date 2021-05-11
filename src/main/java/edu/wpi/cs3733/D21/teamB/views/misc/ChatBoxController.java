@@ -76,6 +76,7 @@ public class ChatBoxController implements Initializable {
         if (PageCache.getCachedResponses() != null) {
             for (String s : PageCache.getCachedResponses()) {
                 PageCache.addBotMessage(new ChatBoxController.Message(s, false));
+                // Don't want the listener to send these messages
                 PageCache.getNewMessagesWaitingForUser().getAndDecrement();
             }
             PageCache.getCachedResponses().clear();
@@ -84,10 +85,6 @@ public class ChatBoxController implements Initializable {
         // Thread for getting messages from the bot
         if (userThread != null) {
             userThread.shutdownNow();
-//            try {
-//                userThread.awaitTermination(300, TimeUnit.MILLISECONDS);
-//            } catch (InterruptedException ignored) {
-//            }
 
             userThread = null;
         }
