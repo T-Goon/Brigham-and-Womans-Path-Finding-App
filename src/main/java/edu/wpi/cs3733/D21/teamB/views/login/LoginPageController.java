@@ -3,18 +3,21 @@ package edu.wpi.cs3733.D21.teamB.views.login;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.JFXToggleButton;
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.User;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
 import edu.wpi.cs3733.D21.teamB.views.BasePageController;
+import edu.wpi.cs3733.D21.teamB.views.face.Camera;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.shape.Rectangle;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -34,13 +37,18 @@ public class LoginPageController extends BasePageController implements Initializ
     private Label error;
 
     @FXML
-    private AnchorPane basePane;
-
-    @FXML
     private JFXButton btnRegisterPage;
 
     @FXML
+    private ImageView faceImage;
+
+    private Camera camera;
+
+    @FXML
     private StackPane stackPane;
+
+    @FXML
+    private Rectangle cover;
 
 
     @Override
@@ -60,25 +68,59 @@ public class LoginPageController extends BasePageController implements Initializ
                 handleLoginSubmit();
             }
         });
-
         Platform.runLater(() -> username.requestFocus());
+
+        camera = new Camera(null, faceImage, null, true);
+        camera.setLoginPageController(this);
+        camera.toggleCamera();
     }
 
     @FXML
     public void handleButtonAction(ActionEvent e) {
         final String currentPath = "/edu/wpi/cs3733/D21/teamB/views/login/loginPage.fxml";
-        super.handleButtonAction(e);
         JFXButton btn = (JFXButton) e.getSource();
+
         switch (btn.getId()) {
             case "btnLogin":
+                //System.out.println(btn.getAccessibleText());
                 handleLoginSubmit();
                 break;
             case "btnEmergency":
+                Camera.stopAcquisition();
                 SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
                 break;
             case "btnRegisterPage":
+                Camera.stopAcquisition();
                 SceneSwitcher.switchFromTemp("/edu/wpi/cs3733/D21/teamB/views/login/registerPage.fxml");
                 break;
+            case "btnBack":
+                Camera.stopAcquisition();
+                break;
+        }
+
+        super.handleButtonAction(e);
+    }
+
+    public void setUserName(String name){
+        username.setText(name);
+        Platform.runLater(() -> password.requestFocus());
+        validateButton();
+    }
+
+    @FXML
+    private void toggleCamera(ActionEvent event){
+        JFXToggleButton tog = (JFXToggleButton) event.getSource();
+
+        if(!tog.isSelected()){
+            camera.toggleCamera();
+            username.setText("");
+            password.setText("");
+            cover.setVisible(true);
+            Platform.runLater(() -> username.requestFocus());
+        } else{
+            cover.setVisible(false);
+            password.setText("");
+            camera.toggleCamera();
         }
     }
 
@@ -93,6 +135,7 @@ public class LoginPageController extends BasePageController implements Initializ
             error.setVisible(true);
             return;
         }
+        Camera.stopAcquisition();
         SceneSwitcher.switchFromTemp("/edu/wpi/cs3733/D21/teamB/views/menus/userDirectoryMenu.fxml");
     }
 
