@@ -63,19 +63,14 @@ public class ChangePasswordController extends BasePageController implements Init
 
         JFXButton btn = (JFXButton) actionEvent.getSource();
         switch (btn.getId()) {
-            case "btnEmergency":
-                SceneSwitcher.switchScene("/edu/wpi/cs3733/D21/teamB/views/menus/changePassword.fxml", "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
-                break;
             case "btnHome":
-                SceneSwitcher.switchScene("/edu/wpi/cs3733/D21/teamB/views/menus/changePassword.fxml","/edu/wpi/cs3733/D21/teamB/views/menus/userDirectoryMenu.fxml");
+                SceneSwitcher.switchScene("/edu/wpi/cs3733/D21/teamB/views/menus/changePassword.fxml", "/edu/wpi/cs3733/D21/teamB/views/menus/userDirectoryMenu.fxml");
                 break;
-            case "btnChangePassword":
-                handleChangePassword();
-                break;
-        if ("btnChangePassword".equals(btn.getId())) {
-            handleChangePassword();
         }
-    }
+            if ("btnChangePassword".equals(btn.getId())) {
+                handleChangePassword();
+            }
+        }
 
     /**
      * Actually changes the password
