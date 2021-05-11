@@ -6,6 +6,7 @@
 <?import com.jfoenix.controls.JFXRadioButton?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -64,245 +65,249 @@
                   </VBox>
                </children>
             </HBox>
-            <VBox alignment="CENTER" layoutX="50.0" layoutY="205.08326721191406" maxHeight="-Infinity" maxWidth="-Infinity" spacing="10.0" style="-fx-background-color: white;" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="180.0">
-               <children>
-                  <Text fill="#0067b1" strokeType="OUTSIDE" strokeWidth="0.0" text="COVID-19 Symptom Survey" textAlignment="CENTER" VBox.vgrow="NEVER">
-                     <VBox.margin>
-                        <Insets />
-                     </VBox.margin>
-                     <font>
-                        <Font name="MS Reference Sans Serif" size="30.0" />
-                     </font>
-                  </Text>
-                  <VBox layoutX="25.0" layoutY="82.0" prefHeight="37.0" prefWidth="780.0">
+            <ScrollPane fitToWidth="true" hbarPolicy="NEVER" layoutX="50.0" layoutY="180.0" maxWidth="-Infinity" AnchorPane.bottomAnchor="90.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="180.0">
+               <content>
+                  <VBox alignment="CENTER" maxHeight="-Infinity" spacing="10.0" style="-fx-background-color: white;">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Name:">
-                           <font>
-                              <Font size="14.0" />
-                           </font>
+                        <Text fill="#0067b1" strokeType="OUTSIDE" strokeWidth="0.0" text="COVID-19 Symptom Survey" textAlignment="CENTER" VBox.vgrow="NEVER">
                            <VBox.margin>
                               <Insets />
                            </VBox.margin>
-                        </Text>
-                        <JFXTextField fx:id="txtName" maxWidth="500.0" />
-                     </children>
-                     <VBox.margin>
-                        <Insets left="15.0" right="15.0" top="15.0" />
-                     </VBox.margin>
-                  </VBox>
-                  <VBox prefHeight="37.0" prefWidth="780.0">
-                     <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Current Location:">
                            <font>
-                              <Font size="14.0" />
-                           </font>
-                           <VBox.margin>
-                              <Insets />
-                           </VBox.margin>
-                        </Text>
-                        <JFXComboBox fx:id="loc" accessibleText="Location dropdown" maxWidth="500.0" onAction="#validateButton" style="-fx-background-color: #e5e5e5; -fx-background-radius: 7;" unFocusColor="#ffffff00">
-                           <VBox.margin>
-                              <Insets top="5.0" />
-                           </VBox.margin>
-                        </JFXComboBox>
-                     </children>
-                     <VBox.margin>
-                        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
-                     </VBox.margin>
-                  </VBox>
-                  <VBox prefHeight="200.0" prefWidth="100.0" spacing="3.0">
-                     <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Are you experiencing any of the following symptoms? Please check all that apply:">
-                           <font>
-                              <Font name="MS Reference Sans Serif" size="15.0" />
+                              <Font name="MS Reference Sans Serif" size="30.0" />
                            </font>
                         </Text>
-                        <VBox spacing="5.0" stylesheets="@../../css/covidSurvey.css">
+                        <VBox layoutX="25.0" layoutY="82.0" prefHeight="37.0" prefWidth="780.0">
                            <children>
-                              <JFXCheckBox fx:id="chkFever" accessibleText="Fever" text="Fever">
-                                 <VBox.margin>
-                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                 </VBox.margin>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Name:">
                                  <font>
-                                    <Font name="MS Reference Sans Serif" size="14.0" />
+                                    <Font size="14.0" />
                                  </font>
-                              </JFXCheckBox>
-                              <JFXCheckBox fx:id="chkChills" accessibleText="Chills" text="Chills">
-                                 <VBox.margin>
-                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                 </VBox.margin>
-                                 <font>
-                                    <Font name="MS Reference Sans Serif" size="14.0" />
-                                 </font>
-                              </JFXCheckBox>
-                              <JFXCheckBox fx:id="chkCough" accessibleText="Cough" text="Cough">
-                                 <VBox.margin>
-                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                 </VBox.margin>
-                                 <font>
-                                    <Font name="MS Reference Sans Serif" size="14.0" />
-                                 </font>
-                              </JFXCheckBox>
-                              <JFXCheckBox fx:id="chkShortBreath" accessibleText="Shortness of Breath" text="Shortness of Breath">
-                                 <VBox.margin>
-                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                 </VBox.margin>
-                                 <font>
-                                    <Font name="MS Reference Sans Serif" size="14.0" />
-                                 </font>
-                              </JFXCheckBox>
-                              <JFXCheckBox fx:id="chkSoreTht" accessibleText="Sore Throat" text="Sore Throat">
-                                 <VBox.margin>
-                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                 </VBox.margin>
-                                 <font>
-                                    <Font name="MS Reference Sans Serif" size="14.0" />
-                                 </font>
-                              </JFXCheckBox>
-                              <JFXCheckBox fx:id="chkHeadache" accessibleText="Headache" text="Headache">
-                                 <VBox.margin>
-                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                 </VBox.margin>
-                                 <font>
-                                    <Font name="MS Reference Sans Serif" size="14.0" />
-                                 </font>
-                              </JFXCheckBox>
-                              <JFXCheckBox fx:id="chkAches" accessibleText="Muscle slash body ache" text="Muscle/Body Ache">
-                                 <VBox.margin>
-                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                 </VBox.margin>
-                                 <font>
-                                    <Font name="MS Reference Sans Serif" size="14.0" />
-                                 </font>
-                              </JFXCheckBox>
-                              <JFXCheckBox fx:id="chkNose" accessibleText="runny nose slash congestion" text="Runny Nose/Congestion">
-                                 <VBox.margin>
-                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                 </VBox.margin>
-                                 <font>
-                                    <Font name="MS Reference Sans Serif" size="14.0" />
-                                 </font>
-                              </JFXCheckBox>
-                              <JFXCheckBox fx:id="chkLostTaste" accessibleText="loss of taste slash smell" text="Loss of Taste/Smell">
-                                 <VBox.margin>
-                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                 </VBox.margin>
-                                 <font>
-                                    <Font name="MS Reference Sans Serif" size="14.0" />
-                                 </font>
-                              </JFXCheckBox>
-                              <JFXCheckBox fx:id="chkNausea" accessibleText="nausea slash vomiting" text="Nausea/Vomiting">
-                                 <VBox.margin>
-                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                 </VBox.margin>
-                                 <font>
-                                    <Font name="MS Reference Sans Serif" size="14.0" />
-                                 </font>
-                              </JFXCheckBox>
-                              <JFXCheckBox fx:id="chkNone" accessibleText="none" text="None">
                                  <VBox.margin>
                                     <Insets />
                                  </VBox.margin>
-                                 <padding>
-                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                 </padding>
-                                 <font>
-                                    <Font name="MS Reference Sans Serif" size="14.0" />
-                                 </font>
-                              </JFXCheckBox>
+                              </Text>
+                              <JFXTextField fx:id="txtName" maxWidth="500.0" />
                            </children>
                            <VBox.margin>
-                              <Insets left="20.0" />
+                              <Insets left="15.0" right="15.0" top="15.0" />
                            </VBox.margin>
                         </VBox>
-                     </children>
-                     <VBox.margin>
-                        <Insets left="15.0" />
-                     </VBox.margin>
-                  </VBox>
-                  <VBox spacing="5.0">
-                     <children>
-                        <Text accessibleText="Have you been in close contact with someone diagnosed with COVID-19 in the last 14 days?" focusTraversable="true" strokeType="OUTSIDE" strokeWidth="0.0" text="Have you been in close contact with someone diagnosed with COVID-19 in the last 14 days?">
-                           <font>
-                              <Font name="MS Reference Sans Serif" size="15.0" />
-                           </font>
-                        </Text>
-                        <HBox spacing="20.0">
+                        <VBox prefHeight="37.0" prefWidth="780.0">
                            <children>
-                              <JFXRadioButton fx:id="btnCCYes" accessibleText="yes" onAction="#validateButton" text="Yes">
-                                 <toggleGroup>
-                                    <ToggleGroup fx:id="ccGroup" />
-                                 </toggleGroup>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Current Location:">
                                  <font>
-                                    <Font name="MS Reference Sans Serif" size="14.0" />
+                                    <Font size="14.0" />
                                  </font>
-                              </JFXRadioButton>
-                              <JFXRadioButton fx:id="btnCCNo" accessibleText="no" onAction="#validateButton" text="No" toggleGroup="$ccGroup">
-                                 <font>
-                                    <Font name="MS Reference Sans Serif" size="14.0" />
-                                 </font>
-                              </JFXRadioButton>
+                                 <VBox.margin>
+                                    <Insets />
+                                 </VBox.margin>
+                              </Text>
+                              <JFXComboBox fx:id="loc" accessibleText="Location dropdown" maxWidth="500.0" onAction="#validateButton" style="-fx-background-color: #e5e5e5; -fx-background-radius: 7;" unFocusColor="#ffffff00">
+                                 <VBox.margin>
+                                    <Insets top="5.0" />
+                                 </VBox.margin>
+                              </JFXComboBox>
                            </children>
-                           <padding>
-                              <Insets left="30.0" />
-                           </padding>
-                        </HBox>
-                     </children>
-                     <VBox.margin>
-                        <Insets left="15.0" />
-                     </VBox.margin>
-                  </VBox>
-                  <VBox spacing="5.0">
-                     <children>
-                        <Text accessibleText="Have you received a positive COVID test within the last 14 days?" focusTraversable="true" strokeType="OUTSIDE" strokeWidth="0.0" text="Have you received a positive COVID test within the last 14 days?">
-                           <font>
-                              <Font name="MS Reference Sans Serif" size="15.0" />
-                           </font>
-                        </Text>
-                        <HBox alignment="CENTER_LEFT" spacing="20.0">
+                           <VBox.margin>
+                              <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                           </VBox.margin>
+                        </VBox>
+                        <VBox prefHeight="200.0" prefWidth="100.0" spacing="3.0">
                            <children>
-                              <JFXRadioButton fx:id="btnTestYes" accessibleText="yes" onAction="#validateButton" text="Yes">
-                                 <toggleGroup>
-                                    <ToggleGroup fx:id="testGroup" />
-                                 </toggleGroup>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Are you experiencing any of the following symptoms? Please check all that apply:">
                                  <font>
-                                    <Font name="MS Reference Sans Serif" size="14.0" />
+                                    <Font name="MS Reference Sans Serif" size="15.0" />
                                  </font>
-                              </JFXRadioButton>
-                              <JFXRadioButton fx:id="btnTestNo" accessibleText="no" onAction="#validateButton" text="No" toggleGroup="$testGroup">
-                                 <font>
-                                    <Font name="MS Reference Sans Serif" size="14.0" />
-                                 </font>
-                              </JFXRadioButton>
+                              </Text>
+                              <VBox spacing="5.0" stylesheets="@../../css/covidSurvey.css">
+                                 <children>
+                                    <JFXCheckBox fx:id="chkFever" accessibleText="Fever" text="Fever">
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </VBox.margin>
+                                       <font>
+                                          <Font name="MS Reference Sans Serif" size="14.0" />
+                                       </font>
+                                    </JFXCheckBox>
+                                    <JFXCheckBox fx:id="chkChills" accessibleText="Chills" text="Chills">
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </VBox.margin>
+                                       <font>
+                                          <Font name="MS Reference Sans Serif" size="14.0" />
+                                       </font>
+                                    </JFXCheckBox>
+                                    <JFXCheckBox fx:id="chkCough" accessibleText="Cough" text="Cough">
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </VBox.margin>
+                                       <font>
+                                          <Font name="MS Reference Sans Serif" size="14.0" />
+                                       </font>
+                                    </JFXCheckBox>
+                                    <JFXCheckBox fx:id="chkShortBreath" accessibleText="Shortness of Breath" text="Shortness of Breath">
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </VBox.margin>
+                                       <font>
+                                          <Font name="MS Reference Sans Serif" size="14.0" />
+                                       </font>
+                                    </JFXCheckBox>
+                                    <JFXCheckBox fx:id="chkSoreTht" accessibleText="Sore Throat" text="Sore Throat">
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </VBox.margin>
+                                       <font>
+                                          <Font name="MS Reference Sans Serif" size="14.0" />
+                                       </font>
+                                    </JFXCheckBox>
+                                    <JFXCheckBox fx:id="chkHeadache" accessibleText="Headache" text="Headache">
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </VBox.margin>
+                                       <font>
+                                          <Font name="MS Reference Sans Serif" size="14.0" />
+                                       </font>
+                                    </JFXCheckBox>
+                                    <JFXCheckBox fx:id="chkAches" accessibleText="Muscle slash body ache" text="Muscle/Body Ache">
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </VBox.margin>
+                                       <font>
+                                          <Font name="MS Reference Sans Serif" size="14.0" />
+                                       </font>
+                                    </JFXCheckBox>
+                                    <JFXCheckBox fx:id="chkNose" accessibleText="runny nose slash congestion" text="Runny Nose/Congestion">
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </VBox.margin>
+                                       <font>
+                                          <Font name="MS Reference Sans Serif" size="14.0" />
+                                       </font>
+                                    </JFXCheckBox>
+                                    <JFXCheckBox fx:id="chkLostTaste" accessibleText="loss of taste slash smell" text="Loss of Taste/Smell">
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </VBox.margin>
+                                       <font>
+                                          <Font name="MS Reference Sans Serif" size="14.0" />
+                                       </font>
+                                    </JFXCheckBox>
+                                    <JFXCheckBox fx:id="chkNausea" accessibleText="nausea slash vomiting" text="Nausea/Vomiting">
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </VBox.margin>
+                                       <font>
+                                          <Font name="MS Reference Sans Serif" size="14.0" />
+                                       </font>
+                                    </JFXCheckBox>
+                                    <JFXCheckBox fx:id="chkNone" accessibleText="none" text="None">
+                                       <VBox.margin>
+                                          <Insets />
+                                       </VBox.margin>
+                                       <padding>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </padding>
+                                       <font>
+                                          <Font name="MS Reference Sans Serif" size="14.0" />
+                                       </font>
+                                    </JFXCheckBox>
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets left="20.0" />
+                                 </VBox.margin>
+                              </VBox>
                            </children>
-                           <opaqueInsets>
+                           <VBox.margin>
+                              <Insets left="15.0" />
+                           </VBox.margin>
+                        </VBox>
+                        <VBox spacing="5.0">
+                           <children>
+                              <Text accessibleText="Have you been in close contact with someone diagnosed with COVID-19 in the last 14 days?" focusTraversable="true" strokeType="OUTSIDE" strokeWidth="0.0" text="Have you been in close contact with someone diagnosed with COVID-19 in the last 14 days?">
+                                 <font>
+                                    <Font name="MS Reference Sans Serif" size="15.0" />
+                                 </font>
+                              </Text>
+                              <HBox spacing="20.0">
+                                 <children>
+                                    <JFXRadioButton fx:id="btnCCYes" accessibleText="yes" onAction="#validateButton" text="Yes">
+                                       <toggleGroup>
+                                          <ToggleGroup fx:id="ccGroup" />
+                                       </toggleGroup>
+                                       <font>
+                                          <Font name="MS Reference Sans Serif" size="14.0" />
+                                       </font>
+                                    </JFXRadioButton>
+                                    <JFXRadioButton fx:id="btnCCNo" accessibleText="no" onAction="#validateButton" text="No" toggleGroup="$ccGroup">
+                                       <font>
+                                          <Font name="MS Reference Sans Serif" size="14.0" />
+                                       </font>
+                                    </JFXRadioButton>
+                                 </children>
+                                 <padding>
+                                    <Insets left="30.0" />
+                                 </padding>
+                              </HBox>
+                           </children>
+                           <VBox.margin>
+                              <Insets left="15.0" />
+                           </VBox.margin>
+                        </VBox>
+                        <VBox spacing="5.0">
+                           <children>
+                              <Text accessibleText="Have you received a positive COVID test within the last 14 days?" focusTraversable="true" strokeType="OUTSIDE" strokeWidth="0.0" text="Have you received a positive COVID test within the last 14 days?">
+                                 <font>
+                                    <Font name="MS Reference Sans Serif" size="15.0" />
+                                 </font>
+                              </Text>
+                              <HBox alignment="CENTER_LEFT" spacing="20.0">
+                                 <children>
+                                    <JFXRadioButton fx:id="btnTestYes" accessibleText="yes" onAction="#validateButton" text="Yes">
+                                       <toggleGroup>
+                                          <ToggleGroup fx:id="testGroup" />
+                                       </toggleGroup>
+                                       <font>
+                                          <Font name="MS Reference Sans Serif" size="14.0" />
+                                       </font>
+                                    </JFXRadioButton>
+                                    <JFXRadioButton fx:id="btnTestNo" accessibleText="no" onAction="#validateButton" text="No" toggleGroup="$testGroup">
+                                       <font>
+                                          <Font name="MS Reference Sans Serif" size="14.0" />
+                                       </font>
+                                    </JFXRadioButton>
+                                 </children>
+                                 <opaqueInsets>
+                                    <Insets />
+                                 </opaqueInsets>
+                                 <padding>
+                                    <Insets left="30.0" />
+                                 </padding>
+                              </HBox>
+                           </children>
+                           <VBox.margin>
                               <Insets />
-                           </opaqueInsets>
+                           </VBox.margin>
                            <padding>
-                              <Insets left="30.0" />
+                              <Insets left="15.0" />
+                           </padding>
+                        </VBox>
+                        <HBox alignment="CENTER">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                           <padding>
+                              <Insets bottom="15.0" right="15.0" top="10.0" />
                            </padding>
                         </HBox>
                      </children>
-                     <VBox.margin>
-                        <Insets />
-                     </VBox.margin>
                      <padding>
-                        <Insets left="15.0" />
+                        <Insets top="10.0" />
                      </padding>
                   </VBox>
-                  <HBox alignment="CENTER">
-                     <VBox.margin>
-                        <Insets />
-                     </VBox.margin>
-                     <padding>
-                        <Insets bottom="15.0" right="15.0" top="10.0" />
-                     </padding>
-                  </HBox>
-               </children>
-               <padding>
-                  <Insets top="10.0" />
-               </padding>
-            </VBox>
+               </content>
+            </ScrollPane>
          </children>
       </AnchorPane>
       <HBox alignment="BOTTOM_LEFT" fillHeight="false" maxHeight="-Infinity" prefHeight="77.0" StackPane.alignment="BOTTOM_CENTER">
