@@ -246,14 +246,15 @@ public class Camera {
      */
     public static void stopAcquisition() {
         if (Camera.timer != null && !Camera.timer.isShutdown()) {
-            try {
-                // stop the timer
-                Camera.timer.shutdown();
-                Camera.timer.awaitTermination(33, TimeUnit.MILLISECONDS);
-            } catch (InterruptedException e) {
-                // log any exception
-                System.err.println("Exception in stopping the frame capture, trying to release the camera now... " + e);
-            }
+            Camera.timer.shutdownNow();
+//            try {
+//                // stop the timer
+//                Camera.timer.shutdownNow();
+////                Camera.timer.awaitTermination(33, TimeUnit.MILLISECONDS);
+//            } catch (InterruptedException e) {
+//                // log any exception
+//                System.err.println("Exception in stopping the frame capture, trying to release the camera now... " + e);
+//            }
         }
 
         if (capture != null) {

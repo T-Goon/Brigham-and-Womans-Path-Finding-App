@@ -18,6 +18,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.StackPane;
+import javafx.scene.shape.Rectangle;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -46,6 +47,9 @@ public class LoginPageController extends BasePageController implements Initializ
 
     @FXML
     private StackPane stackPane;
+
+    @FXML
+    private Rectangle cover;
 
 
     @Override
@@ -114,8 +118,10 @@ public class LoginPageController extends BasePageController implements Initializ
             camera.toggleCamera();
             username.setText("");
             password.setText("");
+            cover.setVisible(true);
             Platform.runLater(() -> username.requestFocus());
         } else {
+            cover.setVisible(false);
             password.setText("");
             camera.toggleCamera();
         }
