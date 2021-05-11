@@ -150,6 +150,9 @@ public class ChatBot implements Runnable {
                 }
             }));
             String message = chatSession.multisentenceRespond(input);
+            message = message.replace("\n", " ");
+            message = message.replace("\t", "");
+            message = message.replace("\r", "");
             message = message.replace("SUPER", "Mike Bedard");
             if (message.contains("<") && message.contains(">"))
                 message = "Sorry, I'm not well equipped enough to answer that.";
