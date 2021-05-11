@@ -14,6 +14,10 @@ public class SettingsState implements IState {
     public List<String> respond(String input) {
         List<String> response = new ArrayList<>();
 
+        if (!messagesSent.isEmpty() && messagesSent.peek().equals("unsure")) {
+            messagesSent.pop();
+        }
+
         if (messagesSent.isEmpty()) { // First message
             response.add("Do you want to go to the settings page?");
         } else if (messagesSent.peek().equals("Do you want to go to the settings page?")) { // Second message
