@@ -3,7 +3,7 @@ package edu.wpi.cs3733.D21.teamB.games.snake;
 import javax.swing.*;
 
 public class gameFrame extends JFrame {
-    gameFrame() {
+    public gameFrame() {
         this.add(new gamePanel());
         this.setTitle("Snake");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -11,5 +11,9 @@ public class gameFrame extends JFrame {
         this.pack();
         this.setVisible(true);
         this.setLocationRelativeTo(null);
+        this.setAlwaysOnTop(true);
+        this.setAutoRequestFocus(true);
+        this.requestFocus();
+        this.requestFocusInWindow();
     }
 }
