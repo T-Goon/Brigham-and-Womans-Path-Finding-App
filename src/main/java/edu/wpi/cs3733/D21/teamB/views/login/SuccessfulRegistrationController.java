@@ -22,12 +22,17 @@ public class SuccessfulRegistrationController {
     private StackPane stackPane;
 
     @FXML
+    private  JFXButton btnHome;
+
+    @FXML
     private void handleButtonAction(ActionEvent e) {
         JFXButton btn = (JFXButton) e.getSource();
         switch (btn.getId()) {
             case "btnReturn":
                 SceneSwitcher.switchFromTemp("/edu/wpi/cs3733/D21/teamB/views/login/mainPage.fxml");
                 break;
+            case "btnHome":
+                SceneSwitcher.switchFromTemp("/edu/wpi/cs3733/D21/teamB/views/login/mainPage.fxml");
             case "btnEmergency":
                 SceneSwitcher.switchFromTemp("/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
                 break;

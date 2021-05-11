@@ -33,6 +33,9 @@ public class ChangePasswordController extends BasePageController implements Init
     public Label error;
 
     @FXML
+    public JFXButton btnHome;
+
+    @FXML
     public JFXButton btnChangePassword;
 
     @Override
@@ -66,6 +69,8 @@ public class ChangePasswordController extends BasePageController implements Init
             case "btnEmergency":
                 SceneSwitcher.switchScene("/edu/wpi/cs3733/D21/teamB/views/menus/changePassword.fxml", "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
                 break;
+            case "btnHome":
+                SceneSwitcher.switchScene("/edu/wpi/cs3733/D21/teamB/views/menus/changePassword.fxml","/edu/wpi/cs3733/D21/teamB/views/menus/userDirectoryMenu.fxml");
             case "btnChangePassword":
                 handleChangePassword();
                 break;

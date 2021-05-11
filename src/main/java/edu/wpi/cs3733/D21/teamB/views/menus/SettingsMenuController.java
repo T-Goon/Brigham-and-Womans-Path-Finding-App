@@ -56,6 +56,9 @@ public class SettingsMenuController extends BasePageController implements Initia
     @FXML
     private JFXButton btnChangePassword;
 
+    @FXML
+    private JFXButton btnHome;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location, resources);
@@ -91,6 +94,8 @@ public class SettingsMenuController extends BasePageController implements Initia
             case "btnCredits":
                 SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/misc/creditsPage.fxml");
                 break;
+            case "btnHome":
+                SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/menus/userDirectoryMenu.fxml");
         }
     }
 

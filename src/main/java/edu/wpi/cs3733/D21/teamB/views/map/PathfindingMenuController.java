@@ -35,7 +35,6 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import lombok.Getter;
 import net.kurobako.gesturefx.GesturePane;
-import org.hsqldb.Database;
 
 import java.io.File;
 import java.net.URL;
@@ -58,6 +57,9 @@ public class PathfindingMenuController extends BasePageController implements Ini
 
     @FXML
     private ImageView map;
+
+    @FXML
+    private JFXButton btnHome;
 
     @FXML
     private JFXButton btnFindPath,
@@ -557,6 +559,8 @@ public class PathfindingMenuController extends BasePageController implements Ini
             case "btnAbout":
                 SceneSwitcher.switchScene("/edu/wpi/cs3733/D21/teamB/views/map/pathfindingMenu.fxml", "/edu/wpi/cs3733/D21/teamB/views/misc/aboutPage.fxml");
                 break;
+            case "btnHome":
+                SceneSwitcher.switchScene("/edu/wpi/cs3733/D21/teamB/views/map/pathfindingMenu.fxml","/edu/wpi/cs3733/D21/teamB/views/menus/userDirectoryMenu.fxml");
             case "btnBack":
                 // Reset all the colors of the nodes
                 if (!colors.isEmpty()) {

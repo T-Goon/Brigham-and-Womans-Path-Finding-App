@@ -63,6 +63,9 @@ public class UserInformationDatabaseController extends BasePageController implem
     @FXML
     private TableColumn<String, JFXButton> delCol;
 
+    @FXML
+    private JFXButton btnHome;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         List<User> users = DatabaseHandler.getHandler().getUsers();
@@ -111,6 +114,8 @@ public class UserInformationDatabaseController extends BasePageController implem
             case "btnEmergency":
                 SceneSwitcher.switchScene("/edu/wpi/cs3733/D21/teamB/views/menus/userInformationDatabase.fxml", "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
                 break;
+            case "btnHome":
+                SceneSwitcher.switchScene("/edu/wpi/cs3733/D21/teamB/views/menus/userInformationDatabase.fxml", "/edu/wpi/cs3733/D21/teamB/views/menus/userDirectoryMenu.fxml");
             case "btnAdd":
                 Stage stage = App.getPrimaryStage();
                 stage.setUserData(new User("", "", "", "", User.AuthenticationLevel.PATIENT, "F", new ArrayList<>()));

@@ -41,6 +41,9 @@ public class LoginPageController extends BasePageController implements Initializ
     @FXML
     private ImageView faceImage;
 
+    @FXML
+    private JFXButton btnHome;
+
     private Camera camera;
 
     @FXML
@@ -81,6 +84,8 @@ public class LoginPageController extends BasePageController implements Initializ
                 //System.out.println(btn.getAccessibleText());
                 handleLoginSubmit();
                 break;
+            case "btnHome":
+                SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/login/mainPage.fxml");
             case "btnEmergency":
                 Camera.stopAcquisition();
                 SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
