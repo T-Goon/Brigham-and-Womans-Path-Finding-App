@@ -152,6 +152,8 @@ public class ChatBot implements Runnable {
             String message = chatSession.multisentenceRespond(input);
             if (message.contains("<") && message.contains(">"))
                 message = "Sorry, I'm not well equipped enough to answer that.";
+            else if (message.contains("?"))
+                message = "That's very cool of you to say that.";
             sendMessage(message);
             System.setOut(printStream);
         } catch (Exception ignored) {
