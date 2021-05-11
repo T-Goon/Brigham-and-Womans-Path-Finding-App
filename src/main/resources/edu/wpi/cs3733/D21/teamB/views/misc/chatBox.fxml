@@ -22,7 +22,7 @@
                         <Label text="How may we assist you?" textFill="WHITE" />
                     </children>
                 </VBox>
-                <JFXButton fx:id="btnMinimize" buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="25.0" style="-fx-background-color: red; -fx-background-radius: 4;" text="-" textFill="WHITE">
+                <JFXButton fx:id="btnMinimize" buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="25.0" style="-fx-background-color: #F6BD39; -fx-background-radius: 4;" text="-">
                     <HBox.margin>
                         <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
                     </HBox.margin>
