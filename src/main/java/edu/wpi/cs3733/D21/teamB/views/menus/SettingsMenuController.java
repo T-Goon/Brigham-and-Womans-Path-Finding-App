@@ -94,6 +94,14 @@ public class SettingsMenuController extends BasePageController implements Initia
             case "btnCredits":
                 SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/misc/creditsPage.fxml");
                 break;
+            case "btnHome":
+                User.AuthenticationLevel userAuthentication = DatabaseHandler.getHandler().getAuthenticationUser().getAuthenticationLevel();
+                if(userAuthentication.equals(User.AuthenticationLevel.GUEST)){
+                    SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/login/mainPage.fxml");
+                } else{
+                    SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/menus/userDirectoryMenu.fxml");
+                }
+                break;
         }
     }
 

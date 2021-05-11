@@ -185,7 +185,8 @@ public class ServiceRequestMenuController extends BasePageController {
                 path = VIEWS_PATH + "emergencyForm.fxml";
                 break;
             case "btnHome":
-                path = VIEWS_PATH + "userDirectoryMenu.fxml";
+                SceneSwitcher.switchScene("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestMenu.fxml","/edu/wpi/cs3733/D21/teamB/views/menus/userDirectoryMenu.fxml");
+
                 break;
             case "btnGiftDelivery":
                 path = VIEWS_PATH + "giftRequestForm.fxml";
