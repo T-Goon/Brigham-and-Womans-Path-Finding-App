@@ -70,6 +70,7 @@ public abstract class BasePageController implements Initializable {
                         }
                         if (speechOut != null) {
                             tts.speak(speechOut, 1.0f, false, false);
+                            System.out.println(speechOut);
                         }
                     }
                 }
