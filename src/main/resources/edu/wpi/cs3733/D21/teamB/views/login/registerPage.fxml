@@ -257,7 +257,7 @@
                                           </HBox>
                                           <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                                              <children>
-                                                <JFXToggleButton fx:id="ttsEnabled" text="Enable Text-To-Speech For User" textFill="WHITE">
+                                                <JFXToggleButton fx:id="ttsEnabled" accessibleText="Enable TTS for this user" text="Enable Text-To-Speech For User" textFill="WHITE">
                                                    <font>
                                                       <Font size="14.0" />
                                                    </font>
