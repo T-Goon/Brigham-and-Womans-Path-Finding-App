@@ -27,13 +27,12 @@ public class RegisterState implements IState {
         } else if (messagesSent.peek().equals("Do you want to make a new account?")) { // Second message
             if (StateManager.containsAny(input, new String[]{"y", "ye", "yes", "yeah", "yup"})) {
                 response.add("Okay! Taking you there now...");
-                response.add("/edu/wpi/cs3733/D21/teamB/views/login/registerPage.fxml");
-                response.add("Do you need any assistance?");
                 PageCache.getCachedResponses().add("Do you need any assistance?");
+                response.add("/edu/wpi/cs3733/D21/teamB/views/login/registerPage.fxml");
             } else if (StateManager.containsAny(input, new String[]{"n", "no", "nah", "nope",})) {
                 response.add("No worries!");
+                response.add("Is there anything I can help you with?");
                 response.add("return");
-                PageCache.getCachedResponses().add("Is there anything I can help you with?");
             }
         } else if (messagesSent.peek().equals("Do you need any assistance?")) { // Third message in
             if (StateManager.containsAny(input, new String[]{"y", "ye", "yes", "yeah", "yup"})) {

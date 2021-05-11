@@ -20,13 +20,12 @@ public class PathfindingState implements IState {
         } else if (messagesSent.peek().equals("Do you need help navigating the hospital?")) { // Second message
             if (StateManager.containsAny(input, new String[]{"y", "ye", "yes", "yeah", "yup"})) {
                 response.add("Okay! Taking you there now...");
-                response.add("/edu/wpi/cs3733/D21/teamB/views/map/pathfindingMenu.fxml");
-                response.add("Do you need any assistance?");
                 PageCache.getCachedResponses().add("Do you need any assistance?");
+                response.add("/edu/wpi/cs3733/D21/teamB/views/map/pathfindingMenu.fxml");
             } else if (StateManager.containsAny(input, new String[]{"n", "no", "nah", "nope",})) {
                 response.add("No worries!");
+                response.add("Is there anything I can help you with?");
                 response.add("return");
-                PageCache.getCachedResponses().add("Is there anything I can help you with?");
             }
         } else if (messagesSent.peek().equals("Do you need any assistance?")) { // Third message in
             if (StateManager.containsAny(input, new String[]{"y", "ye", "yes", "yeah", "yup"})) {

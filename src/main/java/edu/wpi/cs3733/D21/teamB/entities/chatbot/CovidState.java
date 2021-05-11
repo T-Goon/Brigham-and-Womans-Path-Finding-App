@@ -3,7 +3,6 @@ package edu.wpi.cs3733.D21.teamB.entities.chatbot;
 import edu.wpi.cs3733.D21.teamB.util.PageCache;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
 
@@ -19,13 +18,12 @@ public class CovidState implements IState {
         } else if (messagesSent.peek().equals("Do you need help filling out a COVID survey?")) { // Second message
             if (StateManager.containsAny(input, new String[]{"y", "ye", "yes", "yeah", "yup"})) {
                 response.add("Okay! Taking you there now...");
-                response.add("/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidSurvey.fxml");
-                response.add("Do you need any assistance?");
                 PageCache.getCachedResponses().add("Do you need any assistance?");
+                response.add("/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidSurvey.fxml");
             } else if (StateManager.containsAny(input, new String[]{"n", "no", "nah", "nope",})) {
                 response.add("No worries!");
+                response.add("Is there anything I can help you with?");
                 response.add("return");
-                PageCache.getCachedResponses().add("Is there anything I can help you with?");
             }
         } else if (messagesSent.peek().equals("Do you need any assistance?")) { // Third message in
             if (StateManager.containsAny(input, new String[]{"y", "ye", "yes", "yeah", "yup"})) {
