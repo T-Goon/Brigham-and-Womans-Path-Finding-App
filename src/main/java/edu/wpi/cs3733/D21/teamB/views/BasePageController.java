@@ -32,6 +32,9 @@ public abstract class BasePageController implements Initializable {
     private JFXButton btnExit;
 
     @FXML
+    private JFXButton btnHome;
+
+    @FXML
     private StackPane stackPane;
 
     public final TextToSpeech tts = new TextToSpeech();
@@ -88,6 +91,9 @@ public abstract class BasePageController implements Initializable {
                 break;
             case "btnExit":
                 Platform.exit();
+                break;
+            case "btnHome":
+                SceneSwitcher.switchScene("/edu/wpi/cs3733/D21/teamB/views/map/directionsMenu.fxml", "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
                 break;
         }
     }
