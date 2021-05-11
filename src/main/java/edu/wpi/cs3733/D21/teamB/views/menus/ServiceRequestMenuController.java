@@ -10,8 +10,6 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class ServiceRequestMenuController extends BasePageController {
@@ -101,6 +99,9 @@ public class ServiceRequestMenuController extends BasePageController {
 
     @FXML
     private Label lblLang;
+
+    @FXML
+    private JFXButton btnHome;
 
     private boolean show = true;
 
@@ -203,6 +204,9 @@ public class ServiceRequestMenuController extends BasePageController {
                 }
 
                 //path = "/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestMenuCredits.fxml";
+                break;
+            case "btnHome":
+                SceneSwitcher.switchScene("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestMenu.fxml",  "/edu/wpi/cs3733/D21/teamB/views/login/mainPage.fxml");
                 break;
         }
 

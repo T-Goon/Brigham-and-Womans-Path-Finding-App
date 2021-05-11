@@ -22,7 +22,11 @@ public class SuccessfulRegistrationController {
     private StackPane stackPane;
 
     @FXML
+    private JFXButton btnHome;
+
+    @FXML
     private void handleButtonAction(ActionEvent e) {
+        final String currentPath = "/edu/wpi/cs3733/D21/teamB/views/login/registerPage.fxml";
         JFXButton btn = (JFXButton) e.getSource();
         switch (btn.getId()) {
             case "btnReturn":
@@ -33,6 +37,9 @@ public class SuccessfulRegistrationController {
                 break;
             case "btnExit":
                 Platform.exit();
+                break;
+            case "btnHome":
+                SceneSwitcher.switchScene(currentPath,  "/edu/wpi/cs3733/D21/teamB/views/login/mainPage.fxml");
                 break;
         }
     }

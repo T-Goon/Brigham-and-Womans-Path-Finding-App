@@ -76,6 +76,9 @@ public class RegisterPageController extends BasePageController implements Initia
     @FXML
     private JFXButton btnTakePicture;
 
+    @FXML
+    private JFXButton btnHome;
+
     private Camera camera;
 
     @Override
@@ -136,6 +139,9 @@ public class RegisterPageController extends BasePageController implements Initia
                 break;
             case "btnBack":
                 Camera.stopAcquisition();
+                break;
+            case "btnHome":
+                SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/login/mainPage.fxml");
                 break;
         }
 

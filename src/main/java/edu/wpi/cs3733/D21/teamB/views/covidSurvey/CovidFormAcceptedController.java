@@ -27,6 +27,9 @@ public class CovidFormAcceptedController extends BasePageController implements I
     @FXML
     private Text statusReadout;
 
+    @FXML
+    private JFXButton btnHome;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         if(DatabaseHandler.getHandler().getAuthenticationUser().getCovidStatus().equals(User.CovidStatus.SAFE)){
@@ -50,6 +53,9 @@ public class CovidFormAcceptedController extends BasePageController implements I
                 break;
             case "btnEmergency":
                 SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
+                break;
+            case "btnHome":
+                SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/login/mainPage.fxml");
                 break;
         }
         super.handleButtonAction(e);

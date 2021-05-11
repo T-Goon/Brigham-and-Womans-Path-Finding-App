@@ -22,6 +22,9 @@ public class DatabaseInitController extends BasePageController implements Initia
     @FXML
     private StackPane stackPane;
 
+    @FXML
+    private JFXButton btnHome;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         InputStream inputStream = getClass().getResourceAsStream("/edu/wpi/cs3733/D21/teamB/images/login/databaseInit.gif");
@@ -44,6 +47,9 @@ public class DatabaseInitController extends BasePageController implements Initia
                 break;
             case "btnEmergency":
                 SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
+                break;
+            case "btnHome":
+                SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/login/mainPage.fxml");
                 break;
         }
     }

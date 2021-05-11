@@ -110,6 +110,9 @@ public class PathfindingMenuController extends BasePageController implements Ini
     @FXML
     private JFXComboBox<String> findClosestLocation;
 
+    @FXML
+    private JFXButton btnHome;
+
     public static final double COORDINATE_SCALE = 25 / 9.0;
     public static final int MAX_X = 5000;
     public static final int MAX_Y = 3400;
@@ -571,6 +574,9 @@ public class PathfindingMenuController extends BasePageController implements Ini
                 if (mapCache.getFinalPath() != null) {
                     mapPathPopupManager.createTxtDirPopup(mapCache.getFinalPath());
                 }
+                break;
+            case "btnHome":
+                SceneSwitcher.switchScene("/edu/wpi/cs3733/D21/teamB/views/map/pathfindingMenu.fxml",  "/edu/wpi/cs3733/D21/teamB/views/login/mainPage.fxml");
                 break;
         }
 

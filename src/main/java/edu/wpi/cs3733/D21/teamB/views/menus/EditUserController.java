@@ -80,6 +80,9 @@ public class EditUserController extends BasePageController implements Initializa
     @FXML
     private Text smallText;
 
+    @FXML
+    private JFXButton btnHome;
+
     private String originalEmail;
 
     private final Pattern emailPattern = Pattern.compile(".+@.+");
@@ -191,6 +194,9 @@ public class EditUserController extends BasePageController implements Initializa
                 break;
             case "btnEmergency":
                 SceneSwitcher.switchScene("/edu/wpi/cs3733/D21/teamB/views/menus/editUserMenu.fxml", "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
+                break;
+            case "btnHome":
+                SceneSwitcher.switchScene("/edu/wpi/cs3733/D21/teamB/views/menus/editUserMenu.fxml",  "/edu/wpi/cs3733/D21/teamB/views/login/mainPage.fxml");
                 break;
         }
     }

@@ -90,6 +90,9 @@ public class CovidSurveyController extends DefaultServiceRequestFormController i
     @FXML
     private JFXTextField txtName;
 
+    @FXML
+    private JFXButton btnHome;
+
     //State (per-view)
     private CovidSurveyRequest request;
 
@@ -159,6 +162,9 @@ public class CovidSurveyController extends DefaultServiceRequestFormController i
                 break;
             case "btnEmergency":
                 SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
+                break;
+            case "btnHome":
+                SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/login/mainPage.fxml");
                 break;
         }
         super.handleButtonAction(e);

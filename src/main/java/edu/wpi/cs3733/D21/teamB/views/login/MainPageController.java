@@ -34,6 +34,9 @@ public class MainPageController extends BasePageController implements Initializa
     private JFXButton btnSettings;
 
     @FXML
+    private JFXButton btnHome;
+
+    @FXML
     public void handleButtonAction(ActionEvent e) {
         final String currentPath = "/edu/wpi/cs3733/D21/teamB/views/login/mainPage.fxml";
         super.handleButtonAction(e);
@@ -85,6 +88,9 @@ public class MainPageController extends BasePageController implements Initializa
                 break;
             case "btnSettings":
                 SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/menus/settingsMenu.fxml");
+                break;
+            case "btnHome":
+                SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/login/mainPage.fxml");
                 break;
         }
     }

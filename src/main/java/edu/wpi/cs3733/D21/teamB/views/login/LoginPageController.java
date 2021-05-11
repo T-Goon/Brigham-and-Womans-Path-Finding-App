@@ -46,6 +46,9 @@ public class LoginPageController extends BasePageController implements Initializ
     @FXML
     private StackPane stackPane;
 
+    @FXML
+    private JFXButton btnHome;
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -90,6 +93,9 @@ public class LoginPageController extends BasePageController implements Initializ
                 break;
             case "btnBack":
                 Camera.stopAcquisition();
+                break;
+            case "btnHome":
+                SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/login/mainPage.fxml");
                 break;
         }
 

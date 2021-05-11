@@ -1,21 +1,16 @@
 package edu.wpi.cs3733.D21.teamB.views.covidSurvey;
 
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.validation.RequiredFieldValidator;
 import edu.wpi.cs3733.D21.teamB.App;
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.requests.CovidSurveyRequest;
 import edu.wpi.cs3733.D21.teamB.entities.requests.Request;
-import edu.wpi.cs3733.D21.teamB.entities.requests.SanitationRequest;
-import edu.wpi.cs3733.D21.teamB.util.AutoCompleteComboBoxListener;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
 import edu.wpi.cs3733.D21.teamB.views.BasePageController;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
-import org.hsqldb.Database;
 
-import javax.xml.crypto.Data;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
@@ -24,6 +19,9 @@ public class CovidSurveyNurseCheckController extends BasePageController implemen
 
     public String id;
     public CovidSurveyRequest covidSurveyRequest;
+
+    @FXML
+    private JFXButton btnHome;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -71,6 +69,9 @@ public class CovidSurveyNurseCheckController extends BasePageController implemen
                 break;
             case "btnEmergency":
                 SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
+                break;
+            case "btnHome":
+                SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/login/mainPage.fxml");
                 break;
 
         }

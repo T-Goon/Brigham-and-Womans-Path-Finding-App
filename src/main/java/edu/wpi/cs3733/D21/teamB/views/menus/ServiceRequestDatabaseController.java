@@ -54,6 +54,9 @@ public class   ServiceRequestDatabaseController extends BasePageController imple
     @FXML
     private TableColumn<String, JFXButton> nameCol;
 
+    @FXML
+    private JFXButton btnHome;
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -139,6 +142,9 @@ public class   ServiceRequestDatabaseController extends BasePageController imple
             case "btnEmergency":
                 SceneSwitcher.isEmergencyBtn = true;
                 SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
+                break;
+            case "btnHome":
+                SceneSwitcher.switchScene(currentPath,  "/edu/wpi/cs3733/D21/teamB/views/login/mainPage.fxml");
                 break;
         }
     }

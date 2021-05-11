@@ -39,6 +39,9 @@ public class DirectionsMenuController extends BasePageController implements Init
     @FXML
     private GoogleMapView mapView;
 
+    @FXML
+    private JFXButton btnHome;
+
     private GoogleMap map;
 
     DirectionsService directionsService;
@@ -122,6 +125,9 @@ public class DirectionsMenuController extends BasePageController implements Init
                 break;
             case "btnEmergency":
                 SceneSwitcher.switchScene("/edu/wpi/cs3733/D21/teamB/views/map/directionsMenu.fxml", "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
+                break;
+            case "btnHome":
+                SceneSwitcher.switchScene("/edu/wpi/cs3733/D21/teamB/views/map/directionsMenu.fxml",  "/edu/wpi/cs3733/D21/teamB/views/login/mainPage.fxml");
                 break;
         }
     }

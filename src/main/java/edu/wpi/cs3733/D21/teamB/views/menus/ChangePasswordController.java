@@ -35,6 +35,9 @@ public class ChangePasswordController extends BasePageController implements Init
     @FXML
     public JFXButton btnChangePassword;
 
+    @FXML
+    public JFXButton btnHome;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location, resources);
@@ -68,6 +71,9 @@ public class ChangePasswordController extends BasePageController implements Init
                 break;
             case "btnChangePassword":
                 handleChangePassword();
+                break;
+            case "btnHome":
+                SceneSwitcher.switchScene("/edu/wpi/cs3733/D21/teamB/views/map/pathfindingMenu.fxml",  "/edu/wpi/cs3733/D21/teamB/views/login/mainPage.fxml");
                 break;
         }
     }

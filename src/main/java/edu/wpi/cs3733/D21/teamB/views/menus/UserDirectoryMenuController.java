@@ -68,6 +68,9 @@ public class UserDirectoryMenuController extends BasePageController implements I
     @FXML
     private JFXButton btnEmergency;
 
+    @FXML
+    private JFXButton btnHome;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         if (DatabaseHandler.getHandler().getAuthenticationUser().isAtLeast(User.AuthenticationLevel.ADMIN)) {
@@ -151,6 +154,9 @@ public class UserDirectoryMenuController extends BasePageController implements I
                 break;
             case "btnBack":
                 DatabaseHandler.getHandler().deauthenticate();
+                break;
+            case "btnHome":
+                SceneSwitcher.switchScene(currentPath,  "/edu/wpi/cs3733/D21/teamB/views/login/mainPage.fxml");
                 break;
         }
     }

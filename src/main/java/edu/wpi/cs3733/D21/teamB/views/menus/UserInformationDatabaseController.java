@@ -63,6 +63,9 @@ public class UserInformationDatabaseController extends BasePageController implem
     @FXML
     private TableColumn<String, JFXButton> delCol;
 
+    @FXML
+    private JFXButton btnHome;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         List<User> users = DatabaseHandler.getHandler().getUsers();
@@ -119,6 +122,9 @@ public class UserInformationDatabaseController extends BasePageController implem
                 break;
             case "btnHelp":
                 HelpDialog.loadHelpDialog(stackPane, "To view an employee's full information, click on the edit button. Editing passwords is achieved by deleting a user and recreating them with a new password. Deleting a user will delete all requests assigned to that user.");
+                break;
+            case "btnHome":
+                SceneSwitcher.switchScene("/edu/wpi/cs3733/D21/teamB/views/menus/userInformationDatabase.fxml",  "/edu/wpi/cs3733/D21/teamB/views/login/mainPage.fxml");
                 break;
         }
     }
