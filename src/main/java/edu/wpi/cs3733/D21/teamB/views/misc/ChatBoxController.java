@@ -82,6 +82,10 @@ public class ChatBoxController implements Initializable {
             PageCache.getCachedResponses().clear();
         }
 
+        if (PageCache.isTextfieldFocused())
+            Platform.runLater(() -> input.requestFocus());
+
+
         // Thread for getting messages from the bot
         if (userThread != null) {
             userThread.shutdownNow();
@@ -120,6 +124,8 @@ public class ChatBoxController implements Initializable {
             else expand();
             clearMessages();
         });
+
+        input.focusedProperty().addListener(((observable, oldValue, newValue) -> PageCache.setTextfieldFocused(newValue)));
     }
 
     @FXML

@@ -9,6 +9,7 @@ import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.Embedding;
 import edu.wpi.cs3733.D21.teamB.entities.User;
 import edu.wpi.cs3733.D21.teamB.util.ExternalCommunication;
+import edu.wpi.cs3733.D21.teamB.util.PageCache;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
 import edu.wpi.cs3733.D21.teamB.views.BasePageController;
 import edu.wpi.cs3733.D21.teamB.views.face.Camera;
@@ -114,7 +115,10 @@ public class RegisterPageController extends BasePageController implements Initia
         camera = new Camera(pictureImage, cameraImage, btnTakePicture, false);
         camera.toggleCamera();
 
-        Platform.runLater(() -> username.requestFocus());
+        Platform.runLater(() -> {
+            if (!PageCache.isTextfieldFocused())
+                username.requestFocus();
+        });
     }
 
     @FXML

@@ -18,6 +18,10 @@ public class PageCache {
 
     @Getter
     @Setter
+    private static boolean textfieldFocused = false;
+
+    @Getter
+    @Setter
     private static String currentPage;
 
     @Getter

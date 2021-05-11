@@ -6,6 +6,7 @@ import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXToggleButton;
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.User;
+import edu.wpi.cs3733.D21.teamB.util.PageCache;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
 import edu.wpi.cs3733.D21.teamB.views.BasePageController;
 import edu.wpi.cs3733.D21.teamB.views.face.Camera;
@@ -66,7 +67,10 @@ public class LoginPageController extends BasePageController implements Initializ
                 handleLoginSubmit();
             }
         });
-        Platform.runLater(() -> username.requestFocus());
+        Platform.runLater(() -> {
+            if (!PageCache.isTextfieldFocused())
+                username.requestFocus();
+        });
 
         camera = new Camera(null, faceImage, null, true);
         camera.setLoginPageController(this);
@@ -96,7 +100,10 @@ public class LoginPageController extends BasePageController implements Initializ
 
     public void setUserName(String name) {
         username.setText(name);
-        Platform.runLater(() -> password.requestFocus());
+        Platform.runLater(() -> {
+            if (!PageCache.isTextfieldFocused())
+                password.requestFocus();
+        });
         validateButton();
     }
 

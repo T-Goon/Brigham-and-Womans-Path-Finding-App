@@ -33,26 +33,13 @@ public class SceneSwitcher {
      */
     public static void goBack(int pagesBack) {
         if (stack.isEmpty()) {
-            try {
-                Pane root = FXMLLoader.load(Objects.requireNonNull(SceneSwitcher.class.getResource("/edu/wpi/cs3733/D21/teamB/views/login/mainPage.fxml")));
-                PageCache.setCurrentPage("/edu/wpi/cs3733/D21/teamB/views/login/mainPage.fxml");
-                App.getPrimaryStage().getScene().setRoot(root);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            switchFromTemp("/edu/wpi/cs3733/D21/teamB/views/login/mainPage.fxml");
             return;
         }
         String path = "";
         for (int i = 0; i < pagesBack; i++)
             if (!stack.isEmpty()) path = stack.pop();
-        try {
-            Pane root = FXMLLoader.load(Objects.requireNonNull(SceneSwitcher.class.getResource(path)));
-            PageCache.setCurrentPage(path);
-            App.getPrimaryStage().getScene().setRoot(root);
-        } catch (IOException e) {
-            System.err.println("Path \"" + path + "\" is malformed or nonexistent!");
-            e.printStackTrace();
-        }
+        switchFromTemp(path);
     }
 
 
@@ -62,6 +49,7 @@ public class SceneSwitcher {
      * @param path the path to the FXML file to switch to
      */
     public static void switchFromTemp(String path) {
+        boolean isTextFieldFocused = PageCache.isTextfieldFocused();
         try {
             Parent root = FXMLLoader.load(Objects.requireNonNull(SceneSwitcher.class.getResource(path)));
             PageCache.setCurrentPage(path);
@@ -70,6 +58,7 @@ public class SceneSwitcher {
             System.err.println("Path \"" + path + "\" is malformed or nonexistent!");
             e.printStackTrace();
         }
+        PageCache.setTextfieldFocused(isTextFieldFocused);
     }
 
     /**
@@ -79,14 +68,7 @@ public class SceneSwitcher {
      */
     public static void switchScene(String oldPath, String path) {
         stack.push(oldPath);
-        try {
-            Parent root = FXMLLoader.load(Objects.requireNonNull(SceneSwitcher.class.getResource(path)));
-            PageCache.setCurrentPage(path);
-            App.getPrimaryStage().getScene().setRoot(root);
-        } catch (IOException e) {
-            System.err.println("Path \"" + path + "\" is malformed or nonexistent!");
-            e.printStackTrace();
-        }
+        switchFromTemp(path);
     }
 
     /**
