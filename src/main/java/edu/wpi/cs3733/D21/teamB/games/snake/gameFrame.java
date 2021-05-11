@@ -12,8 +12,5 @@ public class gameFrame extends JFrame {
         this.setVisible(true);
         this.setLocationRelativeTo(null);
         this.setAlwaysOnTop(true);
-        this.setAutoRequestFocus(true);
-        this.requestFocus();
-        this.requestFocusInWindow();
     }
 }
