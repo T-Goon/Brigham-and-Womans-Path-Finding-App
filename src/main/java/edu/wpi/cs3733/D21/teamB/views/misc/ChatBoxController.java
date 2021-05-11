@@ -78,7 +78,6 @@ public class ChatBoxController implements Initializable {
             addMessage(m, false);
 
         // If there are cached responses, add them
-        System.out.println(PageCache.getCachedResponses());
         if (PageCache.getCachedResponses() != null) {
             for (String s : PageCache.getCachedResponses())
                 PageCache.addBotMessage(new ChatBoxController.Message(s, false));
