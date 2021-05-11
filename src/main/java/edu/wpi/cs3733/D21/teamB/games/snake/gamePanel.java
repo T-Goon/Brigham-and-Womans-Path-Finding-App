@@ -1,10 +1,14 @@
 package edu.wpi.cs3733.D21.teamB.games.snake;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
+
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.util.Random;
 
-public class gamePanel extends JPanel implements ActionListener {
+public class gamePanel extends BorderPane {
 
     static final int screenWidth = 600;
     static final int screenHeight = 600;
@@ -23,19 +27,20 @@ public class gamePanel extends JPanel implements ActionListener {
     Random random;
     static boolean gameOn = false;
 
+
     gamePanel(){
         random = new Random();
-        this.setPreferredSize(new Dimension(screenWidth, screenHeight));
-        this.setBackground(Color.black);
-        this.setFocusable(true);
-        this.addKeyListener(new MyKeyAdapter());
+        this.setPrefSize(screenWidth, screenHeight);
+        VBox menu = new VBox();
+        menu.setSpacing(10);
+        this.setFocusTraversable(true);
         startGame();
     }
 
     public void startGame(){
         placeNewApple();
         running = true;
-        timer = new Timer(delay,this);
+        timer = new Timer(delay, actionListener);
         timer.start();
     }
 
@@ -50,7 +55,7 @@ public class gamePanel extends JPanel implements ActionListener {
     }
 
     public void paintComponent(Graphics g){
-        super.paintComponent(g);
+        //super.paintComponent(g);
         draw(g);
     }
 
@@ -77,7 +82,7 @@ public class gamePanel extends JPanel implements ActionListener {
             }
             g.setColor(Color.red);
             g.setFont(new Font("MS Reference Sans Serif", Font.BOLD, 40));
-            FontMetrics metrics = getFontMetrics(g.getFont());
+            FontMetrics metrics = g.getFontMetrics(g.getFont());
             g.drawString("Score: " + applesEaten, (screenWidth - metrics.stringWidth("Score: " + applesEaten))/2, g.getFont().getSize());
         } else{
             checkGameOver(g);
@@ -157,25 +162,27 @@ public class gamePanel extends JPanel implements ActionListener {
         //Score text
         g.setColor(Color.red);
         g.setFont(new Font("MS Reference Sans Serif", Font.BOLD, 40));
-        FontMetrics metrics1 = getFontMetrics(g.getFont());
+        FontMetrics metrics1 = g.getFontMetrics(g.getFont());
         g.drawString("Score: " + applesEaten, (screenWidth - metrics1.stringWidth("Score: " + applesEaten))/2, g.getFont().getSize());
         //Game Over text
         g.setColor(Color.red);
         g.setFont(new Font("MS Reference Sans Serif", Font.BOLD, 75));
-        FontMetrics metrics2 = getFontMetrics(g.getFont());
+        FontMetrics metrics2 = g.getFontMetrics(g.getFont());
         g.drawString("Game Over", (screenWidth - metrics2.stringWidth("Game Over"))/2, screenHeight /2);
 
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if(running){
-            snakeMove();
-            isAppleEaten();
-            checkCollisions();
+    ActionListener actionListener = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if(running){
+                snakeMove();
+                isAppleEaten();
+                checkCollisions();
+            }
         }
-        repaint();
-    }
+    };
+
 
     public class MyKeyAdapter extends KeyAdapter {
         @Override
