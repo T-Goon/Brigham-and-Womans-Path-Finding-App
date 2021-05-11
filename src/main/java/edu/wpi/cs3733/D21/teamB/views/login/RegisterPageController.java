@@ -66,6 +66,9 @@ public class RegisterPageController extends BasePageController implements Initia
     private JFXButton btnLoginPage;
 
     @FXML
+    private JFXButton btnBack;
+
+    @FXML
     private StackPane stackPane;
 
     private final Pattern emailPattern = Pattern.compile(".+@.+");
