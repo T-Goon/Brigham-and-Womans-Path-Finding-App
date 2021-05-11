@@ -107,6 +107,7 @@ public class Camera {
 
             // stop the timer
             stopAcquisition();
+
         }
     }
 
@@ -229,7 +230,7 @@ public class Camera {
             e.printStackTrace();
         }
 
-        if(userName != null){
+        if(userName != null && cameraActive){
             loginPageController.setUserName(userName);
         }
     }
