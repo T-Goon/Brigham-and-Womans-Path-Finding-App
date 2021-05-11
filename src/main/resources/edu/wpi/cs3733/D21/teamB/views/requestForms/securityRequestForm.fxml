@@ -15,26 +15,26 @@
 
 <AnchorPane fx:id="basePane" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D21.teamB.views.requestForms.SecurityRequestFormController">
     <children>
-        <StackPane fx:id="stackPane" layoutY="-28.083261489868164" AnchorPane.bottomAnchor="0.0"
-                   AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <StackPane fx:id="stackPane" layoutY="-28.083261489868164" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
-                <VBox alignment="TOP_CENTER" layoutX="1.0" layoutY="28.083261489868164"
-                      style="-fx-background-color: #012d5a;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
-                      AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                <VBox alignment="TOP_CENTER" layoutX="1.0" layoutY="28.083261489868164" style="-fx-background-color: #012d5a;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <children>
-                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0"
-                              style="-fx-background-color: #FFFFFF;">
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #FFFFFF;">
                             <children>
                                 <VBox>
                                     <HBox.margin>
-                                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                     </HBox.margin>
                                     <children>
-                                        <ImageView fitHeight="114.0" fitWidth="314.0" pickOnBounds="true" preserveRatio="true">
-                                            <image>
-                                                <Image url="@../../images/general/hospitalLogo.png" />
-                                            </image>
-                                        </ImageView>
+                              <JFXButton fx:id="btnHome" onAction="#handleButtonAction" textFill="WHITE">
+                                 <graphic>
+                                              <ImageView fitHeight="114.0" fitWidth="314.0" pickOnBounds="true" preserveRatio="true">
+                                                  <image>
+                                                      <Image url="@../../images/general/hospitalLogo.png" />
+                                                  </image>
+                                              </ImageView>
+                                 </graphic>
+                              </JFXButton>
                                         <JFXButton fx:id="btnEmergency" buttonType="RAISED" onAction="#handleButtonAction" style="-fx-background-color: #CE2029;" text="EMERGENCY" textFill="WHITE">
                                             <font>
                                                 <Font name="MS Reference Sans Serif" size="16.0" />
@@ -81,10 +81,7 @@
                                                 <Font size="14.0" />
                                             </font>
                                         </Text>
-                              <JFXComboBox fx:id="comboAssignedTo" maxWidth="1.7976931348623157E308"
-                                           onAction="#validateButton" promptText="Choose one"
-                                           style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;"
-                                           unFocusColor="#f0f0f000"/>
+                              <JFXComboBox fx:id="comboAssignedTo" maxWidth="1.7976931348623157E308" onAction="#validateButton" promptText="Choose one" style="-fx-background-color: #E5E5E5; -fx-background-radius: 7;" unFocusColor="#f0f0f000" />
                                     </children>
                                 </VBox>
                                 <VBox>
