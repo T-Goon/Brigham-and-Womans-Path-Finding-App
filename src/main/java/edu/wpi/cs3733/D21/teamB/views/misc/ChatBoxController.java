@@ -25,6 +25,9 @@ import lombok.Setter;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 @SuppressWarnings("unchecked")
 public class ChatBoxController implements Initializable {
@@ -54,7 +57,7 @@ public class ChatBoxController implements Initializable {
     public JFXButton btnClose;
 
     private final TextToSpeech tts = new TextToSpeech();
-    public static Thread userThread = null;
+    public static ScheduledExecutorService userThread = null;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -64,35 +67,43 @@ public class ChatBoxController implements Initializable {
             if (PageCache.isPageMinimized()) minimize();
         });
 
+        messageHolder.getChildren().clear();
+        // Add all the messages in the cache
+        for (Message m : PageCache.getAllMessages())
+            addMessage(m, false);
+
         // If there are cached responses, add them
         if (PageCache.getCachedResponses() != null) {
             for (String s : PageCache.getCachedResponses()) {
                 PageCache.addBotMessage(new ChatBoxController.Message(s, false));
+                PageCache.getNewMessagesWaitingForUser().getAndDecrement();
             }
             PageCache.getCachedResponses().clear();
         }
 
         // Thread for getting messages from the bot
-        if (userThread == null) {
-            userThread = new Thread(() -> {
+        if (userThread != null) {
+            userThread.shutdownNow();
+//            try {
+//                userThread.awaitTermination(300, TimeUnit.MILLISECONDS);
+//            } catch (InterruptedException ignored) {
+//            }
 
-                while (App.isRunning()) {
-
-                    // Wait for a new message
-                    if (PageCache.getNewMessagesWaitingForUser().get() != 0) {
-                        // Get message and mark as read
-                        PageCache.getNewMessagesWaitingForUser().getAndDecrement();
-                        Platform.runLater(() -> addMessage(PageCache.getBotLastMessage()));
-                    }
-                }
-            });
-            userThread.setName("userThread");
-            userThread.start();
+            userThread = null;
         }
 
-        // Add all the messages in the cache
-        for (Message m : PageCache.getAllMessages())
-            addMessage(m, false);
+        Runnable msgListener = () -> {
+            // Wait for a new message
+            if (PageCache.getNewMessagesWaitingForUser().get() != 0) {
+                // Get message and mark as read
+                PageCache.getNewMessagesWaitingForUser().getAndDecrement();
+                Platform.runLater(() -> addMessage(PageCache.getBotLastMessage()));
+
+            }
+        };
+
+        userThread = Executors.newSingleThreadScheduledExecutor();
+        userThread.scheduleAtFixedRate(msgListener, 0, 300, TimeUnit.MILLISECONDS);
 
         // Scroll pane goes down to the bottom when a new message is sent
         scrollPane.vvalueProperty().bind(messageHolder.heightProperty());

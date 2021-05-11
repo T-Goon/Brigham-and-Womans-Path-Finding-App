@@ -10,6 +10,7 @@ import edu.wpi.cs3733.D21.teamB.util.CSVHandler;
 import edu.wpi.cs3733.D21.teamB.util.FileUtil;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
 import edu.wpi.cs3733.D21.teamB.views.face.Camera;
+import edu.wpi.cs3733.D21.teamB.views.misc.ChatBoxController;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -26,6 +27,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 import lombok.Getter;
 
@@ -89,6 +91,7 @@ public class App extends Application {
             try {
                 db.executeSchema();
                 if (!db.isInitialized()) {
+
                     primaryStage.show();
                     // Load database in a separate thread to help with performance
                     Thread dbThread = new Thread(() -> {
@@ -101,10 +104,12 @@ public class App extends Application {
                     });
                     dbThread.setName("dbThread");
                     dbThread.start();
+
                 } else {
                     SceneSwitcher.switchFromTemp("/edu/wpi/cs3733/D21/teamB/views/login/mainPage.fxml");
                     primaryStage.show();
                 }
+
             } catch (SQLException e) {
                 e.printStackTrace();
                 return;
@@ -160,6 +165,16 @@ public class App extends Application {
         if (Camera.cameraActive) {
             // release the camera
             Camera.stopAcquisition();
+        }
+
+        // Turn off the chatbot message listener
+        if(!ChatBoxController.userThread.isTerminated()){
+            ChatBoxController.userThread.shutdown();
+
+            try {
+                ChatBoxController.userThread.awaitTermination(300, TimeUnit.MILLISECONDS);
+            } catch (InterruptedException ignored) {
+            }
         }
 
         System.out.println("Shutting Down");

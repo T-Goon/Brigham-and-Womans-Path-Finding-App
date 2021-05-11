@@ -102,7 +102,7 @@ public class ChatBot implements Runnable {
             for (String message : response) {
                 if (message.startsWith("/")) {
                     switchToPage(message);
-                    continue;
+                    return;
                 }
 
                 if (message.equals("return")) {

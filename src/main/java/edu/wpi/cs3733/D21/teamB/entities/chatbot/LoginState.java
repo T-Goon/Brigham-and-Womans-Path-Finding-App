@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.D21.teamB.entities.chatbot;
 
 import edu.wpi.cs3733.D21.teamB.util.PageCache;
+import edu.wpi.cs3733.D21.teamB.views.misc.ChatBoxController;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +23,9 @@ public class LoginState implements IState {
         } else if (messagesSent.peek().equals("Do you want to log in?")) { // Second message
             if (StateManager.containsAny(input, new String[]{"y", "ye", "yes", "yeah", "yup"})) {
                 response.add("Okay! Taking you there now...");
-//                response.add("/edu/wpi/cs3733/D21/teamB/views/login/loginPage.fxml");
+                response.add("/edu/wpi/cs3733/D21/teamB/views/login/loginPage.fxml");
+                response.add("Do you need any assistance?");
+//                PageCache.getBotMessages().add(new ChatBoxController.Message("Do you need any assistance?", false));
                 PageCache.getCachedResponses().add("Do you need any assistance?");
             } else {
                 response.add("No worries!");
@@ -40,7 +43,7 @@ public class LoginState implements IState {
         } else if (messagesSent.peek().equals("Do you have an account already?")) {
             if (StateManager.containsAny(input, new String[]{"n", "no", "nay", "nope", "nah"})) {
                 response.add("Okay! Taking you to make a new account now...");
-//                response.add("/edu/wpi/cs3733/D21/teamB/views/login/registerPage.fxml");
+                response.add("/edu/wpi/cs3733/D21/teamB/views/login/registerPage.fxml");
                 response.add("How can I help?");
             }
         }
