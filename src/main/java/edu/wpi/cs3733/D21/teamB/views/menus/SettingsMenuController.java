@@ -130,7 +130,6 @@ public class SettingsMenuController extends BasePageController implements Initia
             case "toggleRemoteDatabase":
                 DatabaseHandler.getHandler().changeRemoteStatus(!DatabaseHandler.getRemote());
 //                DatabaseHandler.getHandler().getConnection();
-                System.out.println(DatabaseHandler.getRemote());
                 break;
         }
     }

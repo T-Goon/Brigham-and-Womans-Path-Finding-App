@@ -24,8 +24,6 @@ public class UserMutator implements IDatabaseEntityMutator<UserMutator.UserPassw
      */
     public void addEntity(UserPasswordMatch user) throws SQLException {
         String hash = db.passwordHash(user.password);
-        System.out.println(user.user.getUsername());
-        System.out.println(hash);
         String query = "INSERT INTO Users VALUES " +
                 "('" + user.user.getUsername()
                 + "', '" + user.user.getEmail()
