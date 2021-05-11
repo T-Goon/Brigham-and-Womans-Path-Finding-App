@@ -58,12 +58,7 @@ public abstract class DefaultServiceRequestFormController extends BasePageContro
 
         List<Node> nodes = new ArrayList<>(DatabaseHandler.getHandler().getNodes().values());
 
-        nodes.sort(new Comparator<Node>() {
-            @Override
-            public int compare(Node o1, Node o2) {
-                return o1.getLongName().compareTo(o2.getLongName());
-            }
-        });
+        nodes.sort(Comparator.comparing(Node::getLongName));
 
         for (Node n : nodes) {
             loc.getItems().add(n.getLongName());
@@ -104,9 +99,6 @@ public abstract class DefaultServiceRequestFormController extends BasePageContro
                 break;
             case "btnHelp":
                 HelpDialog.loadHelpDialog(stackPane, "Please fill out this form completely. Once each field is full, you can submit the form and an employee will be assigned.\nIf you wish to end your request early, click 'Cancel'. If your request is an emergency please click 'Emergency'.");
-                break;
-            case "btnEmergency":
-                SceneSwitcher.switchFromTemp("/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
                 break;
         }
     }

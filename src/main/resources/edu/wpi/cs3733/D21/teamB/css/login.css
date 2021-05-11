@@ -1,3 +1,6 @@
 .text-input {
     -fx-text-fill: white;
 }
+JFXComboBox Label{
+    -fx-font-size: 20px;
+}
