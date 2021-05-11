@@ -5,7 +5,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class PageCache {
@@ -17,6 +19,9 @@ public class PageCache {
     @Getter
     @Setter
     private static String currentPage;
+
+    @Getter
+    private static final Queue<String> cachedResponses = new LinkedList<>();
 
     @Getter
     private static final AtomicInteger newMessagesWaitingForBot = new AtomicInteger();
@@ -32,7 +37,6 @@ public class PageCache {
 
 
     public synchronized static ChatBoxController.Message getUserLastMessage() {
-        newMessagesWaitingForBot.getAndDecrement();
         return userMessages.get(userMessages.size() - 1);
     }
 
@@ -53,7 +57,7 @@ public class PageCache {
     /**
      * @return a merged list of the user and bot messages
      */
-    public static List<ChatBoxController.Message> getAllMessages() {
+    public synchronized static List<ChatBoxController.Message> getAllMessages() {
         int index = 0;
         int botIndex = 0;
         int userIndex = 0;

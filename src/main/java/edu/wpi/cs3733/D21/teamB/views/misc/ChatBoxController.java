@@ -26,6 +26,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
+@SuppressWarnings("unchecked")
 public class ChatBoxController implements Initializable {
 
     @FXML
@@ -54,30 +55,22 @@ public class ChatBoxController implements Initializable {
 
     private final TextToSpeech tts = new TextToSpeech();
     public static Thread userThread = null;
-    private List<String> cachedResponses;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
-        cachedResponses = (List<String>) App.getPrimaryStage().getUserData();
 
         // If the page starts minimized, keep it minimized
         Platform.runLater(() -> {
             if (PageCache.isPageMinimized()) minimize();
         });
 
-//        // If a message slips through the cracks, refresh
-//        if (PageCache.getAllMessages().size() > messageHolder.getChildren().size()) {
-//            // Add all the messages in the cache
-//
-//            messageHolder.getChildren().clear();
-//
-        if (cachedResponses != null)
-            for (String s : cachedResponses)
+        // If there are cached responses, add them
+        if (PageCache.getCachedResponses() != null) {
+            for (String s : PageCache.getCachedResponses()) {
                 PageCache.addBotMessage(new ChatBoxController.Message(s, false));
-
-//
-//        }
+            }
+            PageCache.getCachedResponses().clear();
+        }
 
         // Thread for getting messages from the bot
         if (userThread == null) {
@@ -183,7 +176,6 @@ public class ChatBoxController implements Initializable {
         // Adds HBox with text
         HBox messageBox = new HBox();
         Label text = new Label(message.getMessage());
-        messageBox.setId(text.getText() + "Box");
         text.setFont(new Font("MS Reference Sans Serif", 13));
         text.setWrapText(true);
         text.setPadding(new Insets(5, 10, 5, 10));
@@ -209,6 +201,7 @@ public class ChatBoxController implements Initializable {
 
         // Hey, it exists!
         message.setIndex(messageHolder.getChildren().size());
+        messageBox.setId(text.getText() + "Box" + message.getIndex());
         messageHolder.getChildren().add(messageBox);
     }
 

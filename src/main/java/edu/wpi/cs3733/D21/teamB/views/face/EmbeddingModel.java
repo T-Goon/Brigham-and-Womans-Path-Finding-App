@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.stream.IntStream;
 
+@SuppressWarnings("unchecked")
 public class EmbeddingModel {
 
     private static EmbeddingModel model = null;
@@ -111,9 +112,9 @@ public class EmbeddingModel {
         double amag = 0;
         double bmag = 0;
         for(int i = 0; i < a.length; i++){
-           dotproduct += a[i]*b[i];
-           amag += a[i]*a[i];
-           bmag += b[i]*b[i];
+            dotproduct += a[i]*b[i];
+            amag += a[i]*a[i];
+            bmag += b[i]*b[i];
         }
         amag = Math.sqrt(amag);
         bmag = Math.sqrt(bmag);
@@ -130,20 +131,20 @@ public class EmbeddingModel {
     }
 
     public String userFromEmbedding(double[] a) throws Exception {
-       return userFromEmbedding(a, 0.65);
+        return userFromEmbedding(a, 0.65);
     }
 
     public String userFromEmbedding(double[] a, double threshold) throws Exception {
         Integer count = 0;
         String username = null;
         for(String key : this.embeddings.keySet()){
-           double[] storedEmbedding = this.embeddings.get(key).stream().mapToDouble(d -> d).toArray();
-           double cosineDistance = cosineDistance(a, storedEmbedding);
-           if(cosineDistance > threshold){
-              count++;
-              return key;
+            double[] storedEmbedding = this.embeddings.get(key).stream().mapToDouble(d -> d).toArray();
+            double cosineDistance = cosineDistance(a, storedEmbedding);
+            if(cosineDistance > threshold){
+                count++;
+                return key;
 //              username = key;
-           }
+            }
         }
 //        if(count > 1){
 //            throw new Exception("more than one valid embedding");
@@ -151,7 +152,6 @@ public class EmbeddingModel {
 
         return username;
     }
-
 
 
     class customTranslator implements Translator<Image,double[]> {
