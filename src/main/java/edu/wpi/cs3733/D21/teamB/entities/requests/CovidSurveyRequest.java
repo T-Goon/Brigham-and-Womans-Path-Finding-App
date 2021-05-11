@@ -28,6 +28,8 @@ public class CovidSurveyRequest extends Request {
 
         private String symptomNausea;
 
+        private String symptomNone;
+
         private String hadCloseContact;
 
         private String hadPositiveTest;
@@ -57,6 +59,7 @@ public class CovidSurveyRequest extends Request {
                                String symptomNose,
                                String symptomLostTaste,
                                String symptomNausea,
+                               String symptomNone,
                                String hadCloseContact,
                                String hadPositiveTest) {
         super(requestID, RequestType.COVID, time, date, complete, employeeName, location, description, submitter, name);
@@ -71,10 +74,9 @@ public class CovidSurveyRequest extends Request {
         this.symptomNose = symptomNose;
         this.symptomLostTaste = symptomLostTaste;
         this.symptomNausea = symptomNausea;
+        this.symptomNone = symptomNone;
         this.hadCloseContact = hadCloseContact;
         this.hadPositiveTest = hadPositiveTest;
         this.admitted = admitted;
-
-
     }
 }
