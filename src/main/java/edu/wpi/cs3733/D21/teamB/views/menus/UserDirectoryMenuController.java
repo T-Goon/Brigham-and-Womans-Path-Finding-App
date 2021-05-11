@@ -151,6 +151,7 @@ public class UserDirectoryMenuController extends BasePageController implements I
                 break;
             case "btnBack":
                 DatabaseHandler.getHandler().deauthenticate();
+                SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/login/mainPage.fxml");
                 break;
         }
     }
