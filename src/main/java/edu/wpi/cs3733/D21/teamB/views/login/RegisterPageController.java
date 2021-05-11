@@ -9,6 +9,7 @@ import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.Embedding;
 import edu.wpi.cs3733.D21.teamB.entities.User;
 import edu.wpi.cs3733.D21.teamB.util.ExternalCommunication;
+import edu.wpi.cs3733.D21.teamB.util.PageCache;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
 import edu.wpi.cs3733.D21.teamB.views.BasePageController;
 import edu.wpi.cs3733.D21.teamB.views.face.Camera;
@@ -31,9 +32,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class RegisterPageController extends BasePageController implements Initializable {
-
-    @FXML
-    public JFXButton btnEmergency;
 
     @FXML
     public JFXTextField username;
@@ -84,8 +82,9 @@ public class RegisterPageController extends BasePageController implements Initia
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        super.initialize(location, resources);
+        Camera.stopAcquisition();
 
+        super.initialize(location, resources);
         username.setOnKeyPressed(event -> {
             if (event.getCode().equals(KeyCode.ENTER) && !areFormsEmpty())
                 handleRegisterSubmit();
@@ -116,7 +115,10 @@ public class RegisterPageController extends BasePageController implements Initia
                 handleRegisterSubmit();
         });
 
-        Platform.runLater(() -> username.requestFocus());
+        Platform.runLater(() -> {
+            if (!PageCache.isTextfieldFocused())
+                username.requestFocus();
+        });
 
         camera = new Camera(pictureImage, cameraImage, btnTakePicture, false);
         camera.toggleCamera();
@@ -132,15 +134,11 @@ public class RegisterPageController extends BasePageController implements Initia
                 handleRegisterSubmit();
                 break;
             case "btnEmergency":
-                Camera.stopAcquisition();
-                SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
-                break;
-            case "btnLoginPage":
-                Camera.stopAcquisition();
-                SceneSwitcher.switchFromTemp("/edu/wpi/cs3733/D21/teamB/views/login/loginPage.fxml");
-                break;
             case "btnBack":
                 Camera.stopAcquisition();
+                break;
+            case "btnLoginPage":
+                SceneSwitcher.switchFromTemp("/edu/wpi/cs3733/D21/teamB/views/login/loginPage.fxml");
                 break;
         }
 
