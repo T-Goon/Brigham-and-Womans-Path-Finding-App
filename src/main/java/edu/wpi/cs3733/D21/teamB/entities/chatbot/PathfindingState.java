@@ -35,10 +35,10 @@ public class PathfindingState implements IState {
                 response.add("You may also use the categories on the side as well as adding intermediate stops.");
                 response.add("If you have any questions, feel free to ask!");
             } else if (StateManager.containsAny(input, new String[]{"floor", "floors", "stairs", "elevator", "upstairs","downstairs"})) {
-                response.add("You can select different floors using the yellow buttons at the top right. The locations of floor traversals are noted by color coding");
+                response.add("You can select different floors using the yellow buttons at the top right. The locations of floor traversals are noted by color coding.");
                 response.add("If you have any questions, feel free to ask!");
             } else if (StateManager.containsAny(input, new String[]{"closest", "bathroom", "food", "exit"})) {
-                response.add("The dropdown next to closest location will allow you to find the closest bathroom, food, exit, or help you might nee");
+                response.add("The dropdown next to closest location will allow you to find the closest bathroom, food, exit, or help you might need.");
                 response.add("If you have any questions, feel free to ask!");
             } else if (StateManager.containsAny(input, new String[]{"n", "no", "nah", "nope",})) {
                 response.add("No worries! I'll be here.");
