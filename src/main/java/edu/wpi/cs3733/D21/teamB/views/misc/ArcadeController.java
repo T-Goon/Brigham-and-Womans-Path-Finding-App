@@ -2,7 +2,6 @@ package edu.wpi.cs3733.D21.teamB.views.misc;
 
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.cs3733.D21.teamB.games.pong.PongApp;
-import edu.wpi.cs3733.D21.teamB.games.snake.SnakeGame;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
 import edu.wpi.cs3733.D21.teamB.views.BasePageController;
 import javafx.event.ActionEvent;
@@ -34,9 +33,6 @@ public class ArcadeController extends BasePageController implements Initializabl
                 break;
             case "btnPong":
                 PongApp.main(null);
-                break;
-            case "btnSnake":
-                SnakeGame.main(null);
                 break;
         }
     }
