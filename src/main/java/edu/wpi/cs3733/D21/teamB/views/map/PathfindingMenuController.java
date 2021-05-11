@@ -804,8 +804,6 @@ public class PathfindingMenuController extends BasePageController implements Ini
         }
 
         for(Request request : requests.values()){
-            System.out.println(request.getSubmitter());
-            System.out.println(request.getName());
             if(request.getSubmitter().equals(DatabaseHandler.getHandler().getAuthenticationUser().getUsername())){
                 txtStartLocation.setText(db.getNodeById(request.getLocation()).getLongName());
             }
