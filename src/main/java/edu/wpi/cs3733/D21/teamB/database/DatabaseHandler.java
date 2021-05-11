@@ -90,18 +90,24 @@ public class DatabaseHandler {
         return handler;
     }
 
-    public void changeRemoteStatus(boolean status){
-        this.remote = status;
-        if(this.remote) {
-            this.databaseURL = "jdbc:mysql://167.99.120.152:3306/";
-            this.databaseConnection = this.getConnection();
+    public void changeRemoteStatus(boolean status) throws SQLException {
+        DatabaseHandler.remote = status;
+        if(DatabaseHandler.remote) {
+            this.databaseURL = REMOTE_URL;
+            this.databaseConnection = this.getConnection(true);
         } else {
             this.databaseURL = URL_BASE + "main.db";
+            this.databaseConnection = this.getConnection(true);
         }
+        EmbeddingModel.getModel().resetEmbeddings();
     }
 
-    public Connection getConnection() {
-        if (this.databaseConnection == null) {
+    public Connection getConnection(){
+        return getConnection(false);
+    }
+
+    public Connection getConnection(boolean force) {
+        if (this.databaseConnection == null || force) {
             try {
                 this.databaseConnection = DriverManager.getConnection(this.databaseURL);
                 System.out.println("Connected to DB using " + this.databaseConnection.getMetaData().getDriverName());

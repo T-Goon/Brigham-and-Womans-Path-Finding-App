@@ -232,10 +232,12 @@ public class Camera {
         EmbeddingModel facenet = EmbeddingModel.getModel();
 
         double[] newImageEmbedding = null;
-        try {
-            newImageEmbedding = facenet.embedding((new BufferedImageFactory()).fromImage(MatConvert(picture)));
-        } catch (IOException e) {
-            e.printStackTrace();
+        if(picture != null) {
+            try {
+                newImageEmbedding = facenet.embedding((new BufferedImageFactory()).fromImage(MatConvert(picture)));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         String userName = null;
