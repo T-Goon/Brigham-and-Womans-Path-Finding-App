@@ -114,7 +114,7 @@ public class RegisterPageController extends BasePageController implements Initia
         camera = new Camera(pictureImage, cameraImage, btnTakePicture, false);
         camera.toggleCamera();
 
-        Platform.runLater(() -> username.requestFocus());
+       // Platform.runLater(() -> username.requestFocus());
     }
 
     @FXML
