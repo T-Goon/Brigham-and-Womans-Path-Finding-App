@@ -24,7 +24,7 @@ public class DatabaseHandler {
     private static String databaseURL;
     private Connection databaseConnection;
     @Getter
-    private static Boolean remote = true;
+    private static Boolean remote = false;
 
     // Singleton
     private static DatabaseHandler handler;
@@ -90,7 +90,7 @@ public class DatabaseHandler {
         return handler;
     }
 
-    private void changeRemoteStatus(boolean status){
+    public void changeRemoteStatus(boolean status){
         this.remote = status;
         if(this.remote) {
             this.databaseURL = "jdbc:mysql://167.99.120.152:3306/";

@@ -71,10 +71,13 @@ public class SettingsMenuController extends BasePageController implements Initia
         super.initialize(location, resources);
         toggleOSK.setSelected(oskOn);
         toggleTTS.setSelected(DatabaseHandler.getHandler().getAuthenticationUser().getTtsEnabled().equals("T"));
+        toggleRemoteDatabase.setSelected(DatabaseHandler.getRemote());
         if (!DatabaseHandler.getHandler().getAuthenticationUser().isAtLeast(User.AuthenticationLevel.PATIENT)) {
-            settings.getChildren().remove(remoteDBHolder);
             profileHolder.getChildren().remove(btnEditProfile);
             passwordHolder.getChildren().remove(btnChangePassword);
+        }
+        if (!DatabaseHandler.getHandler().getAuthenticationUser().getAuthenticationLevel().equals(User.AuthenticationLevel.ADMIN)) {
+            settings.getChildren().remove(remoteDBHolder);
         }
     }
 
@@ -129,6 +132,10 @@ public class SettingsMenuController extends BasePageController implements Initia
                     oskOn = true;
                     OnScreenKeyboard.getInstance().getKeyboard().setVisible(true);
                 }
+                break;
+            case "toggleRemoteDatabase":
+                DatabaseHandler.getHandler().changeRemoteStatus(!DatabaseHandler.getRemote());
+                System.out.println(DatabaseHandler.getRemote());
                 break;
         }
     }
