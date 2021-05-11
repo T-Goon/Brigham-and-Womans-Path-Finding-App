@@ -179,9 +179,13 @@
                         </HBox>
                     </children>
                 </VBox>
-            <HBox alignment="BOTTOM_LEFT" VBox.vgrow="ALWAYS">
+        </children>
+    </VBox>
+      <VBox layoutY="900.0" prefHeight="177.0" prefWidth="1922.0">
+         <children>
+            <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="211.0" prefWidth="1926.0" VBox.vgrow="ALWAYS">
                <children>
-                  <JFXButton fx:id="btnBack" accessibleText="Leave page" alignment="CENTER" buttonType="RAISED" cancelButton="true" contentDisplay="CENTER" maxHeight="56" onAction="#handleButtonAction" prefHeight="56" style="-fx-background-color: #0067B1;" text="Log out" textAlignment="CENTER" textFill="WHITE">
+                  <JFXButton fx:id="btnBack" accessibleText="Leave page" alignment="CENTER" buttonType="RAISED" cancelButton="true" contentDisplay="CENTER" maxHeight="56.0" onAction="#handleButtonAction" prefHeight="56.0" prefWidth="125.0" style="-fx-background-color: #0067B1; -fx-background-radius: 7;" text="Log out" textAlignment="CENTER" textFill="WHITE">
                      <font>
                         <Font size="27.0" />
                      </font>
@@ -194,7 +198,7 @@
                   <Insets bottom="15.0" left="15.0" />
                </padding>
             </HBox>
-        </children>
-    </VBox>
+         </children>
+      </VBox>
 </children>
 </AnchorPane>
