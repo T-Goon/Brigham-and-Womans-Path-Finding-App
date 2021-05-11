@@ -2,7 +2,6 @@ package edu.wpi.cs3733.D21.teamB.views.misc;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
-import edu.wpi.cs3733.D21.teamB.App;
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.chatbot.ChatBot;
 import edu.wpi.cs3733.D21.teamB.util.PageCache;
@@ -24,7 +23,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;

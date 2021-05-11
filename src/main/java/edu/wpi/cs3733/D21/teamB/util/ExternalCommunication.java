@@ -3,7 +3,6 @@ package edu.wpi.cs3733.D21.teamB.util;
 import edu.wpi.cs3733.D21.teamB.pathfinding.Directions;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import javax.mail.*;

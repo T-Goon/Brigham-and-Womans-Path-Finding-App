@@ -58,12 +58,7 @@ public abstract class DefaultServiceRequestFormController extends BasePageContro
 
         List<Node> nodes = new ArrayList<>(DatabaseHandler.getHandler().getNodes().values());
 
-        nodes.sort(new Comparator<Node>() {
-            @Override
-            public int compare(Node o1, Node o2) {
-                return o1.getLongName().compareTo(o2.getLongName());
-            }
-        });
+        nodes.sort(Comparator.comparing(Node::getLongName));
 
         for (Node n : nodes) {
             loc.getItems().add(n.getLongName());

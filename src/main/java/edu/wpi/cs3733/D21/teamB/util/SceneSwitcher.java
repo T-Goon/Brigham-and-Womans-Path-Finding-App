@@ -3,7 +3,6 @@ package edu.wpi.cs3733.D21.teamB.util;
 import edu.wpi.cs3733.D21.teamB.App;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.layout.Pane;
 
 import java.io.IOException;
 import java.util.Objects;

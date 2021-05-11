@@ -29,7 +29,6 @@ public class EmbeddingModel {
     private static EmbeddingModel model = null;
     private static final String modelURL = "https://nihilistkitten.me/traced_facenet.pt";
 
-    private ZooModel zooModel;
     private Predictor<Image,double[]> predictor;
 
     private HashMap<String, ArrayList<Double>> embeddings;
@@ -50,15 +49,7 @@ public class EmbeddingModel {
     }
 
     private void initialize() throws SQLException {
-//        try {
-//            DownloadUtils.download(modelURL, "src/main/resources/edu/wpi/cs3733/D21/teamB/faces/pytorch_models/facenet/facenet.pt",
-//                    new ai.djl.training.util.ProgressBar());
-//        } catch (
-//                IOException e) {
-//            e.printStackTrace();
-//        }
 
-//        System.setProperty("ai.djl.repository.zoo.location", "src/main/resources/edu/wpi/cs3733/D21/teamB/faces/pytorch_models/facenet");
         System.setProperty("ai.djl.repository.zoo.location", "facenet");
         this.buildModel();
         resetEmbeddings();
@@ -83,24 +74,17 @@ public class EmbeddingModel {
         ZooModel model = null;
         try {
             model = ModelZoo.loadModel(criteria);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (
-                ModelNotFoundException e) {
-            e.printStackTrace();
-        } catch (
-                MalformedModelException e) {
+        } catch (IOException | MalformedModelException | ModelNotFoundException e) {
             e.printStackTrace();
         }
-        zooModel = model;
+        ZooModel zooModel = model;
         predictor = model.newPredictor();
         return zooModel;
     }
 
     public double[] embedding(Image imgIn){
         try {
-            double[] embedding = predictor.predict(imgIn);
-            return embedding;
+            return predictor.predict(imgIn);
         } catch (TranslateException e) {
             e.printStackTrace();
             return null;
@@ -130,31 +114,24 @@ public class EmbeddingModel {
         return Math.sqrt(acc);
     }
 
-    public String userFromEmbedding(double[] a) throws Exception {
+    public String userFromEmbedding(double[] a) {
         return userFromEmbedding(a, 0.65);
     }
 
-    public String userFromEmbedding(double[] a, double threshold) throws Exception {
-        Integer count = 0;
-        String username = null;
-        for(String key : this.embeddings.keySet()){
+    public String userFromEmbedding(double[] a, double threshold) {
+        for (String key : this.embeddings.keySet()) {
             double[] storedEmbedding = this.embeddings.get(key).stream().mapToDouble(d -> d).toArray();
             double cosineDistance = cosineDistance(a, storedEmbedding);
-            if(cosineDistance > threshold){
-                count++;
+            if (cosineDistance > threshold) {
                 return key;
-//              username = key;
             }
         }
-//        if(count > 1){
-//            throw new Exception("more than one valid embedding");
-//        }
 
-        return username;
+        return null;
     }
 
 
-    class customTranslator implements Translator<Image,double[]> {
+    static class customTranslator implements Translator<Image, double[]> {
         public customTranslator() {
         }
 

@@ -59,10 +59,8 @@ public class ChangePasswordController extends BasePageController implements Init
         super.handleButtonAction(actionEvent);
 
         JFXButton btn = (JFXButton) actionEvent.getSource();
-        switch (btn.getId()) {
-            case "btnChangePassword":
-                handleChangePassword();
-                break;
+        if ("btnChangePassword".equals(btn.getId())) {
+            handleChangePassword();
         }
     }
 

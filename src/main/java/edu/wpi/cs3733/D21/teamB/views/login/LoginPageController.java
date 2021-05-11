@@ -79,12 +79,10 @@ public class LoginPageController extends BasePageController implements Initializ
 
     @FXML
     public void handleButtonAction(ActionEvent e) {
-        final String currentPath = "/edu/wpi/cs3733/D21/teamB/views/login/loginPage.fxml";
         JFXButton btn = (JFXButton) e.getSource();
 
         switch (btn.getId()) {
             case "btnLogin":
-                //System.out.println(btn.getAccessibleText());
                 handleLoginSubmit();
                 break;
             case "btnEmergency":
