@@ -27,7 +27,7 @@ public class CovidState implements IState {
             }
         } else if (messagesSent.peek().equals("Do you need any assistance?")) { // Third message in
             if (StateManager.containsAny(input, new String[]{"y", "ye", "yes", "yeah", "yup"})) {
-                response.add("Please fill out the following questions regarding any symptoms you might be experiencing");
+                response.add("Please fill out the following questions regarding any symptoms you might be experiencing.");
                 response.add("If you have any questions, feel free to ask!");
             } else if (StateManager.containsAny(input, new String[]{"n", "no", "nah", "nope",})) {
                 response.add("No worries! I'll be here.");

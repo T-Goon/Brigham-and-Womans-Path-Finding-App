@@ -48,7 +48,7 @@ public class CovidSurveyNurseCheckController extends BasePageController implemen
                     DatabaseHandler.getHandler().updateCovidRequestAdmitted(covidSurveyRequest, "F");
                     DatabaseHandler.getHandler().updateRequest(covidSurveyRequest);
                 } catch (SQLException error) {
-                    System.err.println("You fucking donkey");
+                    error.printStackTrace();
                 }
                 SceneSwitcher.goBack(1);
                 break;
@@ -57,8 +57,8 @@ public class CovidSurveyNurseCheckController extends BasePageController implemen
                     covidSurveyRequest.setProgress("T");
                     DatabaseHandler.getHandler().updateCovidRequestAdmitted(covidSurveyRequest, "T");
                     DatabaseHandler.getHandler().updateRequest(covidSurveyRequest);
-                } catch (SQLException throwables) {
-                    System.err.println("You fucking donkey");
+                } catch (SQLException error) {
+                    error.printStackTrace();
                 }
                 SceneSwitcher.goBack(1);
                 break;

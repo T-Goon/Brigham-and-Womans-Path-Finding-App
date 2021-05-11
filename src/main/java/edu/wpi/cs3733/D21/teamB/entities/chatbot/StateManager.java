@@ -1,6 +1,10 @@
 package edu.wpi.cs3733.D21.teamB.entities.chatbot;
 
+import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
+import edu.wpi.cs3733.D21.teamB.entities.User;
+
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class StateManager {
@@ -22,6 +26,21 @@ public class StateManager {
      * @param input the message to check
      */
     public List<String> respond(String input) {
+        // Response to "Who am I?"
+        User current = DatabaseHandler.getHandler().getAuthenticationUser();
+        if (containsAll(input, new String[]{"who", "am", "i"})) {
+            if (current.isAtLeast(User.AuthenticationLevel.PATIENT)) {
+                return Collections.singletonList("You are " + current.getFirstName() + " " + current.getLastName() + " and your username is " + current.getUsername() + ".");
+            } else {
+                return Collections.singletonList("You are not logged in.");
+            }
+        }
+
+        // Makes sure the user doesn't try to access something without taking the covid survey
+        if (containsAny(input, PATHFINDING_KEYWORDS) && (current.getCovidStatus() == User.CovidStatus.PENDING || current.getCovidStatus() == User.CovidStatus.UNCHECKED)) {
+            return Collections.singletonList("Sorry, but you must take the COVID-19 survey before accessing the map!");
+        }
+
         // If switching tracks, reset everything back to the beginning
         if (containsAny(input, COVID_KEYWORDS) && !(currentState instanceof CovidState)) {
             previousState = currentState;
@@ -80,6 +99,33 @@ public class StateManager {
                     contains = true;
                     break;
                 }
+            }
+        }
+        return contains;
+    }
+
+    /**
+     * Given n amount of words and a starting message,
+     * checks whether the message contains all of them
+     *
+     * @param message the message to check
+     * @param toCheck list of things to check
+     * @return true if message has one of those in it
+     */
+    public static boolean containsAll(String message, String[] toCheck) {
+        String[] words = message.split("\\W+");
+        boolean contains = true;
+        for (String word : toCheck) {
+            boolean wordContained = false;
+            for (String inputWord : words) {
+                if (inputWord.equals(word)) {
+                    wordContained = true;
+                    break;
+                }
+            }
+            if (!wordContained) {
+                contains = false;
+                break;
             }
         }
         return contains;
