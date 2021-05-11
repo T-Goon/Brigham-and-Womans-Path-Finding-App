@@ -18,9 +18,6 @@ import java.util.ResourceBundle;
 public class ChangePasswordController extends BasePageController implements Initializable {
 
     @FXML
-    public JFXButton btnEmergency;
-
-    @FXML
     public JFXPasswordField oldPassword;
 
     @FXML
@@ -62,13 +59,8 @@ public class ChangePasswordController extends BasePageController implements Init
         super.handleButtonAction(actionEvent);
 
         JFXButton btn = (JFXButton) actionEvent.getSource();
-        switch (btn.getId()) {
-            case "btnEmergency":
-                SceneSwitcher.switchScene("/edu/wpi/cs3733/D21/teamB/views/menus/changePassword.fxml", "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
-                break;
-            case "btnChangePassword":
-                handleChangePassword();
-                break;
+        if ("btnChangePassword".equals(btn.getId())) {
+            handleChangePassword();
         }
     }
 

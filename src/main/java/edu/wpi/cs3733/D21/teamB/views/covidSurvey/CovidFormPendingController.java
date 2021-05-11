@@ -17,26 +17,19 @@ public class CovidFormPendingController extends BasePageController {
     private JFXButton btnEdit;
 
     @FXML
-    private JFXButton btnEmergency;
-
-    @FXML
     private StackPane stackPane;
 
     @FXML JFXButton btnGame1;
 
     @FXML
     public void handleButtonAction(ActionEvent e) {
-        final String currentPath = "/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidFormPending.fxml";
         JFXButton btn = (JFXButton) e.getSource();
         switch (btn.getId()) {
             case "btnBack":
-                SceneSwitcher.goBack(2);
+                SceneSwitcher.switchFromTemp("/edu/wpi/cs3733/D21/teamB/views/login/mainPage.fxml");
                 return;
             case "btnEdit":
-                SceneSwitcher.goBack(1);
-                break;
-            case "btnEmergency":
-                SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
+                SceneSwitcher.switchFromTemp("/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidSurvey.fxml");
                 break;
             case "btnGame1":
                 SceneSwitcher.switchFromTemp("/edu/wpi/cs3733/D21/teamB/views/misc/arcade.fxml");

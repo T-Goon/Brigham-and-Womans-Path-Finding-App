@@ -65,11 +65,9 @@ public class UserDirectoryMenuController extends BasePageController implements I
     @FXML
     private JFXButton btnSettings;
 
-    @FXML
-    private JFXButton btnEmergency;
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        super.initialize(location, resources);
         if (DatabaseHandler.getHandler().getAuthenticationUser().isAtLeast(User.AuthenticationLevel.ADMIN)) {
             directoryText.setText("Admin Directory");
             ((HBox) buttonPane.getChildren().get(0)).getChildren().remove(covidHolder);
@@ -145,12 +143,6 @@ public class UserDirectoryMenuController extends BasePageController implements I
                 break;
             case "btnSettings":
                 SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/menus/settingsMenu.fxml");
-                break;
-            case "btnEmergency":
-                SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
-                break;
-            case "btnBack":
-                DatabaseHandler.getHandler().deauthenticate();
                 break;
         }
     }

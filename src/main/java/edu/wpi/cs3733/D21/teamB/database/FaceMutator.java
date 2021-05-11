@@ -40,7 +40,7 @@ public class FaceMutator implements IDatabaseEntityMutator<Embedding>{
     }
 
     public HashMap<String, ArrayList<Double>> getEmbeddings() throws SQLException {
-        HashMap<String, ArrayList<Double>> embeddings = new HashMap<String, ArrayList<Double>>();
+        HashMap<String, ArrayList<Double>> embeddings = new HashMap<>();
         String query = "SELECT * FROM Embeddings";
         ResultSet embeddingResultSet = db.runStatement(query,true);
 
@@ -50,7 +50,7 @@ public class FaceMutator implements IDatabaseEntityMutator<Embedding>{
 
         do{
             if(!embeddings.containsKey(embeddingResultSet.getString("username"))){
-                embeddings.put(embeddingResultSet.getString("username"), new ArrayList<Double>());
+                embeddings.put(embeddingResultSet.getString("username"), new ArrayList<>());
             }
 
             embeddings.get(embeddingResultSet.getString("username")).add(embeddingResultSet.getDouble("value"));

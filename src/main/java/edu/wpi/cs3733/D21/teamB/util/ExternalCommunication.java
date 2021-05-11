@@ -3,7 +3,6 @@ package edu.wpi.cs3733.D21.teamB.util;
 import edu.wpi.cs3733.D21.teamB.pathfinding.Directions;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import javax.mail.*;
@@ -12,8 +11,6 @@ import java.util.Properties;
 import java.util.stream.Collectors;
 
 public class ExternalCommunication {
-
-    public static final List<Thread> threads = new ArrayList<>();
 
     /**
      * Read account information from file to set up the sender
@@ -77,8 +74,8 @@ public class ExternalCommunication {
                 mex.printStackTrace();
             }
         });
+        emailThread.setName("emailThread");
         emailThread.start();
-        threads.add(emailThread);
     }
 
     /**
@@ -105,8 +102,8 @@ public class ExternalCommunication {
                 e.printStackTrace();
             }
         });
+        emailThread.setName("emailThread");
         emailThread.start();
-        threads.add(emailThread);
     }
 
     /**
@@ -133,8 +130,8 @@ public class ExternalCommunication {
                 e.printStackTrace();
             }
         });
+        emailThread.setName("emailThread");
         emailThread.start();
-        threads.add(emailThread);
     }
 
     /**
@@ -160,8 +157,8 @@ public class ExternalCommunication {
                 e.printStackTrace();
             }
         });
+        emailThread.setName("emailThread");
         emailThread.start();
-        threads.add(emailThread);
     }
 
     /**
@@ -192,7 +189,7 @@ public class ExternalCommunication {
                 e.printStackTrace();
             }
         });
+        emailThread.setName("emailThread");
         emailThread.start();
-        threads.add(emailThread);
     }
 }
