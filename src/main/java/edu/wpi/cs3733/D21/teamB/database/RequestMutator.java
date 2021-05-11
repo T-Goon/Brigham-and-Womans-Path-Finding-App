@@ -234,6 +234,7 @@ public class RequestMutator implements IDatabaseEntityMutator<Request> {
                         + "', '" + covidSurveyRequest.getSymptomNose()
                         + "', '" + covidSurveyRequest.getSymptomLostTaste()
                         + "', '" + covidSurveyRequest.getSymptomNausea()
+                        + "', '" + covidSurveyRequest.getSymptomNone()
                         + "', '" + covidSurveyRequest.getHadCloseContact()
                         + "', '" + covidSurveyRequest.getHadPositiveTest()
                         + "', '" + covidSurveyRequest.getAdmitted()
@@ -397,11 +398,10 @@ public class RequestMutator implements IDatabaseEntityMutator<Request> {
                         + "', nose = '" + covidSurveyRequest.getSymptomNose()
                         + "', lostTaste = '" + covidSurveyRequest.getSymptomLostTaste()
                         + "', nausea = '" + covidSurveyRequest.getSymptomNausea()
+                        + "', none = '" + covidSurveyRequest.getSymptomNone()
                         + "', closeContact = '" + covidSurveyRequest.getHadCloseContact()
                         + "', positiveTest = '" + covidSurveyRequest.getHadPositiveTest()
                         + "' WHERE requestID = '" + covidSurveyRequest.getRequestID() + "'";
-
-
                 break;
         }
         db.runStatement(query, false);
@@ -695,6 +695,7 @@ public class RequestMutator implements IDatabaseEntityMutator<Request> {
                         rs.getString("nose"),
                         rs.getString("lostTaste"),
                         rs.getString("nausea"),
+                        rs.getString("none"),
                         rs.getString("closeContact"),
                         rs.getString("positiveTest")
                 );
@@ -708,7 +709,10 @@ public class RequestMutator implements IDatabaseEntityMutator<Request> {
 
     /**
      * Sets the admitted flag in the database for a given CovidSurveyRequest
-     * @param request
+     *
+     * @param request the request
+     * @param flag    the flag
+     * @throws SQLException if the request is malformed
      */
     public void setCovidRequestAdmitted(CovidSurveyRequest request, String flag) throws SQLException {
         String query = "UPDATE CovidSurveyRequests SET admitted = '" + flag + "' WHERE  requestID = '" + request.getRequestID() + "'";

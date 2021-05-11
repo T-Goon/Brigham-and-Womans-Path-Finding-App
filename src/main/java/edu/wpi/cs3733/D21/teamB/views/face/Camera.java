@@ -3,14 +3,10 @@ package edu.wpi.cs3733.D21.teamB.views.face;
 import ai.djl.modality.cv.BufferedImageFactory;
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.cs3733.D21.teamB.views.login.LoginPageController;
-import edu.wpi.cs3733.D21.teamB.views.login.RegisterPageController;
-import javafx.event.Event;
-import javafx.event.EventType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 import lombok.Getter;
 import lombok.Setter;
 import org.opencv.core.*;
@@ -31,10 +27,8 @@ import java.util.concurrent.TimeUnit;
 
 public class Camera {
 
-    private ImageView oldPicture,
-            detectedPicture;
-
-    private JFXButton btnTakePicture;
+    private final ImageView oldPicture;
+    private final ImageView detectedPicture;
 
     // a timer for acquiring the video stream
     public static ScheduledExecutorService timer;
@@ -43,16 +37,14 @@ public class Camera {
     // a flag to change the button behavior
     public static boolean cameraActive;
 
-    private Mat grayFrame;
-
     // face cascade classifier
-    private CascadeClassifier faceCascade;
+    private final CascadeClassifier faceCascade;
     private int absoluteFaceSize;
 
     private Mat picture;
     @Getter
     private Mat pictureTaken;
-    private boolean authenticating;
+    private final boolean authenticating;
 
     private Thread authenticator;
 
@@ -62,7 +54,6 @@ public class Camera {
     public Camera(ImageView oldPicture, ImageView detectedPicture, JFXButton btnTakePicture, boolean authenticating) {
         this.oldPicture = oldPicture;
         this.detectedPicture = detectedPicture;
-        this.btnTakePicture = btnTakePicture;
         this.authenticating = authenticating;
 
         capture = new VideoCapture();
@@ -77,8 +68,8 @@ public class Camera {
         // preserve image ratio
         detectedPicture.setPreserveRatio(true);
 
-        if(this.btnTakePicture != null) {
-            this.btnTakePicture.setOnMouseClicked((e) -> {
+        if (btnTakePicture != null) {
+            btnTakePicture.setOnMouseClicked((e) -> {
                 takePicture();
                 oldPicture.fireEvent(new KeyEvent(KeyEvent.KEY_PRESSED,
                         "/", "", KeyCode.SLASH, false, false, false, false));
@@ -99,14 +90,8 @@ public class Camera {
                 cameraActive = true;
 
                 // grab a frame every 33 ms (30 frames/sec)
-                Runnable frameGrabber = new Runnable() {
-
-                    @Override
-                    public void run() {
-                        // effectively grab and process a single frame
-                        grabFrame();
-                    }
-                };
+                // effectively grab and process a single frame
+                Runnable frameGrabber = this::grabFrame;
 
                 timer = Executors.newSingleThreadScheduledExecutor();
                 timer.scheduleAtFixedRate(frameGrabber, 0, 33, TimeUnit.MILLISECONDS);
@@ -122,6 +107,7 @@ public class Camera {
 
             // stop the timer
             stopAcquisition();
+
         }
     }
 
@@ -172,7 +158,7 @@ public class Camera {
      */
     private void detectAndDisplay(Mat frame) {
         MatOfRect faces = new MatOfRect();
-        grayFrame = new Mat();
+        Mat grayFrame = new Mat();
 
         // convert the frame in gray scale
         Imgproc.cvtColor(frame, grayFrame, Imgproc.COLOR_BGR2GRAY);
@@ -190,13 +176,12 @@ public class Camera {
         assert !grayFrame.empty();
 
         // detect faces
-        this.faceCascade.detectMultiScale(grayFrame, faces, 1.1, 2, 0 | Objdetect.CASCADE_SCALE_IMAGE,
+        this.faceCascade.detectMultiScale(grayFrame, faces, 1.1, 2, Objdetect.CASCADE_SCALE_IMAGE,
                 new Size(this.absoluteFaceSize, this.absoluteFaceSize), new Size());
 
         // each rectangle in faces is a face: draw them!
         Rect[] facesArray = faces.toArray();
-        for (int i = 0; i < facesArray.length; i++)
-            Imgproc.rectangle(frame, facesArray[i].tl(), facesArray[i].br(), new Scalar(0, 255, 0), 3);
+        for (Rect rect : facesArray) Imgproc.rectangle(frame, rect.tl(), rect.br(), new Scalar(0, 255, 0), 3);
 
         if(!faces.empty()){
             picture = frame.submat(facesArray[0]);
@@ -245,7 +230,7 @@ public class Camera {
             e.printStackTrace();
         }
 
-        if(userName != null){
+        if(userName != null && cameraActive){
             loginPageController.setUserName(userName);
         }
     }
@@ -253,7 +238,7 @@ public class Camera {
     public static BufferedImage MatConvert(Mat image) throws IOException {
         MatOfByte mat = new MatOfByte();
         Imgcodecs.imencode(".jpg",image,mat);
-        byte array[] = mat.toArray();
+        byte[] array = mat.toArray();
         return ImageIO.read(new ByteArrayInputStream(array));
     }
 
@@ -262,14 +247,15 @@ public class Camera {
      */
     public static void stopAcquisition() {
         if (Camera.timer != null && !Camera.timer.isShutdown()) {
-            try {
-                // stop the timer
-                Camera.timer.shutdown();
-                Camera.timer.awaitTermination(33, TimeUnit.MILLISECONDS);
-            } catch (InterruptedException e) {
-                // log any exception
-                System.err.println("Exception in stopping the frame capture, trying to release the camera now... " + e);
-            }
+            Camera.timer.shutdownNow();
+//            try {
+//                // stop the timer
+//                Camera.timer.shutdownNow();
+////                Camera.timer.awaitTermination(33, TimeUnit.MILLISECONDS);
+//            } catch (InterruptedException e) {
+//                // log any exception
+//                System.err.println("Exception in stopping the frame capture, trying to release the camera now... " + e);
+//            }
         }
 
         if (capture != null) {

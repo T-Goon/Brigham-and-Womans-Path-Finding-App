@@ -100,6 +100,11 @@ public class ChatBot implements Runnable {
 
         } else {
             for (String message : response) {
+
+                // Block until message is displayed
+                while (!PageCache.getMessageDisplayed().get()) {
+                }
+
                 // If the message is a path, go there
                 if (message.startsWith("/")) {
                     switchToPage(message);
@@ -144,7 +149,10 @@ public class ChatBot implements Runnable {
                     // NO-OP
                 }
             }));
-            sendMessage(chatSession.multisentenceRespond(input));
+            String message = chatSession.multisentenceRespond(input);
+            if (message.contains("<") && message.contains(">"))
+                message = "Sorry, I'm not well equipped enough to answer that.";
+            sendMessage(message);
             System.setOut(printStream);
         } catch (Exception ignored) {
         }
@@ -156,6 +164,7 @@ public class ChatBot implements Runnable {
      * @param message the message to send
      */
     private void sendMessage(String message) {
+        PageCache.getMessageDisplayed().set(false);
         PageCache.addBotMessage(new ChatBoxController.Message(message, false));
     }
 

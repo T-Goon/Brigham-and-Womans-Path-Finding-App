@@ -59,10 +59,8 @@ public class ChangePasswordController extends BasePageController implements Init
         super.handleButtonAction(actionEvent);
 
         JFXButton btn = (JFXButton) actionEvent.getSource();
-        switch (btn.getId()) {
-            case "btnChangePassword":
-                handleChangePassword();
-                break;
+        if ("btnChangePassword".equals(btn.getId())) {
+            handleChangePassword();
         }
     }
 
@@ -95,7 +93,8 @@ public class ChangePasswordController extends BasePageController implements Init
             e.printStackTrace();
         }
 
-        SceneSwitcher.switchFromTemp("/edu/wpi/cs3733/D21/teamB/views/menus/userDirectoryMenu.fxml");
+//        SceneSwitcher.switchFromTemp("/edu/wpi/cs3733/D21/teamB/views/menus/userDirectoryMenu.fxml");
+        SceneSwitcher.goBack(1);
     }
 
     @FXML

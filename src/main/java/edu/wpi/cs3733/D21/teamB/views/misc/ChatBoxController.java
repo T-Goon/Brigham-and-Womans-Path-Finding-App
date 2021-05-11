@@ -2,7 +2,6 @@ package edu.wpi.cs3733.D21.teamB.views.misc;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
-import edu.wpi.cs3733.D21.teamB.App;
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.chatbot.ChatBot;
 import edu.wpi.cs3733.D21.teamB.util.PageCache;
@@ -24,7 +23,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -53,9 +51,6 @@ public class ChatBoxController implements Initializable {
     @FXML
     public JFXButton btnMinimize;
 
-    @FXML
-    public JFXButton btnClose;
-
     private final TextToSpeech tts = new TextToSpeech();
     public static ScheduledExecutorService userThread = null;
 
@@ -67,6 +62,13 @@ public class ChatBoxController implements Initializable {
             if (PageCache.isPageMinimized()) minimize();
         });
 
+        // Thread for getting messages from the bot
+        if (userThread != null) {
+            userThread.shutdownNow();
+            userThread = null;
+        }
+
+        PageCache.getIndex().set(0);
         messageHolder.getChildren().clear();
         // Add all the messages in the cache
         for (Message m : PageCache.getAllMessages())
@@ -74,28 +76,24 @@ public class ChatBoxController implements Initializable {
 
         // If there are cached responses, add them
         if (PageCache.getCachedResponses() != null) {
-            for (String s : PageCache.getCachedResponses()) {
+            for (String s : PageCache.getCachedResponses())
                 PageCache.addBotMessage(new ChatBoxController.Message(s, false));
-                // Don't want the listener to send these messages
-                PageCache.getNewMessagesWaitingForUser().getAndDecrement();
-            }
             PageCache.getCachedResponses().clear();
         }
 
-        // Thread for getting messages from the bot
-        if (userThread != null) {
-            userThread.shutdownNow();
+        if (PageCache.isTextfieldFocused())
+            Platform.runLater(() -> input.requestFocus());
 
-            userThread = null;
-        }
 
         Runnable msgListener = () -> {
             // Wait for a new message
             if (PageCache.getNewMessagesWaitingForUser().get() != 0) {
                 // Get message and mark as read
                 PageCache.getNewMessagesWaitingForUser().getAndDecrement();
-                Platform.runLater(() -> addMessage(PageCache.getBotLastMessage()));
-
+                Platform.runLater(() -> {
+                    addMessage(PageCache.getBotLastMessage());
+                    PageCache.getMessageDisplayed().set(true);
+                });
             }
         };
 
@@ -114,21 +112,19 @@ public class ChatBoxController implements Initializable {
             else expand();
         });
 
-        // When closed, wipe the cache and remove itself
-        btnClose.setOnAction(e -> {
-            if (!PageCache.isPageMinimized()) minimize();
-            else expand();
-            clearMessages();
-        });
+
+        input.focusedProperty().addListener(((observable, oldValue, newValue) -> PageCache.setTextfieldFocused(newValue)));
     }
 
     @FXML
     public void handleSendMessage(KeyEvent e) {
         if (e.getCode() == KeyCode.ENTER) {
-            Message message = new Message(input.getText(), true);
-            addMessage(message);
-            input.clear();
-            PageCache.addUserMessage(message);
+            if (!input.getText().isEmpty()) {
+                Message message = new Message(input.getText(), true);
+                addMessage(message);
+                input.clear();
+                PageCache.addUserMessage(message);
+            }
         }
     }
 
@@ -209,7 +205,7 @@ public class ChatBoxController implements Initializable {
         }
 
         // Hey, it exists!
-        message.setIndex(messageHolder.getChildren().size());
+        message.setIndex(PageCache.getIndex().getAndIncrement());
         messageBox.setId(text.getText() + "Box" + message.getIndex());
         messageHolder.getChildren().add(messageBox);
     }

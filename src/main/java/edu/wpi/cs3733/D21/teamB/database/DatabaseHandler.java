@@ -317,6 +317,7 @@ public class DatabaseHandler {
                 + "nose CHAR(1) CHECK (nose in ('T','F')), "
                 + "lostTaste CHAR(1) CHECK (lostTaste in ('T','F')), "
                 + "nausea CHAR(1) CHECK (nausea in ('T','F')), "
+                + "none CHAR(1) CHECK (none in ('T','F')), "
                 + "closeContact CHAR(1) CHECK (closeContact in ('T','F')), "
                 + "positiveTest CHAR(1) CHECK (positiveTest in ('T','F')), "
                 + "admitted CHAR(1) CHECK (admitted in ('T', 'F')), "
@@ -467,9 +468,10 @@ public class DatabaseHandler {
 
     /**
      * Updates the admitted flag for a covid request
+     *
      * @param request request to be updated
-     * @param flag what to change it to
-     * @throws SQLException
+     * @param flag    what to change it to
+     * @throws SQLException if the request is malformed
      */
     public void updateCovidRequestAdmitted(CovidSurveyRequest request, String flag) throws SQLException {
         requestMutator.setCovidRequestAdmitted(request,flag);

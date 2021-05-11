@@ -13,10 +13,12 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 
 import java.awt.*;
 import java.io.IOException;
@@ -102,8 +104,9 @@ public abstract class BasePageController implements Initializable {
 
     private void initChatbot() {
         try {
-            Node chatBox = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/cs3733/D21/teamB/views/misc/chatBox.fxml")));
+            VBox chatBox = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/cs3733/D21/teamB/views/misc/chatBox.fxml")));
             stackPane.getChildren().add(chatBox);
+            StackPane.setMargin(chatBox, new Insets(0, 80, 0, 0));
             StackPane.setAlignment(chatBox, Pos.BOTTOM_RIGHT);
         } catch (IOException e) {
             e.printStackTrace();

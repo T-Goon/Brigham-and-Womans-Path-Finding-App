@@ -9,6 +9,7 @@ import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.Embedding;
 import edu.wpi.cs3733.D21.teamB.entities.User;
 import edu.wpi.cs3733.D21.teamB.util.ExternalCommunication;
+import edu.wpi.cs3733.D21.teamB.util.PageCache;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
 import edu.wpi.cs3733.D21.teamB.views.BasePageController;
 import edu.wpi.cs3733.D21.teamB.views.face.Camera;
@@ -63,13 +64,16 @@ public class RegisterPageController extends BasePageController implements Initia
     private JFXButton btnLoginPage;
 
     @FXML
+    private JFXButton btnBack;
+
+    @FXML
     private StackPane stackPane;
 
     private final Pattern emailPattern = Pattern.compile(".+@.+");
 
     @FXML
     private ImageView pictureImage,
-                    cameraImage;
+            cameraImage;
     @FXML
     private JFXButton btnTakePicture;
 
@@ -111,10 +115,13 @@ public class RegisterPageController extends BasePageController implements Initia
                 handleRegisterSubmit();
         });
 
+        Platform.runLater(() -> {
+            if (!PageCache.isTextfieldFocused())
+                username.requestFocus();
+        });
+
         camera = new Camera(pictureImage, cameraImage, btnTakePicture, false);
         camera.toggleCamera();
-
-        Platform.runLater(() -> username.requestFocus());
     }
 
     @FXML
@@ -177,14 +184,14 @@ public class RegisterPageController extends BasePageController implements Initia
         }
 
         // Store in db
-        Thread addEmbedding = new Thread(()->{
+        Thread addEmbedding = new Thread(() -> {
             try {
                 ArrayList<Double> embeddingArray = new ArrayList<>();
                 try {
 
-                    double [] temp = EmbeddingModel.getModel().embedding((new BufferedImageFactory()).fromImage(Camera.MatConvert(camera.getPictureTaken())));
+                    double[] temp = EmbeddingModel.getModel().embedding((new BufferedImageFactory()).fromImage(Camera.MatConvert(camera.getPictureTaken())));
 
-                    for(double d : temp){
+                    for (double d : temp) {
                         embeddingArray.add(d);
                     }
 
@@ -214,6 +221,6 @@ public class RegisterPageController extends BasePageController implements Initia
      */
     private boolean areFormsEmpty() {
         return username.getText().isEmpty() || email.getText().isEmpty() || firstName.getText().isEmpty() || lastName.getText().isEmpty()
-                || password.getText().isEmpty() || retypePassword.getText().isEmpty()|| !camera.isPictureTaken();
+                || password.getText().isEmpty() || retypePassword.getText().isEmpty() || !camera.isPictureTaken();
     }
 }

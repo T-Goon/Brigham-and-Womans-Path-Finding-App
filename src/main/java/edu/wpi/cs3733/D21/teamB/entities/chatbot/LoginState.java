@@ -24,27 +24,25 @@ public class LoginState implements IState {
         } else if (messagesSent.peek().equals("Do you want to log in?")) { // Second message
             if (StateManager.containsAny(input, new String[]{"y", "ye", "yes", "yeah", "yup"})) {
                 response.add("Okay! Taking you there now...");
+                PageCache.getCachedResponses().add("Do you need any assistance?");
                 response.add("/edu/wpi/cs3733/D21/teamB/views/login/loginPage.fxml");
-                response.add("Do you need any assistance?");
-                PageCache.getCachedResponses().add("Do you need any assistance?");
-            } else if (StateManager.containsAny(input, new String[]{"n", "no", "nah", "nope",})) {
+            } else if (StateManager.containsAny(input, new String[]{"n", "no", "nah", "nope"})) {
                 response.add("No worries!");
+                response.add("Is there anything I can help you with?");
                 response.add("return");
-                PageCache.getCachedResponses().add("Is there anything I can help you with?");
             } else {
-                response.add("Do you need any assistance?");
-                PageCache.getCachedResponses().add("Do you need any assistance?");
+                response.add("unsure");
+                response.add("Do you want to log in?");
             }
-            
         } else if (messagesSent.peek().equals("Do you need any assistance?")) { // Third message in
             if (StateManager.containsAny(input, new String[]{"y", "ye", "yes", "yeah", "yup"})) {
                 response.add("Please type in your username and password into the fields on the screen.");
                 response.add("If you have Face ID turned on, it will auto-fill your username for you.");
                 response.add("If you have any questions, feel free to ask!");
-            } else if (StateManager.containsAny(input, new String[]{"n", "no", "nah", "nope",})) {
+            } else if (StateManager.containsAny(input, new String[]{"n", "no", "nah", "nope"})) {
                 response.add("No worries! I'll be here.");
             } else {
-                response.add("I'm sorry, I didn't understand that.");
+                response.add("unsure");
                 response.add("Do you need any assistance?");
             }
         } else if (messagesSent.peek().equals("No worries! I'll be here.") || messagesSent.peek().equals("If you have any questions, feel free to ask!")) {

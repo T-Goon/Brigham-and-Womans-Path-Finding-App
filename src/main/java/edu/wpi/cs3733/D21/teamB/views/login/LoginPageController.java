@@ -6,6 +6,7 @@ import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXToggleButton;
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.User;
+import edu.wpi.cs3733.D21.teamB.util.PageCache;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
 import edu.wpi.cs3733.D21.teamB.views.BasePageController;
 import edu.wpi.cs3733.D21.teamB.views.face.Camera;
@@ -17,6 +18,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.StackPane;
+import javafx.scene.shape.Rectangle;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -46,6 +48,9 @@ public class LoginPageController extends BasePageController implements Initializ
     @FXML
     private StackPane stackPane;
 
+    @FXML
+    private Rectangle cover;
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -66,7 +71,10 @@ public class LoginPageController extends BasePageController implements Initializ
                 handleLoginSubmit();
             }
         });
-        Platform.runLater(() -> username.requestFocus());
+        Platform.runLater(() -> {
+            if (!PageCache.isTextfieldFocused())
+                username.requestFocus();
+        });
 
         camera = new Camera(null, faceImage, null, true);
         camera.setLoginPageController(this);
@@ -75,7 +83,6 @@ public class LoginPageController extends BasePageController implements Initializ
 
     @FXML
     public void handleButtonAction(ActionEvent e) {
-        final String currentPath = "/edu/wpi/cs3733/D21/teamB/views/login/loginPage.fxml";
         JFXButton btn = (JFXButton) e.getSource();
 
         switch (btn.getId()) {
@@ -96,7 +103,10 @@ public class LoginPageController extends BasePageController implements Initializ
 
     public void setUserName(String name) {
         username.setText(name);
-        Platform.runLater(() -> password.requestFocus());
+        Platform.runLater(() -> {
+            if (!PageCache.isTextfieldFocused())
+                password.requestFocus();
+        });
         validateButton();
     }
 
@@ -108,8 +118,10 @@ public class LoginPageController extends BasePageController implements Initializ
             camera.toggleCamera();
             username.setText("");
             password.setText("");
+            cover.setVisible(true);
             Platform.runLater(() -> username.requestFocus());
         } else {
+            cover.setVisible(false);
             password.setText("");
             camera.toggleCamera();
         }
