@@ -85,7 +85,12 @@ public abstract class DefaultServiceRequestFormController extends BasePageContro
     }
 
     protected String getLocation() {
-        return nodesList.get(loc.getSelectionModel().getSelectedIndex()).getNodeID();
+        if(nodesList.stream().anyMatch(node -> node.getLongName().equals(loc.getEditor().getText()))){
+            return nodesList.stream().filter(node -> node.getLongName().equals(loc.getEditor().getText())).findFirst().get().getNodeID();
+        }
+        else{
+            return null;
+        }
     }
 
     public void handleButtonAction(ActionEvent e) {
