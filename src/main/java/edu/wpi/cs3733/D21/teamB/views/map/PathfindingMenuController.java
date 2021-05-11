@@ -580,9 +580,6 @@ public class PathfindingMenuController extends BasePageController implements Ini
                     mapPathPopupManager.createTxtDirPopup(mapCache.getFinalPath());
                 }
                 break;
-            case "btnPlay":
-                mapEditorPopupManager.showStartGamePopup(mapDrawer, nodeHolder, score);
-                break;
         }
 
         super.handleButtonAction(e);
