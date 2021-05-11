@@ -23,13 +23,13 @@ public class Breakout extends JFrame {
         setAlwaysOnTop(true);
         pack();
     }
-
-    public static void main(String[] args) {
-        
-        EventQueue.invokeLater(() -> {
-
-            var game = new Breakout();
-            game.setVisible(true);
-        });
-    }
+//
+//    public static void main(String[] args) {
+//
+//        EventQueue.invokeLater(() -> {
+//
+//            var game = new Breakout();
+//            game.setVisible(true);
+//        });
+//    }
 }
