@@ -20,6 +20,7 @@ public class Breakout extends JFrame {
         setDefaultCloseOperation(HIDE_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(false);
+        setAlwaysOnTop(true);
         pack();
     }
 
