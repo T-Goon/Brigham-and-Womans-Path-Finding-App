@@ -19,9 +19,7 @@ import javafx.scene.layout.StackPane;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
 
 @SuppressWarnings("unchecked") // Added so Java doesn't get mad at the raw use of TableView that is necessary
 public class   ServiceRequestDatabaseController extends BasePageController implements Initializable {
@@ -55,6 +53,7 @@ public class   ServiceRequestDatabaseController extends BasePageController imple
 
     @FXML
     private TableColumn<String, JFXButton> nameCol;
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733.D21.teamB.App;
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
+import edu.wpi.cs3733.D21.teamB.entities.chatbot.ChatBot;
 import edu.wpi.cs3733.D21.teamB.util.PageCache;
 import edu.wpi.cs3733.D21.teamB.util.tts.TextToSpeech;
 import javafx.application.Platform;
@@ -23,7 +24,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class ChatBoxController implements Initializable {
 
@@ -52,7 +57,7 @@ public class ChatBoxController implements Initializable {
     public JFXButton btnClose;
 
     private final TextToSpeech tts = new TextToSpeech();
-    public static Thread userThread = null;
+    public static ScheduledExecutorService userThread = null;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -62,38 +67,40 @@ public class ChatBoxController implements Initializable {
             if (PageCache.isPageMinimized()) minimize();
         });
 
-        // Thread for getting messages from the bot
-        if (userThread == null) {
-            userThread = new Thread(() -> {
-
-                while (App.isRunning()) {
-
-                    // If a message slips through the cracks, refresh
-                    if (PageCache.getAllMessages().size() > messageHolder.getChildren().size()) {
-                        // Add all the messages in the cache
-                        Platform.runLater(() -> {
-                            messageHolder.getChildren().clear();
-
-                            for (Message m : PageCache.getAllMessages())
-                                addMessage(m, false);
-                        });
-                    }
-
-                    // Wait for a new message
-                    if (PageCache.getNewMessagesWaitingForUser().get() != 0) {
-                        // Get message and mark as read
-                        PageCache.getNewMessagesWaitingForUser().getAndDecrement();
-                        Platform.runLater(() -> addMessage(PageCache.getBotLastMessage()));
-                    }
-                }
-            });
-            userThread.setName("userThread");
-            userThread.start();
-        }
-
+        messageHolder.getChildren().clear();
         // Add all the messages in the cache
         for (Message m : PageCache.getAllMessages())
             addMessage(m, false);
+
+        // If there are cached responses, add them
+        if (PageCache.getCachedResponses() != null) {
+            for (String s : PageCache.getCachedResponses()) {
+                PageCache.addBotMessage(new ChatBoxController.Message(s, false));
+                // Don't want the listener to send these messages
+                PageCache.getNewMessagesWaitingForUser().getAndDecrement();
+            }
+            PageCache.getCachedResponses().clear();
+        }
+
+        // Thread for getting messages from the bot
+        if (userThread != null) {
+            userThread.shutdownNow();
+
+            userThread = null;
+        }
+
+        Runnable msgListener = () -> {
+            // Wait for a new message
+            if (PageCache.getNewMessagesWaitingForUser().get() != 0) {
+                // Get message and mark as read
+                PageCache.getNewMessagesWaitingForUser().getAndDecrement();
+                Platform.runLater(() -> addMessage(PageCache.getBotLastMessage()));
+
+            }
+        };
+
+        userThread = Executors.newSingleThreadScheduledExecutor();
+        userThread.scheduleAtFixedRate(msgListener, 0, 300, TimeUnit.MILLISECONDS);
 
         // Scroll pane goes down to the bottom when a new message is sent
         scrollPane.vvalueProperty().bind(messageHolder.heightProperty());
@@ -132,6 +139,7 @@ public class ChatBoxController implements Initializable {
         PageCache.getUserMessages().clear();
         PageCache.getBotMessages().clear();
         messageHolder.getChildren().clear();
+        ChatBot.stateManager.reset();
     }
 
     /**
@@ -177,7 +185,6 @@ public class ChatBoxController implements Initializable {
         // Adds HBox with text
         HBox messageBox = new HBox();
         Label text = new Label(message.getMessage());
-        messageBox.setId(text.getText() + "Box");
         text.setFont(new Font("MS Reference Sans Serif", 13));
         text.setWrapText(true);
         text.setPadding(new Insets(5, 10, 5, 10));
@@ -203,6 +210,7 @@ public class ChatBoxController implements Initializable {
 
         // Hey, it exists!
         message.setIndex(messageHolder.getChildren().size());
+        messageBox.setId(text.getText() + "Box" + message.getIndex());
         messageHolder.getChildren().add(messageBox);
     }
 

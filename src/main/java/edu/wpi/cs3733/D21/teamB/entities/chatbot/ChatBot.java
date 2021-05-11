@@ -19,7 +19,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class ChatBot implements Runnable {
 
-    private final StateManager stateManager;
+    public static StateManager stateManager;
     private final Chat chatSession;
 
     public ChatBot() {
@@ -75,6 +75,7 @@ public class ChatBot implements Runnable {
         }
 
         // Get message and mark as read
+        PageCache.getNewMessagesWaitingForBot().getAndDecrement();
         return PageCache.getUserLastMessage();
     }
 
@@ -96,13 +97,16 @@ public class ChatBot implements Runnable {
                 e.printStackTrace();
             }
             unsureResponse(input.getMessage());
+
         } else {
             for (String message : response) {
-                if (message.contains("/")) {
+                // If the message is a path, go there
+                if (message.startsWith("/")) {
                     switchToPage(message);
-                    continue;
+                    return;
                 }
 
+                // Return to previous if message is 'return'
                 if (message.equals("return")) {
                     stateManager.setCurrentToPrev();
                     continue;
@@ -115,7 +119,9 @@ public class ChatBot implements Runnable {
                     e.printStackTrace();
                 }
 
-                sendMessage(message);
+                // If a response is 'unsure', respond with the default chatbot
+                if (message.equals("unsure")) unsureResponse(input.getMessage());
+                else sendMessage(message);
             }
         }
     }
@@ -126,74 +132,8 @@ public class ChatBot implements Runnable {
      * @param path the path to the FXML file to switch to
      */
     private void switchToPage(String path) {
-        Platform.runLater(() -> SceneSwitcher.switchScene(PageCache.getCurrentPage(), path));
+        Platform.runLater(() -> SceneSwitcher.switchFromTemp(path));
     }
-
-
-//    private void respondLogin(String message) {
-//        // If just asked to go to the login page, take them there
-//        if (previousBotMessage.equals("Do you want to go to the login page?") && containsAny(message, "yes", "y", "ye") && !PageCache.getCurrentPage().equals("/edu/wpi/cs3733/D21/teamB/views/login/loginPage.fxml")) {
-//            sendMessage("Taking you to the login page...");
-//            switchToPage("/edu/wpi/cs3733/D21/teamB/views/login/loginPage.fxml");
-//        } else if (previousBotMessage.equals("Do you want to go to the login page?")) {
-//            sendMessage("Okay, no problem.");
-//            state = ChatState.NORMAL;
-//        } else {
-//            unsureResponse(message);
-//        }
-//    }
-//
-//    private void respondRegister(String message) {
-//        // If just asked to go to the register page take them there
-//        if (previousBotMessage.equals("Do you want to make a new user?") && containsAny(message, "yes", "y", "ye") && !PageCache.getCurrentPage().equals("/edu/wpi/cs3733/D21/teamB/views/login/registerPage.fxml")) {
-//            sendMessage("Taking you to the create new user page...");
-//            switchToPage("/edu/wpi/cs3733/D21/teamB/views/login/registerPage.fxml");
-//        } else if (previousBotMessage.equals("Do you want to make a new user?")) {
-//            sendMessage("Okay, no problem.");
-//            state = ChatState.NORMAL;
-//        } else {
-//            unsureResponse(message);
-//        }
-//    }
-//
-//    private void respondCovid(String message) {
-//        // If just asked to go to the covid survey, take them there
-//        if (previousBotMessage.equals("Do you want to go to the COVID-19 survey?") && containsAny(message, "yes", "y", "ye") && !PageCache.getCurrentPage().equals("/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidSurvey.fxml")) {
-//            sendMessage("Taking you to the covid survey...");
-//            switchToPage("/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidSurvey.fxml");
-//        } else if (previousBotMessage.equals("Do you want to go to the COVID-19 survey?")) {
-//            sendMessage("Okay, no problem.");
-//            state = ChatState.NORMAL;
-//        } else {
-//            unsureResponse(message);
-//        }
-//    }
-//
-//    private void respondPathfinding(String message) {
-//        // If just asked to go to the covid survey, take them there
-//        if (previousBotMessage.equals("Do you want to get directions within the hospital?") && containsAny(message, "yes", "y", "ye") && !PageCache.getCurrentPage().equals("/edu/wpi/cs3733/D21/teamB/views/map/pathfindingMenu.fxml")) {
-//            sendMessage("Taking you to the directions page...");
-//            switchToPage("/edu/wpi/cs3733/D21/teamB/views/map/pathfindingMenu.fxml");
-//        } else if (previousBotMessage.equals("Do you want to get directions within the hospital?")) {
-//            sendMessage("Okay, no problem.");
-//            state = ChatState.NORMAL;
-//        } else {
-//            unsureResponse(message);
-//        }
-//    }
-//
-//    private void respondGoogleMaps(String message) {
-//        // If just asked to go to the covid survey, take them there
-//        if (previousBotMessage.equals("Do you want to get directions to the hospital?") && containsAny(message, "yes", "y", "ye") && !PageCache.getCurrentPage().equals("/edu/wpi/cs3733/D21/teamB/views/map/directionsMenu.fxml")) {
-//            sendMessage("Taking you to the Google Maps page...");
-//            switchToPage("/edu/wpi/cs3733/D21/teamB/views/map/directionsMenu.fxml");
-//        } else if (previousBotMessage.equals("Do you want to get directions to the hospital?")) {
-//            sendMessage("Okay, no problem.");
-//            state = ChatState.NORMAL;
-//        } else {
-//            unsureResponse(message);
-//        }
-//    }
 
     private void unsureResponse(String input) {
         try { // Otherwise, just respond however it normally would
