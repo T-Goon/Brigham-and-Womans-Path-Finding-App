@@ -184,6 +184,21 @@
                                                 <Font name="MS Reference Sans Serif" size="18.0" />
                                              </font>
                                           </Text>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="- Java-Breakout-Game, janbodnar" wrappingWidth="239.629150390625">
+                                             <font>
+                                                <Font name="MS Reference Sans Serif" size="18.0" />
+                                             </font>
+                                          </Text>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="- Java-Pacman-Game, janbodnar" wrappingWidth="239.629150390625">
+                                             <font>
+                                                <Font name="MS Reference Sans Serif" size="18.0" />
+                                             </font>
+                                          </Text>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="- Java Snake Game, BroCode" wrappingWidth="239.629150390625">
+                                             <font>
+                                                <Font name="MS Reference Sans Serif" size="18.0" />
+                                             </font>
+                                          </Text>
                                        </children>
                                     </VBox>
                                  </children>
