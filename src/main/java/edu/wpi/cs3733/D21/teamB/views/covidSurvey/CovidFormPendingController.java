@@ -22,7 +22,7 @@ public class CovidFormPendingController extends BasePageController {
     @FXML
     private StackPane stackPane;
 
-    @FXML JFXButton btnGame;
+    @FXML JFXButton btnGame1;
 
     @FXML
     public void handleButtonAction(ActionEvent e) {
@@ -38,7 +38,7 @@ public class CovidFormPendingController extends BasePageController {
             case "btnEmergency":
                 SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
                 break;
-            case "btnGame":
+            case "btnGame1":
                 SceneSwitcher.switchFromTemp("/edu/wpi/cs3733/D21/teamB/views/misc/arcade.fxml");
                 break;
         }
