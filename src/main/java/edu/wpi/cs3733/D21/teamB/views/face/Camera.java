@@ -240,7 +240,6 @@ public class Camera {
 
         String userName = null;
         try {
-            System.out.println(newImageEmbedding.length);
             userName = facenet.userFromEmbedding(newImageEmbedding);
         } catch (Exception e) {
             e.printStackTrace();

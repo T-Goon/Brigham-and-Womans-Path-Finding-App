@@ -107,7 +107,7 @@ public class CovidSurveyController extends DefaultServiceRequestFormController i
             for (Request r : DatabaseHandler.getHandler().getRequests().values()) {
                 if (r.getRequestType().equals(Request.RequestType.COVID)) {
                     CovidSurveyRequest cr = (CovidSurveyRequest) DatabaseHandler.getHandler().getSpecificRequestById(r.getRequestID(), Request.RequestType.COVID);
-                    if (cr.getSubmitter().equals(DatabaseHandler.getDatabaseHandler("main.db").getAuthenticationUser().getUsername())) {
+                    if (cr.getSubmitter().equals(DatabaseHandler.getHandler().getAuthenticationUser().getUsername())) {
                         request = cr;
                     } else if (DatabaseHandler.getHandler().getAuthenticationUser().getAuthenticationLevel().equals(User.AuthenticationLevel.GUEST)) {
                         if (r.getSubmitter().equals("null")) {
@@ -203,9 +203,9 @@ public class CovidSurveyController extends DefaultServiceRequestFormController i
 
         try {
             if (request == null) {
-                DatabaseHandler.getDatabaseHandler("main.db").addRequest(newRequest);
+                DatabaseHandler.getHandler().addRequest(newRequest);
             } else {
-                DatabaseHandler.getDatabaseHandler("main.db").updateRequest(newRequest);
+                DatabaseHandler.getHandler().updateRequest(newRequest);
             }
         } catch (SQLException e) {
             e.printStackTrace();

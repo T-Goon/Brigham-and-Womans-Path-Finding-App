@@ -146,6 +146,7 @@ public class EmbeddingModel {
         for(String key : this.embeddings.keySet()){
            double[] storedEmbedding = this.embeddings.get(key).stream().mapToDouble(d -> d).toArray();
            double cosineDistance = cosineDistance(a, storedEmbedding);
+           System.out.println(cosineDistance);
            if(cosineDistance > threshold){
               count++;
               username = key;
