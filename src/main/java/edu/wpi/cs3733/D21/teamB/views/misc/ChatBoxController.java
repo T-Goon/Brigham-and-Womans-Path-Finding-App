@@ -65,18 +65,23 @@ public class ChatBoxController implements Initializable {
             if (PageCache.isPageMinimized()) minimize();
         });
 
+        // Thread for getting messages from the bot
+        if (userThread != null) {
+            userThread.shutdownNow();
+            userThread = null;
+        }
+
+        PageCache.getIndex().set(0);
         messageHolder.getChildren().clear();
         // Add all the messages in the cache
         for (Message m : PageCache.getAllMessages())
             addMessage(m, false);
 
         // If there are cached responses, add them
+        System.out.println(PageCache.getCachedResponses());
         if (PageCache.getCachedResponses() != null) {
-            for (String s : PageCache.getCachedResponses()) {
+            for (String s : PageCache.getCachedResponses())
                 PageCache.addBotMessage(new ChatBoxController.Message(s, false));
-                // Don't want the listener to send these messages
-                PageCache.getNewMessagesWaitingForUser().getAndDecrement();
-            }
             PageCache.getCachedResponses().clear();
         }
 
@@ -84,20 +89,15 @@ public class ChatBoxController implements Initializable {
             Platform.runLater(() -> input.requestFocus());
 
 
-        // Thread for getting messages from the bot
-        if (userThread != null) {
-            userThread.shutdownNow();
-
-            userThread = null;
-        }
-
         Runnable msgListener = () -> {
             // Wait for a new message
             if (PageCache.getNewMessagesWaitingForUser().get() != 0) {
                 // Get message and mark as read
                 PageCache.getNewMessagesWaitingForUser().getAndDecrement();
-                Platform.runLater(() -> addMessage(PageCache.getBotLastMessage()));
-
+                Platform.runLater(() -> {
+                    addMessage(PageCache.getBotLastMessage());
+                    PageCache.getMessageDisplayed().set(true);
+                });
             }
         };
 
@@ -213,7 +213,7 @@ public class ChatBoxController implements Initializable {
         }
 
         // Hey, it exists!
-        message.setIndex(messageHolder.getChildren().size());
+        message.setIndex(PageCache.getIndex().getAndIncrement());
         messageBox.setId(text.getText() + "Box" + message.getIndex());
         messageHolder.getChildren().add(messageBox);
     }

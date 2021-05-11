@@ -100,6 +100,11 @@ public class ChatBot implements Runnable {
 
         } else {
             for (String message : response) {
+
+                // Block until message is displayed
+                while (!PageCache.getMessageDisplayed().get()) {
+                }
+
                 // If the message is a path, go there
                 if (message.startsWith("/")) {
                     switchToPage(message);
@@ -156,6 +161,7 @@ public class ChatBot implements Runnable {
      * @param message the message to send
      */
     private void sendMessage(String message) {
+        PageCache.getMessageDisplayed().set(false);
         PageCache.addBotMessage(new ChatBoxController.Message(message, false));
     }
 

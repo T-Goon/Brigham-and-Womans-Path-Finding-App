@@ -110,7 +110,6 @@ public class EmbeddingModel {
         for(int i = 0; i < a.length; i++){
             acc += Math.pow(b[i] - a[i], 2);
         }
-        System.out.println(a.length);
         return Math.sqrt(acc);
     }
 

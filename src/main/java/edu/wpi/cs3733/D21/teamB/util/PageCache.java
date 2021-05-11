@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class PageCache {
@@ -26,6 +27,12 @@ public class PageCache {
 
     @Getter
     private static final Queue<String> cachedResponses = new LinkedList<>();
+
+    @Getter
+    private static final AtomicInteger index = new AtomicInteger();
+
+    @Getter
+    private static final AtomicBoolean messageDisplayed = new AtomicBoolean(true);
 
     @Getter
     private static final AtomicInteger newMessagesWaitingForBot = new AtomicInteger();
