@@ -156,6 +156,7 @@ public class CovidSurveyController extends DefaultServiceRequestFormController i
             chkNose.setSelected(request.getSymptomNose().equals("T"));
             chkLostTaste.setSelected(request.getSymptomLostTaste().equals("T"));
             chkNausea.setSelected(request.getSymptomNausea().equals("T"));
+            chkNone.setSelected(request.getSymptomNone().equals("T"));
             btnCCYes.setSelected(request.getHadCloseContact().equals("T"));
             btnCCNo.setSelected(!request.getHadCloseContact().equals("T"));
             btnTestYes.setSelected(request.getHadPositiveTest().equals("T"));
@@ -282,6 +283,7 @@ public class CovidSurveyController extends DefaultServiceRequestFormController i
                 chkNose.isSelected() ? "T" : "F",
                 chkLostTaste.isSelected() ? "T" : "F",
                 chkNausea.isSelected() ? "T" : "F",
+                chkNone.isSelected() ? "T" : "F",
                 btnCCYes.isSelected() ? "T" : "F",
                 btnTestYes.isSelected() ? "T" : "F"
         );

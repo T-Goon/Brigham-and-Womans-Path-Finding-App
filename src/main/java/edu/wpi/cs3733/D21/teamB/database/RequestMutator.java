@@ -234,6 +234,7 @@ public class RequestMutator implements IDatabaseEntityMutator<Request> {
                         + "', '" + covidSurveyRequest.getSymptomNose()
                         + "', '" + covidSurveyRequest.getSymptomLostTaste()
                         + "', '" + covidSurveyRequest.getSymptomNausea()
+                        + "', '" + covidSurveyRequest.getSymptomNone()
                         + "', '" + covidSurveyRequest.getHadCloseContact()
                         + "', '" + covidSurveyRequest.getHadPositiveTest()
                         + "', '" + covidSurveyRequest.getAdmitted()
@@ -397,11 +398,10 @@ public class RequestMutator implements IDatabaseEntityMutator<Request> {
                         + "', nose = '" + covidSurveyRequest.getSymptomNose()
                         + "', lostTaste = '" + covidSurveyRequest.getSymptomLostTaste()
                         + "', nausea = '" + covidSurveyRequest.getSymptomNausea()
+                        + "', none = '" + covidSurveyRequest.getSymptomNone()
                         + "', closeContact = '" + covidSurveyRequest.getHadCloseContact()
                         + "', positiveTest = '" + covidSurveyRequest.getHadPositiveTest()
                         + "' WHERE requestID = '" + covidSurveyRequest.getRequestID() + "'";
-
-
                 break;
         }
         db.runStatement(query, false);
@@ -695,6 +695,7 @@ public class RequestMutator implements IDatabaseEntityMutator<Request> {
                         rs.getString("nose"),
                         rs.getString("lostTaste"),
                         rs.getString("nausea"),
+                        rs.getString("none"),
                         rs.getString("closeContact"),
                         rs.getString("positiveTest")
                 );
