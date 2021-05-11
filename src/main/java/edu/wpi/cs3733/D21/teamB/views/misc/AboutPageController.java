@@ -1,4 +1,4 @@
-package edu.wpi.cs3733.D21.teamB.views.menus;
+package edu.wpi.cs3733.D21.teamB.views.misc;
 
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;

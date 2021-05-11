@@ -245,8 +245,6 @@ public class Camera {
             e.printStackTrace();
         }
 
-        System.out.println(userName);
-
         if(userName != null){
             loginPageController.setUserName(userName);
         }

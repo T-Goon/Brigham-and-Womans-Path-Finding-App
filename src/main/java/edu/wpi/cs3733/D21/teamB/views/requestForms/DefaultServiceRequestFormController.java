@@ -19,10 +19,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public abstract class DefaultServiceRequestFormController extends BasePageController implements Initializable {
 
@@ -59,14 +56,19 @@ public abstract class DefaultServiceRequestFormController extends BasePageContro
             justClicked = false;
         });
 
-        Map<String, Node> nodes = DatabaseHandler.getHandler().getNodes();
+        List<Node> nodes = new ArrayList<>(DatabaseHandler.getHandler().getNodes().values());
 
-        for (Node n : nodes.values()) {
+        nodes.sort(new Comparator<Node>() {
+            @Override
+            public int compare(Node o1, Node o2) {
+                return o1.getLongName().compareTo(o2.getLongName());
+            }
+        });
+
+        for (Node n : nodes) {
             loc.getItems().add(n.getLongName());
             nodesList.add(n);
         }
-
-        loc.getItems().sort(Comparator.comparing(String::toString));
 
         //implement searchable combo box
         loc.setVisibleRowCount(5);
@@ -85,7 +87,12 @@ public abstract class DefaultServiceRequestFormController extends BasePageContro
     }
 
     protected String getLocation() {
-        return nodesList.get(loc.getSelectionModel().getSelectedIndex()).getNodeID();
+        if(nodesList.stream().anyMatch(node -> node.getLongName().equals(loc.getEditor().getText()))){
+            return nodesList.stream().filter(node -> node.getLongName().equals(loc.getEditor().getText())).findFirst().get().getNodeID();
+        }
+        else{
+            return null;
+        }
     }
 
     public void handleButtonAction(ActionEvent e) {

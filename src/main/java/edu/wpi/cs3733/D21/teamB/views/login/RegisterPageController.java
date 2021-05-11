@@ -13,6 +13,7 @@ import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
 import edu.wpi.cs3733.D21.teamB.views.BasePageController;
 import edu.wpi.cs3733.D21.teamB.views.face.Camera;
 import edu.wpi.cs3733.D21.teamB.views.face.EmbeddingModel;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -112,6 +113,8 @@ public class RegisterPageController extends BasePageController implements Initia
 
         camera = new Camera(pictureImage, cameraImage, btnTakePicture, false);
         camera.toggleCamera();
+
+        Platform.runLater(() -> username.requestFocus());
     }
 
     @FXML
@@ -177,27 +180,29 @@ public class RegisterPageController extends BasePageController implements Initia
             e.printStackTrace();
         }
 
-        ArrayList<Double> embeddingArray = new ArrayList<>();
-        try {
-
-            double [] temp = EmbeddingModel.getModel().embedding((new BufferedImageFactory()).fromImage(Camera.MatConvert(camera.getPictureTaken())));
-
-            for(double d : temp){
-                embeddingArray.add(d);
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        Embedding embedding = new Embedding(username.getText(), embeddingArray);
-
         // Store in db
-        try {
-            db.addEmbedding(embedding);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
+        Thread addEmbedding = new Thread(()->{
+            try {
+                ArrayList<Double> embeddingArray = new ArrayList<>();
+                try {
+
+                    double [] temp = EmbeddingModel.getModel().embedding((new BufferedImageFactory()).fromImage(Camera.MatConvert(camera.getPictureTaken())));
+
+                    for(double d : temp){
+                        embeddingArray.add(d);
+                    }
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                Embedding embedding = new Embedding(username.getText(), embeddingArray);
+                db.addEmbedding(embedding);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+        addEmbedding.start();
 
         Camera.stopAcquisition();
         ExternalCommunication.sendConfirmation(email.getText(), firstName.getText());

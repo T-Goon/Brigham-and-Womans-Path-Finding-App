@@ -64,6 +64,9 @@ public class CovidSurveyController extends DefaultServiceRequestFormController i
     private JFXCheckBox chkNausea;
 
     @FXML
+    private JFXCheckBox chkNone;
+
+    @FXML
     private JFXButton btnExit;
 
     @FXML
@@ -90,6 +93,7 @@ public class CovidSurveyController extends DefaultServiceRequestFormController i
     @FXML
     private JFXTextField txtName;
 
+
     //State (per-view)
     private CovidSurveyRequest request;
 
@@ -101,6 +105,26 @@ public class CovidSurveyController extends DefaultServiceRequestFormController i
         btnCCNo.setToggleGroup(ccGroup);
         btnTestYes.setToggleGroup(testGroup);
         btnTestNo.setToggleGroup(testGroup);
+
+        //check none all uncheck
+        chkNone.setOnAction(event -> {
+            if(chkNone.isSelected()){
+                chkFever.setSelected(false);
+                chkChills.setSelected(false);
+                chkCough.setSelected(false);
+                chkShortBreath.setSelected(false);
+                chkSoreTht.setSelected(false);
+                chkHeadache.setSelected(false);
+                chkAches.setSelected(false);
+                chkNose.setSelected(false);
+                chkLostTaste.setSelected(false);
+                chkNausea.setSelected(false);
+            }
+        });
+
+        //check something none unchecks
+        uncheckNone(chkFever, chkChills, chkCough, chkShortBreath, chkSoreTht, chkHeadache, chkAches, chkNose, chkLostTaste, chkNausea);
+
 
         request = null;
         try {
@@ -132,6 +156,7 @@ public class CovidSurveyController extends DefaultServiceRequestFormController i
             chkNose.setSelected(request.getSymptomNose().equals("T"));
             chkLostTaste.setSelected(request.getSymptomLostTaste().equals("T"));
             chkNausea.setSelected(request.getSymptomNausea().equals("T"));
+            chkNone.setSelected(request.getSymptomNone().equals("T"));
             btnCCYes.setSelected(request.getHadCloseContact().equals("T"));
             btnCCNo.setSelected(!request.getHadCloseContact().equals("T"));
             btnTestYes.setSelected(request.getHadPositiveTest().equals("T"));
@@ -140,6 +165,67 @@ public class CovidSurveyController extends DefaultServiceRequestFormController i
         }
 
         this.validateButton();
+    }
+
+    
+
+    private void uncheckNone(JFXCheckBox chkFever, JFXCheckBox chkChills, JFXCheckBox chkCough, JFXCheckBox chkShortBreath, JFXCheckBox chkSoreTht,   JFXCheckBox chkHeadache, JFXCheckBox chkAches, JFXCheckBox chkNose, JFXCheckBox chkLostTaste, JFXCheckBox chkNausea) {
+
+        chkFever.setOnAction(event -> {
+            if(chkNone.isSelected()){
+                chkNone.setSelected(false);
+            }
+        });
+
+        chkChills.setOnAction(event -> {
+            if(chkNone.isSelected()){
+                chkNone.setSelected(false);
+            }
+        });
+
+        chkCough.setOnAction(event -> {
+            if(chkNone.isSelected()){
+                chkNone.setSelected(false);
+            }
+        });
+
+        chkShortBreath.setOnAction(event -> {
+            if(chkNone.isSelected()){
+                chkNone.setSelected(false);
+            }
+        });
+
+        chkSoreTht.setOnAction(event -> {
+            if(chkNone.isSelected()){
+                chkNone.setSelected(false);
+            }
+        });
+
+        chkHeadache.setOnAction(event -> {
+            if(chkNone.isSelected()){
+                chkNone.setSelected(false);
+            }
+        });
+        chkAches.setOnAction(event -> {
+            if(chkNone.isSelected()){
+                chkNone.setSelected(false);
+            }
+        });
+        chkNose.setOnAction(event -> {
+            if(chkNone.isSelected()){
+                chkNone.setSelected(false);
+            }
+        });
+        chkLostTaste.setOnAction(event -> {
+            if(chkNone.isSelected()){
+                chkNone.setSelected(false);
+            }
+        });
+        chkNausea.setOnAction(event -> {
+            if(chkNone.isSelected()){
+                chkNone.setSelected(false);
+            }
+        });
     }
 
     @FXML
@@ -188,8 +274,8 @@ public class CovidSurveyController extends DefaultServiceRequestFormController i
                 User.CovidStatus.PENDING,
                 "F",
                 chkFever.isSelected() ? "T" : "F",
-                chkCough.isSelected() ? "T" : "F",
                 chkChills.isSelected() ? "T" : "F",
+                chkCough.isSelected() ? "T" : "F",
                 chkShortBreath.isSelected() ? "T" : "F",
                 chkSoreTht.isSelected() ? "T" : "F",
                 chkHeadache.isSelected() ? "T" : "F",
@@ -197,6 +283,7 @@ public class CovidSurveyController extends DefaultServiceRequestFormController i
                 chkNose.isSelected() ? "T" : "F",
                 chkLostTaste.isSelected() ? "T" : "F",
                 chkNausea.isSelected() ? "T" : "F",
+                chkNone.isSelected() ? "T" : "F",
                 btnCCYes.isSelected() ? "T" : "F",
                 btnTestYes.isSelected() ? "T" : "F"
         );

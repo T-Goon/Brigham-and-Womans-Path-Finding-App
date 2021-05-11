@@ -3,18 +3,19 @@ package edu.wpi.cs3733.D21.teamB.views.login;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.JFXToggleButton;
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.User;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
 import edu.wpi.cs3733.D21.teamB.views.BasePageController;
 import edu.wpi.cs3733.D21.teamB.views.face.Camera;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 
 import java.net.URL;
@@ -48,7 +49,9 @@ public class LoginPageController extends BasePageController implements Initializ
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
         super.initialize(location,resources);
+
         //Add event listeners to the text boxes so user can submit by pressing enter
         username.setOnKeyPressed(event -> {
             if (event.getCode().equals(KeyCode.ENTER) && !areFormsEmpty()) {
@@ -61,6 +64,7 @@ public class LoginPageController extends BasePageController implements Initializ
                 handleLoginSubmit();
             }
         });
+        Platform.runLater(() -> username.requestFocus());
 
         camera = new Camera(null, faceImage, null, true);
         camera.setLoginPageController(this);
@@ -94,6 +98,23 @@ public class LoginPageController extends BasePageController implements Initializ
 
     public void setUserName(String name){
         username.setText(name);
+        Platform.runLater(() -> password.requestFocus());
+        validateButton();
+    }
+
+    @FXML
+    private void toggleCamera(ActionEvent event){
+        JFXToggleButton tog = (JFXToggleButton) event.getSource();
+
+        if(!tog.isSelected()){
+            camera.toggleCamera();
+            username.setText("");
+            password.setText("");
+            Platform.runLater(() -> username.requestFocus());
+        } else{
+            password.setText("");
+            camera.toggleCamera();
+        }
     }
 
     /**

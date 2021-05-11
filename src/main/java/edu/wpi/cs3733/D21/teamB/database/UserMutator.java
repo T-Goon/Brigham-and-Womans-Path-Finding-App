@@ -85,7 +85,9 @@ public class UserMutator implements IDatabaseEntityMutator<UserMutator.UserPassw
     public void removeEntity(String username) throws SQLException {
         String deleteJobs = "DELETE FROM Jobs WHERE (username = '" + username + "')";
         String deleteUser = "DELETE FROM Users WHERE (username = '" + username + "')";
+        String deleteFace = "DELETE FROM Embeddings WHERE (username = '" + username + "')";
         db.runStatement(deleteJobs, false);
+        db.runStatement(deleteFace, false);
         db.runStatement(deleteUser, false);
     }
 

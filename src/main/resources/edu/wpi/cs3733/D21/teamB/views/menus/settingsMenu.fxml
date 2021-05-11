@@ -145,19 +145,35 @@
                                  </JFXButton>
                              </children>
                          </HBox>
+                        <HBox fx:id="passwordHolder1" alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <JFXButton fx:id="btnCredits" accessibleText="Change Password Button" buttonType="RAISED" onAction="#handleButtonAction" prefHeight="60.0" prefWidth="206.0" style="-fx-background-color: #F6BD39; -fx-background-radius: 7;" text="Credits">
+                                 <font>
+                                    <Font name="MS Reference Sans Serif" size="20.0" />
+                                 </font>
+                              </JFXButton>
+                           </children>
+                        </HBox>
                      </children>
                   </VBox>
                         <HBox maxHeight="-Infinity">
                             <children>
                                 <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" HBox.hgrow="ALWAYS">
                                     <children>
-                              <JFXButton fx:id="btnBack" accessibleText="Leave page" alignment="CENTER" buttonType="RAISED" cancelButton="true" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#handleButtonAction" prefHeight="56" prefWidth="56" style="-fx-background-color: #0067B1; -fx-background-radius: 50%;" text="🡰" textAlignment="CENTER" textFill="WHITE">
+                              <JFXButton fx:id="btnBack" accessibleText="Leave page" alignment="CENTER" buttonType="RAISED" cancelButton="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#handleButtonAction" prefHeight="56" prefWidth="100.0" style="-fx-background-color: #0067B1; -fx-background-radius: 7;" text="Back" textAlignment="CENTER" textFill="WHITE">
                                  <font>
-                                    <Font size="27.0" />
+                                    <Font size="18.0" />
                                  </font>
                                  <padding>
                                     <Insets top="1.0" />
                                  </padding>
+                                 <graphic>
+                                    <ImageView fitHeight="45.0" fitWidth="46.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../images/menus/backButton.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
                               </JFXButton>
                                     </children>
                                     <HBox.margin>
