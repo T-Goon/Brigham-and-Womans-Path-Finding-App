@@ -7,6 +7,14 @@ import java.util.List;
 import java.util.Stack;
 
 public class CovidState implements IState {
+
+    public CovidState() {
+    }
+
+    public CovidState(String initialMessage) {
+        messagesSent.push(initialMessage);
+    }
+
     private final Stack<String> messagesSent = new Stack<>();
 
     @Override

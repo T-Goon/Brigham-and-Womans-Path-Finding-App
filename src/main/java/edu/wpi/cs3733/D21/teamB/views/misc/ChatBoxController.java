@@ -119,10 +119,12 @@ public class ChatBoxController implements Initializable {
     @FXML
     public void handleSendMessage(KeyEvent e) {
         if (e.getCode() == KeyCode.ENTER) {
-            Message message = new Message(input.getText(), true);
-            addMessage(message);
-            input.clear();
-            PageCache.addUserMessage(message);
+            if (!input.getText().isEmpty()) {
+                Message message = new Message(input.getText(), true);
+                addMessage(message);
+                input.clear();
+                PageCache.addUserMessage(message);
+            }
         }
     }
 

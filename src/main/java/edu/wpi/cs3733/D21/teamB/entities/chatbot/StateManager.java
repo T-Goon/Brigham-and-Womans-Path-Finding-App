@@ -2,6 +2,8 @@ package edu.wpi.cs3733.D21.teamB.entities.chatbot;
 
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.User;
+import edu.wpi.cs3733.D21.teamB.util.PageCache;
+import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -38,7 +40,12 @@ public class StateManager {
 
         // Makes sure the user doesn't try to access something without taking the covid survey
         if (containsAny(input, PATHFINDING_KEYWORDS) && (current.getAuthenticationLevel() == User.AuthenticationLevel.PATIENT || current.getAuthenticationLevel() == User.AuthenticationLevel.GUEST) && (current.getCovidStatus() == User.CovidStatus.PENDING || current.getCovidStatus() == User.CovidStatus.UNCHECKED)) {
-            return Collections.singletonList("Sorry, but you must take the COVID-19 survey before accessing the map!");
+            currentState = new CovidState("Do you need help filling out a COVID survey?");
+            List<String> responses = new ArrayList<>();
+            responses.add("Sorry, but you must take the COVID-19 survey before accessing the map!");
+            responses.add("/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidSurvey.fxml");
+            PageCache.getCachedResponses().add("Do you need help filling out a COVID survey?");
+            return responses;
         }
 
         // If switching tracks, reset everything back to the beginning
