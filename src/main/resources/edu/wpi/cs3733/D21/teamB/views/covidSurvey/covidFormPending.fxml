@@ -4,115 +4,115 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<StackPane fx:id="stackPane" style="-fx-background-color: #012d5a;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D21.teamB.views.covidSurvey.CovidFormPendingController">
-   <children>
-        <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0">
-            <children>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #FFFFFF;">
-               <children>
-                  <VBox>
-                     <HBox.margin>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                     </HBox.margin>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: #012d5a;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D21.teamB.views.covidSurvey.CovidFormPendingController">
+    <children>
+      <StackPane fx:id="stackPane" layoutY="-28.083261489868164" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+              <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0">
+                  <children>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #FFFFFF;">
                      <children>
-                        <ImageView fitHeight="114.0" fitWidth="314.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../images/general/hospitalLogo.png" />
-                           </image>
-                        </ImageView>
-                        <JFXButton fx:id="btnEmergency" buttonType="RAISED" onAction="#handleButtonAction" style="-fx-background-color: #CE2029;" text="EMERGENCY" textFill="WHITE">
-                           <font>
-                              <Font name="MS Reference Sans Serif" size="16.0" />
-                           </font>
-                           <VBox.margin>
-                              <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
-                           </VBox.margin>
-                        </JFXButton>
+                        <VBox>
+                           <HBox.margin>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </HBox.margin>
+                           <children>
+                              <ImageView fitHeight="114.0" fitWidth="314.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../images/general/hospitalLogo.png" />
+                                 </image>
+                              </ImageView>
+                              <JFXButton fx:id="btnEmergency" buttonType="RAISED" onAction="#handleButtonAction" style="-fx-background-color: #CE2029;" text="EMERGENCY" textFill="WHITE">
+                                 <font>
+                                    <Font name="MS Reference Sans Serif" size="16.0" />
+                                 </font>
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
+                                 </VBox.margin>
+                              </JFXButton>
+                           </children>
+                        </VBox>
+                        <VBox alignment="TOP_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <JFXButton fx:id="btnExit" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" onAction="#handleButtonAction" prefHeight="40.0" prefWidth="40.0" rotate="45.0" style="-fx-background-color: transparent; -fx-background-radius: 50%;" text="+" textAlignment="CENTER">
+                                 <padding>
+                                    <Insets bottom="-10.0" left="-10.0" right="-10.0" top="-10.0" />
+                                 </padding>
+                                 <font>
+                                    <Font size="30.0" />
+                                 </font>
+                              </JFXButton>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Form Submission">
+                                 <font>
+                                    <Font size="40.0" />
+                                 </font>
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
+                                 </VBox.margin>
+                              </Text>
+                           </children>
+                        </VBox>
                      </children>
-                  </VBox>
-                  <VBox alignment="TOP_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+                  </HBox>
+                  <VBox alignment="CENTER" prefHeight="9999.0" spacing="15.0">
                      <children>
-                        <JFXButton fx:id="btnExit" alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" onAction="#handleButtonAction" prefHeight="40.0" prefWidth="40.0" rotate="45.0" style="-fx-background-color: transparent; -fx-background-radius: 50%;" text="+" textAlignment="CENTER">
-                           <padding>
-                              <Insets bottom="-10.0" left="-10.0" right="-10.0" top="-10.0" />
-                           </padding>
+                            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                                <image>
+                                    <Image url="@../../images/checkmark.png" />
+                                </image>
+                            </ImageView>
+                            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Form Successfully Submitted!">
+                                <font>
+                                    <Font name="MS Reference Sans Serif" size="24.0" />
+                                </font>
+                            </Text>
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Your access is pending approval by a hospital worker">
                            <font>
-                              <Font size="30.0" />
+                              <Font name="MS Reference Sans Serif" size="24.0" />
                            </font>
-                        </JFXButton>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Form Submission">
-                           <font>
-                              <Font size="40.0" />
-                           </font>
-                           <VBox.margin>
-                              <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
-                           </VBox.margin>
                         </Text>
+                            <JFXButton fx:id="btnEdit" buttonType="RAISED" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39;" text="Edit Form">
+                                <font>
+                                    <Font name="MS Reference Sans Serif" size="18.0" />
+                                </font>
+                            </JFXButton>
                      </children>
+                     <VBox.margin>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </VBox.margin>
                   </VBox>
-               </children>
-            </HBox>
-                <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                    <image>
-                        <Image url="@../../images/checkmark.png" />
-                    </image>
-                    <VBox.margin>
-                        <Insets bottom="50.0" top="50.0" />
-                    </VBox.margin>
-                </ImageView>
-                <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Form Successfully Submitted!" VBox.vgrow="ALWAYS">
-                    <font>
-                        <Font name="MS Reference Sans Serif" size="24.0" />
-                    </font>
-                </Text>
-            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Your access is pending approval by a hospital worker">
-               <font>
-                  <Font name="MS Reference Sans Serif" size="24.0" />
-               </font>
-               <VBox.margin>
-                  <Insets top="20.0" />
-               </VBox.margin>
-            </Text>
-                <JFXButton fx:id="btnEdit" buttonType="RAISED" onAction="#handleButtonAction" style="-fx-background-color: #F6BD39;" text="Edit Form">
-                    <font>
-                        <Font name="MS Reference Sans Serif" size="18.0" />
-                    </font>
-                    <VBox.margin>
-                        <Insets top="30.0" />
-                    </VBox.margin>
-                </JFXButton>
-                <HBox alignment="BOTTOM_LEFT" HBox.hgrow="ALWAYS">
-                    <children>
-                        <JFXButton fx:id="btnBack" alignment="CENTER_RIGHT" buttonType="RAISED" cancelButton="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#handleButtonAction" prefHeight="56" prefWidth="100.0" style="-fx-background-color: #0067B1; -fx-background-radius: 7;" text="Back  " textAlignment="RIGHT" textFill="WHITE">
-                            <font>
-                                <Font size="18.0" />
-                            </font>
-                            <padding>
-                                <Insets top="1.0" />
-                            </padding>
-                            <graphic>
-                                <ImageView fitHeight="35.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
-                                    <image>
-                                        <Image url="@../../images/menus/backButton.png" />
-                                    </image>
-                                </ImageView>
-                            </graphic>
-                        </JFXButton>
-                    </children>
-                    <HBox.margin>
-                        <Insets />
-                    </HBox.margin>
-                    <padding>
-                        <Insets bottom="15.0" left="15.0" />
-                    </padding>
-                </HBox>
-            </children>
-        </VBox>
-   </children>
-</StackPane>
+                      <HBox alignment="BOTTOM_LEFT" fillHeight="false">
+                          <children>
+                              <JFXButton fx:id="btnBack" alignment="CENTER_RIGHT" buttonType="RAISED" cancelButton="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#handleButtonAction" prefHeight="56" prefWidth="100.0" style="-fx-background-color: #0067B1; -fx-background-radius: 7;" text="Back  " textAlignment="RIGHT" textFill="WHITE">
+                                  <font>
+                                      <Font size="18.0" />
+                                  </font>
+                                  <padding>
+                                      <Insets top="1.0" />
+                                  </padding>
+                                  <graphic>
+                                      <ImageView fitHeight="35.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
+                                          <image>
+                                              <Image url="@../../images/menus/backButton.png" />
+                                          </image>
+                                      </ImageView>
+                                  </graphic>
+                              </JFXButton>
+                          </children>
+                          <padding>
+                              <Insets bottom="15.0" left="15.0" />
+                          </padding>
+                      </HBox>
+                  </children>
+              </VBox>
+         </children>
+      </StackPane>
+    </children>
+</AnchorPane>
