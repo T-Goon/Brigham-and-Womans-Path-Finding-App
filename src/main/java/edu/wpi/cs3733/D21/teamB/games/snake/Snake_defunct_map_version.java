@@ -1,6 +1,5 @@
 package edu.wpi.cs3733.D21.teamB.games.snake;
 
-import edu.wpi.cs3733.D21.teamB.App;
 import edu.wpi.cs3733.D21.teamB.entities.map.MapCache;
 import edu.wpi.cs3733.D21.teamB.entities.map.MapDrawer;
 import edu.wpi.cs3733.D21.teamB.entities.map.Coord;
@@ -25,7 +24,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
 import java.util.*;
 
-public class Snake extends JPanel implements ActionListener {
+public class Snake_defunct_map_version extends JPanel implements ActionListener {
 
     @Getter
     private List<Node> nodes;
@@ -56,7 +55,7 @@ public class Snake extends JPanel implements ActionListener {
     @Getter
     private boolean gameOver = false;
 
-    public Snake(MapDrawer mapDrawer, MapCache mapCache, AnchorPane nodeHolder, Label score) {
+    public Snake_defunct_map_version(MapDrawer mapDrawer, MapCache mapCache, AnchorPane nodeHolder, Label score) {
         this.mapDrawer = mapDrawer;
         this.mapCache = mapCache;
         this.nodeHolder = nodeHolder;
@@ -203,7 +202,7 @@ public class Snake extends JPanel implements ActionListener {
         int index = (int) (Math.random() * nodes.size());
         appleNode = nodes.get(index);
         try {
-            imageView = FXMLLoader.load(Objects.requireNonNull(Snake.class.getResource("/edu/wpi/cs3733/D21/teamB/views/map/misc/apple.fxml")));
+            imageView = FXMLLoader.load(Objects.requireNonNull(Snake_defunct_map_version.class.getResource("/edu/wpi/cs3733/D21/teamB/views/map/misc/apple.fxml")));
             imageView.setLayoutX((appleNode.getXCoord() / PathfindingMenuController.COORDINATE_SCALE) - (imageView.getFitWidth() / 4));
             imageView.setLayoutY((appleNode.getYCoord() / PathfindingMenuController.COORDINATE_SCALE) - (imageView.getFitHeight()));
             nodeHolder.getChildren().add(imageView);
@@ -345,7 +344,7 @@ public class Snake extends JPanel implements ActionListener {
 
             //this will go in a loop later because the size will grow
             try {
-                ImageView i = FXMLLoader.load(Objects.requireNonNull(Snake.class.getResource("/edu/wpi/cs3733/D21/teamB/views/map/misc/snake.fxml")));
+                ImageView i = FXMLLoader.load(Objects.requireNonNull(Snake_defunct_map_version.class.getResource("/edu/wpi/cs3733/D21/teamB/views/map/misc/snake.fxml")));
                 i.setLayoutX((x[0] / PathfindingMenuController.COORDINATE_SCALE) - (i.getFitWidth() / 4));
                 i.setLayoutY((y[0] / PathfindingMenuController.COORDINATE_SCALE) - (i.getFitHeight()));
                 nodeHolder.getChildren().add(i);
