@@ -95,7 +95,7 @@
                                           <Insets bottom="5.0" />
                                        </VBox.margin>
                                     </Text>
-                                    <JFXTextField fx:id="txtFirstName" accessibleText="User name" focusColor="#ffffff00" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyReleased="#validateButtons" prefHeight="50.0" prefWidth="400.0" style="-fx-background-color: #0067B1; -fx-border-color: white; -fx-border-width: 1; -fx-border-radius: 3;" stylesheets="@../../css/login.css">
+                                    <JFXTextField fx:id="txtFirstName" accessibleText="First Name" focusColor="#ffffff00" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyReleased="#validateButtons" prefHeight="50.0" prefWidth="400.0" style="-fx-background-color: #0067B1; -fx-border-color: white; -fx-border-width: 1; -fx-border-radius: 3;" stylesheets="@../../css/login.css">
                                        <font>
                                           <Font size="20.0" />
                                        </font>
@@ -112,7 +112,7 @@
                                           <Insets bottom="5.0" />
                                        </VBox.margin>
                                     </Text>
-                                    <JFXTextField fx:id="txtLastName" accessibleText="User name" focusColor="#ffffff00" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyReleased="#validateButtons" prefHeight="50.0" prefWidth="400.0" style="-fx-background-color: #0067B1; -fx-border-color: white; -fx-border-width: 1; -fx-border-radius: 3;" stylesheets="@../../css/login.css">
+                                    <JFXTextField fx:id="txtLastName" accessibleText="Last name" focusColor="#ffffff00" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyReleased="#validateButtons" prefHeight="50.0" prefWidth="400.0" style="-fx-background-color: #0067B1; -fx-border-color: white; -fx-border-width: 1; -fx-border-radius: 3;" stylesheets="@../../css/login.css">
                                        <font>
                                           <Font size="20.0" />
                                        </font>
@@ -150,7 +150,7 @@
                                           <Insets bottom="5.0" />
                                        </VBox.margin>
                                     </Text>
-                                    <JFXTextField fx:id="txtEmail" accessibleText="User name" focusColor="#ffffff00" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyReleased="#validateButtons" prefHeight="50.0" prefWidth="400.0" style="-fx-background-color: #0067B1; -fx-border-color: white; -fx-border-width: 1; -fx-border-radius: 3;" stylesheets="@../../css/login.css">
+                                    <JFXTextField fx:id="txtEmail" accessibleText="E Mail" focusColor="#ffffff00" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyReleased="#validateButtons" prefHeight="50.0" prefWidth="400.0" style="-fx-background-color: #0067B1; -fx-border-color: white; -fx-border-width: 1; -fx-border-radius: 3;" stylesheets="@../../css/login.css">
                                        <font>
                                           <Font size="20.0" />
                                        </font>
@@ -187,7 +187,7 @@
                                           <Insets bottom="5.0" />
                                        </VBox.margin>
                                     </Text>
-                                    <JFXPasswordField fx:id="passPassword" onKeyReleased="#validateButtons" prefHeight="50.0" prefWidth="400.0" style="-fx-background-color: #0067B1; -fx-border-color: white; -fx-border-width: 1; -fx-border-radius: 3;" stylesheets="@../../css/login.css" unFocusColor="#4d4d4d00" />
+                                    <JFXPasswordField fx:id="passPassword" accessibleText="Password" onKeyReleased="#validateButtons" prefHeight="50.0" prefWidth="400.0" style="-fx-background-color: #0067B1; -fx-border-color: white; -fx-border-width: 1; -fx-border-radius: 3;" stylesheets="@../../css/login.css" unFocusColor="#4d4d4d00" />
                                  </children>
                               </VBox>
                            </children>
@@ -202,7 +202,7 @@
                                     <Insets bottom="5.0" />
                                  </VBox.margin>
                               </Text>
-                              <JFXComboBox fx:id="comboAuth" focusColor="#405aa800" maxHeight="-Infinity" maxWidth="-Infinity" onAction="#validateButtons" prefHeight="50.0" prefWidth="400.0" style="-fx-background-color: #0067B1; -fx-border-color: white; -fx-border-width: 1; -fx-border-radius: 3;" stylesheets="@../../css/login.css" />
+                              <JFXComboBox fx:id="comboAuth" accessibleText="Authentication Level Drop down" focusColor="#405aa800" maxHeight="-Infinity" maxWidth="-Infinity" onAction="#validateButtons" prefHeight="50.0" prefWidth="400.0" style="-fx-background-color: #0067B1; -fx-border-color: white; -fx-border-width: 1; -fx-border-radius: 3;" stylesheets="@../../css/login.css" />
                            </children>
                         </VBox>
                         <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="400.0">
@@ -215,10 +215,10 @@
                                     <Insets bottom="5.0" />
                                  </VBox.margin>
                               </Text>
-                              <JFXComboBox fx:id="comboJob" focusColor="#405aa800" maxHeight="-Infinity" maxWidth="-Infinity" onAction="#validateButtons" prefHeight="50.0" prefWidth="400.0" style="-fx-background-color: #0067B1; -fx-border-color: white; -fx-border-width: 1; -fx-border-radius: 3;" stylesheets="@../../css/login.css" />
+                              <JFXComboBox fx:id="comboJob" accessibleText="Job type drop down" focusColor="#405aa800" maxHeight="-Infinity" maxWidth="-Infinity" onAction="#validateButtons" prefHeight="50.0" prefWidth="400.0" style="-fx-background-color: #0067B1; -fx-border-color: white; -fx-border-width: 1; -fx-border-radius: 3;" stylesheets="@../../css/login.css" />
                            </children>
                         </VBox>
-                        <JFXToggleButton fx:id="toggleTTS" text="Enable Text-To-Speech for this user" textFill="WHITE">
+                        <JFXToggleButton fx:id="toggleTTS" accessibleText="Toggle Text To Speech For this user" text="Enable Text-To-Speech for this user" textFill="WHITE">
                            <font>
                               <Font size="24.0" />
                            </font>
@@ -251,7 +251,7 @@
                               <Insets top="1.0" />
                            </padding>
                            <graphic>
-                              <ImageView fitHeight="41.0" fitWidth="41.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView accessibleText="Back" fitHeight="41.0" fitWidth="41.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../../images/menus/backButton.png" />
                                  </image>
