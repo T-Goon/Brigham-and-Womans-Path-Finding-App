@@ -5,37 +5,31 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="basePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-            prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8.0.171"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="edu.wpi.cs3733.D21.teamB.views.misc.AboutPageController">
+<AnchorPane fx:id="basePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.D21.teamB.views.misc.AboutPageController">
     <children>
-        <StackPane fx:id="stackPane" layoutY="-28.083261489868164" prefHeight="851.0" prefWidth="933.0"
-                   AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
-                   AnchorPane.topAnchor="0.0">
+        <StackPane fx:id="stackPane" layoutY="-28.083261489868164" prefHeight="851.0" prefWidth="933.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
-                <VBox layoutY="28.083261489868164" prefHeight="632.0" prefWidth="846.0"
-                      style="-fx-background-color: #012d5a;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
-                      AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                <VBox layoutY="28.083261489868164" prefHeight="632.0" prefWidth="846.0" style="-fx-background-color: #012d5a;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <children>
-                        <HBox alignment="CENTER" prefHeight="135.0" prefWidth="782.0"
-                              style="-fx-background-color: #FFFFFF;">
+                        <HBox alignment="CENTER" prefHeight="135.0" prefWidth="782.0" style="-fx-background-color: #FFFFFF;">
                             <children>
                                 <VBox>
                                     <HBox.margin>
-                                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                     </HBox.margin>
                                     <children>
-                                        <ImageView fitHeight="114.0" fitWidth="314.0" pickOnBounds="true"
-                                                   preserveRatio="true">
+                                        <ImageView fitHeight="114.0" fitWidth="314.0" pickOnBounds="true" preserveRatio="true">
                                             <image>
-                                                <Image url="@../../images/general/hospitalLogo.png"/>
+                                                <Image url="@../../images/general/hospitalLogo.png" />
                                             </image>
                                         </ImageView>
                                         <JFXButton fx:id="btnEmergency" buttonType="RAISED" onAction="#handleButtonAction" style="-fx-background-color: #CE2029;" text="EMERGENCY" textFill="WHITE">
@@ -76,164 +70,127 @@
                                     <font>
                                         <Font name="MS Reference Sans Serif" size="12.0" />
                                     </font>
-                                    <VBox.margin>
-                                        <Insets bottom="40.0" />
-                                    </VBox.margin>
                                 </Text>
-                                <Text fill="#0067b1" strokeType="OUTSIDE" strokeWidth="0.0" text="About the Project" textAlignment="CENTER" wrappingWidth="709.04833984375">
-                                    <font>
-                                        <Font name="MS Reference Sans Serif" size="16.0" />
-                                    </font>
-                                    <VBox.margin>
-                                        <Insets bottom="10.0" />
-                                    </VBox.margin>
-                                </Text>
-                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="This project is the result of a 7 week class competition in CS3733 Software Engineering with Professor Wilson Wong at Worcester Polytechnic Institute. The goal of the project was to apply Agile development methodologies and software design patterns in Java in order to create an indoor pathfinding application, map builder, COVID-screening survey, and integrated service request modules for Brigham &amp; Womens Hospital. Along with these major features, our team chose to also implement added features as well in order to increase the functionality of our software system. The goal of our software system is to inform the hospital representatives about potential features, user interfaces, or design approaches that they might consider implementing. " textAlignment="CENTER" wrappingWidth="725.3084106445312">
-                                    <font>
-                                        <Font name="MS Reference Sans Serif" size="14.0" />
-                                    </font>
-                                    <VBox.margin>
-                                        <Insets bottom="20.0" />
-                                    </VBox.margin>
-                                </Text>
-                                <Text fill="#0067b1" strokeType="OUTSIDE" strokeWidth="0.0" text="The Team" textAlignment="CENTER" wrappingWidth="709.04833984375">
-                                    <font>
-                                        <Font name="MS Reference Sans Serif" size="16.0" />
-                                    </font>
-                                    <VBox.margin>
-                                        <Insets bottom="10.0" />
-                                    </VBox.margin>
-                                </Text>
-                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Alex Bolduc - Assistant Lead Software Engineer">
-                                    <font>
-                                        <Font name="MS Reference Sans Serif" size="14.0" />
-                                    </font>
-                                    <VBox.margin>
-                                        <Insets bottom="5.0" />
-                                    </VBox.margin>
-                                </Text>
-                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Brian Francis - Product Owner/UI Engineer">
-                                    <font>
-                                        <Font name="MS Reference Sans Serif" size="14.0" />
-                                    </font>
-                                    <VBox.margin>
-                                        <Insets bottom="5.0" />
-                                    </VBox.margin>
-                                </Text>
-                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Timothy Goon - Lead Software Engineer">
-                                    <font>
-                                        <Font name="MS Reference Sans Serif" size="14.0" />
-                                    </font>
-                                    <VBox.margin>
-                                        <Insets bottom="5.0" />
-                                    </VBox.margin>
-                                </Text>
-                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Smera Gora - Algorithms Specialist">
-                                    <font>
-                                        <Font name="MS Reference Sans Serif" size="14.0" />
-                                    </font>
-                                    <VBox.margin>
-                                        <Insets bottom="5.0" />
-                                    </VBox.margin>
-                                </Text>
-                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Eric Heinemann - UI Engineer">
-                                    <font>
-                                        <Font name="MS Reference Sans Serif" size="14.0" />
-                                    </font>
-                                    <VBox.margin>
-                                        <Insets bottom="5.0" />
-                                    </VBox.margin>
-                                </Text>
-                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Megan Letendre - Project Manager/UI Engineer">
-                                    <font>
-                                        <Font name="MS Reference Sans Serif" size="14.0" />
-                                    </font>
-                                    <VBox.margin>
-                                        <Insets bottom="5.0" />
-                                    </VBox.margin>
-                                </Text>
-                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Liam McDonald - Scrum Master/Database Engineer">
-                                    <font>
-                                        <Font name="MS Reference Sans Serif" size="14.0" />
-                                    </font>
-                                    <VBox.margin>
-                                        <Insets bottom="5.0" />
-                                    </VBox.margin>
-                                </Text>
-                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Jonathan Metcalf - Assistant Lead Software Engineer">
-                                    <font>
-                                        <Font name="MS Reference Sans Serif" size="14.0" />
-                                    </font>
-                                    <VBox.margin>
-                                        <Insets bottom="5.0" />
-                                    </VBox.margin>
-                                </Text>
-                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Suela Miloshi - Algorithms Specialist">
-                                    <font>
-                                        <Font name="MS Reference Sans Serif" size="14.0" />
-                                    </font>
-                                    <VBox.margin>
-                                        <Insets bottom="5.0" />
-                                    </VBox.margin>
-                                </Text>
-                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Erin Perry - Documentation Analyst/UI Engineer">
-                                    <font>
-                                        <Font name="MS Reference Sans Serif" size="14.0" />
-                                    </font>
-                                    <VBox.margin>
-                                        <Insets bottom="5.0" />
-                                    </VBox.margin>
-                                </Text>
-                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Molly Sunray - Database Engineer ">
-                                    <font>
-                                        <Font name="MS Reference Sans Serif" size="14.0" />
-                                    </font>
-                                    <VBox.margin>
-                                        <Insets bottom="20.0" />
-                                    </VBox.margin>
-                                </Text>
-                                <Text fill="#0067b1" strokeType="OUTSIDE" strokeWidth="0.0" text="The Team" textAlignment="CENTER" wrappingWidth="709.04833984375">
-                                    <font>
-                                        <Font name="MS Reference Sans Serif" size="16.0" />
-                                    </font>
-                                    <VBox.margin>
-                                        <Insets bottom="10.0" />
-                                    </VBox.margin>
-                                </Text>
-                                <Text strokeType="OUTSIDE" strokeWidth="0.0"
-                                      text="We would like to extend a special thank you to Brigham &amp; Womens and their special representative,"
-                                      textAlignment="CENTER" wrappingWidth="732.06591796875">
-                                    <font>
-                                        <Font name="MS Reference Sans Serif" size="14.0"/>
-                                    </font>
-                                </Text>
-                                <Text strokeType="OUTSIDE" strokeWidth="0.0"
-                                      text="Andrew Shinn, for their time and input throughout this project.">
-                                    <font>
-                                        <Font name="MS Reference Sans Serif" size="14.0"/>
-                                    </font>
-                                </Text>
-                                <Text fill="#0067b1" strokeType="OUTSIDE" strokeWidth="0.0" text="Disclaimer"
-                                      textAlignment="CENTER" wrappingWidth="709.04833984375">
-                                    <font>
-                                        <Font name="MS Reference Sans Serif" size="16.0"/>
-                                    </font>
-                                    <VBox.margin>
-                                        <Insets bottom="10.0" top="20.0"/>
-                                    </VBox.margin>
-                                </Text>
-                                <Text strokeType="OUTSIDE" strokeWidth="0.0"
-                                      text="The Brigham &amp; Women's Hospital maps and data used in this application">
-                                    <font>
-                                        <Font name="MS Reference Sans Serif" size="14.0"/>
-                                    </font>
-                                </Text>
-                                <Text strokeType="OUTSIDE" strokeWidth="0.0"
-                                      text="are copyrighted and provided for the sole use of educational purposes.">
-                                    <font>
-                                        <Font name="MS Reference Sans Serif" size="14.0"/>
-                                    </font>
-                                </Text>
+                        <GridPane hgap="200.0" prefHeight="600.0">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="850.0265502929688" minWidth="10.0" prefWidth="482.2200927734375" />
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="1132.5880126953125" minWidth="10.0" prefWidth="1037.7799072265625" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints maxHeight="314.8819885253906" minHeight="10.0" prefHeight="179.82562255859375" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="368.10791015625" minHeight="10.0" prefHeight="222.83892822265625" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="279.65447998046875" minHeight="10.0" prefHeight="98.18609619140625" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="184.90692138671875" minHeight="10.0" prefHeight="92.81390380859375" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                                      <Text fill="#0067b1" strokeType="OUTSIDE" strokeWidth="0.0" text="About the Project" textAlignment="RIGHT" wrappingWidth="324.9106140136719" GridPane.valignment="CENTER">
+                                          <font>
+                                              <Font size="20.0" />
+                                          </font>
+                                 <GridPane.margin>
+                                    <Insets />
+                                 </GridPane.margin>
+                                      </Text>
+                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="This project is the result of a 7 week class competition in CS3733 Software Engineering with Professor Wilson Wong at Worcester Polytechnic Institute. The goal of the project was to apply Agile development methodologies and software design patterns in Java in order to create an indoor pathfinding application, map builder, COVID-screening survey, and integrated service request modules for Brigham &amp; Womens Hospital. Along with these major features, our team chose to also implement added features as well in order to increase the functionality of our software system. The goal of our software system is to inform the hospital representatives about potential features, user interfaces, or design approaches that they might consider implementing. " wrappingWidth="725.3084106445312" GridPane.columnIndex="1">
+                                          <font>
+                                              <Font name="MS Reference Sans Serif" size="14.0" />
+                                          </font>
+                                      </Text>
+                                      <Text fill="#0067b1" strokeType="OUTSIDE" strokeWidth="0.0" text="The Team" textAlignment="RIGHT" wrappingWidth="324.9106140136719" GridPane.rowIndex="1">
+                                          <font>
+                                              <Font size="20.0" />
+                                          </font>
+                                 <GridPane.margin>
+                                    <Insets />
+                                 </GridPane.margin>
+                                      </Text>
+                              <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                 <children>
+                                            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Alex Bolduc - Assistant Lead Software Engineer">
+                                                <font>
+                                                    <Font name="MS Reference Sans Serif" size="14.0" />
+                                                </font>
+                                            </Text>
+                                            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Brian Francis - Product Owner/UI Engineer">
+                                                <font>
+                                                    <Font name="MS Reference Sans Serif" size="14.0" />
+                                                </font>
+                                            </Text>
+                                            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Timothy Goon - Lead Software Engineer">
+                                                <font>
+                                                    <Font name="MS Reference Sans Serif" size="14.0" />
+                                                </font>
+                                            </Text>
+                                            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Smera Gora - Algorithms Specialist">
+                                                <font>
+                                                    <Font name="MS Reference Sans Serif" size="14.0" />
+                                                </font>
+                                            </Text>
+                                            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Eric Heinemann - UI Engineer">
+                                                <font>
+                                                    <Font name="MS Reference Sans Serif" size="14.0" />
+                                                </font>
+                                            </Text>
+                                            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Megan Letendre - Project Manager/UI Engineer">
+                                                <font>
+                                                    <Font name="MS Reference Sans Serif" size="14.0" />
+                                                </font>
+                                            </Text>
+                                            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Liam McDonald - Scrum Master/Database Engineer">
+                                                <font>
+                                                    <Font name="MS Reference Sans Serif" size="14.0" />
+                                                </font>
+                                            </Text>
+                                            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Jonathan Metcalf - Assistant Lead Software Engineer">
+                                                <font>
+                                                    <Font name="MS Reference Sans Serif" size="14.0" />
+                                                </font>
+                                            </Text>
+                                            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Suela Miloshi - Algorithms Specialist">
+                                                <font>
+                                                    <Font name="MS Reference Sans Serif" size="14.0" />
+                                                </font>
+                                            </Text>
+                                            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Erin Perry - Documentation Analyst/UI Engineer">
+                                                <font>
+                                                    <Font name="MS Reference Sans Serif" size="14.0" />
+                                                </font>
+                                            </Text>
+                                            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Molly Sunray - Database Engineer ">
+                                                <font>
+                                                    <Font name="MS Reference Sans Serif" size="14.0" />
+                                                </font>
+                                            </Text>
+                                 </children>
+                              </VBox>
+                                      <Text fill="#0067b1" strokeType="OUTSIDE" strokeWidth="0.0" text="Special Thanks" textAlignment="RIGHT" wrappingWidth="324.9106140136719" GridPane.rowIndex="2">
+                                          <font>
+                                              <Font size="20.0" />
+                                          </font>
+                                 <GridPane.margin>
+                                    <Insets />
+                                 </GridPane.margin>
+                                      </Text>
+                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="We would like to extend a special thank you to Brigham &amp; Womens and their special representative, Andrew Shinn, for their time and input throughout this project." wrappingWidth="732.06591796875" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                          <font>
+                                              <Font name="MS Reference Sans Serif" size="14.0" />
+                                          </font>
+                                      </Text>
+                                      <Text fill="#0067b1" strokeType="OUTSIDE" strokeWidth="0.0" text="Disclaimer" textAlignment="RIGHT" wrappingWidth="324.9106140136719" GridPane.rowIndex="3">
+                                          <font>
+                                              <Font size="20.0" />
+                                          </font>
+                                 <GridPane.margin>
+                                    <Insets />
+                                 </GridPane.margin>
+                                      </Text>
+                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="The Brigham &amp; Women's Hospital maps and data used in this application are copyrighted and provided for the sole use of educational purposes." GridPane.columnIndex="1" GridPane.rowIndex="3">
+                                          <font>
+                                              <Font name="MS Reference Sans Serif" size="14.0" />
+                                          </font>
+                                      </Text>
+                           </children>
+                        </GridPane>
                             </children>
                             <padding>
                                 <Insets bottom="10.0" left="50.0" right="50.0" top="10.0" />
@@ -256,13 +213,20 @@
                     <children>
                         <HBox alignment="CENTER_LEFT" fillHeight="false" HBox.hgrow="ALWAYS">
                             <children>
-                                <JFXButton fx:id="btnBack" accessibleText="Leave page" alignment="CENTER" buttonType="RAISED" cancelButton="true" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#handleButtonAction" prefHeight="56" prefWidth="56" style="-fx-background-color: #0067B1; -fx-background-radius: 50%;" text="🡰" textAlignment="CENTER" textFill="WHITE">
+                                <JFXButton fx:id="btnBack" accessibleText="Leave page" alignment="CENTER" buttonType="RAISED" cancelButton="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#handleButtonAction" prefHeight="56" prefWidth="100.0" style="-fx-background-color: #0067B1; -fx-background-radius: 7;" text="Back" textAlignment="CENTER" textFill="WHITE">
                                     <font>
-                                        <Font size="27.0" />
+                                        <Font size="18.0" />
                                     </font>
                                     <padding>
                                         <Insets top="1.0" />
                                     </padding>
+                           <graphic>
+                              <ImageView fitHeight="46.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../images/menus/backButton.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
                                 </JFXButton>
                             </children>
                         </HBox>

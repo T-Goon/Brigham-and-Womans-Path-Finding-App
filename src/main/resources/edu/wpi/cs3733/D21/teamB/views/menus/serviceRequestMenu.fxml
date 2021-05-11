@@ -3,6 +3,7 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import javafx.geometry.Insets?>
 <?import javafx.geometry.Rectangle2D?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -47,7 +48,7 @@
                                           <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
                                        </padding>
                                     </JFXButton>
-                                    <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" />
+                                    <Label fx:id="lblSocialWorker" text="Megan" textFill="WHITE" />
                                  </children>
                               </VBox>
                               <VBox alignment="CENTER">
@@ -67,7 +68,7 @@
                                           <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
                                        </padding>
                                     </JFXButton>
-                                    <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" />
+                                    <Label fx:id="lblLaundry" text="Eric" textFill="WHITE" />
                                  </children>
                               </VBox>
                               <VBox alignment="CENTER">
@@ -87,7 +88,7 @@
                                           <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
                                        </padding>
                                     </JFXButton>
-                                    <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" />
+                                    <Label fx:id="lblFoodDev" text="Megan" textFill="WHITE" />
                                  </children>
                               </VBox>
                               <VBox alignment="CENTER">
@@ -107,7 +108,7 @@
                                           <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
                                        </padding>
                                     </JFXButton>
-                                    <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" />
+                                    <Label fx:id="lblSan" text="Alex" textFill="WHITE" />
                                  </children>
                               </VBox>
                               <VBox alignment="CENTER">
@@ -127,7 +128,7 @@
                                           <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
                                        </padding>
                                     </JFXButton>
-                                    <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" />
+                                    <Label fx:id="lblFloral" text="Jonathan" textFill="WHITE" />
                                  </children>
                               </VBox>
                               <VBox fx:id="medicineDelivery" alignment="CENTER">
@@ -147,7 +148,7 @@
                                           <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
                                        </padding>
                                     </JFXButton>
-                                    <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" />
+                                    <Label fx:id="lblMed" text="Erin" textFill="WHITE" />
                                  </children>
                               </VBox>
                               <VBox alignment="CENTER">
@@ -167,7 +168,7 @@
                                           <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
                                        </padding>
                                     </JFXButton>
-                                    <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" />
+                                    <Label fx:id="lblSecurity" text="Timothy" textFill="WHITE" />
                                  </children>
                               </VBox>
                               <VBox fx:id="internalTransport" alignment="CENTER">
@@ -187,7 +188,7 @@
                                           <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
                                        </padding>
                                     </JFXButton>
-                                    <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" />
+                                    <Label fx:id="lblIntTran" text="Brian" textFill="WHITE" />
                                  </children>
                               </VBox>
                               <VBox fx:id="externalTransport" alignment="CENTER">
@@ -207,7 +208,7 @@
                                           <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
                                        </padding>
                                     </JFXButton>
-                                    <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" />
+                                    <Label fx:id="lblExtTrans" text="William" textFill="WHITE" />
                                  </children>
                               </VBox>
                               <VBox alignment="CENTER">
@@ -227,7 +228,7 @@
                                           <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
                                        </padding>
                                     </JFXButton>
-                                    <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" />
+                                    <Label fx:id="lblRegReq" text="Molly" textFill="WHITE" />
                                  </children>
                               </VBox>
                               <VBox alignment="CENTER" style="-fx-background-color: #012d5a;">
@@ -247,7 +248,7 @@
                                           <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
                                        </padding>
                                     </JFXButton>
-                                    <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" />
+                                    <Label fx:id="lblCase" text="Megan" textFill="WHITE" />
                                  </children>
                                  <opaqueInsets>
                                     <Insets />
@@ -271,7 +272,7 @@
                                           <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
                                        </padding>
                                     </JFXButton>
-                                    <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" />
+                                    <Label fx:id="lblGift" text="Smera" textFill="WHITE" />
                                  </children>
                                  <opaqueInsets>
                                     <Insets />
@@ -294,7 +295,7 @@
                                           <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
                                        </padding>
                                     </JFXButton>
-                                    <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" />
+                                    <Label fx:id="lblLang" text="Suela" textFill="WHITE" />
                                  </children>
                                  <opaqueInsets>
                                     <Insets />
@@ -356,9 +357,9 @@
             <HBox alignment="BOTTOM_CENTER" fillHeight="false" maxHeight="-Infinity" prefWidth="200.0" StackPane.alignment="BOTTOM_CENTER">
                <children>
                   <HBox alignment="BOTTOM_LEFT" HBox.hgrow="ALWAYS">
-                     <JFXButton fx:id="btnBack" alignment="CENTER" buttonType="RAISED" cancelButton="true" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#handleButtonAction" prefHeight="56" prefWidth="56" style="-fx-background-color: #0067B1; -fx-background-radius: 50%;" text="🡰" textAlignment="CENTER" textFill="WHITE">
+                     <JFXButton fx:id="btnBack" alignment="CENTER" buttonType="RAISED" cancelButton="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#handleButtonAction" prefHeight="56" prefWidth="100.0" style="-fx-background-color: #0067B1; -fx-background-radius: 7;" text="Back" textAlignment="CENTER" textFill="WHITE">
                         <font>
-                           <Font size="27.0" />
+                           <Font size="18.0" />
                         </font>
                         <padding>
                            <Insets top="1.0" />
@@ -366,6 +367,13 @@
                         <HBox.margin>
                            <Insets bottom="15.0" left="15.0" />
                         </HBox.margin>
+                        <graphic>
+                           <ImageView fitHeight="41.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
+                              <image>
+                                 <Image url="@../../images/menus/backButton.png" />
+                              </image>
+                           </ImageView>
+                        </graphic>
                      </JFXButton>
                   </HBox>
                   <HBox alignment="BOTTOM_RIGHT" HBox.hgrow="ALWAYS">
