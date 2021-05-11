@@ -82,7 +82,7 @@
                                     <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
                                  </padding>
                               </JFXButton>
-                              <JFXButton fx:id="btnPong" alignment="CENTER" contentDisplay="CENTER" minHeight="160.0" minWidth="160.0" onAction="#handleButtonAction" ripplerFill="WHITE" style="-fx-background-color: #0067B1;" text="Pong" textFill="WHITE">
+                              <JFXButton fx:id="btnBreakout" alignment="CENTER" contentDisplay="CENTER" minHeight="160.0" minWidth="160.0" onAction="#handleButtonAction" ripplerFill="WHITE" style="-fx-background-color: #0067B1;" text="Breakout" textFill="WHITE">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
