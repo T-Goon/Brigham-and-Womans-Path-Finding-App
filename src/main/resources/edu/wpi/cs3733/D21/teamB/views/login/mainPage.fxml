@@ -59,20 +59,25 @@
                                       </Text>
                                       <HBox alignment="BOTTOM_RIGHT" VBox.vgrow="ALWAYS">
                                           <children>
-                                              <JFXButton fx:id="btnLogin" accessibleText="Log in" buttonType="RAISED" onAction="#handleButtonAction" style="-fx-background-color: #012d5a;" text="Login" textFill="WHITE">
+                                              <JFXButton fx:id="btnLogin" accessibleText="Log in" onAction="#handleButtonAction" prefHeight="45.0" prefWidth="82.0" style="-fx-background-color: #ffffff;" text="Login" textFill="#012d5a" underline="true">
                                                   <font>
-                                                      <Font name="MS Reference Sans Serif" size="23.0" />
+                                                      <Font name="MS Reference Sans Serif" size="20.0" />
                                                   </font>
                                                   <HBox.margin>
-                                                      <Insets bottom="20.0" right="10.0" />
+                                                      <Insets bottom="15.0" />
                                                   </HBox.margin>
                                               </JFXButton>
-                                              <JFXButton fx:id="btnRegister" accessibleText="Register" buttonType="RAISED" onAction="#handleButtonAction" style="-fx-background-color: #012d5a;" text="Register" textFill="WHITE">
+                                    <HBox prefHeight="10.0" prefWidth="2.0" style="-fx-background-color: #012d5a;">
+                                       <HBox.margin>
+                                          <Insets bottom="10.0" top="10.0" />
+                                       </HBox.margin>
+                                    </HBox>
+                                              <JFXButton fx:id="btnRegister" accessibleText="Register" onAction="#handleButtonAction" prefHeight="45.0" prefWidth="112.0" style="-fx-background-color: #ffffff;" text="Register" textFill="#012d5a" underline="true">
                                                   <font>
-                                                      <Font name="MS Reference Sans Serif" size="23.0" />
+                                                      <Font name="MS Reference Sans Serif" size="20.0" />
                                                   </font>
                                                   <HBox.margin>
-                                                      <Insets bottom="20.0" right="10.0" />
+                                                      <Insets bottom="15.0" right="10.0" />
                                                   </HBox.margin>
                                               </JFXButton>
                                           </children>

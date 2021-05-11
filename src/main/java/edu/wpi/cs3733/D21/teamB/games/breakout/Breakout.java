@@ -14,7 +14,7 @@ public class Breakout extends JFrame {
         add(new Board());
         setTitle("Breakout");
 
-        setDefaultCloseOperation(HIDE_ON_CLOSE);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(false);
         setAlwaysOnTop(true);

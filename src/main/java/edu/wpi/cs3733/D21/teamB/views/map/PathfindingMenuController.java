@@ -8,12 +8,14 @@ import edu.wpi.cs3733.D21.teamB.entities.map.*;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Edge;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Node;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.NodeType;
+import edu.wpi.cs3733.D21.teamB.entities.requests.Request;
 import edu.wpi.cs3733.D21.teamB.pathfinding.Dijkstra;
 import edu.wpi.cs3733.D21.teamB.pathfinding.Graph;
 import edu.wpi.cs3733.D21.teamB.util.CSVHandler;
 import edu.wpi.cs3733.D21.teamB.util.HelpDialog;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
 import edu.wpi.cs3733.D21.teamB.views.BasePageController;
+import edu.wpi.cs3733.D21.teamB.views.covidSurvey.CovidSurveyController;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -33,6 +35,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import lombok.Getter;
 import net.kurobako.gesturefx.GesturePane;
+import org.hsqldb.Database;
 
 import java.io.File;
 import java.net.URL;
@@ -112,6 +115,9 @@ public class PathfindingMenuController extends BasePageController implements Ini
     private JFXComboBox<String> findClosestLocation;
 
     @FXML
+    private MapCache mc;
+
+    @FXML
     private Label score;
 
     public static final double COORDINATE_SCALE = 25 / 9.0;
@@ -144,6 +150,8 @@ public class PathfindingMenuController extends BasePageController implements Ini
     private String previousAlgorithm = "";
     private boolean previousMobility = false;
     private boolean mapInEditMode = false;
+
+    CovidSurveyController covidSurveyController;
     // JavaFX code **************************************************************************************
 
     @Override
@@ -222,10 +230,6 @@ public class PathfindingMenuController extends BasePageController implements Ini
                 findClosestLocationTo();
             }
         });
-
-        if (!mapDrawer.playingSnake) {
-            score.setVisible(false);
-        }
     }
 
     /**
@@ -794,6 +798,20 @@ public class PathfindingMenuController extends BasePageController implements Ini
             displayStops(stopsList);
         }
 
+        Map<String, Request> requests=null;
+
+        try {
+            requests = DatabaseHandler.getHandler().getRequests();
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        for(Request request : requests.values()){
+            if(request.getSubmitter().equals(DatabaseHandler.getHandler().getAuthenticationUser().getUsername())){
+                txtStartLocation.setText(db.getNodeById(request.getLocation()).getLongName());
+            }
+        }
     }
 
     /**
