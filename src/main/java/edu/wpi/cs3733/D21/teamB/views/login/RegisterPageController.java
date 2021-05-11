@@ -80,7 +80,9 @@ public class RegisterPageController extends BasePageController implements Initia
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
         super.initialize(location, resources);
+
         username.setOnKeyPressed(event -> {
             if (event.getCode().equals(KeyCode.ENTER) && !areFormsEmpty())
                 handleRegisterSubmit();
@@ -111,10 +113,10 @@ public class RegisterPageController extends BasePageController implements Initia
                 handleRegisterSubmit();
         });
 
+        Platform.runLater(() -> username.requestFocus());
+
         camera = new Camera(pictureImage, cameraImage, btnTakePicture, false);
         camera.toggleCamera();
-
-        Platform.runLater(() -> username.requestFocus());
     }
 
     @FXML
