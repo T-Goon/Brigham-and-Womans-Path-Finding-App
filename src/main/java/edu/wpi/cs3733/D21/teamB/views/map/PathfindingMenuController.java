@@ -561,6 +561,7 @@ public class PathfindingMenuController extends BasePageController implements Ini
                 break;
             case "btnHome":
                 SceneSwitcher.switchScene("/edu/wpi/cs3733/D21/teamB/views/map/pathfindingMenu.fxml","/edu/wpi/cs3733/D21/teamB/views/menus/userDirectoryMenu.fxml");
+                break;
             case "btnBack":
                 // Reset all the colors of the nodes
                 if (!colors.isEmpty()) {

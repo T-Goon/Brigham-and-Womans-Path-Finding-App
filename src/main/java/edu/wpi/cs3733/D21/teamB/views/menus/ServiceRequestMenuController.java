@@ -10,8 +10,6 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class ServiceRequestMenuController extends BasePageController {
@@ -187,7 +185,7 @@ public class ServiceRequestMenuController extends BasePageController {
                 path = VIEWS_PATH + "emergencyForm.fxml";
                 break;
             case "btnHome":
-                path = VIEWS_PATH + "mainPage.fxml";
+                path = VIEWS_PATH + "userDirectoryMenu.fxml";
                 break;
             case "btnGiftDelivery":
                 path = VIEWS_PATH + "giftRequestForm.fxml";

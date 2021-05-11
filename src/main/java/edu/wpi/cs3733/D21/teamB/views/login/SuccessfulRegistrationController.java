@@ -33,6 +33,7 @@ public class SuccessfulRegistrationController {
                 break;
             case "btnHome":
                 SceneSwitcher.switchFromTemp("/edu/wpi/cs3733/D21/teamB/views/login/mainPage.fxml");
+                break;
             case "btnEmergency":
                 SceneSwitcher.switchFromTemp("/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
                 break;

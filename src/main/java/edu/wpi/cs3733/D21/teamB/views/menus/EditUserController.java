@@ -186,6 +186,7 @@ public class EditUserController extends BasePageController implements Initializa
                 break;
             case "btnHome":
                 SceneSwitcher.switchScene("/edu/wpi/cs3733/D21/teamB/views/menus/editUserMenu.fxml","/edu/wpi/cs3733/D21/teamB/views/menus/userDirectoryMenu.fxml");
+                break;
         }
     }
 

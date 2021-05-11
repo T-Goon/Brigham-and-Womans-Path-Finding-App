@@ -145,6 +145,7 @@ public class   ServiceRequestDatabaseController extends BasePageController imple
                 break;
             case "btnHome":
                 SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/menus/userDirectoryMenu.fxml");
+                break;
         }
     }
 

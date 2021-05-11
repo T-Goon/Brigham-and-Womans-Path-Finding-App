@@ -128,6 +128,7 @@ public class DirectionsMenuController extends BasePageController implements Init
                 break;
             case "btnHome":
                 SceneSwitcher.switchScene("/edu/wpi/cs3733/D21/teamB/views/map/directionsMenu.fxml","/edu/wpi/cs3733/D21/teamB/views/menus/userDirectoryMenu.fxml");
+                break;
         }
     }
 

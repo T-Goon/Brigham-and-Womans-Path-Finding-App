@@ -136,6 +136,7 @@ public class RegisterPageController extends BasePageController implements Initia
                 break;
             case "btnHome":
                 SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/login/mainPage.fxml");
+                break;
             case "btnEmergency":
                 Camera.stopAcquisition();
                 SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");

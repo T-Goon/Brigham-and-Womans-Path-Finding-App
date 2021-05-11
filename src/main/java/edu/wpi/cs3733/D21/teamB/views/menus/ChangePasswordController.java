@@ -71,6 +71,7 @@ public class ChangePasswordController extends BasePageController implements Init
                 break;
             case "btnHome":
                 SceneSwitcher.switchScene("/edu/wpi/cs3733/D21/teamB/views/menus/changePassword.fxml","/edu/wpi/cs3733/D21/teamB/views/menus/userDirectoryMenu.fxml");
+                break;
             case "btnChangePassword":
                 handleChangePassword();
                 break;
