@@ -101,7 +101,8 @@ public class ChangePasswordController extends BasePageController implements Init
             e.printStackTrace();
         }
 
-        SceneSwitcher.switchFromTemp("/edu/wpi/cs3733/D21/teamB/views/menus/userDirectoryMenu.fxml");
+//        SceneSwitcher.switchFromTemp("/edu/wpi/cs3733/D21/teamB/views/menus/userDirectoryMenu.fxml");
+        SceneSwitcher.goBack(1);
     }
 
     @FXML
