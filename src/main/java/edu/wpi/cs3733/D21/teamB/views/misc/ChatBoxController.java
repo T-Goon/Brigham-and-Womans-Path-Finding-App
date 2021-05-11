@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import edu.wpi.cs3733.D21.teamB.App;
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
+import edu.wpi.cs3733.D21.teamB.entities.chatbot.ChatBot;
 import edu.wpi.cs3733.D21.teamB.util.PageCache;
 import edu.wpi.cs3733.D21.teamB.util.tts.TextToSpeech;
 import javafx.application.Platform;
@@ -138,6 +139,7 @@ public class ChatBoxController implements Initializable {
         PageCache.getUserMessages().clear();
         PageCache.getBotMessages().clear();
         messageHolder.getChildren().clear();
+        ChatBot.stateManager.reset();
     }
 
     /**

@@ -19,7 +19,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class ChatBot implements Runnable {
 
-    private final StateManager stateManager;
+    public static StateManager stateManager;
     private final Chat chatSession;
 
     public ChatBot() {

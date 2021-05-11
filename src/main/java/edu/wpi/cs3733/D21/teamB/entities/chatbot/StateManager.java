@@ -58,6 +58,11 @@ public class StateManager {
         previousState = null;
     }
 
+    public void reset() {
+        currentState = null;
+        previousState = null;
+    }
+
     /**
      * Given n amount of words and a starting message,
      * checks whether the message contains any of them
