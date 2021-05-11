@@ -40,7 +40,7 @@ public class StateManager {
         }
 
         // Makes sure the user doesn't try to access something without taking the covid survey
-        if (containsAny(input, PATHFINDING_KEYWORDS) && (current.getAuthenticationLevel() == User.AuthenticationLevel.PATIENT || current.getAuthenticationLevel() == User.AuthenticationLevel.GUEST) && (current.getCovidStatus() == User.CovidStatus.PENDING || current.getCovidStatus() == User.CovidStatus.UNCHECKED)) {
+        if (!containsAny(input, GOOGLE_MAPS_KEYWORDS) && containsAny(input, PATHFINDING_KEYWORDS) && (current.getAuthenticationLevel() == User.AuthenticationLevel.PATIENT || current.getAuthenticationLevel() == User.AuthenticationLevel.GUEST) && (current.getCovidStatus() == User.CovidStatus.PENDING || current.getCovidStatus() == User.CovidStatus.UNCHECKED)) {
             currentState = new CovidState("Do you need help filling out a COVID survey?");
             List<String> responses = new ArrayList<>();
             responses.add("Sorry, but you must take the COVID-19 survey before accessing the map!");
@@ -63,12 +63,12 @@ public class StateManager {
         } else if (containsAny(input, LOGIN_KEYWORDS) && !(currentState instanceof LoginState)) {
             previousState = currentState;
             currentState = new LoginState();
-        } else if (containsAny(input, PATHFINDING_KEYWORDS) && !(currentState instanceof PathfindingState)) {
-            previousState = currentState;
-            currentState = new PathfindingState();
         } else if (containsAny(input, GOOGLE_MAPS_KEYWORDS) && !(currentState instanceof GoogleMapsState)) {
             previousState = currentState;
             currentState = new GoogleMapsState();
+        } else if (containsAny(input, PATHFINDING_KEYWORDS) && !(currentState instanceof PathfindingState)) {
+            previousState = currentState;
+            currentState = new PathfindingState();
         } else if (containsAny(input, SETTINGS_KEYWORDS) && !(currentState instanceof SettingsState)) {
             previousState = currentState;
             currentState = new SettingsState();
