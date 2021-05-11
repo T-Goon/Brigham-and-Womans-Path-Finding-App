@@ -37,7 +37,7 @@ public class StateManager {
         }
 
         // Makes sure the user doesn't try to access something without taking the covid survey
-        if (containsAny(input, PATHFINDING_KEYWORDS) && current.getAuthenticationLevel() == User.AuthenticationLevel.PATIENT && (current.getCovidStatus() == User.CovidStatus.PENDING || current.getCovidStatus() == User.CovidStatus.UNCHECKED)) {
+        if (containsAny(input, PATHFINDING_KEYWORDS) && (current.getAuthenticationLevel() == User.AuthenticationLevel.PATIENT || current.getAuthenticationLevel() == User.AuthenticationLevel.GUEST) && (current.getCovidStatus() == User.CovidStatus.PENDING || current.getCovidStatus() == User.CovidStatus.UNCHECKED)) {
             return Collections.singletonList("Sorry, but you must take the COVID-19 survey before accessing the map!");
         }
 
