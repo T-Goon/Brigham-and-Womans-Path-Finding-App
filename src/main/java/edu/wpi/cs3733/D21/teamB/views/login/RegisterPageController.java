@@ -81,6 +81,7 @@ public class RegisterPageController extends BasePageController implements Initia
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location, resources);
+
         username.setOnKeyPressed(event -> {
             if (event.getCode().equals(KeyCode.ENTER) && !areFormsEmpty())
                 handleRegisterSubmit();
