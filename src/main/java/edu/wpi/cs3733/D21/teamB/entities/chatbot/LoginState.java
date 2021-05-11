@@ -31,7 +31,11 @@ public class LoginState implements IState {
                 response.add("No worries!");
                 response.add("return");
                 PageCache.getCachedResponses().add("Is there anything I can help you with?");
+            } else {
+                response.add("Do you need any assistance?");
+                PageCache.getCachedResponses().add("Do you need any assistance?");
             }
+            
         } else if (messagesSent.peek().equals("Do you need any assistance?")) { // Third message in
             if (StateManager.containsAny(input, new String[]{"y", "ye", "yes", "yeah", "yup"})) {
                 response.add("Please type in your username and password into the fields on the screen.");
