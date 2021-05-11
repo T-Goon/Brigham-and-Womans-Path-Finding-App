@@ -82,6 +82,7 @@ public class Board extends JPanel implements ActionListener {
         setFocusable(true);
 
         setBackground(Color.black);
+
     }
 
     private void initVariables() {

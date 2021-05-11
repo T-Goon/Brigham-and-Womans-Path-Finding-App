@@ -9,6 +9,7 @@ import edu.wpi.cs3733.D21.teamB.views.BasePageController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.stage.Stage;
 import lombok.var;
 
 import java.awt.*;
@@ -26,6 +27,8 @@ public class ArcadeController extends BasePageController implements Initializabl
 
     @FXML
     private JFXButton btnBreakout;
+
+    private Stage stage;
 
     @Override
     public void handleButtonAction(ActionEvent e) {
@@ -50,6 +53,7 @@ public class ArcadeController extends BasePageController implements Initializabl
                 var pacman = new Pacman();
                 pacman.setVisible(true);
                 });
+                break;
         }
     }
 }
