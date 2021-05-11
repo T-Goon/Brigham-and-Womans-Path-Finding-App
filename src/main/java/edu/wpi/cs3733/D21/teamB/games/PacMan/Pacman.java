@@ -1,9 +1,6 @@
 package edu.wpi.cs3733.D21.teamB.games.PacMan;
 
-import lombok.var;
-
 import javax.swing.*;
-import java.awt.*;
 
 public class Pacman extends JFrame {
 
