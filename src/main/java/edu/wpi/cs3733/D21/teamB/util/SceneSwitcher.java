@@ -33,6 +33,7 @@ public class SceneSwitcher {
      */
     public static void goBack(int pagesBack) {
         if (stack.isEmpty()) {
+            ChatBot.stateManager.reset();
             switchFromTemp("/edu/wpi/cs3733/D21/teamB/views/login/mainPage.fxml");
             return;
         }
