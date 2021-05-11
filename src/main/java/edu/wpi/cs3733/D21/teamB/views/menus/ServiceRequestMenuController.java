@@ -151,6 +151,9 @@ public class ServiceRequestMenuController extends BasePageController {
 
         String path = null;
         switch (btn.getId()) {
+            case "btnHome":
+                path = VIEWS_PATH + "mainPage.fxml";
+                break;
             case "btnMedicine":
                 path = VIEWS_PATH + "medDeliveryRequestForm.fxml";
                 break;
@@ -205,9 +208,7 @@ public class ServiceRequestMenuController extends BasePageController {
 
                 //path = "/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestMenuCredits.fxml";
                 break;
-            case "btnHome":
-                SceneSwitcher.switchScene("/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestMenu.fxml",  "/edu/wpi/cs3733/D21/teamB/views/login/mainPage.fxml");
-                break;
+
         }
 
         if (path != null)
