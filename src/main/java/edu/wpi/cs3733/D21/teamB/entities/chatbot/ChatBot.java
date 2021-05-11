@@ -100,11 +100,13 @@ public class ChatBot implements Runnable {
 
         } else {
             for (String message : response) {
+                // If the message is a path, go there
                 if (message.startsWith("/")) {
                     switchToPage(message);
                     return;
                 }
 
+                // Return to previous if message is 'return'
                 if (message.equals("return")) {
                     stateManager.setCurrentToPrev();
                     continue;
@@ -117,7 +119,9 @@ public class ChatBot implements Runnable {
                     e.printStackTrace();
                 }
 
-                sendMessage(message);
+                // If a response is 'unsure', respond with the default chatbot
+                if (message.equals("unsure")) unsureResponse(input.getMessage());
+                else sendMessage(message);
             }
         }
     }
@@ -128,7 +132,7 @@ public class ChatBot implements Runnable {
      * @param path the path to the FXML file to switch to
      */
     private void switchToPage(String path) {
-        Platform.runLater(() -> SceneSwitcher.switchScene(PageCache.getCurrentPage(), path));
+        Platform.runLater(() -> SceneSwitcher.switchFromTemp(path));
     }
 
     private void unsureResponse(String input) {

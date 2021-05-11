@@ -77,6 +77,9 @@ public class RegisterPageController extends BasePageController implements Initia
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+        Camera.stopAcquisition();
+
         super.initialize(location, resources);
         username.setOnKeyPressed(event -> {
             if (event.getCode().equals(KeyCode.ENTER) && !areFormsEmpty())
@@ -124,14 +127,11 @@ public class RegisterPageController extends BasePageController implements Initia
                 handleRegisterSubmit();
                 break;
             case "btnEmergency":
+            case "btnBack":
                 Camera.stopAcquisition();
                 break;
             case "btnLoginPage":
-                Camera.stopAcquisition();
                 SceneSwitcher.switchFromTemp("/edu/wpi/cs3733/D21/teamB/views/login/loginPage.fxml");
-                break;
-            case "btnBack":
-                Camera.stopAcquisition();
                 break;
         }
 
