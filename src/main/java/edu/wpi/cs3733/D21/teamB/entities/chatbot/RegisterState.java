@@ -44,6 +44,21 @@ public class RegisterState implements IState {
                 response.add("If you have any questions, feel free to ask!");
             } else if (StateManager.containsAny(input, new String[]{"n", "no", "nah", "nope"})) {
                 response.add("No worries! I'll be here.");
+            } else if (StateManager.containsAny(input, new String[]{"speech", "text"})) {
+                response.add("If you would like to enable text to speech on your account toggle the 'Enable Text-To-Speech' and this will allow elements to provide helpful descriptions.");
+                response.add("Do you need any assistance?");
+            } else if (StateManager.containsAny(input, new String[]{"user", "username"})) {
+                response.add("The username field should be a memorable string that you will use to login to the hospital system in conjunction with the password. Do not share it with others.");
+                response.add("Do you need any assistance?");
+            } else if (StateManager.containsAny(input, new String[]{"pass", "password", "word"})) {
+                response.add("The password field should be a memorable string that you will use to login to the hospital system in conjunction with the username. Absolutely do not share it with others.");
+                response.add("Do you need any assistance?");
+            } else if (StateManager.containsAny(input, new String[]{"name", "first", "last"})) {
+                response.add("Please input your first and last name in the respective fields. This information will not be shared but will allow hospital employees to identify you if need be.");
+                response.add("Do you need any assistance?");
+            } else if (StateManager.containsAny(input, new String[]{"email", "mail", "address"})) {
+                response.add("Please include a valid email address. Future notifications will be sent to you via this address.");
+                response.add("Do you need any assistance?");
             } else {
                 response.add("unsure");
                 response.add("Do you need any assistance?");
