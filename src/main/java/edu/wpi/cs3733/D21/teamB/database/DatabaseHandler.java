@@ -9,7 +9,6 @@ import edu.wpi.cs3733.D21.teamB.entities.User;
 import edu.wpi.cs3733.D21.teamB.pathfinding.Graph;
 import edu.wpi.cs3733.D21.teamB.views.face.EmbeddingModel;
 import lombok.Getter;
-import lombok.Setter;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.*;
@@ -19,7 +18,7 @@ public class DatabaseHandler {
 
     private static final String URL_BASE = "jdbc:sqlite:";
     private static final String REMOTE_URL = "jdbc:mysql://167.99.120.152:3306/hospitalapp?"
-                                            +"user=appuser";
+            + "user=appuser";
 
     private static String databaseURL;
     private Connection databaseConnection;
@@ -63,28 +62,21 @@ public class DatabaseHandler {
 
         if (handler == null) {
             handler = new DatabaseHandler();
-            if(remote){
-                handler.databaseURL = REMOTE_URL;
-            }else {
-                handler.databaseURL = URL_BASE + dbURL;
+            if (remote) {
+                databaseURL = REMOTE_URL;
+            } else {
+                databaseURL = URL_BASE + dbURL;
             }
             handler.databaseConnection = handler.getConnection();
-        } else if (!(URL_BASE + dbURL).equals(handler.databaseURL) && !remote) {
+        } else if (!(URL_BASE + dbURL).equals(databaseURL) && !remote) {
             // If switching between main.db and test.db, shut down the old database and start
             handler.shutdown();
             handler = new DatabaseHandler();
-            if(remote){
-                handler.databaseURL = REMOTE_URL;
-            }else {
-                handler.databaseURL = URL_BASE + dbURL;
-            }
+            databaseURL = URL_BASE + dbURL;
             handler.databaseConnection = handler.getConnection();
         } else if (remote != DatabaseHandler.remote) {
-            if(remote){
-                handler.databaseURL = REMOTE_URL;
-            }else {
-                handler.databaseURL = URL_BASE + dbURL;
-            }
+            if (remote) databaseURL = REMOTE_URL;
+            else databaseURL = URL_BASE + dbURL;
             handler.databaseConnection = handler.getConnection();
         }
         return handler;
@@ -93,10 +85,10 @@ public class DatabaseHandler {
     public void changeRemoteStatus(boolean status) throws SQLException {
         DatabaseHandler.remote = status;
         if(DatabaseHandler.remote) {
-            this.databaseURL = REMOTE_URL;
+            databaseURL = REMOTE_URL;
             this.databaseConnection = this.getConnection(true);
         } else {
-            this.databaseURL = URL_BASE + "main.db";
+            databaseURL = URL_BASE + "main.db";
             this.databaseConnection = this.getConnection(true);
         }
         EmbeddingModel.getModel().resetEmbeddings();
@@ -109,7 +101,7 @@ public class DatabaseHandler {
     public Connection getConnection(boolean force) {
         if (this.databaseConnection == null || force) {
             try {
-                this.databaseConnection = DriverManager.getConnection(this.databaseURL);
+                this.databaseConnection = DriverManager.getConnection(databaseURL);
                 System.out.println("Connected to DB using " + this.databaseConnection.getMetaData().getDriverName());
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -175,8 +167,8 @@ public class DatabaseHandler {
             tables.add("Embeddings");
         }
 
-        if(DatabaseHandler.remote){
-            runStatement("SET FOREIGN_KEY_CHECKS = 0",false);
+        if (DatabaseHandler.remote) {
+            runStatement("SET FOREIGN_KEY_CHECKS = 0", false);
         }
 
         for (String table : tables) {
@@ -184,8 +176,8 @@ public class DatabaseHandler {
             runStatement(query, false);
         }
 
-        if(DatabaseHandler.remote){
-            runStatement("SET FOREIGN_KEY_CHECKS = 1",false);
+        if (DatabaseHandler.remote) {
+            runStatement("SET FOREIGN_KEY_CHECKS = 1", false);
         }
     }
 
@@ -397,9 +389,9 @@ public class DatabaseHandler {
                 + "PRIMARY KEY (username, i), "
                 + "FOREIGN KEY (username) REFERENCES Users(username) ON DELETE CASCADE)";
 
-        if(!DatabaseHandler.remote){
+        if (!DatabaseHandler.remote) {
             runStatement(localConfiguration, false);
-        }else{
+        } else {
             runStatement(remoteConfiguration, false);
         }
         runStatement(nodesTable, false);
@@ -434,12 +426,12 @@ public class DatabaseHandler {
      * @throws SQLException if the nodes are malformed somehow
      */
     public void loadDatabaseNodes(List<Node> nodes) throws SQLException {
-        String query = null;
-        if(DatabaseHandler.remote){
+        String query;
+        if (DatabaseHandler.remote) {
             //IGNORE (haha) the error here. IntelliJ can't know both MySQL and SQLite even though we use both
             query = "INSERT IGNORE INTO Nodes(nodeID, xcoord, ycoord, floor, building, nodeType, longName, shortName, color) " +
                     "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        }else{
+        } else {
             query = "INSERT INTO Nodes(nodeID, xcoord, ycoord, floor, building, nodeType, longName, shortName, color) " +
                     "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
         }
@@ -531,7 +523,7 @@ public class DatabaseHandler {
      * @throws SQLException if the request is malformed
      */
     public void updateCovidRequestAdmitted(CovidSurveyRequest request, String flag) throws SQLException {
-        requestMutator.setCovidRequestAdmitted(request,flag);
+        requestMutator.setCovidRequestAdmitted(request, flag);
     }
 
     /**
