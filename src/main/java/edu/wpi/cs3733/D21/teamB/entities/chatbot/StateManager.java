@@ -14,8 +14,8 @@ public class StateManager {
     // case insensitive
     private static final String[] COVID_KEYWORDS = {"covid", "survey"};
     private static final String[] REGISTER_KEYWORDS = {"register", "registration", "registering", "make", "user", "new", "account"};
-    private static final String[] LOGIN_KEYWORDS = {"login", "log", "logging", "in"};
-    private static final String[] PATHFINDING_KEYWORDS = {"where", "hospital", "pathfinding", "directions", "map", "path"};
+    private static final String[] LOGIN_KEYWORDS = {"login", "log", "logging"};
+    private static final String[] PATHFINDING_KEYWORDS = {"where", "find", "hospital", "pathfinding", "directions", "map", "path"};
     private static final String[] GOOGLE_MAPS_KEYWORDS = {"google", "maps", "drive", "driving", "navigation", "Boston"};
     private static final String[] SETTINGS_KEYWORDS = {"settings", "speech", "keyboard", "password", "credits"};
 
