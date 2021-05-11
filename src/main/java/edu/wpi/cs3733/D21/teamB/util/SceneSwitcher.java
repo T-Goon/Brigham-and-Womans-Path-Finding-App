@@ -32,7 +32,16 @@ public class SceneSwitcher {
      * @param pagesBack the number of pages to go back
      */
     public static void goBack(int pagesBack) {
-        if (stack.isEmpty()) return;
+        if (stack.isEmpty()) {
+            try {
+                Pane root = FXMLLoader.load(Objects.requireNonNull(SceneSwitcher.class.getResource("/edu/wpi/cs3733/D21/teamB/views/login/mainPage.fxml")));
+                PageCache.setCurrentPage("/edu/wpi/cs3733/D21/teamB/views/login/mainPage.fxml");
+                App.getPrimaryStage().getScene().setRoot(root);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return;
+        }
         String path = "";
         for (int i = 0; i < pagesBack; i++)
             if (!stack.isEmpty()) path = stack.pop();

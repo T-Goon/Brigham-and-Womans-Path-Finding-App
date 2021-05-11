@@ -272,12 +272,14 @@ public class Camera {
             }
         }
 
-        if (capture.isOpened()) {
-            // release the camera
-            capture.release();
+        if (capture != null) {
+            if (capture.isOpened()) {
+                // release the camera
+                capture.release();
+            }
         }
 
-        if(Camera.cameraActive){
+        if (Camera.cameraActive) {
             Camera.cameraActive = false;
         }
     }

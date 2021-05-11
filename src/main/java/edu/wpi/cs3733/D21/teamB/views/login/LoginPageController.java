@@ -50,7 +50,9 @@ public class LoginPageController extends BasePageController implements Initializ
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        super.initialize(location,resources);
+        Camera.stopAcquisition();
+
+        super.initialize(location, resources);
 
         //Add event listeners to the text boxes so user can submit by pressing enter
         username.setOnKeyPressed(event -> {
@@ -81,36 +83,33 @@ public class LoginPageController extends BasePageController implements Initializ
                 handleLoginSubmit();
                 break;
             case "btnEmergency":
+            case "btnBack":
                 Camera.stopAcquisition();
                 break;
             case "btnRegisterPage":
-                Camera.stopAcquisition();
                 SceneSwitcher.switchFromTemp("/edu/wpi/cs3733/D21/teamB/views/login/registerPage.fxml");
-                break;
-            case "btnBack":
-                Camera.stopAcquisition();
                 break;
         }
 
         super.handleButtonAction(e);
     }
 
-    public void setUserName(String name){
+    public void setUserName(String name) {
         username.setText(name);
         Platform.runLater(() -> password.requestFocus());
         validateButton();
     }
 
     @FXML
-    private void toggleCamera(ActionEvent event){
+    private void toggleCamera(ActionEvent event) {
         JFXToggleButton tog = (JFXToggleButton) event.getSource();
 
-        if(!tog.isSelected()){
+        if (!tog.isSelected()) {
             camera.toggleCamera();
             username.setText("");
             password.setText("");
             Platform.runLater(() -> username.requestFocus());
-        } else{
+        } else {
             password.setText("");
             camera.toggleCamera();
         }
