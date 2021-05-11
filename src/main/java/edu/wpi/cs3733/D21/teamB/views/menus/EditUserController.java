@@ -8,6 +8,8 @@ import edu.wpi.cs3733.D21.teamB.entities.requests.Request;
 import edu.wpi.cs3733.D21.teamB.util.HelpDialog;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
 import edu.wpi.cs3733.D21.teamB.views.BasePageController;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -137,6 +139,23 @@ public class EditUserController extends BasePageController implements Initializa
             smallText.setText("Edit User Profile");
             vAdminFields.setVisible(false);
         }
+
+        comboAuth.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
+//            if (comboAuth.getSelectionModel().getSelectedItem().getText().equals("PATIENT")) {
+//                jobText.setVisible(false);
+//                comboJob.setVisible(false);
+//            } else {
+//                jobText.setVisible(true);
+//                comboJob.setVisible(true);
+//            }
+            if (newValue.getText().equals("PATIENT")) {
+                jobText.setText("");
+                comboJob.setVisible(false);
+            } else {
+                jobText.setVisible(true);
+                comboJob.setVisible(true);
+            }
+        });
     }
 
     public void handleButtonAction(ActionEvent actionEvent) {
