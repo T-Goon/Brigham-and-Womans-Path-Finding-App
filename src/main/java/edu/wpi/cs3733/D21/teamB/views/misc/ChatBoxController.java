@@ -51,9 +51,6 @@ public class ChatBoxController implements Initializable {
     @FXML
     public JFXButton btnMinimize;
 
-    @FXML
-    public JFXButton btnClose;
-
     private final TextToSpeech tts = new TextToSpeech();
     public static ScheduledExecutorService userThread = null;
 
@@ -115,12 +112,6 @@ public class ChatBoxController implements Initializable {
             else expand();
         });
 
-        // When closed, wipe the cache and remove itself
-        btnClose.setOnAction(e -> {
-            if (!PageCache.isPageMinimized()) minimize();
-            else expand();
-            clearMessages();
-        });
 
         input.focusedProperty().addListener(((observable, oldValue, newValue) -> PageCache.setTextfieldFocused(newValue)));
     }

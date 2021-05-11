@@ -18,23 +18,19 @@
         <HBox fx:id="topBar" alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
               minWidth="-Infinity" prefHeight="31.0" prefWidth="348.0" style="-fx-background-color: d5d5d5;">
             <children>
-                <Label text="How may we assist you?">
+                <VBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
                     <HBox.margin>
                         <Insets bottom="3.0" left="3.0" right="3.0" top="3.0"/>
                     </HBox.margin>
-                </Label>
+                    <children>
+                        <Label text="How may we assist you?"/>
+                    </children>
+                </VBox>
                 <JFXButton fx:id="btnMinimize" buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity"
                            minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="25.0"
                            style="-fx-background-color: #32CD32; -fx-background-radius: 4;" text="-">
                     <HBox.margin>
-                        <Insets bottom="3.0" left="150.0" right="3.0" top="3.0"/>
-                    </HBox.margin>
-                </JFXButton>
-                <JFXButton fx:id="btnClose" buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity"
-                           minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="25.0"
-                           style="-fx-background-color: #FF0000; -fx-background-radius: 4;" text="X">
-                    <HBox.margin>
-                        <Insets bottom="3.0" right="3.0" top="3.0"/>
+                        <Insets bottom="3.0" left="3.0" right="3.0" top="3.0"/>
                     </HBox.margin>
                 </JFXButton>
             </children>
