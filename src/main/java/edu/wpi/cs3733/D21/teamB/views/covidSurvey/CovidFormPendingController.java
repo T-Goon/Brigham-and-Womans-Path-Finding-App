@@ -20,14 +20,13 @@ public class CovidFormPendingController extends BasePageController {
 
     @FXML
     public void handleButtonAction(ActionEvent e) {
-        final String currentPath = "/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidFormPending.fxml";
         JFXButton btn = (JFXButton) e.getSource();
         switch (btn.getId()) {
             case "btnBack":
-                SceneSwitcher.goBack(2);
+                SceneSwitcher.switchFromTemp("/edu/wpi/cs3733/D21/teamB/views/login/mainPage.fxml");
                 return;
             case "btnEdit":
-                SceneSwitcher.goBack(1);
+                SceneSwitcher.switchFromTemp("/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidSurvey.fxml");
                 break;
         }
         super.handleButtonAction(e);

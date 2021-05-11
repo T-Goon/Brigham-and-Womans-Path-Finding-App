@@ -25,6 +25,10 @@ public class SceneSwitcher {
         return stack.pop();
     }
 
+    public static int getStackSize() {
+        return stack.size();
+    }
+
     /**
      * Goes back to a previous page by popping from the stack
      * however many times it is requested to
@@ -32,15 +36,15 @@ public class SceneSwitcher {
      * @param pagesBack the number of pages to go back
      */
     public static void goBack(int pagesBack) {
-        if (stack.isEmpty()) {
-            ChatBot.stateManager.reset();
-            switchFromTemp("/edu/wpi/cs3733/D21/teamB/views/login/mainPage.fxml");
-            return;
-        }
         String path = "";
         for (int i = 0; i < pagesBack; i++) {
             if (!stack.isEmpty())
                 path = stack.pop();
+        }
+        if (stack.isEmpty()) {
+            ChatBot.stateManager.reset();
+            switchFromTemp("/edu/wpi/cs3733/D21/teamB/views/login/mainPage.fxml");
+            return;
         }
         ChatBot.stateManager.reset();
         switchFromTemp(path);

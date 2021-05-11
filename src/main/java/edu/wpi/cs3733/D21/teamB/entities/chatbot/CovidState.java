@@ -21,7 +21,14 @@ public class CovidState implements IState {
     public List<String> respond(String input) {
         List<String> response = new ArrayList<>();
 
-        if (messagesSent.isEmpty()) { // First message
+        if (!messagesSent.isEmpty() && messagesSent.peek().equals("unsure")) {
+            messagesSent.pop();
+        }
+
+        if (messagesSent.isEmpty() && PageCache.getCurrentPage().equals("/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidSurvey.fxml")) { // If already on the page
+            messagesSent.push("Do you need help filling out a COVID survey?");
+            response.add("Do you need any assistance?");
+        } else if (messagesSent.isEmpty()) { // First message
             response.add("Do you need help filling out a COVID survey?");
         } else if (messagesSent.peek().equals("Do you need help filling out a COVID survey?")) { // Second message
             if (StateManager.containsAny(input, new String[]{"y", "ye", "yes", "yeah", "yup"})) {

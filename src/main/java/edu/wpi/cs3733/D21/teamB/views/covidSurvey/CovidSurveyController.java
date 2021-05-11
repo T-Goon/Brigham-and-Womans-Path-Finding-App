@@ -234,8 +234,6 @@ public class CovidSurveyController extends DefaultServiceRequestFormController i
         JFXButton btn = (JFXButton) e.getSource();
 
         switch (btn.getId()) {
-            case "btnBack":
-                break;
             case "btnSubmit":
                 this.handleSubmission();
                 SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidFormPending.fxml");

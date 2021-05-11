@@ -14,7 +14,14 @@ public class PathfindingState implements IState {
     public List<String> respond(String input) {
         List<String> response = new ArrayList<>();
 
-        if (messagesSent.isEmpty()) { // First message
+        if (!messagesSent.isEmpty() && messagesSent.peek().equals("unsure")) {
+            messagesSent.pop();
+        }
+
+        if (messagesSent.isEmpty() && PageCache.getCurrentPage().equals("/edu/wpi/cs3733/D21/teamB/views/map/pathfindingMenu.fxml")) { // If already on the page
+            messagesSent.push("Do you need help navigating the hospital?");
+            response.add("Do you need any assistance?");
+        } else if (messagesSent.isEmpty()) { // First message
             response.add("Do you need help navigating the hospital?");
         } else if (messagesSent.peek().equals("Do you need help navigating the hospital?")) { // Second message
             if (StateManager.containsAny(input, new String[]{"y", "ye", "yes", "yeah", "yup"})) {

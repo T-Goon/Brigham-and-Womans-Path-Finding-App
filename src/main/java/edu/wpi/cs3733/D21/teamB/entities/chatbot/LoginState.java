@@ -19,7 +19,10 @@ public class LoginState implements IState {
         }
 
         // First message
-        if (messagesSent.isEmpty()) {
+        if (messagesSent.isEmpty() && PageCache.getCurrentPage().equals("/edu/wpi/cs3733/D21/teamB/views/login/loginPage.fxml")) { // If already on the page
+            messagesSent.push("Do you want to log in?");
+            response.add("Do you need any assistance?");
+        } else if (messagesSent.isEmpty()) {
             response.add("Do you want to log in?");
         } else if (messagesSent.peek().equals("Do you want to log in?")) { // Second message
             if (StateManager.containsAny(input, new String[]{"y", "ye", "yes", "yeah", "yup"})) {

@@ -137,7 +137,11 @@ public class ChatBot implements Runnable {
      * @param path the path to the FXML file to switch to
      */
     private void switchToPage(String path) {
-        Platform.runLater(() -> SceneSwitcher.switchFromTemp(path));
+        Platform.runLater(() -> {
+            if (path.equals("/edu/wpi/cs3733/D21/teamB/views/login/mainPage.fxml") && SceneSwitcher.getStackSize() == 0)
+                SceneSwitcher.switchScene("/edu/wpi/cs3733/D21/teamB/views/login/mainPage.fxml", path);
+            else SceneSwitcher.switchFromTemp(path);
+        });
     }
 
     private void unsureResponse(String input) {
@@ -150,6 +154,10 @@ public class ChatBot implements Runnable {
                 }
             }));
             String message = chatSession.multisentenceRespond(input);
+            message = message.replace("\n", " ");
+            message = message.replace("\t", "");
+            message = message.replace("\r", "");
+            message = message.replace("SUPER", "Mike Bedard");
             if (message.contains("<") && message.contains(">"))
                 message = "Sorry, I'm not well equipped enough to answer that.";
             else if (message.contains("?"))

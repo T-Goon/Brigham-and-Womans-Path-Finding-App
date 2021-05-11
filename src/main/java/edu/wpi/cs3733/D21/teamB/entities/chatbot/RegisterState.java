@@ -18,7 +18,10 @@ public class RegisterState implements IState {
             messagesSent.pop();
         }
 
-        if (StateManager.containsAny(input, new String[]{"face", "ID", "faceID"})) {
+        if (messagesSent.isEmpty() && PageCache.getCurrentPage().equals("/edu/wpi/cs3733/D21/teamB/views/login/registerPage.fxml")) { // If already on the page
+            messagesSent.push("Do you want to make a new account?");
+            response.add("Do you need any assistance?");
+        } else if (StateManager.containsAny(input, new String[]{"face", "ID", "faceID"})) {
             response.add("Face ID is a technology that allows you to verify your credentials using facial detection.");
             response.add("You must take a picture of your face using the 'Take Picture' button so Face ID can work.");
             response.add("Do you need any assistance?");
