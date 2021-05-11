@@ -25,6 +25,10 @@ public class SceneSwitcher {
         return stack.pop();
     }
 
+    public static int getStackSize() {
+        return stack.size();
+    }
+
     /**
      * Goes back to a previous page by popping from the stack
      * however many times it is requested to
