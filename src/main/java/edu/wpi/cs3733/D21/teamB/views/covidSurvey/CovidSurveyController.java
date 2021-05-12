@@ -236,7 +236,7 @@ public class CovidSurveyController extends DefaultServiceRequestFormController i
         switch (btn.getId()) {
             case "btnSubmit":
                 this.handleSubmission();
-                SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidFormPending.fxml");
+                SceneSwitcher.switchFromTemp("/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidFormPending.fxml");
                 return; // Don't go to form submission view from superclass
             case "btnExit":
                 Platform.exit();
