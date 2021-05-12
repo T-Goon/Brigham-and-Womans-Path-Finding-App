@@ -123,6 +123,10 @@ public class EditUserController extends BasePageController implements Initializa
                 i++;
             }
         }
+        if (u.getAuthenticationLevel().equals(User.AuthenticationLevel.PATIENT)) {
+            comboJob.getSelectionModel().select(0);
+            comboJob.setDisable(true);
+        }
         i = 0;
         for (Label label : comboAuth.getItems()) {
             if (label.getText().equals(u.getAuthenticationLevel().toString())) {
@@ -139,23 +143,6 @@ public class EditUserController extends BasePageController implements Initializa
             smallText.setText("Edit User Profile");
             vAdminFields.setVisible(false);
         }
-
-        comboAuth.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
-//            if (comboAuth.getSelectionModel().getSelectedItem().getText().equals("PATIENT")) {
-//                jobText.setVisible(false);
-//                comboJob.setVisible(false);
-//            } else {
-//                jobText.setVisible(true);
-//                comboJob.setVisible(true);
-//            }
-            if (newValue.getText().equals("PATIENT")) {
-                jobText.setText("");
-                comboJob.setVisible(false);
-            } else {
-                jobText.setVisible(true);
-                comboJob.setVisible(true);
-            }
-        });
     }
 
     public void handleButtonAction(ActionEvent actionEvent) {
@@ -212,6 +199,13 @@ public class EditUserController extends BasePageController implements Initializa
                 txtUsername.getText().isEmpty() || txtEmail.getText().isEmpty() || txtFirstName.getText().isEmpty() || txtLastName.getText().isEmpty() ||
                         comboAuth.getValue() == null || (passPassword.getText().isEmpty() && SceneSwitcher.editingUserState.equals(SceneSwitcher.UserState.ADD))
         );
+
+        if (comboAuth.getSelectionModel().getSelectedItem().getText().equals("PATIENT")) {
+            comboJob.getSelectionModel().getSelectedItem().setText("None");
+            comboJob.setDisable(true);
+        } else {
+            comboJob.setDisable(false);
+        }
 
         txtUsername.setDisable(SceneSwitcher.editingUserState != SceneSwitcher.UserState.ADD);
         passPassword.setDisable(SceneSwitcher.editingUserState != SceneSwitcher.UserState.ADD);
