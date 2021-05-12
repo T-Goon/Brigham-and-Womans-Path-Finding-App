@@ -133,15 +133,15 @@
                                           <Font name="MS Reference Sans Serif" size="18.0" />
                                        </font>
                                     </Text>
-                                 </children>
-                              </VBox>
-                              <VBox alignment="TOP_RIGHT" maxWidth="-Infinity" prefWidth="250.0" spacing="10.0">
-                                 <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="- AliceBot" wrappingWidth="239.629150390625">
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="- AliceBot" wrappingWidth="182.871704101562">
                                        <font>
                                           <Font name="MS Reference Sans Serif" size="18.0" />
                                        </font>
                                     </Text>
+                                 </children>
+                              </VBox>
+                              <VBox alignment="TOP_RIGHT" maxWidth="-Infinity" prefWidth="250.0" spacing="10.0">
+                                 <children>
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="- Javax Mail" wrappingWidth="239.629150390625">
                                        <font>
                                           <Font name="MS Reference Sans Serif" size="18.0" />
