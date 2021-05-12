@@ -66,29 +66,50 @@
                      <children>
                         <HBox alignment="CENTER" spacing="20.0">
                            <children>
-                              <JFXButton fx:id="btnSnake" accessibleText="Emergency" buttonType="RAISED" onAction="#handleButtonAction" prefHeight="50.0" style="-fx-background-color: #0067B1;" text="Snake" textFill="WHITE">
+                              <JFXButton fx:id="btnSnake" accessibleText="snake" alignment="CENTER" contentDisplay="CENTER" minHeight="160.0" minWidth="160.0" onAction="#handleButtonAction" ripplerFill="WHITE" style="-fx-background-color: transparent;" text="Snake" textFill="#ffffff00">
                                  <font>
                                     <Font name="MS Reference Sans Serif" size="16.0" />
                                  </font>
                                  <padding>
                                     <Insets left="20.0" right="20.0" />
                                  </padding>
+                                 <graphic>
+                                    <ImageView fitHeight="400.0" fitWidth="400.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../images/gamePoster/snakePoster.jpg" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
                               </JFXButton>
-                              <JFXButton fx:id="btnPac" accessibleText="Emergency" buttonType="RAISED" onAction="#handleButtonAction" prefHeight="50.0" style="-fx-background-color: #0067B1;" text="Pac-Man" textFill="WHITE">
+                              <JFXButton fx:id="btnPac" accessibleText="pack man" alignment="CENTER" contentDisplay="CENTER" minHeight="160.0" minWidth="160.0" onAction="#handleButtonAction" ripplerFill="WHITE" style="-fx-background-color: transparent;" text="Pac-Man" textFill="#ffffff00">
                                  <font>
                                     <Font name="MS Reference Sans Serif" size="16.0" />
                                  </font>
                                  <padding>
                                     <Insets left="20.0" right="20.0" />
                                  </padding>
+                                 <graphic>
+                                    <ImageView fitHeight="400.0" fitWidth="400.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../images/gamePoster/pacmanPoster.jpg" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
                               </JFXButton>
-                              <JFXButton fx:id="btnBreakout" accessibleText="Emergency" buttonType="RAISED" onAction="#handleButtonAction" prefHeight="50.0" style="-fx-background-color: #0067B1;" text="Breakout" textFill="WHITE">
+                              <JFXButton fx:id="btnPong" accessibleText="Brick breaker" alignment="CENTER" contentDisplay="CENTER" minHeight="160.0" minWidth="160.0" onAction="#handleButtonAction" ripplerFill="WHITE" style="-fx-background-color: transparent;" text="Brick breaker" textFill="#ffffff00">
                                  <font>
                                     <Font name="MS Reference Sans Serif" size="16.0" />
                                  </font>
                                  <padding>
                                     <Insets left="20.0" right="20.0" />
                                  </padding>
+                                 <graphic>
+                                    <ImageView fitHeight="400.0" fitWidth="400.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../images/gamePoster/brickBreakerPoster.jpg" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
                               </JFXButton>
                            </children>
                         </HBox>
@@ -112,13 +133,6 @@
                            <padding>
                               <Insets top="1.0" />
                            </padding>
-                           <graphic>
-                              <ImageView fitHeight="41.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../../images/menus/backButton.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
                         </JFXButton>
                      </children>
                   </HBox>
