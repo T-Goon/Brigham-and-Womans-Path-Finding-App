@@ -8,6 +8,8 @@ import edu.wpi.cs3733.D21.teamB.entities.requests.Request;
 import edu.wpi.cs3733.D21.teamB.util.HelpDialog;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
 import edu.wpi.cs3733.D21.teamB.views.BasePageController;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -118,6 +120,10 @@ public class EditUserController extends BasePageController implements Initializa
                 i++;
             }
         }
+        if (u.getAuthenticationLevel().equals(User.AuthenticationLevel.PATIENT)) {
+            comboJob.getSelectionModel().select(0);
+            comboJob.setDisable(true);
+        }
         i = 0;
         for (Label label : comboAuth.getItems()) {
             if (label.getText().equals(u.getAuthenticationLevel().toString())) {
@@ -190,6 +196,13 @@ public class EditUserController extends BasePageController implements Initializa
                 txtUsername.getText().isEmpty() || txtEmail.getText().isEmpty() || txtFirstName.getText().isEmpty() || txtLastName.getText().isEmpty() ||
                         comboAuth.getValue() == null || (passPassword.getText().isEmpty() && SceneSwitcher.editingUserState.equals(SceneSwitcher.UserState.ADD))
         );
+
+        if (comboAuth.getSelectionModel().getSelectedItem().getText().equals("PATIENT")) {
+            comboJob.getSelectionModel().getSelectedItem().setText("None");
+            comboJob.setDisable(true);
+        } else {
+            comboJob.setDisable(false);
+        }
 
         txtUsername.setDisable(SceneSwitcher.editingUserState != SceneSwitcher.UserState.ADD);
         passPassword.setDisable(SceneSwitcher.editingUserState != SceneSwitcher.UserState.ADD);
