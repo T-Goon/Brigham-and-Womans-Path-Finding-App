@@ -221,7 +221,7 @@ public class RequestMutator implements IDatabaseEntityMutator<Request> {
                 break;
             case COVID:
                 CovidSurveyRequest covidSurveyRequest = (CovidSurveyRequest) request;
-                query = "INSERT INTO covidSurveyRequests VALUES " +
+                query = "INSERT INTO CovidSurveyRequests VALUES " +
                         "('" + covidSurveyRequest.getRequestID()
                         + "', '" + covidSurveyRequest.getStatus().toString()
                         + "', '" + covidSurveyRequest.getSymptomFever()
@@ -387,7 +387,7 @@ public class RequestMutator implements IDatabaseEntityMutator<Request> {
                 break;
             case COVID:
                 CovidSurveyRequest covidSurveyRequest = (CovidSurveyRequest) request;
-                query = "UPDATE covidSurveyRequests SET status = '" + covidSurveyRequest.getStatus().toString()
+                query = "UPDATE CovidSurveyRequests SET status = '" + covidSurveyRequest.getStatus().toString()
                         + "', fever = '" + covidSurveyRequest.getSymptomFever()
                         + "', chills = '" + covidSurveyRequest.getSymptomChills()
                         + "', cough = '" + covidSurveyRequest.getSymptomCough()
@@ -433,7 +433,7 @@ public class RequestMutator implements IDatabaseEntityMutator<Request> {
         } while (rs.next());
         rs.close();
 
-        String querySpecificTable = "DELETE FROM '" + Request.RequestType.prettify(request.getRequestType()).replace(" ", "") + "Requests" + "'WHERE requestID = '" + request.getRequestID() + "'";
+        String querySpecificTable = "DELETE FROM " + Request.RequestType.prettify(request.getRequestType()).replace(" ", "") + "Requests" + " WHERE requestID = '" + request.getRequestID() + "'";
         String queryGeneralTable = "DELETE FROM Requests WHERE requestID = '" + request.getRequestID() + "'";
         db.runStatement(querySpecificTable, false);
         db.runStatement(queryGeneralTable, false);

@@ -6,6 +6,7 @@ import edu.wpi.cs3733.D21.teamB.entities.map.data.Edge;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Node;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.NodeMenuPopupData;
 import edu.wpi.cs3733.D21.teamB.entities.map.node.DelEdgeBtwnFloorsAYSWindow;
+import edu.wpi.cs3733.D21.teamB.pathfinding.Graph;
 import edu.wpi.cs3733.D21.teamB.util.Popup.Poppable;
 import edu.wpi.cs3733.D21.teamB.util.Popup.Window;
 import javafx.fxml.FXMLLoader;
@@ -18,6 +19,7 @@ import java.util.*;
 
 public class DelEdgeBtwnFloorsWindow extends Window<VBox, NodeMenuPopupData, VBox> implements Poppable {
 
+    private final Graph graph = Graph.getGraph();
     private final Map<Integer, String> indexToNodeId = new HashMap<>();
 
     public DelEdgeBtwnFloorsWindow(Pane parent, NodeMenuPopupData data, VBox previous) {
@@ -56,9 +58,9 @@ public class DelEdgeBtwnFloorsWindow extends Window<VBox, NodeMenuPopupData, VBo
         String edgeID = null;
 
         // Figure out the correct edge id
-        if (DatabaseHandler.getHandler().getEdges().containsKey(data.getNodeID() + "_" + nodeId)) {
+        if (graph.getEdges().containsKey(data.getNodeID() + "_" + nodeId)) {
             edgeID = data.getNodeID() + "_" + nodeId;
-        } else if (DatabaseHandler.getHandler().getEdges().containsKey(nodeId + "_" + data.getNodeID())) {
+        } else if (graph.getEdges().containsKey(nodeId + "_" + data.getNodeID())) {
             edgeID = nodeId + "_" + data.getNodeID();
         }
 
@@ -77,12 +79,11 @@ public class DelEdgeBtwnFloorsWindow extends Window<VBox, NodeMenuPopupData, VBo
      */
     public List<String> getEdgesBtwnFloors() {
 
-        DatabaseHandler db = DatabaseHandler.getHandler();
 
         // Get all edges
         List<Edge> edges = null;
         try {
-            edges = db.getAdjacentEdgesOfNode(data.getNodeID());
+            edges = DatabaseHandler.getHandler().getAdjacentEdgesOfNode(data.getNodeID());
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -90,8 +91,8 @@ public class DelEdgeBtwnFloorsWindow extends Window<VBox, NodeMenuPopupData, VBo
         List<String> edgeNames = new ArrayList<>();
         assert edges != null;
         for (Edge e : edges) {
-            Node start = db.getNodeById(e.getStartNodeID());
-            Node end = db.getNodeById(e.getEndNodeID());
+            Node start = graph.getNodes().get(e.getStartNodeID());
+            Node end = graph.getNodes().get(e.getEndNodeID());
 
             // Edge goes to a different floor
             if (!start.getFloor().equals(data.getFloor())) {

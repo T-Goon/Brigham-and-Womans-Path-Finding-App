@@ -24,6 +24,12 @@ public class FloorSwitcher {
     private final static String floorL1Path = "/edu/wpi/cs3733/D21/teamB/images/maps/floors/00_thelowerlevel1.png";
     private final static String floorL2Path = "/edu/wpi/cs3733/D21/teamB/images/maps/floors/00_thelowerlevel2.png";
 
+    private final static Image floor3Image = new Image(floor3Path);
+    private final static Image floor2Image = new Image(floor2Path);
+    private final static Image floor1Image = new Image(floor1Path);
+    private final static Image floorL1Image = new Image(floorL1Path);
+    private final static Image floorL2Image = new Image(floorL2Path);
+
     public final static String floor3ID = "3";
     public final static String floor2ID = "2";
     public final static String floor1ID = "1";
@@ -51,9 +57,8 @@ public class FloorSwitcher {
     public void switchFloor(String floor) {
         switch (floor) {
             case floor3ID:
-
                 mapCache.setCurrentFloor(floor3ID);
-                map.setImage(new Image(floor3Path));
+                map.setImage(floor3Image);
                 mapDrawer.drawAllElements();
                 highlightFloorButton(floor3ID);
                 if (mapCache.getFinalPath() != null) {
@@ -63,7 +68,7 @@ public class FloorSwitcher {
             case floor2ID:
 
                 mapCache.setCurrentFloor(floor2ID);
-                map.setImage(new Image(floor2Path));
+                map.setImage(floor2Image);
                 mapDrawer.drawAllElements();
                 highlightFloorButton(floor2ID);
                 if (mapCache.getFinalPath() != null) {
@@ -73,7 +78,7 @@ public class FloorSwitcher {
             case floor1ID:
 
                 mapCache.setCurrentFloor(floor1ID);
-                map.setImage(new Image(floor1Path));
+                map.setImage(floor1Image);
                 mapDrawer.drawAllElements();
                 highlightFloorButton(floor1ID);
                 if (mapCache.getFinalPath() != null) {
@@ -84,7 +89,7 @@ public class FloorSwitcher {
 
 
                 mapCache.setCurrentFloor(floorL1ID);
-                map.setImage(new Image(floorL1Path));
+                map.setImage(floorL1Image);
                 mapDrawer.drawAllElements();
                 highlightFloorButton(floorL1ID);
                 if (mapCache.getFinalPath() != null) {
@@ -94,7 +99,7 @@ public class FloorSwitcher {
             case floorL2ID:
 
                 mapCache.setCurrentFloor(floorL2ID);
-                map.setImage(new Image(floorL2Path));
+                map.setImage(floorL2Image);
                 mapDrawer.drawAllElements();
                 highlightFloorButton(floorL2ID);
                 if (mapCache.getFinalPath() != null) {
