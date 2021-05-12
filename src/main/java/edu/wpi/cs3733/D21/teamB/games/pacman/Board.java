@@ -1,11 +1,14 @@
-package edu.wpi.cs3733.D21.teamB.games.PacMan;
+package edu.wpi.cs3733.D21.teamB.games.pacman;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
+import java.io.InputStream;
 
 public class Board extends JPanel implements ActionListener {
 
@@ -510,21 +513,25 @@ public class Board extends JPanel implements ActionListener {
     }
 
     private void loadImages() {
+        try{
+            ghost = new ImageIcon(ImageIO.read(getClass().getResourceAsStream("/edu/wpi/cs3733/D21/teamB/games/pacman/ghost.png"))).getImage();
+            pacman1 = new ImageIcon(ImageIO.read(getClass().getResourceAsStream("/edu/wpi/cs3733/D21/teamB/games/pacman/pacman.png"))).getImage();
+            pacman2up = new ImageIcon(ImageIO.read(getClass().getResourceAsStream("/edu/wpi/cs3733/D21/teamB/games/pacman/up1.png"))).getImage();
+            pacman3up = new ImageIcon(ImageIO.read(getClass().getResourceAsStream("/edu/wpi/cs3733/D21/teamB/games/pacman/up2.png"))).getImage();
+            pacman4up = new ImageIcon(ImageIO.read(getClass().getResourceAsStream("/edu/wpi/cs3733/D21/teamB/games/pacman/up3.png"))).getImage();
+            pacman2down = new ImageIcon(ImageIO.read(getClass().getResourceAsStream("/edu/wpi/cs3733/D21/teamB/games/pacman/down1.png"))).getImage();
+            pacman3down = new ImageIcon(ImageIO.read(getClass().getResourceAsStream("/edu/wpi/cs3733/D21/teamB/games/pacman/down2.png"))).getImage();
+            pacman4down = new ImageIcon(ImageIO.read(getClass().getResourceAsStream("/edu/wpi/cs3733/D21/teamB/games/pacman/down3.png"))).getImage();
+            pacman2left = new ImageIcon(ImageIO.read(getClass().getResourceAsStream("/edu/wpi/cs3733/D21/teamB/games/pacman/left1.png"))).getImage();
+            pacman3left = new ImageIcon(ImageIO.read(getClass().getResourceAsStream("/edu/wpi/cs3733/D21/teamB/games/pacman/left2.png"))).getImage();
+            pacman4left = new ImageIcon(ImageIO.read(getClass().getResourceAsStream("/edu/wpi/cs3733/D21/teamB/games/pacman/left3.png"))).getImage();
+            pacman2right = new ImageIcon(ImageIO.read(getClass().getResourceAsStream("/edu/wpi/cs3733/D21/teamB/games/pacman/right1.png"))).getImage();
+            pacman3right = new ImageIcon(ImageIO.read(getClass().getResourceAsStream("/edu/wpi/cs3733/D21/teamB/games/pacman/right2.png"))).getImage();
+            pacman4right = new ImageIcon(ImageIO.read(getClass().getResourceAsStream("/edu/wpi/cs3733/D21/teamB/games/pacman/right3.png"))).getImage();
+        } catch (IOException e){
+            e.printStackTrace();
+        }
 
-        ghost = new ImageIcon("src/main/resources/edu/wpi/cs3733/D21/teamB/games/Pacman/ghost.png").getImage();
-        pacman1 = new ImageIcon("src/main/resources/edu/wpi/cs3733/D21/teamB/games/Pacman/pacman.png").getImage();
-        pacman2up = new ImageIcon("src/main/resources/edu/wpi/cs3733/D21/teamB/games/Pacman/up1.png").getImage();
-        pacman3up = new ImageIcon("src/main/resources/edu/wpi/cs3733/D21/teamB/games/Pacman/up2.png").getImage();
-        pacman4up = new ImageIcon("src/main/resources/edu/wpi/cs3733/D21/teamB/games/Pacman/up3.png").getImage();
-        pacman2down = new ImageIcon("src/main/resources/edu/wpi/cs3733/D21/teamB/games/Pacman/down1.png").getImage();
-        pacman3down = new ImageIcon("src/main/resources/edu/wpi/cs3733/D21/teamB/games/Pacman/down2.png").getImage();
-        pacman4down = new ImageIcon("src/main/resources/edu/wpi/cs3733/D21/teamB/games/Pacman/down3.png").getImage();
-        pacman2left = new ImageIcon("src/main/resources/edu/wpi/cs3733/D21/teamB/games/Pacman/left1.png").getImage();
-        pacman3left = new ImageIcon("src/main/resources/edu/wpi/cs3733/D21/teamB/games/Pacman/left2.png").getImage();
-        pacman4left = new ImageIcon("src/main/resources/edu/wpi/cs3733/D21/teamB/games/Pacman/left3.png").getImage();
-        pacman2right = new ImageIcon("src/main/resources/edu/wpi/cs3733/D21/teamB/games/Pacman/right1.png").getImage();
-        pacman3right = new ImageIcon("src/main/resources/edu/wpi/cs3733/D21/teamB/games/Pacman/right2.png").getImage();
-        pacman4right = new ImageIcon("src/main/resources/edu/wpi/cs3733/D21/teamB/games/Pacman/right3.png").getImage();
 
     }
 

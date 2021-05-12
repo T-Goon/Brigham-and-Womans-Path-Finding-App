@@ -1,7 +1,7 @@
 package edu.wpi.cs3733.D21.teamB.views.misc;
 
 import com.jfoenix.controls.JFXButton;
-import edu.wpi.cs3733.D21.teamB.games.PacMan.Pacman;
+import edu.wpi.cs3733.D21.teamB.games.pacman.Pacman;
 import edu.wpi.cs3733.D21.teamB.games.breakout.Breakout;
 import edu.wpi.cs3733.D21.teamB.games.snake.gameFrame;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
