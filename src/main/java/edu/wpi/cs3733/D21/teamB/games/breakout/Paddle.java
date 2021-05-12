@@ -3,6 +3,9 @@ package edu.wpi.cs3733.D21.teamB.games.breakout;
 import lombok.var;
 
 import java.awt.event.KeyEvent;
+import java.io.IOException;
+import java.io.InputStream;
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
 public class Paddle extends Sprite  {
@@ -23,9 +26,13 @@ public class Paddle extends Sprite  {
     }
     
     private void loadImage() {
-        
-        var ii = new ImageIcon("src/main/resources/edu/wpi/cs3733/D21/teamB/games/Breakout/paddle.png");
-        image = ii.getImage();        
+        try {
+            InputStream stream = getClass().getResourceAsStream("/edu/wpi/cs3733/D21/teamB/games/breakout/paddle.png");
+            var ii = new ImageIcon(ImageIO.read(stream));
+            image = ii.getImage();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }    
 
     void move() {

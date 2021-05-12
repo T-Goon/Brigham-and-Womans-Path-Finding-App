@@ -2,7 +2,10 @@ package edu.wpi.cs3733.D21.teamB.games.breakout;
 
 import lombok.var;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import java.io.IOException;
+import java.io.InputStream;
 
 public class Ball extends Sprite {
 
@@ -25,9 +28,13 @@ public class Ball extends Sprite {
     }
 
     private void loadImage() {
-
-        var ii = new ImageIcon("src/main/resources/edu/wpi/cs3733/D21/teamB/games/Breakout/ball.png");
-        image = ii.getImage();
+        try {
+            InputStream stream = getClass().getResourceAsStream("/edu/wpi/cs3733/D21/teamB/games/breakout/ball.png");
+            var ii = new ImageIcon(ImageIO.read(stream));
+            image = ii.getImage();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     void move() {
@@ -41,8 +48,6 @@ public class Ball extends Sprite {
         }
 
         if (x == Commons.WIDTH - imageWidth) {
-
-            System.out.println(imageWidth);
             setXDir(-1);
         }
 
