@@ -151,7 +151,14 @@ public class Board extends JPanel implements ActionListener {
         g2d.fillRect(50, SCREEN_SIZE / 2 - 30, SCREEN_SIZE - 100, 50);
         g2d.setColor(Color.white);
         g2d.drawRect(50, SCREEN_SIZE / 2 - 30, SCREEN_SIZE - 100, 50);
+
+        String s = "Press s to start.";
+        Font small = new Font("Helvetica", Font.BOLD, 14);
+        FontMetrics metr = this.getFontMetrics(small);
+
         g2d.setColor(Color.white);
+        g2d.setFont(small);
+        g2d.drawString(s, (SCREEN_SIZE - metr.stringWidth(s)) / 2, SCREEN_SIZE / 2);
     }
 
     private void drawScore(Graphics2D g) {
@@ -592,7 +599,10 @@ public class Board extends JPanel implements ActionListener {
                     if (timer.isRunning()) {
                         timer.stop();
                     } else {
-                        timer.start();
+                        if (key == 's' || key == 'S') {
+                            inGame = true;
+                            initGame();
+                        }
                     }
                 }
             } else {
