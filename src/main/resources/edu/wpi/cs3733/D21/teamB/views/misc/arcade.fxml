@@ -105,7 +105,7 @@
                         <Insets bottom="15.0" left="15.0" />
                      </padding>
                      <children>
-                        <JFXButton fx:id="btnBack1" alignment="CENTER" buttonType="RAISED" cancelButton="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#handleButtonAction" prefHeight="56" prefWidth="100.0" style="-fx-background-color: #0067B1; -fx-background-radius: 7;" text="Back" textAlignment="CENTER" textFill="WHITE">
+                        <JFXButton fx:id="btnBack" accessibleText="Leave page" alignment="CENTER" buttonType="RAISED" cancelButton="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#handleButtonAction" prefHeight="56" prefWidth="100.0" style="-fx-background-color: #0067B1; -fx-background-radius: 7;" text="Back" textAlignment="CENTER" textFill="WHITE">
                            <font>
                               <Font size="18.0" />
                            </font>
