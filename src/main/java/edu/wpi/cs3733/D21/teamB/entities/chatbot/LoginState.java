@@ -44,6 +44,12 @@ public class LoginState implements IState {
                 response.add("If you have any questions, feel free to ask!");
             } else if (StateManager.containsAny(input, new String[]{"n", "no", "nah", "nope"})) {
                 response.add("No worries! I'll be here.");
+            } else if (StateManager.containsAny(input, new String[]{"user", "username", "name"})) {
+                response.add("Your username is the top text field and refers to the username you setup when you registered your account.");
+                response.add("Do you need any assistance?");
+            } else if (StateManager.containsAny(input, new String[]{"pass", "password", "word"})) {
+                response.add("Your password is the lower text field and refers to the password you setup when you registered your account.");
+                response.add("Do you need any assistance?");
             } else {
                 response.add("unsure");
                 response.add("Do you need any assistance?");
