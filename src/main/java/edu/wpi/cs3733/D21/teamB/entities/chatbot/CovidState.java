@@ -25,6 +25,11 @@ public class CovidState implements IState {
             messagesSent.pop();
         }
 
+        // If coming from pathfinding
+        if (!messagesSent.isEmpty() && messagesSent.peek().equals("Do you need help filling out a COVID survey?") && PageCache.getCurrentPage().equals("/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidSurvey.fxml")) {
+            messagesSent.push("Do you need any assistance?");
+        }
+
         if (messagesSent.isEmpty() && PageCache.getCurrentPage().equals("/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidSurvey.fxml")) { // If already on the page
             messagesSent.push("Do you need help filling out a COVID survey?");
             response.add("Do you need any assistance?");
