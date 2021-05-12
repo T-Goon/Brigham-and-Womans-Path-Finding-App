@@ -60,9 +60,6 @@ public class EditUserController extends BasePageController implements Initializa
     private JFXToggleButton toggleTTS;
 
     @FXML
-    private JFXButton btnBack;
-
-    @FXML
     private JFXButton btnHelp;
 
     @FXML

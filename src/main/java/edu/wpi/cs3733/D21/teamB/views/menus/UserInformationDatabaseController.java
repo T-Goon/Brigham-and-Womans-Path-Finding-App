@@ -27,14 +27,6 @@ import java.util.ResourceBundle;
 
 @SuppressWarnings("unchecked") // Added so Java doesn't get mad at the raw use of TableView that is necessary
 public class UserInformationDatabaseController extends BasePageController implements Initializable {
-    @FXML
-    private JFXButton btnBack;
-
-    @FXML
-    private JFXButton btnExit;
-
-    @FXML
-    private JFXButton btnEmergency;
 
     @FXML
     private JFXButton btnAdd;
@@ -108,9 +100,6 @@ public class UserInformationDatabaseController extends BasePageController implem
         JFXButton btn = (JFXButton) e.getSource();
         super.handleButtonAction(e);
         switch (btn.getId()) {
-            case "btnEmergency":
-                SceneSwitcher.switchScene("/edu/wpi/cs3733/D21/teamB/views/menus/userInformationDatabase.fxml", "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
-                break;
             case "btnAdd":
                 Stage stage = App.getPrimaryStage();
                 stage.setUserData(new User("", "", "", "", User.AuthenticationLevel.PATIENT, "F", new ArrayList<>()));
