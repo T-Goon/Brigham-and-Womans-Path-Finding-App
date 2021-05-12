@@ -19,6 +19,7 @@ import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.apache.commons.io.FileUtils;
 import org.opencv.core.Core;
@@ -85,6 +86,7 @@ public class App extends Application {
             });
 
             primaryStage.setFullScreen(true);
+            primaryStage.setAlwaysOnTop(true);
 
             // If the database is uninitialized, fill it with the csv files
             try {

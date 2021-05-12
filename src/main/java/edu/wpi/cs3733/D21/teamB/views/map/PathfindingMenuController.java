@@ -70,7 +70,8 @@ public class PathfindingMenuController extends BasePageController implements Ini
             btnF2,
             btnF1,
             btnFL1,
-            btnFL2;
+            btnFL2,
+            btnPlay;
 
     @FXML
     private Label lblError;
@@ -114,6 +115,9 @@ public class PathfindingMenuController extends BasePageController implements Ini
 
     @FXML
     private MapCache mc;
+
+    @FXML
+    private Label score;
 
     public static final double COORDINATE_SCALE = 25 / 9.0;
     public static final int MAX_X = 5000;

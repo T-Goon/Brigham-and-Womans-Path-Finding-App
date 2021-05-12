@@ -43,6 +43,7 @@ public class MapDrawer implements PoppableManager {
     @Getter
     private final AnchorPane nodeHolder;
     private final AnchorPane mapHolder;
+    @Getter
     private final AnchorPane intermediateNodeHolder;
     private final Label lblError;
     private final GesturePane gPane;
@@ -67,6 +68,10 @@ public class MapDrawer implements PoppableManager {
 
     @Setter
     private FloorSwitcher floorSwitcher;
+
+    @Getter
+    @Setter
+    public boolean playingSnake;
 
     public MapDrawer(PathfindingMenuController pathfindingMenuController, MapCache mapCache, AnchorPane nodeHolder, AnchorPane mapHolder, AnchorPane intermediateNodeHolder,
                      Label lblError, StackPane mapStack, GesturePane gPane) {
@@ -322,7 +327,7 @@ public class MapDrawer implements PoppableManager {
         floorIndicator.setLayoutY((n.getYCoord() / PathfindingMenuController.COORDINATE_SCALE) - 30);
 
         floorIndicator.setOnMouseClicked(event -> {
-            switch (floorString.replaceAll("0", "")){
+            switch (floorString.replaceAll("0", "")) {
                 case FloorSwitcher.floor3ID:
                     removeAllEdges();
                     floorSwitcher.switchFloor(FloorSwitcher.floor3ID);
@@ -387,21 +392,21 @@ public class MapDrawer implements PoppableManager {
      */
     private void animatePath(List<String> currentFloorPath) {
         javafx.scene.shape.Path animationPath = new javafx.scene.shape.Path();
-        double x,y,oldX,oldY;
+        double x, y, oldX, oldY;
         int steps = 0;
         int pathLength = 0;
         // Place head at first node
         x = Graph.getGraph().getNodes().get(currentFloorPath.get(0)).getXCoord() / PathfindingMenuController.COORDINATE_SCALE;
         y = Graph.getGraph().getNodes().get(currentFloorPath.get(0)).getYCoord() / PathfindingMenuController.COORDINATE_SCALE;
-        animationPath.getElements().add(new MoveTo(x,y));
+        animationPath.getElements().add(new MoveTo(x, y));
 
         for (int i = 0; i < currentFloorPath.size() - 1; i++) {
             steps++;
-            oldX=x;
-            oldY=y;
+            oldX = x;
+            oldY = y;
             x = Graph.getGraph().getNodes().get(currentFloorPath.get(i + 1)).getXCoord() / PathfindingMenuController.COORDINATE_SCALE;
             y = Graph.getGraph().getNodes().get(currentFloorPath.get(i + 1)).getYCoord() / PathfindingMenuController.COORDINATE_SCALE;
-            pathLength += Math.sqrt(Math.pow((x-oldX),2) + Math.pow((y-oldY),2));
+            pathLength += Math.sqrt(Math.pow((x - oldX), 2) + Math.pow((y - oldY), 2));
             if (Graph.getGraph().verifyEdge(currentFloorPath.get(i), currentFloorPath.get(i + 1))) {
                 // Valid edge move along it
                 animationPath.getElements().add(new LineTo(x, y));
@@ -470,15 +475,17 @@ public class MapDrawer implements PoppableManager {
     /**
      * Draws all edges on a floor
      */
-    private void drawEdgesOnFloor() {
+    public void drawEdgesOnFloor() {
         Map<String, Edge> edges = Graph.getGraph().getEdges();
         for (Edge e : edges.values()) {
             Node start = graph.getNodes().get(e.getStartNodeID());
             Node end = graph.getNodes().get(e.getEndNodeID());
 
-            if (start.getFloor().equals(mapCache.getCurrentFloor()) &&
-                    end.getFloor().equals(mapCache.getCurrentFloor())) {
-                placeEdge(start, end);
+            if (start != null && end != null) {
+                if (start.getFloor().equals(mapCache.getCurrentFloor()) &&
+                        end.getFloor().equals(mapCache.getCurrentFloor())) {
+                    placeEdge(start, end);
+                }
             }
         }
     }
@@ -672,6 +679,30 @@ public class MapDrawer implements PoppableManager {
     }
 
     /**
+     * Draws an edge between 2 points on the map for the game.
+     *
+     * @param start start node
+     * @param end   end node
+     */
+    public void placeEdgesForGame(Node start, Node end) {
+        try {
+            Line l = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/edu/wpi/cs3733/D21/teamB/views/map/misc/edge.fxml")));
+
+            l.setStartX(start.getXCoord() / PathfindingMenuController.COORDINATE_SCALE);
+            l.setStartY(start.getYCoord() / PathfindingMenuController.COORDINATE_SCALE);
+
+            l.setEndX(end.getXCoord() / PathfindingMenuController.COORDINATE_SCALE);
+            l.setEndY(end.getYCoord() / PathfindingMenuController.COORDINATE_SCALE);
+
+            mapHolder.getChildren().add(l);
+            mapCache.getEdgesPlaced().add(l);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
      * Refresh the nodes on the map.
      * <p>
      * FOR MAP EDITOR MODE ONLY!!!
@@ -708,8 +739,23 @@ public class MapDrawer implements PoppableManager {
             removeAllEdges();
             removeIntermediateNodes();
             removeNodes();
-            drawNodesOnFloor();
+            if (!playingSnake) {
+                drawNodesOnFloor();
+            }
         }
+    }
+
+    /**
+     * Draws all the elements of the map base on direction or map edit mode.
+     */
+    public void drawGameNodesEdges() {
+        removeAllPopups();
+
+        mapCache.updateLocations();
+        removeAllEdges();
+        removeIntermediateNodes();
+        removeNodes();
+        drawNodesOnFloor();
     }
 
     /**

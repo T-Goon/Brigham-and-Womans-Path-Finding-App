@@ -9,7 +9,9 @@ import edu.wpi.cs3733.D21.teamB.entities.map.node.AlignNodePopup;
 import edu.wpi.cs3733.D21.teamB.entities.map.node.NodeMenuPopup;
 import edu.wpi.cs3733.D21.teamB.util.Popup.PoppableManager;
 import edu.wpi.cs3733.D21.teamB.views.map.PathfindingMenuController;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Circle;
@@ -189,5 +191,6 @@ public class MapEditorPopupManager implements PoppableManager {
             alignNodePopup.hide();
             alignNodePopup = null;
         }
+
     }
 }
