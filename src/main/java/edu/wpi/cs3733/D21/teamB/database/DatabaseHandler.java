@@ -84,17 +84,17 @@ public class DatabaseHandler {
 
     public void changeRemoteStatus(boolean status) throws SQLException {
         DatabaseHandler.remote = status;
-        if(DatabaseHandler.remote) {
+        if (DatabaseHandler.remote) {
             databaseURL = REMOTE_URL;
-            this.databaseConnection = this.getConnection(true);
         } else {
             databaseURL = URL_BASE + "main.db";
-            this.databaseConnection = this.getConnection(true);
         }
+        this.databaseConnection = this.getConnection(true);
         EmbeddingModel.getModel().resetEmbeddings();
+        notifyObservers();
     }
 
-    public Connection getConnection(){
+    public Connection getConnection() {
         return getConnection(false);
     }
 
