@@ -1,9 +1,9 @@
 package edu.wpi.cs3733.D21.teamB.util;
 
 import edu.wpi.cs3733.D21.teamB.App;
+import edu.wpi.cs3733.D21.teamB.entities.chatbot.ChatBot;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.layout.Pane;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -17,12 +17,16 @@ public class SceneSwitcher {
     public static boolean isEmergencyBtn;
     public static UserState editingUserState;
 
-    public static String peekLastScene(){
+    public static String peekLastScene() {
         return stack.peek();
     }
 
-    public static String popLastScene(){
+    public static String popLastScene() {
         return stack.pop();
+    }
+
+    public static int getStackSize() {
+        return stack.size();
     }
 
     /**
@@ -32,17 +36,18 @@ public class SceneSwitcher {
      * @param pagesBack the number of pages to go back
      */
     public static void goBack(int pagesBack) {
-        if (stack.isEmpty()) return;
         String path = "";
-        for (int i = 0; i < pagesBack; i++)
-            if (!stack.isEmpty()) path = stack.pop();
-        try {
-            Pane root = FXMLLoader.load(Objects.requireNonNull(SceneSwitcher.class.getResource(path)));
-            App.getPrimaryStage().getScene().setRoot(root);
-        } catch (IOException e) {
-            System.err.println("Path \"" + path + "\" is malformed or nonexistent!");
-            e.printStackTrace();
+        for (int i = 0; i < pagesBack; i++) {
+            if (!stack.isEmpty())
+                path = stack.pop();
         }
+        if (stack.isEmpty()) {
+            ChatBot.stateManager.reset();
+            switchFromTemp("/edu/wpi/cs3733/D21/teamB/views/login/mainPage.fxml");
+            return;
+        }
+        ChatBot.stateManager.reset();
+        switchFromTemp(path);
     }
 
 
@@ -52,29 +57,27 @@ public class SceneSwitcher {
      * @param path the path to the FXML file to switch to
      */
     public static void switchFromTemp(String path) {
+        boolean isTextFieldFocused = PageCache.isTextfieldFocused();
         try {
             Parent root = FXMLLoader.load(Objects.requireNonNull(SceneSwitcher.class.getResource(path)));
+            PageCache.setCurrentPage(path);
             App.getPrimaryStage().getScene().setRoot(root);
         } catch (IOException e) {
             System.err.println("Path \"" + path + "\" is malformed or nonexistent!");
             e.printStackTrace();
         }
+        PageCache.setTextfieldFocused(isTextFieldFocused);
     }
 
     /**
      * Switches to a scene and removes it from the stack.
      *
-     * @param path     the path to the FXML file to switch to
+     * @param path the path to the FXML file to switch to
      */
     public static void switchScene(String oldPath, String path) {
+        ChatBot.stateManager.reset();
         stack.push(oldPath);
-        try {
-            Parent root = FXMLLoader.load(Objects.requireNonNull(SceneSwitcher.class.getResource(path)));
-            App.getPrimaryStage().getScene().setRoot(root);
-        } catch (IOException e) {
-            System.err.println("Path \"" + path + "\" is malformed or nonexistent!");
-            e.printStackTrace();
-        }
+        switchFromTemp(path);
     }
 
     /**

@@ -6,7 +6,6 @@ import edu.wpi.cs3733.D21.teamB.entities.User;
 import edu.wpi.cs3733.D21.teamB.entities.requests.Request;
 import edu.wpi.cs3733.D21.teamB.util.HelpDialog;
 import edu.wpi.cs3733.D21.teamB.util.RequestWrapper;
-import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
 import edu.wpi.cs3733.D21.teamB.views.BasePageController;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -19,9 +18,7 @@ import javafx.scene.layout.StackPane;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
 
 @SuppressWarnings("unchecked") // Added so Java doesn't get mad at the raw use of TableView that is necessary
 public class   ServiceRequestDatabaseController extends BasePageController implements Initializable {
@@ -55,6 +52,7 @@ public class   ServiceRequestDatabaseController extends BasePageController imple
 
     @FXML
     private TableColumn<String, JFXButton> nameCol;
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -129,18 +127,11 @@ public class   ServiceRequestDatabaseController extends BasePageController imple
 
     @FXML
     public void handleButtonAction(ActionEvent e) {
-        final String currentPath = "/edu/wpi/cs3733/D21/teamB/views/menus/serviceRequestDatabase.fxml";
         super.handleButtonAction(e);
         JFXButton btn = (JFXButton) e.getSource();
-        switch (btn.getId()) {
-            case "btnHelp":
-                HelpDialog.loadHelpDialog(stackPane, "To assign an employee to a request, right click on the text in the 'Assigned To' column and select a staff member from the context menu.\n" +
-                        "To set the current status of the request, right click on the text in the 'Complete' column and select the status of the request.\n");
-                break;
-            case "btnEmergency":
-                SceneSwitcher.isEmergencyBtn = true;
-                SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
-                break;
+        if ("btnHelp".equals(btn.getId())) {
+            HelpDialog.loadHelpDialog(stackPane, "To assign an employee to a request, right click on the text in the 'Assigned To' column and select a staff member from the context menu.\n" +
+                    "To set the current status of the request, right click on the text in the 'Complete' column and select the status of the request.\n");
         }
     }
 

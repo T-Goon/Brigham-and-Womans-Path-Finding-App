@@ -1,11 +1,13 @@
 package edu.wpi.cs3733.D21.teamB.database;
 
+import edu.wpi.cs3733.D21.teamB.entities.Embedding;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Edge;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Node;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.NodeType;
 import edu.wpi.cs3733.D21.teamB.entities.requests.*;
 import edu.wpi.cs3733.D21.teamB.entities.User;
 import edu.wpi.cs3733.D21.teamB.pathfinding.Graph;
+import edu.wpi.cs3733.D21.teamB.views.face.EmbeddingModel;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.*;
@@ -24,6 +26,7 @@ public class DatabaseHandler {
     private final EdgeMutator edgeMutator;
     private final RequestMutator requestMutator;
     private final UserMutator userMutator;
+    private final FaceMutator faceMutator;
 
     //State
     static User AuthenticationUser = new User("temporary", null, null, null, User.AuthenticationLevel.GUEST, "F", null);
@@ -34,6 +37,7 @@ public class DatabaseHandler {
         edgeMutator = new EdgeMutator(this);
         requestMutator = new RequestMutator(this);
         userMutator = new UserMutator(this);
+        faceMutator = new FaceMutator(this);
     }
 
     /**
@@ -122,7 +126,7 @@ public class DatabaseHandler {
             tables.add("CaseManagerRequests");
             tables.add("SocialWorkerRequests");
             tables.add("GiftRequests");
-            tables.add("LanguageRequests");
+            tables.add("LanguageInterpretationRequests");
             tables.add("EmergencyRequests");
             tables.add("Requests");
             tables.add("Edges");
@@ -130,6 +134,8 @@ public class DatabaseHandler {
             tables.add("Jobs");
             tables.add("Users");
             tables.add("FavoriteLocations");
+            tables.add("CovidSurveyRequests");
+            tables.add("Embeddings");
         }
 
         for (String table : tables) {
@@ -311,6 +317,7 @@ public class DatabaseHandler {
                 + "nose CHAR(1) CHECK (nose in ('T','F')), "
                 + "lostTaste CHAR(1) CHECK (lostTaste in ('T','F')), "
                 + "nausea CHAR(1) CHECK (nausea in ('T','F')), "
+                + "none CHAR(1) CHECK (none in ('T','F')), "
                 + "closeContact CHAR(1) CHECK (closeContact in ('T','F')), "
                 + "positiveTest CHAR(1) CHECK (positiveTest in ('T','F')), "
                 + "admitted CHAR(1) CHECK (admitted in ('T', 'F')), "
@@ -336,6 +343,13 @@ public class DatabaseHandler {
                 + "favoriteLocation CHAR(30), "
                 + "FOREIGN KEY (username) REFERENCES Users(username))";
 
+        String embeddingsTable = "CREATE TABLE IF NOT EXISTS Embeddings("
+                + "username CHAR(30), "
+                + "i INTEGER, "
+                + "value DOUBLE, "
+                + "PRIMARY KEY (username, i), "
+                + "FOREIGN KEY (username) REFERENCES Users(username))";
+
         runStatement(configuration, false);
         runStatement(nodesTable, false);
         runStatement(edgesTable, false);
@@ -358,6 +372,7 @@ public class DatabaseHandler {
         runStatement(usersTable, false);
         runStatement(jobsTable, false);
         runStatement(favoriteLocationsTable, false);
+        runStatement(embeddingsTable, false);
     }
 
     /**
@@ -453,9 +468,10 @@ public class DatabaseHandler {
 
     /**
      * Updates the admitted flag for a covid request
+     *
      * @param request request to be updated
-     * @param flag what to change it to
-     * @throws SQLException
+     * @param flag    what to change it to
+     * @throws SQLException if the request is malformed
      */
     public void updateCovidRequestAdmitted(CovidSurveyRequest request, String flag) throws SQLException {
         requestMutator.setCovidRequestAdmitted(request,flag);
@@ -843,5 +859,24 @@ public class DatabaseHandler {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public void addEmbedding(Embedding e) throws SQLException {
+        faceMutator.addEntity(e);
+        EmbeddingModel.getModel().addUpdateEmbedding(e);
+    }
+
+    public void removeEmbedding(String s) throws SQLException {
+        faceMutator.removeEntity(s);
+        EmbeddingModel.getModel().resetEmbeddings();
+    }
+
+    public void updateEmbedding(Embedding e) throws SQLException {
+        faceMutator.updateEntity(e);
+        EmbeddingModel.getModel().addUpdateEmbedding(e);
+    }
+
+    public HashMap<String, ArrayList<Double>> getEmbeddings() throws SQLException {
+        return faceMutator.getEmbeddings();
     }
 }

@@ -100,7 +100,6 @@ modules.xml
 .mtj.tmp/
 
 # Package Files #
-*.jar
 *.war
 *.nar
 *.ear
@@ -156,7 +155,7 @@ gradle-app.setting
 # gradle/wrapper/gradle-wrapper.properties
 
 ### Gradle Patch ###
-**/build/
+*/build/
 
 # End of https://www.gitignore.io/api/java,macos,gradle,intellij+all
 
@@ -164,6 +163,10 @@ gradle-app.setting
 main.db
 test.db
 src/main/resources/edu/wpi/cs3733/D21/teamB/account/account.txt
+
+#Face ID stuff
+facenet/facenet.pt
+haarcascade_frontalface_alt.xml
 
 #The test csvs that the tests save we dont neet to keep track of
 /src/test/resources/edu/wpi/cs3733/D21/teamB/database/save/*.csv

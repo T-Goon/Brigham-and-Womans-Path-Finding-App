@@ -68,10 +68,10 @@
                            <children>
                               <JFXButton fx:id="btnSnake" alignment="CENTER" contentDisplay="CENTER" minHeight="160.0" minWidth="160.0" onAction="#handleButtonAction" ripplerFill="WHITE" style="-fx-background-color: transparent;" text="Snake" textFill="#ffffff00">
                                  <font>
-                                    <Font size="14.0" />
+                                    <Font name="MS Reference Sans Serif" size="16.0" />
                                  </font>
                                  <padding>
-                                    <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+                                    <Insets left="20.0" right="20.0" />
                                  </padding>
                                  <graphic>
                                     <ImageView fitHeight="400.0" fitWidth="400.0" pickOnBounds="true" preserveRatio="true">
@@ -83,10 +83,10 @@
                               </JFXButton>
                               <JFXButton fx:id="btnPac" alignment="CENTER" contentDisplay="CENTER" minHeight="160.0" minWidth="160.0" onAction="#handleButtonAction" ripplerFill="WHITE" style="-fx-background-color: transparent;" text="Pac-Man" textFill="#ffffff00">
                                  <font>
-                                    <Font size="14.0" />
+                                    <Font name="MS Reference Sans Serif" size="16.0" />
                                  </font>
                                  <padding>
-                                    <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+                                    <Insets left="20.0" right="20.0" />
                                  </padding>
                                  <graphic>
                                     <ImageView fitHeight="400.0" fitWidth="400.0" pickOnBounds="true" preserveRatio="true">
@@ -97,11 +97,12 @@
                                  </graphic>
                               </JFXButton>
                               <JFXButton fx:id="btnPong" alignment="CENTER" contentDisplay="CENTER" minHeight="160.0" minWidth="160.0" onAction="#handleButtonAction" ripplerFill="WHITE" style="-fx-background-color: transparent;" text="Pong" textFill="#ffffff00">
+                              <JFXButton fx:id="btnBreakout" accessibleText="Emergency" buttonType="RAISED" onAction="#handleButtonAction" prefHeight="50.0" style="-fx-background-color: #0067B1;" text="Breakout" textFill="WHITE">
                                  <font>
-                                    <Font size="14.0" />
+                                    <Font name="MS Reference Sans Serif" size="16.0" />
                                  </font>
                                  <padding>
-                                    <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+                                    <Insets left="20.0" right="20.0" />
                                  </padding>
                                  <graphic>
                                     <ImageView fitHeight="400.0" fitWidth="400.0" pickOnBounds="true" preserveRatio="true">
@@ -126,13 +127,20 @@
                         <Insets bottom="15.0" left="15.0" />
                      </padding>
                      <children>
-                        <JFXButton fx:id="btnBack" accessibleText="Leave page" alignment="CENTER" buttonType="RAISED" cancelButton="true" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#handleButtonAction" prefHeight="56" prefWidth="56" style="-fx-background-color: #0067B1; -fx-background-radius: 50%;" text="🡰" textAlignment="CENTER" textFill="WHITE">
+                        <JFXButton fx:id="btnBack" accessibleText="Leave page" alignment="CENTER" buttonType="RAISED" cancelButton="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#handleButtonAction" prefHeight="56" prefWidth="100.0" style="-fx-background-color: #0067B1; -fx-background-radius: 7;" text="Back" textAlignment="CENTER" textFill="WHITE">
                            <font>
-                              <Font size="27.0" />
+                              <Font size="18.0" />
                            </font>
                            <padding>
                               <Insets top="1.0" />
                            </padding>
+                           <graphic>
+                              <ImageView fitHeight="41.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../images/menus/backButton.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
                         </JFXButton>
                      </children>
                   </HBox>

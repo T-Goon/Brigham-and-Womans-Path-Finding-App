@@ -5,7 +5,10 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -79,94 +82,134 @@
                                         <Insets bottom="10.0" />
                                     </VBox.margin>
                                 </Text>
-                        <VBox alignment="CENTER" spacing="5.0">
+                        <VBox alignment="CENTER" prefHeight="454.0" prefWidth="1166.0" spacing="5.0">
                            <children>
-                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="- Google Maps Javascript API" textAlignment="CENTER" wrappingWidth="725.3084106445312">
-                                          <font>
-                                              <Font name="MS Reference Sans Serif" size="18.0" />
-                                          </font>
-                                      </Text>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="- Jfoenix" textAlignment="CENTER" wrappingWidth="725.3084106445312">
-                                 <font>
-                                    <Font name="MS Reference Sans Serif" size="18.0" />
-                                 </font>
-                              </Text>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="- Sqlite-JDBC" textAlignment="CENTER" wrappingWidth="725.3084106445312">
-                                 <font>
-                                    <Font name="MS Reference Sans Serif" size="18.0" />
-                                 </font>
-                              </Text>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="- Lombok" textAlignment="CENTER" wrappingWidth="725.3084106445312">
-                                 <font>
-                                    <Font name="MS Reference Sans Serif" size="18.0" />
-                                 </font>
-                              </Text>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="- GestureFx" textAlignment="CENTER" wrappingWidth="725.3084106445312">
-                                 <font>
-                                    <Font name="MS Reference Sans Serif" size="18.0" />
-                                 </font>
-                              </Text>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="- JBcrypt" textAlignment="CENTER" wrappingWidth="725.3084106445312">
-                                 <font>
-                                    <Font name="MS Reference Sans Serif" size="18.0" />
-                                 </font>
-                              </Text>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="- GMapsFX" textAlignment="CENTER" wrappingWidth="725.3084106445312">
-                                 <font>
-                                    <Font name="MS Reference Sans Serif" size="18.0" />
-                                 </font>
-                              </Text>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="- MaryTTS" textAlignment="CENTER" wrappingWidth="725.3084106445312">
-                                 <font>
-                                    <Font name="MS Reference Sans Serif" size="18.0" />
-                                 </font>
-                              </Text>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="- Zip4j" textAlignment="CENTER" wrappingWidth="725.3084106445312">
-                                 <font>
-                                    <Font name="MS Reference Sans Serif" size="18.0" />
-                                 </font>
-                              </Text>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="- AliceBot" textAlignment="CENTER" wrappingWidth="725.3084106445312">
-                                 <font>
-                                    <Font name="MS Reference Sans Serif" size="18.0" />
-                                 </font>
-                              </Text>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="- Javax Mail" textAlignment="CENTER" wrappingWidth="725.3084106445312">
-                                 <font>
-                                    <Font name="MS Reference Sans Serif" size="18.0" />
-                                 </font>
-                              </Text>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="- Javax Activation" textAlignment="CENTER" wrappingWidth="725.3084106445312">
-                                 <font>
-                                    <Font name="MS Reference Sans Serif" size="18.0" />
-                                 </font>
-                              </Text>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="- SLF4J" textAlignment="CENTER" wrappingWidth="725.3084106445312">
-                                 <font>
-                                    <Font name="MS Reference Sans Serif" size="18.0" />
-                                 </font>
-                              </Text>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="- Java Native Access" textAlignment="CENTER" wrappingWidth="725.3084106445312">
-                                 <font>
-                                    <Font name="MS Reference Sans Serif" size="18.0" />
-                                 </font>
-                              </Text>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="- Deep Java Library" textAlignment="CENTER" wrappingWidth="725.3084106445312">
-                                 <font>
-                                    <Font name="MS Reference Sans Serif" size="18.0" />
-                                 </font>
-                              </Text>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="- Apache Commons IO" textAlignment="CENTER" wrappingWidth="725.3084106445312">
-                                 <font>
-                                    <Font name="MS Reference Sans Serif" size="18.0" />
-                                 </font>
-                              </Text>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="- OpenCV" textAlignment="CENTER" wrappingWidth="725.3084106445312">
-                                 <font>
-                                    <Font name="MS Reference Sans Serif" size="18.0" />
-                                 </font>
-                              </Text>
+                              <GridPane prefHeight="454.0" prefWidth="1504.0" VBox.vgrow="ALWAYS">
+                                <columnConstraints>
+                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="922.1089477539062" minWidth="10.0" prefWidth="887.6212768554688" />
+                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="1169.3282470703125" minWidth="10.0" prefWidth="832.3787231445312" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                                 <children>
+                                    <VBox alignment="TOP_RIGHT" prefHeight="454.0" prefWidth="397.0">
+                                       <children>
+                                                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="- Google Maps Javascript API" wrappingWidth="182.8717041015625">
+                                                      <font>
+                                                          <Font name="MS Reference Sans Serif" size="18.0" />
+                                                      </font>
+                                                  </Text>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="- Jfoenix" wrappingWidth="182.8717041015625">
+                                             <font>
+                                                <Font name="MS Reference Sans Serif" size="18.0" />
+                                             </font>
+                                          </Text>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="- Sqlite-JDBC" wrappingWidth="182.8717041015625">
+                                             <font>
+                                                <Font name="MS Reference Sans Serif" size="18.0" />
+                                             </font>
+                                          </Text>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="- Lombok" wrappingWidth="182.8717041015625">
+                                             <font>
+                                                <Font name="MS Reference Sans Serif" size="18.0" />
+                                             </font>
+                                          </Text>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="- GestureFx" wrappingWidth="182.8717041015625">
+                                             <font>
+                                                <Font name="MS Reference Sans Serif" size="18.0" />
+                                             </font>
+                                          </Text>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="- JBcrypt" wrappingWidth="182.8717041015625">
+                                             <font>
+                                                <Font name="MS Reference Sans Serif" size="18.0" />
+                                             </font>
+                                          </Text>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="- GMapsFX" wrappingWidth="182.8717041015625">
+                                             <font>
+                                                <Font name="MS Reference Sans Serif" size="18.0" />
+                                             </font>
+                                          </Text>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="- MaryTTS" wrappingWidth="182.8717041015625">
+                                             <font>
+                                                <Font name="MS Reference Sans Serif" size="18.0" />
+                                             </font>
+                                          </Text>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="- Zip4j" wrappingWidth="182.8717041015625">
+                                             <font>
+                                                <Font name="MS Reference Sans Serif" size="18.0" />
+                                             </font>
+                                          </Text>
+                                       </children>
+                                    </VBox>
+                                    <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1">
+                                       <children>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="- AliceBot" wrappingWidth="239.629150390625">
+                                             <font>
+                                                <Font name="MS Reference Sans Serif" size="18.0" />
+                                             </font>
+                                          </Text>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="- Javax Mail" wrappingWidth="239.629150390625">
+                                             <font>
+                                                <Font name="MS Reference Sans Serif" size="18.0" />
+                                             </font>
+                                          </Text>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="- Javax Activation" wrappingWidth="239.629150390625">
+                                             <font>
+                                                <Font name="MS Reference Sans Serif" size="18.0" />
+                                             </font>
+                                          </Text>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="- SLF4J" wrappingWidth="239.629150390625">
+                                             <font>
+                                                <Font name="MS Reference Sans Serif" size="18.0" />
+                                             </font>
+                                          </Text>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="- Java Native Access" wrappingWidth="239.629150390625">
+                                             <font>
+                                                <Font name="MS Reference Sans Serif" size="18.0" />
+                                             </font>
+                                          </Text>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="- Deep Java Library" wrappingWidth="239.629150390625">
+                                             <font>
+                                                <Font name="MS Reference Sans Serif" size="18.0" />
+                                             </font>
+                                          </Text>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="- Apache Commons IO" wrappingWidth="239.629150390625">
+                                             <font>
+                                                <Font name="MS Reference Sans Serif" size="18.0" />
+                                             </font>
+                                          </Text>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="- OpenCV" wrappingWidth="239.629150390625">
+                                             <font>
+                                                <Font name="MS Reference Sans Serif" size="18.0" />
+                                             </font>
+                                          </Text>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="- Java-Breakout-Game, janbodnar" wrappingWidth="239.629150390625">
+                                             <font>
+                                                <Font name="MS Reference Sans Serif" size="18.0" />
+                                             </font>
+                                          </Text>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="- Java-Pacman-Game, janbodnar" wrappingWidth="239.629150390625">
+                                             <font>
+                                                <Font name="MS Reference Sans Serif" size="18.0" />
+                                             </font>
+                                          </Text>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="- Java Snake Game, BroCode" wrappingWidth="239.629150390625">
+                                             <font>
+                                                <Font name="MS Reference Sans Serif" size="18.0" />
+                                             </font>
+                                          </Text>
+                                       </children>
+                                    </VBox>
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets top="20.0" />
+                                 </VBox.margin>
+                              </GridPane>
                            </children>
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
                         </VBox>
                             </children>
                             <padding>
@@ -190,13 +233,20 @@
                     <children>
                         <HBox alignment="CENTER_LEFT" fillHeight="false" HBox.hgrow="ALWAYS">
                             <children>
-                                <JFXButton fx:id="btnBack" accessibleText="Leave page" alignment="CENTER" buttonType="RAISED" cancelButton="true" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#handleButtonAction" prefHeight="56" prefWidth="56" style="-fx-background-color: #0067B1; -fx-background-radius: 50%;" text="🡰" textAlignment="CENTER" textFill="WHITE">
+                                <JFXButton fx:id="btnBack" accessibleText="Leave page" alignment="CENTER" buttonType="RAISED" cancelButton="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#handleButtonAction" prefHeight="56" prefWidth="100.0" style="-fx-background-color: #0067B1; -fx-background-radius: 7;" text="Back" textAlignment="CENTER" textFill="WHITE">
                                     <font>
-                                        <Font size="27.0" />
+                                        <Font size="18.0" />
                                     </font>
                                     <padding>
                                         <Insets top="1.0" />
                                     </padding>
+                           <graphic>
+                              <ImageView fitHeight="43.0" fitWidth="47.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../images/menus/backButton.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
                                 </JFXButton>
                             </children>
                         </HBox>
