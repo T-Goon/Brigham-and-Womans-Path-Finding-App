@@ -3,6 +3,7 @@ package edu.wpi.cs3733.D21.teamB.entities.map.node;
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.AlignNodePopupData;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Node;
+import edu.wpi.cs3733.D21.teamB.pathfinding.Graph;
 import edu.wpi.cs3733.D21.teamB.util.Popup.Poppable;
 import edu.wpi.cs3733.D21.teamB.util.Popup.Popup;
 import edu.wpi.cs3733.D21.teamB.views.map.PathfindingMenuController;
@@ -19,6 +20,8 @@ import java.util.List;
 import java.util.Objects;
 
 public class AlignNodePopup extends Popup<VBox, AlignNodePopupData> implements Poppable {
+
+    private final Graph graph = Graph.getGraph();
 
     public AlignNodePopup(Pane parent, AlignNodePopupData data) {
         super(parent, data);
@@ -82,7 +85,7 @@ public class AlignNodePopup extends Popup<VBox, AlignNodePopupData> implements P
                     if (slope != 0) endX = (perpYIntercept - yIntercept) / (slope - perpendicularSlope);
                     double endY = slope * endX + yIntercept;
 
-                    Node node = DatabaseHandler.getHandler().getNodeById(c.getId().substring(0, 10));
+                    Node node = graph.getNodes().get(c.getId().substring(0, 10));
                     node.setXCoord((int) endX);
                     node.setYCoord((int) endY);
                     try {
@@ -94,7 +97,7 @@ public class AlignNodePopup extends Popup<VBox, AlignNodePopupData> implements P
                 break;
             case HORIZONTAL:
                 for (Circle c : nodes) {
-                    Node node = DatabaseHandler.getHandler().getNodeById(c.getId().substring(0, 10));
+                    Node node = graph.getNodes().get(c.getId().substring(0, 10));
                     node.setYCoord((int) meanY);
                     try {
                         DatabaseHandler.getHandler().updateNode(node);
@@ -105,7 +108,7 @@ public class AlignNodePopup extends Popup<VBox, AlignNodePopupData> implements P
                 break;
             case VERTICAL:
                 for (Circle c : nodes) {
-                    Node node = DatabaseHandler.getHandler().getNodeById(c.getId().substring(0, 10));
+                    Node node = graph.getNodes().get(c.getId().substring(0, 10));
                     node.setXCoord((int) meanX);
                     try {
                         DatabaseHandler.getHandler().updateNode(node);
