@@ -11,7 +11,7 @@ public class Pacman extends JFrame {
 
     private void initUI() {
 
-        add(new Board());
+        add(new Board(this));
 
         setTitle("Pacman");
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);

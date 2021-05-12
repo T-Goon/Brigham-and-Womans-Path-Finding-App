@@ -96,17 +96,22 @@
                                     </ImageView>
                                  </graphic>
                               </JFXButton>
-                              <JFXButton fx:id="btnPong" accessibleText="Brick breaker" alignment="CENTER" contentDisplay="CENTER" minHeight="160.0" minWidth="160.0" onAction="#handleButtonAction" ripplerFill="WHITE" style="-fx-background-color: transparent;" text="Brick breaker" textFill="#ffffff00">
-                                 <font>
-                                    <Font name="MS Reference Sans Serif" size="16.0" />
-                                 </font>
-                                 <padding>
-                                    <Insets left="20.0" right="20.0" />
-                                 </padding>
-                                 <graphic>
-                                    <ImageView fitHeight="400.0" fitWidth="400.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../../images/gamePoster/brickBreakerPoster.jpg" />
+                              <JFXButton fx:id="btnBreakout" accessibleText="Brick breaker" alignment="CENTER"
+                                         contentDisplay="CENTER" minHeight="160.0" minWidth="160.0"
+                                         onAction="#handleButtonAction" ripplerFill="WHITE"
+                                         style="-fx-background-color: transparent;" text="Brick breaker"
+                                         textFill="#ffffff00">
+                                  <font>
+                                      <Font name="MS Reference Sans Serif" size="16.0"/>
+                                  </font>
+                                  <padding>
+                                      <Insets left="20.0" right="20.0"/>
+                                  </padding>
+                                  <graphic>
+                                      <ImageView fitHeight="400.0" fitWidth="400.0" pickOnBounds="true"
+                                                 preserveRatio="true">
+                                          <image>
+                                              <Image url="@../../images/gamePoster/brickBreakerPoster.jpg"/>
                                        </image>
                                     </ImageView>
                                  </graphic>

@@ -1,5 +1,7 @@
 package edu.wpi.cs3733.D21.teamB.games.pacman;
 
+import edu.wpi.cs3733.D21.teamB.App;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -71,8 +73,10 @@ public class Board extends JPanel implements ActionListener {
     private short[] screenData;
     private Timer timer;
 
-    public Board() {
+    private final JFrame frame;
 
+    public Board(JFrame frame) {
+        this.frame = frame;
         loadImages();
         initVariables();
         initBoard();
@@ -543,6 +547,10 @@ public class Board extends JPanel implements ActionListener {
     }
 
     private void doDrawing(Graphics g) {
+
+        if (!App.isRunning()) {
+            frame.dispose();
+        }
 
         Graphics2D g2d = (Graphics2D) g;
 

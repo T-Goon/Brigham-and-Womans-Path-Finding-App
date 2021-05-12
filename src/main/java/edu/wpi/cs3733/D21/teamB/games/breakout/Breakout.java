@@ -11,7 +11,7 @@ public class Breakout extends JFrame {
     
     private void initUI() {
 
-        add(new Board());
+        add(new Board(this));
         setTitle("Breakout");
 
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);

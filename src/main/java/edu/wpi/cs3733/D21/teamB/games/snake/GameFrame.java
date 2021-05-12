@@ -2,9 +2,9 @@ package edu.wpi.cs3733.D21.teamB.games.snake;
 
 import javax.swing.*;
 
-public class gameFrame extends JFrame {
-    public gameFrame() {
-        this.add(new gamePanel());
+public class GameFrame extends JFrame {
+    public GameFrame() {
+        this.add(new GamePanel(this));
         this.setTitle("Snake");
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setResizable(false);

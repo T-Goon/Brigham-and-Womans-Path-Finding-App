@@ -1,9 +1,9 @@
 package edu.wpi.cs3733.D21.teamB.games.breakout;
 
+import edu.wpi.cs3733.D21.teamB.App;
 import lombok.var;
 
-import javax.swing.JPanel;
-import javax.swing.Timer;
+import javax.swing.*;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -26,9 +26,10 @@ public class Board extends JPanel {
     private Paddle paddle;
     private Brick[] bricks;
     private boolean inGame = true;
+    private final JFrame frame;
 
-    public Board() {
-
+    public Board(JFrame frame) {
+        this.frame = frame;
         initBoard();
     }
 
@@ -65,6 +66,11 @@ public class Board extends JPanel {
 
     @Override
     public void paintComponent(Graphics g) {
+
+        if (!App.isRunning()) {
+            frame.dispose();
+        }
+
         super.paintComponent(g);
 
         var g2d = (Graphics2D) g;
