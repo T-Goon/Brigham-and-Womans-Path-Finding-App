@@ -8,6 +8,7 @@ import edu.wpi.cs3733.D21.teamB.entities.requests.*;
 import edu.wpi.cs3733.D21.teamB.entities.User;
 import edu.wpi.cs3733.D21.teamB.pathfinding.Graph;
 import edu.wpi.cs3733.D21.teamB.views.face.EmbeddingModel;
+import lombok.Getter;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.*;
@@ -16,9 +17,13 @@ import java.util.*;
 public class DatabaseHandler {
 
     private static final String URL_BASE = "jdbc:sqlite:";
+    private static final String REMOTE_URL = "jdbc:mysql://167.99.120.152:3306/hospitalapp?"
+            + "user=appuser";
 
-    private String databaseURL;
+    private static String databaseURL;
     private Connection databaseConnection;
+    @Getter
+    private static Boolean remote = false;
 
     // Singleton
     private static DatabaseHandler handler;
@@ -44,35 +49,59 @@ public class DatabaseHandler {
      * @return the main database
      */
     public static DatabaseHandler getHandler() {
-        return getDatabaseHandler("main.db");
+        return getDatabaseHandler("main.db", DatabaseHandler.remote);
     }
 
     /**
      * @param dbURL the path to the database (should default to "main.db")
      * @return the database handler
      */
-    public static DatabaseHandler getDatabaseHandler(String dbURL) {
+    public static DatabaseHandler getDatabaseHandler(String dbURL, boolean remote) {
         if (!dbURL.equals("main.db") && !dbURL.equals("test.db"))
             throw new IllegalArgumentException("Illegal database type!");
 
         if (handler == null) {
             handler = new DatabaseHandler();
-            handler.databaseURL = URL_BASE + dbURL;
+            if (remote) {
+                databaseURL = REMOTE_URL;
+            } else {
+                databaseURL = URL_BASE + dbURL;
+            }
             handler.databaseConnection = handler.getConnection();
-        } else if (!(URL_BASE + dbURL).equals(handler.databaseURL)) {
+        } else if (!(URL_BASE + dbURL).equals(databaseURL) && !remote) {
             // If switching between main.db and test.db, shut down the old database and start
             handler.shutdown();
             handler = new DatabaseHandler();
-            handler.databaseURL = URL_BASE + dbURL;
+            databaseURL = URL_BASE + dbURL;
+            handler.databaseConnection = handler.getConnection();
+        } else if (remote != DatabaseHandler.remote) {
+            if (remote) databaseURL = REMOTE_URL;
+            else databaseURL = URL_BASE + dbURL;
             handler.databaseConnection = handler.getConnection();
         }
         return handler;
     }
 
+    public void changeRemoteStatus(boolean status) throws SQLException {
+        DatabaseHandler.remote = status;
+        if (DatabaseHandler.remote) {
+            databaseURL = REMOTE_URL;
+        } else {
+            databaseURL = URL_BASE + "main.db";
+        }
+        this.databaseConnection = this.getConnection(true);
+        EmbeddingModel.getModel().resetEmbeddings();
+        notifyObservers();
+    }
+
     public Connection getConnection() {
-        if (this.databaseConnection == null) {
+        return getConnection(false);
+    }
+
+    public Connection getConnection(boolean force) {
+        if (this.databaseConnection == null || force) {
             try {
-                this.databaseConnection = DriverManager.getConnection(this.databaseURL);
+                this.databaseConnection = DriverManager.getConnection(databaseURL);
                 System.out.println("Connected to DB using " + this.databaseConnection.getMetaData().getDriverName());
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -81,7 +110,7 @@ public class DatabaseHandler {
         return this.databaseConnection;
     }
 
-    Statement getStatement() {
+    public Statement getStatement() {
         try {
             return this.getConnection().createStatement();
         } catch (SQLException e) {
@@ -138,9 +167,17 @@ public class DatabaseHandler {
             tables.add("Embeddings");
         }
 
+        if (DatabaseHandler.remote) {
+            runStatement("SET FOREIGN_KEY_CHECKS = 0", false);
+        }
+
         for (String table : tables) {
             String query = "DROP TABLE IF EXISTS " + table;
             runStatement(query, false);
+        }
+
+        if (DatabaseHandler.remote) {
+            runStatement("SET FOREIGN_KEY_CHECKS = 1", false);
         }
     }
 
@@ -150,7 +187,8 @@ public class DatabaseHandler {
      * @throws SQLException if any of the queries are malformed
      */
     public void executeSchema() throws SQLException {
-        String configuration = "PRAGMA foreign_keys = ON";
+        String localConfiguration = "PRAGMA foreign_keys = ON";
+        String remoteConfiguration = "SET sql_mode = ''";
 
         String nodesTable = "CREATE TABLE IF NOT EXISTS Nodes("
                 + "nodeID CHAR(20) PRIMARY KEY, "
@@ -168,9 +206,10 @@ public class DatabaseHandler {
         String edgesTable = "CREATE TABLE IF NOT EXISTS Edges("
                 + "edgeID CHAR(30) PRIMARY KEY, "
                 + "startNode CHAR(20) NOT NULL, "
-                + "endNode CHAR(20) NOT NULL CHECK (startNode != endNode), "
-                + "FOREIGN KEY (startNode) REFERENCES Nodes(nodeID), "
-                + "FOREIGN KEY (endNode) REFERENCES Nodes(nodeID))";
+                + "endNode CHAR(20) NOT NULL, "
+                + "CHECK (startNode != endNode), "
+                + "FOREIGN KEY (startNode) REFERENCES Nodes(nodeID) ON DELETE CASCADE, "
+                + "FOREIGN KEY (endNode) REFERENCES Nodes(nodeID) ON DELETE CASCADE)";
 
         String requestsTable = "CREATE TABLE IF NOT EXISTS Requests("
                 + "requestID CHAR(20) PRIMARY KEY, "
@@ -183,7 +222,7 @@ public class DatabaseHandler {
                 + "description VARCHAR(200), "
                 + "submitter CHAR(30), "
                 + "name CHAR(30), "
-                + "FOREIGN KEY (location) REFERENCES Nodes(nodeID))";
+                + "FOREIGN KEY (location) REFERENCES Nodes(nodeID) ON DELETE CASCADE)";
 
         String sanitationRequestsTable = "CREATE TABLE IF NOT EXISTS SanitationRequests("
                 + "requestID CHAR(20) PRIMARY KEY, "
@@ -192,13 +231,13 @@ public class DatabaseHandler {
                 + "hazardous CHAR(1), " // Stored as T/F (no boolean data type in SQL)
                 + "biologicalSubstance CHAR(1), " // Stored as T/F (no boolean data type in SQL)
                 + "occupied CHAR(1)," // Stored as T/F (no boolean data type in SQL)
-                + "FOREIGN KEY (requestID) REFERENCES Requests(requestID))";
+                + "FOREIGN KEY (requestID) REFERENCES Requests(requestID) ON DELETE CASCADE)";
 
         String medicineRequestsTable = "CREATE TABLE IF NOT EXISTS MedicineRequests("
                 + "requestID CHAR(20) PRIMARY KEY, "
                 + "patientName CHAR(30), "
                 + "medicine CHAR(20),"
-                + "FOREIGN KEY (requestID) REFERENCES Requests(requestID))";
+                + "FOREIGN KEY (requestID) REFERENCES Requests(requestID) ON DELETE CASCADE)";
 
         String internalTransportRequestsTable = "CREATE TABLE IF NOT EXISTS InternalTransportRequests("
                 + "requestID CHAR(20) PRIMARY KEY, "
@@ -206,7 +245,7 @@ public class DatabaseHandler {
                 + "transportType CHAR(20), "
                 + "unconscious CHAR(1), " // Stored as T/F (no boolean data type in SQL)
                 + "infectious CHAR(1)," // Stored as T/F (no boolean data type in SQL)
-                + "FOREIGN KEY (requestID) REFERENCES Requests(requestID))";
+                + "FOREIGN KEY (requestID) REFERENCES Requests(requestID) ON DELETE CASCADE)";
 
         String religiousRequestsTable = "CREATE TABLE IF NOT EXISTS ReligiousRequests("
                 + "requestID CHAR(20) PRIMARY KEY, "
@@ -216,14 +255,14 @@ public class DatabaseHandler {
                 + "religiousDate CHAR(10), " // Stored as YYYY-MM-DD
                 + "faith CHAR(20), "
                 + "infectious CHAR(1)," // Stored as T/F (no boolean data type in SQL)
-                + "FOREIGN KEY (requestID) REFERENCES Requests(requestID))";
+                + "FOREIGN KEY (requestID) REFERENCES Requests(requestID) ON DELETE CASCADE)";
 
         String foodRequestsTable = "CREATE TABLE IF NOT EXISTS FoodRequests("
                 + "requestID CHAR(20) PRIMARY KEY, "
                 + "patientName CHAR(30), "
                 + "arrivalTime CHAR(5), " // Stored as HH:MM (24 hour time)
                 + "mealChoice CHAR(20),"
-                + "FOREIGN KEY (requestID) REFERENCES Requests(requestID))";
+                + "FOREIGN KEY (requestID) REFERENCES Requests(requestID) ON DELETE CASCADE)";
 
         String floralRequestsTable = "CREATE TABLE IF NOT EXISTS FloralRequests("
                 + "requestID CHAR(20) PRIMARY KEY, "
@@ -238,12 +277,12 @@ public class DatabaseHandler {
                 + "wantsSunflowers CHAR(1), " // Stored as T/F (no boolean data type in SQL)
                 + "wantsCarnations CHAR(1), " // Stored as T/F (no boolean data type in SQL)
                 + "wantsOrchids CHAR(1), " // Stored as T/F (no boolean data type in SQL)
-                + "FOREIGN KEY (requestID) REFERENCES Requests(requestID))";
+                + "FOREIGN KEY (requestID) REFERENCES Requests(requestID) ON DELETE CASCADE)";
 
         String securityRequestsTable = "CREATE TABLE IF NOT EXISTS SecurityRequests("
                 + "requestID CHAR(20) PRIMARY KEY, "
                 + "urgency INT, "
-                + "FOREIGN KEY (requestID) REFERENCES Requests(requestID))";
+                + "FOREIGN KEY (requestID) REFERENCES Requests(requestID) ON DELETE CASCADE)";
 
         String externalTransportTable = "CREATE TABLE IF NOT EXISTS ExternalTransportRequests("
                 + "requestID CHAR(20) PRIMARY KEY, "
@@ -254,7 +293,7 @@ public class DatabaseHandler {
                 + "outNetwork CHAR(1), " // Stored as T/F (no boolean data type in SQL)
                 + "infectious CHAR(1), " // Stored as T/F (no boolean data type in SQL)
                 + "unconscious CHAR(1)," // Stored as T/F (no boolean data type in SQL)
-                + "FOREIGN KEY (requestID) REFERENCES Requests(requestID))";
+                + "FOREIGN KEY (requestID) REFERENCES Requests(requestID) ON DELETE CASCADE)";
 
         String laundryTable = "CREATE TABLE IF NOT EXISTS LaundryRequests("
                 + "requestID CHAR(20) PRIMARY KEY, "
@@ -263,21 +302,21 @@ public class DatabaseHandler {
                 + "dark CHAR(1), " // Stored as T/F (no boolean data type in SQL)
                 + "light CHAR(1), " // Stored as T/F (no boolean data type in SQL)
                 + "occupied CHAR(1)," // Stored as T/F (no boolean data type in SQL)
-                + "FOREIGN KEY (requestID) REFERENCES Requests(requestID))";
+                + "FOREIGN KEY (requestID) REFERENCES Requests(requestID) ON DELETE CASCADE)";
 
         String caseManagerRequestsTable = "CREATE TABLE IF NOT EXISTS CaseManagerRequests("
                 + "requestID CHAR(20) PRIMARY KEY, "
                 + "patientName CHAR(30), "
                 + "arrivalDate CHAR(10), " // Stored as YYYY-MM-DD
                 + "timeForArrival CHAR(20)," // Stored as HH:MM (24 hour time)
-                + "FOREIGN KEY (requestID) REFERENCES Requests(requestID))";
+                + "FOREIGN KEY (requestID) REFERENCES Requests(requestID) ON DELETE CASCADE)";
 
         String socialWorkerRequestsTable = "CREATE TABLE IF NOT EXISTS SocialWorkerRequests("
                 + "requestID CHAR(20) PRIMARY KEY, "
                 + "patientName CHAR(30), "
                 + "arrivalDate CHAR(10), " // Stored as YYYY-MM-DD
                 + "timeForArrival CHAR(20)," // Stored as HH:MM (24 hour time)
-                + "FOREIGN KEY (requestID) REFERENCES Requests(requestID))";
+                + "FOREIGN KEY (requestID) REFERENCES Requests(requestID) ON DELETE CASCADE)";
 
         String giftRequestsTable = "CREATE TABLE IF NOT EXISTS GiftRequests("
                 + "requestID CHAR(20) PRIMARY KEY, "
@@ -288,7 +327,7 @@ public class DatabaseHandler {
                 + "wantsBalloons CHAR(1), " // Stored as T/F (no boolean data type in SQL)
                 + "wantsTeddyBear CHAR(1), " // Stored as T/F (no boolean data type in SQL)
                 + "wantsChocolate CHAR(1), " // Stored as T/F (no boolean data type in SQL)
-                + "FOREIGN KEY (requestID) REFERENCES Requests(requestID))";
+                + "FOREIGN KEY (requestID) REFERENCES Requests(requestID) ON DELETE CASCADE)";
 
         String languageRequestsTable = "CREATE TABLE IF NOT EXISTS LanguageInterpretationRequests("
                 + "requestID CHAR(20) PRIMARY KEY, "
@@ -296,13 +335,13 @@ public class DatabaseHandler {
                 + "language CHAR(30), "
                 + "arrivalDate CHAR(10), " // Stored as YYYY-MM-DD
                 + "arrivalTime CHAR(5), " // Stored as HH:MM (24 hour time)
-                + "FOREIGN KEY (requestID) REFERENCES Requests(requestID))";
+                + "FOREIGN KEY (requestID) REFERENCES Requests(requestID) ON DELETE CASCADE)";
 
         String emergencyRequestsTable = "CREATE TABLE IF NOT EXISTS EmergencyRequests("
                 + "requestID CHAR(20) PRIMARY KEY, "
                 + "medicalEmergency CHAR(20)," // Stored as T/F (no boolean data type in SQL)
                 + "securityEmergency CHAR(20)," // Stored as T/F (no boolean data type in SQL)
-                + "FOREIGN KEY (requestID) REFERENCES Requests(requestID))";
+                + "FOREIGN KEY (requestID) REFERENCES Requests(requestID) ON DELETE CASCADE)";
 
         String covidSurveyRequestsTable = "CREATE TABLE IF NOT EXISTS CovidSurveyRequests("
                 + "requestID CHAR(20) PRIMARY KEY, "
@@ -321,7 +360,7 @@ public class DatabaseHandler {
                 + "closeContact CHAR(1) CHECK (closeContact in ('T','F')), "
                 + "positiveTest CHAR(1) CHECK (positiveTest in ('T','F')), "
                 + "admitted CHAR(1) CHECK (admitted in ('T', 'F')), "
-                + "FOREIGN KEY (requestID) REFERENCES Requests(requestID))";
+                + "FOREIGN KEY (requestID) REFERENCES Requests(requestID) ON DELETE CASCADE)";
 
         String usersTable = "CREATE TABLE IF NOT EXISTS Users("
                 + "username CHAR(30) PRIMARY KEY, "
@@ -331,26 +370,30 @@ public class DatabaseHandler {
                 + "authenticationLevel CHAR(30) CHECK (authenticationLevel in ('ADMIN','STAFF','PATIENT', 'GUEST')), "
                 + "covidStatus CHAR(10) CHECK (covidStatus in ('UNCHECKED','PENDING','DANGEROUS', 'SAFE')), "
                 + "ttsEnabled CHAR(1) CHECK (ttsEnabled in ('T', 'F')), "
-                + "passwordHash CHAR(30))";
+                + "passwordHash CHAR(75))";
 
         String jobsTable = "CREATE TABLE IF NOT EXISTS Jobs("
                 + "username CHAR(30), "
                 + "job CHAR(30), "
-                + "FOREIGN KEY (username) REFERENCES Users(username))";
+                + "FOREIGN KEY (username) REFERENCES Users(username) ON DELETE CASCADE)";
 
         String favoriteLocationsTable = "CREATE TABLE IF NOT EXISTS FavoriteLocations("
                 + "username CHAR(30), "
                 + "favoriteLocation CHAR(30), "
-                + "FOREIGN KEY (username) REFERENCES Users(username))";
+                + "FOREIGN KEY (username) REFERENCES Users(username) ON DELETE CASCADE)";
 
         String embeddingsTable = "CREATE TABLE IF NOT EXISTS Embeddings("
                 + "username CHAR(30), "
                 + "i INTEGER, "
                 + "value DOUBLE, "
                 + "PRIMARY KEY (username, i), "
-                + "FOREIGN KEY (username) REFERENCES Users(username))";
+                + "FOREIGN KEY (username) REFERENCES Users(username) ON DELETE CASCADE)";
 
-        runStatement(configuration, false);
+        if (!DatabaseHandler.remote) {
+            runStatement(localConfiguration, false);
+        } else {
+            runStatement(remoteConfiguration, false);
+        }
         runStatement(nodesTable, false);
         runStatement(edgesTable, false);
         runStatement(requestsTable, false);
@@ -383,9 +426,15 @@ public class DatabaseHandler {
      * @throws SQLException if the nodes are malformed somehow
      */
     public void loadDatabaseNodes(List<Node> nodes) throws SQLException {
-
-        String query = "INSERT INTO Nodes(nodeID, xcoord, ycoord, floor, building, nodeType, longName, shortName, color) " +
-                "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String query;
+        if (DatabaseHandler.remote) {
+            //IGNORE (haha) the error here. IntelliJ can't know both MySQL and SQLite even though we use both
+            query = "INSERT IGNORE INTO Nodes(nodeID, xcoord, ycoord, floor, building, nodeType, longName, shortName, color) " +
+                    "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        } else {
+            query = "INSERT INTO Nodes(nodeID, xcoord, ycoord, floor, building, nodeType, longName, shortName, color) " +
+                    "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        }
         PreparedStatement statement = databaseConnection.prepareStatement(query);
         if (nodes != null) {
             for (Node node : nodes) {
@@ -474,7 +523,7 @@ public class DatabaseHandler {
      * @throws SQLException if the request is malformed
      */
     public void updateCovidRequestAdmitted(CovidSurveyRequest request, String flag) throws SQLException {
-        requestMutator.setCovidRequestAdmitted(request,flag);
+        requestMutator.setCovidRequestAdmitted(request, flag);
     }
 
     /**

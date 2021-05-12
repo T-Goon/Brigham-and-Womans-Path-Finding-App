@@ -12,8 +12,10 @@ import edu.wpi.cs3733.D21.teamB.views.BasePageController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.net.URL;
@@ -40,9 +42,17 @@ public class SettingsMenuController extends BasePageController implements Initia
     @FXML
     private JFXToggleButton toggleOSK;
 
+    @FXML
+    private JFXToggleButton toggleRemoteDatabase;
+
+    @FXML
+    private HBox remoteDBHolder;
 
     @FXML
     private HBox profileHolder;
+
+    @FXML
+    private VBox settings;
 
     @FXML
     private JFXButton btnEditProfile;
@@ -58,9 +68,13 @@ public class SettingsMenuController extends BasePageController implements Initia
         super.initialize(location, resources);
         toggleOSK.setSelected(oskOn);
         toggleTTS.setSelected(DatabaseHandler.getHandler().getAuthenticationUser().getTtsEnabled().equals("T"));
+        toggleRemoteDatabase.setSelected(DatabaseHandler.getRemote());
         if (!DatabaseHandler.getHandler().getAuthenticationUser().isAtLeast(User.AuthenticationLevel.PATIENT)) {
             profileHolder.getChildren().remove(btnEditProfile);
             passwordHolder.getChildren().remove(btnChangePassword);
+        }
+        if (!DatabaseHandler.getHandler().getAuthenticationUser().getAuthenticationLevel().equals(User.AuthenticationLevel.ADMIN)) {
+            settings.getChildren().remove(remoteDBHolder);
         }
     }
 
@@ -111,6 +125,13 @@ public class SettingsMenuController extends BasePageController implements Initia
                 } else {
                     oskOn = true;
                     OnScreenKeyboard.getInstance().getKeyboard().setVisible(true);
+                }
+                break;
+            case "toggleRemoteDatabase":
+                try {
+                    DatabaseHandler.getHandler().changeRemoteStatus(!DatabaseHandler.getRemote());
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
                 }
                 break;
         }

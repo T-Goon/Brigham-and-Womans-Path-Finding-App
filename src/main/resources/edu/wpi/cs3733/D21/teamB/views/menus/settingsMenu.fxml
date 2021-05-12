@@ -63,7 +63,7 @@
                                 </VBox>
                             </children>
                         </HBox>
-                  <VBox prefHeight="9999.0">
+                  <VBox fx:id="settings" prefHeight="9999.0">
                      <children>
                         <HBox alignment="TOP_CENTER">
                            <children>
@@ -127,6 +127,31 @@
                                 <Insets />
                             </VBox.margin>
                         </HBox>
+                        <HBox fx:id="remoteDBHolder" alignment="TOP_CENTER" prefHeight="100.0">
+                           <children>
+                              <VBox prefHeight="100.0">
+                                 <children>
+                                    <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="191.0" text="Remote database:" textFill="WHITE">
+                                       <font>
+                                          <Font name="System Bold" size="48.0" />
+                                       </font>
+                                       <VBox.margin>
+                                          <Insets />
+                                       </VBox.margin>
+                                    </Label>
+                                 </children>
+                              </VBox>
+                              <VBox prefHeight="100.0">
+                                 <children>
+                                    <JFXToggleButton fx:id="toggleRemoteDatabase" accessibleText="Text-to-speech toggle button" contentDisplay="GRAPHIC_ONLY" onAction="#handleToggleAction" prefHeight="181.0" size="24.0" toggleColor="#f6bd39" toggleLineColor="#ffe3ac">
+                                       <VBox.margin>
+                                          <Insets />
+                                       </VBox.margin>
+                                    </JFXToggleButton>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
                          <HBox fx:id="profileHolder" alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                              <children>
                                  <JFXButton fx:id="btnEditProfile" accessibleText="Edit Profile Button" buttonType="RAISED" onAction="#handleButtonAction" prefHeight="60.0" prefWidth="206.0" style="-fx-background-color: #F6BD39; -fx-background-radius: 7;" text="Edit User Profile">
@@ -135,6 +160,9 @@
                                      </font>
                                  </JFXButton>
                              </children>
+                           <VBox.margin>
+                              <Insets bottom="20.0" />
+                           </VBox.margin>
                          </HBox>
                          <HBox fx:id="passwordHolder" alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                              <children>
@@ -144,6 +172,9 @@
                                      </font>
                                  </JFXButton>
                              </children>
+                           <VBox.margin>
+                              <Insets bottom="20.0" />
+                           </VBox.margin>
                          </HBox>
                         <HBox fx:id="passwordHolder1" alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                            <children>

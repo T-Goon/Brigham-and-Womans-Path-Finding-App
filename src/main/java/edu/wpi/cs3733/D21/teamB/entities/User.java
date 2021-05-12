@@ -13,6 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @EqualsAndHashCode
 public class User implements IStoredEntity {
+
     public enum AuthenticationLevel {
         ADMIN,
         STAFF,

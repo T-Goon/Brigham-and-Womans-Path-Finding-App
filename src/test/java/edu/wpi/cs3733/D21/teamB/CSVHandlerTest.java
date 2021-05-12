@@ -26,7 +26,7 @@ public class CSVHandlerTest {
     @BeforeAll
     static void initDB() {
         resourcesPath = Paths.get("src/test/resources/edu/wpi/cs3733/D21/teamB/database/save");
-        db = DatabaseHandler.getDatabaseHandler("test.db");
+        db = DatabaseHandler.getHandler();
         Graph.setGraph(db);
     }
 
@@ -45,7 +45,7 @@ public class CSVHandlerTest {
                 "1,1,1,2,Parking,PARK,Left Parking Lot Spot 10,LLot10\n";
 
         try {
-            DatabaseHandler.getDatabaseHandler("test.db").addNode(new Node(
+            DatabaseHandler.getHandler().addNode(new Node(
                     "1", 1, 1, "2", "Parking", "PARK",
                     "Left Parking Lot Spot 10", "LLot10"));
         } catch (SQLException e) {
@@ -65,7 +65,7 @@ public class CSVHandlerTest {
     public void testSaveCSVEdgesFilepath() throws IOException {
         String expected = "edgeID,startNode,endNode\n1,2,3\n";
 
-        DatabaseHandler db = DatabaseHandler.getDatabaseHandler("test.db");
+        DatabaseHandler db = DatabaseHandler.getHandler();
         try {
             db.addNode(new Node("2", 1, 1, "1", "building", "type", "longName", "shortName (which is longer than long name)"));
             db.addNode(new Node("3", 1, 1, "1", "building", "type", "longName", "shortName (which is longer than long name)"));

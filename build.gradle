@@ -45,7 +45,8 @@ dependencies {
             "org.slf4j:slf4j-api:1.7.26",
             "org.slf4j:slf4j-simple:1.7.26",
             "net.java.dev.jna:jna:5.3.0",
-            "ai.djl.pytorch:pytorch-native-auto:1.8.1"
+            "ai.djl.pytorch:pytorch-native-auto:1.8.1",
+            "mysql:mysql-connector-java:8.0.25"
     )
 
     implementation group: 'commons-io', name: 'commons-io', version: '2.6'
