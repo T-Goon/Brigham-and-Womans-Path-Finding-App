@@ -129,7 +129,7 @@ public class EmbeddingModel {
         return null;
     }
 
-
+    //based on https://github.com/jmformenti/face-recognition-java with permission
     static class customTranslator implements Translator<Image, double[]> {
         public customTranslator() {
         }
@@ -147,16 +147,10 @@ public class EmbeddingModel {
         @Override
         public NDList processInput(TranslatorContext ctx, Image input) {
             NDArray array = input.toNDArray(ctx.getNDManager(), Image.Flag.COLOR);
-
             Resize resize = new Resize(160, 160);
             array = resize.transform(array);
-
-            // fixed image standardization (used in MTCNN post process faces for trained
-            // pytorch model)
             array = array.sub(0.498).div(0.5);
-
             array = array.expandDims(0);
-
             array = array.getNDArrayInternal().toTensor();
             return new NDList(array);
         }
