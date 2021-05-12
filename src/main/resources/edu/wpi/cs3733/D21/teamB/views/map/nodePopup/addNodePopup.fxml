@@ -3,10 +3,8 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXColorPicker?>
 <?import com.jfoenix.controls.JFXComboBox?>
-<?import com.jfoenix.controls.JFXRadioButton?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -188,7 +186,7 @@
                         <Insets bottom="5.0" top="5.0" />
                      </VBox.margin>
                   </HBox>
-                  <HBox prefWidth="200.0">
+                  <HBox alignment="CENTER">
                      <children>
                         <VBox prefHeight="0.0" prefWidth="100.0">
                            <children>
@@ -199,34 +197,6 @@
                               </Text>
                               <JFXColorPicker fx:id="clrPicker" />
                            </children>
-                        </VBox>
-                        <VBox alignment="TOP_CENTER" HBox.hgrow="ALWAYS">
-                           <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Area:">
-                                 <font>
-                                    <Font name="MS Reference Sans Serif" size="14.0" />
-                                 </font>
-                                 <VBox.margin>
-                                    <Insets left="5.0" />
-                                 </VBox.margin>
-                              </Text>
-                              <HBox alignment="TOP_CENTER">
-                                 <children>
-                                    <JFXRadioButton fx:id="notRestricted" text="Not Restricted">
-                                       <HBox.margin>
-                                          <Insets right="10.0" />
-                                       </HBox.margin>
-                                       <toggleGroup>
-                                          <ToggleGroup fx:id="areaGroup" />
-                                       </toggleGroup>
-                                    </JFXRadioButton>
-                                    <JFXRadioButton fx:id="restricted" text="Restricted" toggleGroup="$areaGroup" />
-                                 </children>
-                              </HBox>
-                           </children>
-                           <HBox.margin>
-                              <Insets />
-                           </HBox.margin>
                         </VBox>
                      </children>
                      <VBox.margin>
