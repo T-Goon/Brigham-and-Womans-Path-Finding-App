@@ -51,7 +51,7 @@ public class MapDrawer implements PoppableManager {
     private ETAPopup etaPopup;
     @Getter
     private final Circle head = new Circle(5);
-    private final DatabaseHandler db = DatabaseHandler.getHandler();
+    private final Graph graph = Graph.getGraph();
     private final List<LineDir> lines = new ArrayList<>();
 
     @Getter
@@ -166,11 +166,11 @@ public class MapDrawer implements PoppableManager {
 
             //Draw the segment of the path that is on the current floor
             if (currentFloorPath.size() > 0) {
-                Node n = db.getNodeById(currentFloorPath.get(0));
+                Node n = graph.getNodes().get(currentFloorPath.get(0));
                 double minX = n.getXCoord(), minY = n.getYCoord(), maxX = n.getXCoord(), maxY = n.getYCoord();
                 for (int i = 0; i < currentFloorPath.size() - 1; i++) {
 
-                    Node current = db.getNodeById(currentFloorPath.get(i));
+                    Node current = graph.getNodes().get(currentFloorPath.get(i));
                     if (current.getXCoord() < minX) minX = current.getXCoord();
                     if (current.getYCoord() < minY) minY = current.getYCoord();
                     if (current.getXCoord() > maxX) maxX = current.getXCoord();
@@ -447,7 +447,7 @@ public class MapDrawer implements PoppableManager {
      * Draws all the nodes on a given floor with the alternate graphic
      */
     public void drawAltNodesOnFloor() {
-        Map<String, Node> nodes = db.getNodes();
+        Map<String, Node> nodes = graph.getNodes();
         if (nodes.isEmpty()) return;
 
         for (Node n : nodes.values()) {
@@ -462,7 +462,7 @@ public class MapDrawer implements PoppableManager {
      * Draws all the intermediate nodes on a floor
      */
     private void drawIntermediateNodesOnFloor() {
-        Map<String, Node> nodes = db.getNodes();
+        Map<String, Node> nodes = graph.getNodes();
         if (nodes.isEmpty()) return;
 
         for (Node n : nodes.values()) {
@@ -478,8 +478,8 @@ public class MapDrawer implements PoppableManager {
     public void drawEdgesOnFloor() {
         Map<String, Edge> edges = Graph.getGraph().getEdges();
         for (Edge e : edges.values()) {
-            Node start = db.getNodeById(e.getStartNodeID());
-            Node end = db.getNodeById(e.getEndNodeID());
+            Node start = graph.getNodes().get(e.getStartNodeID());
+            Node end = graph.getNodes().get(e.getEndNodeID());
 
             if (start != null && end != null) {
                 if (start.getFloor().equals(mapCache.getCurrentFloor()) &&
@@ -929,7 +929,7 @@ public class MapDrawer implements PoppableManager {
                 n.setYCoord((int) (c.getCenterY() * PathfindingMenuController.COORDINATE_SCALE));
                 gPane.setGestureEnabled(true);
                 try {
-                    db.updateNode(n);
+                    DatabaseHandler.getHandler().updateNode(n);
                 } catch (SQLException err) {
                     err.printStackTrace();
                 }

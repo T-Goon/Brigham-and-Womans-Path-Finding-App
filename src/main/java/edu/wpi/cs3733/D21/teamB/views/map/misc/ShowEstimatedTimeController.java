@@ -9,7 +9,7 @@ import javafx.scene.text.Text;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class showEstimatedTimeController implements Initializable {
+public class ShowEstimatedTimeController implements Initializable {
 
     @FXML
     private Text time;

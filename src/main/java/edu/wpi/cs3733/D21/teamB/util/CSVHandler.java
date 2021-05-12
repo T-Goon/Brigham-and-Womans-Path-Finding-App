@@ -153,7 +153,7 @@ public class CSVHandler {
         String dbName = "main.db";
         if (testing) dbName = "test.db";
 
-        Map<String, Node> nodes = DatabaseHandler.getDatabaseHandler(dbName).getNodes();
+        Map<String, Node> nodes = DatabaseHandler.getDatabaseHandler(dbName,false).getNodes();
 
         // make string representation of csv file
         StringBuilder sb = new StringBuilder();
@@ -194,7 +194,7 @@ public class CSVHandler {
         String dbName = "main.db";
         if (testing) dbName = "test.db";
 
-        Map<String, Edge> edges = DatabaseHandler.getDatabaseHandler(dbName).getEdges();
+        Map<String, Edge> edges = DatabaseHandler.getDatabaseHandler(dbName,false).getEdges();
 
         // make string representation of csv file
         StringBuilder sb = new StringBuilder();

@@ -43,6 +43,7 @@ public class App extends Application {
     @Override
     public void init() {
         try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
             Class.forName("org.sqlite.JDBC");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
@@ -128,11 +129,11 @@ public class App extends Application {
                 requiredUsers.put(new User("staff", "bwhapplication@gmail.com", "Mike", "Bedard", User.AuthenticationLevel.STAFF, "F", null), "staff");
                 requiredUsers.put(new User("patient", "patient@fakeemail.com", "T", "Goon", User.AuthenticationLevel.PATIENT, "F", null), "patient");
 
-                for (User u : requiredUsers.keySet()) {
-                    if (db.getUserByUsername(u.getUsername()) == null) {
-                        db.addUser(u, requiredUsers.get(u));
+                    for (User u : requiredUsers.keySet()) {
+                        if (db.getUserByUsername(u.getUsername()) == null) {
+                            db.addUser(u, requiredUsers.get(u));
+                        }
                     }
-                }
                 db.resetTemporaryUser();
                 db.deauthenticate();
 
