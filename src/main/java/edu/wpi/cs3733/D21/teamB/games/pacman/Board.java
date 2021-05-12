@@ -599,7 +599,10 @@ public class Board extends JPanel implements ActionListener {
                     if (timer.isRunning()) {
                         timer.stop();
                     } else {
-                        timer.start();
+                        if (key == 's' || key == 'S') {
+                            inGame = true;
+                            initGame();
+                        }
                     }
                 }
             } else {
