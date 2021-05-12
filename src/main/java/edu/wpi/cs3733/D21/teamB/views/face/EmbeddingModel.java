@@ -23,12 +23,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.stream.IntStream;
 
+@SuppressWarnings("unchecked")
 public class EmbeddingModel {
 
     private static EmbeddingModel model = null;
     private static final String modelURL = "https://nihilistkitten.me/traced_facenet.pt";
 
-    private ZooModel zooModel;
     private Predictor<Image,double[]> predictor;
 
     private HashMap<String, ArrayList<Double>> embeddings;
@@ -49,15 +49,7 @@ public class EmbeddingModel {
     }
 
     private void initialize() throws SQLException {
-//        try {
-//            DownloadUtils.download(modelURL, "src/main/resources/edu/wpi/cs3733/D21/teamB/faces/pytorch_models/facenet/facenet.pt",
-//                    new ai.djl.training.util.ProgressBar());
-//        } catch (
-//                IOException e) {
-//            e.printStackTrace();
-//        }
 
-//        System.setProperty("ai.djl.repository.zoo.location", "src/main/resources/edu/wpi/cs3733/D21/teamB/faces/pytorch_models/facenet");
         System.setProperty("ai.djl.repository.zoo.location", "facenet");
         this.buildModel();
         resetEmbeddings();
@@ -82,24 +74,17 @@ public class EmbeddingModel {
         ZooModel model = null;
         try {
             model = ModelZoo.loadModel(criteria);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (
-                ModelNotFoundException e) {
-            e.printStackTrace();
-        } catch (
-                MalformedModelException e) {
+        } catch (IOException | MalformedModelException | ModelNotFoundException e) {
             e.printStackTrace();
         }
-        zooModel = model;
+        ZooModel zooModel = model;
         predictor = model.newPredictor();
         return zooModel;
     }
 
     public double[] embedding(Image imgIn){
         try {
-            double[] embedding = predictor.predict(imgIn);
-            return embedding;
+            return predictor.predict(imgIn);
         } catch (TranslateException e) {
             e.printStackTrace();
             return null;
@@ -111,9 +96,9 @@ public class EmbeddingModel {
         double amag = 0;
         double bmag = 0;
         for(int i = 0; i < a.length; i++){
-           dotproduct += a[i]*b[i];
-           amag += a[i]*a[i];
-           bmag += b[i]*b[i];
+            dotproduct += a[i]*b[i];
+            amag += a[i]*a[i];
+            bmag += b[i]*b[i];
         }
         amag = Math.sqrt(amag);
         bmag = Math.sqrt(bmag);
@@ -125,36 +110,27 @@ public class EmbeddingModel {
         for(int i = 0; i < a.length; i++){
             acc += Math.pow(b[i] - a[i], 2);
         }
-        System.out.println(a.length);
         return Math.sqrt(acc);
     }
 
-    public String userFromEmbedding(double[] a) throws Exception {
-       return userFromEmbedding(a, 0.65);
+    public String userFromEmbedding(double[] a) {
+        return userFromEmbedding(a, 0.65);
     }
 
-    public String userFromEmbedding(double[] a, double threshold) throws Exception {
-        Integer count = 0;
-        String username = null;
-        for(String key : this.embeddings.keySet()){
-           double[] storedEmbedding = this.embeddings.get(key).stream().mapToDouble(d -> d).toArray();
-           double cosineDistance = cosineDistance(a, storedEmbedding);
-           if(cosineDistance > threshold){
-              count++;
-              return key;
-//              username = key;
-           }
+    public String userFromEmbedding(double[] a, double threshold) {
+        for (String key : this.embeddings.keySet()) {
+            double[] storedEmbedding = this.embeddings.get(key).stream().mapToDouble(d -> d).toArray();
+            double cosineDistance = cosineDistance(a, storedEmbedding);
+            if (cosineDistance > threshold) {
+                return key;
+            }
         }
-//        if(count > 1){
-//            throw new Exception("more than one valid embedding");
-//        }
 
-        return username;
+        return null;
     }
 
-
-
-    class customTranslator implements Translator<Image,double[]> {
+    //based on https://github.com/jmformenti/face-recognition-java with permission
+    static class customTranslator implements Translator<Image, double[]> {
         public customTranslator() {
         }
 
@@ -171,16 +147,10 @@ public class EmbeddingModel {
         @Override
         public NDList processInput(TranslatorContext ctx, Image input) {
             NDArray array = input.toNDArray(ctx.getNDManager(), Image.Flag.COLOR);
-
             Resize resize = new Resize(160, 160);
             array = resize.transform(array);
-
-            // fixed image standardization (used in MTCNN post process faces for trained
-            // pytorch model)
             array = array.sub(0.498).div(0.5);
-
             array = array.expandDims(0);
-
             array = array.getNDArrayInternal().toTensor();
             return new NDList(array);
         }

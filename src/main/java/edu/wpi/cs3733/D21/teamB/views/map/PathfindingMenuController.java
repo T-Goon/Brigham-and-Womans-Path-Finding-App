@@ -8,12 +8,15 @@ import edu.wpi.cs3733.D21.teamB.entities.map.*;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Edge;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.Node;
 import edu.wpi.cs3733.D21.teamB.entities.map.data.NodeType;
+
+import edu.wpi.cs3733.D21.teamB.entities.requests.Request;
 import edu.wpi.cs3733.D21.teamB.pathfinding.Dijkstra;
 import edu.wpi.cs3733.D21.teamB.pathfinding.Graph;
 import edu.wpi.cs3733.D21.teamB.util.CSVHandler;
 import edu.wpi.cs3733.D21.teamB.util.HelpDialog;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
 import edu.wpi.cs3733.D21.teamB.views.BasePageController;
+import edu.wpi.cs3733.D21.teamB.views.covidSurvey.CovidSurveyController;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -58,7 +61,6 @@ public class PathfindingMenuController extends BasePageController implements Ini
 
     @FXML
     private JFXButton btnFindPath,
-            btnEmergency,
             btnEditMap,
             btnLoad,
             btnSave,
@@ -68,7 +70,8 @@ public class PathfindingMenuController extends BasePageController implements Ini
             btnF2,
             btnF1,
             btnFL1,
-            btnFL2;
+            btnFL2,
+            btnPlay;
 
     @FXML
     private Label lblError;
@@ -110,6 +113,12 @@ public class PathfindingMenuController extends BasePageController implements Ini
     @FXML
     private JFXComboBox<String> findClosestLocation;
 
+    @FXML
+    private MapCache mc;
+
+    @FXML
+    private Label score;
+
     public static final double COORDINATE_SCALE = 25 / 9.0;
     public static final int MAX_X = 5000;
     public static final int MAX_Y = 3400;
@@ -140,6 +149,8 @@ public class PathfindingMenuController extends BasePageController implements Ini
     private String previousAlgorithm = "";
     private boolean previousMobility = false;
     private boolean mapInEditMode = false;
+
+    CovidSurveyController covidSurveyController;
     // JavaFX code **************************************************************************************
 
     @Override
@@ -537,9 +548,6 @@ public class PathfindingMenuController extends BasePageController implements Ini
                 btnRemoveStop.setDisable(mapCache.getStopsList().isEmpty());
 
                 break;
-            case "btnEmergency":
-                SceneSwitcher.switchScene("/edu/wpi/cs3733/D21/teamB/views/map/pathfindingMenu.fxml", "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
-                break;
             case "btnHelp":
                 HelpDialog.loadHelpDialog(stackPane, getHelpDialog());
                 break;
@@ -786,6 +794,22 @@ public class PathfindingMenuController extends BasePageController implements Ini
             displayStops(stopsList);
         }
 
+        Map<String, Request> requests = null;
+
+        try {
+            requests = DatabaseHandler.getHandler().getRequests();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        if (requests != null) {
+            for (Request request : requests.values()) {
+                if (request.getSubmitter().equals(DatabaseHandler.getHandler().getAuthenticationUser().getUsername())) {
+                    txtStartLocation.setText(db.getNodeById(request.getLocation()).getLongName());
+                }
+            }
+        }
     }
 
     /**

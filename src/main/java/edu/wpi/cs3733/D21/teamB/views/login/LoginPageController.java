@@ -6,6 +6,7 @@ import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXToggleButton;
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
 import edu.wpi.cs3733.D21.teamB.entities.User;
+import edu.wpi.cs3733.D21.teamB.util.PageCache;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
 import edu.wpi.cs3733.D21.teamB.views.BasePageController;
 import edu.wpi.cs3733.D21.teamB.views.face.Camera;
@@ -17,6 +18,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.StackPane;
+import javafx.scene.shape.Rectangle;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -46,11 +48,16 @@ public class LoginPageController extends BasePageController implements Initializ
     @FXML
     private StackPane stackPane;
 
+    @FXML
+    private Rectangle cover;
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        super.initialize(location,resources);
+        Camera.stopAcquisition();
+
+        super.initialize(location, resources);
 
         //Add event listeners to the text boxes so user can submit by pressing enter
         username.setOnKeyPressed(event -> {
@@ -64,7 +71,10 @@ public class LoginPageController extends BasePageController implements Initializ
                 handleLoginSubmit();
             }
         });
-        Platform.runLater(() -> username.requestFocus());
+        Platform.runLater(() -> {
+            if (!PageCache.isTextfieldFocused())
+                username.requestFocus();
+        });
 
         camera = new Camera(null, faceImage, null, true);
         camera.setLoginPageController(this);
@@ -73,7 +83,6 @@ public class LoginPageController extends BasePageController implements Initializ
 
     @FXML
     public void handleButtonAction(ActionEvent e) {
-        final String currentPath = "/edu/wpi/cs3733/D21/teamB/views/login/loginPage.fxml";
         JFXButton btn = (JFXButton) e.getSource();
 
         switch (btn.getId()) {
@@ -81,37 +90,38 @@ public class LoginPageController extends BasePageController implements Initializ
                 handleLoginSubmit();
                 break;
             case "btnEmergency":
-                Camera.stopAcquisition();
-                SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
-                break;
-            case "btnRegisterPage":
-                Camera.stopAcquisition();
-                SceneSwitcher.switchFromTemp("/edu/wpi/cs3733/D21/teamB/views/login/registerPage.fxml");
-                break;
             case "btnBack":
                 Camera.stopAcquisition();
+                break;
+            case "btnRegisterPage":
+                SceneSwitcher.switchFromTemp("/edu/wpi/cs3733/D21/teamB/views/login/registerPage.fxml");
                 break;
         }
 
         super.handleButtonAction(e);
     }
 
-    public void setUserName(String name){
+    public void setUserName(String name) {
         username.setText(name);
-        Platform.runLater(() -> password.requestFocus());
+        Platform.runLater(() -> {
+            if (!PageCache.isTextfieldFocused())
+                password.requestFocus();
+        });
         validateButton();
     }
 
     @FXML
-    private void toggleCamera(ActionEvent event){
+    private void toggleCamera(ActionEvent event) {
         JFXToggleButton tog = (JFXToggleButton) event.getSource();
 
-        if(!tog.isSelected()){
+        if (!tog.isSelected()) {
             camera.toggleCamera();
             username.setText("");
             password.setText("");
+            cover.setVisible(true);
             Platform.runLater(() -> username.requestFocus());
-        } else{
+        } else {
+            cover.setVisible(false);
             password.setText("");
             camera.toggleCamera();
         }

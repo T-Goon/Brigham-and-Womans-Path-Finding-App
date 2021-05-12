@@ -19,10 +19,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public abstract class DefaultServiceRequestFormController extends BasePageController implements Initializable {
 
@@ -59,14 +56,14 @@ public abstract class DefaultServiceRequestFormController extends BasePageContro
             justClicked = false;
         });
 
-        Map<String, Node> nodes = DatabaseHandler.getHandler().getNodes();
+        List<Node> nodes = new ArrayList<>(DatabaseHandler.getHandler().getNodes().values());
 
-        for (Node n : nodes.values()) {
+        nodes.sort(Comparator.comparing(Node::getLongName));
+
+        for (Node n : nodes) {
             loc.getItems().add(n.getLongName());
             nodesList.add(n);
         }
-
-        loc.getItems().sort(Comparator.comparing(String::toString));
 
         //implement searchable combo box
         loc.setVisibleRowCount(5);
@@ -102,9 +99,6 @@ public abstract class DefaultServiceRequestFormController extends BasePageContro
                 break;
             case "btnHelp":
                 HelpDialog.loadHelpDialog(stackPane, "Please fill out this form completely. Once each field is full, you can submit the form and an employee will be assigned.\nIf you wish to end your request early, click 'Cancel'. If your request is an emergency please click 'Emergency'.");
-                break;
-            case "btnEmergency":
-                SceneSwitcher.switchFromTemp("/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
                 break;
         }
     }

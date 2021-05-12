@@ -2,7 +2,7 @@ package edu.wpi.cs3733.D21.teamB.views.login;
 
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
-//import edu.wpi.cs3733.D21.teamB.entities.TextAreaFocusable;
+//import edu.wpi.cs3733.D21.teamB.entities.keyboard.TextAreaFocusable;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
 import edu.wpi.cs3733.D21.teamB.views.BasePageController;
 import javafx.event.ActionEvent;
@@ -26,9 +26,6 @@ public class MainPageController extends BasePageController implements Initializa
 
     @FXML
     private StackPane stackPane;
-
-    @FXML
-    private JFXButton btnEmergency;
 
     @FXML
     private JFXButton btnSettings;
@@ -71,17 +68,14 @@ public class MainPageController extends BasePageController implements Initializa
                     case PENDING:
                         SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidFormPending.fxml");
                         //To insert back target
-                        SceneSwitcher.pushPath("/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidSurvey.fxml");
+//                        SceneSwitcher.pushPath("/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidSurvey.fxml");
                         break;
                     default:
                         SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidFormAccepted.fxml");
                         //To insert back target
-                        SceneSwitcher.pushPath("/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidSurvey.fxml");
+//                        SceneSwitcher.pushPath("/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidSurvey.fxml");
                         break;
                 }
-                break;
-            case "btnEmergency":
-                SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
                 break;
             case "btnSettings":
                 SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/menus/settingsMenu.fxml");

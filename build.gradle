@@ -25,7 +25,9 @@ repositories {
     maven {
         url 'https://apisite.crmyers.dev/maven'
     }
-
+    maven {
+        url 'http://nexus.bippo.co.id/nexus/content/groups/public/'
+    }
 }
 
 //This is where you declare your dependencies and their version.s
@@ -43,7 +45,8 @@ dependencies {
             "org.slf4j:slf4j-api:1.7.26",
             "org.slf4j:slf4j-simple:1.7.26",
             "net.java.dev.jna:jna:5.3.0",
-            "ai.djl.pytorch:pytorch-native-auto:1.8.1"
+            "ai.djl.pytorch:pytorch-native-auto:1.8.1",
+            "mysql:mysql-connector-java:8.0.25"
     )
 
     implementation group: 'commons-io', name: 'commons-io', version: '2.6'
@@ -60,6 +63,9 @@ dependencies {
     compile 'de.dfki.mary:voice-cmu-rms-hsmm:5.2'
     compile 'de.dfki.mary:voice-cmu-slt-hsmm:5.2'
     compile 'de.dfki.mary:voice-dfki-poppy-hsmm:5.2'
+
+    implementation 'org.alicebot.ab:ab:4.0.4-SNAPSHOT'
+    implementation group: 'net.lingala.zip4j', name: 'zip4j', version: '2.7.0'
 
     shadowJar{
         mergeServiceFiles()

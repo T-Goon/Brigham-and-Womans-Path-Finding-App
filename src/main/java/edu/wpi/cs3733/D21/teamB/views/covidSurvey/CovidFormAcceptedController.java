@@ -22,9 +22,6 @@ public class CovidFormAcceptedController extends BasePageController implements I
     private JFXButton btnEdit;
 
     @FXML
-    private JFXButton btnEmergency;
-
-    @FXML
     private Text statusReadout;
 
     @Override
@@ -42,14 +39,8 @@ public class CovidFormAcceptedController extends BasePageController implements I
         final String currentPath = "/edu/wpi/cs3733/D21/teamB/views/covidSurvey/covidFormAccepted.fxml";
         JFXButton btn = (JFXButton) e.getSource();
         switch (btn.getId()) {
-            case "btnBack":
-                SceneSwitcher.goBack(2);
-                return;
             case "btnDirections":
                 SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/map/pathfindingMenu.fxml");
-                break;
-            case "btnEmergency":
-                SceneSwitcher.switchScene(currentPath, "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
                 break;
         }
         super.handleButtonAction(e);

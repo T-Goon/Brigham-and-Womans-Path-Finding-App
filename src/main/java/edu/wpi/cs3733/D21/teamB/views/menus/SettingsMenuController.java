@@ -4,7 +4,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXToggleButton;
 import edu.wpi.cs3733.D21.teamB.App;
 import edu.wpi.cs3733.D21.teamB.database.DatabaseHandler;
-import edu.wpi.cs3733.D21.teamB.entities.OnScreenKeyboard;
+import edu.wpi.cs3733.D21.teamB.entities.keyboard.OnScreenKeyboard;
 import edu.wpi.cs3733.D21.teamB.entities.User;
 import edu.wpi.cs3733.D21.teamB.util.HelpDialog;
 import edu.wpi.cs3733.D21.teamB.util.SceneSwitcher;
@@ -12,8 +12,10 @@ import edu.wpi.cs3733.D21.teamB.views.BasePageController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.net.URL;
@@ -29,9 +31,6 @@ public class SettingsMenuController extends BasePageController implements Initia
     private JFXButton btnExit;
 
     @FXML
-    private JFXButton btnEmergency;
-
-    @FXML
     private JFXButton btnHelp;
 
     @FXML
@@ -43,9 +42,17 @@ public class SettingsMenuController extends BasePageController implements Initia
     @FXML
     private JFXToggleButton toggleOSK;
 
+    @FXML
+    private JFXToggleButton toggleRemoteDatabase;
+
+    @FXML
+    private HBox remoteDBHolder;
 
     @FXML
     private HBox profileHolder;
+
+    @FXML
+    private VBox settings;
 
     @FXML
     private JFXButton btnEditProfile;
@@ -61,9 +68,13 @@ public class SettingsMenuController extends BasePageController implements Initia
         super.initialize(location, resources);
         toggleOSK.setSelected(oskOn);
         toggleTTS.setSelected(DatabaseHandler.getHandler().getAuthenticationUser().getTtsEnabled().equals("T"));
+        toggleRemoteDatabase.setSelected(DatabaseHandler.getRemote());
         if (!DatabaseHandler.getHandler().getAuthenticationUser().isAtLeast(User.AuthenticationLevel.PATIENT)) {
             profileHolder.getChildren().remove(btnEditProfile);
             passwordHolder.getChildren().remove(btnChangePassword);
+        }
+        if (!DatabaseHandler.getHandler().getAuthenticationUser().getAuthenticationLevel().equals(User.AuthenticationLevel.ADMIN)) {
+            settings.getChildren().remove(remoteDBHolder);
         }
     }
 
@@ -73,9 +84,6 @@ public class SettingsMenuController extends BasePageController implements Initia
         JFXButton btn = (JFXButton) e.getSource();
         super.handleButtonAction(e);
         switch (btn.getId()) {
-            case "btnEmergency":
-                SceneSwitcher.switchScene("/edu/wpi/cs3733/D21/teamB/views/menus/settingsMenu.fxml", "/edu/wpi/cs3733/D21/teamB/views/requestForms/emergencyForm.fxml");
-                break;
             case "btnEditProfile":
                 Stage stage = App.getPrimaryStage();
                 stage.setUserData(DatabaseHandler.getHandler().getAuthenticationUser());
@@ -117,6 +125,13 @@ public class SettingsMenuController extends BasePageController implements Initia
                 } else {
                     oskOn = true;
                     OnScreenKeyboard.getInstance().getKeyboard().setVisible(true);
+                }
+                break;
+            case "toggleRemoteDatabase":
+                try {
+                    DatabaseHandler.getHandler().changeRemoteStatus(!DatabaseHandler.getRemote());
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
                 }
                 break;
         }

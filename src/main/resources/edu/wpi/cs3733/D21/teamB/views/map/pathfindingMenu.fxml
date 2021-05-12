@@ -95,7 +95,7 @@
                                          <children>
                                              <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Stops:">
                                                  <font>
-                                                     <Font size="18.0"/>
+                                                     <Font size="18.0" />
                                                  </font>
                                              </Text>
                                          </children>
@@ -334,17 +334,24 @@
                                         </GesturePane>
                                  </children>
                               </StackPane>
-                              <HBox alignment="BOTTOM_RIGHT" fillHeight="false" maxHeight="-Infinity" maxWidth="-Infinity" StackPane.alignment="BOTTOM_RIGHT">
-                                 <children>
-                                    <VBox alignment="TOP_RIGHT" maxHeight="100.0" maxWidth="55.0">
-                                       <children>
-                                          <JFXButton fx:id="btnF3" accessibleText="Floor 3" maxHeight="20.0" maxWidth="45.0" onAction="#handleButtonAction" style="-fx-background-color: F6BD39; -fx-border-color: #012D5A;" text="3">
-                                             <font>
-                                                <Font name="MS Reference Sans Serif" size="14.0" />
-                                             </font>
-                                          </JFXButton>
-                                          <JFXButton fx:id="btnF2" accessibleText="Floor 2" maxHeight="20.0" maxWidth="45.0" onAction="#handleButtonAction" style="-fx-background-color: F6BD39; -fx-border-color: #012D5A;" text="2">
-                                             <font>
+                               <HBox alignment="TOP_CENTER" fillHeight="false" maxHeight="-Infinity"
+                                     maxWidth="-Infinity" StackPane.alignment="TOP_RIGHT">
+                                   <children>
+                                       <VBox alignment="TOP_RIGHT" maxHeight="100.0" maxWidth="55.0">
+                                           <children>
+                                               <JFXButton fx:id="btnF3" accessibleText="Floor 3" maxHeight="20.0"
+                                                          maxWidth="45.0" onAction="#handleButtonAction"
+                                                          style="-fx-background-color: F6BD39; -fx-border-color: #012D5A;"
+                                                          text="3">
+                                                   <font>
+                                                       <Font name="MS Reference Sans Serif" size="14.0"/>
+                                                   </font>
+                                               </JFXButton>
+                                               <JFXButton fx:id="btnF2" accessibleText="Floor 2" maxHeight="20.0"
+                                                          maxWidth="45.0" onAction="#handleButtonAction"
+                                                          style="-fx-background-color: F6BD39; -fx-border-color: #012D5A;"
+                                                          text="2">
+                                                   <font>
                                                 <Font name="MS Reference Sans Serif" size="14.0" />
                                              </font>
                                           </JFXButton>
@@ -365,14 +372,31 @@
                                           </JFXButton>
                                        </children>
                                        <padding>
-                                          <Insets bottom="10.0" right="10.0" />
+                                           <Insets bottom="10.0" right="10.0" top="10.0"/>
                                        </padding>
                                     </VBox>
-                                     <VBox alignment="BOTTOM_RIGHT" maxHeight="-Infinity" maxWidth="250.0" prefHeight="250.0">
+                                     <VBox alignment="BOTTOM_RIGHT" maxHeight="-Infinity" maxWidth="250.0" prefHeight="300.0">
                                          <padding>
                                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                          </padding>
                                          <children>
+                                          <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="30.0">
+                                             <children>
+                                                <Label fx:id="score" text="Score: 0">
+                                                   <font>
+                                                      <Font size="20.0" />
+                                                   </font>
+                                                </Label>
+                                                <JFXButton fx:id="btnPlay" buttonType="RAISED" minHeight="30.0" minWidth="50.0" onAction="#handleButtonAction" style="-fx-background-color: #0f9d58;" text="Play" textFill="WHITE" HBox.hgrow="ALWAYS">
+                                                   <HBox.margin>
+                                                      <Insets />
+                                                   </HBox.margin>
+                                                </JFXButton>
+                                             </children>
+                                             <VBox.margin>
+                                                <Insets bottom="10.0" />
+                                             </VBox.margin>
+                                          </HBox>
                                              <GridPane alignment="BOTTOM_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" style="-fx-background-color: #0067B1; -fx-border-color: #000000;" vgap="3.0" VBox.vgrow="NEVER">
                                                  <columnConstraints>
                                                      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="107.3333740234375" minWidth="10.0" prefWidth="25.0" />

@@ -111,8 +111,8 @@ public class Graph {
         if (path == null || path.isEmpty()) return 0;
         double cost = 0;
         for (int i = 0; i < path.size() - 1; i++) {
-            Node start = db.getNodeById(path.get(i));
-            Node end = db.getNodeById(path.get(i + 1));
+            Node start = nodes.get(path.get(i));
+            Node end = nodes.get(path.get(i + 1));
 
             if (start.getFloor().equals(end.getFloor()))
                 cost += dist(start, end);
@@ -127,10 +127,9 @@ public class Graph {
      * @param endID NodeID of the second node
      * @return boolean if the nodes are connected by an edge
      */
-    public boolean verifyEdge(String startID, String endID){
-        Map<String, Edge> edges = db.getEdges();
-        Node n = db.getNodeById(startID);
-        Node n2 = db.getNodeById(endID);
+    public boolean verifyEdge(String startID, String endID) {
+        Node n = nodes.get(startID);
+        Node n2 = nodes.get(endID);
         return edges.containsKey(n.getNodeID() + "_" + n2.getNodeID()) || edges.containsKey(n2.getNodeID() + "_" + n.getNodeID());
     }
 
