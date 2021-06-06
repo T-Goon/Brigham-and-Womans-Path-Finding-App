@@ -8,13 +8,30 @@ A very detailed description of all of the app's features can be found in "User M
 
 - [Overview](#overview)
   * [Home Screen](#home-screen)
-    + [Sub-sub-heading](#sub-sub-heading)
-- [Heading](#heading-1)
-  * [Sub-heading](#sub-heading-1)
-    + [Sub-sub-heading](#sub-sub-heading-1)
-- [Heading](#heading-2)
-  * [Sub-heading](#sub-heading-2)
-    + [Sub-sub-heading](#sub-sub-heading-2)
+  * [Login and Authentification](#login-and-authentication)
+    + [Authentification Levels](#authentication-levels)
+      + [Admin](#admin) 
+      + [Staff](#staff)
+      + [Patient](#patient)
+      + [Guest](#guest)
+    + [Login](#login)
+    + [Register](#register)
+  * [Chat Bot](#chat-bot)
+  * [COVID Survey](#covid-survey)
+    + [Arcade Games](#arcade-games)
+      + [Snake](#snake)
+      + [Pac-Man](#pac-man)
+      + [Breakout](#breakout)
+  * [Path Finding](#path-finding)
+    + [Google Maps](#google-maps)
+    + [Map Editor](#map-editor)
+  * [Text-to-Speech](#text-to-speech)
+  * [On-Screen-Keyboard](#on-screen-keyboard)
+  * [Service Requests](#service-requests)
+  * [The Database](#the-database)
+- [Development Tools](#development-tools)
+- [Cloning this Reo](#cloning-this-repo)
+- [Building a jar](#building-a-jar)
 
 # Overview
 
@@ -25,7 +42,6 @@ A brief overview of all of the app's features.
 The first menu the user sees when opening the app.
 
 ![image](https://user-images.githubusercontent.com/32044950/120939104-4eb10800-c6e4-11eb-816a-b08a3e237c55.png)
-
 
 ## Login and Authentication
 
