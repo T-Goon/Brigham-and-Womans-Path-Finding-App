@@ -95,19 +95,31 @@ While waiting for the COVID survey to be approved a user can opt to play a few v
 
 ## Path Finding
 
+WIP
+
 ### Google Maps
+
+WIP
 
 ### Map Editor
 
+WIP
+
 ## Text-to-Speech
+
+WIP
 
 ## On-Screen-Keyboard
 
+WIP
+
 ## Service Requests
+
+WIP
 
 ## The Database
 
-
+WIP
 
 # Development Tools
 - Java 1.8
