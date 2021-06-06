@@ -4,6 +4,18 @@ A JavaFx application for Brigham and Women's Hospital that allows for path findi
 
 A very detailed description of all of the app's features can be found in "User Manual.docx".
 
+# Table of Contents
+
+- [Overview](#overview)
+  * [Home Screen](#home-screen)
+    + [Sub-sub-heading](#sub-sub-heading)
+- [Heading](#heading-1)
+  * [Sub-heading](#sub-heading-1)
+    + [Sub-sub-heading](#sub-sub-heading-1)
+- [Heading](#heading-2)
+  * [Sub-heading](#sub-heading-2)
+    + [Sub-sub-heading](#sub-sub-heading-2)
+
 # Overview
 
 A brief overview of all of the app's features.
