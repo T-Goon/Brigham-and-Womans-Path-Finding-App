@@ -4,6 +4,8 @@ A JavaFx application for Brigham and Women's Hospital that allows for path findi
 
 A very detailed description of all of the app's features can be found in "User Manual.docx".
 
+Download the Jar: https://github.com/T-Goon/Brigham-and-Womans-Path-Finding-App/releases/tag/1.1
+
 # Table of Contents
 
 - [Overview](#overview)
