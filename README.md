@@ -25,7 +25,7 @@ A very detailed description of all of the app's features can be found in "User M
   * [Path Finding](#path-finding)
     + [Google Maps](#google-maps)
     + [Map Editor](#map-editor)
-  * [Text-to-Speech](#text-to-speech)
+  * [Text-to-Speach](#text-to-speech)
   * [On-Screen-Keyboard](#on-screen-keyboard)
   * [Service Requests](#service-requests)
   * [The Database](#the-database)
@@ -66,6 +66,17 @@ The Guest user doesn't count has having an account and cannot be edited by admin
 ### Login
 
 This is the login menu for users. Face ID on this menu will be toggled on by default and the app will auto-fill your username if your face is detected in the database. Toggling off face ID will clear both the username and password fields.
+
+There are 3 built in accounts created for development purposes that can be used:
+- Admin
+  - Username: admin
+  - Password: admin
+- Staff
+  - Username: staff
+  - Password: staff
+- Patient
+  - Username: patient
+  - Password: patient
 
 ![image](https://user-images.githubusercontent.com/32044950/120939721-4efed280-c6e7-11eb-98d1-1a6b8532d441.png)
 
@@ -123,36 +134,64 @@ While waiting for the COVID survey to be approved a user can opt to play a few v
 
 ## Path Finding
 
-WIP
+In the path finding menu users are able to find directions to anywhere in the hospital regardless of floor. Users are able to put intermediate stops into their path and the direction of the path is animated by a moving blue ball. There are also options such as Limited Mobility Pathing that avoids stairs, finding the closest restroom, entrance, etc., favoriting locations, and selecting locations from a sorted category dropdown list.
+
+![image](https://user-images.githubusercontent.com/32044950/121082256-d4e45180-c7ab-11eb-8dcd-1bc9fafcb638.png)
+
+There is also an option to view textual directions which can be emailed to the currently logged in user. The textual directions can be stepped through and if text-to-speech is enabled for the user, the directions will be read out loud.
+
+![image](https://user-images.githubusercontent.com/32044950/121084502-b59af380-c7ae-11eb-9303-55333c53ae5c.png)
 
 ### Google Maps
 
-WIP
+For path finding to the hospital there is Google Maps integration.
+
+![image](https://user-images.githubusercontent.com/32044950/121084746-06aae780-c7af-11eb-90b0-ce14c0a0a6cb.png)
 
 ### Map Editor
 
-WIP
+Editing the map of the hospital is an Admin account only feature and allows for the editing of the different nodes and edges of the hospital map. The Admin can also change the path finding algorithm they system is using if needed. Nodes on the map can be added, updated, and deleted at will. Also, the color of the nodes can be changed. A node's location can be changed by dragging it around the map and a group of nodes can be aligned by holding CTRL and clicking on any number of nodes. New nodes can also be placed within an edge, bisecting that edge. Lastly, different maps can be loaded and saved using .csv files.
+
+![image](https://user-images.githubusercontent.com/32044950/121085027-5a1d3580-c7af-11eb-8091-bc67e2889e18.png)
+
+![image](https://user-images.githubusercontent.com/32044950/121085882-71a8ee00-c7b0-11eb-93c1-7e00bfe97a00.png)
+
+![image](https://user-images.githubusercontent.com/32044950/121085814-5342f280-c7b0-11eb-9e17-ae8382115c8d.png)
 
 ## Text-to-Speech
 
-WIP
+Within a settings menu there is an option to turn on the text-to-speech setting for the account. When text-to-speech is on users using TAB to nagivate through the app will be able to hear the element that is currently selected being spoken out to them.
+
+![image](https://user-images.githubusercontent.com/32044950/121086625-630f0680-c7b1-11eb-8e8c-63d5a8287fb4.png)
 
 ## On-Screen-Keyboard
 
-WIP
+Within a settings menu there is an option to turn on the on-screen-keyboard. When toggled on a draggable keyboard will appear on screen and users will be able to click on keys to type into text fields.
+
+![image](https://user-images.githubusercontent.com/32044950/121086661-6efac880-c7b1-11eb-82bb-f76bd3a5701c.png)
 
 ## Service Requests
 
-WIP
+A variety of service requests can be sent by Admin and Staff accounts. These service requests show up in a database after submission and can be assigned to Staff accounts to complete by Admin accounts.
+
+![image](https://user-images.githubusercontent.com/32044950/121086915-c7ca6100-c7b1-11eb-8b38-374166b2aaf9.png)
+
+![image](https://user-images.githubusercontent.com/32044950/121086955-d1ec5f80-c7b1-11eb-993e-145694fe4081.png)
+
+![image](https://user-images.githubusercontent.com/32044950/121087037-ec263d80-c7b1-11eb-8539-bc40ef7ab2fd.png)
 
 ## The Database
 
-WIP
+The app has both embedded and remote database support. Admin accounts can switch the app over to the remote database in the settings menu.
+
+![image](https://user-images.githubusercontent.com/32044950/121087280-3b6c6e00-c7b2-11eb-9cbc-19d31dc8ff9f.png)
 
 # Development Tools
 - Java 1.8
 - IntelliJ 2020.3.3
 - Scene Builder 8.5.0
+
+Any code dependencies are handled by Gradle.
 
 # Cloning this Repo
 
