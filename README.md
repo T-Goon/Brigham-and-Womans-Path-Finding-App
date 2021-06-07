@@ -30,7 +30,7 @@ A very detailed description of all of the app's features can be found in "User M
   * [Service Requests](#service-requests)
   * [The Database](#the-database)
 - [Development Tools](#development-tools)
-- [Cloning this Reo](#cloning-this-repo)
+- [Cloning this Repo](#cloning-this-repo)
 - [Building a jar](#building-a-jar)
 
 # Overview
