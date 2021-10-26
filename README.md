@@ -96,7 +96,7 @@ There is a chat bot message window in the bottom right of every screen. You can 
 
 ![image](https://user-images.githubusercontent.com/32044950/120940465-6f309080-c6eb-11eb-83c5-2f60d07c71e8.png)
 
-The bot can also take you to certian menus and tell you some troubleshooting information if you need it.
+The bot can also take you to certain menus and tell you some troubleshooting information if you need it.
 
 ![image](https://user-images.githubusercontent.com/32044950/120940522-af900e80-c6eb-11eb-825f-e7d3b511908d.png)
 
