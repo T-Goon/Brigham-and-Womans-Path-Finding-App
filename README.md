@@ -152,7 +152,7 @@ For path finding to the hospital there is Google Maps integration.
 
 ### Map Editor
 
-Editing the map of the hospital is an Admin account only feature and allows for the editing of the different nodes and edges of the hospital map. The Admin can also change the path finding algorithm they system is using if needed. Nodes on the map can be added, updated, and deleted at will. Also, the color of the nodes can be changed. A node's location can be changed by dragging it around the map and a group of nodes can be aligned by holding CTRL and clicking on any number of nodes. New nodes can also be placed within an edge, bisecting that edge. Lastly, different maps can be loaded and saved using .csv files.
+Editing the map of the hospital is an Admin account only feature and allows for the editing of the different nodes and edges of the hospital map. The Admin can also change the path finding algorithm the system is using if needed. Nodes on the map can be added, updated, and deleted at will. Also, the color of the nodes can be changed. A node's location can be changed by dragging it around the map and a group of nodes can be aligned by holding CTRL and clicking on any number of nodes. New nodes can also be placed within an edge, bisecting that edge. Lastly, different maps can be loaded and saved using .csv files.
 
 ![image](https://user-images.githubusercontent.com/32044950/121085027-5a1d3580-c7af-11eb-8091-bc67e2889e18.png)
 
